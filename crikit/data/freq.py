@@ -54,6 +54,8 @@ class Frequency:
 
         self.freq_vec = freq_vec
         self.units=units
+        self.calib = None
+        self.calib_orig = None
 
         if freq_vec is not None:
             if calib is not None:
@@ -68,6 +70,10 @@ class Frequency:
         else:
             raise TypeError('Requires either an input frequency vector or a \
                             calibration and conversion function')
+
+    @property
+    def size(self):
+        return self.freq_vec.size
 
     def update(self):
         """
@@ -127,7 +133,7 @@ def calib_pix_wl(calib_obj):
 
     calib = {}
 
-    if len(calib_obj) < 5:
+    if len(calib_obj) < 4:
         raise TypeError('Calibration object does not contain enough entries')
 
     if isinstance(calib_obj, dict):
@@ -211,25 +217,25 @@ def calib_pix_wn(calib_obj):
     wn_vec = factor/wl_vec - factor/calib['probe']
     return (wn_vec, 'cm$^{-1}$')
 
-if __name__ == '__main__':
-    import matplotlib as mpl
-    mpl.use('Qt5Agg')
-    mpl.rcParams['font.family'] = 'sans-serif'
-    mpl.rcParams['font.size'] = 12
-    import matplotlib.pyplot as plt
+if __name__ == '__main__':  # pragma: no cover
+    import matplotlib as _mpl
+    _mpl.use('Qt5Agg')
+    _mpl.rcParams['font.family'] = 'sans-serif'
+    _mpl.rcParams['font.size'] = 12
+    import matplotlib.pyplot as _plt
 
-    calib_dict = {}
-    calib_dict['n_pix'] = 1600
-    calib_dict['ctr_wl'] = 730.0
-    calib_dict['ctr_wl0'] = 730.0
-    calib_dict['probe'] = 771.461
-    calib_dict['units'] = 'nm'
-    calib_dict['a_vec'] = (-0.167740721307557, 863.8736708961577)  # slope, intercept
+    _calib_dict = {}
+    _calib_dict['n_pix'] = 1600
+    _calib_dict['ctr_wl'] = 730.0
+    _calib_dict['ctr_wl0'] = 730.0
+    _calib_dict['probe'] = 771.461
+    _calib_dict['units'] = 'nm'
+    _calib_dict['a_vec'] = (-0.167740721307557, 863.8736708961577)  # slope, intercept
 
-    wl_vec, units_wl = calib_pix_wl(calib_dict)
-    wn_vec, units_wn = calib_pix_wn(calib_dict)
-    plt.plot(wl_vec, wn_vec)
-    plt.xlabel('Wavelength ({})'.format(units_wl))
-    plt.ylabel('Wavenumber ({})'.format(units_wn))
-    plt.title('Wavenumber vs Wavelength')
-    plt.show()
+    _wl_vec, _units_wl = calib_pix_wl(_calib_dict)
+    _wn_vec, _units_wn = calib_pix_wn(_calib_dict)
+    _plt.plot(_wl_vec, _wn_vec)
+    _plt.xlabel('Wavelength ({})'.format(_units_wl))
+    _plt.ylabel('Wavenumber ({})'.format(_units_wn))
+    _plt.title('Wavenumber vs Wavelength')
+    _plt.show()
