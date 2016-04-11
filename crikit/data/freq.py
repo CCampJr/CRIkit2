@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Frequency class and function
+"Frequency" [,wavelength, and wavenumber] class and function.
 
 """
 
@@ -11,7 +11,7 @@ __all__ = ['Frequency', 'calib_pix_wn', 'calib_pix_wl']
 
 class Frequency:
     """
-    Frequency class
+    Frequency [,wavelength, and waevnumber] class
 
     Attributes
     ----------
@@ -34,10 +34,6 @@ class Frequency:
 
     Notes
     -----
-    Some input is necessary, either:
-        * freq_vec
-        * calib and calib_fcn
-
     Currently, this implementation does not check whether the \
     attributes/parameters are contradictory:
         * calib
