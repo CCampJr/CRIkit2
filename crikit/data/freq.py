@@ -13,7 +13,7 @@ class Frequency:
     """
     Frequency class
 
-    Parameters
+    Attributes
     ----------
     freq_vec : 1D ndarray, optional (see note)
         Frequency vector
@@ -28,9 +28,6 @@ class Frequency:
     units : str, optional
         Units of freq_vec (the default is 'Frequency'). Over-written by return \
         from calib_fcn
-
-    Attributes
-    ----------
 
     Methods
     -------
@@ -49,12 +46,13 @@ class Frequency:
 
     """
 
-    def __init__(self, freq_vec=None, calib=None, calib_fcn=None, units='Frequency'):
+    def __init__(self, freq_vec=None, calib=None, calib_fcn=None, units=None):
 
 
         self.freq_vec = freq_vec
         self.units=units
-        self.calib = None
+        self.calib = calib
+        self.calib_fcn = calib_fcn
         self.calib_orig = None
 
         if freq_vec is not None:
@@ -67,9 +65,13 @@ class Frequency:
             self.calib_orig = calib
             self.calib_fcn = calib_fcn
             self.freq_vec, self.units = self.calib_fcn(calib)
-        else:
-            raise TypeError('Requires either an input frequency vector or a \
-                            calibration and conversion function')
+        elif ((calib is not None) and (calib_fcn is None)) or \
+        (calib is None) and (calib_fcn is not None):
+             raise TypeError('Requires either an input frequency vector or a \
+                             calibration and conversion function')
+
+        else:  # No inputs
+           pass
 
     @property
     def size(self):

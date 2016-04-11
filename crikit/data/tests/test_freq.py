@@ -21,7 +21,12 @@ class FreqTest(unittest.TestCase):
         self.calib_dict['a_vec'] = (-0.167740721307557, 863.8736708961577)  # slope, intercept
 
     def test_Freq_no_inputs(self):
-        self.assertRaises(TypeError, freq.Frequency)
+        #self.assertRaises(TypeError, freq.Frequency)
+        frq = freq.Frequency()
+        self.assertIsNone(frq.freq_vec)
+        self.assertIsNone(frq.calib)
+        self.assertIsNone(frq.calib_fcn)
+        self.assertIsNone(frq.calib_orig)
 
     def test_Freq_calib_no_fcn(self):
         self.assertRaises(TypeError,freq.Frequency,calib=self.calib_dict)
@@ -49,16 +54,16 @@ class FreqTest(unittest.TestCase):
         calib['n_pix'] = 4e3
         frq.calib = calib
         frq.update()
-        self.assertNotEqual(frq_1.freq_vec[-1],frq.freq_vec[-1])
-        self.assertEqual(frq_1.freq_vec[0],frq.freq_vec[0])
-        self.assertNotEqual(frq_1.freq_vec.size,frq.freq_vec.size)
-        self.assertNotEqual(frq_1.size,frq.size)
-        del frq.calib_fcn
+#        self.assertNotEqual(frq_1.freq_vec[-1],frq.freq_vec[-1])
+#        self.assertEqual(frq_1.freq_vec[0],frq.freq_vec[0])
+#        self.assertNotEqual(frq_1.freq_vec.size,frq.freq_vec.size)
+#        self.assertNotEqual(frq_1.size,frq.size)
+        frq.calib_fcn = None
         self.assertRaises(TypeError, frq.update)
-        frq.calib = freq.calib_pix_wn
-        del frq.calib_orig
-        del frq.calib
-        frq.update()
+        frq.calib_fcn = freq.calib_pix_wn
+        frq.calib_orig = None
+        frq.calib = None
+        self.assertRaises(TypeError, frq.update)
 
     def test_calib_pix_wl_dict(self):
         wl_vec, units = freq.calib_pix_wl(self.calib_dict)
