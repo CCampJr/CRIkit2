@@ -22,23 +22,31 @@ class Spectrum:
 
     Attributes
     ----------
-    data : 1D ndarray
+    data : 1D ndarray [f_pix]
         Spectrum
+
     freq : crikit.data.Frequency instance
         Frequency [wavelength, wavenumber] object (i.e., the independent \
         variable)
+
     label : str
         Spectrum label (i.e., a string describing what the spectrum is)
+
     units : str
         Units of spectrum
+
     meta : dict
         Meta-data dictionary
 
-    Methods
-    -------
+    f_pix : int, read-only
+        Size of data. Note: this matches the size of data and does NOT check \
+        the size of freq.freq_vec.
 
-    Notes
-    -----
+    Note
+    ----
+    * freq object contains some useful parameters such as op_range_\* and \
+    plot_range_\*, which define spectral regions-of-interest. (It's debatable \
+    as to whether those parameters should be in Frequency or Spectrum classes)
 
     """
 
@@ -85,8 +93,8 @@ class Spectrum:
     def freq(self, value):
         if isinstance(value, _Frequency):
             self._freq = value
-        elif value is None:
-            self.freq = _Frequency()
+        elif isinstance(value, _np.ndarray):
+            self.freq = _Frequency(freq_vec=value)
         else:
             raise TypeError('freq must be of type crikit.data.Frequency')
 
@@ -123,6 +131,10 @@ class Spectrum:
         else:
             raise TypeError('meta must be of type dict')
 
+    @property
+    def f_pix(self):
+        if self._data is not None:
+            return self._data.shape[-1]
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
