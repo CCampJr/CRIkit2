@@ -6,6 +6,7 @@
 
 import numpy as _np
 import copy as _copy
+from crikit.utils.gen_utils import find_nearest as _find_nearest
 
 __all__ = ['Frequency', 'calib_pix_wn', 'calib_pix_wl']
 
@@ -58,6 +59,13 @@ class Frequency:
     update
         Updates freq_vec based on contents of calib (or calib_orig) and \
         calib_fcn
+
+    get_index_of_closest_freq
+        Find the closest frequency in freq to a given freq value and RETURN \
+        the pixel value.
+
+    get_closest_freq
+        Find the closest frequency in freq to a given freq value.
 
     Notes
     -----
@@ -209,6 +217,17 @@ class Frequency:
     def plot_range_freq(self):
         raise NotImplementedError('plot_range_freq is not yet implemented')
 
+    def get_index_of_closest_freq(self, in_freqs):
+        """
+        Return index(-es) of frequency(-ies) in freq closest to in_freqs
+        """
+        return _find_nearest(self.freq_vec, in_freqs)[1]
+
+    def get_closest_freq(self, in_freqs):
+        """
+        Return frequency(-ies) in freq closest to in_freqs
+        """
+        return _find_nearest(self.freq_vec, in_freqs)[0]
 
 def calib_pix_wl(calib_obj):
     """
