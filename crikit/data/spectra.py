@@ -53,6 +53,11 @@ class Spectra(_Spectrum):
 
     Methods
     -------
+    mean : 1D ndarray, read-only
+        Mean spectrum
+
+    std : 1D ndarray, read-only
+        Standard deviation of spectrum
 
     Notes
     -----
@@ -111,6 +116,11 @@ class Spectra(_Spectrum):
     def reps(self):
         raise NotImplementedError
 
+    def mean(self):
+        return self._data.mean(axis=0)
+
+    def std(self):
+        return self._data.std(axis=0)
 
 if __name__ == '__main__': # pragma: no cover
     sp = Spectra()
