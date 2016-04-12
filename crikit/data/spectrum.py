@@ -42,6 +42,9 @@ class Spectrum:
         Size of data. Note: this matches the size of data and does NOT check \
         the size of freq.freq_vec.
 
+    ndim : int, read-only
+        Number of data dimensions
+
     Note
     ----
     * freq object contains some useful parameters such as op_range_\* and \
@@ -135,6 +138,10 @@ class Spectrum:
     def f_pix(self):
         if self._data is not None:
             return self._data.shape[-1]
+
+    @property
+    def ndim(self):
+        return self._data.ndim
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
