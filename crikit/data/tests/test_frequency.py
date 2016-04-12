@@ -53,6 +53,8 @@ class FreqTest(unittest.TestCase):
                      calib_fcn=freq.calib_pix_wl, units=self.units)
         self.assertAlmostEqual(frq.freq_vec.min(), 600, delta=100)
         self.assertAlmostEqual(frq.freq_vec.max(), 860, delta=100)
+        self.assertEqual(frq.get_closest_freq(100000),frq.freq_vec[0])
+        self.assertEqual(frq.get_index_of_closest_freq(100000),0)
         frq.update()
 
     def test_Freq_size(self):
@@ -75,6 +77,7 @@ class FreqTest(unittest.TestCase):
         frq = freq.Frequency(calib_orig=self.calib_dict, calib_fcn=self.fcn)
         frq.update()
         self.assertDictEqual(frq.calib, frq.calib_orig)
+
 
     def test_calib_pix_wl_dict(self):
         wl_vec, units = freq.calib_pix_wl(self.calib_dict)
@@ -114,6 +117,7 @@ class FreqTest(unittest.TestCase):
 
         calib['units'] = 'mm'
         self.assertRaises(ValueError, freq.calib_pix_wn, calib)
+
 
     def test_Freq_Not_Implemented(self):
         frq = freq.Frequency()
