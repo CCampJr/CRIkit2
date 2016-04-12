@@ -33,6 +33,20 @@ class Frequency:
         Units of freq_vec (the default is 'Frequency'). Over-written by return \
         from calib_fcn
 
+    op_range_pix : list or tuple or 1D ndarray
+        Range of pixels to perform operations over. Must be even lengthed.
+
+    op_range_freq : list or tuple or 1D ndarray
+        Range of frequencies (or wavelength, or wavenumber) to perform \
+        operations over. Must be even lengthed.
+
+    plot_range_pix : list or tuple or 1D ndarray
+        Range of pixels to plot. Must be even lengthed.
+
+    plot_range_freq : list or tuple or 1D ndarray
+        Range of frequencies (or wavelength, or wavenumber) to plot. \
+        Must be even lengthed.
+
     size : int, read-only
         Length of freq_vec
 
@@ -53,6 +67,17 @@ class Frequency:
         * calib_orig
         * freq_vec
 
+    * The purpose of \*_range_\* is to limit the range over which operation \
+    or plotting is performed. In some instances, for example, one may collect \
+    a larger set of frequencies that of interest or there may be blank (i.e., \
+    no signal) regions. Limiting these regions enables faster computation, may \
+    minimize "edge effects", and may allow for zoomed-in plotting when there \
+    are items of interest or a large dynamic range across a spectrum.
+
+    * For functions, methods, etc. that take into account \*_range_\* \
+    parameters, they should default to op_range_\* if plot_range_\* are set to \
+    None.
+
     """
 
     def __init__(self, freq_vec=None, calib=None, calib_orig=None,
@@ -64,6 +89,10 @@ class Frequency:
         self._calib_orig = None
         self._calib_fcn = None
         self._units = None
+        self._op_range_pix = None
+        self._op_range_freq = None
+        self._plot_range_pix = None
+        self._plot_range_freq = None
 
         if freq_vec is not None:
             self.freq_vec = freq_vec
@@ -163,6 +192,22 @@ class Frequency:
                 self.calib = self._calib_orig
 
         self.freq_vec, self.units = self.calib_fcn(self.calib)
+
+    @property
+    def op_range_pix(self):
+        raise NotImplementedError('op_range_pix is not yet implemented')
+
+    @property
+    def op_range_freq(self):
+        raise NotImplementedError('op_range_freq is not yet implemented')
+
+    @property
+    def plot_range_pix(self):
+        raise NotImplementedError('plot_range_pix is not yet implemented')
+
+    @property
+    def plot_range_freq(self):
+        raise NotImplementedError('plot_range_freq is not yet implemented')
 
 
 def calib_pix_wl(calib_obj):

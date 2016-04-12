@@ -12,9 +12,9 @@ if __name__ == '__main__':  # pragma: no cover
     import os as _os
     _sys.path.append(_os.path.abspath('.'))
 #    _sys.path.append(_os.path.abspath('./utils'))
-from crikit.data.freq import Frequency as _Frequency
+from crikit.data.frequency import Frequency as _Frequency
 
-#__all__ = ['Frequency', 'calib_pix_wn', 'calib_pix_wl']
+__all__ = ['Spectrum']
 
 class Spectrum:
     """

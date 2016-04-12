@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """
+Test crikit.data.frequency.Frequency and associated function
+
 Created on Sat Apr  9 13:48:29 2016
 
 @author: chc
 """
 
 import unittest
-import crikit.data.freq as freq
+import crikit.data.frequency as freq
 import copy
 import numpy as np
 
@@ -113,3 +115,9 @@ class FreqTest(unittest.TestCase):
         calib['units'] = 'mm'
         self.assertRaises(ValueError, freq.calib_pix_wn, calib)
 
+    def test_Freq_Not_Implemented(self):
+        frq = freq.Frequency()
+        self.assertRaises(NotImplementedError,lambda:frq.op_range_pix)
+        self.assertRaises(NotImplementedError, lambda:frq.op_range_freq)
+        self.assertRaises(NotImplementedError, lambda:frq.plot_range_pix)
+        self.assertRaises(NotImplementedError, lambda:frq.plot_range_freq)
