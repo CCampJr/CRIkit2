@@ -34,7 +34,7 @@ class SpectrumTest(unittest.TestCase):
         self.label = 'Test label'
 
 
-    def test_Spectrum_no_inputs(self):
+    def test_Spectra_no_inputs(self):
         sp = spectra.Spectra()
         sp.freq.calib = self.calib_dict
         sp.freq.calib_fcn = freq.calib_pix_wn
@@ -45,7 +45,7 @@ class SpectrumTest(unittest.TestCase):
         sp = spectra.Spectra(freq=frq)
         self.assertRaises(TypeError, spectra.Spectra, freq=[])
 
-    def test_Spectrum_proper_inputs(self):
+    def test_Spectra_proper_inputs(self):
         frq = freq.Frequency(freq_vec=self.freq_vec)
 
         sp = spectra.Spectra(data = self.data1, freq=frq,
@@ -59,7 +59,7 @@ class SpectrumTest(unittest.TestCase):
         self.assertEqual(self.units, sp.units)
         self.assertEqual(self.label, sp.label)
 
-    def test_Spectrum_dimensionality(self):
+    def test_Spectra_dimensionality(self):
         # Dimensionality tests
         sp = spectra.Spectra(data = self.data2, freq=self.freq_vec,
                              units=self.units, label=self.label)
@@ -70,7 +70,7 @@ class SpectrumTest(unittest.TestCase):
         self.assertTrue(np.allclose(self.data3.reshape((-1, self.freq_vec.size)), sp.data))
 
 
-    def test_Spectrum_input_types(self):
+    def test_Spectra_input_types(self):
         self.assertRaises(TypeError, spectra.Spectra, data=[])
         spectra.Spectra(data=np.random.rand(100))
         spectra.Spectra(data=None)
