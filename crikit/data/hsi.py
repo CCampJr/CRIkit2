@@ -172,3 +172,4 @@ if __name__ == '__main__': # pragma: no cover
 
     hs = Hsi(data=data, freq=freq, x=x, y=y)
     print(hs.shape)
+    print(isinstance(hs, _Spectrum))
