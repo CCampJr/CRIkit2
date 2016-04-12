@@ -18,8 +18,12 @@ class Frequency:
     freq_vec : 1D ndarray, optional (see note)
         Frequency vector
 
-    calib_in : object, optional (see note)
+    calib : object, optional (see note)
         Calibration object that is passed to calib_fcn
+
+    calib_orig : object, optional (see note)
+        Calibration object ('original'). Set during initial setting of calib. \
+        Useful for backing-up calibration)
 
     calib_fcn : fcn, optional (see note)
         Function that accepts a calibration object and returns freq_vec and \
@@ -29,8 +33,17 @@ class Frequency:
         Units of freq_vec (the default is 'Frequency'). Over-written by return \
         from calib_fcn
 
+    size : int, read-only
+        Length of freq_vec
+
+    pix_vec : 1D ndarray, read-only
+        Pixel vector (0-indexed)
+
     Methods
     -------
+    update
+        Updates freq_vec based on contents of calib (or calib_orig) and \
+        calib_fcn
 
     Notes
     -----
@@ -42,52 +55,115 @@ class Frequency:
 
     """
 
-    def __init__(self, freq_vec=None, calib=None, calib_fcn=None, units=None):
+    def __init__(self, freq_vec=None, calib=None, calib_orig=None,
+                 calib_fcn=None, units=None):
 
 
-        self.freq_vec = freq_vec
-        self.units=units
-        self.calib = calib
-        self.calib_fcn = calib_fcn
-        self.calib_orig = None
+        self._freq_vec = None
+        self._calib = None
+        self._calib_orig = None
+        self._calib_fcn = None
+        self._units = None
 
         if freq_vec is not None:
-            if calib is not None:
-                self.calib = calib
-                self.calib_orig = calib
-            self.calib_fcn = calib_fcn
-        elif calib is not None and calib_fcn is not None:
+            self.freq_vec = freq_vec
+        if calib is not None:
             self.calib = calib
-            self.calib_orig = calib
+        if calib_orig is not None:
+            self.calib_orig = calib_orig
+        if calib_fcn is not None:
             self.calib_fcn = calib_fcn
-            self.freq_vec, self.units = self.calib_fcn(calib)
-        elif ((calib is not None) and (calib_fcn is None)) or \
-        (calib is None) and (calib_fcn is not None):
-             raise TypeError('Requires either an input frequency vector or a \
-                             calibration and conversion function')
+        if units is not None:
+            self.units = units
 
-        else:  # No inputs
-           pass
+        if (self._freq_vec is None) and (self._calib is not None) and \
+            (self._calib_fcn is not None):
+            self.update()
+
+    @property
+    def freq_vec(self):
+        return self._freq_vec
+
+    @freq_vec.setter
+    def freq_vec(self, value):
+        if isinstance(value, _np.ndarray):
+            if value.ndim == 1:
+                self._freq_vec = value
+            else:
+                raise TypeError('freq_vec must be a 1D ndarray')
+        else:
+            raise TypeError('freq_vec must be a 1D ndarray')
+
+    @property
+    def calib(self):
+        return self._calib
+
+    @calib.setter
+    def calib(self, value):
+        if isinstance(value, dict):
+            self._calib = value
+            if self._calib_orig is None:
+                self._calib_orig = value
+        else:
+            raise TypeError('calib must be of type dict')
+
+
+    @property
+    def calib_orig(self):
+        return self._calib_orig
+
+    @calib_orig.setter
+    def calib_orig(self, value):
+        if isinstance(value, dict):
+            self._calib_orig = value
+        else:
+            raise TypeError('calib_orig must be of type dict')
+
+
+    @property
+    def calib_fcn(self):
+        return self._calib_fcn
+
+    @calib_fcn.setter
+    def calib_fcn(self, value):
+        if callable(value):
+            self._calib_fcn = value
+        else:
+            raise TypeError('calib_fcn must be a callable function')
+
+    @property
+    def units(self):
+        return self._units
+
+    @units.setter
+    def units(self, value):
+        if isinstance(value, str):
+            self._units = value
+        else:
+            raise TypeError('units must be of type str')
 
     @property
     def size(self):
         return self.freq_vec.size
 
+    @property
+    def pix_vec(self):
+        return _np.arange(self.freq_vec.size)
+
     def update(self):
         """
         Update freq_vec with calib and calib_fcn.
         """
-        try:
-            self.freq_vec, self.units = self.calib_fcn(self.calib)
-        except:
-            try:
-                self.calib = self.calib_orig
-                self.freq_vec, self.units = self.calib_fcn(self.calib)
-            except:
-                if self.calib is None:
-                    raise TypeError('Calibration object not set')
-                else:
-                    raise TypeError('Calibration function not set')
+        if self._calib_fcn is None:
+            raise TypeError('Calibration function not set')
+        if self._calib is None:
+            if self._calib_orig is None:
+                raise TypeError('Calibration object not set')
+            else:
+                self.calib = self._calib_orig
+
+        self.freq_vec, self.units = self.calib_fcn(self.calib)
+
 
 def calib_pix_wl(calib_obj):
     """

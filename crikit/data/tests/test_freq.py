@@ -20,50 +20,59 @@ class FreqTest(unittest.TestCase):
         #self.calib_dict['units'] = 'nm'
         self.calib_dict['a_vec'] = (-0.167740721307557, 863.8736708961577)  # slope, intercept
 
+        self.freq_vec = np.linspace(1,1000)
+
+        self.fcn = freq.calib_pix_wl
+
+        self.units = 'nm'
+
     def test_Freq_no_inputs(self):
-        #self.assertRaises(TypeError, freq.Frequency)
-        frq = freq.Frequency()
-        self.assertIsNone(frq.freq_vec)
-        self.assertIsNone(frq.calib)
-        self.assertIsNone(frq.calib_fcn)
-        self.assertIsNone(frq.calib_orig)
+        freq.Frequency()
 
-    def test_Freq_calib_no_fcn(self):
-        self.assertRaises(TypeError,freq.Frequency,calib=self.calib_dict)
+    def test_Freq_wrong_input_types(self):
+        self.assertRaises(TypeError, freq.Frequency, freq_vec = [])
+        self.assertRaises(TypeError, freq.Frequency, freq_vec = np.ones((10,10)))
 
-    def test_Freq_calib_no_calib(self):
-        self.assertRaises(TypeError,freq.Frequency,calib_fcn=freq.calib_pix_wl)
+        self.assertRaises(TypeError, freq.Frequency, calib = [])
+        self.assertRaises(TypeError, freq.Frequency, calib_orig = [])
+        self.assertRaises(TypeError, freq.Frequency, calib_fcn = [])
+        self.assertRaises(TypeError, freq.Frequency, units = [])
 
-    def test_Freq_set_freq_vec(self):
-        freq.Frequency(np.arange(100))
-        freq.Frequency(np.arange(100), calib=self.calib_dict)
-        freq.Frequency(np.arange(100), calib=self.calib_dict, calib_fcn=freq.calib_pix_wl)
-        freq.Frequency(calib=self.calib_dict, calib_fcn=freq.calib_pix_wl)
-
-    def test_Freq_update_err(self):
-        self.assertRaises(TypeError, freq.Frequency(np.arange(100)).update)
-
-    def test_Freq_update_err2(self):
-        self.assertEqual(0,freq.Frequency(np.arange(100)).freq_vec[0])
-
-    def test_Freq_change_dict(self):
-        calib = copy.deepcopy(self.calib_dict)
-
-        frq = freq.Frequency(calib=calib, calib_fcn=freq.calib_pix_wn)
-        frq_1 = copy.deepcopy(frq)
-        calib['n_pix'] = 4e3
-        frq.calib = calib
+    def test_Freq_proper_inputs(self):
+        frq = freq.Frequency(freq_vec=self.freq_vec, calib=self.calib_dict,
+                             calib_orig=self.calib_dict, calib_fcn=self.fcn,
+                             units=self.units)
+        self.assertTrue(np.allclose(self.freq_vec,frq.freq_vec))
+        self.assertDictEqual(self.calib_dict,frq.calib)
+        self.assertDictEqual(self.calib_dict,frq.calib_orig)
+        self.assertEqual(self.units, frq.units)
+        self.assertEqual(self.fcn, frq.calib_fcn)
+        frq = freq.Frequency(calib=self.calib_dict,
+                     calib_fcn=freq.calib_pix_wl, units=self.units)
+        self.assertAlmostEqual(frq.freq_vec.min(), 600, delta=100)
+        self.assertAlmostEqual(frq.freq_vec.max(), 860, delta=100)
         frq.update()
-#        self.assertNotEqual(frq_1.freq_vec[-1],frq.freq_vec[-1])
-#        self.assertEqual(frq_1.freq_vec[0],frq.freq_vec[0])
-#        self.assertNotEqual(frq_1.freq_vec.size,frq.freq_vec.size)
-#        self.assertNotEqual(frq_1.size,frq.size)
-        frq.calib_fcn = None
+
+    def test_Freq_size(self):
+        frq = freq.Frequency(calib=self.calib_dict,
+             calib_fcn=freq.calib_pix_wl, units=self.units)
+        self.assertEqual(frq.size,self.calib_dict['n_pix'])
+
+    def test_Freq_pix_vec(self):
+        frq = freq.Frequency(calib=self.calib_dict,
+             calib_fcn=freq.calib_pix_wl, units=self.units)
+        self.assertTrue(np.allclose(frq.pix_vec,np.arange(self.calib_dict['n_pix'])))
+
+    def test_Freq_update(self):
+        frq = freq.Frequency()
         self.assertRaises(TypeError, frq.update)
-        frq.calib_fcn = freq.calib_pix_wn
-        frq.calib_orig = None
-        frq.calib = None
+        frq = freq.Frequency(calib=self.calib_dict)
         self.assertRaises(TypeError, frq.update)
+        frq = freq.Frequency(calib_fcn=self.fcn)
+        self.assertRaises(TypeError, frq.update)
+        frq = freq.Frequency(calib_orig=self.calib_dict, calib_fcn=self.fcn)
+        frq.update()
+        self.assertDictEqual(frq.calib, frq.calib_orig)
 
     def test_calib_pix_wl_dict(self):
         wl_vec, units = freq.calib_pix_wl(self.calib_dict)
@@ -79,8 +88,7 @@ class FreqTest(unittest.TestCase):
         self.assertRaises(TypeError,freq.calib_pix_wl)
         calib.pop('n_pix')
         self.assertRaises(KeyError,freq.calib_pix_wl, calib)
-        #calib.pop('ctr_wl')
-        #self.assertRaises(TypeError,freq.calib_pix_wl, calib)
+        self.assertRaises(TypeError,freq.calib_pix_wl, {})
 
     def test_calib_pix_wn_dict(self):
         wn_vec, units = freq.calib_pix_wn(self.calib_dict)
@@ -97,6 +105,7 @@ class FreqTest(unittest.TestCase):
         self.assertRaises(TypeError,calib)
         self.calib_dict.pop('n_pix')
         self.assertRaises(KeyError,freq.calib_pix_wn, self.calib_dict)
+        self.assertRaises(KeyError,freq.calib_pix_wn, {})
 
         calib['units'] = 'um'
         wn_vec, units = freq.calib_pix_wn(calib)
