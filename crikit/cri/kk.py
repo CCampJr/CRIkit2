@@ -182,23 +182,23 @@ if __name__ == '__main__':
     num_spectra = int(hsi.size/WN.size)
 
     hsi.freq = WN
-#
-#    start = _timeit.default_timer()
-#    kkd = _kkrelation(NRB,CARS)
-#    stop = _timeit.default_timer()
-#    print('Single spectrum -- Total time: {:.6f} sec'.format(stop-start))
-#
-#    start = _timeit.default_timer()
-#    kkd = _kkrelation(NRB,temp)
-#    stop = _timeit.default_timer()
-#    print('Data-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
-#          (stop-start)/num_spectra))
-#
-#    start = _timeit.default_timer()
-#    kk(hsi, nrb, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
-#    stop = _timeit.default_timer()
-#    print('Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
-#          (stop-start)/num_spectra))
+
+    start = _timeit.default_timer()
+    kkd = _kkrelation(NRB,CARS)
+    stop = _timeit.default_timer()
+    print('Single spectrum -- Total time: {:.6f} sec'.format(stop-start))
+
+    start = _timeit.default_timer()
+    kkd = _kkrelation(NRB,temp)
+    stop = _timeit.default_timer()
+    print('Data-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
+          (stop-start)/num_spectra))
+
+    start = _timeit.default_timer()
+    kk(hsi, nrb, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
+    stop = _timeit.default_timer()
+    print('Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
+          (stop-start)/num_spectra))
 
     hsi.data = temp
 
