@@ -21,7 +21,7 @@ __all__ = ['kk']
 import numpy as _np
 import timeit as _timeit
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
     _sys.path.append(_os.path.abspath('.'))
@@ -127,14 +127,14 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
 
     if ndim_cars == 1:
         kkd = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          sri=cars_obj.data[pixrange] + cars_amp_offset,
+                          cri=cars_obj.data[pixrange] + cars_amp_offset,
                           phase_offset=phase_offset,
                           norm_by_bg=norm_to_nrb,
                           pad_factor=pad_factor)
 
     elif ndim_cars == 2:
         kkd = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          sri=cars_obj.data[:,pixrange] + cars_amp_offset,
+                          cri=cars_obj.data[:,pixrange] + cars_amp_offset,
                           phase_offset=phase_offset,
                           norm_by_bg=norm_to_nrb,
                           pad_factor=pad_factor)
@@ -159,12 +159,12 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
     else:
         return kkd
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
 
     hsi = _Hsi()
     nrb = _Spectra()
 
-    WN = _np.linspace(-1386,3826,1600)
+    WN = _np.linspace(-1386,3826,400)
     X = .055 + 1/(1000-WN-1j*20) + 1/(3000-WN-1j*20)
     XNR = 0*X + 0.055
     E = 1*_np.exp(-(WN-2000)**2/(2*3000**2))
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     hsi.data = temp
 
     import matplotlib.pyplot as plt
-    hsi.freq.op_list_freq = [500,4000]
+    hsi.freq.op_list_freq = [500, 4000]
 
     plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix])
 
@@ -213,6 +213,5 @@ if __name__ == '__main__':
     print('Pixrange Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
 
-
-    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix],hsi.data[0,0,:].imag)
+    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix],hsi.data[0,0,hsi.freq.op_range_pix].imag)
     plt.show()

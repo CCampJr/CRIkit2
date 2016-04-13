@@ -221,6 +221,11 @@ class Frequency:
         else:
             raise TypeError('op_list_pix should be a list, tuple, or ndarray')
 
+    @op_list_pix.deleter
+    def op_list_pix(self):
+        self._op_list_pix = None
+        self._op_list_freq = None
+
     @property
     def op_list_freq(self):
         return self._op_list_freq
@@ -237,18 +242,32 @@ class Frequency:
                 self._op_list_freq.sort()
             elif len(value) != 2 and _np.mod(len(value),2) == 0 and len(value) != 0:
                 raise NotImplementedError('op_list_freq can only currently handle 2 entries')
+            elif len(value) == 0:
+                self._op_list_freq = None
+                self._op_list_pix = None
             else:
                 raise TypeError('op_list_freq should be a list, tuple, or ndarray with an even number of entries')
         else:
             raise TypeError('op_list_freq should be a list, tuple, or ndarray')
 
+    @op_list_freq.deleter
+    def op_list_freq(self):
+        self._op_list_pix = None
+        self._op_list_freq = None
+
     @property
     def op_range_pix(self):
-        return _np.arange(self._op_list_pix[0],self._op_list_pix[1]+1)
+        if self._op_list_pix is not None:
+            return _np.arange(self._op_list_pix[0],self._op_list_pix[1]+1)
+        else:
+            return self.pix_vec
 
     @property
     def op_range_freq(self):
-        return self.freq_vec[self.op_range_pix]
+        if self._op_list_pix is not None:
+            return self.freq_vec[self.op_range_pix]
+        else:
+            return self.freq_vec
 
     @property
     def plot_list_pix(self):
