@@ -8,6 +8,10 @@ General utilities
 Note
 ----
 """
+if __name__ == '__main__':  # pragma: no cover
+    import sys as _sys
+    import os as _os
+    _sys.path.append(_os.path.abspath('.'))
 
 import numpy as _np
 
