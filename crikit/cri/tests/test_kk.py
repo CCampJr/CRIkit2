@@ -63,6 +63,7 @@ class FreqTest(unittest.TestCase):
         self.cars2.freq = self.WN
         out = kk(self.cars2,self.nrb2)
         self.assertIsNone(out)
+        self.assertTrue(np.allclose(self.X.imag, self.cars1.data.imag,rtol=1))
 
     def test_kk_no_overwrite(self):
         self.cars3 = Hsi()
@@ -98,6 +99,7 @@ class FreqTest(unittest.TestCase):
         out = kk(self.cars1,self.nrb1, overwrite=False)
         self.assertIsNotNone(out)
         self.assertTrue(issubclass(out.dtype.type,np.complex))
+        self.assertTrue(np.allclose(self.X.imag, out.imag,rtol=1))
 
         self.cars2.data = np.dot(np.ones((100,1)),self.CARS[None,:])
         self.cars2.freq = self.WN
@@ -128,6 +130,8 @@ class FreqTest(unittest.TestCase):
         self.assertIsNone(out)
         self.assertTrue(issubclass(self.cars3.data.dtype.type,np.complex))
         self.assertEqual(sh,self.cars3.shape)
+        self.assertTrue(np.allclose(self.X.imag[self.cars3.freq.op_range_pix],
+                                    self.cars3.data[0,0,self.cars3.freq.op_range_pix].imag,rtol=1))
 
     def test_kk_wrong_inputs(self):
         self.cars3 = Hsi()

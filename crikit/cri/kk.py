@@ -202,10 +202,13 @@ if __name__ == '__main__': # pragma: no cover
 
     hsi.data = temp
 
+    import matplotlib as mpl
+    mpl.rcParams['font.size'] = 14
     import matplotlib.pyplot as plt
+
     hsi.freq.op_list_freq = [500, 4000]
 
-    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix])
+    #plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix])
 
     start = _timeit.default_timer()
     kk(hsi, nrb, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
@@ -213,5 +216,13 @@ if __name__ == '__main__': # pragma: no cover
     print('Pixrange Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
 
-    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix],hsi.data[0,0,hsi.freq.op_range_pix].imag)
+    plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
+    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix],
+             hsi.data[0,0,hsi.freq.op_range_pix].imag, label='KK-Retrieved')
+    plt.legend(loc='best')
+    plt.xlabel('Wavenumber (cm$^{-1}$)')
+    plt.ylabel('Raman Int. (au)')
+    plt.title('Raman vs KK-Retrieved CARS')
     plt.show()
+
+    print(_np.allclose(X.imag[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix].imag,rtol=1))
