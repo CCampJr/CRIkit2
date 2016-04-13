@@ -60,6 +60,9 @@ class Hsi(_Spectrum):
     shape : tuple, read-only
         Shape of data
 
+    size : int, read-only
+        Size of data (i.e., total number of entries)
+
     Methods
     -------
 
@@ -161,6 +164,9 @@ class Hsi(_Spectrum):
     def shape(self):
         return self._data.shape
 
+    @property
+    def size(self):
+        return self._data.size
 
 if __name__ == '__main__': # pragma: no cover
 
