@@ -34,17 +34,17 @@ class Frequency:
         Units of freq_vec (the default is 'Frequency'). Over-written by return \
         from calib_fcn
 
-    op_range_pix : list or tuple or 1D ndarray
+    op_list_pix : list or tuple or 1D ndarray
         Range of pixels to perform operations over. Must be even lengthed.
 
-    op_range_freq : list or tuple or 1D ndarray
+    op_list_freq : list or tuple or 1D ndarray
         Range of frequencies (or wavelength, or wavenumber) to perform \
         operations over. Must be even lengthed.
 
-    plot_range_pix : list or tuple or 1D ndarray
+    plot_list_pix : list or tuple or 1D ndarray
         Range of pixels to plot. Must be even lengthed.
 
-    plot_range_freq : list or tuple or 1D ndarray
+    plot_list_freq : list or tuple or 1D ndarray
         Range of frequencies (or wavelength, or wavenumber) to plot. \
         Must be even lengthed.
 
@@ -75,15 +75,15 @@ class Frequency:
         * calib_orig
         * freq_vec
 
-    * The purpose of \*_range_\* is to limit the range over which operation \
+    * The purpose of \*_list_\* is to limit the range over which operation \
     or plotting is performed. In some instances, for example, one may collect \
     a larger set of frequencies that of interest or there may be blank (i.e., \
     no signal) regions. Limiting these regions enables faster computation, may \
     minimize "edge effects", and may allow for zoomed-in plotting when there \
     are items of interest or a large dynamic range across a spectrum.
 
-    * For functions, methods, etc. that take into account \*_range_\* \
-    parameters, they should default to op_range_\* if plot_range_\* are set to \
+    * For functions, methods, etc. that take into account \*_list_\* \
+    parameters, they should default to op_list_\* if plot_list_\* are set to \
     None.
 
     """
@@ -97,10 +97,10 @@ class Frequency:
         self._calib_orig = None
         self._calib_fcn = None
         self._units = None
-        self._op_range_pix = None
-        self._op_range_freq = None
-        self._plot_range_pix = None
-        self._plot_range_freq = None
+        self._op_list_pix = None
+        self._op_list_freq = None
+        self._plot_list_pix = None
+        self._plot_list_freq = None
 
         if freq_vec is not None:
             self.freq_vec = freq_vec
@@ -202,20 +202,62 @@ class Frequency:
         self.freq_vec, self.units = self.calib_fcn(self.calib)
 
     @property
+    def op_list_pix(self):
+        return self._op_list_pix
+
+    @op_list_pix.setter
+    def op_list_pix(self,value):
+        if isinstance(value, list) or isinstance(value, tuple) or isinstance(value, _np.ndarray):
+            if len(value) == 2:
+                value = list(value)
+                value.sort()
+                self._op_list_pix = value
+                self._op_list_freq = self.get_closest_freq(value)
+                self._op_list_freq.sort()
+            elif len(value) != 2 and _np.mod(len(value),2) == 0 and len(value) != 0:
+                raise NotImplementedError('op_list_pix can only currently handle 2 entries')
+            else:
+                raise TypeError('op_list_pix should be a list, tuple, or ndarray with an even number of entries')
+        else:
+            raise TypeError('op_list_pix should be a list, tuple, or ndarray')
+
+    @property
+    def op_list_freq(self):
+        return self._op_list_freq
+
+    @op_list_freq.setter
+    def op_list_freq(self,value):
+        if isinstance(value, list) or isinstance(value, tuple) or isinstance(value, _np.ndarray):
+            if len(value) == 2:
+                value = list(value)
+                value.sort()
+                self._op_list_pix = self.get_index_of_closest_freq(value)
+                self._op_list_pix.sort()
+                self._op_list_freq = self.get_closest_freq(value)
+                self._op_list_freq.sort()
+            elif len(value) != 2 and _np.mod(len(value),2) == 0 and len(value) != 0:
+                raise NotImplementedError('op_list_freq can only currently handle 2 entries')
+            else:
+                raise TypeError('op_list_freq should be a list, tuple, or ndarray with an even number of entries')
+        else:
+            raise TypeError('op_list_freq should be a list, tuple, or ndarray')
+
+    @property
     def op_range_pix(self):
-        raise NotImplementedError('op_range_pix is not yet implemented')
+        return _np.arange(self._op_list_pix[0],self._op_list_pix[1]+1)
 
     @property
     def op_range_freq(self):
-        raise NotImplementedError('op_range_freq is not yet implemented')
+        return self.freq_vec[self.op_range_pix]
 
     @property
-    def plot_range_pix(self):
-        raise NotImplementedError('plot_range_pix is not yet implemented')
+    def plot_list_pix(self):
+        raise NotImplementedError('plot_list_pix is not yet implemented')
 
     @property
-    def plot_range_freq(self):
-        raise NotImplementedError('plot_range_freq is not yet implemented')
+    def plot_list_freq(self):
+        raise NotImplementedError('plot_list_freq is not yet implemented')
+
 
     def get_index_of_closest_freq(self, in_freqs):
         """

@@ -9,6 +9,8 @@ Created on Sat Apr  9 13:48:29 2016
 
 import unittest
 import crikit.data.frequency as freq
+from crikit.utils.gen_utils import find_nearest
+
 import copy
 import numpy as np
 
@@ -118,10 +120,20 @@ class FreqTest(unittest.TestCase):
         calib['units'] = 'mm'
         self.assertRaises(ValueError, freq.calib_pix_wn, calib)
 
+    def test_op(self):
+        frq = freq.Frequency(calib=self.calib_dict,
+                     calib_fcn=freq.calib_pix_wn, units=self.units)
+        frq.op_list_freq = [500, 4000]
+        self.assertEqual(frq.op_list_pix, find_nearest(frq.freq_vec,frq.op_list_freq)[1])
+        self.assertEqual(frq.op_list_freq, find_nearest(frq.freq_vec,frq.op_list_freq)[0])
+
+        frq.op_list_pix = [500, 600]
+        self.assertEqual(frq.op_list_pix, [500,600])
+        self.assertEqual(frq.op_list_freq, find_nearest(frq.freq_vec,frq.op_list_freq)[0])
 
     def test_Freq_Not_Implemented(self):
         frq = freq.Frequency()
-        self.assertRaises(NotImplementedError,lambda:frq.op_range_pix)
-        self.assertRaises(NotImplementedError, lambda:frq.op_range_freq)
-        self.assertRaises(NotImplementedError, lambda:frq.plot_range_pix)
-        self.assertRaises(NotImplementedError, lambda:frq.plot_range_freq)
+        #self.assertRaises(NotImplementedError,lambda:frq.op_list_pix)
+        #self.assertRaises(NotImplementedError, lambda:frq.op_list_freq)
+        self.assertRaises(NotImplementedError, lambda:frq.plot_list_pix)
+        self.assertRaises(NotImplementedError, lambda:frq.plot_list_freq)
