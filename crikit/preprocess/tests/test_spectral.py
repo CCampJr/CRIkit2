@@ -9,7 +9,7 @@ Created on Tue Apr 12 17:16:57 2016
 """
 
 import unittest
-from crikit.preprocess.spectral import sub_mean_over_range
+from crikit.preprocess.spectral import *
 from crikit.data.spectrum import Spectrum
 from crikit.data.spectra import Spectra
 from crikit.data.hsi import Hsi
@@ -121,6 +121,117 @@ class SubMeanTest(unittest.TestCase):
         out = sub_mean_over_range(data, rng=[5,8], f=self.freq, overwrite=False)
         self.assertIsNotNone(out)
         self.assertTrue(np.allclose(out.mean(),0))
+
+    def test_sub_spectr_overwrite(self):
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        #spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+
+        out = sub_spect(hs,sp)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(hs.data,0))
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+
+        out = sub_spect(hs,sp.data)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(hs.data,0))
+
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        out = sub_spect(spa,sp.data)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(spa.data,0))
+
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        out = sub_spect(spa,sp)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(spa.data,0))
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+
+        # 3D - 3D
+        out = sub_spect(hs,hs)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(hs.data,0))
+
+        # 2D - 2D
+        out = sub_spect(spa,spa)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(spa.data,0))
+
+        # 1D - 1D
+        out = sub_spect(sp,sp)
+        self.assertIsNone(out)
+        self.assertTrue(np.allclose(sp.data,0))
+
+    def test_sub_spectr_not_overwrite(self):
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        #spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+
+        out = sub_spect(hs,sp,overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(hs.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+
+        out = sub_spect(hs, sp.data, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(hs.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        # 2D - 1D
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        out = sub_spect(spa,sp.data, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(spa.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        # 2D - 1D
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        out = sub_spect(spa,sp, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(spa.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        hs = Hsi(data=copy.deepcopy(self.data), freq=self.freq, x=self.x, y=self.y)
+        sp = Spectrum(data=copy.deepcopy(self.data)[0,0,:], freq=self.freq)
+        spa = Spectra(data=copy.deepcopy(self.data), freq=self.freq)
+
+        #3D - 3D
+        out = sub_spect(hs,hs, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(hs.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        #2D - 2D
+        out = sub_spect(spa,spa, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(spa.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+        #1D - 1D
+        out = sub_spect(sp,sp, overwrite=False)
+        self.assertIsNotNone(out)
+        self.assertFalse(np.allclose(sp.data,0))
+        self.assertTrue(np.allclose(out,0))
+
+    def test_sub_spectr_incorrect_inputs(self):
+        self.assertRaises(TypeError,sub_spect,[],[])
+        self.assertRaises(TypeError,sub_spect,self.data,[])
+        self.assertRaises(TypeError,sub_spect,Hsi(self.data),[])
+        self.assertRaises(TypeError,sub_spect,Hsi(self.data),Spectra(self.data[0,:,:]))
 
 
 #    print('\n3D----------')
