@@ -147,3 +147,38 @@ class FreqTest(unittest.TestCase):
         self.nrb1.data = self.NRB
 
         self.assertRaises(NotImplementedError,kk,self.cars3,self.nrb1,overwrite=False)
+
+    def test_kk_alg(self):
+        self.cars3 = Hsi()
+        self.cars2 = Spectra()
+        self.cars1 = Spectrum()
+        self.nrb1 = Spectrum()
+        self.nrb2 = Spectra()
+
+        self.cars3.data = np.dot(np.ones((10,10,1)),self.CARS[None,:])
+        self.cars3.freq = self.WN
+
+        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
+        self.cars2.freq = self.WN
+
+        self.cars1.data = self.CARS
+        self.cars1.freq = self.WN
+
+        self.nrb1.data = self.NRB
+        self.nrb2.data = self.NRB
+
+        out = kkrelation(self.nrb1.data,self.cars3.data)
+        out = kkrelation(self.cars3.data,self.cars3.data)
+        out = kkrelation(self.cars1.data,self.cars1.data)
+        out = kkrelation(self.cars1.data,self.cars1.data, norm_by_bg=False)
+#        self.assertIsNone(out)
+#        self.assertTrue(issubclass(self.cars3.data.dtype.type,np.complex))
+#        out = kk(self.cars2,self.nrb1)
+#        self.assertIsNone(out)
+#        out = kk(self.cars1,self.nrb1)
+#        self.assertIsNone(out)
+#
+#        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
+#        self.cars2.freq = self.WN
+#        out = kk(self.cars2,self.nrb2)
+#        self.assertIsNone(out)

@@ -36,10 +36,11 @@ import numexpr as _ne
 
 # Conditional modules
 # Check for and load pyFFTW if available (kkrelation, hilbertfft)
-try:
+
+try:  # pragma: no cover
     import pyfftw as _pyfftw
     _pyfftw_available = True
-except ImportError:
+except ImportError:  # pragma: no cover
     print("No pyFFTW found. Using Scipy instead. \n\
     You may want to install pyFFTW and FFTW for [potentially]\n\
     significant performance enhancement")
@@ -50,7 +51,7 @@ except ImportError:
 try:
     import multiprocessing as _multiprocessing
     _thread_num = _multiprocessing.cpu_count()
-except ImportError:
+except ImportError:  # pragma: no cover
     print("No multiprocessing module found. \n\
     Default thread number set to 1. This can be\n\
     changed within the .py file")
@@ -107,13 +108,13 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.10.02")
     """
 
@@ -167,22 +168,22 @@ def hilbertfft(spectra, pad_factor=1):
     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting \
     Errors in Phase Retrieval," Journal of Raman Spectroscopy (2016). \
     arXiv:1507.06543.
-    
+
     A D Poularikas, "The Hilbert Transform," in The Handbook of \
     Formulas and Tables for Signal Processing (ed., A. D. Poularikas), \
     Boca Raton, CRC Press LLC (1999).
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.6.28")
-    
+
     """
 
     spectrum_len = spectra.shape[-1]
