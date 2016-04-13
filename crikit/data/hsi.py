@@ -154,19 +154,21 @@ class Hsi(_Spectrum):
     def data(self, value):
         if isinstance(value, _np.ndarray):
             if value.ndim == 3:
-                self._data = value
+                if self.freq is None or self.freq.op_list_pix is None:
+                    self._data = value
+                else:
+                    if value.shape[-1] == self.freq.op_range_pix.size:
+                        temp = _np.zeros((self._data.shape),dtype=value.dtype)
+                        temp[:,:,self.freq.op_range_pix] = value
+                        self._data = temp
+                    else:
+                        #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
+                        raise TypeError('pre-data: {}, value: {}'.format(self._data.shape,value.shape))
             else:
                 raise TypeError('data must be 3D')
         else:
            raise TypeError('data must be a 3D ndarray')
 
-    @property
-    def shape(self):
-        return self._data.shape
-
-    @property
-    def size(self):
-        return self._data.size
 
 if __name__ == '__main__': # pragma: no cover
 

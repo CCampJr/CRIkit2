@@ -96,15 +96,23 @@ class Spectra(_Spectrum):
     @data.setter
     def data(self, value):
         if isinstance(value, _np.ndarray):
-            if value.ndim == 1:
-                print('Spectra: converting data input from 1D to 2D ndarray')
-                self._data = value[None,:]
-            elif value.ndim == 2:
-                self._data = value
+            if self.freq is None or self.freq.op_list_pix is None:
+                if value.ndim == 1:
+                    print('Spectra: converting data input from 1D to 2D ndarray')
+                    self._data = value[None,:]
+                elif value.ndim == 2:
+                    self._data = value
+                else:
+                    print('Spectra: converting data input from {}D to 2D ndarray'.format(value.ndim))
+                    f_sh = value.shape[-1]
+                    self._data = value.reshape((-1, f_sh))
             else:
-                print('Spectra: converting data input from {}D to 2D ndarray'.format(value.ndim))
-                f_sh = value.shape[-1]
-                self._data = value.reshape((-1, f_sh))
+                if value.shape[-1] == self.freq.op_range_pix.size:
+                    temp = _np.zeros((self._data.shape),dtype=value.dtype)
+                    temp[:,self.freq.op_range_pix] = value
+                    self._data = temp
+                else:
+                    raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
         else:
                raise TypeError('data must be a ndarray')
 

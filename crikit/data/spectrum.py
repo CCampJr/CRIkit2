@@ -45,6 +45,12 @@ class Spectrum:
     ndim : int, read-only
         Number of data dimensions
 
+    shape : tuple, read-only
+        Shape of data
+
+    size : int, read-only
+        Size of data (i.e., total number of entries)
+
     Note
     ----
     * freq object contains some useful parameters such as op_range_\* and \
@@ -82,11 +88,20 @@ class Spectrum:
     def data(self, value):
         if isinstance(value, _np.ndarray):
             if value.ndim == 1:
-                self._data = value
+                if self.freq is not None and self.freq.op_list_pix is not None:
+                    if value.shape[-1] == self.freq.op_range_pix.size:
+                        temp = _np.zeros((self.freq.size),dtype=value.dtype)
+                        temp[self.freq.op_range_pix] = value
+                        self._data = temp
+                    else:
+                        raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
+                else:
+                    self._data = value
             else:
                 raise TypeError('data must be a 1D ndarray')
         else:
                raise TypeError('data must be a 1D ndarray')
+
 
     @property
     def freq(self):
@@ -142,6 +157,14 @@ class Spectrum:
     @property
     def ndim(self):
         return self._data.ndim
+
+    @property
+    def shape(self):
+        return self._data.shape
+
+    @property
+    def size(self):
+        return self._data.size
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
