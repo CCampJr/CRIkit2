@@ -10,10 +10,10 @@
 
 # Spectra class
 * Implement Replicate class container
-* If writing back data the size of op_range_\*, correctly pad
+* ~~If writing back data the size of op_range_\*, correctly pad~~
 
 # Spectrum class
-* If writing back data the size of op_range_\*, correctly pad
+* ~~If writing back data the size of op_range_\*, correctly pad~~
 
 # Hsi class
-* If writing back data the size of op_range_\*, correctly pad
+* ~~If writing back data the size of op_range_\*, correctly pad~~
