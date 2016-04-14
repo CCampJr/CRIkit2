@@ -38,19 +38,19 @@ import os as _os
 
 RESOURCE_DIR = './'
 
-if _os.path.exists((_os.path.abspath('./resources/'))):
+if _os.path.exists((_os.path.abspath('./resources/'))):  # pragma: no cover
     resource_dir = './resources/'
-elif _os.path.exists((_os.path.abspath('./preprocess/algorithms/resources/'))):
+elif _os.path.exists((_os.path.abspath('./preprocess/algorithms/resources/'))):  # pragma: no cover
     resource_dir = './preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath('./crikit/preprocess/algorithms/resources/'))):
+elif _os.path.exists((_os.path.abspath('./crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
     resource_dir = './crikit/preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath('../crikit/preprocess/algorithms/resources/'))):
+elif _os.path.exists((_os.path.abspath('../crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
     resource_dir = '../crikit/preprocess/algorithms/resources/'
-elif _os.path.exists(_os.path.abspath('../preprocess/algorithms/resources/')):
+elif _os.path.exists(_os.path.abspath('../preprocess/algorithms/resources/')):  # pragma: no cover
     resource_dir = '../preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath(RESOURCE_DIR))):
+elif _os.path.exists((_os.path.abspath(RESOURCE_DIR))):  # pragma: no cover
     resource_dir = RESOURCE_DIR
-else:
+else:  # pragma: no cover
     print('Cannot find resource directory')
 
 def gen_anscombe_forward(signal, gauss_std, gauss_mean = 0, poisson_multi = 1):
@@ -180,15 +180,6 @@ def gen_anscombe_inverse_closed_form(fsignal, gauss_std, gauss_mean = 0,
                     (11/8)*fsignal**-2 + 5/8*sqrt(3/2)*fsignal**-3 -\
                     (1/8) - gauss_std**2, SMALL_VAL) + gauss_mean')
 
-#    signal = (fsignal/2)**2 + 1/4*_np.sqrt(3/2)*fsignal**-1 -\
-#                    (11/8)*fsignal**-2 + 5/8*_np.sqrt(3/2)*fsignal**-3 -\
-#                    (1/8) - gauss_std**2
-
-    #signal = _np.fmax(_np.zeros(signal.shape)+SMALL_VAL,signal)
-
-#    signal=signal*poisson_multi
-
-#    signal=signal+gauss_mean
     return signal
 
 def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
@@ -299,10 +290,8 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
 
     # reverse the initial variable change
 
-    exact_inverse=exact_inverse*poisson_multi;
-
-
-    exact_inverse=exact_inverse+gauss_mean;
+    exact_inverse *= poisson_multi;
+    exact_inverse += gauss_mean;
 
     return exact_inverse
 
@@ -387,7 +376,7 @@ def anscombe_inverse_exact_unbiased(fsignal):
     signal[outside_exact_inverse_domain] = 0;
     return signal
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     import numpy as np
     import matplotlib as mpl
     mpl.use('Qt5Agg')
