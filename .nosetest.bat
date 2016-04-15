@@ -1,1 +1,1 @@
-nosetests --verbose --with-coverage --cover-package=.\crikit
+nosetests --verbose --with-coverage --cover-package=.\crikit --cover-erase
