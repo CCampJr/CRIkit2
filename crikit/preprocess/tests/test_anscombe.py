@@ -40,7 +40,7 @@ class AnscTest(unittest.TestCase):
         sig_ansc = anscombe(self.sig, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
         sig_mix_ansc = anscombe(self.sig_mix, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
         self.assertAlmostEqual((sig_mix_ansc - sig_ansc).mean(),0,places=0)
-        self.assertAlmostEqual((sig_mix_ansc - sig_ansc).std(),1,places=1)
+        self.assertAlmostEqual((sig_mix_ansc - sig_ansc).std(),1,places=0)
 
         # overwrite
         out = anscombe(self.sig, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
@@ -70,7 +70,7 @@ class AnscTest(unittest.TestCase):
         sig_ansc = anscombe(sp, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
         sig_mix_ansc = anscombe(sp_mix, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
         self.assertAlmostEqual((sig_mix_ansc - sig_ansc).mean(),0,places=0)
-        self.assertAlmostEqual((sig_mix_ansc - sig_ansc).std(),1,places=1)
+        self.assertAlmostEqual((sig_mix_ansc - sig_ansc).std(),1,places=0)
 
         # overwrite
         out = anscombe(sp, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
