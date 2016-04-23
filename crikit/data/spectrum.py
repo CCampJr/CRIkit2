@@ -68,17 +68,17 @@ class Spectrum:
         self._meta = None
 
         if data is not None:
-            self.data = data
+            self.data = _copy.deepcopy(data)
         if freq is not None:
-            self.freq = freq
+            self.freq = _copy.deepcopy(freq)
         else:
             self.freq = _Frequency()
         if label is not None:
-            self.label = label
+            self.label = _copy.deepcopy(label)
         if units is not None:
-            self.units = units
+            self.units = _copy.deepcopy(units)
         if meta is not None:
-            self.meta = meta
+            self.meta = _copy.deepcopy(meta)
 
     @property
     def data(self):

@@ -8,6 +8,7 @@ Created on Tue Apr 12 13:06:30 2016
 """
 
 import numpy as _np
+import copy as _copy
 
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
@@ -86,9 +87,9 @@ class Hsi(_Spectrum):
         self._y_rep = None
 
         if data is not None:
-            self.data = data
+            self.data = _copy.deepcopy(data)
         if freq is not None:
-            self.freq = freq
+            self.freq = _copy.deepcopy(freq)
         else:
             self.freq = _Frequency()
 
@@ -96,16 +97,16 @@ class Hsi(_Spectrum):
         self._y_rep = _Replicate(data=y)
 
         if x is None and x_rep is not None:
-            self.x_rep = x_rep
+            self.x_rep = _copy.deepcopy(x_rep)
         if y is None and y_rep is not None:
-            self.y_rep = y_rep
+            self.y_rep = _copy.deepcopy(y_rep)
 
         if label is not None:
-            self.label = label
+            self.label = _copy.deepcopy(label)
         if units is not None:
-            self.units = units
+            self.units = _copy.deepcopy(units)
         if meta is not None:
-            self.meta = meta
+            self.meta = _copy.deepcopy(meta)
 
     @property
     def x_rep(self):
