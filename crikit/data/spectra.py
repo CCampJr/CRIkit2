@@ -48,6 +48,9 @@ class Spectra(_Spectrum):
         Size of data's frequency axis. Note: this matches the size of data and \
         does NOT check the size of freq.freq_vec.
 
+    shape : tuple, read-only
+        Shape of data
+
     n_pix : int, read-only
         Size of data's replicate/spectral number axis.
 
