@@ -14,6 +14,7 @@ if __name__ == '__main__':  # pragma: no cover
     _sys.path.append(_os.path.abspath('.'))
 from crikit.data.frequency import Frequency as _Frequency
 from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.replicate import Replicate as _Replicate
 
 __all__ = ['Spectra']
 
@@ -126,7 +127,15 @@ class Spectra(_Spectrum):
 
     @property
     def reps(self):
-        raise NotImplementedError
+        return self._reps
+
+    @reps.setter
+    def reps(self, value):
+        if isinstance(value, _Replicate):
+            self._reps = value
+        elif isinstance(value, _np.ndarray):
+            self._reps.data = value
+
 
     def mean(self):
         return self._data.mean(axis=0)

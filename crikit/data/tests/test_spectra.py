@@ -87,4 +87,4 @@ class SpectrumTest(unittest.TestCase):
 
     def test_Spectra_NotImplemented(self):
         sp = spectra.Spectra()
-        self.assertRaises(NotImplementedError, lambda: sp.reps)
+        self.assertIsNone(sp.reps)
