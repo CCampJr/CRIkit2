@@ -56,9 +56,6 @@ docs/_build/
 # PyBuilder
 target/
 
-# SVG Files
-*.svg
-
 # Scrap
 Scrap/
 *Scrap*
