@@ -75,11 +75,11 @@ class Spectra(_Spectrum):
     def __init__(self, data=None, freq=None, label=None, units=None, meta=None):
 
         self._data = None
-        self._freq = None
+        self._freq = _Frequency()
         self._label = None
         self._units = None
         self._meta = None
-        self._reps = None
+        self._reps = _Replicate()
 
         if data is not None:
             self.data = _copy.deepcopy(data)

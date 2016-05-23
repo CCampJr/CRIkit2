@@ -79,12 +79,12 @@ class Hsi(_Spectrum):
                  y_rep=None, label=None, units=None, meta=None):
 
         self._data = None
-        self._freq = None
+        self._freq = _Frequency()
         self._label = None
         self._units = None
         self._meta = None
-        self._x_rep = None
-        self._y_rep = None
+        self._x_rep = _Replicate()
+        self._y_rep = _Replicate()
 
         if data is not None:
             self.data = _copy.deepcopy(data)
