@@ -19,13 +19,13 @@ class Replicate:
     Attributes
     ----------
     data : 1D ndarray [size]
-        Spectrum
+        Replicate data
 
     calib : list [(start), stop, (step size)]
         Calibration descriptor. See Note.
 
     units : str
-        Units of spectrum
+        Units of replicate data
 
     size : int, read-only
 
