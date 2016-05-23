@@ -20,3 +20,11 @@
 
 # denoise
 * Implement plugin framework
+
+# import package
+* HDF5 import
+* special create list of filename
+* Handle list of HSI image imaports
+
+# Etc
+Make layout SVG
