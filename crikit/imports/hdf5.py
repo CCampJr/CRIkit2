@@ -17,6 +17,7 @@ from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.hsi import Hsi as _Hsi
 
+
 import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 
@@ -119,43 +120,6 @@ for Re and Im, respectively'.format(dset.dtype.names[0], dset.dtype.names[1]))
         return dset.value
     return converted
 
-#def retrieve_dataset_attribute_dict(filename,datasetfullname):
-#    """
-#    Given an HDF5 filename and dataset, return a dictionary with keys named \
-#    with parameters and values
-#
-#    Parameters
-#    ----------
-#    filename : str
-#        filename of HDF5 file
-#
-#    datasetfullname : str
-#        full pathname to dataset (e.g., /group/subgroup/dataset)
-#
-#    Returns
-#    -------
-#    out : dict
-#        {parameter : value}
-#
-#    """
-#    assert hdf_is_valid_dsets(filename, datasetfullname) == True
-#
-#    f = _h5py.File(filename,'r')
-#    attrs = f[datasetfullname].attrs
-#
-#    try:  # Try simple copy first
-#        temp =  dict(attrs)
-#    except:  # Go 1-by-1 and get valid attributes
-#        print('Error in attributes... Usually an empty one')
-#        temp = {}
-#        for count in attrs:
-#            try:
-#                temp[count] = attrs[count]
-#            except:
-#                pass
-#    finally:
-#        f.close()
-#        return temp
 
 def hdf_attr_to_dict(attr):
     """
@@ -170,7 +134,7 @@ def hdf_attr_to_dict(attr):
             try:
                 output_dict[count] = attr[count]
             except:
-                pass
+                print('Fail: {}'.count)
     return output_dict
 
 def hdf_import_data(pfname,dset_list,output_cls_instance):
@@ -228,6 +192,7 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
                         else:
                             output_cls_instance.data += _convert_to_np_dtype(f[dname])
                     output_cls_instance.data /= num+1
+
         else:
             raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
 
@@ -235,8 +200,9 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
 
 if __name__ == '__main__':
 
-    from crikit.imports.hdf_configs import (special_nist_bcars2_import_attr
-                                            as _import_attr)
+    from crikit.imports.hdf_configs import (special_nist_bcars2
+                                            as _snb)
+    rosetta = _snb()
 
     filename = _os.path.abspath('../../../mP2_w_small.h5')
     dset = '/Spectra/Dark_3_5ms_2'
@@ -260,6 +226,8 @@ if __name__ == '__main__':
 
     spect_dark = _Spectra()
     hdf_import_data(filename,'/Spectra/Dark_3_5ms_2',spect_dark)
+    #hdf_process_attr(rosetta, spect_dark)
+
     print('Shape of dark spectra: {}'.format(spect_dark.shape))
     print('Shape of dark spectra.mean(): {}'.format(spect_dark.mean().shape))
 
@@ -269,105 +237,3 @@ if __name__ == '__main__':
     print('Shape of img: {}'.format(img.shape))
     print('Shape of img.mean(): {}'.format(img.mean().shape))
 
-#    print(_import_attr())
-#    print(spect.shape)
-#    print(spect.__dict__)
-#    try:
-#        f = _h5py.File(pfname, 'r')
-#        #print('Opened file')
-#    except OSError:
-#        print('File does not exist...')
-#
-#    else:
-#            # Load data and convert to builti-and-native numpy datatype
-#            clsinst.spectrafull = _convert_to_np_dtype(f[datasetname[0]])
-
-#def HDFtoClass(cls, filename, datasetname):
-#        """
-#        Load HDF5-stored dataset(s) into HSIData class
-#        """
-#
-#        #DEFAULT_SPATIAL_UNITS = '($\mu m$)'
-#        #DEFAULT_SPECTRAL_UNITS = 'Wavenumber (cm$^{-1}$)'
-#
-#        clsinst = cls()
-#
-#        try:
-#            f = _h5py.File(filename, 'r')
-#            #print('Opened file')
-#        except OSError:
-#            print('File does not exist...')
-#            return None
-#        else:
-#            # Load data and convert to builti-and-native numpy datatype
-#            clsinst.spectrafull = _convert_to_np_dtype(f[datasetname[0]])
-#
-#            # Load attributes
-#            try:
-#                clsinst.attr = _get_hdf_attr(filename, datasetname[0])
-#            except:
-#                raise Warning('Could not load attributes from dataset')
-#                return clsinst
-#            # Attributes loaded -- setup rest of class
-#            else:
-#                # Set frequency/spectral vector
-#                # (1) Calibrated vector, (2) Uncalibrated vector,
-#                # (3) Center wavelength of acquisition
-#                try:  # Processing Calibration provided
-#                    calibration_vector = clsinst.attr['Processing.WNCalib']
-#                    clsinst.freqvecfull, clsinst.freqcalib = _make_freq_vector(calibration_vector)[0::2]
-#                    try:
-#                        calibration_vector = clsinst.attr['Processing.WNCalibOrig']
-#                        clsinst._freqcaliborig = _make_freq_vector(calibration_vector)[2]
-#                    except:
-#                        clsinst._freqcaliborig = clsinst.freqcalib
-#                except:  # Maybe only Original Processing Calibration provided
-#                    try:
-#                        calibration_vector = clsinst.attr['Processing.WNCalibOrig']
-#                        clsinst.freqvecfull, clsinst._freqcaliborig = _make_freq_vector(calibration_vector)[0::2]
-#                    except: # No Processing.WNCalib* provided
-#                        try: # Center wavelength provided-- use default calibration
-#                            center_wavelength = clsinst.attr['Spectro.CenterWavelength']
-#                            if (isinstance(center_wavelength, list) or isinstance(center_wavelength, _np.ndarray)):
-#                                center_wavelength = center_wavelength[0]
-#                            clsinst.freqvecfull, clsinst._freqcaliborig = _make_freq_vector(center_wavelength)[0::2]
-#                        except:  # Nothing provided. Use stock calibration from make_freq_vec
-#                            clsinst.freqvecfull, clsinst._freqcaliborig = _make_freq_vector()[0::2]
-#                        finally:
-#                            clsinst.attr['Processing.WNCalibOrig'] = clsinst.freqcaliborig_vec
-#                    finally:
-#                        clsinst._freqcalib = clsinst._freqcaliborig
-#
-#                # Set spatial information
-#                if clsinst.spectrafull.ndim == 3:
-#                    try:
-#                        clsinst.nvec = clsinst.attr['Processing.X']
-#                    except:
-#                        try:
-#                            start = clsinst.attr['RasterScanParams.FastAxisStart'][0]
-#                            stop = clsinst.attr['RasterScanParams.FastAxisStop'][0]
-#                            steps = clsinst.attr['RasterScanParams.FastAxisSteps']
-#
-#                            clsinst.nvec = _np.linspace(start, stop, steps)
-#                        except:
-#                            pass
-#                    try:
-#                        clsinst.nvec = clsinst.attr['Processing.Y']
-#                    except:
-#                        try:
-#                            start = clsinst.attr['RasterScanParams.SlowAxisStart'][0]
-#                            stop = clsinst.attr['RasterScanParams.SlowAxisStop'][0]
-#                            steps = clsinst.attr['RasterScanParams.SlowAxisSteps']
-#
-#                            clsinst.mvec = _np.linspace(start, stop, steps)
-#                        except:
-#                            pass
-#                elif len(clsinst.spectrafull) == 2:
-#                    pass
-#                elif len(clsinst.spectrafull) == 1:
-#                    pass
-#                else:
-#                    pass
-#            finally:
-#                f.close()
-#        return clsinst
