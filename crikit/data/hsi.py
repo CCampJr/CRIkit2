@@ -170,6 +170,17 @@ class Hsi(_Spectrum):
         else:
            raise TypeError('data must be a 3D ndarray')
 
+    def mean(self):
+        """
+        Return mean spectrum
+        """
+        return self._data.mean(axis=0).mean(axis=0)
+
+    def std(self):
+        """
+        Return standard deviation spectrum
+        """
+        return self._data.std(axis=0).mean(axis=0)
 
 if __name__ == '__main__': # pragma: no cover
 
