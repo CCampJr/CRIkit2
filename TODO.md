@@ -25,6 +25,7 @@
 * HDF5 import
 * special create list of filename
 * Handle list of HSI image imaports
+* Redo frequency calibration meta config and meta process
 
 # Etc
 Make layout SVG
