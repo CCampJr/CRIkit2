@@ -43,13 +43,13 @@ class SpectrumTest(unittest.TestCase):
         self.assertRaises(TypeError, spectrum.Spectrum, freq=[])
 
     def test_Spectrum_proper_inputs(self):
-        frq = freq.Frequency(freq_vec=self.freq_vec)
+        frq = freq.Frequency(data=self.freq_vec)
 
         # Using freq_vec as the data as well
         sp = spectrum.Spectrum(data = self.freq_vec, freq=frq,
                                units=self.units, label=self.label)
         self.assertTrue(np.allclose(self.freq_vec, sp.data))
-        self.assertTrue(np.allclose(self.freq_vec, sp.freq.freq_vec))
+        self.assertTrue(np.allclose(self.freq_vec, sp.freq.data))
         self.assertEqual(sp.f_pix, self.freq_vec.size)
         sp = spectrum.Spectrum(data = self.freq_vec, freq=self.freq_vec,
                                units=self.units, label=self.label)

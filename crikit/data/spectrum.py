@@ -112,7 +112,7 @@ class Spectrum:
         if isinstance(value, _Frequency):
             self._freq = value
         elif isinstance(value, _np.ndarray):
-            self.freq = _Frequency(freq_vec=value)
+            self.freq = _Frequency(data=value)
         else:
             raise TypeError('freq must be of type crikit.data.Frequency')
 

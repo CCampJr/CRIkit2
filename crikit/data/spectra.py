@@ -48,7 +48,7 @@ class Spectra(_Spectrum):
 
     f_pix : int, read-only
         Size of data's frequency axis. Note: this matches the size of data and \
-        does NOT check the size of freq.freq_vec.
+        does NOT check the size of freq.data.
 
     shape : tuple, read-only
         Shape of data
@@ -101,7 +101,7 @@ class Spectra(_Spectrum):
     @data.setter
     def data(self, value):
         if isinstance(value, _np.ndarray):
-            if self.freq is None or self.freq.op_list_pix is None:
+            if self.freq.data is None or self.freq.op_list_pix is None:
                 if value.ndim == 1:
                     print('Spectra: converting data input from 1D to 2D ndarray')
                     self._data = value[None,:]

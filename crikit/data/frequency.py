@@ -16,7 +16,7 @@ class Frequency:
 
     Attributes
     ----------
-    freq_vec : 1D ndarray, optional (see note)
+    data : 1D ndarray, optional (see note)
         Frequency vector
 
     calib : object, optional (see note)
@@ -27,11 +27,11 @@ class Frequency:
         Useful for backing-up calibration)
 
     calib_fcn : fcn, optional (see note)
-        Function that accepts a calibration object and returns freq_vec and \
+        Function that accepts a calibration object and returns data and \
         units
 
     units : str, optional
-        Units of freq_vec (the default is 'Frequency'). Over-written by return \
+        Units of data (the default is 'Frequency'). Over-written by return \
         from calib_fcn
 
     op_list_pix : list or tuple or 1D ndarray
@@ -49,15 +49,21 @@ class Frequency:
         Must be even lengthed.
 
     size : int, read-only
-        Length of freq_vec
+        Length of data
 
     pix_vec : 1D ndarray, read-only
         Pixel vector (0-indexed)
 
+    op_range_freq : 1D ndarray, read-only
+        Range of operarational frequencies
+
+    plot_range_freq : 1D ndarray, read-only
+        Range of printing frequencies (not implemented)
+
     Methods
     -------
     update
-        Updates freq_vec based on contents of calib (or calib_orig) and \
+        Updates data based on contents of calib (or calib_orig) and \
         calib_fcn
 
     get_index_of_closest_freq
@@ -73,7 +79,7 @@ class Frequency:
     attributes/parameters are contradictory:
         * calib
         * calib_orig
-        * freq_vec
+        * data
 
     * The purpose of \*_list_\* is to limit the range over which operation \
     or plotting is performed. In some instances, for example, one may collect \
@@ -88,11 +94,11 @@ class Frequency:
 
     """
 
-    def __init__(self, freq_vec=None, calib=None, calib_orig=None,
+    def __init__(self, data=None, calib=None, calib_orig=None,
                  calib_fcn=None, units=None):
 
 
-        self._freq_vec = None
+        self._data = None
         self._calib = None
         self._calib_orig = None
         self._calib_fcn = None
@@ -102,8 +108,8 @@ class Frequency:
         self._plot_list_pix = None
         self._plot_list_freq = None
 
-        if freq_vec is not None:
-            self.freq_vec = freq_vec
+        if data is not None:
+            self.data = data
         if calib is not None:
             self.calib = calib
         if calib_orig is not None:
@@ -113,23 +119,23 @@ class Frequency:
         if units is not None:
             self.units = units
 
-        if (self._freq_vec is None) and (self._calib is not None) and \
+        if (self._data is None) and (self._calib is not None) and \
             (self._calib_fcn is not None):
             self.update()
 
     @property
-    def freq_vec(self):
-        return self._freq_vec
+    def data(self):
+        return self._data
 
-    @freq_vec.setter
-    def freq_vec(self, value):
+    @data.setter
+    def data(self, value):
         if isinstance(value, _np.ndarray):
             if value.ndim == 1:
-                self._freq_vec = value
+                self._data = value
             else:
-                raise TypeError('freq_vec must be a 1D ndarray')
+                raise TypeError('data must be a 1D ndarray')
         else:
-            raise TypeError('freq_vec must be a 1D ndarray')
+            raise TypeError('data must be a 1D ndarray')
 
     @property
     def calib(self):
@@ -181,15 +187,15 @@ class Frequency:
 
     @property
     def size(self):
-        return self.freq_vec.size
+        return self.data.size
 
     @property
     def pix_vec(self):
-        return _np.arange(self.freq_vec.size)
+        return _np.arange(self.data.size)
 
     def update(self):
         """
-        Update freq_vec with calib and calib_fcn.
+        Update data with calib and calib_fcn.
         """
         if self._calib_fcn is None:
             raise TypeError('Calibration function not set')
@@ -199,7 +205,7 @@ class Frequency:
             else:
                 self.calib = self._calib_orig
 
-        self.freq_vec, self.units = self.calib_fcn(self.calib)
+        self.data, self.units = self.calib_fcn(self.calib)
 
     @property
     def op_list_pix(self):
@@ -265,9 +271,9 @@ class Frequency:
     @property
     def op_range_freq(self):
         if self._op_list_pix is not None:
-            return self.freq_vec[self.op_range_pix]
+            return self.data[self.op_range_pix]
         else:
-            return self.freq_vec
+            return self.data
 
     @property
     def plot_list_pix(self):
@@ -282,13 +288,13 @@ class Frequency:
         """
         Return index(-es) of frequency(-ies) in freq closest to in_freqs
         """
-        return _find_nearest(self.freq_vec, in_freqs)[1]
+        return _find_nearest(self.data, in_freqs)[1]
 
     def get_closest_freq(self, in_freqs):
         """
         Return frequency(-ies) in freq closest to in_freqs
         """
-        return _find_nearest(self.freq_vec, in_freqs)[0]
+        return _find_nearest(self.data, in_freqs)[0]
 
 def calib_pix_wl(calib_obj):
     """

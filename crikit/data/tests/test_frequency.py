@@ -34,8 +34,8 @@ class FreqTest(unittest.TestCase):
         freq.Frequency()
 
     def test_Freq_wrong_input_types(self):
-        self.assertRaises(TypeError, freq.Frequency, freq_vec = [])
-        self.assertRaises(TypeError, freq.Frequency, freq_vec = np.ones((10,10)))
+        self.assertRaises(TypeError, freq.Frequency, data = [])
+        self.assertRaises(TypeError, freq.Frequency, data = np.ones((10,10)))
 
         self.assertRaises(TypeError, freq.Frequency, calib = [])
         self.assertRaises(TypeError, freq.Frequency, calib_orig = [])
@@ -43,19 +43,19 @@ class FreqTest(unittest.TestCase):
         self.assertRaises(TypeError, freq.Frequency, units = [])
 
     def test_Freq_proper_inputs(self):
-        frq = freq.Frequency(freq_vec=self.freq_vec, calib=self.calib_dict,
+        frq = freq.Frequency(data=self.freq_vec, calib=self.calib_dict,
                              calib_orig=self.calib_dict, calib_fcn=self.fcn,
                              units=self.units)
-        self.assertTrue(np.allclose(self.freq_vec,frq.freq_vec))
+        self.assertTrue(np.allclose(self.freq_vec,frq.data))
         self.assertDictEqual(self.calib_dict,frq.calib)
         self.assertDictEqual(self.calib_dict,frq.calib_orig)
         self.assertEqual(self.units, frq.units)
         self.assertEqual(self.fcn, frq.calib_fcn)
         frq = freq.Frequency(calib=self.calib_dict,
                      calib_fcn=freq.calib_pix_wl, units=self.units)
-        self.assertAlmostEqual(frq.freq_vec.min(), 600, delta=100)
-        self.assertAlmostEqual(frq.freq_vec.max(), 860, delta=100)
-        self.assertEqual(frq.get_closest_freq(100000),frq.freq_vec[0])
+        self.assertAlmostEqual(frq.data.min(), 600, delta=100)
+        self.assertAlmostEqual(frq.data.max(), 860, delta=100)
+        self.assertEqual(frq.get_closest_freq(100000),frq.data[0])
         self.assertEqual(frq.get_index_of_closest_freq(100000),0)
         frq.update()
 
@@ -124,12 +124,12 @@ class FreqTest(unittest.TestCase):
         frq = freq.Frequency(calib=self.calib_dict,
                      calib_fcn=freq.calib_pix_wn, units=self.units)
         frq.op_list_freq = [500, 4000]
-        self.assertEqual(frq.op_list_pix, find_nearest(frq.freq_vec,frq.op_list_freq)[1])
-        self.assertEqual(frq.op_list_freq, find_nearest(frq.freq_vec,frq.op_list_freq)[0])
+        self.assertEqual(frq.op_list_pix, find_nearest(frq.data,frq.op_list_freq)[1])
+        self.assertEqual(frq.op_list_freq, find_nearest(frq.data,frq.op_list_freq)[0])
 
         frq.op_list_pix = [500, 600]
         self.assertEqual(frq.op_list_pix, [500,600])
-        self.assertEqual(frq.op_list_freq, find_nearest(frq.freq_vec,frq.op_list_freq)[0])
+        self.assertEqual(frq.op_list_freq, find_nearest(frq.data,frq.op_list_freq)[0])
 
     def test_Freq_Not_Implemented(self):
         frq = freq.Frequency()

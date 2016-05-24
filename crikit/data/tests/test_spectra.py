@@ -10,6 +10,7 @@ Created on Mon Apr 11 12:50:44 2016
 import unittest
 import crikit.data.frequency as freq
 import crikit.data.spectra as spectra
+import crikit.data.replicate as replicate
 
 import numpy as np
 
@@ -46,12 +47,12 @@ class SpectrumTest(unittest.TestCase):
         self.assertRaises(TypeError, spectra.Spectra, freq=[])
 
     def test_Spectra_proper_inputs(self):
-        frq = freq.Frequency(freq_vec=self.freq_vec)
+        frq = freq.Frequency(data=self.freq_vec)
 
         sp = spectra.Spectra(data = self.data1, freq=frq,
                                units=self.units, label=self.label)
         self.assertTrue(np.allclose(self.data1, sp.data))
-        self.assertTrue(np.allclose(self.freq_vec, sp.freq.freq_vec))
+        self.assertTrue(np.allclose(self.freq_vec, sp.freq.data))
         self.assertEqual(sp.f_pix, self.freq_vec.size)
         self.assertEqual(sp.n_pix, 1)
         sp = spectra.Spectra(data = self.freq_vec, freq=self.freq_vec,
@@ -85,6 +86,27 @@ class SpectrumTest(unittest.TestCase):
         self.assertEqual(sp.meta['test'],5)
         self.assertDictContainsSubset(self.calib_dict,sp.meta)
 
-    def test_Spectra_NotImplemented(self):
+    def test_Spectra_replicate(self):
         sp = spectra.Spectra()
-        self.assertIsNone(sp.reps.data)
+        temp = replicate.Replicate()
+        temp.data = np.random.rand(100)
+        sp.reps = temp
+        self.assertTrue(np.allclose(temp.data,sp.reps.data))
+        sp.reps = temp.data
+        self.assertTrue(np.allclose(temp.data,sp.reps.data))
+
+    def test_Spectra_freq_range(self):
+#        frq = freq.Frequency(freq_vec=self.freq_vec)
+
+        sp = spectra.Spectra(data = self.data1, freq=self.freq_vec,
+                               units=self.units, label=self.label)
+#        self.assertTrue(np.allclose(self.data1, sp.data))
+        self.assertTrue(np.allclose(self.freq_vec, sp.freq.data))
+
+        sp.op_list_freq = [200,400]
+#        self.assertEqual(sp.f_pix, self.freq_vec.size)
+#        self.assertEqual(sp.n_pix, 1)
+#        sp = spectra.Spectra(data = self.freq_vec, freq=self.freq_vec,
+#                               units=self.units, label=self.label)
+#        self.assertEqual(self.units, sp.units)
+#        self.assertEqual(self.label, sp.label)
