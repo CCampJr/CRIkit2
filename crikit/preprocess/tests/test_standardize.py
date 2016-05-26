@@ -18,7 +18,7 @@ from crikit.utils.gen_utils import find_nearest
 import copy
 import numpy as np
 
-from crikit.preprocess.standardization import anscombe, anscombe_inverse
+from crikit.preprocess.standardize import anscombe, anscombe_inverse
 
 class AnscTest(unittest.TestCase):
 

@@ -7,12 +7,12 @@ Created on Thu Apr 14 08:53:08 2016
 @author: chc
 """
 
-__all__ = ['anscombe, anscombe_inverse']
+__all__ = ['anscombe', 'anscombe_inverse']
 
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
-    _sys.path.append(_os.path.abspath('.'))
+    _sys.path.append(_os.path.abspath('../../'))
 
 import timeit as _timeit
 
