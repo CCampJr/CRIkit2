@@ -177,14 +177,21 @@ class Hsi(_Spectrum):
         else:
            raise TypeError('data must be a 3D ndarray')
 
-    def mean(self, extent=None):
+    def mean(self, extent=None, over_space=True):
         """
         Return mean spectrum (or over extent)
         """
-        if extent is None:
-            return self._data.mean(axis=0).mean(axis=0)
-        else:
-            return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
+        if over_space:  # Mean over spatial axes
+            if extent is None:
+                return self._data.mean(axis=0).mean(axis=0)
+            else:
+                return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
+
+        else:  # Over spectrum
+            if extent is None:
+                return self._data.mean(axis=-1)
+            else:
+                return self._data[:,:,extent[0]:extent[1]+1].mean(axis=-1)
 
     def std(self, extent=None):
         """

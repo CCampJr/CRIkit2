@@ -139,14 +139,21 @@ class Spectra(_Spectrum):
             self._reps.data = value
 
 
-    def mean(self, extent=None):
+    def mean(self, extent=None, over_space=True):
         """
-        Return mean spectrum (or mean over extent [list with 2 elements])
+        Return mean spectrum (or mean over extent [list with 2 elements]). If\
+        over_space is False, returns reps-number of mean spectra
         """
-        if extent is None:
-            return self._data.mean(axis=0)
+        if over_space:  # Mean over all space
+            if extent is None:
+                return self._data.mean(axis=0)
+            else:
+                return self._data[:,extent[0]:extent[1]+1].mean(axis=0)
         else:
-            return self._data[:,extent[0]:extent[1]+1].mean(axis=0)
+            if extent is None:
+                return self._data.mean(axis=-1)
+            else:
+                return self._data[:,extent[0]:extent[1]+1].mean(axis=-1)
 
     def std(self, extent=None):
         """
