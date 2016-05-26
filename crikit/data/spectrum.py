@@ -61,6 +61,9 @@ class Spectrum:
         Standard deviation. If extent [a,b] is provided, calculate standard\
         deviation over that inclusive region.
 
+    subtract : 1D ndarray or None
+        Subtract spectrum or object
+
     Note
     ----
     * freq object contains some useful parameters such as op_range_\* and \
@@ -198,6 +201,27 @@ class Spectrum:
             return self._data.std()
         else:
             return self._data[extent[0]:extent[1]+1].std()
+
+    def subtract(self, spectrum, overwrite=True):
+        """
+        Subtract spectrum from data
+        """
+        if isinstance(spectrum, Spectrum):
+            if overwrite:
+                self.data -= spectrum.data
+                return None
+            else:
+                return self.data - spectrum.data
+        elif isinstance(spectrum, _np.ndarray):
+            if overwrite:
+                self.data -= spectrum
+                return None
+            else:
+                return self.data - spectrum
+
+    def __sub__(self, spectrum):
+        return self.subtract(spectrum, overwrite=False)
+
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit

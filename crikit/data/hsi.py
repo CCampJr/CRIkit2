@@ -74,6 +74,9 @@ class Hsi(_Spectrum):
         Standard deviation of spectrum. If extent [a,b] is provided, calculate standard\
         deviation over that inclusive region.
 
+    subtract : 3D ndarray or None
+        Subtract spectrum or object
+
     Notes
     -----
     * freq object contains some useful parameters such as op_range_\* and \
@@ -202,6 +205,39 @@ class Hsi(_Spectrum):
         else:
             return self._data[:,:,extent[0]:extent[1]+1].std(axis=0).std(axis=0)
 
+    def subtract(self, spectra, overwrite=True):
+        """
+        Subtract spectrum from data
+        """
+        # Order IS important
+        if isinstance(spectra, Hsi):
+            if overwrite:
+                self.data -= spectra.data
+                return None
+            else:
+                return self.data - spectra.data
+        elif isinstance(spectra, _Spectrum):
+            if overwrite:
+                self.data -= spectra.data[None,None,:]
+                return None
+            else:
+                return self.data - spectra.data
+        elif isinstance(spectra, _np.ndarray):
+            if spectra.shape == self.data.shape:
+                if overwrite:
+                    self.data -= spectra
+                    return None
+                else:
+                    return self.data - spectra
+            else:
+                if overwrite:
+                    self.data -= spectra[None,None,:]
+                    return None
+                else:
+                    return self.data - spectra[None,None,:]
+
+    def __sub__(self, spectrum):
+        return self.subtract(spectrum, overwrite=False)
 
 if __name__ == '__main__': # pragma: no cover
 
