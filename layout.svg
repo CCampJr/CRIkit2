@@ -371,16 +371,6 @@
        gradientTransform="translate(-68.024435,-71.800135)" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4208"
-       id="linearGradient4252"
-       gradientUnits="userSpaceOnUse"
-       x1="21.975517"
-       y1="1002.0004"
-       x2="158.66106"
-       y2="1002.0004"
-       gradientTransform="translate(756.91026,-36.005795)" />
-    <linearGradient
-       inkscape:collect="always"
        xlink:href="#linearGradient4138"
        id="linearGradient4429"
        gradientUnits="userSpaceOnUse"
@@ -547,11 +537,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2013072"
-     inkscape:cx="685.41332"
-     inkscape:cy="731.75174"
+     inkscape:zoom="0.99551749"
+     inkscape:cx="695.56435"
+     inkscape:cy="461.56899"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g4464"
      showgrid="false"
      units="in"
      inkscape:window-width="1920"
@@ -581,6 +571,16 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(68.024422,-215.56207)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4998)"
+       d="m 631.81175,458.15399 0,54.10773 -69.92383,0 0,162.32317 -18.31339,0"
+       id="path4990"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5008)"
+       d="m 631.81175,511.28496 0,157.32861 18.31338,0"
+       id="path5002"
+       inkscape:connector-curvature="0" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4941-8)"
        d="m 713.21519,802.04563 28.3025,0 0,-274.70077 -74.91834,0 0,-68.25897"
@@ -706,26 +706,7 @@
            height="20.810663"
            x="144.84222"
            y="473.6507" /></flowRegion><flowPara
-         id="flowPara4240">Not implemented</flowPara></flowRoot>    <rect
-       ry="0"
-       y="1027.3894"
-       x="847.41022"
-       height="20.810663"
-       width="135.68553"
-       id="rect4242"
-       style="fill:url(#linearGradient4252);fill-opacity:1;stroke:#ff7f0e" />
-    <flowRoot
-       transform="translate(705.06529,554.57113)"
-       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4244"
-       xml:space="preserve"><flowRegion
-         id="flowRegion4246"><rect
-           y="473.6507"
-           x="144.84222"
-           height="20.810663"
-           width="147.33949"
-           id="rect4248" /></flowRegion><flowPara
-         id="flowPara4250">Not implemented</flowPara></flowRoot>    <text
+         id="flowPara4240">Not implemented</flowPara></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="40.788925"
@@ -847,7 +828,19 @@
            id="tspan4457"
            y="823.21234"
            x="344.6246"
-           sodipodi:role="line">-size</tspan></text>
+           sodipodi:role="line">-size</tspan><tspan
+           y="841.96234"
+           x="344.6246"
+           sodipodi:role="line"
+           id="tspan4741">-------</tspan><tspan
+           y="860.71234"
+           x="344.6246"
+           sodipodi:role="line"
+           id="tspan4743">-mean()</tspan><tspan
+           y="879.46234"
+           x="344.6246"
+           sodipodi:role="line"
+           id="tspan4745">-std()</tspan></text>
       <path
          inkscape:connector-curvature="0"
          id="path4459"
@@ -1290,19 +1283,9 @@
        id="path4976"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4998)"
-       d="m 631.81175,458.15399 0,54.10773 -69.92383,0 0,162.32317 -18.31339,0"
-       id="path4990"
-       inkscape:connector-curvature="0" />
-    <path
        style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4994)"
        d="m 561.05549,673.60813 0,54.10773 -16.64853,0"
        id="path4992"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5008)"
-       d="m 631.81175,511.28496 0,157.32861 18.31338,0"
-       id="path5002"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#1f77b4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5012)"
@@ -1444,7 +1427,7 @@
       <path
          inkscape:connector-curvature="0"
          id="path4459-0"
-         d="m 59.467679,930.00561 0,-305.50055"
+         d="m 59.467679,968.17671 0,-343.67165"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g

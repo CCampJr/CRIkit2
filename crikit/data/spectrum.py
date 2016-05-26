@@ -51,6 +51,16 @@ class Spectrum:
     size : int, read-only
         Size of data (i.e., total number of entries)
 
+    Methods
+    -------
+    mean : int
+        Mean value. If extent [a,b] is provided, calculate mean over that\
+        inclusive region.
+
+    std : int
+        Standard deviation. If extent [a,b] is provided, calculate standard\
+        deviation over that inclusive region.
+
     Note
     ----
     * freq object contains some useful parameters such as op_range_\* and \
@@ -165,6 +175,24 @@ class Spectrum:
     @property
     def size(self):
         return self._data.size
+
+    def mean(self, extent=None):
+        """
+        Return mean value or mean value over extent (inclusive)
+        """
+        if extent is None:
+            return self._data.mean()
+        else:
+            return self._data[extent[0]:extent[1]+1].mean()
+
+    def std(self, extent=None):
+        """
+        Return standard deviation value (or over extent [inclusive])
+        """
+        if extent is None:
+            return self._data.std()
+        else:
+            return self._data[extent[0]:extent[1]+1].std()
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit

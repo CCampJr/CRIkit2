@@ -66,6 +66,13 @@ class Hsi(_Spectrum):
 
     Methods
     -------
+    mean : 1D ndarray
+        Mean spectrum. If extent [a,b] is provided, calculate mean over that\
+        inclusive region.
+
+    std : 1D ndarray
+        Standard deviation of spectrum. If extent [a,b] is provided, calculate standard\
+        deviation over that inclusive region.
 
     Notes
     -----
@@ -170,17 +177,24 @@ class Hsi(_Spectrum):
         else:
            raise TypeError('data must be a 3D ndarray')
 
-    def mean(self):
+    def mean(self, extent=None):
         """
-        Return mean spectrum
+        Return mean spectrum (or over extent)
         """
-        return self._data.mean(axis=0).mean(axis=0)
+        if extent is None:
+            return self._data.mean(axis=0).mean(axis=0)
+        else:
+            return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
 
-    def std(self):
+    def std(self, extent=None):
         """
         Return standard deviation spectrum
         """
-        return self._data.std(axis=0).mean(axis=0)
+        if extent is None:
+            return self._data.std(axis=0).std(axis=0)
+        else:
+            return self._data[:,:,extent[0]:extent[1]+1].std(axis=0).std(axis=0)
+
 
 if __name__ == '__main__': # pragma: no cover
 
