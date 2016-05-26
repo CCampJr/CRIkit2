@@ -25,9 +25,8 @@ def sub_mean_over_range(data_obj, rng, overwrite=True):
 
     Parameters
     ----------
-    data_obj : object or ndarray
-        Class or ndarray containing data. Compatible object types given in \
-        Notes. If data_obj is ndarray, f must be provided.
+    data_obj : object of class or subclass crikit.data.Spectrum
+        Class instance containing data.
 
     rng : list
         Frequency range span [start, end]
@@ -51,6 +50,10 @@ def sub_mean_over_range(data_obj, rng, overwrite=True):
         raise TypeError('rng should be a list with 2 elements')
     else:
         pass
+
+    if not isinstance(data_obj,_Spectrum):
+        print('data_obj is not of class or subclass _Spectrum')
+        return None
 
     pixrange = data_obj.freq.get_index_of_closest_freq(rng)
     meaner = data_obj.mean(extent=pixrange,over_space=False)
