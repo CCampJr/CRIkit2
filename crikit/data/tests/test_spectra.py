@@ -104,6 +104,7 @@ class SpectrumTest(unittest.TestCase):
         self.assertTrue(np.allclose(self.freq_vec, sp.freq.data))
 
         sp.op_list_freq = [200,400]
+
 #        self.assertEqual(sp.f_pix, self.freq_vec.size)
 #        self.assertEqual(sp.n_pix, 1)
 #        sp = spectra.Spectra(data = self.freq_vec, freq=self.freq_vec,

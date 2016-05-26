@@ -21,11 +21,13 @@
 # denoise
 * Implement plugin framework
 
-# import package
-* HDF5 import
+# io package
+* Make into plugin system to make custom import modules more streamline
+* Make tests for meta and hdf after artificial test hdf file is created
 * special create list of filename
 * Handle list of HSI image imaports
 * Redo frequency calibration meta config and meta process
+* ~~HDF5 import~~
 
 # Etc
 Make layout SVG
