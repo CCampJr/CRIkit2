@@ -29,5 +29,19 @@
 * Redo frequency calibration meta config and meta process
 * ~~HDF5 import~~
 
+# preprocess package
+* tests for subtract_mean
+* tests for subtract_dark
+
+# From crikit to crikit2
+* Denoise with SVD
+* KK
+* Phase-error correction
+* Scaling
+* Subtract from ROI (maybe)
+* Grayscale image return
+* RGB color return and math (maybe)
+* Save functionality
+
 # Etc
-Make layout SVG
+~~Make layout SVG~~
