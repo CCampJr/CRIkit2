@@ -176,9 +176,14 @@ class Spectrum:
     def size(self):
         return self._data.size
 
-    def mean(self, extent=None):
+    def mean(self, extent=None, over_space=None):
         """
-        Return mean value or mean value over extent (inclusive)
+        Return mean value or mean value over extent (inclusive).
+
+        Note
+        ----
+        over_space only included for consistency: with 1 spectrum there is\
+        no spatial (rep) component.
         """
         if extent is None:
             return self._data.mean()
