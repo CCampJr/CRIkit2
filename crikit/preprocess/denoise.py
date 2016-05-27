@@ -12,7 +12,7 @@ __all__ = ['svd_decompose', 'svd_recompose']
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
-    _sys.path.append(_os.path.abspath('.'))
+    _sys.path.append(_os.path.abspath('../../'))
 
 import copy as _copy
 
