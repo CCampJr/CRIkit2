@@ -147,7 +147,8 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
 
         # NOTE: order is important since Hsi and Spectra are subclasses of
         # Spectrum
-        if isinstance(output_cls_instance, _Hsi):
+        #if isinstance(output_cls_instance, _Hsi):
+        if type(output_cls_instance) == _Hsi:
             print('Type Hsi')
             if isinstance(dset_list, str):
                 output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
@@ -163,7 +164,7 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
                         else:
                             output_cls_instance.data = _np.vstack((output_cls_instance.data, _convert_to_np_dtype(f[dname])))
 
-        elif isinstance(output_cls_instance, _Spectra):
+        elif type(output_cls_instance) == _Spectra:
             print('Type Spectra')
             if isinstance(dset_list,str):
                 output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
@@ -176,7 +177,7 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
                         output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
                     else:
                         output_cls_instance.data = _np.vstack((output_cls_instance.data, _convert_to_np_dtype(f[dname])))
-        elif isinstance(output_cls_instance, _Spectrum):
+        elif type(output_cls_instance) == _Spectrum:
             print('Type Spectrum')
             if isinstance(dset_list, str):
                 output_cls_instance.data = _convert_to_np_dtype(f[dset_list])

@@ -120,7 +120,7 @@ def meta_process(rosetta, output_cls_instance):
         output_cls_instance.freq.update()
 
 
-    if isinstance(output_cls_instance, _Hsi):
+    if type(output_cls_instance) == _Hsi:
         print('Type Hsi')
         start = rosetta_query('XStart',rosetta, output_cls_instance)[0]
         stop = rosetta_query('XStop',rosetta, output_cls_instance)[0]
@@ -144,13 +144,13 @@ def meta_process(rosetta, output_cls_instance):
 
         del start, stop, steps, units
 
-    elif isinstance(output_cls_instance, _Spectra):
+    elif type(output_cls_instance) == _Spectra:
         print('Type Spectra')
         output_cls_instance.reps.units = 'acq number'
         output_cls_instance.reps.data = _np.arange(output_cls_instance.data.shape[0])
         output_cls_instance.reps.update_calib_from_data()
 
-    elif isinstance(output_cls_instance, _Spectrum):
+    elif type(output_cls_instance) == _Spectrum:
         print('Type Spectrum')
 
 if __name__ == '__main__':
