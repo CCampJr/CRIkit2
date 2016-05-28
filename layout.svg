@@ -538,7 +538,7 @@
        xlink:href="#linearGradient4138"
        id="linearGradient4429-3"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(59.201449,-863.42707)"
+       gradientTransform="translate(59.201449,-863.42708)"
        x1="148.17192"
        y1="312.33499"
        x2="148.17192"
@@ -548,7 +548,7 @@
        xlink:href="#linearGradient4138"
        id="linearGradient4429-3-9"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(59.201451,-928.35435)"
+       gradientTransform="translate(59.201451,-929.48068)"
        x1="148.17192"
        y1="312.33499"
        x2="148.17192"
@@ -558,7 +558,37 @@
        xlink:href="#linearGradient4138"
        id="linearGradient4429-3-9-7"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(59.201444,-993.28166)"
+       gradientTransform="translate(59.201444,-995.53429)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-3-9-7-9"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(60.059356,-1077.66)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-3-6"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-185.89721,-860.90355)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-3-4"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(62.570624,-1165.0516)"
        x1="148.17192"
        y1="312.33499"
        x2="148.17192"
@@ -573,7 +603,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.99551749"
      inkscape:cx="695.56428"
-     inkscape:cy="157.03318"
+     inkscape:cy="333.6072"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -596,7 +626,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1645,13 +1675,13 @@
          y="277.13858"
          style="font-style:italic;font-size:15px;opacity:0.5">alternative route</tspan></text>
     <rect
-       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1.66520274;stroke-miterlimit:4;stroke-dasharray:1.66520263, 6.66081049;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1.66520274;stroke-miterlimit:4;stroke-dasharray:1.6652026, 6.66081034;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4276-8-0-1"
        width="217.31747"
-       height="216.98514"
+       height="373.68756"
        x="197.99628"
        y="1078.48"
-       ry="31.567207"
+       ry="31.567205"
        rx="12.509823" />
     <text
        xml:space="preserve"
@@ -1667,7 +1697,7 @@
          style="font-style:italic">crikit.preprocess package</tspan></text>
     <g
        id="g4267-4-0"
-       transform="translate(180.59896,779.69324)">
+       transform="translate(180.59896,779.69325)">
       <rect
          ry="11.307902"
          y="308.17288"
@@ -1704,7 +1734,7 @@
     </g>
     <g
        id="g4267-4-0-1"
-       transform="translate(180.59896,844.62053)">
+       transform="translate(180.59896,845.74686)">
       <rect
          ry="11.307902"
          y="308.17288"
@@ -1741,7 +1771,7 @@
     </g>
     <g
        id="g4267-4-0-1-8"
-       transform="translate(180.59896,909.54782)">
+       transform="translate(180.59896,911.80046)">
       <rect
          ry="11.307903"
          y="308.17288"
@@ -1780,6 +1810,143 @@
            x="208.49429"
            sodipodi:role="line"
            id="tspan4896">anscombe_inverse()</tspan></text>
+    </g>
+    <g
+       id="g4267-4-0-1-8-6"
+       transform="translate(179.74105,993.92612)">
+      <rect
+         ry="11.307903"
+         y="308.17288"
+         x="25.63221"
+         height="71.965141"
+         width="186.4915"
+         id="rect4136-16-6-0-9-4"
+         style="fill:url(#linearGradient4429-3-9-7-9);fill-opacity:1;stroke:#1f77b4;stroke-width:0.99999994"
+         rx="11.307902" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-41-4-7-9"
+         y="324.82135"
+         x="33.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="33.12405"
+           id="tspan4148-6-2-2-2-3"
+           sodipodi:role="line">denoise</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-5-1-2-0"
+         y="352.29147"
+         x="208.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-8-9-3-4"
+           y="352.29147"
+           x="208.49429"
+           sodipodi:role="line">svd_decompose()</tspan><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           y="371.04147"
+           x="208.49429"
+           sodipodi:role="line"
+           id="tspan4896-5">svd_recompose()</tspan></text>
+    </g>
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1.66520274;stroke-miterlimit:4;stroke-dasharray:1.6652026, 6.66081037;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4276-8-0-1-6"
+       width="217.31747"
+       height="302.36786"
+       x="443.09494"
+       y="1078.48"
+       ry="31.567205"
+       rx="12.509823" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="443.04114"
+       y="1071.8546"
+       id="text4254-4-0-6-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4256-1-4-4-9"
+         x="443.04114"
+         y="1071.8546"
+         style="font-style:italic">crikit.cri package</tspan></text>
+    <g
+       id="g4267-4-0-8"
+       transform="translate(425.69762,777.16972)">
+      <rect
+         ry="11.307902"
+         y="308.17288"
+         x="25.63221"
+         height="55.893101"
+         width="197.54103"
+         id="rect4136-16-6-5"
+         style="fill:url(#linearGradient4429-3-6);fill-opacity:1;stroke:#1f77b4;stroke-width:1"
+         rx="11.307902" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-41-8"
+         y="324.82135"
+         x="33.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="33.12405"
+           id="tspan4148-6-2-5"
+           sodipodi:role="line">kk</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-5-6"
+         y="352.29147"
+         x="220.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-8-5"
+           y="352.29147"
+           x="220.49429"
+           sodipodi:role="line">kk()</tspan></text>
+    </g>
+    <g
+       id="g4267-4-0-0"
+       transform="translate(177.22979,1081.3178)">
+      <rect
+         ry="11.307902"
+         y="308.17288"
+         x="25.63221"
+         height="55.893101"
+         width="197.54103"
+         id="rect4136-16-6-58"
+         style="fill:url(#linearGradient4429-3-4);fill-opacity:1;stroke:#1f77b4;stroke-width:1"
+         rx="11.307902" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-41-43"
+         y="324.82135"
+         x="33.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="33.12405"
+           id="tspan4148-6-2-0"
+           sodipodi:role="line">subtract_baseline</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-5-4"
+         y="352.29147"
+         x="220.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-8-57"
+           y="352.29147"
+           x="220.49429"
+           sodipodi:role="line">sub_baseline_als()</tspan></text>
     </g>
   </g>
 </svg>

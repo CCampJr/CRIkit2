@@ -32,6 +32,11 @@
 # preprocess package
 * tests for subtract_mean
 * tests for subtract_dark
+* tests for subtract_baseline
+* docstring for subtract_baseline
+* docstring for als algorithms
+* docstring for arpls algorithms
+* make sub_baseline_arpls
 
 # From crikit to crikit2
 * Denoise with SVD

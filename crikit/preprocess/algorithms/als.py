@@ -4,21 +4,21 @@ Asymmetric Least Square methods (CRIKIT.utils.als_methods)
 =======================================================
 
     als_baseline                    Compute the baseline_current of signal_input using
-                                    an asymmetric least squares (ALS) 
-                                    algorithm designed by P. H. C. 
-                                    Eilers. This method is actually a 
-                                    wrapper to the particular 
-                                    implementations.  
-                        
-    als_baseline_cvxopt             ALS implemented using the 
-                                    cvxopt.cholmod (sub-)module 
+                                    an asymmetric least squares (ALS)
+                                    algorithm designed by P. H. C.
+                                    Eilers. This method is actually a
+                                    wrapper to the particular
+                                    implementations.
+
+    als_baseline_cvxopt             ALS implemented using the
+                                    cvxopt.cholmod (sub-)module
                                     (CHOLMOD API).
-                            
+
     als_baseline_scitkits_sparse    ALS implemented using the
-                                    scitkits.sparse (sub-)module 
+                                    scitkits.sparse (sub-)module
                                     (LAPACK/ATLAS)
 
-    als_background_scipy            ALS implementation using the 
+    als_background_scipy            ALS implementation using the
                                     scipy.linalg (sub-)module.
 
 Note
@@ -27,7 +27,7 @@ Note
     Cholesky factorization matrix; thus, they may be significantly more
     efficient (fast). Read the __doc__ (string) information for more
     information.
-    
+
 Citation Reference
 ------------------
     C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
@@ -83,13 +83,13 @@ except ImportError:
     significant performance enhancement')
 try:
     #import scikits as _scikits
-    from scipy import sparse as _sparse    
+    from scipy import sparse as _sparse
     from scikits.sparse import cholmod as _scikits_cholmod
     cholesky_available_methods.append('scikits.sparse')
-    if len(_cholesky_type) == 0:        
+    if len(_cholesky_type) == 0:
         _cholesky_type = 'scikits.sparse'
 except ImportError:
-    if len(_cholesky_type) == 0:        
+    if len(_cholesky_type) == 0:
         print("No scikits.sparse module found. Using non-sprase\n\
         Cholesky factorization instead. This can be orders-of-magnitude\n\
         slower than the sparse method. Consider installing cvxopt or\n\
@@ -101,14 +101,14 @@ try:
     if len(_cholesky_type) == 0:
         _cholesky_type = 'scipy.linalg'
 except ImportError:
-    if len(_cholesky_type) == 0:        
+    if len(_cholesky_type) == 0:
         print('No scipy.linalg module found. Your Python does not meet the requirements for this module.')
 
 def als_baseline(signal_input, smoothness_param=1e3, asym_param=1e-4,\
-cholesky_type=_cholesky_type,print_iteration=False):
+cholesky_type=_cholesky_type,print_iteration=False, **kwargs):
     """
     Compute the baseline_current of signal_input using an asymmetric least squares
-    algorithm designed by P. H. C. Eilers. This method is actually a 
+    algorithm designed by P. H. C. Eilers. This method is actually a
     wrapper to the particular implementations.
 
     Parameters
@@ -120,15 +120,15 @@ cholesky_type=_cholesky_type,print_iteration=False):
 
     asym_param : float, optional (default, 1e-4)
         Assymetry parameter
-        
+
     cholesky_type : string, optional (default _cholesky_type)
         Algoirthmic type of Cholesky factorization to use. The
         default behavior is the method determined upon loading of this
-        (sub-)module. The order of precedence is 
+        (sub-)module. The order of precedence is
             1. cvxopt.cholmod (sparse, uses CHOLMOD API)
             2. scitkits.sparse (sparse, uses LAPACK/ATLAS API)
             3. scipy.linalg (dense)
-        
+
     Returns
     -------
     out : [ndarray, string]
@@ -143,7 +143,7 @@ cholesky_type=_cholesky_type,print_iteration=False):
     array length. For certain array lengths, however, LAPACK/ATLAS is
     faster. You can set the particular method via the optional input
     argument 'cholesky_type'.
-    
+
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -163,16 +163,16 @@ cholesky_type=_cholesky_type,print_iteration=False):
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.06.19")
     """
-    
+
     if cholesky_type == 'cvxopt':
         return [als_baseline_cvxopt(signal_input, smoothness_param, asym_param, print_iteration), cholesky_type]
     elif cholesky_type == 'scikits.sparse':
@@ -185,13 +185,13 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
                        cholesky_type=_cholesky_type,print_iteration=False):
     """
     Compute the baseline_current of signal_input using an asymmetric least squares
-    algorithm designed by P. H. C. Eilers. This method is actually a 
+    algorithm designed by P. H. C. Eilers. This method is actually a
     wrapper to the particular implementations.
 
     NOTE: This method is the exact same as als_baseline EXCEPT it has a \
     performance enhancement by using interpolation to reduce the size of \
     signal_input.
-    
+
     Parameters
     ----------
     signal_input : ndarray (1D)
@@ -204,21 +204,21 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
         Perform size-reduction using interpolation. This minimizes right-side \
         edge-effects. If false, the size reduction is from sub-sampling \
         i.e., signal_sub = signal[0::redux_factor]
-        
+
     smoothness_param : float, optional (default, 1e3)
         Smoothness parameter
 
     asym_param : float, optional (default, 1e-4)
         Assymetry parameter
-        
+
     cholesky_type : string, optional (default _cholesky_type)
         Algoirthmic type of Cholesky factorization to use. The
         default behavior is the method determined upon loading of this
-        (sub-)module. The order of precedence is 
+        (sub-)module. The order of precedence is
             1. cvxopt.cholmod (sparse, uses CHOLMOD API)
             2. scitkits.sparse (sparse, uses LAPACK/ATLAS API)
             3. scipy.linalg (dense)
-        
+
     Returns
     -------
     out : [ndarray, string]
@@ -233,7 +233,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
     array length. For certain array lengths, however, LAPACK/ATLAS is
     faster. You can set the particular method via the optional input
     argument 'cholesky_type'.
-    
+
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -253,20 +253,20 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("16.03.02")
     """
 
-    
+
     x = _np.arange(0,signal_input.size,1)  # dummy indep variable
     spl = _USpline(x,signal_input,s=0)
-    
+
     if redux_full is True and redux_factor != 1:
         # Sub-sampled x
         x_sub = _np.linspace(x[0],x[-1],_np.round(x.size/redux_factor).astype(int))
@@ -276,7 +276,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
         sampled_signal = spl(x_sub)
     else:
         sampled_signal = signal_input
-        
+
     if cholesky_type == 'cvxopt':
         sub_baseline = als_baseline_cvxopt(sampled_signal, smoothness_param, asym_param, print_iteration)
     elif cholesky_type == 'scikits.sparse':
@@ -290,7 +290,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
         spl2 = _USpline(x_sub,sub_baseline,s=0)
         baseline = spl2(x)
         return [baseline, cholesky_type]
-            
+
 def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
     als_baseline_scikits_sparse(signal_input [,smoothness_param , asym_param]
@@ -335,16 +335,16 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.06.19")
     """
-    
+
     signal_length = signal_input.shape[0]
 
     dim = signal_input.ndim
@@ -356,20 +356,20 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     else:
         num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
         signal_input = signal_input.reshape([signal_length,num_to_detrend])
-    
+
     baseline_output = _np.zeros(_np.shape(signal_input))
-    
+
     difference_matrix = _sparse.coo_matrix(_np.diff(_np.eye(signal_length),\
     n=ORDER, axis=0))
-    
+
     # Iterate over spatial dimension (always 2D)
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
         else:
-            signal_current = signal_input[:,count_spectra]        
-        
-        if count_spectra == 0: 
+            signal_current = signal_input[:,count_spectra]
+
+        if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
             baseline_current = _np.zeros([signal_length])
             baseline_last = _np.zeros([signal_length])
@@ -377,25 +377,25 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-        
+
         # Iterative asymmetric least squares smoothing
         for count_iterate in range(MAX_ITER):
             penalty_matrix = _sparse.diags(penalty_vector, 0, shape=(signal_length,\
             signal_length), format='csc')
-            
+
             minimazation_matrix = penalty_matrix + (smoothness_param*difference_matrix.T)*difference_matrix
-            
+
             # Cholesky factorization A = LL'
             factor = _scikits_cholmod.cholesky(minimazation_matrix, beta=0, mode="auto")
-           
+
             if (count_iterate > 0 or count_spectra > 0):
                 baseline_last = baseline_current
-                
+
             # Solve A * baseline_current = penalty vector * Signal
             baseline_current = factor.solve_A(penalty_vector[:]*signal_current)
 
             # Difference check b/w iterations
-            if count_iterate > 0 or count_spectra > 0: 
+            if count_iterate > 0 or count_spectra > 0:
                 differ = _np.abs(_np.sum(baseline_current -\
                 baseline_last, axis=0))
                 if differ < MIN_DIFF:
@@ -420,7 +420,7 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     Compute the baseline_current of signal_input using an asymmetric least squares
     algorithm designed by P. H. C. Eilers. This implementation uses
     CHOLMOD through the cvxopt toolkit wrapper.
-    
+
     Parameters
     ----------
     signal_input : ndarray (1D)
@@ -457,16 +457,16 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.06.19")
     """
-        
+
     signal_length = signal_input.shape[0]
 
     dim = signal_input.ndim
@@ -478,19 +478,19 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     else:
         num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
         signal_input = signal_input.reshape([signal_length,num_to_detrend])
-    
+
     baseline_output = _np.zeros(_np.shape(signal_input))
-    
+
     difference_matrix = _cvxopt.sparse(_cvxopt.matrix(_scipy.diff(_np.eye(signal_length),\
     n=ORDER,axis=0)))
-    
+
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
         else:
             signal_current = signal_input[:,count_spectra]
-        
-        if count_spectra == 0: 
+
+        if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
             baseline_current = _np.zeros([signal_length])
             baseline_last = _np.zeros([signal_length])
@@ -498,24 +498,24 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-            
+
         # Iterative asymmetric least squares smoothing
         for count_iterate in range(MAX_ITER):
-            penalty_matrix = _cvxopt.spdiag(list(penalty_vector))        
+            penalty_matrix = _cvxopt.spdiag(list(penalty_vector))
             minimazation_matrix = penalty_matrix + \
             _cvxopt.mul(smoothness_param,difference_matrix.T)*\
             difference_matrix
             x = _cvxopt.matrix(penalty_vector[:]*signal_current);
-        
+
             # Cholesky factorization A = LL'
             # Solve A * baseline_current = w_sp * Signal
             _cvxopt_cholmod.linsolve(minimazation_matrix,x,uplo='U')
-        
+
             if (count_iterate > 0 or count_spectra > 0):
                 baseline_last = baseline_current
-                        
+
             baseline_current = _np.array(x).squeeze()
-        
+
             if count_iterate > 0 or count_spectra > 0: # Difference check b/w iterations
                 differ = _np.abs(_np.sum(baseline_current - baseline_last,axis=0))
                 if differ < MIN_DIFF:
@@ -524,10 +524,10 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-        
+
         if print_iteration == True:
             print("Finished detrending in %d iteration" % (count_iterate + 1))
-        
+
         if dim > 1:
             baseline_output[:,count_spectra] = baseline_current
         elif dim:
@@ -580,18 +580,18 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
 
     Software Info
     --------------
-    
+
     Original Python branch: Feb 16 2015
-    
+
     author: ("Charles H Camp Jr")
-    
+
     email: ("charles.camp@nist.gov")
-    
+
     version: ("15.06.19")
     """
-        
+
     signal_length = signal_input.shape[0]
-    
+
     dim = signal_input.ndim
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
@@ -601,19 +601,19 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     else:
         num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
         signal_input = signal_input.reshape([signal_length,num_to_detrend])
-    
+
     baseline_output = _np.zeros(_np.shape(signal_input))
-    
+
     difference_matrix = _np.diff(_np.eye(signal_length),n=ORDER,axis=0)
-    
+
     # Iterate over spatial dimension (always 2D)
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
         else:
             signal_current = signal_input[:,count_spectra]
-        
-        if count_spectra == 0: 
+
+        if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
             baseline_current = _np.zeros([signal_length])
             baseline_last = _np.zeros([signal_length])
@@ -621,7 +621,7 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-            
+
         penalty_vector = _np.ones(signal_length)
         baseline_current = _np.zeros([signal_length])
         baseline_last = _np.zeros([signal_length])
@@ -634,31 +634,31 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
         for count_iterate in range(MAX_ITER):
             penalty_matrix = _np.diag(penalty_vector)
             minimazation_matrix = penalty_matrix + _np.dot((smoothness_param*difference_matrix.T),difference_matrix)
-            
-            # Cholesky factorization A = LL'            
+
+            # Cholesky factorization A = LL'
             factor = _linalg.cholesky(minimazation_matrix,lower=True,overwrite_a=False,check_finite=True)
-        
+
             if (count_iterate > 0 or count_spectra > 0):
                 baseline_last = baseline_current
-            
+
             # Solve A * baseline_current = penalty_vector * Signal
             baseline_current = _linalg.solve(factor.T,_linalg.solve(factor,penalty_vector*signal_current))
-        
+
             # Difference check b/w iterations
-            if count_iterate > 0 or count_spectra > 0: 
+            if count_iterate > 0 or count_spectra > 0:
                 differ = _np.abs(_np.sum(baseline_current -\
                 baseline_last, axis=0))
                 if differ < MIN_DIFF:
                     break
-            
+
             # Apply asymmetric penalization
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-            
+
         if print_iteration == True:
             print("Finished detrending in %d iteration" % count_iterate)
-    
+
         if dim > 1:
             baseline_output[:,count_spectra] = baseline_current
             #print(count_spectra)
