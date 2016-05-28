@@ -24,7 +24,7 @@ import timeit as _timeit
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
-    _sys.path.append(_os.path.abspath('.'))
+    _sys.path.append(_os.path.abspath('../../'))
 
 from crikit.cri.algorithms.kk import kkrelation as _kkrelation
 from crikit.data.spectrum import Spectrum as _Spectrum
@@ -217,7 +217,7 @@ if __name__ == '__main__': # pragma: no cover
           (stop-start)/num_spectra))
 
     plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
-    plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix],
+    plt.plot(hsi.freq.data[hsi.freq.op_range_pix],
              hsi.data[0,0,hsi.freq.op_range_pix].imag, label='KK-Retrieved')
     plt.legend(loc='best')
     plt.xlabel('Wavenumber (cm$^{-1}$)')
