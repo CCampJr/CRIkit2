@@ -17,21 +17,18 @@ if __name__ == '__main__':  # pragma: no cover
 import copy as _copy
 
 import numpy as _np
-from crikit.data.spectrum import Spectrum as _Spectrum
-from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
 
 from numpy.linalg import svd as _svd
 
-def svd_decompose(data_obj):
+def svd_decompose(data):
     """
     Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
     the input into components.
 
     Parameters
     ----------
-    data_obj : Spectra or Hsi object or (2D or 3D) ndarray.
-        Spectral data object or ndarray.
+    data : ndarray (2D or 3D).
+        Input array.
 
     Returns
     -------
@@ -60,28 +57,18 @@ def svd_decompose(data_obj):
     ----------
 
     """
-    if isinstance(data_obj,_Spectrum):
-        if type(data_obj) == _Spectra:
-            U,s,Vh = _svd(data_obj.data, full_matrices=False)
-        elif type(data_obj) == _Hsi:
-            U,s,Vh = _svd(data_obj.data.reshape((-1,data_obj.f_pix)), full_matrices=False)
-        else:
-            raise TypeError('data_obj should be of Spectra or Hsi classes or an ndarray')
 
-    elif isinstance(data_obj, _np.ndarray):
-        data_obj = _np.squeeze(data_obj)
-        if data_obj.ndim == 2:
-            U,s,Vh = _svd(data_obj.data, full_matrices=False)
-        elif data_obj.ndim == 3:
-            U,s,Vh = _svd(data_obj.reshape((-1,data_obj.shape[-1])), full_matrices=False)
-        else:
-            raise TypeError('ndarray should be 2D or 3D')
+    data = _np.squeeze(data)
+    if data.ndim == 2:
+        U,s,Vh = _svd(data, full_matrices=False)
+    elif data.ndim == 3:
+        U,s,Vh = _svd(data.reshape((-1,data.shape[-1])), full_matrices=False)
     else:
-        raise TypeError('data_obj should be of Spectra or Hsi classes or an ndarray')
+        raise TypeError('ndarray should be 2D or 3D')
 
     return [U, s, Vh]
 
-def svd_recompose(U,s,Vh, data_obj=None, svs=None, overwrite=False):
+def svd_recompose(U,s,Vh, data=None, svs=None, overwrite=False):
     """
     Reconstruct the original data using the SVD components. The reconstructed \
     signal shape is 2D (or if provided) or matches data_obj.
@@ -100,8 +87,8 @@ def svd_recompose(U,s,Vh, data_obj=None, svs=None, overwrite=False):
         NOTE: this is the Hermitial/conjugate transpose of the normal
         V-component in SVD
 
-    data_obj : Spectra or Hsi object or (2D or 3D) ndarray.
-        Spectral data object or ndarray.
+    data : ndarray (2D or 3D)
+        Original data (for overwrite if selected).
 
     overwrite : bool, optional (default=True)
         Overwrite the original data in data_obj
@@ -131,13 +118,6 @@ def svd_recompose(U,s,Vh, data_obj=None, svs=None, overwrite=False):
         raise TypeError('Vh should be of type ndarray')
     if not isinstance(s, _np.ndarray):
         raise TypeError('s should be of type ndarray')
-    if data_obj is not None:
-        if isinstance(data_obj, _Spectrum):
-            pass
-        elif isinstance(data_obj, _np.ndarray):
-            pass
-        else:
-            raise TypeError('data_obj should be of type ndarray or a subclass of Spectrum')
 
     if _np.squeeze(s).ndim == 2:
         s_vec = _np.diag(s)
@@ -151,27 +131,22 @@ def svd_recompose(U,s,Vh, data_obj=None, svs=None, overwrite=False):
     else:
         s_vec_final = 0*s_vec
         s_vec_final[svs] = s_vec[svs]
-
     out = _np.dot(U, _np.dot(_np.diag(s_vec_final),Vh))
 
     # Get out to the right shape and return or overwrite
-    if data_obj is None or data_obj.shape == out.shape:
-        return out
+    if data is None or data.shape == out.shape:
+        pass
     else:
-        out = _np.reshape(out, data_obj.shape)
+        out = _np.reshape(out, data.shape)
 
     if overwrite == False:
         return out
     else:
-        if isinstance(data_obj, _Spectrum):
-            data_obj.data = out
-        elif isinstance(data_obj, _np.ndarray):
-            data_obj *= 0
-            data_obj += out
-#        else:
-#            raise TypeError('data_obj should be a subclass of Spectrum or ndarray')
+        data *= 0
+        data += out
 
 if __name__ == '__main__':  # pragma: no cover
+
     y = _np.random.randn(100,1000)
     [U,s,Vh] = svd_decompose(y)
     y2 = svd_recompose(U,s,Vh,svs=[])
@@ -189,16 +164,15 @@ if __name__ == '__main__':  # pragma: no cover
 
     y = _np.random.randn(10,10,1000)
     [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh, data_obj=y, svs=[])
+    y2 = svd_recompose(U,s,Vh, data=y, svs=[])
     print('\nReturned matrix is same shape {} as that entered: {}'.format(y.shape, y.shape == y2.shape))
 
     y = _np.random.randn(10,1000)
     y_copy = _copy.deepcopy(y)
 
     [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh, data_obj=y, svs=[], overwrite=True)
-
+    y2 = svd_recompose(U,s,Vh, data=y, svs=[], overwrite=True)
     print('\nOverwrite input data...')
     print('0 singular values selected...')
-    print('Input is same as output: {}'.format(_np.allclose(y,y_copy)))
+    print('Input is NOT same as output: {}'.format(not _np.allclose(y,y_copy)))
     print('Returns matrix is all 0\'s: {}'.format(_np.allclose(y,0) == True))

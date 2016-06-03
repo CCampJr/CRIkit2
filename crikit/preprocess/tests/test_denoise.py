@@ -43,14 +43,14 @@ class SVDDecomposeTest(unittest.TestCase):
         self.assertTrue(self.signal2D.shape==output.shape)
 
         # Spectra
-        [U,s,Vh] = svd_decompose(self.signal2D_obj)
+        [U,s,Vh] = svd_decompose(self.signal2D_obj.data)
         s2 = np.zeros(s.shape)
         output = np.dot(U,np.dot(np.diag(s2),Vh))
         self.assertTrue(np.allclose(output,0))
         self.assertTrue(self.signal2D.shape==output.shape)
 
         # Hsi
-        [U,s,Vh] = svd_decompose(self.signal3D_obj)
+        [U,s,Vh] = svd_decompose(self.signal3D_obj.data)
         s2 = np.zeros(s.shape)
         output = np.dot(U,np.dot(np.diag(s2),Vh))
         self.assertTrue(np.allclose(output,0))
@@ -108,7 +108,7 @@ class SVDRecomposeTest(unittest.TestCase):
         self.assertTrue(np.allclose(output,output2))
         self.assertFalse(output.shape == self.signal3D.shape)
 
-        output = svd_recompose(self.U3,self.s3,self.Vh3, data_obj=self.signal3D)
+        output = svd_recompose(self.U3,self.s3,self.Vh3, data=self.signal3D)
         output2 = np.dot(self.U3,np.dot(np.diag(self.s3),self.Vh3))
         self.assertTrue(np.allclose(output.ravel(),output2.ravel()))
         self.assertTrue(output.shape == self.signal3D.shape)
@@ -120,19 +120,18 @@ class SVDRecomposeTest(unittest.TestCase):
 
     def test_overwrite(self):
         output = svd_recompose(self.U3,self.s3,self.Vh3,
-                               data_obj=self.signal3D, svs=[], overwrite=True)
+                               data=self.signal3D, svs=[], overwrite=True)
         self.assertIsNone(output)
         self.assertTrue(np.allclose(self.signal3D,0))
         output = svd_recompose(self.U3,self.s3,self.Vh3,
-                               data_obj=self.signal3D_obj, svs=[], overwrite=True)
+                               data=self.signal3D_obj.data, svs=[], overwrite=True)
 
     def test_err(self):
         self.assertRaises(TypeError, svd_recompose, self.U2, np.random.randn(10,10,10), self.Vh2)
         self.assertRaises(TypeError, svd_recompose, [], self.s2, self.Vh2)
         self.assertRaises(TypeError, svd_recompose, self.U2, [], self.Vh2)
         self.assertRaises(TypeError, svd_recompose, self.U2, self.s2, [])
-        self.assertRaises(TypeError, svd_recompose, self.U2, self.s2, self.Vh2,
-                          overwrite=True, data_obj=[])
+
 
 #    def test_no_svs(self):
 #        # ndarray
