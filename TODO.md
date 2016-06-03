@@ -1,7 +1,7 @@
 # Major initiatives
 * Implement and test dask/out-of-core processing
-* Test-out Change all inputs to type numpy rather than class
-	* Remove references to Spectrum subclasses in unittests
+* Remove references to Spectrum subclasses in unittests
+* ~~Test-out Change all inputs to type numpy rather than class~~
 
 # Numerical performance
 

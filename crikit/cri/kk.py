@@ -166,7 +166,7 @@ if __name__ == '__main__': # pragma: no cover
     nrb.data = NRB
 
     # Copies of spectrum
-    temp = _np.dot(_np.ones((100,100,1)),CARS[None,:])
+    temp = _np.dot(_np.ones((300,300,1)),CARS[None,:])
 
     # Create an HSData class instance
     hsi.data = temp
@@ -178,12 +178,15 @@ if __name__ == '__main__': # pragma: no cover
     kkd = _kkrelation(NRB,CARS)
     stop = _timeit.default_timer()
     print('Single spectrum -- Total time: {:.6f} sec'.format(stop-start))
+    _timeit.time.sleep(2)
 
     start = _timeit.default_timer()
     kkd = _kkrelation(NRB,temp)
     stop = _timeit.default_timer()
     print('Data-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
+    _timeit.time.sleep(2)
+
 
     start = _timeit.default_timer()
     kk(hsi.data, nrb.data, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
@@ -192,6 +195,8 @@ if __name__ == '__main__': # pragma: no cover
           (stop-start)/num_spectra))
 
     hsi.data = temp
+    _timeit.time.sleep(2)
+
 
     import matplotlib as mpl
     mpl.rcParams['font.size'] = 14
@@ -210,6 +215,7 @@ if __name__ == '__main__': # pragma: no cover
           (stop-start)/num_spectra))
 
     hsi.data = kkd
+    _timeit.time.sleep(2)
 
     plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
     plt.plot(hsi.freq.data[hsi.freq.op_range_pix],
