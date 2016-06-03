@@ -1,6 +1,8 @@
-# Numerical performance
+# Major initiatives
+* Implement and test dask/out-of-core processing
+* Test-out Change all inputs to type numpy rather than class
 
-# Coding mulligans (re-writes)
+# Numerical performance
 
 # Process functionality enhancements
 
@@ -22,6 +24,7 @@
 * Implement plugin framework
 
 # io package
+* Implement out-of-core processing system with temporary HDF file-as-data solution
 * Make into plugin system to make custom import modules more streamline
 * Make tests for meta and hdf after artificial test hdf file is created
 * special create list of filename
