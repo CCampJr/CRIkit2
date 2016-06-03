@@ -27,12 +27,11 @@ if __name__ == '__main__':  # pragma: no cover
     _sys.path.append(_os.path.abspath('../../'))
 
 from crikit.cri.algorithms.kk import kkrelation as _kkrelation
-from crikit.data.spectrum import Spectrum as _Spectrum
-from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
 
-def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
-       norm_to_nrb=True, pad_factor=1, overwrite=True):
+from crikit.utils.gen_utils import find_nearest as _find_nearest
+
+def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
+       norm_to_nrb=True, pad_factor=1, rng=None, freq=None):
 
     """
     Retrieve the real and imaginary components of coherent Raman data via the \
@@ -40,10 +39,10 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
 
     Parameters
     ----------
-    cars_obj : Spectrum (or subclass) object. See Notes.
+    cars_obj : ndarray
         Coherent Raman signal.
 
-    nrb_obj : Spectrum (or subclass) object or ndarray. See Notes.
+    nrb_obj : ndarray
         Nonresonant background (NRB)
 
     cars_amp_offset : float, optional (default=0.0)
@@ -68,19 +67,20 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
         Padded with a constant value corresponding to the value at that end of \
         the spectrum. See Ref. [1].
 
-    overwrite : bool, optional (default=True)
-        Overwrite data_cls with new values or simply return result as ndarray
+    rng : list/tuple, optional (default=None)
+        Range of pixels/frequencies (if freq provided) to perform over
+
+    freq : ndarray (1D), optional (default=None)
+        Frequency vector
 
     Returns
     -------
     ndarray
-        Altered data if overwrite is False
-
-    None
-        Return None if overwrite is True
+        KK of cars
 
     Notes
     -----
+    * This function does NOT overwrite input data
     * The imaginary components provides the sponatenous Raman-like spectra(um).
     * This module assumes the spectra are oriented as such that the frequency \
     (wavenumber) increases with increasing index.  If this is not the case for \
@@ -99,50 +99,42 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
 
     """
 
-    UNITS = 'Norm. Raman Int. (au)'
+    ndim_cars = cars.ndim
+    if rng is None or len(rng) == 0:
+        pixrange = _np.arange(0, cars.shape[-1])
+    elif freq is not None:  # rng in units of frequency; thus, find pixels
+        pix_lims = _find_nearest(freq, rng)[-1]
+        pix_lims[-1] += 1  # +1 for inclusiveness
+        pixrange = _np.arange(pix_lims[0], pix_lims[1])
+    else:  # rng in units of pixels
+        rng[-1] += 1  # +1 for inclusiveness
+        pixrange = _np.arange(rng[0],rng[1])
 
-    if isinstance(cars_obj,_Spectrum) == False:  # True if type Spectrum **OR** a subclass of Spectrum
-        raise TypeError('cars_obj must be of class (or subclass) Spectrum')
-    ndim_cars = cars_obj.ndim
-    if cars_obj.freq.op_list_pix is None or len(cars_obj.freq.op_list_pix) == 0:
-        pixrange = _np.arange(0, cars_obj.freq.size)
-    else:
-        pixrange = _np.arange(cars_obj.freq.op_list_pix[0],cars_obj.freq.op_list_pix[1]+1)
-
-    if isinstance(nrb_obj,_Spectrum):
-        nrb = _np.squeeze(nrb_obj.data)
-    elif isinstance(nrb_obj, _np.ndarray):
-        nrb = _np.squeeze(nrb_obj)
-    else:
-        raise TypeError('nrb_obj must be of class (or subclass) Spectrum or ndarray')
+    # Ensure minimum NRB dimensionality
+    nrb = _np.squeeze(nrb)
     ndim_nrb = nrb.ndim
 
-    if cars_obj.data.shape[-1] != nrb.shape[-1] or not \
-        (ndim_nrb == ndim_cars or ndim_nrb == 1):
-        raise TypeError('Cannot broadcast {} and {}'.format(cars_obj.shape,nrb.shape))
+    # Assume that an nD nrb should be averaged to be 1D
+    if ndim_nrb > 1:
+        nrb = nrb.mean(axis=tuple(range(ndim_nrb-1)))
 
-    shp = list(cars_obj.shape)
+    # Shape of output data between pixrange
+    shp = list(cars.shape)
     shp[-1] = pixrange[-1] - pixrange[0] + 1
     kkd = _np.zeros(shp, dtype=complex)
 
-    if ndim_cars == 1:
+    if ndim_cars < 3:
         kkd = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          cri=cars_obj.data[pixrange] + cars_amp_offset,
-                          phase_offset=phase_offset,
-                          norm_by_bg=norm_to_nrb,
-                          pad_factor=pad_factor)
-
-    elif ndim_cars == 2:
-        kkd = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          cri=cars_obj.data[:,pixrange] + cars_amp_offset,
+                          cri=cars[...,pixrange] + cars_amp_offset,
                           phase_offset=phase_offset,
                           norm_by_bg=norm_to_nrb,
                           pad_factor=pad_factor)
 
     elif ndim_cars == 3:
-        for row_num, spa in enumerate(cars_obj.data):
+        for row_num, spa in enumerate(cars):
+            print
             kkd[row_num,:,:] = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          cri=spa[:,pixrange] + cars_amp_offset,
+                          cri=spa[...,pixrange] + cars_amp_offset,
                           phase_offset=phase_offset,
                           norm_by_bg=norm_to_nrb,
                           pad_factor=pad_factor)
@@ -152,14 +144,13 @@ def kk(cars_obj, nrb_obj, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=
     else:
         raise TypeError('cars_obj must be 1D, 2D, or 3D')
 
-    if overwrite:
-        cars_obj.data = kkd
-        cars_obj.units = UNITS
-        return None
-    else:
-        return kkd
+    return kkd
 
 if __name__ == '__main__': # pragma: no cover
+
+    from crikit.data.spectrum import Spectrum as _Spectrum
+    from crikit.data.spectra import Spectra as _Spectra
+    from crikit.data.hsi import Hsi as _Hsi
 
     hsi = _Hsi()
     nrb = _Spectra()
@@ -195,7 +186,7 @@ if __name__ == '__main__': # pragma: no cover
           (stop-start)/num_spectra))
 
     start = _timeit.default_timer()
-    kk(hsi, nrb, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
+    kk(hsi.data, nrb.data, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
     stop = _timeit.default_timer()
     print('Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
@@ -211,14 +202,19 @@ if __name__ == '__main__': # pragma: no cover
     #plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix])
 
     start = _timeit.default_timer()
-    kk(hsi, nrb, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
+    kkd = kk(hsi.data, nrb.data, cars_amp_offset=0, nrb_amp_offset=0,
+       norm_to_nrb=False, rng=hsi.freq.op_list_freq, freq=hsi.freq.data,
+       pad_factor=1)
     stop = _timeit.default_timer()
     print('Pixrange Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
 
+    hsi.data = kkd
+
     plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
     plt.plot(hsi.freq.data[hsi.freq.op_range_pix],
-             hsi.data[0,0,hsi.freq.op_range_pix].imag, label='KK-Retrieved')
+             hsi.data[0,0,hsi.freq.op_range_pix].imag, 'r*',
+             label='KK-Retrieved')
     plt.legend(loc='best')
     plt.xlabel('Wavenumber (cm$^{-1}$)')
     plt.ylabel('Raman Int. (au)')
