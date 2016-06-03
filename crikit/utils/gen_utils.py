@@ -2,6 +2,11 @@
 """
 General utilities
 
+    expand_1d_to_ndim_data : Match 1D data array dimensionality to that of \
+        another array
+
+    expand_1d_to_ndim : Expand 1D data array dimensionality to ndim
+
     find_nearest : Given a vector and a value, find the index and value
         of the closest match
 
@@ -14,6 +19,27 @@ if __name__ == '__main__':  # pragma: no cover
     _sys.path.append(_os.path.abspath('.'))
 
 import numpy as _np
+
+def expand_1d_to_ndim_data(data, data_to_match):
+    """
+    Make 1D data array equal in dimensions to data_to_match
+    """
+    if data.ndim > 1:
+        print('data must be 1D')
+    else:
+        nd = data_to_match.ndim
+        return expand_1d_to_ndim(data, nd)
+
+def expand_1d_to_ndim(data, ndim):
+    """
+    Make 1D array into ndim dimensions
+    """
+    if data.ndim > 1:
+        print('data must be 1D')
+    else:
+        sh = _np.ones((ndim-1),dtype=int)
+        sh = _np.append(sh,-1)
+        return data.reshape(sh)
 
 def find_nearest(np_vec,to_find = 0):
     """
