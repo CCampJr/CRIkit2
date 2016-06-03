@@ -17,12 +17,11 @@ if __name__ == '__main__':  # pragma: no cover
 import timeit as _timeit
 
 import numpy as _np
-from crikit.data.spectrum import Spectrum as _Spectrum
 
 from crikit.preprocess.algorithms.anscombe import (gen_anscombe_forward as ansc,
                                                    gen_anscombe_inverse_exact_unbiased as inv_ansc)
 
-def anscombe(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
+def anscombe(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
     """
     Implement the generalized forward Anscombe transformation.
 
@@ -40,7 +39,7 @@ def anscombe(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=T
 
     Parameters
     ----------
-    data_obj : Spectrum (or subclass) object or ndarray.
+    data : ndarray.
         Signal with mixed Gaussian and Poisson noise to transform.
 
     gauss_std : float
@@ -81,41 +80,25 @@ def anscombe(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=T
         spectroscopy: Correcting errors in phase retrieval," Journal of Raman \
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
-    if isinstance(data_obj,_Spectrum):
-        if overwrite:
-            out = ansc(data_obj.data, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-#            data_obj.data *= 0
-#            data_obj.data += out
-            data_obj.data = out
-            return None
-        else:
-            out = ansc(data_obj.data, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-            return out
-    elif isinstance(data_obj, _np.ndarray):
-        if overwrite:
-            out = ansc(data_obj, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
 
-            # NOTE: In a pass-by-value situation, like this, need to perform
-            # in-line math to overwrite the variable
-            data_obj *= 0
-            data_obj += out
+    if overwrite:
+        out = ansc(data, gauss_std=gauss_std,
+                             gauss_mean=gauss_mean,
+                             poisson_multi=poisson_multi)
 
-            return None
-        else:
-            out = ansc(data_obj, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-            return out
+        # NOTE: In a pass-by-value situation, like this, need to perform
+        # in-line math to overwrite the variable
+        data *= 0
+        data += out
+
+        return None
     else:
-        raise TypeError('data_obj should be of class (or subclass) Spectrum or ndarray')
+        out = ansc(data, gauss_std=gauss_std,
+                             gauss_mean=gauss_mean,
+                             poisson_multi=poisson_multi)
+        return out
 
-def anscombe_inverse(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
+def anscombe_inverse(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
     """
     Applies an exact, unbiased inverse of the generalized Anscombe \
     variance-stabilizing transformation assuming a mixed Poisson-Gaussian \
@@ -136,7 +119,7 @@ def anscombe_inverse(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, ove
 
     Parameters
     ----------
-    data_obj : Spectrum (or subclass) object or ndarray.
+    data : Spectrum (or subclass) object or ndarray.
         Signal with mixed Gaussian and Poisson noise to transform.
 
     gauss_std : float
@@ -169,68 +152,56 @@ def anscombe_inverse(data_obj, gauss_std, gauss_mean=0.0, poisson_multi=1.0, ove
         spectroscopy: Correcting errors in phase retrieval," Journal of Raman \
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
-    if isinstance(data_obj,_Spectrum):
-        if overwrite:
-            out = inv_ansc(data_obj.data, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
 
-            data_obj.data = out
-            return None
-        else:
-            out = inv_ansc(data_obj.data, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-            return out
-    elif isinstance(data_obj, _np.ndarray):
-        if overwrite:
-            out = inv_ansc(data_obj, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-            # NOTE: In a pass-by-value situation, like this, need to perform
-            # in-line math to overwrite the variable
-            data_obj *= 0
-            data_obj += out
-            return None
-        else:
-            out = inv_ansc(data_obj, gauss_std=gauss_std,
-                                 gauss_mean=gauss_mean,
-                                 poisson_multi=poisson_multi)
-            return out
+    if overwrite:
+        out = inv_ansc(data, gauss_std=gauss_std,
+                             gauss_mean=gauss_mean,
+                             poisson_multi=poisson_multi)
+        # NOTE: In a pass-by-value situation, like this, need to perform
+        # in-line math to overwrite the variable
+        data *= 0
+        data += out
+        return None
     else:
-        raise TypeError('data_obj should be of class (or subclass) Spectrum or ndarray')
+        out = inv_ansc(data, gauss_std=gauss_std,
+                             gauss_mean=gauss_mean,
+                             poisson_multi=poisson_multi)
+        return out
 
 if __name__ == '__main__': # pragma: no cover
-        stddev = 20
-        gain = 1
 
-        f = _np.linspace(500,4000,1000)
-        sig = 10e4*_np.exp(-(f-2000)**2/(500**2))
+    from crikit.data.spectrum import Spectrum as _Spectrum
 
-        gnoise = stddev*_np.random.randn(f.size)
+    stddev = 20
+    gain = 1
 
-        sig_mix = _np.random.poisson(sig) + gnoise
+    f = _np.linspace(500,4000,1000)
+    sig = 10e4*_np.exp(-(f-2000)**2/(500**2))
 
-        import matplotlib.pyplot as _plt
+    gnoise = stddev*_np.random.randn(f.size)
 
-        sig2 = _Spectrum(sig)
-        out = anscombe(sig2, gauss_std=stddev, poisson_multi=gain, overwrite=False)
-        _plt.plot(out, label='No overwrite')
-        anscombe(sig2, gauss_std=stddev, poisson_multi=gain, overwrite=True)
-        _plt.plot(sig2.data, label='Overwrite')
-        _plt.legend(loc='best')
-        _plt.show()
+    sig_mix = _np.random.poisson(sig) + gnoise
 
-        print(_np.allclose(out, sig2.data))
+    import matplotlib.pyplot as _plt
 
-        # Recalc sig
-        sig = 10e4*_np.exp(-(f-2000)**2/(500**2))
+    sig2 = _Spectrum(sig)
+    out = anscombe(sig2.data, gauss_std=stddev, poisson_multi=gain, overwrite=False)
+    _plt.plot(out, label='No overwrite')
+    anscombe(sig2.data, gauss_std=stddev, poisson_multi=gain, overwrite=True)
+    _plt.plot(sig2.data, label='Overwrite')
+    _plt.legend(loc='best')
+    _plt.show()
 
-        _plt.figure()
-        sig_ansc = anscombe(sig, gauss_std=stddev, poisson_multi=gain, overwrite=False)
-        out = anscombe_inverse(sig_ansc, gauss_std=stddev, poisson_multi=gain, overwrite=False)
-        _plt.plot(sig)
-        _plt.plot(out)
-        anscombe_inverse(sig_ansc, gauss_std=stddev, poisson_multi=gain, overwrite=True)
-        _plt.plot(sig_ansc)
-        _plt.show()
+    print(_np.allclose(out, sig2.data))
+
+    # Recalc sig
+    sig = 10e4*_np.exp(-(f-2000)**2/(500**2))
+
+    _plt.figure()
+    sig_ansc = anscombe(sig.data, gauss_std=stddev, poisson_multi=gain, overwrite=False)
+    out = anscombe_inverse(sig_ansc, gauss_std=stddev, poisson_multi=gain, overwrite=False)
+    _plt.plot(sig)
+    _plt.plot(out)
+    anscombe_inverse(sig_ansc, gauss_std=stddev, poisson_multi=gain, overwrite=True)
+    _plt.plot(sig_ansc)
+    _plt.show()

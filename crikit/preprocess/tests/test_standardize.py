@@ -67,17 +67,17 @@ class AnscTest(unittest.TestCase):
         # No overwrite
         sp = Spectrum(self.sig)
         sp_mix = Spectrum(self.sig_mix)
-        sig_ansc = anscombe(sp, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
-        sig_mix_ansc = anscombe(sp_mix, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
+        sig_ansc = anscombe(sp.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
+        sig_mix_ansc = anscombe(sp_mix.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
         self.assertAlmostEqual((sig_mix_ansc - sig_ansc).mean(),0,places=0)
         self.assertAlmostEqual((sig_mix_ansc - sig_ansc).std(),1,places=0)
 
         # overwrite
-        out = anscombe(sp, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
+        out = anscombe(sp.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
         self.assertIsNone(out)
         self.assertTrue(np.allclose(sig_ansc,sp.data))
 
-        out = anscombe(sp_mix, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
+        out = anscombe(sp_mix.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
         self.assertIsNone(out)
         self.assertTrue(np.allclose(sig_mix_ansc,sp_mix.data))
 
@@ -89,13 +89,13 @@ class AnscTest(unittest.TestCase):
         sp_ansc_inverted = Spectrum()
 
         # No overwrite
-        sp_ansc.data = anscombe(sp, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
-        sp_ansc_inverted.data = anscombe_inverse(sp_ansc, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
+        sp_ansc.data = anscombe(sp.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
+        sp_ansc_inverted.data = anscombe_inverse(sp_ansc.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=False)
 
         self.assertTrue(np.allclose(self.sig,sp_ansc_inverted.data, rtol=1))
 
         # Overwrite
-        out = anscombe_inverse(sp_ansc, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
+        out = anscombe_inverse(sp_ansc.data, gauss_std=self.stddev, poisson_multi=self.gain, overwrite=True)
         self.assertIsNone(out)
         self.assertTrue(np.allclose(self.sig,sp_ansc.data, rtol=1))
 
