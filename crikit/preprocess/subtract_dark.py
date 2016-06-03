@@ -17,21 +17,23 @@ from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.hsi import Hsi as _Hsi
 
-def sub_dark(data_obj, dark_obj, overwrite=True):
+from crikit.utils.gen_utils import expand_1d_to_ndim
+
+def sub_dark(data, dark, overwrite=True):
     """
     Subtract dark spectrum.
 
 
     Parameters
     ----------
-    data_obj : object of class or subclass crikit.data.Spectrum
-        Class instance containing data.
+    data : ndarray
+        Data from which dark is subtracted.
 
-    dark_obj : object of class or subclass crikit.data.Spectrum or ndarray
-        Class or ndarray containing data.
+    dark : ndarray
+        Dark array.
 
     overwrite : bool, optional (default=True)
-        Overwrite data_cls with new values or simply return result as ndarray.
+        Overwrite data with new values or simply return result as ndarray.
 
     Returns
     -------
@@ -42,9 +44,21 @@ def sub_dark(data_obj, dark_obj, overwrite=True):
         Return None if overwrite is True
 
     """
-    out = data_obj.subtract(dark_obj, overwrite=overwrite)
-    return out
+    data_ndim = data.ndim
+    dark_ndim = dark.ndim
 
+    # Assume that an nD dark should be averaged to be 1D
+    if dark_ndim > 1:
+        dark = dark.mean(axis=tuple(range(dark_ndim-1)))
+
+    # Expand dark dimensionality to match data.ndim
+    dark = expand_1d_to_ndim(dark, data_ndim)
+
+    if overwrite:
+        data -= dark
+        return None
+    else:
+        return data-dark
 
 if __name__ == '__main__': # pragma: no cover
 
@@ -66,15 +80,15 @@ if __name__ == '__main__': # pragma: no cover
     print('Initial mean: {}'.format(hs.data.mean()))
     #out = sub_mean_over_range(hs, [5,8], overwrite=False)
     #print('Initial mean over range shape: {}'.format(out.shape))
-    out = sub_dark(hs, dark, overwrite=True)
+    out = sub_dark(hs.data, dark, overwrite=True)
     print('Final mean: {}\n'.format(hs.data.mean()))
 
     print('2D----------')
     print('Initial mean: {}'.format(spa.data.mean()))
-    out = sub_dark(spa, dark[0,:,:], overwrite=True)
+    out = sub_dark(spa.data, dark[0,:,:], overwrite=True)
     print('Final mean: {}\n'.format(spa.data.mean()))
 
     print('1D----------')
     print('Initial mean: {}'.format(sp.data.mean()))
-    out = sub_dark(sp, dark[0,0,:], overwrite=True)
+    out = sub_dark(sp.data, dark[0,0,:], overwrite=True)
     print('Final mean: {}'.format(sp.data.mean()))
