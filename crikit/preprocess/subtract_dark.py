@@ -17,7 +17,7 @@ from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.hsi import Hsi as _Hsi
 
-from crikit.utils.gen_utils import expand_1d_to_ndim
+from crikit.utils.gen_utils import expand_1d_to_ndim as _expand_1d_to_ndim
 
 def sub_dark(data, dark, overwrite=True):
     """
@@ -52,7 +52,7 @@ def sub_dark(data, dark, overwrite=True):
         dark = dark.mean(axis=tuple(range(dark_ndim-1)))
 
     # Expand dark dimensionality to match data.ndim
-    dark = expand_1d_to_ndim(dark, data_ndim)
+    dark = _expand_1d_to_ndim(dark, data_ndim)
 
     if overwrite:
         data -= dark
