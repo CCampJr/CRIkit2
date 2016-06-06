@@ -132,7 +132,6 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
 
     elif ndim_cars == 3:
         for row_num, spa in enumerate(cars):
-            print
             kkd[row_num,:,:] = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
                           cri=spa[...,pixrange] + cars_amp_offset,
                           phase_offset=phase_offset,
