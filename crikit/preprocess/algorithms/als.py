@@ -58,6 +58,7 @@ Original Python branch: Feb 16 2015
 import numpy as _np
 import scipy as _scipy
 from scipy.interpolate import UnivariateSpline as _USpline
+import timeit as _timeit
 
 ORDER = 2 # Difference filter order
 MAX_ITER = 100 # Maximum iterations
@@ -181,7 +182,7 @@ cholesky_type=_cholesky_type,print_iteration=False, **kwargs):
         return [als_baseline_scipy(signal_input, smoothness_param, asym_param, print_iteration), cholesky_type]
 
 def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
-                       smoothness_param=1, asym_param=1e-3,
+                       smoothness_param=1, asym_param=1e-2,
                        cholesky_type=_cholesky_type,print_iteration=False):
     """
     Compute the baseline_current of signal_input using an asymmetric least squares
@@ -263,33 +264,69 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
     version: ("16.03.02")
     """
 
+    signal_shape_orig = signal_input.shape
 
-    x = _np.arange(0,signal_input.size,1)  # dummy indep variable
-    spl = _USpline(x,signal_input,s=0)
+    x = _np.arange(0, signal_shape_orig[-1], 1)  # dummy indep variable
 
+    # Sub-sample via interpolation or simple slicing
     if redux_full is True and redux_factor != 1:
         # Sub-sampled x
-        x_sub = _np.linspace(x[0],x[-1],_np.round(x.size/redux_factor).astype(int))
-        sampled_signal = spl(x_sub)
+        x_sub = _np.linspace(x[0], x[-1],
+                             _np.round(x.size/redux_factor).astype(int))
     elif redux_full is False and redux_factor != 1:
         x_sub = x[::redux_factor]
-        sampled_signal = spl(x_sub)
-    else:
-        sampled_signal = signal_input
-
-    if cholesky_type == 'cvxopt':
-        sub_baseline = als_baseline_cvxopt(sampled_signal, smoothness_param, asym_param, print_iteration)
-    elif cholesky_type == 'scikits.sparse':
-        sub_baseline = als_baseline_scikits_sparse(sampled_signal, smoothness_param, asym_param, print_iteration)
-    else:
-        sub_baseline = als_baseline_scipy(sampled_signal, smoothness_param, asym_param, print_iteration)
-
-    if redux_factor == 1:
-        return [sub_baseline, cholesky_type]
-    else:
-        spl2 = _USpline(x_sub,sub_baseline,s=0)
-        baseline = spl2(x)
+    else:  # Do not reduce
+        baseline, _ = als_baseline(signal_input,
+                                   smoothness_param=smoothness_param,
+                                   asym_param=asym_param,
+                                   print_iteration=print_iteration)
         return [baseline, cholesky_type]
+
+    if signal_input.ndim == 1:
+        spl = _USpline(x, signal_input, s=0)
+        sampled_signal = spl(x_sub)
+        sub_baseline, _ = als_baseline(sampled_signal,
+                                       smoothness_param=smoothness_param,
+                                       asym_param=asym_param,
+                                       print_iteration=print_iteration)
+        spl2 = _USpline(x_sub, sub_baseline, s=0)
+        baseline = spl2(x)
+    elif signal_input.ndim == 2:
+        sampled_signal = _np.zeros((signal_shape_orig[0],x_sub.size))
+        baseline = _np.zeros(signal_shape_orig)
+        for num, sp in enumerate(signal_input):
+            spl = _USpline(x,sp,s=0)
+            sampled_signal[num,:] = spl(x_sub)
+
+        sub_baseline,_ = als_baseline(sampled_signal,
+                                      smoothness_param=smoothness_param,
+                                      asym_param=asym_param,
+                                      print_iteration=print_iteration)
+
+        for num, sp in enumerate(sub_baseline):
+            spl2 = _USpline(x_sub,sp,s=0)
+            baseline[num,:] = spl2(x)
+
+
+    elif signal_input.ndim == 3:
+        sampled_signal = _np.zeros((signal_shape_orig[0],signal_shape_orig[1], x_sub.size))
+        baseline = _np.zeros(signal_shape_orig)
+        for row_num, blk in enumerate(signal_input):
+            for col_num, sp in enumerate(blk):
+                spl = _USpline(x,sp,s=0)
+                sampled_signal[row_num, col_num,:] = spl(x_sub)
+        sub_baseline,_ = als_baseline(sampled_signal,
+                                      smoothness_param=smoothness_param,
+                                      asym_param=asym_param,
+                                      print_iteration=print_iteration)
+        for row_num, blk in enumerate(sub_baseline):
+            for col_num, sp in enumerate(blk):
+                spl2 = _USpline(x_sub,sp,s=0)
+                baseline[row_num, col_num,:] = spl2(x)
+
+
+
+    return [baseline, cholesky_type]
 
 def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
@@ -345,17 +382,18 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     version: ("15.06.19")
     """
 
-    signal_length = signal_input.shape[0]
+    signal_shape_orig = signal_input.shape
+    signal_length = signal_shape_orig[-1]
 
     dim = signal_input.ndim
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
     elif dim == 2:
-        num_to_detrend = signal_input.shape[1]
+        num_to_detrend = signal_input.shape[0]
     else:
-        num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
-        signal_input = signal_input.reshape([signal_length,num_to_detrend])
+        num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
+        signal_input = signal_input.reshape([num_to_detrend, signal_length])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
 
@@ -367,7 +405,7 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
         if dim == 1:
             signal_current = signal_input
         else:
-            signal_current = signal_input[:,count_spectra]
+            signal_current = signal_input[count_spectra, :]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -407,11 +445,11 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
         if print_iteration == True:
             print("Finished detrending in %d iteration" % count_iterate)
         if dim > 1:
-            baseline_output[:,count_spectra] = baseline_current
+            baseline_output[count_spectra,:] = baseline_current
         elif dim:
             baseline_output = baseline_current
 
-    return baseline_output.reshape(signal_input.shape)
+    return baseline_output.reshape(signal_shape_orig)
 
 def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
@@ -467,17 +505,18 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     version: ("15.06.19")
     """
 
-    signal_length = signal_input.shape[0]
+    signal_shape_orig = signal_input.shape
+    signal_length = signal_shape_orig[-1]
 
     dim = signal_input.ndim
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
     elif dim == 2:
-        num_to_detrend = signal_input.shape[1]
+        num_to_detrend = signal_input.shape[0]
     else:
-        num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
-        signal_input = signal_input.reshape([signal_length,num_to_detrend])
+        num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
+        signal_input = signal_input.reshape([num_to_detrend, signal_length])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
 
@@ -488,7 +527,7 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
         if dim == 1:
             signal_current = signal_input
         else:
-            signal_current = signal_input[:,count_spectra]
+            signal_current = signal_input[count_spectra,:]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -529,11 +568,11 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             print("Finished detrending in %d iteration" % (count_iterate + 1))
 
         if dim > 1:
-            baseline_output[:,count_spectra] = baseline_current
+            baseline_output[count_spectra,:] = baseline_current
         elif dim:
             baseline_output = baseline_current
 
-    return baseline_output.reshape(signal_input.shape)
+    return baseline_output.reshape(signal_shape_orig)
 
 def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
@@ -590,16 +629,17 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     version: ("15.06.19")
     """
 
-    signal_length = signal_input.shape[0]
+    signal_shape_orig = signal_input.shape
+    signal_length = signal_shape_orig[-1]
 
     dim = signal_input.ndim
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
     elif dim == 2:
-        num_to_detrend = signal_input.shape[1]
+        num_to_detrend = signal_input.shape[0]
     else:
-        num_to_detrend = signal_input.shape[1]*signal_input.shape[2]
+        num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
         signal_input = signal_input.reshape([signal_length,num_to_detrend])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
@@ -611,7 +651,7 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
         if dim == 1:
             signal_current = signal_input
         else:
-            signal_current = signal_input[:,count_spectra]
+            signal_current = signal_input[count_spectra,:]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -660,9 +700,9 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
             print("Finished detrending in %d iteration" % count_iterate)
 
         if dim > 1:
-            baseline_output[:,count_spectra] = baseline_current
+            baseline_output[count_spectra,:] = baseline_current
             #print(count_spectra)
         elif dim:
             baseline_output = baseline_current
 
-    return baseline_output.reshape(signal_input.shape)
+    return baseline_output.reshape(signal_shape_orig)
