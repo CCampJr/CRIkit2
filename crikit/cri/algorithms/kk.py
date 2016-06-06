@@ -119,8 +119,9 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     """
 
     # Return the complex KK relation using the Hilbert transform.
+#    print('1')
     ratio = _ne.evaluate('cri/bg')
-
+#    print('2')
     ratio[_np.isnan(ratio)] = 1e-12
     ratio[_np.isinf(ratio)] = 1e-12
 
@@ -133,8 +134,12 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
                                         pad_factor=pad_factor)
     else:
         h = hilbertfft(0.5 * _np.log(ratio), pad_factor=pad_factor)
+#    print('3')
+
     if norm_by_bg is True:
-        return _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
+        out = _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
+#        print('4')
+        return out
     else:
         return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
 
@@ -230,3 +235,9 @@ def hilbertfft(spectra, pad_factor=1):
 
     return _np.real(padded.T[spectrum_len * pad_factor:
                     spectrum_len * pad_factor+spectrum_len].T)
+
+if __name__ == '__main__':
+    import numpy as _np
+
+    x = _np.random.rand(100,1000)
+    kkrelation(x,x)
