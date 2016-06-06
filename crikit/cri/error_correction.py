@@ -58,7 +58,8 @@ def scale_err_correct_sg(data, win_size=601, order=2, overwrite=True, **kwargs):
     ---------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
-    correction_factor = (1/_sg(data.real, window_length=win_size, polyorder=order, axis=-1))
+    correction_factor = (1/_sg(data.real, window_length=win_size,
+                               polyorder=order, axis=-1))
 
     if overwrite:
         data *= correction_factor
@@ -83,17 +84,22 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 1000
-    sig = _np.dot(_np.ones((NUM_REPS,1)),sig[None,:])
+    NUM_REPS = 10
+    sig = _np.dot(_np.ones((NUM_REPS,NUM_REPS, 1)),sig[None,:])
 
     kkd = kk(sig, sigRef)
+    kkd2 = kk(sig, sigRef)
 
     start = timeit.default_timer()
-    phase_err_correct_als(kkd, overwrite=False)
+    phase_err_correct_als(kkd)
     stop = timeit.default_timer()
-    print((stop-start)/NUM_REPS)
+    print((stop-start)/NUM_REPS**2)
 
     start = timeit.default_timer()
-    phase_err_correct_als(kkd, overwrite=False, redux_factor=10)
+    ph2 = phase_err_correct_als(kkd2, redux_factor=10)
     stop = timeit.default_timer()
-    print((stop-start)/NUM_REPS)
+    print((stop-start)/NUM_REPS**2)
+
+#    plt.plot(ph1.real.T)
+#    plt.plot(ph2.real.T)
+#    plt.show()
