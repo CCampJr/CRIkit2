@@ -112,7 +112,8 @@ print('KK: {:.3g} sec'.format(-tmr))
 # phase error correction
 print('Starting Phase Error Correction...')
 tmr = timeit.default_timer()
-phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True)
+phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True,
+                      print_iteration=True)
 tmr -= timeit.default_timer()
 print('Phase Error Correction: {:.3g} sec'.format(-tmr))
 

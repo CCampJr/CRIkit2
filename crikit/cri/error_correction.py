@@ -115,7 +115,7 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 30
+    NUM_REPS = 100
 
     kkd = kk(sig, sigRef)
     kkd = _np.dot(_np.ones((NUM_REPS,NUM_REPS, 1)),kkd[None,:])
@@ -128,9 +128,9 @@ if __name__ == '__main__':
 #    print((stop-start)/NUM_REPS**2)
 
     start = timeit.default_timer()
-    ph = phase_err_correct_als(kkd, redux_factor=10)
+    ph = phase_err_correct_als(kkd, redux_factor=10, print_iteration=True)
     stop = timeit.default_timer()
-    print((stop-start)/NUM_REPS**2)
+    print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
 
 #    plt.plot(ph1.real.T)
 #    plt.plot(ph2.real.T)
