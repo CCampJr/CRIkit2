@@ -603,6 +603,26 @@
        y1="312.33499"
        x2="148.17192"
        y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-3-6-1"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(304.30009,-862.39802)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-9"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-484.2345,-862.91255)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -612,10 +632,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.99551749"
-     inkscape:cx="695.56428"
-     inkscape:cy="333.6072"
+     inkscape:cx="1071.5459"
+     inkscape:cy="521.68685"
      inkscape:document-units="px"
-     inkscape:current-layer="g4267-4-0-8-4"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="in"
      inkscape:window-width="1920"
@@ -1181,7 +1201,9 @@
          id="tspan4256-1-4"
          x="357.80597"
          y="348.35022"
-         style="font-style:italic">crikit.imports package</tspan></text>
+         style="font-style:italic">crikit.io package (<tspan
+   style="font-weight:bold"
+   id="tspan4658">import portion</tspan>)</tspan></text>
     <g
        id="g4267-4"
        transform="translate(340.46245,56.188789)">
@@ -1999,6 +2021,139 @@
            x="220.49429"
            sodipodi:role="line"
            id="tspan4512">scale_error_correct_sg()</tspan></text>
+    </g>
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1.66520274;stroke-miterlimit:4;stroke-dasharray:1.66520263, 6.66081047;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4276-8-0-1-6-1"
+       width="230.37602"
+       height="302.36786"
+       x="-60.160912"
+       y="1079.9745"
+       ry="31.567205"
+       rx="12.509823" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-47.156178"
+       y="1073.3491"
+       id="text4254-4-0-6-3-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4256-1-4-4-9-3"
+         x="-47.156178"
+         y="1073.3491"
+         style="font-style:italic">crikit.utils package</tspan></text>
+    <g
+       id="g4267-4-0-8-1"
+       transform="translate(-64.4997,778.6642)">
+      <rect
+         ry="11.307902"
+         y="308.17288"
+         x="12.573674"
+         height="111.14075"
+         width="210.59956"
+         id="rect4136-16-6-5-7"
+         style="fill:url(#linearGradient4429-3-6-1);fill-opacity:1;stroke:#1f77b4;stroke-width:0.99999994"
+         rx="11.307901" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-41-8-77"
+         y="324.82135"
+         x="19.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="19.12405"
+           id="tspan4148-6-2-5-0"
+           sodipodi:role="line">gen_utils</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-5-6-3"
+         y="352.29147"
+         x="220.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-8-5-5"
+           y="352.29147"
+           x="220.49429"
+           sodipodi:role="line">find_nearest()</tspan><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           y="371.04147"
+           x="220.49429"
+           sodipodi:role="line"
+           id="tspan4595">expand_1d_to_ndim_data()</tspan><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           y="389.79147"
+           x="220.49429"
+           sodipodi:role="line"
+           id="tspan4597">expand_1d_to_ndim()</tspan><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           y="408.54147"
+           x="220.49429"
+           sodipodi:role="line"
+           id="tspan4599">lin_count_row_col()</tspan></text>
+    </g>
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:1.66520262;stroke-miterlimit:4;stroke-dasharray:1.66520261, 6.6608104;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4276-8-0-5"
+       width="261.51559"
+       height="117.53937"
+       x="741.43225"
+       y="1077.9655"
+       ry="31.567205"
+       rx="12.509823" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="741.37848"
+       y="1071.3402"
+       id="text4254-4-0-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4256-1-4-1"
+         x="741.37848"
+         y="1071.3402"
+         style="font-style:italic">crikit.io package <tspan
+   style="font-weight:bold"
+   id="tspan4656">(export portion)</tspan></tspan></text>
+    <g
+       id="g4267-4-74"
+       transform="translate(724.03491,779.17873)">
+      <rect
+         ry="11.307903"
+         y="308.17288"
+         x="25.63221"
+         height="94.064201"
+         width="181.46899"
+         id="rect4136-16-8"
+         style="fill:url(#linearGradient4429-9);fill-opacity:1;stroke:#1f77b4"
+         rx="11.307903" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-5"
+         y="324.82135"
+         x="33.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="33.12405"
+           id="tspan4148-6-9"
+           sodipodi:role="line">hdf5</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-7"
+         y="352.29147"
+         x="204.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-5"
+           y="352.29147"
+           x="204.49429"
+           sodipodi:role="line">hdf_export_data()</tspan></text>
     </g>
   </g>
 </svg>
