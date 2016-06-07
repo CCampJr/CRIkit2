@@ -80,7 +80,7 @@ class SVDDecomposeTest(unittest.TestCase):
         signal1d = np.random.randn(100)
         signal1d_obj = Spectrum()
         self.assertRaises(TypeError, svd_decompose, signal1d)
-        self.assertRaises(TypeError, svd_decompose, signal1d_obj)
+#        self.assertRaises(TypeError, svd_decompose, signal1d_obj)
         self.assertRaises(TypeError, svd_decompose, [])
 
 class SVDRecomposeTest(unittest.TestCase):

@@ -33,7 +33,8 @@ from crikit.cri.kk import kk
 from crikit.cri.error_correction import phase_err_correct_als, scale_err_correct_sg
 
 filename = '../../../mP2_w_small.h5'
-dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
+#dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
+dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0'
 
 dset_dark = '/Spectra/Dark_3_5ms_2'
 dset_nrb = '/Spectra/CoverslipNRB_Time0_3_5ms_2'
@@ -62,11 +63,15 @@ sub_residual(cars.data, rng, overwrite=True)
 sub_residual(nrb.data, rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Residual subtraction: {:.3g} sec'.format(-tmr))
+
 # Set operating range
+print('Setting range...')
 cars.freq.op_list_freq = [500, 4000]
 rng = cars.freq.op_range_pix
+print('Range set...')
 
 # Anscombe
+print('Starting Anscombe...')
 tmr = timeit.default_timer()
 anscombe(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
          rng=rng, overwrite=True)
@@ -74,18 +79,21 @@ tmr -= timeit.default_timer()
 print('Anscombe: {:.3g} sec'.format(-tmr))
 
 # SVD
-#U, s, Vh = svd_decompose(cars.data, rng_list=cars.freq.op_list_pix)
+print('Starting SVD Decompose...')
 tmr = timeit.default_timer()
 U, s, Vh = svd_decompose(cars.data, rng=rng)
+tmr -= timeit.default_timer()
+print('SVD Decompose: {:.3g} sec'.format(-tmr))
 
+print('Starting SVD Recompose')
+tmr = timeit.default_timer()
 svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
               rng=rng, overwrite=True)
-#svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
-#              rng_list=cars.freq.op_list_pix, overwrite=True)
 tmr -= timeit.default_timer()
-print('SVD: {:.3g} sec'.format(-tmr))
+print('SVD Recompose: {:.3g} sec'.format(-tmr))
 
 # Inverse Anscombe
+print('Starting Inverse Anscombe...')
 tmr = timeit.default_timer()
 anscombe_inverse(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
                  rng=rng, overwrite=True)
@@ -93,19 +101,23 @@ tmr -= timeit.default_timer()
 print('Inverse Anscombe: {:.3g} sec'.format(-tmr))
 
 # KK -- note: not an overwrite-able fcn
+print('Starting KK...')
 tmr = timeit.default_timer()
 kkd = kk(cars.data, nrb.data, rng=rng)
+print('Saving KK...')
 cars.data = kkd
 tmr -= timeit.default_timer()
 print('KK: {:.3g} sec'.format(-tmr))
 
 # phase error correction
+print('Starting Phase Error Correction...')
 tmr = timeit.default_timer()
 phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Phase Error Correction: {:.3g} sec'.format(-tmr))
 
 # scale error correction
+print('Starting Scale Error Correction...')
 tmr = timeit.default_timer()
 scale_err_correct_sg(cars.data, rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
