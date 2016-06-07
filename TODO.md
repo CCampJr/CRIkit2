@@ -1,4 +1,5 @@
 # Major initiatives
+* Add rng functionality to all fcns
 * Implement and test dask/out-of-core processing
 * Remove references to Spectrum subclasses in unittests
 * ~~Test-out Change all inputs to type numpy rather than class~~
@@ -31,6 +32,7 @@
 * special create list of filename
 * Handle list of HSI image imaports
 * Redo frequency calibration meta config and meta process
+* hdf_import_data needs to return something
 * ~~HDF5 import~~
 
 # preprocess package

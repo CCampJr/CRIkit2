@@ -593,6 +593,16 @@
        y1="312.33499"
        x2="148.17192"
        y2="338.97266" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4138"
+       id="linearGradient4429-3-6-0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-185.54154,-924.97555)"
+       x1="148.17192"
+       y1="312.33499"
+       x2="148.17192"
+       y2="338.97266" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -605,7 +615,7 @@
      inkscape:cx="695.56428"
      inkscape:cy="333.6072"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g4267-4-0-8-4"
      showgrid="false"
      units="in"
      inkscape:window-width="1920"
@@ -1947,6 +1957,48 @@
            y="352.29147"
            x="220.49429"
            sodipodi:role="line">sub_baseline_als()</tspan></text>
+    </g>
+    <g
+       id="g4267-4-0-8-4"
+       transform="translate(425.34195,841.24171)">
+      <rect
+         ry="11.307903"
+         y="308.17288"
+         x="25.63221"
+         height="71.965141"
+         width="197.54103"
+         id="rect4136-16-6-5-2"
+         style="fill:url(#linearGradient4429-3-6-0);fill-opacity:1;stroke:#1f77b4;stroke-width:1"
+         rx="11.307902" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4146-3-41-8-7"
+         y="324.82135"
+         x="33.12405"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px"
+           y="324.82135"
+           x="33.12405"
+           id="tspan4148-6-2-5-1"
+           sodipodi:role="line">error_correction</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4150-8-5-6-4"
+         y="352.29147"
+         x="220.49429"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           id="tspan4156-3-8-5-7"
+           y="352.29147"
+           x="220.49429"
+           sodipodi:role="line">phase_error_correct_als()</tspan><tspan
+           style="font-size:15px;text-align:end;text-anchor:end"
+           y="371.04147"
+           x="220.49429"
+           sodipodi:role="line"
+           id="tspan4512">scale_error_correct_sg()</tspan></text>
     </g>
   </g>
 </svg>
