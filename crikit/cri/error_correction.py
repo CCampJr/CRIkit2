@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
 
 import numpy as _np
-import numexpr as _ne
+#import numexpr as _ne
 from scipy.signal import savgol_filter as _sg
 
 from crikit.cri.algorithms.kk import hilbertfft as _hilbert
@@ -39,10 +39,13 @@ def phase_err_correct_als(data, overwrite=True, **kwargs):
         als_method = _als_baseline
 
     ph = _np.unwrap(_np.angle(data))
-    err_phase,_ = als_method(ph, **kwargs)
+    err_phase, _ = als_method(ph, **kwargs)
 
     h = _hilbert(err_phase)
-    correction_factor = _ne.evaluate('1/exp(imag(h)) * exp(-1j*err_phase)')
+    correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
+
+    # numexpr disabled due to instability
+#    correction_factor = _ne.evaluate('1/exp(imag(h)) * exp(-1j*err_phase)')
 
     if overwrite:
         data *= correction_factor
