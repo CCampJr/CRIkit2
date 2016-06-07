@@ -25,9 +25,10 @@ from crikit.io.hdf5 import hdf_import_data as _hdf_import_data
 __all__ = []
 
 
-def import_hdf_nist_special(filename, dset, output_cls_instance):
+def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
 
-    _hdf_import_data(filename,dset,output_cls_instance)
+#    pfname = pth + filename
+    _hdf_import_data(pth, filename,dset,output_cls_instance)
     _meta_process(_snb(), output_cls_instance)
 
 if __name__ == '__main__':  # pragma: no cover
