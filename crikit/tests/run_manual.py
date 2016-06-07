@@ -78,11 +78,11 @@ rng = cars.freq.op_range_pix
 # Anscombe
 plt.figure()
 plt.plot(cars.freq.op_range_freq,
-         cars.data[25, 25, cars.freq.op_range_pix], label='cars')
+         cars.data[25, 25, rng], label='cars')
 anscombe(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
          rng=rng, overwrite=True)
 plt.plot(cars.freq.op_range_freq,
-         cars.data[25, 25, cars.freq.op_range_pix], label='cars')
+         cars.data[25, 25, rng], label='cars')
 plt.legend()
 #plt.show()
 
@@ -133,26 +133,20 @@ plt.legend()
 
 # phase error correction
 plt.figure()
-plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
+plt.plot(cars.freq.op_range_freq, cars.data[25,25,rng].imag,
          label='KK')
 phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True)
-plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
+plt.plot(cars.freq.op_range_freq, cars.data[25,25,rng].imag,
          label='Phase Corrected')
 plt.legend()
 
 # scale error correction
 plt.figure()
-plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
+plt.plot(cars.freq.op_range_freq, cars.data[25,25,rng].imag,
          label='Phase Corrected')
 scale_err_correct_sg(cars.data, rng=rng, overwrite=True)
-plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
+plt.plot(cars.freq.op_range_freq, cars.data[25,25,rng].imag,
          label='Corrected')
 plt.legend()
 plt.show()
 
-#plt.subplot(211)
-#anscombe_inverse(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
-#         overwrite=True)
-#plt.plot(cars.freq.data, cars.data[25, 25, :], label='inv anscombe')
-#plt.legend()
-#plt.show()

@@ -120,7 +120,7 @@ class FreqTest(unittest.TestCase):
 
         self.nrb1.data = self.NRB
 
-        out = kk(self.cars3.data,self.nrb1.data, rng=self.cars3.freq.op_list_pix)
+        out = kk(self.cars3.data,self.nrb1.data, rng=self.cars3.freq.op_range_pix)
         self.assertIsNotNone(out)
         self.assertTrue(issubclass(out.dtype.type,np.complex))
         self.assertNotEqual(out.shape,self.cars3.shape)

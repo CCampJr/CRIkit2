@@ -22,14 +22,18 @@ from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
                                               _als_baseline_redux)
 import copy as _copy
 
-def sub_baseline_als(data, ret_difference=True, ret_baseline=False, overwrite=True, **kwargs):
+def sub_baseline_als(data, ret_difference=True, ret_baseline=False,
+                     rng=None, overwrite=True, **kwargs):
     """
     Subtract baseline using ALS
 
     """
 
     if overwrite == False:
-        baseline_copy = _np.zeros(data.shape)
+        shp = list(data.shape)
+        if rng is not None:
+            shp[-1] = rng.size
+        baseline_copy = _np.zeros(shp)
 
     if kwargs.get('redux_factor') is not None:
         als_method = _als_baseline_redux
@@ -37,38 +41,67 @@ def sub_baseline_als(data, ret_difference=True, ret_baseline=False, overwrite=Tr
         als_method = _als_baseline
 
     if data.ndim == 1:
-        baseline1, als_alg = als_method(data, **kwargs)
-        if overwrite:
-            data -= baseline1
-            return None
+        if rng is None:
+            baseline1, als_alg = als_method(data, **kwargs)
         else:
-            return data - baseline1
+            baseline1, als_alg = als_method(data[...,rng], **kwargs)
+
+        if overwrite:
+            if rng is None:
+                data -= baseline1
+                return None
+            else:
+                data[..., rng] -= baseline1
+                return None
+        else:
+            if rng is None:
+                return data - baseline1
+            else:
+                return data[..., rng] - baseline1
 
     elif data.ndim == 2:
         for num, sp in enumerate(data):
-            baseline1, als_alg = als_method(sp, **kwargs)
+            if rng is None:
+                baseline1, als_alg = als_method(sp, **kwargs)
+            else:
+                baseline1, als_alg = als_method(sp[..., rng], **kwargs)
             if overwrite:
-                data[num,:] -= baseline1
+                if rng is None:
+                    data[num, :] -= baseline1
+                else:
+                    data[num, rng] -= baseline1
             else:
                 baseline_copy[num,:] = _copy.deepcopy(baseline1)
         if overwrite:
             return None
         else:
-            return data - baseline_copy
+            if rng is None:
+                return data - baseline_copy
+            else:
+                return data[..., rng] - baseline_copy
 
     elif data.ndim == 3:
         for num_m, sp_line in enumerate(data):
             for num_n, sp in enumerate(sp_line):
-                baseline1, als_alg = als_method(sp, **kwargs)
+                if rng is None:
+                    baseline1, als_alg = als_method(sp, **kwargs)
+                else:
+                    baseline1, als_alg = als_method(sp[..., rng], **kwargs)
+
                 if overwrite:
-                    data[num_m,num_n,:] -= baseline1
+                    if rng is None:
+                        data[num_m,num_n,:] -= baseline1
+                    else:
+                        data[num_m, num_n, rng] -= baseline1
                 else:
                     baseline_copy[num_m,num_n,:] = _copy.deepcopy(baseline1)
         if overwrite:
             return None
         else:
-            return data - baseline_copy
-
+            if rng is None:
+                return data - baseline_copy
+            else:
+                return data[..., rng] - baseline_copy
 
 if __name__ == '__main__':
 
