@@ -90,3 +90,65 @@ def find_nearest(np_vec,to_find = 0):
 
     return (nearest_val, nearest_loc)
 
+
+def lin_count_row_col(ct, sh):
+    """
+    Convert a 1D counter into a col and row counter
+    """
+
+    assert len(sh) == 2, 'Shape must be 2D'
+
+    tot_rows = sh[0]
+    tot_cols = sh[1]
+
+    if ct > tot_rows*tot_cols:
+        print('Count is out-of-range. Returning None.')
+        return None
+
+    row = _np.mod(ct, tot_rows)
+    col = ct//tot_rows
+
+    return [row, col]
+
+if __name__ == '__main__':
+    import timeit as _timeit
+
+    print('Test 1.....')
+    x = _np.random.rand(10,11)
+
+    for ct in range(x.size):
+        row, col = lin_count_row_col(ct, x.shape)
+        print('R: {} C: {}'.format(row,col))
+    print('Total number iterated through: {}'.format(ct+1))
+
+    print('Test 2...')
+    x = _np.random.rand(100,100,878)
+    y = _np.zeros(x.shape, dtype=complex)
+
+    tmr = _timeit.default_timer()
+    for rc, blk in enumerate(x):
+        for cc, sp in enumerate(blk):
+            y[rc,cc,:] = _np.fft.fft(sp)
+    tmr -= _timeit.default_timer()
+    print('Time with 2 for-loops: {:.3g} sec'.format(-tmr))
+
+    tmr = _timeit.default_timer()
+    shp = x.shape
+    x = x.reshape((-1, shp[-1]))
+    y = _np.zeros(x.shape, dtype=complex)
+    for num, sp in enumerate(x):
+        y[num,:] = _np.fft.fft(sp)
+    y = y.reshape(shp)
+    tmr -= _timeit.default_timer()
+    print('Time with reshaping and 1 for-loops: {:.3g} sec'.format(-tmr))
+    x = x.reshape(shp)
+
+    tmr = _timeit.default_timer()
+    space_shp = _np.array(x.shape)[0:-1]
+    num_sp = space_shp.prod()
+    for num in range(num_sp):
+        rc, cc = lin_count_row_col(num, space_shp)
+        y[rc, cc, :] = _np.fft.fft(x[rc, cc, :])
+    tmr -= _timeit.default_timer()
+    print('Time with 1 for-loops: {:.3g} sec'.format(-tmr))
+
