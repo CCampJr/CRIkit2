@@ -102,18 +102,8 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
 
     """
 
+
     ndim_cars = cars.ndim
-    if rng is None or len(rng) == 0:
-        pixrange = _np.arange(0, cars.shape[-1])
-    elif freq is not None:  # rng in units of frequency; thus, find pixels
-        pix_lims = _find_nearest(freq, rng)[-1]
-        pix_lims[-1] += 1  # +1 for inclusiveness
-        pixrange = _np.arange(pix_lims[0], pix_lims[1])
-    elif rng is not None:  # rng in units of pixels
-        pixrange = rng
-    else:
-        rng[-1] += 1  # +1 for inclusiveness
-        pixrange = _np.arange(rng[0],rng[1])
 
     # Ensure minimum NRB dimensionality
     nrb = _np.squeeze(nrb)
@@ -125,23 +115,37 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
 
     # Shape of output data between pixrange
     shp = list(cars.shape)
-    shp[-1] = pixrange.size
+    if rng is not None:
+        shp[-1] = rng.size
     kkd = _np.zeros(shp, dtype=complex)
 
     if ndim_cars < 3:
-        kkd = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          cri=cars[...,pixrange] + cars_amp_offset,
-                          phase_offset=phase_offset,
-                          norm_by_bg=norm_to_nrb,
-                          pad_factor=pad_factor)
-
+        if rng is None:
+            kkd = _kkrelation(bg=nrb + nrb_amp_offset,
+                              cri=cars + cars_amp_offset,
+                              phase_offset=phase_offset,
+                              norm_by_bg=norm_to_nrb,
+                              pad_factor=pad_factor)
+        else:
+            kkd = _kkrelation(bg=nrb[rng] + nrb_amp_offset,
+                              cri=cars[..., rng] + cars_amp_offset,
+                              phase_offset=phase_offset,
+                              norm_by_bg=norm_to_nrb,
+                              pad_factor=pad_factor)
     elif ndim_cars == 3:
         for row_num, spa in enumerate(cars):
-            kkd[row_num,:,:] = _kkrelation(bg=nrb[pixrange] + nrb_amp_offset,
-                          cri=spa[...,pixrange] + cars_amp_offset,
-                          phase_offset=phase_offset,
-                          norm_by_bg=norm_to_nrb,
-                          pad_factor=pad_factor)
+            if rng is None:
+                kkd[row_num,:,:] = _kkrelation(bg=nrb + nrb_amp_offset,
+                                              cri=spa + cars_amp_offset,
+                                              phase_offset=phase_offset,
+                                              norm_by_bg=norm_to_nrb,
+                                              pad_factor=pad_factor)
+            else:
+                kkd[row_num,:,:] = _kkrelation(bg=nrb[rng] + nrb_amp_offset,
+                                              cri=spa[..., rng] + cars_amp_offset,
+                                              phase_offset=phase_offset,
+                                              norm_by_bg=norm_to_nrb,
+                                              pad_factor=pad_factor)
 
     elif ndim_cars > 3:
         raise NotImplementedError('cars_obj must be 1D, 2D, or 3D')
