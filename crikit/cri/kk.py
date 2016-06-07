@@ -31,7 +31,7 @@ from crikit.cri.algorithms.kk import kkrelation as _kkrelation
 from crikit.utils.gen_utils import find_nearest as _find_nearest
 
 def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
-       norm_to_nrb=True, pad_factor=1, rng=None, freq=None):
+       norm_to_nrb=True, pad_factor=1, rng=None, rng_list=None, freq=None):
 
     """
     Retrieve the real and imaginary components of coherent Raman data via the \
@@ -67,8 +67,11 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
         Padded with a constant value corresponding to the value at that end of \
         the spectrum. See Ref. [1].
 
-    rng : list/tuple, optional (default=None)
+    rng : ndarray (1D), optional (default=None)
         Range of pixels/frequencies (if freq provided) to perform over
+
+    rng_list : list/tuple, optional (default=None)
+        First and Last pixels/frequencies (if freq provided) to perform over
 
     freq : ndarray (1D), optional (default=None)
         Frequency vector
@@ -106,7 +109,9 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
         pix_lims = _find_nearest(freq, rng)[-1]
         pix_lims[-1] += 1  # +1 for inclusiveness
         pixrange = _np.arange(pix_lims[0], pix_lims[1])
-    else:  # rng in units of pixels
+    elif rng is not None:  # rng in units of pixels
+        pixrange = rng
+    else:
         rng[-1] += 1  # +1 for inclusiveness
         pixrange = _np.arange(rng[0],rng[1])
 
@@ -120,7 +125,7 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
 
     # Shape of output data between pixrange
     shp = list(cars.shape)
-    shp[-1] = pixrange[-1] - pixrange[0] + 1
+    shp[-1] = pixrange.size
     kkd = _np.zeros(shp, dtype=complex)
 
     if ndim_cars < 3:

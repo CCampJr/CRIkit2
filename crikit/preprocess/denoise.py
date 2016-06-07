@@ -20,7 +20,7 @@ import numpy as _np
 
 from numpy.linalg import svd as _svd
 
-def svd_decompose(data):
+def svd_decompose(data, rng=None, rng_list=None):
     """
     Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
     the input into components.
@@ -29,6 +29,13 @@ def svd_decompose(data):
     ----------
     data : ndarray (2D or 3D).
         Input array.
+
+    rng : ndarray (1D), optional
+        Range of pixels to perform operation over. Note rng has priority over \
+        rng_list
+
+    rng_list : list/tuple, optional
+        List (2-elements) of first through last pixel to perform operation over
 
     Returns
     -------
@@ -59,16 +66,26 @@ def svd_decompose(data):
     """
 
     data = _np.squeeze(data)
+    sh = data.shape
+
+    if rng is not None:
+        span = rng
+    elif rng_list:
+        span = _np.arange(rng_list[0],rng_list[1]+1)
+    else:
+        span = _np.arange(0,sh[-1])
+
     if data.ndim == 2:
-        U,s,Vh = _svd(data, full_matrices=False)
+        U,s,Vh = _svd(data[..., span], full_matrices=False)
     elif data.ndim == 3:
-        U,s,Vh = _svd(data.reshape((-1,data.shape[-1])), full_matrices=False)
+        U,s,Vh = _svd(data.reshape((-1,data.shape[-1]))[..., span], full_matrices=False)
     else:
         raise TypeError('ndarray should be 2D or 3D')
 
     return [U, s, Vh]
 
-def svd_recompose(U,s,Vh, data=None, svs=None, overwrite=False):
+def svd_recompose(U,s,Vh, data=None, svs=None, rng=None, rng_list=None,
+                  overwrite=False):
     """
     Reconstruct the original data using the SVD components. The reconstructed \
     signal shape is 2D (or if provided) or matches data_obj.
@@ -89,6 +106,13 @@ def svd_recompose(U,s,Vh, data=None, svs=None, overwrite=False):
 
     data : ndarray (2D or 3D)
         Original data (for overwrite if selected).
+
+    rng : ndarray (1D), optional
+        Range of pixels to perform operation over. Note rng has priority over \
+        rng_list
+
+    rng_list : list/tuple, optional
+        List (2-elements) of first through last pixel to perform operation over
 
     overwrite : bool, optional (default=True)
         Overwrite the original data in data_obj
@@ -131,19 +155,54 @@ def svd_recompose(U,s,Vh, data=None, svs=None, overwrite=False):
     else:
         s_vec_final = 0*s_vec
         s_vec_final[svs] = s_vec[svs]
-    out = _np.dot(U, _np.dot(_np.diag(s_vec_final),Vh))
+    out = _np.dot(U, _np.dot(_np.diag(s_vec_final), Vh))
 
-    # Get out to the right shape and return or overwrite
-    if data is None or data.shape == out.shape:
-        pass
+    # See if data was originally 3D. If out (2D) -> out (3D)
+    if data is not None:
+        if out.ndim == 2 and data.ndim == 3:
+            out = out.reshape(list(data.shape[0:-1]) + [-1])
+
+    # See if range info was provided and create span vector
+    if rng is not None:
+        span = rng
+    elif rng_list is not None:
+        span = _np.arange(rng_list[0],rng_list[1]+1)
     else:
-        out = _np.reshape(out, data.shape)
+        span = None
 
-    if overwrite == False:
+    # no data = no overwrite or resize
+    if data is None:
         return out
+    # data and out are the same shape: no further reshaping needed
+    elif data.shape == out.shape:
+        if overwrite:
+            data *= 0
+            data += out
+            return None
+        else:
+            return out
+    # data and out shape disagree AND no range info given-- can't overwrite
+    elif rng is None and rng_list is None:
+        if overwrite:
+            print('Data and SVD recompose shape disagree. Cannot overwrite.')
+#            data *= 0
+#            data += out
+            return out
+        else:
+            return out
+    # range info given: reshape
+    elif span is not None:
+        if overwrite:
+            data *= 0
+            data[...,rng] += out
+        else:
+            out2 = _np.zeros(data.shape)
+            out2[...,rng] += out
+            return out2
     else:
-        data *= 0
-        data += out
+        print('Something weird. Returning recomposed.')
+        return out
+
 
 if __name__ == '__main__':  # pragma: no cover
 
