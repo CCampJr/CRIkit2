@@ -22,6 +22,8 @@ from crikit.data.spectra import Spectra
 from crikit.data.hsi import Hsi
 
 from crikit.io.macros import import_hdf_nist_special as io_nist
+from crikit.io.hdf5 import hdf_export_data as io_export
+
 from crikit.preprocess.subtract_dark import sub_dark
 from crikit.preprocess.subtract_mean import sub_mean_over_range as sub_residual
 
@@ -32,21 +34,25 @@ from crikit.cri.kk import kk
 
 from crikit.cri.error_correction import phase_err_correct_als, scale_err_correct_sg
 
-filename = '../../../mP2_w_small.h5'
-#dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
-dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0'
+pth = '../../../'
+filename = 'mP2_w_small.h5'
+dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
+#dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0'
+
+filename_save = 'mP2_w_small_PROCESS.h5'
+dset_save = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
 
 dset_dark = '/Spectra/Dark_3_5ms_2'
 dset_nrb = '/Spectra/CoverslipNRB_Time0_3_5ms_2'
+
 
 cars = Hsi()
 nrb = Spectra()
 dark = Spectra()
 
-
-io_nist(filename, dset, cars)
-io_nist(filename, dset_dark, dark)
-io_nist(filename, dset_nrb, nrb)
+io_nist(pth, filename, dset, cars)
+io_nist(pth, filename, dset_dark, dark)
+io_nist(pth, filename, dset_nrb, nrb)
 
 tmr0 = timeit.default_timer()
 tmr = timeit.default_timer()
@@ -87,7 +93,7 @@ print('SVD Decompose: {:.3g} sec'.format(-tmr))
 
 print('Starting SVD Recompose')
 tmr = timeit.default_timer()
-svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
+svd_recompose(U, s, Vh, svs=_np.arange(0, 21), data=cars.data,
               rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('SVD Recompose: {:.3g} sec'.format(-tmr))
@@ -123,6 +129,14 @@ tmr = timeit.default_timer()
 scale_err_correct_sg(cars.data, rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Scale Error Correction: {:.3g} sec'.format(-tmr))
+
+print('Starting Save...')
+tmr = timeit.default_timer()
+io_export(cars, pth, filename_save, dset_save)
+io_export(nrb, pth, filename_save, dset_nrb)
+io_export(dark, pth, filename_save, dset_dark)
+tmr -= timeit.default_timer()
+print('Save: {:.3g} sec'.format(-tmr))
 
 tmr0 -= timeit.default_timer()
 print('Time: {:.3g} sec/spectrum'.format(-tmr0/(cars.size/cars.freq.size)))
