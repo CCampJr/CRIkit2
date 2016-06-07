@@ -137,7 +137,8 @@ def hdf_attr_to_dict(attr):
                 print('Fail: {}'.count)
     return output_dict
 
-def hdf_import_data(pfname,dset_list,output_cls_instance):
+def hdf_import_data(pth, filename, dset_list,output_cls_instance):
+    pfname = pth + filename
     if hdf_is_valid_dsets(pfname,dset_list) == False:
         print('Invalid filename or dataset list')
         return None
@@ -198,6 +199,45 @@ def hdf_import_data(pfname,dset_list,output_cls_instance):
             raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
 
     f.close()
+
+def hdf_export_data(output_cls_instance, pth, filename, dsetname):
+    """
+
+    """
+
+    save_grp = dsetname.rpartition('/')[0]
+    save_dataset_name_no_grp = dsetname.rpartition('/')[-1]
+
+    try:
+        f_out = _h5py.File(pth + filename, 'a')
+        loc = f_out.require_group(save_grp)
+        dset = loc.create_dataset(save_dataset_name_no_grp, data=output_cls_instance.data)
+
+        for attr_key in output_cls_instance.meta:
+            try:
+                dset.attrs.create(attr_key,output_cls_instance.meta[attr_key])
+            except:
+                print('Error in attributes')
+
+#  Breadcrumb attributes
+#        bc_attr_dict = self.bcpre.attr_dict
+#        for attr_key in bc_attr_dict:
+#            #print('Key: {}, Val: {}'.format(attr_key, bc_attr_dict[attr_key]))
+#            val = bc_attr_dict[attr_key]
+#            if isinstance(val, str):
+#                dset.attrs[attr_key] = val
+#            else:
+#                try:
+#                    dset.attrs.create(attr_key,bc_attr_dict[attr_key])
+#                except:
+#                    print('Could not create attribute')
+
+    except:
+        print('Something went wrong while saving')
+    else:
+        print('Saved without issues')
+    finally:
+        f_out.close()
 
 if __name__ == '__main__':  # pragma: no cover
 
