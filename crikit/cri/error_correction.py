@@ -61,8 +61,10 @@ def scale_err_correct_sg(data, win_size=601, order=2, overwrite=True, **kwargs):
     ---------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
-    correction_factor = (1/_sg(data.real, window_length=win_size,
-                               polyorder=order, axis=-1))
+    correction_factor = _sg(data.real, window_length=win_size,
+                               polyorder=order, axis=-1)
+    correction_factor[correction_factor == 0] = 1
+    correction_factor **= -1
 
     if overwrite:
         data *= correction_factor
