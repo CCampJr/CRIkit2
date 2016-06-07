@@ -106,7 +106,7 @@ except ImportError:
         print('No scipy.linalg module found. Your Python does not meet the requirements for this module.')
 
 def als_baseline(signal_input, smoothness_param=1e3, asym_param=1e-4,\
-cholesky_type=_cholesky_type,print_iteration=False, **kwargs):
+cholesky_type=_cholesky_type,print_iteration=True, **kwargs):
     """
     Compute the baseline_current of signal_input using an asymmetric least squares
     algorithm designed by P. H. C. Eilers. This method is actually a
@@ -183,7 +183,7 @@ cholesky_type=_cholesky_type,print_iteration=False, **kwargs):
 
 def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
                        smoothness_param=1, asym_param=1e-2,
-                       cholesky_type=_cholesky_type,print_iteration=False):
+                       cholesky_type=_cholesky_type,print_iteration=True):
     """
     Compute the baseline_current of signal_input using an asymmetric least squares
     algorithm designed by P. H. C. Eilers. This method is actually a
@@ -564,13 +564,13 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
 
-        if print_iteration == True:
-            print("Finished detrending in %d iteration" % (count_iterate + 1))
-
         if dim > 1:
             baseline_output[count_spectra,:] = baseline_current
         elif dim:
             baseline_output = baseline_current
+        if print_iteration:
+            print('Finished detrending spectra {}/{}'.format(
+                count_spectra,num_to_detrend))
 
     return baseline_output.reshape(signal_shape_orig)
 
