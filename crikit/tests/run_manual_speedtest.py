@@ -64,21 +64,22 @@ tmr -= timeit.default_timer()
 print('Residual subtraction: {:.3g} sec'.format(-tmr))
 # Set operating range
 cars.freq.op_list_freq = [500, 4000]
+rng = cars.freq.op_range_pix
 
 # Anscombe
 tmr = timeit.default_timer()
 anscombe(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
-         overwrite=True)
+         rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Anscombe: {:.3g} sec'.format(-tmr))
 
 # SVD
 #U, s, Vh = svd_decompose(cars.data, rng_list=cars.freq.op_list_pix)
 tmr = timeit.default_timer()
-U, s, Vh = svd_decompose(cars.data, rng=cars.freq.op_range_pix)
+U, s, Vh = svd_decompose(cars.data, rng=rng)
 
 svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
-              rng=cars.freq.op_range_pix, overwrite=True)
+              rng=rng, overwrite=True)
 #svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
 #              rng_list=cars.freq.op_list_pix, overwrite=True)
 tmr -= timeit.default_timer()
@@ -87,13 +88,13 @@ print('SVD: {:.3g} sec'.format(-tmr))
 # Inverse Anscombe
 tmr = timeit.default_timer()
 anscombe_inverse(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
-         overwrite=True)
+                 rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Inverse Anscombe: {:.3g} sec'.format(-tmr))
 
 # KK -- note: not an overwrite-able fcn
 tmr = timeit.default_timer()
-kkd = kk(cars.data, nrb.data, rng=cars.freq.op_range_pix)
+kkd = kk(cars.data, nrb.data, rng=rng)
 cars.data = kkd
 tmr -= timeit.default_timer()
 print('KK: {:.3g} sec'.format(-tmr))

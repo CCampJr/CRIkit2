@@ -72,6 +72,7 @@ plt.axis([-1200, -200, -50, 50])
 
 # Set operating range
 cars.freq.op_list_freq = [500, 4000]
+rng = cars.freq.op_range_pix
 #cars.freq.update()
 
 # Anscombe
@@ -79,7 +80,7 @@ plt.figure()
 plt.plot(cars.freq.op_range_freq,
          cars.data[25, 25, cars.freq.op_range_pix], label='cars')
 anscombe(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
-         overwrite=True)
+         rng=rng, overwrite=True)
 plt.plot(cars.freq.op_range_freq,
          cars.data[25, 25, cars.freq.op_range_pix], label='cars')
 plt.legend()
@@ -88,7 +89,7 @@ plt.legend()
 # SVD
 plt.figure()
 #U, s, Vh = svd_decompose(cars.data, rng_list=cars.freq.op_list_pix)
-U, s, Vh = svd_decompose(cars.data, rng=cars.freq.op_range_pix)
+U, s, Vh = svd_decompose(cars.data, rng=rng)
 
 plt.semilogy(s/s.sum())
 plt.plot((40,40),(1e-4,1),'r--', label='Example cutoff')
@@ -110,7 +111,7 @@ for num in range(9):
 plt.figure()
 plt.plot(cars.freq.data, cars.data[25, 25, :], label='cars')
 svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
-              rng=cars.freq.op_range_pix, overwrite=True)
+              rng=rng, overwrite=True)
 #svd_recompose(U, s, Vh, svs=_np.arange(0, 41), data=cars.data,
 #              rng_list=cars.freq.op_list_pix, overwrite=True)
 plt.plot(cars.freq.data, cars.data[25, 25, :], label='cars post SVD')
@@ -119,11 +120,11 @@ plt.plot(cars.freq.data, cars.data[25, 25, :], label='cars post SVD')
 # Inverse Anscombe
 plt.plot(cars.freq.data, cars.data[25, 25, :], label='Anscombe')
 anscombe_inverse(cars.data, gauss_std=12.44, gauss_mean=0.0, poisson_multi=1.4,
-         overwrite=True)
+                 rng=rng, overwrite=True)
 plt.plot(cars.freq.data, cars.data[25, 25, :], label='Inverse Anscombe')
 
 # KK -- note: not an overwrite-able fcn
-kkd = kk(cars.data, nrb.data, rng=cars.freq.op_range_pix)
+kkd = kk(cars.data, nrb.data, rng=rng)
 cars.data = kkd
 
 plt.figure()

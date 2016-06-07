@@ -21,7 +21,8 @@ import numpy as _np
 from crikit.preprocess.algorithms.anscombe import (gen_anscombe_forward as ansc,
                                                    gen_anscombe_inverse_exact_unbiased as inv_ansc)
 
-def anscombe(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
+def anscombe(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0,
+             rng=None, overwrite=True, **kwargs):
     """
     Implement the generalized forward Anscombe transformation.
 
@@ -52,6 +53,9 @@ def anscombe(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True)
     gauss_mean : float, optional (default=0.0)
         Mean Gaussian noise level. :math:`<g>` in model.
 
+    rng : ndarray (1D), optional
+        Range of pixels to perform operation over.
+
     overwrite : bool, optional (default=True)
 
     Returns
@@ -81,24 +85,28 @@ def anscombe(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True)
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
 
-    if overwrite:
+    # Anscombe transform
+    if rng is None:
         out = ansc(data, gauss_std=gauss_std,
-                             gauss_mean=gauss_mean,
-                             poisson_multi=poisson_multi)
+                   gauss_mean=gauss_mean,
+                   poisson_multi=poisson_multi)
+    else:
+        out = ansc(data[..., rng], gauss_std=gauss_std,
+                   gauss_mean=gauss_mean,
+                   poisson_multi=poisson_multi)
 
-        # NOTE: In a pass-by-value situation, like this, need to perform
-        # in-line math to overwrite the variable
+    if overwrite:
         data *= 0
-        data += out
-
+        if rng is None:
+            data += out
+        else:
+            data[..., rng] = out
         return None
     else:
-        out = ansc(data, gauss_std=gauss_std,
-                             gauss_mean=gauss_mean,
-                             poisson_multi=poisson_multi)
         return out
 
-def anscombe_inverse(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwrite=True):
+def anscombe_inverse(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0,
+                     rng=None, overwrite=True, **kwargs):
     """
     Applies an exact, unbiased inverse of the generalized Anscombe \
     variance-stabilizing transformation assuming a mixed Poisson-Gaussian \
@@ -132,6 +140,9 @@ def anscombe_inverse(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwri
     gauss_mean : float, optional (default=0.0)
         Mean Gaussian noise level. :math:`<g>` in model.
 
+    rng : ndarray (1D), optional
+        Range of pixels to perform operation over.
+
     overwrite : bool, optional (default=True)
 
     See Also
@@ -153,19 +164,25 @@ def anscombe_inverse(data, gauss_std, gauss_mean=0.0, poisson_multi=1.0, overwri
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
 
-    if overwrite:
+
+    # Inverse Anscombe transform
+    if rng is None:
         out = inv_ansc(data, gauss_std=gauss_std,
-                             gauss_mean=gauss_mean,
-                             poisson_multi=poisson_multi)
-        # NOTE: In a pass-by-value situation, like this, need to perform
-        # in-line math to overwrite the variable
+                   gauss_mean=gauss_mean,
+                   poisson_multi=poisson_multi)
+    else:
+        out = inv_ansc(data[..., rng], gauss_std=gauss_std,
+                   gauss_mean=gauss_mean,
+                   poisson_multi=poisson_multi)
+
+    if overwrite:
         data *= 0
-        data += out
+        if rng is None:
+            data += out
+        else:
+            data[..., rng] = out
         return None
     else:
-        out = inv_ansc(data, gauss_std=gauss_std,
-                             gauss_mean=gauss_mean,
-                             poisson_multi=poisson_multi)
         return out
 
 if __name__ == '__main__': # pragma: no cover

@@ -20,7 +20,7 @@ import numpy as _np
 
 from numpy.linalg import svd as _svd
 
-def svd_decompose(data, rng=None, rng_list=None):
+def svd_decompose(data, rng=None, **kwargs):
     """
     Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
     the input into components.
@@ -31,11 +31,7 @@ def svd_decompose(data, rng=None, rng_list=None):
         Input array.
 
     rng : ndarray (1D), optional
-        Range of pixels to perform operation over. Note rng has priority over \
-        rng_list
-
-    rng_list : list/tuple, optional
-        List (2-elements) of first through last pixel to perform operation over
+        Range of pixels to perform operation over.
 
     Returns
     -------
@@ -66,26 +62,28 @@ def svd_decompose(data, rng=None, rng_list=None):
     """
 
     data = _np.squeeze(data)
-    sh = data.shape
 
-    if rng is not None:
-        span = rng
-    elif rng_list:
-        span = _np.arange(rng_list[0],rng_list[1]+1)
-    else:
-        span = _np.arange(0,sh[-1])
+    frq_size = data.shape[-1]
 
     if data.ndim == 2:
-        U,s,Vh = _svd(data[..., span], full_matrices=False)
+        if rng is None:
+            U,s,Vh = _svd(data, full_matrices=False)
+        else:
+            U,s,Vh = _svd(data[..., rng], full_matrices=False)
     elif data.ndim == 3:
-        U,s,Vh = _svd(data.reshape((-1,data.shape[-1]))[..., span], full_matrices=False)
+        if rng is None:
+            U,s,Vh = _svd(data.reshape((-1,frq_size)),
+                          full_matrices=False)
+        else:
+            U,s,Vh = _svd(data.reshape((-1,frq_size))[..., rng],
+                          full_matrices=False)
     else:
         raise TypeError('ndarray should be 2D or 3D')
 
     return [U, s, Vh]
 
-def svd_recompose(U,s,Vh, data=None, svs=None, rng=None, rng_list=None,
-                  overwrite=False):
+def svd_recompose(U,s,Vh, data=None, svs=None, rng=None,
+                  overwrite=False, **kwargs):
     """
     Reconstruct the original data using the SVD components. The reconstructed \
     signal shape is 2D (or if provided) or matches data_obj.
@@ -108,11 +106,7 @@ def svd_recompose(U,s,Vh, data=None, svs=None, rng=None, rng_list=None,
         Original data (for overwrite if selected).
 
     rng : ndarray (1D), optional
-        Range of pixels to perform operation over. Note rng has priority over \
-        rng_list
-
-    rng_list : list/tuple, optional
-        List (2-elements) of first through last pixel to perform operation over
+        Range of pixels to perform operation over.
 
     overwrite : bool, optional (default=True)
         Overwrite the original data in data_obj
@@ -162,13 +156,6 @@ def svd_recompose(U,s,Vh, data=None, svs=None, rng=None, rng_list=None,
         if out.ndim == 2 and data.ndim == 3:
             out = out.reshape(list(data.shape[0:-1]) + [-1])
 
-    # See if range info was provided and create span vector
-    if rng is not None:
-        span = rng
-    elif rng_list is not None:
-        span = _np.arange(rng_list[0],rng_list[1]+1)
-    else:
-        span = None
 
     # no data = no overwrite or resize
     if data is None:
@@ -182,16 +169,14 @@ def svd_recompose(U,s,Vh, data=None, svs=None, rng=None, rng_list=None,
         else:
             return out
     # data and out shape disagree AND no range info given-- can't overwrite
-    elif rng is None and rng_list is None:
+    elif rng is None:
         if overwrite:
             print('Data and SVD recompose shape disagree. Cannot overwrite.')
-#            data *= 0
-#            data += out
             return out
         else:
             return out
     # range info given: reshape
-    elif span is not None:
+    elif rng is not None:
         if overwrite:
             data *= 0
             data[...,rng] += out
