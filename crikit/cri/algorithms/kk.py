@@ -23,20 +23,19 @@ author: ("Charles H Camp Jr")
 
 email: ("charles.camp@nist.gov")
 
-version: ("15.10.02")
+version: ("16.06.06")
 
 """
+import numpy as _np
+# import numexpr as _ne
 
 __all__ = ['kkrelation', 'hilbertfft']
 
 _DEFAULT_THREADS = 1
 
-import numpy as _np
-import numexpr as _ne
 
 # Conditional modules
 # Check for and load pyFFTW if available (kkrelation, hilbertfft)
-
 try:  # pragma: no cover
     import pyfftw as _pyfftw
     _pyfftw_available = True
@@ -118,30 +117,29 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     version: ("15.10.02")
     """
 
-    # Return the complex KK relation using the Hilbert transform.
-#    print('1')
-    ratio = _ne.evaluate('cri/bg')
-#    print('2')
-    ratio[_np.isnan(ratio)] = 1e-12
-    ratio[_np.isinf(ratio)] = 1e-12
+    ratio = cri/bg
+    ratio[_np.isnan(ratio)] = 1e-8
+    ratio[_np.isinf(ratio)] = 1e-8
 
-    ratio[ratio <= 0] = 1e-12
+    ratio[ratio <= 0] = 1e-8
 
     if ratio.ndim == 3:
         h = _np.zeros(ratio.shape, dtype=float)
-        for count in range(ratio.shape[0]):
-            h[count, :, :] = hilbertfft(0.5 * _np.log(ratio[count, :, :]),
-                                        pad_factor=pad_factor)
+        for row_num, blk in enumerate(ratio):
+            h[row_num, :, :] = hilbertfft(0.5 * _np.log(blk),
+                                          pad_factor=pad_factor)
     else:
         h = hilbertfft(0.5 * _np.log(ratio), pad_factor=pad_factor)
-#    print('3')
 
+    # Note: disabled numexpr eval due to stability issues
     if norm_by_bg is True:
-        out = _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
-#        print('4')
+        out = _np.sqrt(ratio)*_np.exp(1j*phase_offset + 1j*h)
+        # out = _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
         return out
     else:
-        return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
+        out = _np.sqrt(cri)*_np.exp(1j*phase_offset + 1j*h)
+        return out
+        # return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
 
 
 def hilbertfft(spectra, pad_factor=1):
@@ -191,21 +189,17 @@ def hilbertfft(spectra, pad_factor=1):
 
     """
 
-    spectrum_len = spectra.shape[-1]
+    freq_len = spectra.shape[-1]
+    freq_pad_len = freq_len*(2*pad_factor+1)
+    pad_len = freq_len*(pad_factor)
+    time_vec = _np.fft.fftfreq(freq_pad_len)
 
-    shape = list(spectra.shape)
-    shape_pad = list(spectra.shape)
-    shape[-1] = shape[-1] + 2 * shape[-1] * pad_factor
-    shape_pad[-1] = shape_pad[-1]*pad_factor
-
-    time_vec = _np.fft.fftfreq(shape[-1])
-
-    # Pad the spectra (elongate). The pad value is the end-points intensity
-    padL = _np.dot(_np.expand_dims(spectra.T[0].T, axis=-1),
-                   _np.ones((1, shape_pad[-1]), dtype=complex))
-    padR = _np.dot(_np.expand_dims(spectra.T[-1].T, axis=-1),
-                   _np.ones((1, shape_pad[-1]), dtype=complex))
-    padded = _np.concatenate((padL, spectra, padR), axis=-1)
+    if pad_factor > 0:
+        pad_left = _np.dot(spectra[...,0][...,None],_np.ones((1,pad_len)))
+        pad_right = _np.dot(spectra[...,-1][...,None],_np.ones((1,pad_len)))
+        padded = _np.concatenate((pad_left,spectra, pad_right), axis=-1)
+    else:
+        padded = spectra
 
     # Use pyFFTW (supposed optimal) library or Scipy
     # Note (although not obvious with pyFFTW) these functions overwrite
@@ -217,6 +211,7 @@ def hilbertfft(spectra, pad_factor=1):
                                               threads=_thread_num,
                                               auto_align_input=True,
                                               planner_effort='FFTW_MEASURE')
+
         padded *= 1j*_np.sign(time_vec)
 
         padded = _pyfftw.interfaces.scipy_fftpack.fft(padded, axis=-1,
@@ -230,14 +225,19 @@ def hilbertfft(spectra, pad_factor=1):
         _fftpack.fft(padded, axis=-1, overwrite_x=True)
 
     # Set inf's and NaN's to arbitrarily small value
-    padded[_np.isnan(padded)] = 1e-12
-    padded[_np.isinf(padded)] = 1e-12
+    padded[_np.isnan(padded)] = 1e-8
+    padded[_np.isinf(padded)] = 1e-8
 
-    return _np.real(padded.T[spectrum_len * pad_factor:
-                    spectrum_len * pad_factor+spectrum_len].T)
+    return _np.real(padded[...,pad_len:pad_len+freq_len])
 
 if __name__ == '__main__':
     import numpy as _np
+    import timeit as _timeit
 
-    x = _np.random.rand(100,1000)
-    kkrelation(x,x)
+    x = _np.random.rand(10,11,1000)
+    y = _np.random.rand(10,11,1000)
+    start = _timeit.default_timer()
+    out = kkrelation(x,y)
+    start -= _timeit.default_timer()
+    print('Time: {:.3g} sec'.format(-start))
+
