@@ -135,7 +135,7 @@ plt.legend()
 plt.figure()
 plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
          label='KK')
-phase_err_correct_als(cars.data, redux_factor=10, overwrite=True)
+phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True)
 plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
          label='Phase Corrected')
 plt.legend()
@@ -144,7 +144,7 @@ plt.legend()
 plt.figure()
 plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
          label='Phase Corrected')
-scale_err_correct_sg(cars.data, overwrite=True)
+scale_err_correct_sg(cars.data, rng=rng, overwrite=True)
 plt.plot(cars.freq.op_range_freq, cars.data[25,25,cars.freq.op_range_pix].imag,
          label='Corrected')
 plt.legend()

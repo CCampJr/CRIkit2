@@ -101,13 +101,13 @@ print('KK: {:.3g} sec'.format(-tmr))
 
 # phase error correction
 tmr = timeit.default_timer()
-phase_err_correct_als(cars.data, redux_factor=10, overwrite=True)
+phase_err_correct_als(cars.data, redux_factor=10, rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Phase Error Correction: {:.3g} sec'.format(-tmr))
 
 # scale error correction
 tmr = timeit.default_timer()
-scale_err_correct_sg(cars.data, overwrite=True)
+scale_err_correct_sg(cars.data, rng=rng, overwrite=True)
 tmr -= timeit.default_timer()
 print('Scale Error Correction: {:.3g} sec'.format(-tmr))
 

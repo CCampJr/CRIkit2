@@ -23,7 +23,7 @@ from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
 import copy as _copy
 
 
-def phase_err_correct_als(data, overwrite=True, **kwargs):
+def phase_err_correct_als(data, rng=None, overwrite=True, **kwargs):
     """
     Phase error correction using alternating least squares (ALS)
 
@@ -39,7 +39,10 @@ def phase_err_correct_als(data, overwrite=True, **kwargs):
         als_method = _als_baseline
 
     ph = _np.unwrap(_np.angle(data))
-    err_phase, _ = als_method(ph, **kwargs)
+    if rng is None:
+        err_phase, _ = als_method(ph, **kwargs)
+    else:
+        err_phase, _ = als_method(ph[..., rng], **kwargs)
 
     h = _hilbert(err_phase)
     correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
@@ -48,12 +51,19 @@ def phase_err_correct_als(data, overwrite=True, **kwargs):
 #    correction_factor = _ne.evaluate('1/exp(imag(h)) * exp(-1j*err_phase)')
 
     if overwrite:
-        data *= correction_factor
+        if rng is None:
+            data *= correction_factor
+        else:
+            data[..., rng] *= correction_factor
         return None
     else:
-        return data*correction_factor
+        if rng is None:
+            return data*correction_factor
+        else:
+            return data[..., rng]*correction_factor
 
-def scale_err_correct_sg(data, win_size=601, order=2, overwrite=True, **kwargs):
+def scale_err_correct_sg(data, win_size=601, order=2, rng=None,
+                         overwrite=True, **kwargs):
     """
     Scale error correction using Savitky-Golay
 
@@ -61,17 +71,28 @@ def scale_err_correct_sg(data, win_size=601, order=2, overwrite=True, **kwargs):
     ---------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
-    correction_factor = _sg(data.real, window_length=win_size,
-                               polyorder=order, axis=-1)
+    if rng is None:
+        correction_factor = _sg(data.real, window_length=win_size,
+                                polyorder=order, axis=-1)
+    else:
+        correction_factor = _sg(data[..., rng].real, window_length=win_size,
+                                polyorder=order, axis=-1)
+
     correction_factor[correction_factor == 0] = 1
     correction_factor **= -1
 
     if overwrite:
-        data *= correction_factor
-        return None
+        if rng is None:
+            data *= correction_factor
+            return None
+        else:
+            data[..., rng] *= correction_factor
+            return None
     else:
-        return data * correction_factor
-
+        if rng is None:
+            return data * correction_factor
+        else:
+            return data[..., rng] * correction_factor
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
