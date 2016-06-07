@@ -44,9 +44,14 @@ def phase_err_correct_als(data, rng=None, overwrite=True, **kwargs):
     else:
         err_phase, _ = als_method(ph[..., rng], **kwargs)
 
-    h = _hilbert(err_phase)
-    correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
+    h = _np.zeros(err_phase.shape)
+    if err_phase.ndim <= 2:
+        h += _hilbert(err_phase)
+    elif err_phase.ndim == 3:
+        for num, blk in enumerate(err_phase):
+            h[num, :, :] = _hilbert(blk)
 
+    correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
     # numexpr disabled due to instability
 #    correction_factor = _ne.evaluate('1/exp(imag(h)) * exp(-1j*err_phase)')
 
@@ -110,19 +115,20 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 10
-    sig = _np.dot(_np.ones((NUM_REPS,NUM_REPS, 1)),sig[None,:])
+    NUM_REPS = 30
 
     kkd = kk(sig, sigRef)
-    kkd2 = kk(sig, sigRef)
+    kkd = _np.dot(_np.ones((NUM_REPS,NUM_REPS, 1)),kkd[None,:])
+
+    #kkd2 = kk(sig, sigRef)
+
+#    start = timeit.default_timer()
+#    phase_err_correct_als(kkd)
+#    stop = timeit.default_timer()
+#    print((stop-start)/NUM_REPS**2)
 
     start = timeit.default_timer()
-    phase_err_correct_als(kkd)
-    stop = timeit.default_timer()
-    print((stop-start)/NUM_REPS**2)
-
-    start = timeit.default_timer()
-    ph2 = phase_err_correct_als(kkd2, redux_factor=10)
+    ph = phase_err_correct_als(kkd, redux_factor=10)
     stop = timeit.default_timer()
     print((stop-start)/NUM_REPS**2)
 

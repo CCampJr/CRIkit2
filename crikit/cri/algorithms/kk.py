@@ -189,6 +189,8 @@ def hilbertfft(spectra, pad_factor=1):
 
     """
 
+    assert spectra.ndim <= 2, 'Input data need be 1D or 2D for memory'
+
     freq_len = spectra.shape[-1]
     freq_pad_len = freq_len*(2*pad_factor+1)
     pad_len = freq_len*(pad_factor)
@@ -234,10 +236,12 @@ if __name__ == '__main__':
     import numpy as _np
     import timeit as _timeit
 
-    x = _np.random.rand(10,11,1000)
-    y = _np.random.rand(10,11,1000)
+    x = _np.random.rand(300,300,900)
+    print(x.dtype)
+    y = _np.random.rand(300,300,900)
     start = _timeit.default_timer()
-    out = kkrelation(x,y)
+    #out = kkrelation(x,y)
+    out = hilbertfft(x)
     start -= _timeit.default_timer()
     print('Time: {:.3g} sec'.format(-start))
 
