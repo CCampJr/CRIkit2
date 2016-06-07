@@ -60,6 +60,13 @@ import scipy as _scipy
 from scipy.interpolate import UnivariateSpline as _USpline
 import timeit as _timeit
 
+if __name__ == '__main__':
+    import os as _os
+    import sys as _sys
+    _sys.path.append(_os.path.abspath('../../../'))
+
+from crikit.utils.gen_utils import lin_count_row_col as _lin_count_row_col
+
 ORDER = 2 # Difference filter order
 MAX_ITER = 100 # Maximum iterations
 MIN_DIFF = 1e-5 # Minimum difference b/w iterations
@@ -392,8 +399,8 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     elif dim == 2:
         num_to_detrend = signal_input.shape[0]
     else:
+        space_shp = list(signal_shape_orig)[0:-1]
         num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
-        signal_input = signal_input.reshape([num_to_detrend, signal_length])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
 
@@ -404,8 +411,12 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
+        elif dim == 2:
+            signal_current = signal_input[count_spectra,:]
         else:
-            signal_current = signal_input[count_spectra, :]
+            # Calculate equivalent row- and column-count
+            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -442,14 +453,23 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
             penalty_vector = _np.squeeze(asym_param*(signal_current >=\
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
-        if print_iteration == True:
-            print("Finished detrending in %d iteration" % count_iterate)
-        if dim > 1:
-            baseline_output[count_spectra,:] = baseline_current
-        elif dim:
-            baseline_output = baseline_current
 
-    return baseline_output.reshape(signal_shape_orig)
+        if dim == 1:
+            baseline_output = baseline_current
+        elif dim == 2:
+            baseline_output[count_spectra,:] = baseline_current
+        else:
+            baseline_output[rc, cc, :] = baseline_current
+
+        if print_iteration:
+            if dim < 3:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+            elif rc + 1 == space_shp[0]:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+
+    return baseline_output
 
 def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
@@ -515,8 +535,8 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     elif dim == 2:
         num_to_detrend = signal_input.shape[0]
     else:
+        space_shp = list(signal_shape_orig)[0:-1]
         num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
-        signal_input = signal_input.reshape([num_to_detrend, signal_length])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
 
@@ -526,8 +546,12 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
-        else:
+        elif dim == 2:
             signal_current = signal_input[count_spectra,:]
+        else:
+            # Calculate equivalent row- and column-count
+            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -564,15 +588,22 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
 
-        if dim > 1:
-            baseline_output[count_spectra,:] = baseline_current
-        elif dim:
+        if dim == 1:
             baseline_output = baseline_current
-        if print_iteration:
-            print('Finished detrending spectra {}/{}'.format(
-                count_spectra,num_to_detrend))
+        elif dim == 2:
+            baseline_output[count_spectra,:] = baseline_current
+        else:
+            baseline_output[rc, cc, :] = baseline_current
 
-    return baseline_output.reshape(signal_shape_orig)
+        if print_iteration:
+            if dim < 3:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+            elif rc + 1 == space_shp[0]:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+
+    return baseline_output
 
 def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, print_iteration=False):
     """
@@ -639,8 +670,8 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     elif dim == 2:
         num_to_detrend = signal_input.shape[0]
     else:
+        space_shp = list(signal_shape_orig)[0:-1]
         num_to_detrend = signal_input.shape[0]*signal_input.shape[1]
-        signal_input = signal_input.reshape([signal_length,num_to_detrend])
 
     baseline_output = _np.zeros(_np.shape(signal_input))
 
@@ -650,8 +681,12 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     for count_spectra in range(num_to_detrend):
         if dim == 1:
             signal_current = signal_input
-        else:
+        elif dim == 2:
             signal_current = signal_input[count_spectra,:]
+        else:
+            # Calculate equivalent row- and column-count
+            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:
             penalty_vector = _np.ones(signal_length)
@@ -696,13 +731,19 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
             baseline_current)+(1-asym_param)*\
             (signal_current < baseline_current))
 
-        if print_iteration == True:
-            print("Finished detrending in %d iteration" % count_iterate)
-
-        if dim > 1:
-            baseline_output[count_spectra,:] = baseline_current
-            #print(count_spectra)
-        elif dim:
+        if dim == 1:
             baseline_output = baseline_current
+        elif dim == 2:
+            baseline_output[count_spectra,:] = baseline_current
+        else:
+            baseline_output[rc, cc, :] = baseline_current
 
-    return baseline_output.reshape(signal_shape_orig)
+        if print_iteration:
+            if dim < 3:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+            elif rc + 1 == space_shp[0]:
+                print('Finished detrending spectra {}/{}'.format(
+                      count_spectra + 1, num_to_detrend))
+
+    return baseline_output
