@@ -172,6 +172,8 @@ class Hsi(_Spectrum):
                         temp = _np.zeros((self._data.shape),dtype=value.dtype)
                         temp[:,:,self.freq.op_range_pix] = value
                         self._data = temp
+                    elif value.shape[-1] == self._data.shape[-1]:
+                        self._data = value
                     else:
                         #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
                         raise TypeError('pre-data: {}, value: {}'.format(self._data.shape,value.shape))
