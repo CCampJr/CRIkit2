@@ -36,7 +36,9 @@ import numexpr as _ne
 import sys as _sys
 import os as _os
 
-RESOURCE_DIR = './'
+RESOURCE_DIR = './resources/'
+
+resource_dir = None
 
 if _os.path.exists((_os.path.abspath('./resources/'))):  # pragma: no cover
     resource_dir = './resources/'
@@ -46,10 +48,15 @@ elif _os.path.exists((_os.path.abspath('./crikit/preprocess/algorithms/resources
     resource_dir = './crikit/preprocess/algorithms/resources/'
 elif _os.path.exists((_os.path.abspath('../crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
     resource_dir = '../crikit/preprocess/algorithms/resources/'
+elif _os.path.exists((_os.path.abspath('../../crikit2/crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
+    resource_dir = '../../crikit2/crikit/preprocess/algorithms/resources/'
 elif _os.path.exists(_os.path.abspath('../preprocess/algorithms/resources/')):  # pragma: no cover
     resource_dir = '../preprocess/algorithms/resources/'
 elif _os.path.exists((_os.path.abspath(RESOURCE_DIR))):  # pragma: no cover
     resource_dir = RESOURCE_DIR
+
+if resource_dir is not None:
+    print('Resource directory: {}'.format(_os.path.abspath(resource_dir)))
 else:  # pragma: no cover
     print('Cannot find resource directory')
 
