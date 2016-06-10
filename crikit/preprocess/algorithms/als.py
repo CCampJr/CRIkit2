@@ -65,7 +65,7 @@ if __name__ == '__main__':
     import sys as _sys
     _sys.path.append(_os.path.abspath('../../../'))
 
-from crikit.utils.gen_utils import lin_count_row_col as _lin_count_row_col
+from crikit.utils.gen_utils import row_col_from_lin as _row_col_from_lin
 
 ORDER = 2 # Difference filter order
 MAX_ITER = 100 # Maximum iterations
@@ -415,7 +415,7 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
             signal_current = signal_input[count_spectra,:]
         else:
             # Calculate equivalent row- and column-count
-            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            rc, cc = _row_col_from_lin(count_spectra, space_shp)
             signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:
@@ -550,7 +550,7 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
             signal_current = signal_input[count_spectra,:]
         else:
             # Calculate equivalent row- and column-count
-            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            rc, cc = _row_col_from_lin(count_spectra, space_shp)
             signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:
@@ -685,7 +685,7 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
             signal_current = signal_input[count_spectra,:]
         else:
             # Calculate equivalent row- and column-count
-            rc, cc = _lin_count_row_col(count_spectra, space_shp)
+            rc, cc = _row_col_from_lin(count_spectra, space_shp)
             signal_current = signal_input[rc, cc, :]
 
         if count_spectra == 0:

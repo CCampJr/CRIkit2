@@ -91,7 +91,7 @@ def find_nearest(np_vec,to_find = 0):
     return (nearest_val, nearest_loc)
 
 
-def lin_count_row_col(ct, sh):
+def row_col_from_lin(ct, sh):
     """
     Convert a 1D counter into a col and row counter
     """
@@ -101,14 +101,34 @@ def lin_count_row_col(ct, sh):
     tot_rows = sh[0]
     tot_cols = sh[1]
 
-    if ct > tot_rows*tot_cols:
-        print('Count is out-of-range. Returning None.')
-        return None
+    if isinstance(ct, _np.ndarray):
+        if (ct > tot_rows*tot_cols).any():
+            print('Count is out-of-range. Returning None.')
+            return None
+    else:
+        if ct > tot_rows*tot_cols:
+            print('Count is out-of-range. Returning None.')
+            return None
 
     row = _np.mod(ct, tot_rows)
     col = ct//tot_rows
 
     return [row, col]
+
+
+def lin_from_row_col(row, col, sh):
+    """
+    Convert a col and row counter to 1D linear count
+    """
+
+    assert len(sh) == 2, 'Shape must be 2D'
+
+    tot_rows = sh[0]
+    # tot_cols = sh[1]
+
+    ct = col*tot_rows + row
+
+    return ct
 
 if __name__ == '__main__':
     import timeit as _timeit
