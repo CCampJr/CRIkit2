@@ -238,6 +238,77 @@ class Hsi(_Spectrum):
                 else:
                     return self.data - spectra[None,None,:]
 
+    def get_rand_spectra(self, num, pt_sz=1, quads=False, full=False):
+
+        mlen, nlen, freqlen = self.data.shape
+
+        if quads:
+            num_spectra = num + 5
+        else:
+            num_spectra = num
+
+        temp = _np.zeros((num_spectra, self.data.shape[-1]))
+
+        quad_mid_row = int(_np.round(mlen/2))
+        quad_mid_col = int(_np.round(nlen/2))
+        center_row = (int(_np.round(mlen/3)), int(_np.round(2*mlen/3)))
+        center_col = (int(_np.round(nlen/3)), int(_np.round(2*nlen/3)))
+
+        start_count = 0
+        if quads:
+            # QUADS
+            # Bottom-left
+            temp[0, :] = _np.mean(self.data[0:quad_mid_row, 0:quad_mid_col, :], axis=(0, 1))
+
+            # Upper-left
+            temp[1, :] = _np.mean(self.data[0:quad_mid_row, quad_mid_col+1::, :], axis=(0, 1))
+
+            # Upper-right
+            temp[2, :] = _np.mean(self.data[quad_mid_row+1::, quad_mid_col+1::, :], axis=(0, 1))
+
+            # Bottom-right
+            temp[3, :] = _np.mean(self.data[quad_mid_row+1::, 0:quad_mid_col, :], axis=(0, 1))
+
+            # Center
+            temp[4, :] = _np.mean(self.data[center_row[0]:center_row[1], center_col[0]:center_col[1], :], axis=(0, 1))
+
+            start_count += 5
+        else:
+            pass
+
+        rand_rows = ((mlen-pt_sz-1)*_np.random.rand(num_spectra)).astype(int)
+        rand_cols = ((nlen-pt_sz-1)*_np.random.rand(num_spectra)).astype(int)
+
+        for count in _np.arange(start_count,num_spectra):
+            if pt_sz == 1:
+                temp[count, :] = _np.squeeze(self.data[rand_rows[count-start_count],
+                                            rand_cols[count-start_count]])
+            else:
+
+                rows = [rand_rows[count-start_count]-(pt_sz-1),
+                        rand_rows[count-start_count]+pt_sz]
+                cols = [rand_cols[count-start_count]-(pt_sz-1),
+                                 rand_cols[count-start_count]+pt_sz]
+
+                if rows[0] < 0:
+                    rows[0] = 0
+                if rows[1] >= mlen:
+                    rows[1] = mlen-1
+                if cols[0] < 0:
+                    cols[0] = 0
+                if cols[1] >= nlen:
+                    cols[1] = nlen-1
+
+                if cols[0] == cols[1] or rows[0] == rows[1]:
+                    pass
+                else:
+                    temp[count,:] = _np.squeeze(_np.mean(self.data[rows[0]:rows[1], cols[0]:cols[1], :], axis=(0, 1)))
+
+        if full is True:
+            self.pixrange = store_pixrange
+
+        return temp
+
     def __sub__(self, spectrum):
         return self.subtract(spectrum, overwrite=False)
 
