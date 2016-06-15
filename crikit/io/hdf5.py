@@ -39,11 +39,13 @@ def hdf_dset_list_rep(prefix,suffixes):
 
     return dset_list
 
-def hdf_is_valid_dsets(pfname,dset_list):
+def hdf_is_valid_dsets(pth, filename, dset_list):
     """
     Validate file and datasets exist. Return boolean as to whether valid
 
     """
+    pfname = pth + filename
+
     isvalid = False
     fileexists = False
 
@@ -137,9 +139,9 @@ def hdf_attr_to_dict(attr):
                 print('Fail: {}'.count)
     return output_dict
 
-def hdf_import_data(pth, filename, dset_list,output_cls_instance):
+def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
     pfname = pth + filename
-    if hdf_is_valid_dsets(pfname,dset_list) == False:
+    if hdf_is_valid_dsets(pth, filename,dset_list) == False:
         print('Invalid filename or dataset list')
         return None
     else:
@@ -195,6 +197,18 @@ def hdf_import_data(pth, filename, dset_list,output_cls_instance):
                             output_cls_instance.data += _convert_to_np_dtype(f[dname])
                     output_cls_instance.data /= num+1
 
+        elif output_cls_instance is None:
+            if isinstance(dset_list, str):
+                data = _convert_to_np_dtype(f[dset_list])
+                meta = hdf_attr_to_dict(f[dset_list].attrs)
+            elif isinstance(dset_list, list):
+                for num, dname in enumerate(dset_list):
+                    if num == 0:
+                        data = _convert_to_np_dtype(f[dname])
+                        meta = hdf_attr_to_dict(f[dname].attrs)
+                    else:
+                        data = _np.vstack((data, _convert_to_np_dtype(f[dname])))
+            return [data, meta]
         else:
             raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
 
@@ -245,28 +259,31 @@ if __name__ == '__main__':  # pragma: no cover
                                             as _snb)
     rosetta = _snb()
 
-    filename = _os.path.abspath('../../../mP2_w_small.h5')
+    pth = '../../../'
+    filename = 'mP2_w_small.h5'
+
     dset = '/Spectra/Dark_3_5ms_2'
-    tester = hdf_is_valid_dsets('fake.h5','fake')
+    tester = hdf_is_valid_dsets(pth, 'fake.h5','fake')
     assert tester == False
 
-    tester = hdf_is_valid_dsets(filename,'fake_dset')
+    tester = hdf_is_valid_dsets(pth, filename,'fake_dset')
     assert tester == False
 
-    tester = hdf_is_valid_dsets(filename,['fake_dset1','fake_dset2'])
+    tester = hdf_is_valid_dsets(pth, filename,['fake_dset1','fake_dset2'])
     assert tester == False
 
-    tester = hdf_is_valid_dsets(filename,dset)
+    tester = hdf_is_valid_dsets(pth, filename,dset)
     assert tester == True
 
     dset_list = hdf_dset_list_rep('/Spectra/Dark_3_5ms_',_np.arange(2))
-    tester = hdf_is_valid_dsets(filename,dset_list)
+    tester = hdf_is_valid_dsets(pth, filename,dset_list)
     assert tester == True
 
     print('--------------\n\n')
 
     spect_dark = _Spectra()
-    hdf_import_data(filename,'/Spectra/Dark_3_5ms_2',spect_dark)
+    tester = hdf_is_valid_dsets(pth, filename,['/Spectra/Dark_3_5ms_2'])
+    hdf_import_data(pth, filename,'/Spectra/Dark_3_5ms_2',spect_dark)
     #hdf_process_attr(rosetta, spect_dark)
 
     print('Shape of dark spectra: {}'.format(spect_dark.shape))
@@ -274,7 +291,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     print('')
     img = _Hsi()
-    hdf_import_data(filename,'/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
+    hdf_import_data(pth, filename,'/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
     print('Shape of img: {}'.format(img.shape))
     print('Shape of img.mean(): {}'.format(img.mean().shape))
 
