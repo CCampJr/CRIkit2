@@ -26,30 +26,32 @@ class HDF5IOTest(unittest.TestCase):
 
     def setUp(self):
         self.rosetta = _snb()
-        self.filename = os.path.abspath('../mP2_w_small.h5')
+        self.pth = '../'
+        self.filename = 'mP2_w_small.h5'
+
         self.spectra_dset = '/Spectra/Dark_3_5ms_2'
         self.hsi_dset = '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small'
 
     def test_invalid_file(self):
-        self.assertFalse(hdf_is_valid_dsets('fake.h5','fake'))
-        self.assertIsNone(hdf_import_data('fake.h5','fake',Spectra()))
+        self.assertFalse(hdf_is_valid_dsets('./','fake.h5','fake'))
+        self.assertIsNone(hdf_import_data('./', 'fake.h5','fake',Spectra()))
 
     def test_invalid_dset(self):
-        self.assertFalse(hdf_is_valid_dsets(self.filename,'fake'))
-        self.assertIsNone(hdf_import_data(self.filename,'fake',Spectra()))
+        self.assertFalse(hdf_is_valid_dsets(self.pth, self.filename,'fake'))
+        self.assertIsNone(hdf_import_data(self.pth, self.filename,'fake',Spectra()))
 
     def test_valid_spectra(self):
-        self.assertTrue(hdf_is_valid_dsets(self.filename, self.spectra_dset))
+        self.assertTrue(hdf_is_valid_dsets(self.pth, self.filename, self.spectra_dset))
         spect = Spectra()
         self.assertIsNone(spect.data)
-        hdf_import_data(self.filename,self.spectra_dset,spect)
+        hdf_import_data(self.pth, self.filename,self.spectra_dset,spect)
         self.assertIsNotNone(spect.data)
 
     def test_valid_hsi(self):
-        self.assertTrue(hdf_is_valid_dsets(self.filename, self.hsi_dset))
+        self.assertTrue(hdf_is_valid_dsets(self.pth, self.filename, self.hsi_dset))
         hsi = Hsi()
         self.assertIsNone(hsi.data)
-        hdf_import_data(self.filename,self.hsi_dset,hsi)
+        hdf_import_data(self.pth, self.filename,self.hsi_dset,hsi)
         self.assertIsNotNone(hsi.data)
 
 #filename = _os.path.abspath('../../../mP2_w_small.h5')
