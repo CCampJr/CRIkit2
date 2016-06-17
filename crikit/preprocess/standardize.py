@@ -84,7 +84,7 @@ class Anscombe:
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
     def __init__(self, gauss_std, gauss_mean=0.0, poisson_multi=1.0,
-             rng=None, **kwargs):
+             rng=None):
 
         self.gauss_std = gauss_std
         self.gauss_mean = gauss_mean
