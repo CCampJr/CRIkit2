@@ -28,8 +28,10 @@ class SubtractMeanOverRange:
 
     def _calc(self, data, ret_obj):
         if self.rng is None:
-            self.rng = _np.arange(data.shape[-1])
-        meaner = data[..., self.rng].mean(axis=-1)
+            meaner = data.mean(axis=-1)
+        else:
+            meaner = data[..., self.rng].mean(axis=-1)
+
         try:
             ret_obj -= meaner[..., None]
         except:
@@ -75,7 +77,6 @@ class SubtractMeanOverRange:
         """
         data_copy = _copy.deepcopy(data)
         success = self._calc(data, ret_obj=data_copy)
-        print(success)
         if success:
             return data_copy
         else:
