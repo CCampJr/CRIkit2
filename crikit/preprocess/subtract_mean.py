@@ -13,61 +13,75 @@ if __name__ == '__main__':  # pragma: no cover
 
 import numpy as _np
 
-from crikit.utils.gen_utils import find_nearest as _find_nearest
-
-def sub_mean_over_range(data, rng, freq=None, overwrite=True):
-    """
-    Subtract the mean intensity over a frequency range (rng). The \
-    calculated mean is per spectrum.
+from crikit.utils.general import find_nearest as _find_nearest
 
 
-    Parameters
-    ----------
-    data : ndarray
-        Input data.
+class SubtractMeanOverRange:
+    def __init__(self, rng=None):
+        if rng is None:
+            self.rng = None
+        elif len(rng) == 2:
+            rng.sort()
+            self.rng = _np.arange(rng[0],rng[1])
+        else:
+            self.rng = rng
 
-    rng : list or tuple
-        Frequency range span [start, end]
+    def _calc(self, data, ret_obj):
+        if self.rng is None:
+            self.rng = _np.arange(data.shape[-1])
+        meaner = data[..., self.rng].mean(axis=-1)
+        try:
+            ret_obj -= meaner[..., None]
+        except:
+            return False
+        else:
+            return True
 
-    freq : ndarray (1D), optional
-        Frequency vector to find range (rng). Pixel numbers used if freq is \
-        None
 
-    overwrite : bool, optional (default=True)
-        Overwrite data with new values or simply return result as ndarray.
+    def transform(self, data):
+        """
+        Subtract the mean intensity over a pixel range (rng). \
+        (Overwrite data).
 
-    Returns
-    -------
-    ndarray
-        Altered data if overwrite is False
+        Parameters
+        ----------
+        data : ndarray
+            Input data.
 
-    None
-        Return None if overwrite is True
+        Returns
+        -------
+        bool
+            Returns the success state (True=success)
 
-    """
+        """
+        success = self._calc(data, ret_obj=data)
+        return success
 
-    # Check that rng is list or tuple
-    if isinstance(rng, (list, tuple)) == False:
-        raise TypeError('rng should be a list/tuple with 2 elements')
-    if len(rng) != 2:
-        raise TypeError('rng should be a list/tuple with 2 elements')
+    def calculate(self, data):
+        """
+        Subtract the mean intensity over a pixel range (rng). \
+        (Return copy).
 
-    if freq is None:
-        freq = _np.arange(data.shape[-1])
+        Parameters
+        ----------
+        data : ndarray
+            Input data.
 
-    pixrange = _find_nearest(freq,rng)[-1]
-    pixrange[-1] += 1 # To make inclusive
+        Returns
+        -------
+        ndarray
+            Returns data with mean subtracted (or None if fails)
 
-    # Mean over frequency range
-    meaner = data[...,pixrange].mean(axis=-1)
+        """
+        data_copy = _copy.deepcopy(data)
+        success = self._calc(data, ret_obj=data_copy)
+        print(success)
+        if success:
+            return data_copy
+        else:
+            return None
 
-    if overwrite:
-        data -= meaner[...,None]
-        return None
-    else:
-        return meaner
-
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
 
     from crikit.data.spectrum import Spectrum as _Spectrum
     from crikit.data.spectra import Spectra as _Spectra
@@ -75,29 +89,59 @@ if __name__ == '__main__': # pragma: no cover
 
     import copy as _copy
 
-    x = _np.linspace(0,100,10)
-    y = _np.linspace(0,100,10)
+    x = _np.linspace(0, 100, 10)
+    y = _np.linspace(0, 100, 10)
     freq = _np.arange(20)
-    data = _np.ones((10,10,20))
-
+    data = _np.ones((10, 10, 20))
 
     hs = _Hsi(data=_copy.deepcopy(data), freq=freq, x=x, y=y)
     spa = _Spectra(data=_copy.deepcopy(data), freq=freq)
-    sp = _Spectrum(data=_copy.deepcopy(data)[0,0,:], freq=freq)
+    sp = _Spectrum(data=_copy.deepcopy(data)[0, 0, :], freq=freq)
 
+    mean_sub = SubtractMeanOverRange([5, 8])
+
+    print('\n---------TRANSFORM TEST----------\n')
     print('\n3D----------')
     print('Initial mean: {}'.format(hs.data.mean()))
-    #out = sub_mean_over_range(hs, [5,8], overwrite=False)
-    #print('Initial mean over range shape: {}'.format(out.shape))
-    out = sub_mean_over_range(hs.data, [5,8], overwrite=True)
+    out = mean_sub.transform(hs.data)
+    print('Success?: {}'.format(out))
     print('Final mean: {}\n'.format(hs.data.mean()))
 
     print('2D----------')
     print('Initial mean: {}'.format(spa.data.mean()))
-    out = sub_mean_over_range(spa.data, [5,8], overwrite=True)
+    out = mean_sub.transform(spa.data)
+    print('Success?: {}'.format(out))
     print('Final mean: {}\n'.format(spa.data.mean()))
 
     print('1D----------')
     print('Initial mean: {}'.format(sp.data.mean()))
-    out = sub_mean_over_range(sp.data, [5,8], overwrite=True)
+    out = mean_sub.transform(sp.data)
+    print('Success?: {}'.format(out))
     print('Final mean: {}'.format(sp.data.mean()))
+
+    # NOT-OVERWRITE TEST
+    print('\n---------CALCULATE TEST----------\n')
+
+    hs = _Hsi(data=_copy.deepcopy(data), freq=freq, x=x, y=y)
+    spa = _Spectra(data=_copy.deepcopy(data)[0, :, :], freq=freq)
+    sp = _Spectrum(data=_copy.deepcopy(data)[0, 0, :], freq=freq)
+
+    mean_sub = SubtractMeanOverRange([5, 8])
+
+    print('\n3D----------')
+    print('Initial Data Mean: {}'.format(hs.data.mean()))
+    out = mean_sub.calculate(hs.data)
+    print('Returned Mean: {}'.format(out.mean()))
+    print('Final Data Mean: {}'.format(hs.data.mean()))
+
+    print('2D----------')
+    print('Initial Data Mean: {}'.format(spa.data.mean()))
+    out = mean_sub.calculate(spa.data)
+    print('Returned Mean: {}'.format(out.mean()))
+    print('Final Data Mean: {}'.format(spa.data.mean()))
+
+    print('1D----------')
+    print('Initial Data Mean: {}'.format(sp.data.mean()))
+    out = mean_sub.calculate(sp.data)
+    print('Returned Mean: {}'.format(out.mean()))
+    print('Final Data Mean: {}'.format(sp.data.mean()))
