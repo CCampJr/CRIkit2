@@ -13,12 +13,22 @@ General utilities
 Note
 ----
 """
+import numpy as _np
+
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
     _sys.path.append(_os.path.abspath('.'))
 
-import numpy as _np
+
+def arange_nonzero(start, stop, dtype=_np.float):
+    """
+    Similar to numpy arange but only returns non-zero elements
+    """
+    vec = _np.arange(start, stop+1)
+    vec = vec[vec != 0]
+    return vec
+
 
 def expand_1d_to_ndim_data(data, data_to_match):
     """
@@ -29,6 +39,7 @@ def expand_1d_to_ndim_data(data, data_to_match):
     else:
         nd = data_to_match.ndim
         return expand_1d_to_ndim(data, nd)
+
 
 def expand_1d_to_ndim(data, ndim):
     """
