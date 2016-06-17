@@ -25,6 +25,9 @@ class MoranI:
     def __init__(self, img_shp, img=None):
 
         self.I = None
+        self.row_spatial_def = None
+        self.col_spatial_def = None
+        self.wij = None
 
         self.img_shape = img_shp  # Shape
         self.img_size = _np.array(img_shp).prod()  # Size
@@ -40,6 +43,28 @@ class MoranI:
         else:
             self.calc(img)
 
+    def set_spatial_rook(self):
+        self.row_spatial_def = _np.array([-1, 1, 0, 0])
+        self.col_spatial_def = _np.array([0, 0, -1, 1])
+
+    def set_spatial_condition(self, row_spatial_def, col_spatial_def):
+        self._set_spatial_condition(row_spatial_def, col_spatial_def)
+        self._calc_mtxs()
+
+    def _set_spatial_condition(self, row_spatial_def, col_spatial_def):
+        if len(row_spatial_def) != len(col_spatial_def):
+            print('Row and Col spatial condition definitions are\
+                   different sizes')
+            self.row_spatial_def = None
+            self.col_spatial_def = None
+        else:
+            if isinstance(row_spatial_def, (list, tuple)):
+                self.row_spatial_def = _np.array(row_spatial_def)
+                self.col_spatial_def = _np.array(col_spatial_def)
+            else:
+                self.row_spatial_def = row_spatial_def
+                self.col_spatial_def = col_spatial_def
+
     def _calc_mtxs(self):
         """
         Calculate binary spatial weight maxtrix, wij.
@@ -49,26 +74,29 @@ class MoranI:
 
         self.wij = _np.zeros((self.img_size, self.img_size))
 
+        # If no spatial def given, default to rook
+        if self.row_spatial_def is None:
+            self.set_spatial_rook()
+
         for num, loc in enumerate(zip(self.row, self.col)):
             rc = loc[0]
             cc = loc[1]
 
-            # Rook's case using "dumb" math
-            rc_rook = _np.array([rc - 1, rc + 1, rc, rc])
-            cc_rook = _np.array([cc, cc, cc + 1, cc - 1])
+            rc_def = (self.row_spatial_def + rc).astype(_np.int)
+            cc_def = (self.col_spatial_def + cc).astype(_np.int)
 
             # Remove indices that are out-of-bounds
-            loc_to_keep = _np.where((rc_rook >= 0) &
-                                    (rc_rook < self.img_shape[0]) &
-                                    (cc_rook >= 0) &
-                                    (cc_rook < self.img_shape[1]))
-            rc_rook = rc_rook[loc_to_keep]
-            cc_rook = cc_rook[loc_to_keep]
+            loc_to_keep = _np.where((rc_def >= 0) &
+                                    (rc_def < self.img_shape[0]) &
+                                    (rc_def >= 0) &
+                                    (cc_def < self.img_shape[1]))[0]
+            rc_def = rc_def[loc_to_keep]
+            cc_def = cc_def[loc_to_keep]
 
             # Row, Col -> index
-            loc_rook = _lin_from_row_col(rc_rook, cc_rook, self.img_shape)
+            loc_spatial = _lin_from_row_col(rc_def, cc_def, self.img_shape)
 
-            self.wij[num, loc_rook] = 1
+            self.wij[num, loc_spatial] = 1
 
     def calc(self, img):
         """
