@@ -20,6 +20,57 @@ import numpy as _np
 
 from numpy.linalg import svd as _svd
 
+class SVDDecompose:
+    """
+    Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
+    the input into components.
+
+    Parameters
+    ----------
+    data : ndarray (2D or 3D).
+        Input array.
+
+    rng : ndarray (1D), optional
+        Range of pixels to perform operation over.
+
+    Returns
+    -------
+    ndarray, ndarray, ndarray
+        U, s, Vh
+
+    Notes
+    -----
+
+    U : ndarray (2D)
+        U-component from SVD decomposition (spatial componenet with crikit)
+
+    Vh : ndarray (2D)
+        Vh-component from SVD decomposition (spectral componenet with crikit).
+        NOTE: this is the Hermitial/conjugate transpose of the normal
+        V-component in SVD
+
+    s : ndarray (1D)
+        Diagonal elements of S-matrix describing the relative contributions
+        of each singular value
+
+    S : ndarray (2D)
+        S-matrix derived from s
+
+    References
+    ----------
+
+    """
+    def __init__(self, rng):
+        if rng is None:
+            self.rng = None
+        elif len(rng) == 2:
+            rng.sort()
+            self.rng = _np.arange(rng[0],rng[1])
+        else:
+            self.rng = rng
+
+    def _calc(self, data):
+
 def svd_decompose(data, rng=None, **kwargs):
     """
     Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
