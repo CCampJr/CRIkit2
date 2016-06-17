@@ -20,6 +20,34 @@ if __name__ == '__main__':  # pragma: no cover
     import os as _os
     _sys.path.append(_os.path.abspath('.'))
 
+def np_fcn_nd_to_1d(fcn, data, axis=-1):
+    """
+    Take in an n-dimensional array and return a 1D version operated on by fcn.\
+    Works with many numpy functions that can take an "axis" parameter
+    """
+    if data.ndim > 1:
+        dims = list(range(data.ndim))
+        dims.pop(axis)
+        vec = fcn(data, axis=tuple(dims))
+
+    return vec
+
+def mean_nd_to_1d(data, axis=-1):
+    """
+    Take the mean of an nd array, except axis, returning a 1D array
+    """
+    vec = np_fcn_nd_to_1d(_np.mean, data, axis=axis)
+
+    return vec
+
+def std_nd_to_1d(data, axis=-1):
+    """
+    Take the mean of an nd array, except axis, returning a 1D array
+    """
+    vec = np_fcn_nd_to_1d(_np.std, data, axis=axis)
+
+    return vec
+
 
 def arange_nonzero(start, stop, dtype=_np.float):
     """

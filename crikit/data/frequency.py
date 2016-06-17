@@ -6,7 +6,7 @@
 
 import numpy as _np
 import copy as _copy
-from crikit.utils.gen_utils import find_nearest as _find_nearest
+from crikit.utils.general import find_nearest as _find_nearest
 
 __all__ = ['Frequency', 'calib_pix_wn', 'calib_pix_wl']
 
