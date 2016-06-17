@@ -8,7 +8,7 @@ import numpy as _np
 from matplotlib.path import Path as _Path
 
 
-def _verts_to_path(verts, isclosed=True):
+def verts_to_path(verts, isclosed=True):
     """
     Convert vertices to paths
     """
@@ -22,7 +22,7 @@ def _verts_to_path(verts, isclosed=True):
     return _Path(verts, codes)
 
 
-def _pts_in_path(path):
+def pts_in_path(path):
     """
     Return points (pixels) that fall within path (but not on boundary)
     """
@@ -65,6 +65,6 @@ def verts_to_points_in_roi(verts):
     """
     Vertice list defining ROI in, points within returned.
     """
-    path = _verts_to_path(verts, isclosed=False)
-    x_pts, y_pts = _pts_in_path(path)
+    path = verts_to_path(verts, isclosed=False)
+    x_pts, y_pts = pts_in_path(path)
     return x_pts, y_pts
