@@ -28,11 +28,12 @@ if __name__ == '__main__':  # pragma: no cover
 
 from crikit.cri.algorithms.kk import kkrelation as _kkrelation
 
-from crikit.utils.gen_utils import find_nearest as _find_nearest
+from crikit.utils.general import (find_nearest as _find_nearest,
+                                  mean_nd_to_1d as _mean_nd_to_1d)
+from crikit.utils.datacheck import _rng_is_pix_vec
 
-def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
-       norm_to_nrb=True, pad_factor=1, rng=None, rng_list=None, freq=None):
 
+class KramersKronig:
     """
     Retrieve the real and imaginary components of coherent Raman data via the \
     Kramers-Kronig (KK) relation. See References.
@@ -101,58 +102,68 @@ def kk(cars, nrb, cars_amp_offset=0.0, nrb_amp_offset=0.0, phase_offset=0.0,
     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
 
     """
+    def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0,
+                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1, rng=None):
+
+        self.cars_amp_offset = cars_amp_offset
+        self.nrb_amp_offset = nrb_amp_offset
+        self.phase_offset = phase_offset
+        self.norm_to_nrb = norm_to_nrb
+        self.pad_factor = pad_factor
+
+        # Check range of operation
+        self.rng = _rng_is_pix_vec(rng)
 
 
-    ndim_cars = cars.ndim
+    def _calc(self, cars, nrb, ret_obj):
 
-    # Ensure minimum NRB dimensionality
-    nrb = _np.squeeze(nrb)
-    ndim_nrb = nrb.ndim
+        # Assume that an nD nrb should be averaged to be 1D
+        nrb = _mean_nd_to_1d(nrb)
 
-    # Assume that an nD nrb should be averaged to be 1D
-    if ndim_nrb > 1:
-        nrb = nrb.mean(axis=tuple(range(ndim_nrb-1)))
+        shp = cars.shape[0:-2]
 
-    # Shape of output data between pixrange
-    shp = list(cars.shape)
-    if rng is not None:
-        shp[-1] = rng.size
-    kkd = _np.zeros(shp, dtype=complex)
-
-    if ndim_cars < 3:
-        if rng is None:
-            kkd = _kkrelation(bg=nrb + nrb_amp_offset,
-                              cri=cars + cars_amp_offset,
-                              phase_offset=phase_offset,
-                              norm_by_bg=norm_to_nrb,
-                              pad_factor=pad_factor)
-        else:
-            kkd = _kkrelation(bg=nrb[rng] + nrb_amp_offset,
-                              cri=cars[..., rng] + cars_amp_offset,
-                              phase_offset=phase_offset,
-                              norm_by_bg=norm_to_nrb,
-                              pad_factor=pad_factor)
-    elif ndim_cars == 3:
-        for row_num, spa in enumerate(cars):
-            if rng is None:
-                kkd[row_num,:,:] = _kkrelation(bg=nrb + nrb_amp_offset,
-                                              cri=spa + cars_amp_offset,
-                                              phase_offset=phase_offset,
-                                              norm_by_bg=norm_to_nrb,
-                                              pad_factor=pad_factor)
+        for idx in _np.ndindex(shp):
+            if self.rng is None:
+                kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
+                                      cri=cars[idx] + self.cars_amp_offset,
+                                      phase_offset=self.phase_offset,
+                                      norm_by_bg=self.norm_to_nrb,
+                                      pad_factor=self.pad_factor)
             else:
-                kkd[row_num,:,:] = _kkrelation(bg=nrb[rng] + nrb_amp_offset,
-                                              cri=spa[..., rng] + cars_amp_offset,
-                                              phase_offset=phase_offset,
-                                              norm_by_bg=norm_to_nrb,
-                                              pad_factor=pad_factor)
+                kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
+                                      cri=cars[idx][..., self.rng] + self.cars_amp_offset,
+                                      phase_offset=self.phase_offset,
+                                      norm_by_bg=self.norm_to_nrb,
+                                      pad_factor=self.pad_factor)
+            try:
+                ret_obj[idx] *= 0
+                if self.rng is None:
+                    ret_obj[idx] += kkd
+                elif ret_obj[idx].size == kkd.size:
+                    ret_obj[idx] += kkd
+                else:
+                    ret_obj[idx][..., self.rng] += kkd
+            except:
+                return False
+            else:
+                return True
 
-    elif ndim_cars > 3:
-        raise NotImplementedError('cars_obj must be 1D, 2D, or 3D')
-    else:
-        raise TypeError('cars_obj must be 1D, 2D, or 3D')
+    def calculate(self, cars, nrb):
 
-    return kkd
+        kkd = _np.zeros(cars.shape, dtype=_np.complex)
+        success = self._calc(cars, nrb, ret_obj=kkd)
+        if success:
+            return kkd
+        else:
+            return None
+
+    def _transform(self, cars, nrb):
+        if issubclass(cars.dtype.type, _np.complex):
+            success = self._calc(cars, nrb, ret_obj=cars)
+            return success
+        else:
+            return False
+
 
 if __name__ == '__main__': # pragma: no cover
 
@@ -174,7 +185,7 @@ if __name__ == '__main__': # pragma: no cover
     nrb.data = NRB
 
     # Copies of spectrum
-    temp = _np.dot(_np.ones((300,300,1)),CARS[None,:])
+    temp = _np.dot(_np.ones((30,30,1)),CARS[None,:])
 
     # Create an HSData class instance
     hsi.data = temp
@@ -196,8 +207,9 @@ if __name__ == '__main__': # pragma: no cover
     _timeit.time.sleep(2)
 
 
+    kk = KramersKronig(cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
     start = _timeit.default_timer()
-    kk(hsi.data, nrb.data, cars_amp_offset=0, nrb_amp_offset=0, norm_to_nrb=False, pad_factor=1)
+    kk.calculate(hsi.data, nrb.data)
     stop = _timeit.default_timer()
     print('Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
@@ -214,10 +226,12 @@ if __name__ == '__main__': # pragma: no cover
 
     #plt.plot(hsi.freq.freq_vec[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix])
 
+    kk = KramersKronig(cars_amp_offset=0, nrb_amp_offset=0,
+                       norm_to_nrb=False, rng=hsi.freq.op_range_pix,
+                       pad_factor=1)
     start = _timeit.default_timer()
-    kkd = kk(hsi.data, nrb.data, cars_amp_offset=0, nrb_amp_offset=0,
-       norm_to_nrb=False, rng=hsi.freq.op_list_freq, freq=hsi.freq.data,
-       pad_factor=1)
+    del kkd
+    kkd = kk.calculate(hsi.data, nrb.data)
     stop = _timeit.default_timer()
     print('Pixrange Class-based -- Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start,
           (stop-start)/num_spectra))
