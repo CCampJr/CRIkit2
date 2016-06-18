@@ -102,8 +102,7 @@ class PhaserErrCorrectALS:
         success = self._calc(data, ret_obj=data, **self._k)
         return success
 
-def scale_err_correct_sg(data, win_size=601, order=2, rng=None,
-                         overwrite=True, **kwargs):
+class ScaleErrCorrectSG:
     """
     Scale error correction using Savitky-Golay
 
@@ -111,28 +110,46 @@ def scale_err_correct_sg(data, win_size=601, order=2, rng=None,
     ---------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
-    if rng is None:
-        correction_factor = _sg(data.real, window_length=win_size,
-                                polyorder=order, axis=-1)
-    else:
-        correction_factor = _sg(data[..., rng].real, window_length=win_size,
-                                polyorder=order, axis=-1)
+    def __init__(self, win_size=601, order=2, rng=None):
+        self.win_size = win_size
+        self.order = order
+        self.rng = _rng_is_pix_vec(rng)
 
-    correction_factor[correction_factor == 0] = 1
-    correction_factor **= -1
+    def _calc(self, data, ret_obj):
+        try:
+            if self.rng is None:
+                correction_factor = _sg(data.real, window_length=self.win_size,
+                                        polyorder=self.order, axis=-1)
+            else:
+                correction_factor = _sg(data[..., self.rng].real,
+                                        window_length=self.win_size,
+                                        polyorder=self.order, axis=-1)
 
-    if overwrite:
-        if rng is None:
-            data *= correction_factor
-            return None
+            correction_factor[correction_factor == 0] = 1
+            correction_factor **= -1
+
+            if self.rng is None:
+                ret_obj *= correction_factor
+            else:
+                ret_obj[..., self.rng] *= correction_factor
+        except:
+            return False
         else:
-            data[..., rng] *= correction_factor
-            return None
-    else:
-        if rng is None:
-            return data * correction_factor
+            return True
+
+    def calculate(self, data):
+
+        data_copy = _copy.deepcopy(data)
+        success = self._calc(data, ret_obj=data_copy)
+        if success:
+            return data_copy
         else:
-            return data[..., rng] * correction_factor
+            return None
+
+    def transform(self, data):
+        success = self._calc(data, ret_obj=data)
+        return success
+
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
@@ -163,12 +180,13 @@ if __name__ == '__main__':
     start = timeit.default_timer()
     phase_err_correct_als = PhaserErrCorrectALS(print_iteration=False)
     success = phase_err_correct_als.transform(kkd)
-    print(success)
+    print('Success? : {}'.format(success))
     stop = timeit.default_timer()
     print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
 
-    success = scale_err_correct_sg(kkd)
+    scale_err_correct_sg = ScaleErrCorrectSG()
+    success = scale_err_correct_sg.transform(kkd)
+    print('Success? : {}'.format(success))
     plt.plot(kkd[5, 5, :].imag, label='After Correction')
     plt.legend(loc='best')
     plt.show()
-
