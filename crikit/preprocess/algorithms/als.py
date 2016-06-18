@@ -65,7 +65,7 @@ if __name__ == '__main__':
     import sys as _sys
     _sys.path.append(_os.path.abspath('../../../'))
 
-from crikit.utils.gen_utils import row_col_from_lin as _row_col_from_lin
+from crikit.utils.general import row_col_from_lin as _row_col_from_lin
 
 ORDER = 2 # Difference filter order
 MAX_ITER = 100 # Maximum iterations
