@@ -29,6 +29,8 @@ def np_fcn_nd_to_1d(fcn, data, axis=-1):
         dims = list(range(data.ndim))
         dims.pop(axis)
         vec = fcn(data, axis=tuple(dims))
+    else:
+        vec = data
 
     return vec
 
