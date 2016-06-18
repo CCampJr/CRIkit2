@@ -157,7 +157,7 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                 output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
                 output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
             elif isinstance(dset_list, list):
-                if len > 1:
+                if len(dset_list) > 1:
                     print('Cannot accept more than 1 HSI image at this time')
                 else:
                     for num, dname in enumerate(dset_list):
