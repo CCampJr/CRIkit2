@@ -12,7 +12,8 @@ if __name__ == '__main__':
 
 
 import numpy as _np
-#import numexpr as _ne
+import copy as _copy
+
 from scipy.signal import savgol_filter as _sg
 
 from crikit.cri.algorithms.kk import hilbertfft as _hilbert
@@ -20,10 +21,10 @@ from crikit.cri.algorithms.kk import hilbertfft as _hilbert
 from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
                                               als_baseline_redux as
                                               _als_baseline_redux)
-import copy as _copy
+from crikit.utils.datacheck import _rng_is_pix_vec
 
 
-def phase_err_correct_als(data, rng=None, overwrite=True, **kwargs):
+class PhaserErrCorrectALS:
     """
     Phase error correction using alternating least squares (ALS)
 
@@ -31,41 +32,75 @@ def phase_err_correct_als(data, rng=None, overwrite=True, **kwargs):
     ---------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
-    assert issubclass(data.dtype.type, _np.complex)
+    def __init__(self, smoothness_param=1, asym_param=1e-2,
+                 redux_factor=10, rng=None, **kwargs):
 
-    if kwargs.get('redux_factor') is not None:
-        als_method = _als_baseline_redux
-    else:
-        als_method = _als_baseline
+        self.smoothness_param = smoothness_param
+        self.asym_param = asym_param
+        self.redux_factor = redux_factor
 
-    ph = _np.unwrap(_np.angle(data))
-    if rng is None:
-        err_phase, _ = als_method(ph, **kwargs)
-    else:
-        err_phase, _ = als_method(ph[..., rng], **kwargs)
+        self.rng = _rng_is_pix_vec(rng)
+        self._k = kwargs
 
-    h = _np.zeros(err_phase.shape)
-    if err_phase.ndim <= 2:
-        h += _hilbert(err_phase)
-    elif err_phase.ndim == 3:
-        for num, blk in enumerate(err_phase):
-            h[num, :, :] = _hilbert(blk)
+    @property
+    def redux_factor(self):
+        return self._rf
 
-    correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
-    # numexpr disabled due to instability
-#    correction_factor = _ne.evaluate('1/exp(imag(h)) * exp(-1j*err_phase)')
-
-    if overwrite:
-        if rng is None:
-            data *= correction_factor
+    @redux_factor.setter
+    def redux_factor(self, value):
+        if value is None or value <= 1:
+            self._rf = None
+            self._als_method = _als_baseline
         else:
-            data[..., rng] *= correction_factor
-        return None
-    else:
-        if rng is None:
-            return data*correction_factor
+            self._rf = value
+            self._als_method = _als_baseline_redux
+
+    def _calc(self, data, ret_obj, **kwargs):
+
+        try:
+            shp = data.shape[0:-2]
+            total_num = _np.array(shp).prod()
+
+            counter = 1
+            for idx in _np.ndindex(shp):
+                print('Detrended iteration {} / {}'.format(counter, total_num))
+                ph = _np.unwrap(_np.angle(data[idx]))
+                if self.rng is None:
+                    err_phase, _ = self._als_method(ph, **kwargs)
+                else:
+                    err_phase, _ = self._als_method(ph[..., self.rng],
+                                                    **kwargs)
+
+                h = _np.zeros(err_phase.shape)
+                h += _hilbert(err_phase)
+
+                correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
+
+                if self.rng is None:
+                    ret_obj[idx] *= correction_factor
+                else:
+                    ret_obj[idx][..., self.rng] *= correction_factor
+                counter += 1
+        except:
+            return False
         else:
-            return data[..., rng]*correction_factor
+            return True
+
+    def calculate(self, data, **kwargs):
+
+        data_copy = _copy.deepcopy(data)
+        self._k.update(kwargs)
+        success = self._calc(data, ret_obj=data_copy, **self._k)
+        if success:
+            return data_copy
+        else:
+            return None
+
+    def transform(self, data, **kwargs):
+        self._k.update(kwargs)
+
+        success = self._calc(data, ret_obj=data, **self._k)
+        return success
 
 def scale_err_correct_sg(data, win_size=601, order=2, rng=None,
                          overwrite=True, **kwargs):
@@ -101,13 +136,14 @@ def scale_err_correct_sg(data, win_size=601, order=2, rng=None,
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    from crikit.cri.kk import kk
+    from crikit.cri.kk import KramersKronig
     import timeit
 
     SPECT_LEN = 878
-    WN = _np.linspace(4000,500,SPECT_LEN)
-    chi = 1/((WN - 1000 -1j*10)) + 1/((WN - 1020 -1j*10)) + \
-            1/((WN - 2800 -1j*10))
+    WN = _np.linspace(4000, 500, SPECT_LEN)
+    chi = (1 / ((WN - 1000 - 1j * 10)) +
+           1 / ((WN - 1020 - 1j * 10)) +
+           1 / ((WN - 2800 - 1j * 10)))
     chiNR = 0*chi + 0.055
     exc = WN
     sig = _np.abs(chi + chiNR)**2
@@ -115,23 +151,24 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 100
+    NUM_REPS = 10
 
-    kkd = kk(sig, sigRef)
-    kkd = _np.dot(_np.ones((NUM_REPS,NUM_REPS, 1)),kkd[None,:])
+    kk = KramersKronig()
+    kkd = kk.calculate(sig, sigRef)
+    kkd = _np.dot(_np.ones((NUM_REPS, NUM_REPS, 1)), kkd[None, :])
 
-    #kkd2 = kk(sig, sigRef)
-
-#    start = timeit.default_timer()
-#    phase_err_correct_als(kkd)
-#    stop = timeit.default_timer()
-#    print((stop-start)/NUM_REPS**2)
+    plt.plot(chi.imag/chiNR.real, label='Ideal')
+    plt.plot(kkd[5, 5, :].imag, label='Before Correction')
 
     start = timeit.default_timer()
-    ph = phase_err_correct_als(kkd, redux_factor=10, print_iteration=True)
+    phase_err_correct_als = PhaserErrCorrectALS(print_iteration=False)
+    success = phase_err_correct_als.transform(kkd)
+    print(success)
     stop = timeit.default_timer()
     print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
 
-#    plt.plot(ph1.real.T)
-#    plt.plot(ph2.real.T)
-#    plt.show()
+    success = scale_err_correct_sg(kkd)
+    plt.plot(kkd[5, 5, :].imag, label='After Correction')
+    plt.legend(loc='best')
+    plt.show()
+
