@@ -31,10 +31,16 @@ _h5py.get_config().complex_names = ('Re','Im')
 # CRIkit import
 from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.hsi import Hsi as _Hsi
-from crikit.utils.breadcrumb import BCPre as _BCPre
 
-#from crikit.process.dark import Dark as _Dark
-#from crikit.process.nrb import NRB as _NRB
+from crikit.io.macros import import_hdf_nist_special as _io_nist
+from crikit.io.hdf5 import hdf_export_data as _io_export
+
+from crikit.utils.breadcrumb import BCPre as _BCPre
+from crikit.utils.general import find_nearest as _find_nearest
+
+from crikit.preprocess.subtract_dark import SubtractDark as _SubtractDark
+from crikit.preprocess.subtract_mean import SubtractMeanOverRange as _SubtractMeanOverRange
+
 #
 #from crikit.ui.subui_SVD import DialogSVD
 #from crikit.ui.subui_plotter import SubUiPlotter as _Plotter
@@ -43,7 +49,6 @@ from crikit.utils.breadcrumb import BCPre as _BCPre
 #from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 #from crikit.ui.utils.visgenutils import roimask as _roimask
 
-from crikit.utils.general import find_nearest as _find_nearest
 
 #from crikit.data.retr import retr_freq_plane, retr_freq_plane_add, \
 #    retr_freq_plane_div, retr_freq_plane_multi, retr_freq_plane_peak_bw_troughs, \
@@ -58,8 +63,8 @@ from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 
 #from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
 #
-#from crikit.ui.subui_h5loadgui import SubUiH5Load
-#from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
+from crikit.ui.subui_hdf_load import SubUiHDFLoad
+from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.dialog_save import DialogSave
 
@@ -190,7 +195,7 @@ class CRIkitUI_process(_QMainWindow):
         # SET SIGNALS-SLOTS
 
         # Load Data
-        self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpen)
+        self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
         self.ui.actionLoadNRB.triggered.connect(self.loadNRB)
 
         self.ui.actionNRB_from_ROI.triggered.connect(self.nrbFromROI)
@@ -357,7 +362,7 @@ class CRIkitUI_process(_QMainWindow):
         else:
             print('Did not delete pickle file cut list... Something went wrong')
 
-    def fileOpen(self):
+    def fileOpenHDFNIST(self):
         """
         Open and load HDF5 File
         """
@@ -366,102 +371,102 @@ class CRIkitUI_process(_QMainWindow):
         # This will need to change to accomodate multiple-file selection
 
         try:
-            self.filename, self.dataset_name, selection_made = SubUiH5Load.getFileDataSets()
+            self.filename, self.dataset_name, selection_made = SubUiHDFLoad.getFileDataSets()
             self.path = _os.path.dirname(self.filename) + '/'
             self.filename = self.filename.split(_os.path.dirname(self.filename))[1][1::]
         except:
             pass
         else:
             if selection_made == True:
-                self.hsi = _HSData.HDFtoClass(self.path + self.filename, self.dataset_name)
-                self.bcpre.add_step(['Raw'])
-                try:
-                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
-                # Set frequency slider and associated displays
-                self.ui.freqSlider.setMinimum(self.hsi.pixrange[0])
-                self.ui.freqSlider.setMaximum(self.hsi.pixrange[1])
-                self.ui.freqSlider.setSliderPosition(self.hsi.pixrange[0])
-                pos = self.ui.freqSlider.sliderPosition()
-                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
-                self.ui.lineEditFreq.setText(str(round(self.hsi.freqvec[0],2)))
-
-
-                # Set BW Class Data
-                self.ui.ui_BWImg.initData()
-                self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-                self.ui.ui_BWImg.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-                self.ui.ui_BWImg.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
-
-                # Set min/max, fixed, compress, etc buttons to defaults
-                self.ui.ui_BWImg.ui.checkBoxFixed.setChecked(False)
-                self.ui.ui_BWImg.ui.checkBoxCompress.setChecked(False)
-                self.ui.ui_BWImg.ui.checkBoxRemOutliers.setChecked(False)
-
-                # Plot Grayscale image
-                self.createImgBW(self.ui.ui_BWImg.data.image)
-                self.ui.ui_BWImg.mpl.canvas.draw()
-
-
-                # RGB images
-                temp = 0*self.ui.ui_BWImg.data.grayscaleimage
-
-                # Re-initialize RGB images
-                for count in enumerate(self.ui.RGB):
-                    self.ui.RGB[count[0]].initData()
-                    self.ui.RGB[count[0]].data.grayscaleimage = temp
-                    self.ui.RGB[count[0]].data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-                    self.ui.RGB[count[0]].data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
-
-                    # Cute way of setting the colormap to last setting and replotting
-                    self.ui.RGB[count[0]].changeColor()
-
-                    # Enable Math
-                    self.ui.RGB[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
-
-                    # Enable Spectrum
-                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
-                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
-
+                self.hsi = _Hsi()
+                _io_nist(self.path, self.filename, self.dataset_name, self.hsi)
+                #self.bcpre.add_step(['Raw'])
+#                try:
+#                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#                except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                else:
+#                    self.bcpre.backed_up()
+#                # Set frequency slider and associated displays
+#                self.ui.freqSlider.setMinimum(self.hsi.pixrange[0])
+#                self.ui.freqSlider.setMaximum(self.hsi.pixrange[1])
+#                self.ui.freqSlider.setSliderPosition(self.hsi.pixrange[0])
+#                pos = self.ui.freqSlider.sliderPosition()
+#                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
+#                self.ui.lineEditFreq.setText(str(round(self.hsi.freqvec[0],2)))
+#
+#
+#                # Set BW Class Data
+#                self.ui.ui_BWImg.initData()
+#                self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
+#                self.ui.ui_BWImg.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
+#                self.ui.ui_BWImg.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
+#
+#                # Set min/max, fixed, compress, etc buttons to defaults
+#                self.ui.ui_BWImg.ui.checkBoxFixed.setChecked(False)
+#                self.ui.ui_BWImg.ui.checkBoxCompress.setChecked(False)
+#                self.ui.ui_BWImg.ui.checkBoxRemOutliers.setChecked(False)
+#
+#                # Plot Grayscale image
+#                self.createImgBW(self.ui.ui_BWImg.data.image)
+#                self.ui.ui_BWImg.mpl.canvas.draw()
+#
+#
+#                # RGB images
+#                temp = 0*self.ui.ui_BWImg.data.grayscaleimage
+#
+#                # Re-initialize RGB images
+#                for count in enumerate(self.ui.RGB):
+#                    self.ui.RGB[count[0]].initData()
+#                    self.ui.RGB[count[0]].data.grayscaleimage = temp
+#                    self.ui.RGB[count[0]].data.set_x(self.hsi.nvec, 'X ($\mu m$)')
+#                    self.ui.RGB[count[0]].data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
+#
+#                    # Cute way of setting the colormap to last setting and replotting
+#                    self.ui.RGB[count[0]].changeColor()
+#
+#                    # Enable Math
+#                    self.ui.RGB[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
+#
+#                    # Enable Spectrum
+#                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+#                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+#
                 self.ui.actionLoadDark.setEnabled(True)
                 self.ui.actionLoadNRB.setEnabled(True)
-                self.ui.actionFreqWindow.setEnabled(True)
-                self.ui.actionZeroColumn.setEnabled(True)
-                self.ui.actionSave.setEnabled(True)
-                self.ui.actionDeNoise.setEnabled(True)
-                self.ui.actionErrorCorrection.setEnabled(True)
-                self.ui.actionAnalysisToolkit.setEnabled(True)
-                self.ui.actionPointSpectrum.setEnabled(True)
-                self.ui.actionROISpectrum.setEnabled(True)
-                self.ui.actionDarkSubtract.setEnabled(True)
-                self.ui.actionCalibrate.setEnabled(True)
-                self.ui.actionResetCalibration.setEnabled(True)
-                self.ui.actionNRB_from_ROI.setEnabled(True)
-                self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
-                self.ui.actionSubtractROI.setEnabled(True)
+#                self.ui.actionFreqWindow.setEnabled(True)
+#                self.ui.actionZeroColumn.setEnabled(True)
+#                self.ui.actionSave.setEnabled(True)
+#                self.ui.actionDeNoise.setEnabled(True)
+#                self.ui.actionErrorCorrection.setEnabled(True)
+#                self.ui.actionAnalysisToolkit.setEnabled(True)
+#                self.ui.actionPointSpectrum.setEnabled(True)
+#                self.ui.actionROISpectrum.setEnabled(True)
+#                self.ui.actionDarkSubtract.setEnabled(True)
+#                self.ui.actionCalibrate.setEnabled(True)
+#                self.ui.actionResetCalibration.setEnabled(True)
+#                self.ui.actionNRB_from_ROI.setEnabled(True)
+#                self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+#                self.ui.actionSubtractROI.setEnabled(True)
 
     def loadDark(self):
         """
         Open HDF file and load dark spectrum(a)
         """
 
-        # Get data and load into CRI_HSI class
-        #try:
-        filename, dataset, selection_made = SubUiH5Load.getFileDataSets()
+        filename, dataset, selection_made = SubUiHDFLoad.getFileDataSets()
+        pth = _os.path.dirname(filename) + '/'
+        filename = filename.split(_os.path.dirname(filename))[1][1::]
 
         if selection_made == True:
-            self.dark.load_dark_HDF(filename, dataset)
-            if self.dark.dark_spectrum.shape[-1] == self.hsi.freqlenfull:
+            _io_nist(pth, filename, dataset, self.dark)
+
+            if self.dark.shape[-1] == self.hsi.freq.size:
                 self.ui.actionDarkSubtract.setEnabled(True)
                 self.ui.actionDarkSpectrum.setEnabled(True)
             else:
-                self.dark.dark_spectrum = None
+                self.dark = _Spectra()
                 print('Dark was the wrong shape')
-        #except:
-        #    pass
 
 
     def loadNRB(self):
@@ -469,19 +474,19 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load NRB spectrum(a)
         """
 
-        # Get data and load into CRI_HSI class
-        #try:
-        filename, dataset, selection_made = SubUiH5Load.getFileDataSets()
+        filename, dataset, selection_made = SubUiHDFLoad.getFileDataSets()
+        pth = _os.path.dirname(filename) + '/'
+        filename = filename.split(_os.path.dirname(filename))[1][1::]
 
         if selection_made == True:
-            self.nrb.load_nrb_HDF(filename, dataset, self.hsi.spectrafull.shape)
+            _io_nist(pth, filename, dataset, self.nrb)
 
-            if self.nrb.nrb_spectrum.shape[-1] == self.hsi.freqlenfull:
+            if self.nrb.shape[-1] == self.hsi.freq.size:
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
             else:
-                self.nrb = None
+                self.nrb = _Spectra()
                 print('NRB was the wrong shape')
 
     def settings(self):
@@ -1132,46 +1137,47 @@ class CRIkitUI_process(_QMainWindow):
         """
         Subtract loaded dark spectrum from HSI data.
         """
-        nrbloaded = self.nrb.nrb_spectrum.any()
-        darkloaded = self.dark.dark_spectrum.any()
+        nrbloaded = self.nrb.data.any()
+        darkloaded = self.dark.data.any()
 
         subdark, subdarkimg, subdarknrb, subresidual, freq = \
         DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
                                             nrbloaded=nrbloaded)
 
-        if (subdark is None and subresidual is None):
-            pass
-        else:
-            if subdark == True:
-                #print('Sub Dark')
-                if subdarkimg == True:
-                    self.dark.alter_dark_sub(self.hsi)
-                    self.bcpre.add_step(['SubDark'])
-                    try:
-                        self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                    except:
-                        print('Error in pickle backup (Undo functionality)')
-                    else:
-                        self.bcpre.backed_up()
-
-                if subdarknrb == True:
-                    self.dark.nrb_dark_sub(self.nrb)
-
-            if subresidual == True:
-                self.hsi.alter_sub_mean_int(freq)
-                self.bcpre.add_step(['SubResidual','RangeStart',freq[0],'RangeEnd',freq[1]])
-                try:
-                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
-
-                if nrbloaded:
-                    self.nrb.nrb_sub_mean_int(self.hsi.freqvecfull, freq)
-
-            # Refresh BW image
-            self.changeSlider()
+        print(subdark)
+#        if (subdark is None and subresidual is None):
+#            pass
+#        else:
+#            if subdark == True:
+#                #print('Sub Dark')
+#                if subdarkimg == True:
+#                    self.dark.alter_dark_sub(self.hsi)
+#                    self.bcpre.add_step(['SubDark'])
+#                    try:
+#                        self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#                    except:
+#                        print('Error in pickle backup (Undo functionality)')
+#                    else:
+#                        self.bcpre.backed_up()
+#
+#                if subdarknrb == True:
+#                    self.dark.nrb_dark_sub(self.nrb)
+#
+#            if subresidual == True:
+#                self.hsi.alter_sub_mean_int(freq)
+#                self.bcpre.add_step(['SubResidual','RangeStart',freq[0],'RangeEnd',freq[1]])
+#                try:
+#                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#                except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                else:
+#                    self.bcpre.backed_up()
+#
+#                if nrbloaded:
+#                    self.nrb.nrb_sub_mean_int(self.hsi.freqvecfull, freq)
+#
+#            # Refresh BW image
+#            self.changeSlider()
 
     def doMath(self):
         """
