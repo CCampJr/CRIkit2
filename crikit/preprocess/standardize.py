@@ -21,6 +21,8 @@ import numpy as _np
 from crikit.preprocess.algorithms.anscombe import (gen_anscombe_forward as ansc,
                                                    gen_anscombe_inverse_exact_unbiased as inv_ansc)
 
+from crikit.utils.datacheck import _rng_is_pix_vec
+
 class Anscombe:
     """
     Implement the generalized forward Anscombe transformation.
@@ -83,20 +85,13 @@ class Anscombe:
         spectroscopy: Correcting errors in phase retrieval," Journal of Raman \
         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
     """
-    def __init__(self, gauss_std, gauss_mean=0.0, poisson_multi=1.0,
-             rng=None):
+    def __init__(self, gauss_std, gauss_mean=0.0, poisson_multi=1.0, rng=None):
 
         self.gauss_std = gauss_std
         self.gauss_mean = gauss_mean
         self.poisson_multi = poisson_multi
 
-        if rng is None:
-            self.rng = None
-        elif len(rng) == 2:
-            rng.sort()
-            self.rng = _np.arange(rng[0],rng[1])
-        else:
-            self.rng = rng
+        self.rng = _rng_is_pix_vec(rng)
 
     def _calc(self, data, ret_obj):
         # Anscombe transform
@@ -222,13 +217,7 @@ class AnscombeInverse:
         self.gauss_mean = gauss_mean
         self.poisson_multi = poisson_multi
 
-        if rng is None:
-            self.rng = None
-        elif len(rng) == 2:
-            rng.sort()
-            self.rng = _np.arange(rng[0],rng[1])
-        else:
-            self.rng = rng
+        self.rng = _rng_is_pix_vec(rng)
 
     def _calc(self, data, ret_obj):
 

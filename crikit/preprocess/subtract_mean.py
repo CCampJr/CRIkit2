@@ -14,17 +14,13 @@ if __name__ == '__main__':  # pragma: no cover
 import numpy as _np
 
 from crikit.utils.general import find_nearest as _find_nearest
+from crikit.utils.datacheck import _rng_is_pix_vec
 
 
 class SubtractMeanOverRange:
     def __init__(self, rng=None):
-        if rng is None:
-            self.rng = None
-        elif len(rng) == 2:
-            rng.sort()
-            self.rng = _np.arange(rng[0],rng[1])
-        else:
-            self.rng = rng
+        self.rng = _rng_is_pix_vec(rng)
+
 
     def _calc(self, data, ret_obj):
         if self.rng is None:
