@@ -7,18 +7,21 @@ Created on Fri Apr 22 23:55:22 2016
 @author: chc
 """
 
-__all__ = ['svd_decompose', 'svd_recompose']
+import copy as _copy
+
+import numpy as _np
+
+from numpy.linalg import svd as _svd
 
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
     _sys.path.append(_os.path.abspath('../../'))
 
-import copy as _copy
+from crikit.utils.datacheck import _rng_is_pix_vec
 
-import numpy as _np
+__all__ = ['svd_decompose', 'svd_recompose']
 
-from numpy.linalg import svd as _svd
 
 class SVDDecompose:
     """
@@ -60,81 +63,35 @@ class SVDDecompose:
     ----------
 
     """
-    def __init__(self, rng):
-        if rng is None:
-            self.rng = None
-        elif len(rng) == 2:
-            rng.sort()
-            self.rng = _np.arange(rng[0],rng[1])
+    def __init__(self, rng=None):
+        self._U = None
+        self._s = None
+        self._Vh = None
+
+        self.rng = _rng_is_pix_vec(rng)
+
+
+    def _calc(self, data, ret_obj):
+        try:
+            if self.rng is None:
+                self._U, self._s, self._Vh = _svd(data, full_matrices=False)
+            else:
+                self._U, self._s, self._Vh = _svd(data[..., self.rng],
+                                               full_matrices=False)
+        except:
+            return False
         else:
-            self.rng = rng
+            return True
 
-    def _calc(self, data):
-
-def svd_decompose(data, rng=None, **kwargs):
-    """
-    Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose \
-    the input into components.
-
-    Parameters
-    ----------
-    data : ndarray (2D or 3D).
-        Input array.
-
-    rng : ndarray (1D), optional
-        Range of pixels to perform operation over.
-
-    Returns
-    -------
-    ndarray, ndarray, ndarray
-        U, s, Vh
-
-    Notes
-    -----
-
-    U : ndarray (2D)
-        U-component from SVD decomposition (spatial componenet with crikit)
-
-    Vh : ndarray (2D)
-        Vh-component from SVD decomposition (spectral componenet with crikit).
-        NOTE: this is the Hermitial/conjugate transpose of the normal
-        V-component in SVD
-
-    s : ndarray (1D)
-        Diagonal elements of S-matrix describing the relative contributions
-        of each singular value
-
-    S : ndarray (2D)
-        S-matrix derived from s
-
-    References
-    ----------
-
-    """
-
-    data = _np.squeeze(data)
-
-    frq_size = data.shape[-1]
-
-    if data.ndim == 2:
-        if rng is None:
-            U,s,Vh = _svd(data, full_matrices=False)
+    def calculate(self, data):
+        success = self._calc(data, ret_obj=None)
+        if success:
+            return self._U, self._s, self._Vh
         else:
-            U,s,Vh = _svd(data[..., rng], full_matrices=False)
-    elif data.ndim == 3:
-        if rng is None:
-            U,s,Vh = _svd(data.reshape((-1,frq_size)),
-                          full_matrices=False)
-        else:
-            U,s,Vh = _svd(data.reshape((-1,frq_size))[..., rng],
-                          full_matrices=False)
-    else:
-        raise TypeError('ndarray should be 2D or 3D')
+            return None
 
-    return [U, s, Vh]
 
-def svd_recompose(U,s,Vh, data=None, svs=None, rng=None,
-                  overwrite=False, **kwargs):
+class SVDRecompose:
     """
     Reconstruct the original data using the SVD components. The reconstructed \
     signal shape is 2D (or if provided) or matches data_obj.
@@ -181,74 +138,76 @@ def svd_recompose(U,s,Vh, data=None, svs=None, rng=None,
     ----------
 
     """
-    if not isinstance(U, _np.ndarray):
-        raise TypeError('U should be of type ndarray')
-    if not isinstance(Vh, _np.ndarray):
-        raise TypeError('Vh should be of type ndarray')
-    if not isinstance(s, _np.ndarray):
-        raise TypeError('s should be of type ndarray')
-
-    if _np.squeeze(s).ndim == 2:
-        s_vec = _np.diag(s)
-    elif _np.squeeze(s).ndim == 1:
-        s_vec = s
-    else:
-        raise TypeError('s should be 1D or 2D ndarray')
-
-    if svs is None:
-        s_vec_final = s_vec
-    else:
-        s_vec_final = 0*s_vec
-        s_vec_final[svs] = s_vec[svs]
-    out = _np.dot(U, _np.dot(_np.diag(s_vec_final), Vh))
-
-    # See if data was originally 3D. If out (2D) -> out (3D)
-    if data is not None:
-        if out.ndim == 2 and data.ndim == 3:
-            out = out.reshape(list(data.shape[0:-1]) + [-1])
+    def __init__(self, rng=None):
+        self.rng = _rng_is_pix_vec(rng)
+        self.svs = None
+        self.s_keep = None
 
 
-    # no data = no overwrite or resize
-    if data is None:
-        return out
-    # data and out are the same shape: no further reshaping needed
-    elif data.shape == out.shape:
-        if overwrite:
-            data *= 0
-            data += out
+    def _calc(self, U, s, Vh, ret_obj):
+
+        try:
+            ret_obj *= 0
+            if ret_obj.ndim == 2:
+
+                # out = U*S*Vh
+                ret_obj += _np.dot(U, _np.dot(_np.diag(s), Vh))
+            elif ret_obj.ndim == 3:
+
+                # out = U*S*Vh
+                ret_obj += _np.reshape(_np.dot(U, _np.dot(_np.diag(s),
+                                                          Vh)), ret_obj.shape)
+        except:
+            return False
+        else:
+            return True
+
+    def _set_s_keep(self, s, svs):
+        """
+        Set the singular value vector (s_keep) based on svs list/ndarray
+        """
+        if svs is not None:
+            self.svs = svs
+        if self.svs is None:
+            self.svs = _np.arange(s.size)
+        self.s_keep = 0*s
+        self.s_keep[self.svs] = s[self.svs]
+
+    def transform(self, data, U, s, Vh, svs=None):
+        # Set what singular values to keep
+        self._set_s_keep(s, svs)
+
+
+        success = self._calc(U, self.s_keep, Vh, ret_obj=data)
+        return success
+
+    def calculate(self, data, U, s, Vh, svs=None):
+        # Set what singular values to keep
+        self._set_s_keep(s, svs)
+
+        data_copy = _copy.deepcopy(data)
+        success = self._calc(U, self.s_keep, Vh, ret_obj=data_copy)
+        if success:
+            return data_copy
+        else:
             return None
-        else:
-            return out
-    # data and out shape disagree AND no range info given-- can't overwrite
-    elif rng is None:
-        if overwrite:
-            print('Data and SVD recompose shape disagree. Cannot overwrite.')
-            return out
-        else:
-            return out
-    # range info given: reshape
-    elif rng is not None:
-        if overwrite:
-            data *= 0
-            data[...,rng] += out
-        else:
-            out2 = _np.zeros(data.shape)
-            out2[...,rng] += out
-            return out2
-    else:
-        print('Something weird. Returning recomposed.')
-        return out
 
 
 if __name__ == '__main__':  # pragma: no cover
 
     y = _np.random.randn(100,1000)
-    [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh,svs=[])
+
+    svd_decompose = SVDDecompose()
+    svd_recompose = SVDRecompose()
+
+    U, s, Vh = svd_decompose.calculate(y)
+
+    y2 = svd_recompose.calculate(y,U,s,Vh,svs=[])
+
     print('0 singular values selected...')
     print('Returns matrix is all 0\'s: {}'.format(_np.allclose(y2,0) == True))
-    [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh,svs=[0])
+    [U,s,Vh] = svd_decompose.calculate(y)
+    y2 = svd_recompose.calculate(y, U, s, Vh, svs=[0])
 
     print('\n1 singular value selected...')
     print('Returns matrix is NOT all 0\'s: {}'.format(_np.allclose(y2,0) == False))
@@ -258,15 +217,17 @@ if __name__ == '__main__':  # pragma: no cover
     print('\nReturned matrix is same shape {} as that entered: {}'.format(y.shape, y.shape == y2.shape))
 
     y = _np.random.randn(10,10,1000)
-    [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh, data=y, svs=[])
+
+    U, s, Vh = svd_decompose.calculate(y)
+
+    y2 = svd_recompose.calculate(y, U, s, Vh, svs=[])
     print('\nReturned matrix is same shape {} as that entered: {}'.format(y.shape, y.shape == y2.shape))
 
     y = _np.random.randn(10,1000)
     y_copy = _copy.deepcopy(y)
 
-    [U,s,Vh] = svd_decompose(y)
-    y2 = svd_recompose(U,s,Vh, data=y, svs=[], overwrite=True)
+    [U,s,Vh] = svd_decompose.calculate(y)
+    y2 = svd_recompose.transform(y, U, s, Vh, svs=[])
     print('\nOverwrite input data...')
     print('0 singular values selected...')
     print('Input is NOT same as output: {}'.format(not _np.allclose(y,y_copy)))
