@@ -48,7 +48,7 @@ class SubtractBaselineALS:
             # Get the subarray shape
             shp = data.shape[0:-1]
 
-            # Iterate over the sub-array
+            # Iterate over the sub-array -- super slick way of doing it
             for count in _np.ndindex(shp):
                 ret_obj[count] -= self._als_method(data[count], smoothness_param=self.smoothness_param,
                                                 asym_param=self.asym_param,
