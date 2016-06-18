@@ -24,11 +24,14 @@ from crikit.utils.datacheck import _rng_is_pix_vec
 
 
 class SubtractBaselineALS:
-    def __init__(self, rng=None):
+    def __init__(self, smoothness_param=1, asym_param=1e-2,
+                 redux_factor=10, rng=None, **kwargs):
+
+        self.smoothness_param = smoothness_param
+        self.asym_param = asym_param
+        self.redux_factor = redux_factor
+
         self.rng = _rng_is_pix_vec(rng)
-        self.redux_factor = None
-        self.smoothness_param = None
-        self.asym_param = None
 
     @property
     def redux_factor(self):
@@ -49,8 +52,8 @@ class SubtractBaselineALS:
             shp = data.shape[0:-1]
 
             # Iterate over the sub-array -- super slick way of doing it
-            for count in _np.ndindex(shp):
-                ret_obj[count] -= self._als_method(data[count], smoothness_param=self.smoothness_param,
+            for idx in _np.ndindex(shp):
+                ret_obj[idx] -= self._als_method(data[idx], smoothness_param=self.smoothness_param,
                                                 asym_param=self.asym_param,
                                                 redux_factor=self.redux_factor,
                                                 **kwargs)[0]
@@ -59,20 +62,11 @@ class SubtractBaselineALS:
         else:
             return True
 
-    def transform(self, data, smoothness_param=1, asym_param=1e-2,
-                  redux_factor=10, **kwargs):
-        self.redux_factor = redux_factor
-        self.smoothness_param = smoothness_param
-        self.asym_param = asym_param
-
+    def transform(self, data, **kwargs):
         success = self._calc(data, ret_obj=data, **kwargs)
         return success
 
-    def calculate(self, data, smoothness_param=1, asym_param=1e-2,
-                  redux_factor=10, **kwargs):
-        self.redux_factor = redux_factor
-        self.smoothness_param = smoothness_param
-        self.asym_param = asym_param
+    def calculate(self, data, **kwargs):
 
         data_copy = _copy.deepcopy(data)
         success = self._calc(data, ret_obj=data_copy, **kwargs)
@@ -92,10 +86,10 @@ if __name__ == '__main__':
     sp = _Spectrum()
     sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
 
-    sub_baseline_als = SubtractBaselineALS()
+    sub_baseline_als = SubtractBaselineALS(smoothness_param=1, asym_param=1e-1)
 
     _plt.plot(sp.data, label='Original')
-    out = sub_baseline_als.transform(sp.data, smoothness_param=1, asym_param=1e-1)
+    out = sub_baseline_als.transform(sp.data)
     _plt.plot(sp.data, label='Detrended')
     _plt.title('Spectrum')
     _plt.legend(loc='best')
@@ -103,26 +97,29 @@ if __name__ == '__main__':
 
     sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
     _plt.plot(sp.data, label='Original')
-    out = sub_baseline_als.transform(sp.data, redux_factor=10)
+    sub_baseline_als.redux_factor = 10
+    out = sub_baseline_als.transform(sp.data)
     _plt.plot(sp.data, label='Detrended (Redux)')
     _plt.title('Spectrum')
     _plt.legend(loc='best')
     _plt.show()
 #
     spa = _Spectra()
+    sub_baseline_als = SubtractBaselineALS(smoothness_param=1e2, asym_param=1e-4)
     spa.data = _np.dot(_np.ones((2,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
     _plt.plot(spa.data.T, label='Original')
-    out = sub_baseline_als.transform(spa.data, smoothness_param=1e2, asym_param=1e-4)
+    out = sub_baseline_als.transform(spa.data)
     _plt.plot(spa.data.T, label='Detrended')
     _plt.title('Spectra')
     _plt.legend(loc='upper right')
     _plt.show()
 
     hsi = _Hsi()
+    sub_baseline_als.redux_factor = 10
     hsi.data = _np.dot(_np.ones((1,1,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
 
     _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original')
-    out = sub_baseline_als.calculate(hsi.data, redux_factor=10)
+    out = sub_baseline_als.calculate(hsi.data)
     _plt.plot(out.reshape((-1,1000)).T, label='Detrended (Redux)')
     _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original (No Overwrite)')
     _plt.title('HSI')
