@@ -84,7 +84,10 @@ class SVDDecompose:
             return True
 
     def calculate(self, data):
-        success = self._calc(data, ret_obj=None)
+        if data.ndim == 3:
+            success = self._calc(data.reshape((-1,data.shape[-1])), ret_obj=None)
+        else:
+            success = self._calc(data, ret_obj=None)
         if success:
             return self._U, self._s, self._Vh
         else:
