@@ -45,26 +45,15 @@ class SubtractBaselineALS:
 
     def _calc(self, data, ret_obj, **kwargs):
         try:
-            for num, _ in _np.ndenumerate(data[...,0]):
-                if len(num) == 0:
-                    ret_obj -= self._als_method(data, smoothness_param=self.smoothness_param,
+            # Get the subarray shape
+            shp = data.shape[0:-1]
+
+            # Iterate over the sub-array
+            for count in _np.ndindex(shp):
+                ret_obj[count] -= self._als_method(data[count], smoothness_param=self.smoothness_param,
                                                 asym_param=self.asym_param,
                                                 redux_factor=self.redux_factor,
                                                 **kwargs)[0]
-                elif len(num) == 1:
-                    ret_obj[num[0],:] -= self._als_method(data[num[0],:],
-                                                          smoothness_param=self.smoothness_param,
-                                                          asym_param=self.asym_param,
-                                                          redux_factor=self.redux_factor,
-                                                          **kwargs)[0]
-                elif len(num) == 2:
-                    ret_obj[num[0], num[1], :] -= self._als_method(data[num[0], num[1], :],
-                                                                   smoothness_param=self.smoothness_param,
-                                                                   asym_param=self.asym_param,
-                                                                   redux_factor=self.redux_factor,
-                                                                   **kwargs)[0]
-                else:
-                    pass
         except:
             return False
         else:
