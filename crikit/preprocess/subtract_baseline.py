@@ -12,96 +12,86 @@ if __name__ == '__main__':
     import sys as _sys
     _sys.path.append(_os.path.abspath('../../'))
 
+import copy as _copy
 
 import numpy as _np
-
-
 
 from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
                                               als_baseline_redux as
                                               _als_baseline_redux)
-import copy as _copy
 
-def sub_baseline_als(data, ret_difference=True, ret_baseline=False,
-                     rng=None, overwrite=True, **kwargs):
-    """
-    Subtract baseline using ALS
+from crikit.utils.datacheck import _rng_is_pix_vec
 
-    """
 
-    if overwrite == False:
-        shp = list(data.shape)
-        if rng is not None:
-            shp[-1] = rng.size
-        baseline_copy = _np.zeros(shp)
+class SubtractBaselineALS:
+    def __init__(self, rng=None):
+        self.rng = _rng_is_pix_vec(rng)
+        self.redux_factor = None
+        self.smoothness_param = None
+        self.asym_param = None
 
-    if kwargs.get('redux_factor') is not None:
-        als_method = _als_baseline_redux
-    else:
-        als_method = _als_baseline
+    @property
+    def redux_factor(self):
+        return self._rf
 
-    if data.ndim == 1:
-        if rng is None:
-            baseline1, als_alg = als_method(data, **kwargs)
+    @redux_factor.setter
+    def redux_factor(self, value):
+        if value is None or value <= 1:
+            self._rf = None
+            self._als_method = _als_baseline
         else:
-            baseline1, als_alg = als_method(data[...,rng], **kwargs)
+            self._rf = value
+            self._als_method = _als_baseline_redux
 
-        if overwrite:
-            if rng is None:
-                data -= baseline1
-                return None
-            else:
-                data[..., rng] -= baseline1
-                return None
-        else:
-            if rng is None:
-                return data - baseline1
-            else:
-                return data[..., rng] - baseline1
-
-    elif data.ndim == 2:
-        for num, sp in enumerate(data):
-            if rng is None:
-                baseline1, als_alg = als_method(sp, **kwargs)
-            else:
-                baseline1, als_alg = als_method(sp[..., rng], **kwargs)
-            if overwrite:
-                if rng is None:
-                    data[num, :] -= baseline1
+    def _calc(self, data, ret_obj, **kwargs):
+        try:
+            for num, _ in _np.ndenumerate(data[...,0]):
+                if len(num) == 0:
+                    ret_obj -= self._als_method(data, smoothness_param=self.smoothness_param,
+                                                asym_param=self.asym_param,
+                                                redux_factor=self.redux_factor,
+                                                **kwargs)[0]
+                elif len(num) == 1:
+                    ret_obj[num[0],:] -= self._als_method(data[num[0],:],
+                                                          smoothness_param=self.smoothness_param,
+                                                          asym_param=self.asym_param,
+                                                          redux_factor=self.redux_factor,
+                                                          **kwargs)[0]
+                elif len(num) == 2:
+                    ret_obj[num[0], num[1], :] -= self._als_method(data[num[0], num[1], :],
+                                                                   smoothness_param=self.smoothness_param,
+                                                                   asym_param=self.asym_param,
+                                                                   redux_factor=self.redux_factor,
+                                                                   **kwargs)[0]
                 else:
-                    data[num, rng] -= baseline1
-            else:
-                baseline_copy[num,:] = _copy.deepcopy(baseline1)
-        if overwrite:
+                    pass
+        except:
+            return False
+        else:
+            return True
+
+    def transform(self, data, smoothness_param=1, asym_param=1e-2,
+                  redux_factor=10, **kwargs):
+        self.redux_factor = redux_factor
+        self.smoothness_param = smoothness_param
+        self.asym_param = asym_param
+
+        success = self._calc(data, ret_obj=data, **kwargs)
+        return success
+
+    def calculate(self, data, smoothness_param=1, asym_param=1e-2,
+                  redux_factor=10, **kwargs):
+        self.redux_factor = redux_factor
+        self.smoothness_param = smoothness_param
+        self.asym_param = asym_param
+
+        data_copy = _copy.deepcopy(data)
+        success = self._calc(data, ret_obj=data_copy, **kwargs)
+        if success:
+            return data_copy
+        else:
             return None
-        else:
-            if rng is None:
-                return data - baseline_copy
-            else:
-                return data[..., rng] - baseline_copy
 
-    elif data.ndim == 3:
-        for num_m, sp_line in enumerate(data):
-            for num_n, sp in enumerate(sp_line):
-                if rng is None:
-                    baseline1, als_alg = als_method(sp, **kwargs)
-                else:
-                    baseline1, als_alg = als_method(sp[..., rng], **kwargs)
-
-                if overwrite:
-                    if rng is None:
-                        data[num_m,num_n,:] -= baseline1
-                    else:
-                        data[num_m, num_n, rng] -= baseline1
-                else:
-                    baseline_copy[num_m,num_n,:] = _copy.deepcopy(baseline1)
-        if overwrite:
-            return None
-        else:
-            if rng is None:
-                return data - baseline_copy
-            else:
-                return data[..., rng] - baseline_copy
 
 if __name__ == '__main__':
 
@@ -113,8 +103,10 @@ if __name__ == '__main__':
     sp = _Spectrum()
     sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
 
+    sub_baseline_als = SubtractBaselineALS()
+
     _plt.plot(sp.data, label='Original')
-    out = sub_baseline_als(sp.data, ret_baseline=True, smoothness_param=1e2, asym_param=1e-4)
+    out = sub_baseline_als.transform(sp.data, smoothness_param=1, asym_param=1e-1)
     _plt.plot(sp.data, label='Detrended')
     _plt.title('Spectrum')
     _plt.legend(loc='best')
@@ -122,16 +114,16 @@ if __name__ == '__main__':
 
     sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
     _plt.plot(sp.data, label='Original')
-    out = sub_baseline_als(sp.data, redux_factor=10)
+    out = sub_baseline_als.transform(sp.data, redux_factor=10)
     _plt.plot(sp.data, label='Detrended (Redux)')
     _plt.title('Spectrum')
     _plt.legend(loc='best')
     _plt.show()
-
+#
     spa = _Spectra()
     spa.data = _np.dot(_np.ones((2,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
     _plt.plot(spa.data.T, label='Original')
-    out = sub_baseline_als(spa.data, smoothness_param=1e2, asym_param=1e-4)
+    out = sub_baseline_als.transform(spa.data, smoothness_param=1e2, asym_param=1e-4)
     _plt.plot(spa.data.T, label='Detrended')
     _plt.title('Spectra')
     _plt.legend(loc='upper right')
@@ -141,7 +133,7 @@ if __name__ == '__main__':
     hsi.data = _np.dot(_np.ones((1,1,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
 
     _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original')
-    out = sub_baseline_als(hsi.data, redux_factor=10, overwrite=False)
+    out = sub_baseline_als.calculate(hsi.data, redux_factor=10)
     _plt.plot(out.reshape((-1,1000)).T, label='Detrended (Redux)')
     _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original (No Overwrite)')
     _plt.title('HSI')
