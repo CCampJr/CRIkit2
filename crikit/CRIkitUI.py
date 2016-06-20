@@ -64,7 +64,8 @@ from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 #from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
 #
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
-from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
+from crikit.ui.dialog_options import DialogDarkOptions
+#from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.dialog_save import DialogSave
 
@@ -1141,41 +1142,48 @@ class CRIkitUI_process(_QMainWindow):
         darkloaded = self.dark.data.any()
 
         subdark, subdarkimg, subdarknrb, subresidual, freq = \
-        DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
-                                            nrbloaded=nrbloaded)
+            DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
+                                                nrbloaded=nrbloaded)
 
         print(subdark)
-#        if (subdark is None and subresidual is None):
-#            pass
-#        else:
-#            if subdark == True:
-#                #print('Sub Dark')
-#                if subdarkimg == True:
+        if (subdark is None and subresidual is None):
+            pass
+        else:
+            if subdark:
+#                print('Sub Dark')
+                if subdarkimg:
+                    sub_dark = _SubtractDark(self.dark.data)
+                    sub_dark.transform(self.hsi.data)
 #                    self.dark.alter_dark_sub(self.hsi)
-#                    self.bcpre.add_step(['SubDark'])
-#                    try:
-#                        self.hsi.backup_pickle(self.bcpre.id_list[-1])
-#                    except:
-#                        print('Error in pickle backup (Undo functionality)')
-#                    else:
-#                        self.bcpre.backed_up()
-#
-#                if subdarknrb == True:
+                    self.bcpre.add_step(['SubDark'])
+                    try:
+                        self.hsi.backup_pickle(self.bcpre.id_list[-1])
+                    except:
+                        print('Error in pickle backup (Undo functionality)')
+                    else:
+                        self.bcpre.backed_up()
+
+                if subdarknrb:
+                    sub_dark.transform(self.nrb.data)
 #                    self.dark.nrb_dark_sub(self.nrb)
-#
-#            if subresidual == True:
-#                self.hsi.alter_sub_mean_int(freq)
-#                self.bcpre.add_step(['SubResidual','RangeStart',freq[0],'RangeEnd',freq[1]])
-#                try:
-#                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
-#                except:
-#                    print('Error in pickle backup (Undo functionality)')
-#                else:
-#                    self.bcpre.backed_up()
-#
-#                if nrbloaded:
-#                    self.nrb.nrb_sub_mean_int(self.hsi.freqvecfull, freq)
-#
+
+            if subresidual:
+                rng = self.hsi.freq.get_index_of_closest_freq([-5000, -500])
+                sub_residual = _SubtractMeanOverRange(rng)
+                sub_residual.transform(self.hsi.data)
+
+                self.bcpre.add_step(['SubResidual', 'RangeStart', freq[0],
+                                     'RangeEnd', freq[1]])
+                try:
+                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
+
+                if nrbloaded:
+                    sub_residual.transform(self.nrb.data)
+
 #            # Refresh BW image
 #            self.changeSlider()
 

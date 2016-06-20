@@ -65,8 +65,7 @@ from crikit.ui.qt_PlotEffect_Calibrate import Ui_Form as Ui_Calibrate_Form
 from crikit.cri.algorithms.kk import kkrelation as _kk
 from crikit.preprocess.algorithms.als import als_baseline_redux as _als
 
-from crikit.utils.general import (make_freq_vector as _make_freq_vector,
-                                    find_nearest as _find_nearest)
+from crikit.utils.general import find_nearest as _find_nearest
 
 class widgetNothing(_QWidget):
     """
