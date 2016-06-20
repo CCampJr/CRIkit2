@@ -1048,30 +1048,35 @@ class CRIkitUI_process(_QMainWindow):
         the Kramers-Kronig phase retrieval algorithm.
         """
 
-        rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True)
-        if len(self.hsi.pixrange) == 0:
-            nrb = self.nrb.nrb_spectrum
-        else:
-            ndim_nrb = _np.squeeze(self.nrb.nrb_spectrum).ndim
-            if  ndim_nrb == 1:
-                nrb = self.nrb.nrb_spectrum[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
-            elif ndim_nrb == 2:
-                nrb = self.nrb.nrb_spectrum[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
-            else:
-                nrb = self.nrb.nrb_spectrum[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
+        nrb = self.nrb.mean()
+
+#        if len(self.hsi.pixrange) == 0:
+#            nrb = self.nrb.nrb_spectrum
+#        else:
+#            ndim_nrb = _np.squeeze(self.nrb.nrb_spectrum).ndim
+#            if  ndim_nrb == 1:
+#                nrb = self.nrb.nrb_spectrum[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+#            elif ndim_nrb == 2:
+#                nrb = self.nrb.nrb_spectrum[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+#            else:
+#                nrb = self.nrb.nrb_spectrum[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
 
         cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.freqvec, nrb, rand_spectra])
+            DialogKKOptions.dialogKKOptions(data=[self.hsi.freq.data, nrb, rand_spectra])
 
         if cars_amp_offset is not None:
-            start = _timeit.default_timer()
-            _alter_kk(self.hsi, self.nrb, cars_amp_offset=cars_amp_offset,
+            kk = KramersKronig(cars_amp_offset=cars_amp_offset,
                       nrb_amp_offset=nrb_amp_offset,
                       phase_offset=phase_offset, norm_to_nrb=norm_to_nrb,
-                      pad_factor=pad_factor)
+                      pad_factor=pad_factor,
+                      rng=self.hsi.freq.op_range_pix)
+
+            start = _timeit.default_timer()
+            self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
             stop = _timeit.default_timer()
 
-            num_spectra = int(self.hsi.spectra.size/self.hsi.freqlen)
+            num_spectra = int(self.hsi.size/self.hsi.freq.size)
             print('KK Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start, (stop-start)/num_spectra))
 
             start = _timeit.default_timer()
@@ -1087,7 +1092,7 @@ class CRIkitUI_process(_QMainWindow):
             print('Save time: {:.6f} sec'.format(stop-start))
 
 
-        self.changeSlider()
+#        self.changeSlider()
 
     def deNoise(self):
         """
