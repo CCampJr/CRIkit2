@@ -60,7 +60,9 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         self.ui.filterButton.clicked.connect(self.filterlist)
         self.ui.resetFilter.clicked.connect(self.datagroupchange)
         # Setup GUI variables
-
+        self.path = None
+        self.filename = None
+        self.allselect=None
         # Initial Actions
 
     @staticmethod
@@ -75,36 +77,45 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         Returns
         ----------
         out : (tuple)
+            path : str
             filename : (str)
             dataset(s) : (list[str])
-            selection-made : (bool)
         """
         dialog = SubUiHDFLoad(parent)
-        if dialog.fileopen() != '':
-            result = dialog.exec_()
-            if result == 1:
-                return (dialog.filename, dialog.allselect, True)
-            else:
-                return ('',[],False)
+
+        ret_fileopen = dialog.fileopen()
+
+        if ret_fileopen is None:
+            return None
+
+        # Execute dialog, which defined by QDialog class returns
+        # QDialog.Accepted or QDialog.Rejected
+        ret_dset_select = dialog.exec_()
+        if ret_dset_select == _QDialog.Rejected:
+            return None
+        elif dialog.allselect is None:
+            return None
         else:
-            return ('',[],False)
+            return (dialog.path, dialog.filename, dialog.allselect)
 
     def fileopen(self):
         """ Select HDF5 File """
 
         filename = _QFileDialog.getOpenFileName(self, "Open H5 File", "./",\
             "HDF5 Files (*.h5 *.hdf);;All Files (*.*)")
-        if filename[0] is '':
-            pass
-            #print('No file selected')
-        else:
-            #print('File: ' + filename[0] + ' selected')
+
+        if filename[0]:
             self.filename = filename[0]
-            self.group_dset_dict = _h5utils.retrieve_group_dataset_dict(self.filename)
+            self.path = _os.path.dirname(self.filename) + '/'
+            self.filename = self.filename.split(_os.path.dirname(self.filename))[1][1::]
+
+            self.group_dset_dict = _h5utils.retrieve_group_dataset_dict(self.path + self.filename)
             self.ui.dataGroupSelect.clear()
             for count in self.group_dset_dict:
                 self.ui.dataGroupSelect.addItem(count)
-        return filename[0]
+            return [self.path, self.filename]
+        else:
+            return None
     def datagroupchange(self):
         """ Action : ComboBox containing Groups with DataSets has changed"""
 
@@ -124,34 +135,42 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         self.allselect = ['/' + str(self.ui.dataGroupSelect.currentText() +\
             '/' + i.text()) for i in self.ui.dataSetList.selectedItems()]
 
-        if len(self.allselect) == 1:
-            self.ui.currentDatasetText.setText(self.currentdset)
+
+        if len(self.allselect) == 0:
+            self.allselect = None
+            self.ui.currentDatasetText.setText('')
+            attrs = {}
+            self.ui.dataSetAttribs.setRowCount(0)
+            self.ui.dataSetMemo.setText('')
         else:
-            self.ui.currentDatasetText.setText(self.currentdset + ' ( + ' +\
-                str(len(self.allselect)-1) + ' others)' )
-
-        self.ui.dataSetAttribs.setSortingEnabled(False)
-        self.ui.dataSetAttribs.setRowCount(0)
-        self.ui.dataSetAttribs.setColumnCount(2)
-
-        attrs = _h5utils.retrieve_dataset_attribute_dict(self.filename,self.currentdset)
-
-        for count, key in enumerate(attrs.keys()):
-            self.ui.dataSetAttribs.insertRow(self.ui.dataSetAttribs.rowCount())
-            self.ui.dataSetAttribs.setItem(count,0,_QTableWidgetItem(str(key)))
-            temp = attrs[key]
-            if isinstance(temp,_np.bytes_):
-                self.ui.dataSetAttribs.setItem(count,1,_QTableWidgetItem(temp.decode()))
+            if len(self.allselect) == 1:
+                self.ui.currentDatasetText.setText(self.currentdset)
             else:
-                self.ui.dataSetAttribs.setItem(count,1,_QTableWidgetItem(str(temp)))
+                self.ui.currentDatasetText.setText(self.currentdset + ' ( + ' +\
+                    str(len(self.allselect)-1) + ' others)' )
 
-        self.ui.dataSetAttribs.setSortingEnabled(True)
-        self.ui.dataSetAttribs.sortItems(0)
+            self.ui.dataSetAttribs.setSortingEnabled(False)
+            self.ui.dataSetAttribs.setRowCount(0)
+            self.ui.dataSetAttribs.setColumnCount(2)
 
-        try:
-            self.ui.dataSetMemo.setText(attrs['Memo'].decode())
-        except:
-            pass
+            attrs = _h5utils.retrieve_dataset_attribute_dict(self.path + self.filename,self.currentdset)
+
+            for count, key in enumerate(attrs.keys()):
+                self.ui.dataSetAttribs.insertRow(self.ui.dataSetAttribs.rowCount())
+                self.ui.dataSetAttribs.setItem(count,0,_QTableWidgetItem(str(key)))
+                temp = attrs[key]
+                if isinstance(temp,_np.bytes_):
+                    self.ui.dataSetAttribs.setItem(count,1,_QTableWidgetItem(temp.decode()))
+                else:
+                    self.ui.dataSetAttribs.setItem(count,1,_QTableWidgetItem(str(temp)))
+
+            self.ui.dataSetAttribs.setSortingEnabled(True)
+            self.ui.dataSetAttribs.sortItems(0)
+
+            try:
+                self.ui.dataSetMemo.setText(attrs['Memo'].decode())
+            except:
+                pass
 
     def filterlist(self):
         """ Action : Filter available dataset list (*.ui.dataSetList) based on
@@ -203,6 +222,6 @@ if __name__ == '__main__':
     app = _QApplication(_sys.argv)
     #win = H5LoadGUI() ### EDIT ###
     result = SubUiHDFLoad.getFileDataSets()
-    print(result)
+    print('Result: {}'.format(result))
 
     _sys.exit()
