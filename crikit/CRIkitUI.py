@@ -1154,8 +1154,9 @@ class CRIkitUI_process(_QMainWindow):
         """
         Subtract loaded dark spectrum from HSI data.
         """
-        nrbloaded = self.nrb.data.any()
-        darkloaded = self.dark.data.any()
+
+        nrbloaded = self.nrb.data is not None
+        darkloaded = self.dark.data is not None
 
         subdark, subdarkimg, subdarknrb, subresidual, freq = \
             DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
