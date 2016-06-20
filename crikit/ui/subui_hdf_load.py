@@ -7,7 +7,7 @@ HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)
 
     Method : H5LoadGUI.getFileDataSets()
 
-    Return (tuple) : (filename [str], dataset(s) [list], selection_made [bool])
+    Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])
 
 Software Info
 --------------

@@ -198,6 +198,7 @@ class CRIkitUI_process(_QMainWindow):
         # Load Data
         self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
         self.ui.actionLoadNRB.triggered.connect(self.loadNRB)
+        self.ui.actionLoadDark.triggered.connect(self.loadDark)
 
         self.ui.actionNRB_from_ROI.triggered.connect(self.nrbFromROI)
         self.ui.actionAppend_NRB_from_ROI.triggered.connect(self.nrbFromROI)
@@ -213,7 +214,6 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.closeEvent = self.closeEvent
 
         # Subtract DARK-Related
-        self.ui.actionLoadDark.triggered.connect(self.loadDark)
         self.ui.actionDarkSubtract.triggered.connect(self.subDark)
 
 
@@ -372,15 +372,24 @@ class CRIkitUI_process(_QMainWindow):
         # This will need to change to accomodate multiple-file selection
 
         try:
-            self.filename, self.dataset_name, selection_made = SubUiHDFLoad.getFileDataSets()
-            self.path = _os.path.dirname(self.filename) + '/'
-            self.filename = self.filename.split(_os.path.dirname(self.filename))[1][1::]
+            to_open = SubUiHDFLoad.getFileDataSets()
+            print('to_open: {}'.format(to_open))
+            if to_open is not None:
+                self.path, self.filename, self.dataset_name = to_open
         except:
             pass
         else:
-            if selection_made == True:
+            if to_open is not None:
                 self.hsi = _Hsi()
-                _io_nist(self.path, self.filename, self.dataset_name, self.hsi)
+                success = _io_nist(self.path, self.filename, self.dataset_name,
+                                   self.hsi)
+                if success:
+                    self.ui.actionLoadDark.setEnabled(True)
+                    self.ui.actionLoadNRB.setEnabled(True)
+                else:
+                    self.ui.actionLoadDark.setEnabled(False)
+                    self.ui.actionLoadNRB.setEnabled(False)
+
                 #self.bcpre.add_step(['Raw'])
 #                try:
 #                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
@@ -432,9 +441,7 @@ class CRIkitUI_process(_QMainWindow):
 #                    # Enable Spectrum
 #                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
 #                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
-#
-                self.ui.actionLoadDark.setEnabled(True)
-                self.ui.actionLoadNRB.setEnabled(True)
+
 #                self.ui.actionFreqWindow.setEnabled(True)
 #                self.ui.actionZeroColumn.setEnabled(True)
 #                self.ui.actionSave.setEnabled(True)
@@ -455,19 +462,24 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load dark spectrum(a)
         """
 
-        filename, dataset, selection_made = SubUiHDFLoad.getFileDataSets()
-        pth = _os.path.dirname(filename) + '/'
-        filename = filename.split(_os.path.dirname(filename))[1][1::]
+        to_open = SubUiHDFLoad.getFileDataSets()
+        print('To_open: {}'.format(to_open))
 
-        if selection_made == True:
-            _io_nist(pth, filename, dataset, self.dark)
+        if to_open is not None:
+            pth, filename, datasets = to_open
+            success = _io_nist(pth, filename, datasets, self.dark)
 
-            if self.dark.shape[-1] == self.hsi.freq.size:
-                self.ui.actionDarkSubtract.setEnabled(True)
-                self.ui.actionDarkSpectrum.setEnabled(True)
+            if success:
+                if self.dark.shape[-1] == self.hsi.freq.size:
+                    self.ui.actionDarkSubtract.setEnabled(True)
+                    self.ui.actionDarkSpectrum.setEnabled(True)
+                else:
+                    self.dark = _Spectra()
+                    print('Dark was the wrong shape')
             else:
                 self.dark = _Spectra()
-                print('Dark was the wrong shape')
+                self.ui.actionDarkSubtract.setEnabled(False)
+                self.ui.actionDarkSpectrum.setEnabled(False)
 
 
     def loadNRB(self):
@@ -475,20 +487,24 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load NRB spectrum(a)
         """
 
-        filename, dataset, selection_made = SubUiHDFLoad.getFileDataSets()
-        pth = _os.path.dirname(filename) + '/'
-        filename = filename.split(_os.path.dirname(filename))[1][1::]
+        to_open = SubUiHDFLoad.getFileDataSets()
+        if to_open is not None:
+            pth, filename, datasets = to_open
 
-        if selection_made == True:
-            _io_nist(pth, filename, dataset, self.nrb)
-
-            if self.nrb.shape[-1] == self.hsi.freq.size:
-                self.ui.actionKramersKronig.setEnabled(True)
-                self.ui.actionKKSpeedTest.setEnabled(True)
-                self.ui.actionNRBSpectrum.setEnabled(True)
+            success = _io_nist(pth, filename, datasets, self.nrb)
+            if success:
+                if self.nrb.shape[-1] == self.hsi.freq.size:
+                    self.ui.actionKramersKronig.setEnabled(True)
+                    self.ui.actionKKSpeedTest.setEnabled(True)
+                    self.ui.actionNRBSpectrum.setEnabled(True)
+                else:
+                    self.nrb = _Spectra()
+                    print('NRB was the wrong shape')
             else:
                 self.nrb = _Spectra()
-                print('NRB was the wrong shape')
+                self.ui.actionKramersKronig.setEnabled(False)
+                self.ui.actionKKSpeedTest.setEnabled(False)
+                self.ui.actionNRBSpectrum.setEnabled(False)
 
     def settings(self):
         """

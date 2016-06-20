@@ -70,7 +70,7 @@ def hdf_is_valid_dsets(pth, filename, dset_list):
             try:
                 f[dset_list]
             except:
-                print('dataset: {} is invalid'.format(count))
+                print('dataset {} is invalid'.format(count))
             else:
                 print('Dataset is valid')
                 isvalid = True
@@ -140,79 +140,108 @@ def hdf_attr_to_dict(attr):
     return output_dict
 
 def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
+    """
+    Import dataset(s) from HDF file
+
+    Parameters
+    ----------
+    pth : str
+        Path
+
+    filename : str
+        File name
+
+    dset_list : list
+        List of 1 or more datasets
+
+    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)
+        Spectrum class (or sub) object
+
+    Returns
+    -------
+        Success : bool
+            Success of import
+        Data, Meta : list (ndarray, dict)
+            If output_cls_instance is None and import is successful, will \
+            return the data from dset_list and associated meta data.
+
+    """
     pfname = pth + filename
     if hdf_is_valid_dsets(pth, filename,dset_list) == False:
         print('Invalid filename or dataset list')
-        return None
+        return False
     else:
+        try:
+            f = _h5py.File(pfname,'r')
 
-        f = _h5py.File(pfname,'r')
+            if type(output_cls_instance) == _Hsi:
+                print('Type Hsi')
+                if isinstance(dset_list, str):
+                    output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
+                    output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
+                elif isinstance(dset_list, list):
+                    if len(dset_list) > 1:
+                        print('Cannot accept more than 1 HSI image at this time')
+                    else:
+                        for num, dname in enumerate(dset_list):
+                            if num == 0:
+                                output_cls_instance.data = _convert_to_np_dtype(f[dname])
+                                output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
+                            else:
+                                output_cls_instance.data = _np.vstack((output_cls_instance.data, _convert_to_np_dtype(f[dname])))
+                ret = True
+            elif type(output_cls_instance) == _Spectra:
+                print('Type Spectra')
+                if isinstance(dset_list,str):
+                    output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
+                    output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
 
-        # NOTE: order is important since Hsi and Spectra are subclasses of
-        # Spectrum
-        #if isinstance(output_cls_instance, _Hsi):
-        if type(output_cls_instance) == _Hsi:
-            print('Type Hsi')
-            if isinstance(dset_list, str):
-                output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
-                output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
-            elif isinstance(dset_list, list):
-                if len(dset_list) > 1:
-                    print('Cannot accept more than 1 HSI image at this time')
-                else:
+                elif isinstance(dset_list, list):
                     for num, dname in enumerate(dset_list):
                         if num == 0:
                             output_cls_instance.data = _convert_to_np_dtype(f[dname])
                             output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
                         else:
                             output_cls_instance.data = _np.vstack((output_cls_instance.data, _convert_to_np_dtype(f[dname])))
-
-        elif type(output_cls_instance) == _Spectra:
-            print('Type Spectra')
-            if isinstance(dset_list,str):
-                output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
-                output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
-
-            elif isinstance(dset_list, list):
-                for num, dname in enumerate(dset_list):
-                    if num == 0:
-                        output_cls_instance.data = _convert_to_np_dtype(f[dname])
-                        output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
+                ret = True
+            elif type(output_cls_instance) == _Spectrum:
+                print('Type Spectrum')
+                if isinstance(dset_list, str):
+                    output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
+                    output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
+                elif isinstance(dset_list, list):
+                    if len > 1:
+                        print('Will average spectra into a single spectrum')
                     else:
-                        output_cls_instance.data = _np.vstack((output_cls_instance.data, _convert_to_np_dtype(f[dname])))
-        elif type(output_cls_instance) == _Spectrum:
-            print('Type Spectrum')
-            if isinstance(dset_list, str):
-                output_cls_instance.data = _convert_to_np_dtype(f[dset_list])
-                output_cls_instance.meta = hdf_attr_to_dict(f[dset_list].attrs)
-            elif isinstance(dset_list, list):
-                if len > 1:
-                    print('Will average spectra into a single spectrum')
-                else:
+                        for num, dname in enumerate(dset_list):
+                            if num == 0:
+                                output_cls_instance.data = _convert_to_np_dtype(f[dname])
+                                output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
+                            else:
+                                output_cls_instance.data += _convert_to_np_dtype(f[dname])
+                        output_cls_instance.data /= num+1
+                ret = True
+            elif output_cls_instance is None:
+                if isinstance(dset_list, str):
+                    data = _convert_to_np_dtype(f[dset_list])
+                    meta = hdf_attr_to_dict(f[dset_list].attrs)
+                elif isinstance(dset_list, list):
                     for num, dname in enumerate(dset_list):
                         if num == 0:
-                            output_cls_instance.data = _convert_to_np_dtype(f[dname])
-                            output_cls_instance.meta = hdf_attr_to_dict(f[dname].attrs)
+                            data = _convert_to_np_dtype(f[dname])
+                            meta = hdf_attr_to_dict(f[dname].attrs)
                         else:
-                            output_cls_instance.data += _convert_to_np_dtype(f[dname])
-                    output_cls_instance.data /= num+1
+                            data = _np.vstack((data, _convert_to_np_dtype(f[dname])))
+                ret = [data, meta]
+            else:
+                raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
+        except:
+            raise TypeError('Something failed in import_hdf_nist_special')
+            ret = False
 
-        elif output_cls_instance is None:
-            if isinstance(dset_list, str):
-                data = _convert_to_np_dtype(f[dset_list])
-                meta = hdf_attr_to_dict(f[dset_list].attrs)
-            elif isinstance(dset_list, list):
-                for num, dname in enumerate(dset_list):
-                    if num == 0:
-                        data = _convert_to_np_dtype(f[dname])
-                        meta = hdf_attr_to_dict(f[dname].attrs)
-                    else:
-                        data = _np.vstack((data, _convert_to_np_dtype(f[dname])))
-            return [data, meta]
-        else:
-            raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
-
-    f.close()
+        finally:
+            f.close()
+            return ret
 
 def hdf_export_data(output_cls_instance, pth, filename, dsetname):
     """
