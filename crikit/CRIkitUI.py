@@ -1185,7 +1185,7 @@ class CRIkitUI_process(_QMainWindow):
 #                    self.dark.nrb_dark_sub(self.nrb)
 
             if subresidual:
-                rng = self.hsi.freq.get_index_of_closest_freq([-5000, -500])
+                rng = self.hsi.freq.get_index_of_closest_freq(freq)
                 sub_residual = _SubtractMeanOverRange(rng)
                 sub_residual.transform(self.hsi.data)
 
