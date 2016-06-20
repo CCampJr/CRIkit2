@@ -52,15 +52,13 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         # Set static GUI  parameters
 
         # Set signal(s)-slot(s) connection/actions
-        #self.ui.actionOpen.triggered.connect(self.fileopen)
-        self.ui.dataGroupSelect.currentTextChanged.connect(self.datagroupchange)
-        #self.ui.dataSetList.itemClicked.connect(self.datasetselected)
 
-        #self.ui.dataSetList.itemSelectionChanged.connect(self.datasetselected)
+        self.ui.pushButtonOk.clicked.connect(self.accept)
+        self.ui.pushButtonCancel.clicked.connect(self.reject)
+        self.ui.dataGroupSelect.currentTextChanged.connect(self.datagroupchange)
         self.ui.dataSetList.itemClicked.connect(self.datasetselected)
         self.ui.filterButton.clicked.connect(self.filterlist)
         self.ui.resetFilter.clicked.connect(self.datagroupchange)
-        self.ui.acceptbox.accepted.connect(self.accepted)
         # Setup GUI variables
 
         # Initial Actions
