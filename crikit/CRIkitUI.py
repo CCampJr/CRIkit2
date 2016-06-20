@@ -29,18 +29,19 @@ import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 
 # CRIkit import
-from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Spectra
+from crikit.data.hsi import Hsi
 
-from crikit.io.macros import import_hdf_nist_special as _io_nist
+from crikit.io.macros import import_hdf_nist_special as io_nist
 from crikit.io.hdf5 import hdf_export_data as _io_export
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
-from crikit.utils.general import find_nearest as _find_nearest
+from crikit.utils.general import find_nearest
 
-from crikit.preprocess.subtract_dark import SubtractDark as _SubtractDark
-from crikit.preprocess.subtract_mean import SubtractMeanOverRange as _SubtractMeanOverRange
+from crikit.preprocess.subtract_dark import SubtractDark
+from crikit.preprocess.subtract_mean import SubtractMeanOverRange
 
+from crikit.cri.kk import KramersKronig
 #
 #from crikit.ui.subui_SVD import DialogSVD
 #from crikit.ui.subui_plotter import SubUiPlotter as _Plotter
@@ -64,7 +65,7 @@ from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 #from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
 #
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
-from crikit.ui.dialog_options import DialogDarkOptions
+from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 #from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.dialog_save import DialogSave
@@ -127,11 +128,11 @@ class CRIkitUI_process(_QMainWindow):
         self.path = None
         self.dataset_name = None
 
-        self.hsi = _Hsi()
+        self.hsi = Hsi()
         self.bcpre = _BCPre()
 
-        self.dark = _Spectra()
-        self.nrb = _Spectra()
+        self.dark = Spectra()
+        self.nrb = Spectra()
 
 #        self.plotter = _Plotter()
 #        self.selectiondata = _ImageSelection()
@@ -380,8 +381,8 @@ class CRIkitUI_process(_QMainWindow):
             pass
         else:
             if to_open is not None:
-                self.hsi = _Hsi()
-                success = _io_nist(self.path, self.filename, self.dataset_name,
+                self.hsi = Hsi()
+                success = io_nist(self.path, self.filename, self.dataset_name,
                                    self.hsi)
                 if success:
                     self.ui.actionLoadDark.setEnabled(True)
@@ -467,17 +468,17 @@ class CRIkitUI_process(_QMainWindow):
 
         if to_open is not None:
             pth, filename, datasets = to_open
-            success = _io_nist(pth, filename, datasets, self.dark)
+            success = io_nist(pth, filename, datasets, self.dark)
 
             if success:
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
                 else:
-                    self.dark = _Spectra()
+                    self.dark = Spectra()
                     print('Dark was the wrong shape')
             else:
-                self.dark = _Spectra()
+                self.dark = Spectra()
                 self.ui.actionDarkSubtract.setEnabled(False)
                 self.ui.actionDarkSpectrum.setEnabled(False)
 
@@ -491,17 +492,17 @@ class CRIkitUI_process(_QMainWindow):
         if to_open is not None:
             pth, filename, datasets = to_open
 
-            success = _io_nist(pth, filename, datasets, self.nrb)
+            success = io_nist(pth, filename, datasets, self.nrb)
             if success:
                 if self.nrb.shape[-1] == self.hsi.freq.size:
                     self.ui.actionKramersKronig.setEnabled(True)
                     self.ui.actionKKSpeedTest.setEnabled(True)
                     self.ui.actionNRBSpectrum.setEnabled(True)
                 else:
-                    self.nrb = _Spectra()
+                    self.nrb = Spectra()
                     print('NRB was the wrong shape')
             else:
-                self.nrb = _Spectra()
+                self.nrb = Spectra()
                 self.ui.actionKramersKronig.setEnabled(False)
                 self.ui.actionKKSpeedTest.setEnabled(False)
                 self.ui.actionNRBSpectrum.setEnabled(False)
@@ -610,8 +611,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         x_loc_list, y_loc_list = locs
 
-        x_pix = _find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = _find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
 
         mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
                               x_loc_list, y_loc_list)
@@ -676,8 +677,8 @@ class CRIkitUI_process(_QMainWindow):
 
         x_loc_list, y_loc_list = locs
 
-        x_pix = _find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = _find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
 
         mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
                               x_loc_list, y_loc_list)
@@ -762,8 +763,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         try:
             x_loc, y_loc = locs
-            x_pix = _find_nearest(self.hsi.nvec, x_loc)[1]
-            y_pix = _find_nearest(self.hsi.mvec, y_loc)[1]
+            x_pix = find_nearest(self.hsi.nvec, x_loc)[1]
+            y_pix = find_nearest(self.hsi.mvec, y_loc)[1]
             self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
             self.changeSlider()
 
@@ -788,8 +789,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         x_loc_list, y_loc_list = locs
 
-        x_pix = _find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = _find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
 
         self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
         #self.ui.ui_BWImg.mpl.canvas.mpl_disconnect(self.cid)
@@ -1162,14 +1163,13 @@ class CRIkitUI_process(_QMainWindow):
             DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
                                                 nrbloaded=nrbloaded)
 
-        print(subdark)
         if (subdark is None and subresidual is None):
             pass
         else:
             if subdark:
 #                print('Sub Dark')
                 if subdarkimg:
-                    sub_dark = _SubtractDark(self.dark.data)
+                    sub_dark = SubtractDark(self.dark.data)
                     sub_dark.transform(self.hsi.data)
 #                    self.dark.alter_dark_sub(self.hsi)
                     self.bcpre.add_step(['SubDark'])
@@ -1186,7 +1186,7 @@ class CRIkitUI_process(_QMainWindow):
 
             if subresidual:
                 rng = self.hsi.freq.get_index_of_closest_freq(freq)
-                sub_residual = _SubtractMeanOverRange(rng)
+                sub_residual = SubtractMeanOverRange(rng)
                 sub_residual.transform(self.hsi.data)
 
                 self.bcpre.add_step(['SubResidual', 'RangeStart', freq[0],
