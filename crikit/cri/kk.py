@@ -122,6 +122,7 @@ class KramersKronig:
 
         shp = cars.shape[0:-2]
 
+        #  Step row-by-row through image
         for idx in _np.ndindex(shp):
             if self.rng is None:
                 kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
@@ -135,6 +136,7 @@ class KramersKronig:
                                       phase_offset=self.phase_offset,
                                       norm_by_bg=self.norm_to_nrb,
                                       pad_factor=self.pad_factor)
+
             try:
                 ret_obj[idx] *= 0
                 if self.rng is None:
@@ -146,7 +148,8 @@ class KramersKronig:
             except:
                 return False
             else:
-                return True
+                pass
+        return True
 
     def calculate(self, cars, nrb):
 
@@ -191,7 +194,7 @@ if __name__ == '__main__': # pragma: no cover
     hsi.data = temp
     num_spectra = int(hsi.size/WN.size)
 
-    hsi.freq = WN
+    hsi.freq.data = WN
 
     start = _timeit.default_timer()
     kkd = _kkrelation(NRB,CARS)
@@ -241,7 +244,7 @@ if __name__ == '__main__': # pragma: no cover
 
     plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
     plt.plot(hsi.freq.data[hsi.freq.op_range_pix],
-             hsi.data[0,0,hsi.freq.op_range_pix].imag, 'r*',
+             hsi.data[10,10,hsi.freq.op_range_pix].imag, 'r*',
              label='KK-Retrieved')
     plt.legend(loc='best')
     plt.xlabel('Wavenumber (cm$^{-1}$)')
@@ -249,4 +252,4 @@ if __name__ == '__main__': # pragma: no cover
     plt.title('Raman vs KK-Retrieved CARS')
     plt.show()
 
-    print(_np.allclose(X.imag[hsi.freq.op_range_pix], hsi.data[0,0,hsi.freq.op_range_pix].imag,rtol=1))
+    print(_np.allclose(X.imag[hsi.freq.op_range_pix], hsi.data[10,10,hsi.freq.op_range_pix].imag,rtol=1))
