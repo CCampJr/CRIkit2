@@ -11,19 +11,28 @@ import copy as _copy
 
 class ZeroColumn:
     """
-    Set first column that is not all 0's to 0.
+    Set first or last column that is not all 0's to 0.
+
+    Parameters
+    ----------
+    first_or_last : int, optional (default = 0 [first])
+        Find first (= 0) or last (= -1)
+
+    zero_col : int, optional (default = None)
+        Zero a specified column
     """
-    def __init__(self, first_non_zero_col=None):
-        self.first_non_zero_col = first_non_zero_col
+    def __init__(self, first_or_last=0, zero_col=None):
+        self.zero_col = zero_col
+        self.fol = first_or_last
 
     def _calc(self, data, ret_obj):
         assert data.ndim == 3
         try:
-            if self.first_non_zero_col is None:
+            if self.zero_col is None:
                 row_sums = data.sum(axis=(0, -1))
-                self.first_non_zero_col = _np.nonzero(row_sums)[0][0]
+                self.zero_col = _np.nonzero(row_sums)[0][self.fol]
 
-            ret_obj[:, self.first_non_zero_col, :] *= 0
+            ret_obj[:, self.zero_col, :] *= 0
         except:
             return False
         else:
@@ -44,19 +53,28 @@ class ZeroColumn:
 
 class ZeroRow:
     """
-    Set first row that is not all 0's to 0.
+    Set first or last row that is not all 0's to 0.
+
+    Parameters
+    ----------
+    first_or_last : int, optional (default = 0 [first])
+        Find first (= 0) or last (= -1)
+
+    zero_row : int, optional (default = None)
+        Zero a specified row
     """
-    def __init__(self, first_non_zero_row=None):
-        self.first_non_zero_row = first_non_zero_row
+    def __init__(self, first_or_last=0, zero_row=None):
+        self.zero_row = zero_row
+        self.fol = first_or_last
 
     def _calc(self, data, ret_obj):
         assert data.ndim == 3
         try:
-            if self.first_non_zero_row is None:
+            if self.zero_row is None:
                 col_sums = data.sum(axis=(1, -1))
-                self.first_non_zero_row = _np.nonzero(col_sums)[0][0]
+                self.zero_row = _np.nonzero(col_sums)[0][self.fol]
 
-            ret_obj[self.first_non_zero_row, :, :] *= 0
+            ret_obj[self.zero_row, :, :] *= 0
         except:
             return False
         else:
@@ -78,15 +96,29 @@ if __name__ == '__main__':
 
 
     temp = _np.random.rand(3,4,5)
-    z = ZeroColumn()
+    z = ZeroColumn(first_or_last=0)
     z.transform(temp)
     print('Zero First Column')
     print('Is first column sum-0?: {}'.format(temp.sum(axis=(0,-1))[0] == 0))
     print('Is first row sum-0?: {}'.format(temp.sum(axis=(1,-1))[0] == 0))
 
     temp = _np.random.rand(3,4,5)
-    z = ZeroRow()
+    z = ZeroRow(first_or_last=0)
     z.transform(temp)
     print('\n\nZero First Row')
     print('Is first column sum-0?: {}'.format(temp.sum(axis=(0,-1))[0] == 0))
     print('Is first row sum-0?: {}'.format(temp.sum(axis=(1,-1))[0] == 0))
+
+    temp = _np.random.rand(3,4,5)
+    z = ZeroColumn(first_or_last=-1)
+    z.transform(temp)
+    print('\n\nZero Last Column')
+    print('Is last column sum-0?: {}'.format(temp.sum(axis=(0,-1))[-1] == 0))
+    print('Is last row sum-0?: {}'.format(temp.sum(axis=(1,-1))[-1] == 0))
+
+    temp = _np.random.rand(3,4,5)
+    z = ZeroRow(first_or_last=-1)
+    z.transform(temp)
+    print('\n\nZero First Row')
+    print('Is last column sum-0?: {}'.format(temp.sum(axis=(0,-1))[-1] == 0))
+    print('Is last row sum-0?: {}'.format(temp.sum(axis=(1,-1))[-1] == 0))

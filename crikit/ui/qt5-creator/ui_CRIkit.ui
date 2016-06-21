@@ -379,8 +379,10 @@ This will be saved to the processed file.</string>
      <string>Edit</string>
     </property>
     <addaction name="actionUndo"/>
-    <addaction name="actionZeroColumn"/>
-    <addaction name="actionZeroRow"/>
+    <addaction name="actionZeroFirstColumn"/>
+    <addaction name="actionZeroFirstRow"/>
+    <addaction name="actionZeroLastColumn"/>
+    <addaction name="actionZeroLastRow"/>
     <addaction name="actionFreqWindow"/>
     <addaction name="actionCalibrate"/>
     <addaction name="actionResetCalibration"/>
@@ -543,7 +545,7 @@ This will be saved to the processed file.</string>
     <string>Analysis Toolkit</string>
    </property>
   </action>
-  <action name="actionZeroColumn">
+  <action name="actionZeroFirstColumn">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -689,7 +691,7 @@ This will be saved to the processed file.</string>
     <string>Reset Calibration</string>
    </property>
   </action>
-  <action name="actionZeroRow">
+  <action name="actionZeroFirstRow">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -699,6 +701,24 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Zero 1st Row</string>
+   </property>
+  </action>
+  <action name="actionZeroLastColumn">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero Last Column</string>
+   </property>
+  </action>
+  <action name="actionZeroLastRow">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero Last Row</string>
    </property>
   </action>
  </widget>

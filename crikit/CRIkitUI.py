@@ -221,8 +221,10 @@ class CRIkitUI_process(_QMainWindow):
 
 
         # ZERO first column or row
-        self.ui.actionZeroColumn.triggered.connect(self.zeroColumn)
-        self.ui.actionZeroRow.triggered.connect(self.zeroRow)
+        self.ui.actionZeroFirstColumn.triggered.connect(self.zeroFirstColumn)
+        self.ui.actionZeroFirstRow.triggered.connect(self.zeroFirstRow)
+        self.ui.actionZeroLastColumn.triggered.connect(self.zeroLastColumn)
+        self.ui.actionZeroLastRow.triggered.connect(self.zeroLastRow)
 
         # Set frequency WINDOW
         self.ui.actionFreqWindow.triggered.connect(self.freqWindow)
@@ -390,8 +392,10 @@ class CRIkitUI_process(_QMainWindow):
                 if success:
                     self.ui.actionLoadDark.setEnabled(True)
                     self.ui.actionLoadNRB.setEnabled(True)
-                    self.ui.actionZeroColumn.setEnabled(True)
-                    self.ui.actionZeroRow.setEnabled(True)
+                    self.ui.actionZeroFirstColumn.setEnabled(True)
+                    self.ui.actionZeroFirstRow.setEnabled(True)
+                    self.ui.actionZeroLastColumn.setEnabled(True)
+                    self.ui.actionZeroLastRow.setEnabled(True)
 
 #                self.ui.actionSave.setEnabled(True)
 #                self.ui.actionDeNoise.setEnabled(True)
@@ -408,8 +412,10 @@ class CRIkitUI_process(_QMainWindow):
                 else:
                     self.ui.actionLoadDark.setEnabled(False)
                     self.ui.actionLoadNRB.setEnabled(False)
-                    self.ui.actionZeroColumn.setEnabled(True)
-                    self.ui.actionZeroRow.setEnabled(True)
+                    self.ui.actionZeroFirstColumn.setEnabled(False)
+                    self.ui.actionZeroFirstRow.setEnabled(False)
+                    self.ui.actionZeroLastColumn.setEnabled(False)
+                    self.ui.actionZeroLastRow.setEnabled(False)
 
                 #self.bcpre.add_step(['Raw'])
 #                try:
@@ -464,7 +470,10 @@ class CRIkitUI_process(_QMainWindow):
 #                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
                 self.ui.actionFreqWindow.setEnabled(True)
-                self.ui.actionZeroColumn.setEnabled(True)
+                self.ui.actionZeroFirstColumn.setEnabled(True)
+                self.ui.actionZeroFirstRow.setEnabled(True)
+                self.ui.actionZeroLastColumn.setEnabled(True)
+                self.ui.actionZeroLastRow.setEnabled(True)
 #                self.ui.actionSave.setEnabled(True)
                 self.ui.actionDeNoise.setEnabled(True)
 #                self.ui.actionErrorCorrection.setEnabled(True)
@@ -959,20 +968,36 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.freqSlider.setSliderPosition(pos)
         self.changeSlider()
 
-    def zeroColumn(self):
+    def zeroFirstColumn(self):
         """
         Zero first non-all-zero column. (Rather than crop)
 
         """
-        zc = _ZeroColumn()
+        zc = _ZeroColumn(first_or_last=0)
         zc.transform(self.hsi.data)
 
-    def zeroRow(self):
+    def zeroFirstRow(self):
         """
         Zero first non-all-zero row. (Rather than crop)
 
         """
-        zr = _ZeroRow()
+        zr = _ZeroRow(first_or_last=0)
+        zr.transform(self.hsi.data)
+
+    def zeroLastColumn(self):
+        """
+        Zero first non-all-zero column. (Rather than crop)
+
+        """
+        zc = _ZeroColumn(first_or_last=-1)
+        zc.transform(self.hsi.data)
+
+    def zeroLastRow(self):
+        """
+        Zero first non-all-zero row. (Rather than crop)
+
+        """
+        zr = _ZeroRow(first_or_last=-1)
         zr.transform(self.hsi.data)
 
     def opChange(self):
