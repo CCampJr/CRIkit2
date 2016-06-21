@@ -276,6 +276,13 @@ class Frequency:
             return self.data
 
     @property
+    def op_size(self):
+        if self._op_list_pix is None:
+            return self.data.size
+        else:
+            return self._op_list_pix[-1] - self._op_list_pix[0] + 1
+
+    @property
     def plot_list_pix(self):
         raise NotImplementedError('plot_list_pix is not yet implemented')
 
