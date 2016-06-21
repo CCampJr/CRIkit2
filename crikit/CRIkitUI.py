@@ -40,10 +40,12 @@ from crikit.utils.general import find_nearest
 
 from crikit.preprocess.subtract_dark import SubtractDark
 from crikit.preprocess.subtract_mean import SubtractMeanOverRange
+from crikit.preprocess.crop import (ZeroColumn as _ZeroColumn,
+                                    ZeroRow as _ZeroRow)
 
 from crikit.cri.kk import KramersKronig
 #
-#from crikit.ui.subui_SVD import DialogSVD
+
 #from crikit.ui.subui_plotter import SubUiPlotter as _Plotter
 #from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
 #from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
@@ -66,8 +68,8 @@ from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 #
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
 from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
-#from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
-#from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
+from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
+from crikit.ui.subui_SVD import DialogSVD
 #from crikit.ui.dialog_save import DialogSave
 
 # Generic imports for MPL-incorporation
@@ -218,8 +220,9 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionDarkSubtract.triggered.connect(self.subDark)
 
 
-        # ZERO first column
+        # ZERO first column or row
         self.ui.actionZeroColumn.triggered.connect(self.zeroColumn)
+        self.ui.actionZeroRow.triggered.connect(self.zeroRow)
 
         # Set frequency WINDOW
         self.ui.actionFreqWindow.triggered.connect(self.freqWindow)
@@ -387,9 +390,26 @@ class CRIkitUI_process(_QMainWindow):
                 if success:
                     self.ui.actionLoadDark.setEnabled(True)
                     self.ui.actionLoadNRB.setEnabled(True)
+                    self.ui.actionZeroColumn.setEnabled(True)
+                    self.ui.actionZeroRow.setEnabled(True)
+
+#                self.ui.actionSave.setEnabled(True)
+#                self.ui.actionDeNoise.setEnabled(True)
+#                self.ui.actionErrorCorrection.setEnabled(True)
+#                self.ui.actionAnalysisToolkit.setEnabled(True)
+#                self.ui.actionPointSpectrum.setEnabled(True)
+#                self.ui.actionROISpectrum.setEnabled(True)
+#                self.ui.actionDarkSubtract.setEnabled(True)
+#                self.ui.actionCalibrate.setEnabled(True)
+#                self.ui.actionResetCalibration.setEnabled(True)
+#                self.ui.actionNRB_from_ROI.setEnabled(True)
+#                self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+#                self.ui.actionSubtractROI.setEnabled(True)
                 else:
                     self.ui.actionLoadDark.setEnabled(False)
                     self.ui.actionLoadNRB.setEnabled(False)
+                    self.ui.actionZeroColumn.setEnabled(True)
+                    self.ui.actionZeroRow.setEnabled(True)
 
                 #self.bcpre.add_step(['Raw'])
 #                try:
@@ -443,10 +463,10 @@ class CRIkitUI_process(_QMainWindow):
 #                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
 #                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
-#                self.ui.actionFreqWindow.setEnabled(True)
-#                self.ui.actionZeroColumn.setEnabled(True)
+                self.ui.actionFreqWindow.setEnabled(True)
+                self.ui.actionZeroColumn.setEnabled(True)
 #                self.ui.actionSave.setEnabled(True)
-#                self.ui.actionDeNoise.setEnabled(True)
+                self.ui.actionDeNoise.setEnabled(True)
 #                self.ui.actionErrorCorrection.setEnabled(True)
 #                self.ui.actionAnalysisToolkit.setEnabled(True)
 #                self.ui.actionPointSpectrum.setEnabled(True)
@@ -944,17 +964,16 @@ class CRIkitUI_process(_QMainWindow):
         Zero first non-all-zero column. (Rather than crop)
 
         """
-        numcols = self.hsi.nlen
-        for count in range(numcols):
-            temp = self.hsi.spectra[:, count, :]
-            tot_sum = _np.sum(temp)
-            if tot_sum == 0:
-                pass
-            else:
-                break
-        #print(count)
-        self.hsi.spectrafull[:,count,:] = 0
-        self.changeSlider()
+        zc = _ZeroColumn()
+        zc.transform(self.hsi.data)
+
+    def zeroRow(self):
+        """
+        Zero first non-all-zero row. (Rather than crop)
+
+        """
+        zr = _ZeroRow()
+        zr.transform(self.hsi.data)
 
     def opChange(self):
         """

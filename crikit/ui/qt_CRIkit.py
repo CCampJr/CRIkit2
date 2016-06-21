@@ -305,6 +305,10 @@ class Ui_MainWindow(object):
         icon18.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/x-2x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionResetCalibration.setIcon(icon18)
         self.actionResetCalibration.setObjectName("actionResetCalibration")
+        self.actionZeroRow = QtWidgets.QAction(MainWindow)
+        self.actionZeroRow.setEnabled(False)
+        self.actionZeroRow.setIcon(icon10)
+        self.actionZeroRow.setObjectName("actionZeroRow")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addSeparator()
@@ -327,6 +331,7 @@ class Ui_MainWindow(object):
         self.menuPre_Process.addSeparator()
         self.menuEdit.addAction(self.actionUndo)
         self.menuEdit.addAction(self.actionZeroColumn)
+        self.menuEdit.addAction(self.actionZeroRow)
         self.menuEdit.addAction(self.actionFreqWindow)
         self.menuEdit.addAction(self.actionCalibrate)
         self.menuEdit.addAction(self.actionResetCalibration)
@@ -394,5 +399,6 @@ class Ui_MainWindow(object):
         self.actionKKSpeedTest.setText(_translate("MainWindow", "Kramers-Kronig Speed Test"))
         self.actionSimpleOutlierRemoval.setText(_translate("MainWindow", "Simple Outlier Removal"))
         self.actionResetCalibration.setText(_translate("MainWindow", "Reset Calibration"))
+        self.actionZeroRow.setText(_translate("MainWindow", "Zero 1st Row"))
 
 from . import icons_all_rc

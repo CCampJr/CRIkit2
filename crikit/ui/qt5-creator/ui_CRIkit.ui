@@ -380,6 +380,7 @@ This will be saved to the processed file.</string>
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionZeroColumn"/>
+    <addaction name="actionZeroRow"/>
     <addaction name="actionFreqWindow"/>
     <addaction name="actionCalibrate"/>
     <addaction name="actionResetCalibration"/>
@@ -686,6 +687,18 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Reset Calibration</string>
+   </property>
+  </action>
+  <action name="actionZeroRow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero 1st Row</string>
    </property>
   </action>
  </widget>
