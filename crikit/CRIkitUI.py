@@ -430,7 +430,7 @@ class CRIkitUI_process(_QMainWindow):
 #                self.ui.freqSlider.setSliderPosition(self.hsi.pixrange[0])
 #                pos = self.ui.freqSlider.sliderPosition()
 #                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
-#                self.ui.lineEditFreq.setText(str(round(self.hsi.freq.op_range_freq[0],2)))
+#                self.ui.lineEditFreq.setText(str(round(self.hsi.f[0],2)))
 #
 #
 #                # Set BW Class Data
@@ -549,7 +549,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True, full=True)
         plugin = _widgetCalibrate(calib_dict=self.hsi.freqcalib)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.freq.data, plugin=plugin,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
                                                       xlabel='Wavenumber (cm$^{-1}$)',
                                                       ylabel='Imag. {$\chi_R$} (au)',
                                                       show_difference=False)
@@ -576,7 +576,7 @@ class CRIkitUI_process(_QMainWindow):
             pass
         else:
             self.selectiondata.append_selection([None],[None],[None],[None])
-            self.plotter.append_spectrum(freq=self.hsi.freq.data,
+            self.plotter.append_spectrum(freq=self.hsi.f_full,
                                          spectrum=self.dark.dark_spectrum,
                                          label='Dark',
                                          frequnits=self.hsi.frequnits,
@@ -591,7 +591,7 @@ class CRIkitUI_process(_QMainWindow):
             pass
         else:
             self.selectiondata.append_selection([None],[None],[None],[None])
-            self.plotter.append_spectrum(freq=self.hsi.freq.data,
+            self.plotter.append_spectrum(freq=self.hsi.f_full,
                                  spectrum=self.nrb.nrb_spectrum,
                                  label='NRB',
                                  frequnits=self.hsi.frequnits,
@@ -801,7 +801,7 @@ class CRIkitUI_process(_QMainWindow):
             plot_num = self.plotter._data.num_plots
             label = 'Point ' + str(plot_num)
 
-            self.plotter.append_spectrum(freq=self.hsi.freq.op_range_freq,
+            self.plotter.append_spectrum(freq=self.hsi.f,
                              spectrum=spectrum,
                              label=label,
                              frequnits=self.hsi.frequnits,
@@ -843,7 +843,7 @@ class CRIkitUI_process(_QMainWindow):
                 spectrum = spectra
             plot_num = self.plotter._data.num_plots
             label = 'ROI ' + str(plot_num)
-            self.plotter.append_spectrum(freq=self.hsi.freq.op_range_freq,
+            self.plotter.append_spectrum(freq=self.hsi.f,
                                          spectrum=spectrum,
                                          label=label,
                                          frequnits=self.hsi.frequnits,
@@ -1067,7 +1067,7 @@ class CRIkitUI_process(_QMainWindow):
         rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True)
 
         cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.freq.op_range_freq, nrb, rand_spectra])
+            DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra])
 
         if cars_amp_offset is not None:
             try:
@@ -1099,7 +1099,7 @@ class CRIkitUI_process(_QMainWindow):
         rng = self.hsi.freq.op_range_pix
 
         cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.freq.data[..., rng],
+            DialogKKOptions.dialogKKOptions(data=[self.hsi.f_full[..., rng],
                                                   nrb[...,rng], rand_spectra])
 
         if cars_amp_offset is not None:
@@ -1526,7 +1526,7 @@ class CRIkitUI_process(_QMainWindow):
         spectrum /= y_loc.size
 
         self.selectiondata.append_selection([None],[None],[None],[None])
-        self.plotter.append_spectrum(freq=self.hsi.freq.op_range_freq,
+        self.plotter.append_spectrum(freq=self.hsi.f,
                                          spectrum=spectrum,
                                          label=label,
                                          frequnits=self.hsi.frequnits,
@@ -1569,7 +1569,7 @@ class CRIkitUI_process(_QMainWindow):
 
         try:
 
-            self.ui.lineEditFreq.setText(str(round(self.hsi.freq.op_range_freq[pos],2)))
+            self.ui.lineEditFreq.setText(str(round(self.hsi.f[pos],2)))
             # Set BW Class Data
             self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
             self.ui.ui_BWImg.data.set_x(self.hsi.nvec, 'X ($\mu m$)')

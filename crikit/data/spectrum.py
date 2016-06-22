@@ -130,6 +130,21 @@ class Spectrum:
             raise TypeError('freq must be of type crikit.data.Frequency')
 
     @property
+    def f(self):
+        """
+        Convenience attribute: return frequency vector within operating (op) \
+        range
+        """
+        return self.freq.op_range_freq
+
+    @property
+    def f_full(self):
+        """
+        Convenience attribute: return full frequency vector
+        """
+        return self.freq.data
+
+    @property
     def units(self):
         return self._units
 
