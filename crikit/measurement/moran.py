@@ -14,8 +14,8 @@ if __name__ == '__main__':  # pragma: no cover
     import os as _os
     _sys.path.append(_os.path.abspath('../../'))
 
-from crikit.utils.gen_utils import row_col_from_lin as _row_col_from_lin
-from crikit.utils.gen_utils import lin_from_row_col as _lin_from_row_col
+from crikit.utils.general import row_col_from_lin as _row_col_from_lin
+from crikit.utils.general import lin_from_row_col as _lin_from_row_col
 
 
 class MoranI:
@@ -121,6 +121,7 @@ class MoranI:
                 I[rc,cc] = self._calc_I(sm_img)
 
         self.I = I.mean()
+        return self.I
 
     def _calc_I(self, img):
         """
