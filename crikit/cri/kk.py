@@ -240,6 +240,7 @@ if __name__ == '__main__': # pragma: no cover
           (stop-start)/num_spectra))
 
     hsi.data = kkd
+    del kkd
     _timeit.time.sleep(2)
 
     plt.plot(WN, X.imag, label='Imag.{$\chi_{R}$}')
