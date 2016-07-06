@@ -72,6 +72,9 @@ class SVDDecompose:
 
 
     def _calc(self, data, ret_obj):
+        """
+        Calculate SVD (wrap numpy SVD).
+        """
         try:
             if self.rng is None:
                 self._U, self._s, self._Vh = _svd(data, full_matrices=False)
@@ -84,6 +87,11 @@ class SVDDecompose:
             return True
 
     def calculate(self, data):
+        """
+        Calculate SVD and return U, s, and Vh.
+        """
+
+        # If 3D -> 2D
         if data.ndim == 3:
             success = self._calc(data.reshape((-1,data.shape[-1])), ret_obj=None)
         else:
@@ -148,18 +156,30 @@ class SVDRecompose:
 
 
     def _calc(self, U, s, Vh, ret_obj):
+        """
+        Perform data reconstruction from U*S*Vh with selected s-values.
+        """
 
         try:
             ret_obj *= 0
             if ret_obj.ndim == 2:
-
+                if self.rng is None:
                 # out = U*S*Vh
-                ret_obj += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                    ret_obj += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                else:
+                    ret_obj[..., self.rng] += _np.dot(U, _np.dot(_np.diag(s), Vh))
             elif ret_obj.ndim == 3:
+                # If 3D (calculate is performed in 2D), reshape.
+                if self.rng is None:
+                    # out = U*S*Vh
+                    ret_obj += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
+                                           ret_obj.shape)
+                else:
+                    shp = list(ret_obj.shape)
+                    shp[-1] = self.rng.size
+                    ret_obj[..., self.rng] += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
+                                           shp)
 
-                # out = U*S*Vh
-                ret_obj += _np.reshape(_np.dot(U, _np.dot(_np.diag(s),
-                                                          Vh)), ret_obj.shape)
         except:
             return False
         else:
@@ -219,8 +239,10 @@ if __name__ == '__main__':  # pragma: no cover
 
     print('\nReturned matrix is same shape {} as that entered: {}'.format(y.shape, y.shape == y2.shape))
 
-    y = _np.random.randn(10,10,1000)
-
+    y = _np.random.randn(10,10,1600)
+    rng = _np.arange(300,600)
+    svd_decompose = SVDDecompose(rng=rng)
+    svd_recompose = SVDRecompose(rng=rng)
     U, s, Vh = svd_decompose.calculate(y)
 
     y2 = svd_recompose.calculate(y, U, s, Vh, svs=[])
