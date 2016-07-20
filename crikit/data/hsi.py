@@ -24,7 +24,7 @@ class Hsi(_Spectrum):
     """
     Hyperspectral imagery class
 
-    Attributes
+    Parameters
     ----------
     data : 3D ndarray [y_pix, x_pix, f_pix]
         HSI image
@@ -54,6 +54,14 @@ class Hsi(_Spectrum):
     meta : dict
         Meta-data dictionary
 
+    Attributes
+    ----------
+    data_imag_over_real : ndarray (3D)
+        If data is complex, return the imaginary portion
+        
+    data_real_over_imag : ndarray (3D)
+        If data is complex, return the real portion
+        
     f_pix : int, read-only
         Size of data's frequency axis. Note: this matches the size of data and \
         does NOT check the size of freq.freq_vec.
@@ -182,6 +190,20 @@ class Hsi(_Spectrum):
         else:
            raise TypeError('data must be a 3D ndarray')
 
+    @property
+    def data_imag_over_real(self):
+        if _np.iscomplexobj(self._data):
+            return self._data.imag
+        else:
+            return self._data
+    
+    @property
+    def data_real_over_imag(self):
+        if _np.iscomplexobj(self._data):
+            return self._data.real
+        else:
+            return self._data
+            
     def mean(self, extent=None, over_space=True):
         """
         Return mean spectrum (or over extent)
