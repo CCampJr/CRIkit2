@@ -32,6 +32,8 @@ version: ("16.04.01")
 if __name__ == '__main__':
 
     import sys as _sys
+    import os as _os
+    _sys.path.append(_os.path.abspath('../sciplot_pyqt5'))
     from PyQt5.QtWidgets import (QApplication as _QApplication)
 
     from crikit import CRIkitUI
