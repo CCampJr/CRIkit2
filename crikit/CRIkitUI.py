@@ -11,6 +11,7 @@ import os as _os
 
 if __name__ == '__main__':
    _sys.path.append(_os.path.abspath('../'))
+   _sys.path.append(_os.path.abspath('../../sciplot_pyqt5'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication, \
@@ -44,9 +45,11 @@ from crikit.preprocess.crop import (ZeroColumn as _ZeroColumn,
                                     ZeroRow as _ZeroRow)
 
 from crikit.cri.kk import KramersKronig
+
+from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
+
 #
 
-#from crikit.ui.subui_plotter import SubUiPlotter as _Plotter
 #from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
 #from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
 #from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
@@ -65,7 +68,9 @@ from crikit.cri.kk import KramersKronig
 from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 
 #from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
-#
+from crikit.ui.widget_images import widgetBWImg
+
+
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
 from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
@@ -136,7 +141,7 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
 
-#        self.plotter = _Plotter()
+        self.plotter = _SciPlotUI()
 #        self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
@@ -145,15 +150,16 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.setupUi(self)     ### EDIT ###
 
         # Initialize Intensity image (single frequency B&W)
-#        self.ui.ui_BWImg = widgetBWImg()
-#        if self.ui.ui_BWImg.ui.checkBoxFixed.checkState()==0:
-#                self.ui.ui_BWImg.ui.lineEditMax.setText(str(round(self.ui.ui_BWImg.data.maxer,4)))
-#                self.ui.ui_BWImg.ui.lineEditMin.setText(str(round(self.ui.ui_BWImg.data.minner,4)))
+#        self.ui.ui_BWImg = _SciPlotUI(limit_to=['images'])
+        self.ui.ui_BWImg = widgetBWImg()
+        if self.ui.ui_BWImg.ui.checkBoxFixed.checkState()==0:
+                self.ui.ui_BWImg.ui.lineEditMax.setText(str(round(self.ui.ui_BWImg.data.maxer,4)))
+                self.ui.ui_BWImg.ui.lineEditMin.setText(str(round(self.ui.ui_BWImg.data.minner,4)))
 #
 #
 #
-#        self.ui.sweeperVL.insertWidget(0, self.ui.ui_BWImg)
-#        self.ui.ui_BWImg.mpl.fig.tight_layout(pad = 2)
+        self.ui.sweeperVL.insertWidget(0, self.ui.ui_BWImg)
+        self.ui.ui_BWImg.mpl.fig.tight_layout(pad = 2)
 
         # Initialize Single-Color RGB widgets
 #        self.ui.RGB = []
@@ -255,13 +261,13 @@ class CRIkitUI_process(_QMainWindow):
 #        self.plotter.model.colorChanged.connect(self.colorChange)
 #        self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
 #        self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
-#        self.ui.actionShowPlotter.triggered.connect(self.plotter.show)
+        self.ui.actionShowPlotter.triggered.connect(self.plotter.show)
 #
 #        # Frequency-slider related
-#        self.ui.freqSlider.valueChanged.connect(self.changeSlider)
-#        self.ui.freqSlider.sliderPressed.connect(self.sliderPressed)
-#        self.ui.freqSlider.sliderReleased.connect(self.sliderReleased)
-#        self.ui.freqSlider.setTracking(True)
+        self.ui.freqSlider.valueChanged.connect(self.changeSlider)
+        self.ui.freqSlider.sliderPressed.connect(self.sliderPressed)
+        self.ui.freqSlider.sliderReleased.connect(self.sliderReleased)
+        self.ui.freqSlider.setTracking(True)
 #
 #        # Frequency-slider display boxes
 #        self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChanged)
@@ -424,29 +430,30 @@ class CRIkitUI_process(_QMainWindow):
 #                    print('Error in pickle backup (Undo functionality)')
 #                else:
 #                    self.bcpre.backed_up()
-#                # Set frequency slider and associated displays
-#                self.ui.freqSlider.setMinimum(self.hsi.pixrange[0])
-#                self.ui.freqSlider.setMaximum(self.hsi.pixrange[1])
-#                self.ui.freqSlider.setSliderPosition(self.hsi.pixrange[0])
-#                pos = self.ui.freqSlider.sliderPosition()
-#                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
-#                self.ui.lineEditFreq.setText(str(round(self.hsi.f[0],2)))
+                # Set frequency slider and associated displays
+                self.ui.freqSlider.setMinimum(self.hsi.freq.op_range_pix[0])
+                self.ui.freqSlider.setMaximum(self.hsi.freq.op_range_pix[-1])
+                self.ui.freqSlider.setSliderPosition(self.hsi.freq.op_range_pix[0])
+                pos = self.ui.freqSlider.sliderPosition()
+                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
+                self.ui.lineEditFreq.setText(str(round(self.hsi.f[0],2)))
 #
 #
-#                # Set BW Class Data
-#                self.ui.ui_BWImg.initData()
+                # Set BW Class Data
+                self.ui.ui_BWImg.initData()
+                self.ui.ui_BWImg.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
 #                self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-#                self.ui.ui_BWImg.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-#                self.ui.ui_BWImg.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
+                self.ui.ui_BWImg.data.set_x(self.hsi.x, 'X ($\mu m$)')
+                self.ui.ui_BWImg.data.set_y(self.hsi.y, 'Y ($\mu m$)')
 #
-#                # Set min/max, fixed, compress, etc buttons to defaults
-#                self.ui.ui_BWImg.ui.checkBoxFixed.setChecked(False)
-#                self.ui.ui_BWImg.ui.checkBoxCompress.setChecked(False)
-#                self.ui.ui_BWImg.ui.checkBoxRemOutliers.setChecked(False)
+                # Set min/max, fixed, compress, etc buttons to defaults
+                self.ui.ui_BWImg.ui.checkBoxFixed.setChecked(False)
+                self.ui.ui_BWImg.ui.checkBoxCompress.setChecked(False)
+                self.ui.ui_BWImg.ui.checkBoxRemOutliers.setChecked(False)
 #
 #                # Plot Grayscale image
-#                self.createImgBW(self.ui.ui_BWImg.data.image)
-#                self.ui.ui_BWImg.mpl.canvas.draw()
+                self.createImgBW(self.ui.ui_BWImg.data.image)
+                self.ui.ui_BWImg.mpl.canvas.draw()
 #
 #
 #                # RGB images
@@ -1568,52 +1575,51 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.lineEditPix.setText(str(pos))
 
         try:
-
             self.ui.lineEditFreq.setText(str(round(self.hsi.f[pos],2)))
             # Set BW Class Data
-            self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-            self.ui.ui_BWImg.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-            self.ui.ui_BWImg.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
+            self.ui.ui_BWImg.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
+            self.ui.ui_BWImg.data.set_x(self.hsi.x, 'X ($\mu m$)')
+            self.ui.ui_BWImg.data.set_y(self.hsi.y, 'Y ($\mu m$)')
 
             if self.ui.ui_BWImg.ui.checkBoxFixed.checkState() == 0:
                 self.ui.ui_BWImg.data.setmax = None
                 self.ui.ui_BWImg.data.setmin = None
-
+                
             self.createImgBW(self.ui.ui_BWImg.data.image)
-
+            
             getx = self.ui.ui_BWImg.mpl.ax.get_xlim()
             gety = self.ui.ui_BWImg.mpl.ax.get_ylim()
 
             self.ui.ui_BWImg.mpl.ax.hold(True)
-            for pts in self.selectiondata.pointdata_list:
-                #print('Pts.X:{}'.format(pts.x))
-                if len(pts.x) == 1:
-                    #print('X2: {}, X2-Pix: {}, Y2: {}, Y2-Pix:{}'.format(pts.x, pts.xpix, pts.y, pts.ypix))
-                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
-                                          marker='+',
-                                          markersize=10,
-                                          markerfacecolor=pts.style.color,
-                                          markeredgecolor=pts.style.color,
-                                          linestyle='None')
-                else:
-                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
-                                          marker='None',
-                                          markersize=10,
-                                          color=pts.style.color,
-                                          markerfacecolor=pts.style.color,
-                                          markeredgecolor=pts.style.color,
-                                          linestyle=pts.style.linestyle,
-                                          linewidth=2)
-
-                self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
-                self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
+#            for pts in self.selectiondata.pointdata_list:
+#                #print('Pts.X:{}'.format(pts.x))
+#                if len(pts.x) == 1:
+#                    #print('X2: {}, X2-Pix: {}, Y2: {}, Y2-Pix:{}'.format(pts.x, pts.xpix, pts.y, pts.ypix))
+#                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
+#                                          marker='+',
+#                                          markersize=10,
+#                                          markerfacecolor=pts.style.color,
+#                                          markeredgecolor=pts.style.color,
+#                                          linestyle='None')
+#                else:
+#                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
+#                                          marker='None',
+#                                          markersize=10,
+#                                          color=pts.style.color,
+#                                          markerfacecolor=pts.style.color,
+#                                          markeredgecolor=pts.style.color,
+#                                          linestyle=pts.style.linestyle,
+#                                          linewidth=2)
+#
+#                self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
+#                self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
 
             self.ui.ui_BWImg.mpl.canvas.draw()
-
-            if self.bcpre.backed_flag.count(True) > 1:
-                self.ui.actionUndo.setEnabled(True)
-            else:
-                self.ui.actionUndo.setEnabled(False)
+            
+#            if self.bcpre.backed_flag.count(True) > 1:
+#                self.ui.actionUndo.setEnabled(True)
+#            else:
+#                self.ui.actionUndo.setEnabled(False)
 
         except:
             print('Error in changeSlider')
@@ -1673,4 +1679,5 @@ if __name__ == '__main__':
 
     # Final stuff
     win.showMaximized()
-    _sys.exit(app.exec_())
+    app.exec_()
+    #_sys.exit(app.exec_())
