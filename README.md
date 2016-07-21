@@ -4,16 +4,16 @@ CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
 imaging (HSI) platform (user interface, UI).
 
 HSI Processing:
-    * Dark subtraction
-    * Detrending
-    * Denoising
+* Dark subtraction
+* Detrending
+* Denoising
 
 Coherent Raman-Specific Processing:
-    * Kramers-Kronig phase retrieval
-    * Phase- and scale-error correction
+* Kramers-Kronig phase retrieval
+* Phase- and scale-error correction
 
 Analysis:
-    * Coming soon
+* (Coming soon)
 
 ## Installing ##
 ```
