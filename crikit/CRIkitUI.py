@@ -1,17 +1,37 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jun 18 16:46:45 2016
+CRIKit2: Hyperspectral imaging toolkit
+==============================================================
 
-@author: chc
+CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
+imaging (HSI) platform (user interface, UI).
+
+HSI Processing:
+    * Dark subtraction
+    * Detrending
+    * Denoising
+
+Coherent Raman-Specific Processing:
+    * Kramers-Kronig phase retrieval
+    * Phase- and scale-error correction
+
+Analysis:
+    * Coming soon
+
+Usage
+-----
+From ./crikit2 directory
+python3 main.py
+
+Authors
+-------
+* Charles H. Camp Jr. <charles.camp@nist.gov>
 """
 
 # Append sys path
 import sys as _sys
 import os as _os
 
-if __name__ == '__main__':
-   _sys.path.append(_os.path.abspath('../'))
-   _sys.path.append(_os.path.abspath('../../sciplot_pyqt5'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication, \
@@ -1584,9 +1604,9 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.ui_BWImg.ui.checkBoxFixed.checkState() == 0:
                 self.ui.ui_BWImg.data.setmax = None
                 self.ui.ui_BWImg.data.setmin = None
-                
+
             self.createImgBW(self.ui.ui_BWImg.data.image)
-            
+
             getx = self.ui.ui_BWImg.mpl.ax.get_xlim()
             gety = self.ui.ui_BWImg.mpl.ax.get_ylim()
 
@@ -1615,7 +1635,7 @@ class CRIkitUI_process(_QMainWindow):
 #                self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
 
             self.ui.ui_BWImg.mpl.canvas.draw()
-            
+
 #            if self.bcpre.backed_flag.count(True) > 1:
 #                self.ui.actionUndo.setEnabled(True)
 #            else:
