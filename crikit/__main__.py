@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Coherent Raman Imaging toolKit User Interface Loader (main)
+Coherent Raman Imaging toolKit 2:  User Interface Loader (main)
 =======================================================
 
 Use of this loader makes all the directories in the path properly and prevents \
@@ -15,29 +15,26 @@ Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
 Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
 
-Software Info
---------------
+Authors
+-------
+Charles H. Camp Jr. <charles.camp@nist.gov>
 
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.04.01")
 """
 
+import sys as _sys
+import os as _os
+from PyQt5.QtWidgets import (QApplication as _QApplication)
+from crikit import CRIkitUI
 
+def main(args=None):
+    """
+    The main routine.
+    """
 
-if __name__ == '__main__':
+    if args is None:
+        args = _sys.argv[1:]
 
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../sciplot_pyqt5'))
-    from PyQt5.QtWidgets import (QApplication as _QApplication)
-
-    from crikit import CRIkitUI
-    #sys.exit(CRIkitUI.run())
+    print('Starting up crikit2...')
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
@@ -46,4 +43,7 @@ if __name__ == '__main__':
 
     win.showMaximized()
 
-    _sys.exit(app.exec_())
+    app.exec_()
+
+if __name__ == '__main__':
+    _sys.exit(main())
