@@ -1,4 +1,19 @@
-# CRIKit2 #
+# CRIKit2: Hyperspectral imaging toolkit #
+
+CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
+imaging (HSI) platform (user interface, UI).
+
+HSI Processing:
+    * Dark subtraction
+    * Detrending
+    * Denoising
+
+Coherent Raman-Specific Processing:
+    * Kramers-Kronig phase retrieval
+    * Phase- and scale-error correction
+
+Analysis:
+    * Coming soon
 
 ## Installing ##
 ```
@@ -17,10 +32,8 @@ pip install -e .
 ```
 python -m crikit
 ```
-###Summary ###
-TBD
 
-###Dependencies###
+## Dependencies ##
 
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
@@ -28,7 +41,7 @@ packages may work.
 Python (REQUIRED): Python >= 3.4; Numpy (1.9.3), PyQT5 (5.5.1), matplotlib
 (1.5.0rc3)
 
-### NONLICENSE ###
+## NONLICENSE ##
 This software was developed at the National Institute of Standards and
 Technology (NIST) by employees of the Federal Government in the course of
 their official duties. Pursuant to [Title 17 Section 105 of the United States
@@ -44,12 +57,15 @@ identification imply recommendation or endorsement by the National Institute
 of Standards and Technology, nor does it imply that the products identified
 are necessarily the best available for the purpose.
 
-### CITATION ###
-TBD
+## CITATION ##
+If you use any part of this code, please cite:
+C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, comparable coherent
+anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in phase
+retrieval", Journal of Raman Spectroscopy 47, 408-416 (2016).
+DOI: 10.1002/jrs.4824
 
-
-### Contact ###
+## Contact ##
 Charles H Camp Jr: [charles.camp@nist.gov](mailto:charles.camp@nist.gov)
 
-### Contributors ###
+## Contributors ##
 Charles H Camp Jr, Mona Lee
