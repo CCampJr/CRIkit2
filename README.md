@@ -11,8 +11,10 @@ pip install -e .
 
 # IMPORTANT: You will need to manually install PyQt5 and Qt5
 # These packages are not pip-installable at this time
+```
 
 ## Starting CRIkit2 UI ##
+```
 python -m crikit
 ```
 ###Summary ###
