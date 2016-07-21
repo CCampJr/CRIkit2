@@ -15,7 +15,7 @@ Coherent Raman-Specific Processing:
 Analysis:
 * (Coming soon)
 
-## Installing ##
+## Installation ##
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
@@ -38,8 +38,11 @@ python -m crikit
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
-Python (REQUIRED): Python >= 3.4; Numpy (1.9.3), PyQT5 (5.5.1), matplotlib
-(1.5.0rc3)
+* Python >= 3.4
+* Numpy (1.9.3)
+* PyQT5 (5.5.1)
+* Matplotlib (1.5.0rc3)
+* Yapsy (1.11.223)
 
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
@@ -58,7 +61,6 @@ of Standards and Technology, nor does it imply that the products identified
 are necessarily the best available for the purpose.
 
 ## CITATION ##
-If you use any part of this code, please cite:
 C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, comparable coherent
 anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in phase
 retrieval", Journal of Raman Spectroscopy 47, 408-416 (2016).
@@ -67,5 +69,3 @@ DOI: 10.1002/jrs.4824
 ## Contact ##
 Charles H Camp Jr: [charles.camp@nist.gov](mailto:charles.camp@nist.gov)
 
-## Contributors ##
-Charles H Camp Jr, Mona Lee
