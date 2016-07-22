@@ -170,14 +170,11 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.setupUi(self)     ### EDIT ###
 
         # Initialize Intensity image (single frequency B&W)
-#        self.ui.ui_BWImg = _SciPlotUI(limit_to=['images'])
-        self.ui.ui_BWImg = widgetBWImg()
+        self.ui.ui_BWImg = widgetBWImg(parent=None, figfacecolor=[1,1,1])
         if self.ui.ui_BWImg.ui.checkBoxFixed.checkState()==0:
                 self.ui.ui_BWImg.ui.lineEditMax.setText(str(round(self.ui.ui_BWImg.data.maxer,4)))
                 self.ui.ui_BWImg.ui.lineEditMin.setText(str(round(self.ui.ui_BWImg.data.minner,4)))
-#
-#
-#
+
         self.ui.sweeperVL.insertWidget(0, self.ui.ui_BWImg)
         self.ui.ui_BWImg.mpl.fig.tight_layout(pad = 2)
 
@@ -473,7 +470,7 @@ class CRIkitUI_process(_QMainWindow):
 #
 #                # Plot Grayscale image
                 self.createImgBW(self.ui.ui_BWImg.data.image)
-                self.ui.ui_BWImg.mpl.canvas.draw()
+                self.ui.ui_BWImg.mpl.draw()
 #
 #
 #                # RGB images
@@ -637,9 +634,9 @@ class CRIkitUI_process(_QMainWindow):
         ------
             Left mouse-click : Select vertex point
         """
-        self.cid = self.ui.ui_BWImg.mpl.canvas.mpl_connect('button_press_event', lambda event: self._pointClick(event, self._pointSpectrumPlot))
+        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._pointClick(event, self._pointSpectrumPlot))
 
-        self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def subtractROIStart(self):
@@ -655,9 +652,9 @@ class CRIkitUI_process(_QMainWindow):
         self.y_loc_list = []
 
 
-        self.cid = self.ui.ui_BWImg.mpl.canvas.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
+        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
 
-        self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _roiSubtract(self, locs):
@@ -717,9 +714,9 @@ class CRIkitUI_process(_QMainWindow):
             self.y_loc_list = []
 
 
-            self.cid = self.ui.ui_BWImg.mpl.canvas.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
+            self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
 
-            self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
             self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         else:
             print('Unknown action send to nrbFromROI')
@@ -787,9 +784,9 @@ class CRIkitUI_process(_QMainWindow):
         self.y_loc_list = []
 
 
-        self.cid = self.ui.ui_BWImg.mpl.canvas.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
+        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
 
-        self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _pointClick(self, event, pass_fcn):
@@ -808,8 +805,8 @@ class CRIkitUI_process(_QMainWindow):
             pass_fcn((x_loc, y_loc))
 
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.canvas.mpl_disconnect(self.cid)
+            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+            self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
         else:
             print('Clicked out-of-bounds')
 
@@ -849,7 +846,7 @@ class CRIkitUI_process(_QMainWindow):
         y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
 
         self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
-        #self.ui.ui_BWImg.mpl.canvas.mpl_disconnect(self.cid)
+        #self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
 
         mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
                               x_loc_list, y_loc_list)
@@ -907,7 +904,7 @@ class CRIkitUI_process(_QMainWindow):
                                           linestyle='None')
                     self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
                     self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
-                    self.ui.ui_BWImg.mpl.canvas.draw()
+                    self.ui.ui_BWImg.mpl.draw()
                 else:
                     self.ui.ui_BWImg.mpl.ax.plot(self.x_loc_list[-2:], self.y_loc_list[-2:],
                                           linewidth=2,
@@ -919,7 +916,7 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
                     self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
 
-                    self.ui.ui_BWImg.mpl.canvas.draw()
+                    self.ui.ui_BWImg.mpl.draw()
         else:
             self.x_loc_list.append(self.x_loc_list[0])
             self.y_loc_list.append(self.y_loc_list[0])
@@ -933,8 +930,8 @@ class CRIkitUI_process(_QMainWindow):
             del self.y_loc_list
 
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.canvas.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.canvas.mpl_disconnect(self.cid)
+            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+            self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
             self.changeSlider()
 
 
@@ -1441,7 +1438,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.RGB[rgbnum].data.grayscaleimage = self.ui.ui_BWImg.data.grayscaleimage
             self.ui.RGB[rgbnum].changeColor()
 
-            self.ui.RGB[rgbnum].mpl.canvas.draw()
+            self.ui.RGB[rgbnum].mpl.draw()
 
         except:
             print('Error')
@@ -1634,7 +1631,7 @@ class CRIkitUI_process(_QMainWindow):
 #                self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
 #                self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
 
-            self.ui.ui_BWImg.mpl.canvas.draw()
+            self.ui.ui_BWImg.mpl.draw()
 
 #            if self.bcpre.backed_flag.count(True) > 1:
 #                self.ui.actionUndo.setEnabled(True)
@@ -1676,7 +1673,7 @@ class CRIkitUI_process(_QMainWindow):
                                          xunits = self.ui.CompositeColor.data.xunits,
                                          yunits = self.ui.CompositeColor.data.yunits,
                                          showcbar = False, axison = True)
-        self.ui.CompositeColor.mpl.canvas.draw()
+        self.ui.CompositeColor.mpl.draw()
 
         self.ui.CompositeColor2.initData(self.ui.RGB)
         self.ui.CompositeColor2.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
@@ -1685,8 +1682,8 @@ class CRIkitUI_process(_QMainWindow):
                                          xunits = self.ui.CompositeColor2.data.xunits,
                                          yunits = self.ui.CompositeColor2.data.yunits,
                                          showcbar = False, axison = True)
-        self.ui.CompositeColor2.mpl.canvas.draw()
-        #self.ui.CompositeColor.mpl.canvas.draw()
+        self.ui.CompositeColor2.mpl.draw()
+        #self.ui.CompositeColor.mpl.draw()
 
 if __name__ == '__main__':
 
