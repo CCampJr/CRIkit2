@@ -87,7 +87,7 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 # Import from Designer-based GUI
 from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 
-#from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
+from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
 from crikit.ui.widget_images import widgetBWImg
 
 
@@ -170,53 +170,55 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.setupUi(self)     ### EDIT ###
 
         # Initialize Intensity image (single frequency B&W)
-        self.ui.ui_BWImg = widgetBWImg(parent=None, figfacecolor=[1,1,1])
-        if self.ui.ui_BWImg.ui.checkBoxFixed.checkState()==0:
-                self.ui.ui_BWImg.ui.lineEditMax.setText(str(round(self.ui.ui_BWImg.data.maxer,4)))
-                self.ui.ui_BWImg.ui.lineEditMin.setText(str(round(self.ui.ui_BWImg.data.minner,4)))
+        self.img_BW = widgetBWImg(parent=None, figfacecolor=[1,1,1])
+        if self.img_BW.ui.checkBoxFixed.checkState()==0:
+                self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer,4)))
+                self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner,4)))
 
-        self.ui.sweeperVL.insertWidget(0, self.ui.ui_BWImg)
-        self.ui.ui_BWImg.mpl.fig.tight_layout(pad = 2)
+        self.ui.sweeperVL.insertWidget(0, self.img_BW)
+        self.img_BW.mpl.fig.tight_layout(pad = 2)
 
         # Initialize Single-Color RGB widgets
-#        self.ui.RGB = []
-#
-#        for count in range(self.NUMCOLORS):
-#            self.ui.RGB.append(widgetSglColor())
-#            self.ui.RGB[count].data.colormap =\
-#                widgetSglColor.COLORMAPS[widgetSglColor.DEFAULT_COLORMAP_ORDER[count]]
-#            ind = self.ui.RGB[count].ui.comboBox.findText(widgetSglColor.DEFAULT_COLORMAP_ORDER[count])
-#            self.ui.RGB[count].ui.comboBox.setCurrentIndex(ind)
-#            #self.ui.RGB[count].ui.pushButtonSpectrum.pressed.connect(lambda: self.spectrumColorImg(win=self.ui.RGB[count]))
-#            self.ui.RGB[count].ui.pushButtonSpectrum.setEnabled(False)
-#            self.ui.tabColors.addTab(self.ui.RGB[count], 'Color ' + str(count))
-#
-#            self.ui.RGB[count].math.ui.pushButtonDoMath.setEnabled(False)
-#
-#            self.ui.RGB[count].math.ui.pushButtonOpFreq1.pressed.connect(self.setOpFreq1)
-#            self.ui.RGB[count].math.ui.pushButtonOpFreq2.pressed.connect(self.setOpFreq2)
-#            self.ui.RGB[count].math.ui.pushButtonOpFreq3.pressed.connect(self.setOpFreq3)
-#            self.ui.RGB[count].math.ui.comboBoxOperations.currentIndexChanged.connect(self.opChange)
-#
-#            self.ui.RGB[count].math.ui.pushButtonCondFreq1.pressed.connect(self.setCondFreq1)
-#            self.ui.RGB[count].math.ui.pushButtonCondFreq2.pressed.connect(self.setCondFreq2)
-#            self.ui.RGB[count].math.ui.pushButtonCondFreq3.pressed.connect(self.setCondFreq3)
-#            self.ui.RGB[count].math.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpChange)
-#            self.ui.RGB[count].math.ui.comboBoxCondInEquality.currentIndexChanged.connect(self.condInEqualityChange)
-#            self.ui.RGB[count].math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
-#
-#            self.ui.RGB[count].math.ui.pushButtonDoMath.pressed.connect(self.doMath)
-#            self.ui.RGB[count].ui.gainSlider.valueChanged.connect(self.doComposite)
-#
-#
-#        self.ui.CompositeColor = widgetCompositeColor(self.ui.RGB)
-#        self.ui.CompositeColor2 = widgetCompositeColor(self.ui.RGB)
+        self.img_RGB_list = []
 
-#        self.ui.tabColors.addTab(self.ui.CompositeColor, 'Composite Image')
+        for count in range(self.NUMCOLORS):
+            self.img_RGB_list.append(widgetSglColor(figfacecolor=[1,1,1]))
+            self.img_RGB_list[count].data.colormap =\
+                widgetSglColor.COLORMAPS[widgetSglColor.DEFAULT_COLORMAP_ORDER[count]]
+            ind = self.img_RGB_list[count].ui.comboBox.findText(widgetSglColor.DEFAULT_COLORMAP_ORDER[count])
+            self.img_RGB_list[count].ui.comboBox.setCurrentIndex(ind)
+            #self.img_RGB_list[count].ui.pushButtonSpectrum.pressed.connect(lambda: self.spectrumColorImg(win=self.img_RGB_list[count]))
+            self.img_RGB_list[count].ui.pushButtonSpectrum.setEnabled(False)
+            self.ui.tabColors.addTab(self.img_RGB_list[count], 'Color ' + str(count))
 
-#        self.ui.sweeperVL_2.insertWidget(0,self.ui.CompositeColor2)
+            self.img_RGB_list[count].math.ui.pushButtonDoMath.setEnabled(False)
 
-#        self.ui.tabColors.currentChanged.connect(self.checkCompositeUpdate)
+            self.img_RGB_list[count].math.ui.pushButtonOpFreq1.pressed.connect(self.setOpFreq1)
+            self.img_RGB_list[count].math.ui.pushButtonOpFreq2.pressed.connect(self.setOpFreq2)
+            self.img_RGB_list[count].math.ui.pushButtonOpFreq3.pressed.connect(self.setOpFreq3)
+            self.img_RGB_list[count].math.ui.comboBoxOperations.currentIndexChanged.connect(self.opChange)
+
+            self.img_RGB_list[count].math.ui.pushButtonCondFreq1.pressed.connect(self.setCondFreq1)
+            self.img_RGB_list[count].math.ui.pushButtonCondFreq2.pressed.connect(self.setCondFreq2)
+            self.img_RGB_list[count].math.ui.pushButtonCondFreq3.pressed.connect(self.setCondFreq3)
+            self.img_RGB_list[count].math.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpChange)
+            self.img_RGB_list[count].math.ui.comboBoxCondInEquality.currentIndexChanged.connect(self.condInEqualityChange)
+            self.img_RGB_list[count].math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
+
+            self.img_RGB_list[count].math.ui.pushButtonDoMath.pressed.connect(self.doMath)
+            self.img_RGB_list[count].ui.gainSlider.valueChanged.connect(self.doComposite)
+
+
+        self.img_Composite = widgetCompositeColor(self.img_RGB_list,
+                                                  figfacecolor=[1, 1, 1])
+        self.img_Composite2 = widgetCompositeColor(self.img_RGB_list,
+                                                   figfacecolor=[1, 1, 1])
+
+        self.ui.tabColors.addTab(self.img_Composite, 'Composite Image')
+
+        self.ui.sweeperVL_2.insertWidget(0,self.img_Composite2)
+
+        self.ui.tabColors.currentChanged.connect(self.checkCompositeUpdate)
 
 
         # SET SIGNALS-SLOTS
@@ -457,41 +459,41 @@ class CRIkitUI_process(_QMainWindow):
 #
 #
                 # Set BW Class Data
-                self.ui.ui_BWImg.initData()
-                self.ui.ui_BWImg.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-#                self.ui.ui_BWImg.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-                self.ui.ui_BWImg.data.set_x(self.hsi.x, 'X ($\mu m$)')
-                self.ui.ui_BWImg.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+                self.img_BW.initData()
+                self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
+#                self.img_BW.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
+                self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
+                self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
 #
                 # Set min/max, fixed, compress, etc buttons to defaults
-                self.ui.ui_BWImg.ui.checkBoxFixed.setChecked(False)
-                self.ui.ui_BWImg.ui.checkBoxCompress.setChecked(False)
-                self.ui.ui_BWImg.ui.checkBoxRemOutliers.setChecked(False)
+                self.img_BW.ui.checkBoxFixed.setChecked(False)
+                self.img_BW.ui.checkBoxCompress.setChecked(False)
+                self.img_BW.ui.checkBoxRemOutliers.setChecked(False)
 #
 #                # Plot Grayscale image
-                self.createImgBW(self.ui.ui_BWImg.data.image)
-                self.ui.ui_BWImg.mpl.draw()
+                self.createImgBW(self.img_BW.data.image)
+                self.img_BW.mpl.draw()
 #
 #
 #                # RGB images
-#                temp = 0*self.ui.ui_BWImg.data.grayscaleimage
+#                temp = 0*self.img_BW.data.grayscaleimage
 #
 #                # Re-initialize RGB images
-#                for count in enumerate(self.ui.RGB):
-#                    self.ui.RGB[count[0]].initData()
-#                    self.ui.RGB[count[0]].data.grayscaleimage = temp
-#                    self.ui.RGB[count[0]].data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-#                    self.ui.RGB[count[0]].data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
+#                for count in enumerate(self.img_RGB_list):
+#                    self.img_RGB_list[count[0]].initData()
+#                    self.img_RGB_list[count[0]].data.grayscaleimage = temp
+#                    self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
+#                    self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
 #
 #                    # Cute way of setting the colormap to last setting and replotting
-#                    self.ui.RGB[count[0]].changeColor()
+#                    self.img_RGB_list[count[0]].changeColor()
 #
 #                    # Enable Math
-#                    self.ui.RGB[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
+#                    self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
 #
 #                    # Enable Spectrum
-#                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
-#                    self.ui.RGB[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+#                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+#                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
                 self.ui.actionFreqWindow.setEnabled(True)
                 self.ui.actionZeroFirstColumn.setEnabled(True)
@@ -634,9 +636,9 @@ class CRIkitUI_process(_QMainWindow):
         ------
             Left mouse-click : Select vertex point
         """
-        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._pointClick(event, self._pointSpectrumPlot))
+        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._pointClick(event, self._pointSpectrumPlot))
 
-        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def subtractROIStart(self):
@@ -652,9 +654,9 @@ class CRIkitUI_process(_QMainWindow):
         self.y_loc_list = []
 
 
-        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
+        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
 
-        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _roiSubtract(self, locs):
@@ -664,10 +666,10 @@ class CRIkitUI_process(_QMainWindow):
         """
         x_loc_list, y_loc_list = locs
 
-        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.x,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.y,y_loc_list)[1]
 
-        mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
+        mask, path = _roimask(self.hsi.x, self.hsi.y,
                               x_loc_list, y_loc_list)
 
 
@@ -714,9 +716,9 @@ class CRIkitUI_process(_QMainWindow):
             self.y_loc_list = []
 
 
-            self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
 
-            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
             self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         else:
             print('Unknown action send to nrbFromROI')
@@ -730,10 +732,10 @@ class CRIkitUI_process(_QMainWindow):
 
         x_loc_list, y_loc_list = locs
 
-        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.x,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.y,y_loc_list)[1]
 
-        mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
+        mask, path = _roimask(self.hsi.x, self.hsi.y,
                               x_loc_list, y_loc_list)
 
 
@@ -784,9 +786,9 @@ class CRIkitUI_process(_QMainWindow):
         self.y_loc_list = []
 
 
-        self.cid = self.ui.ui_BWImg.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
+        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
 
-        self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _pointClick(self, event, pass_fcn):
@@ -796,7 +798,7 @@ class CRIkitUI_process(_QMainWindow):
         After this function completes, it sends the data (x_pt, y_pt) on to \
         the pass_fcn function.
         """
-        if event.inaxes == self.ui.ui_BWImg.mpl.ax:
+        if event.inaxes == self.img_BW.mpl.ax:
                 #self.tempverts += [[event.xdata, event.ydata]]
             x_loc = event.xdata
             y_loc = event.ydata
@@ -805,8 +807,8 @@ class CRIkitUI_process(_QMainWindow):
             pass_fcn((x_loc, y_loc))
 
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+            self.img_BW.mpl.mpl_disconnect(self.cid)
         else:
             print('Clicked out-of-bounds')
 
@@ -816,8 +818,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         try:
             x_loc, y_loc = locs
-            x_pix = find_nearest(self.hsi.nvec, x_loc)[1]
-            y_pix = find_nearest(self.hsi.mvec, y_loc)[1]
+            x_pix = find_nearest(self.hsi.x, x_loc)[1]
+            y_pix = find_nearest(self.hsi.y, y_loc)[1]
             self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
             self.changeSlider()
 
@@ -842,20 +844,20 @@ class CRIkitUI_process(_QMainWindow):
         """
         x_loc_list, y_loc_list = locs
 
-        x_pix = find_nearest(self.hsi.nvec,x_loc_list)[1]
-        y_pix = find_nearest(self.hsi.mvec,y_loc_list)[1]
+        x_pix = find_nearest(self.hsi.x,x_loc_list)[1]
+        y_pix = find_nearest(self.hsi.y,y_loc_list)[1]
 
         self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
-        #self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
+        #self.img_BW.mpl.mpl_disconnect(self.cid)
 
-        mask, path = _roimask(self.hsi.nvec, self.hsi.mvec,
+        mask, path = _roimask(self.hsi.x, self.hsi.y,
                               x_loc_list, y_loc_list)
 
         #_plt.figure()
         #_plt.imshow(mask,origin='lower')
         #_plt.show()
         #print('Mask size: {}; nvec size: {}; mvec size: {}'.format(mask.shape,
-        #      self.hsi.nvec.size, self.hsi.mvec.size))
+        #      self.hsi.x.size, self.hsi.y.size))
 
         mask_hits = _np.sum(mask)
         if mask_hits > 0:  # Len(mask) > 0
@@ -887,36 +889,36 @@ class CRIkitUI_process(_QMainWindow):
 
 
         if event.button == 1:
-            if event.inaxes == self.ui.ui_BWImg.mpl.ax:
+            if event.inaxes == self.img_BW.mpl.ax:
 
                 self.x_loc_list.append(event.xdata)
                 self.y_loc_list.append(event.ydata)
 
-                getx = self.ui.ui_BWImg.mpl.ax.get_xlim()
-                gety = self.ui.ui_BWImg.mpl.ax.get_ylim()
+                getx = self.img_BW.mpl.ax.get_xlim()
+                gety = self.img_BW.mpl.ax.get_ylim()
 
                 if len(self.x_loc_list) == 1:
-                    self.ui.ui_BWImg.mpl.ax.plot(self.x_loc_list, self.y_loc_list,
+                    self.img_BW.mpl.ax.plot(self.x_loc_list, self.y_loc_list,
                                           markerfacecolor=[.9,.9,0],
                                           markeredgecolor=[.9,.9,0],
                                           marker='+',
                                           markersize=10,
                                           linestyle='None')
-                    self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
-                    self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
-                    self.ui.ui_BWImg.mpl.draw()
+                    self.img_BW.mpl.ax.set_xlim(getx)
+                    self.img_BW.mpl.ax.set_ylim(gety)
+                    self.img_BW.mpl.draw()
                 else:
-                    self.ui.ui_BWImg.mpl.ax.plot(self.x_loc_list[-2:], self.y_loc_list[-2:],
+                    self.img_BW.mpl.ax.plot(self.x_loc_list[-2:], self.y_loc_list[-2:],
                                           linewidth=2,
                                           marker='+',
                                           markersize=10,
                                           color=[.9,.9,0],
                                           markerfacecolor=[.9,.9,0],
                                           markeredgecolor=[.9,.9,0])
-                    self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
-                    self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
+                    self.img_BW.mpl.ax.set_xlim(getx)
+                    self.img_BW.mpl.ax.set_ylim(gety)
 
-                    self.ui.ui_BWImg.mpl.draw()
+                    self.img_BW.mpl.draw()
         else:
             self.x_loc_list.append(self.x_loc_list[0])
             self.y_loc_list.append(self.y_loc_list[0])
@@ -930,8 +932,8 @@ class CRIkitUI_process(_QMainWindow):
             del self.y_loc_list
 
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
-            self.ui.ui_BWImg.mpl.mpl_disconnect(self.cid)
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+            self.img_BW.mpl.mpl_disconnect(self.cid)
             self.changeSlider()
 
 
@@ -999,6 +1001,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         zc = _ZeroColumn(first_or_last=0)
         zc.transform(self.hsi.data)
+        self.changeSlider()
 
     def zeroFirstRow(self):
         """
@@ -1007,6 +1010,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         zr = _ZeroRow(first_or_last=0)
         zr.transform(self.hsi.data)
+        self.changeSlider()
 
     def zeroLastColumn(self):
         """
@@ -1015,6 +1019,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         zc = _ZeroColumn(first_or_last=-1)
         zc.transform(self.hsi.data)
+        self.changeSlider()
 
     def zeroLastRow(self):
         """
@@ -1023,6 +1028,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         zr = _ZeroRow(first_or_last=-1)
         zr.transform(self.hsi.data)
+        self.changeSlider()
 
     def opChange(self):
         """
@@ -1031,8 +1037,8 @@ class CRIkitUI_process(_QMainWindow):
         rgbnum = self.ui.tabColors.currentIndex()
 
         try:
-            currentop = self.ui.RGB[rgbnum].math.ui.comboBoxOperations.currentText()
-            self.ui.RGB[rgbnum].data.operation = currentop
+            currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentText()
+            self.img_RGB_list[rgbnum].data.operation = currentop
         except:
             pass
 
@@ -1043,8 +1049,8 @@ class CRIkitUI_process(_QMainWindow):
         rgbnum = self.ui.tabColors.currentIndex()
 
         try:
-            currentop = self.ui.RGB[rgbnum].math.ui.comboBoxCondOps.currentText()
-            self.ui.RGB[rgbnum].data.condoperation = currentop
+            currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentText()
+            self.img_RGB_list[rgbnum].data.condoperation = currentop
         except:
             pass
 
@@ -1055,8 +1061,8 @@ class CRIkitUI_process(_QMainWindow):
         rgbnum = self.ui.tabColors.currentIndex()
 
         try:
-            currentop = self.ui.RGB[rgbnum].math.ui.comboBoxCondInEquality.currentText()
-            self.ui.RGB[rgbnum].data.inequality = currentop
+            currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxCondInEquality.currentText()
+            self.img_RGB_list[rgbnum].data.inequality = currentop
         except:
             pass
 
@@ -1067,8 +1073,8 @@ class CRIkitUI_process(_QMainWindow):
         rgbnum = self.ui.tabColors.currentIndex()
 
         try:
-            self.ui.RGB[rgbnum].data.inequalityval = \
-                self.ui.RGB[rgbnum].math.ui.spinBoxInEquality.value()
+            self.img_RGB_list[rgbnum].data.inequalityval = \
+                self.img_RGB_list[rgbnum].math.ui.spinBoxInEquality.value()
         except:
             pass
 
@@ -1277,8 +1283,8 @@ class CRIkitUI_process(_QMainWindow):
         rgbnum = self.ui.tabColors.currentIndex()
 
         # Check conditional frequencies are set
-        operation_index = self.ui.RGB[rgbnum].math.ui.comboBoxCondOps.currentIndex()
-        operation_text = self.ui.RGB[rgbnum].math.ui.comboBoxCondOps.currentText()
+        operation_index = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentIndex()
+        operation_text = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentText()
 
         if operation_index == 0:
             num_freq_needed = 0
@@ -1288,57 +1294,57 @@ class CRIkitUI_process(_QMainWindow):
         cond_set = False
 
         if (num_freq_needed == 1 and
-            self.ui.RGB[rgbnum].data.condfreq1 is not None):
+            self.img_RGB_list[rgbnum].data.condfreq1 is not None):
             cond_set = True
         elif (num_freq_needed == 2 and
-            self.ui.RGB[rgbnum].data.condfreq1 is not None and
-            self.ui.RGB[rgbnum].data.condfreq2 is not None):
+            self.img_RGB_list[rgbnum].data.condfreq1 is not None and
+            self.img_RGB_list[rgbnum].data.condfreq2 is not None):
             cond_set = True
         elif (num_freq_needed == 3 and
-            self.ui.RGB[rgbnum].data.condfreq1 is not None and
-            self.ui.RGB[rgbnum].data.condfreq2 is not None and
-            self.ui.RGB[rgbnum].data.condfreq3 is not None):
+            self.img_RGB_list[rgbnum].data.condfreq1 is not None and
+            self.img_RGB_list[rgbnum].data.condfreq2 is not None and
+            self.img_RGB_list[rgbnum].data.condfreq3 is not None):
             cond_set = True
         else:
             cond_set = False
 
         if cond_set is False:
-            self.ui.RGB[rgbnum].math.ui.comboBoxCondOps.setCurrentIndex(0)
+            self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.setCurrentIndex(0)
             Mask = 1
         else:
             if (operation_text == '' or operation_text == ' '):  # Return just a plane
-                Mask = retr_freq_plane(self.hsi, self.ui.RGB[rgbnum].data.condfreq1)
+                Mask = retr_freq_plane(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1)
 
             elif (operation_text == '+'):  # Addition
-                Mask = retr_freq_plane_add(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                           self.ui.RGB[rgbnum].data.condfreq2)
+                Mask = retr_freq_plane_add(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                           self.img_RGB_list[rgbnum].data.condfreq2)
 
             elif (operation_text == '-'):  # Subtraction
-                Mask = retr_freq_plane_sub(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                           self.ui.RGB[rgbnum].data.condfreq2)
+                Mask = retr_freq_plane_sub(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                           self.img_RGB_list[rgbnum].data.condfreq2)
 
             elif (operation_text == '*'):  # Multiplication
-                Mask = retr_freq_plane_multi(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                                     self.ui.RGB[rgbnum].data.condfreq2)
+                Mask = retr_freq_plane_multi(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                                     self.img_RGB_list[rgbnum].data.condfreq2)
 
             elif (operation_text == '/'):  # Division
-                Mask = retr_freq_plane_div(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                                     self.ui.RGB[rgbnum].data.condfreq2)
+                Mask = retr_freq_plane_div(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                                     self.img_RGB_list[rgbnum].data.condfreq2)
 
             elif (operation_text == 'SUM'):  # Summation over range
-                Mask = retr_freq_plane_sum_span(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                                     self.ui.RGB[rgbnum].data.condfreq2)
+                Mask = retr_freq_plane_sum_span(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                                     self.img_RGB_list[rgbnum].data.condfreq2)
 
             elif (operation_text == 'Peak b/w troughs'):  # Peak between troughs
-                Mask = retr_freq_plane_peak_bw_troughs(self.hsi, self.ui.RGB[rgbnum].data.condfreq1,
-                                                     self.ui.RGB[rgbnum].data.condfreq2,
-                                                     self.ui.RGB[rgbnum].data.condfreq3)
+                Mask = retr_freq_plane_peak_bw_troughs(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
+                                                     self.img_RGB_list[rgbnum].data.condfreq2,
+                                                     self.img_RGB_list[rgbnum].data.condfreq3)
             else:
                 pass
 
         if cond_set is True:
-            inequality_text = self.ui.RGB[rgbnum].math.ui.comboBoxCondInEquality.currentText()
-            inequality_val = self.ui.RGB[rgbnum].math.ui.spinBoxInEquality.value()
+            inequality_text = self.img_RGB_list[rgbnum].math.ui.comboBoxCondInEquality.currentText()
+            inequality_val = self.img_RGB_list[rgbnum].math.ui.spinBoxInEquality.value()
             if inequality_text == '<':
                 Mask = Mask < inequality_val
             elif inequality_text == '>':
@@ -1353,70 +1359,70 @@ class CRIkitUI_process(_QMainWindow):
                 print('Inequality type error... setting to 1')
                 Mask = 1
         # Check frequencies are set
-        operation_index = self.ui.RGB[rgbnum].math.ui.comboBoxOperations.currentIndex()
-        operation_text = self.ui.RGB[rgbnum].math.ui.comboBoxOperations.currentText()
+        operation_index = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentIndex()
+        operation_text = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentText()
 
         num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index]
 
         freq_set = False
 
         if (num_freq_needed == 1 and
-            self.ui.RGB[rgbnum].data.opfreq1 is not None):
+            self.img_RGB_list[rgbnum].data.opfreq1 is not None):
             freq_set = True
         elif (num_freq_needed == 2 and
-            self.ui.RGB[rgbnum].data.opfreq1 is not None and
-            self.ui.RGB[rgbnum].data.opfreq2 is not None):
+            self.img_RGB_list[rgbnum].data.opfreq1 is not None and
+            self.img_RGB_list[rgbnum].data.opfreq2 is not None):
             freq_set = True
         elif (num_freq_needed == 3 and
-            self.ui.RGB[rgbnum].data.opfreq1 is not None and
-            self.ui.RGB[rgbnum].data.opfreq2 is not None and
-            self.ui.RGB[rgbnum].data.opfreq3 is not None):
+            self.img_RGB_list[rgbnum].data.opfreq1 is not None and
+            self.img_RGB_list[rgbnum].data.opfreq2 is not None and
+            self.img_RGB_list[rgbnum].data.opfreq3 is not None):
             freq_set = True
         else:
             freq_set = False
 
         if freq_set == True:
             if (operation_text == '' or operation_text == ' '):  # Return just a plane
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane(self.hsi, self.ui.RGB[rgbnum].data.opfreq1)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '+'):  # Addition
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_add(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_add(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '-'):  # Subtraction
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_sub(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_sub(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '*'):  # Multiplication
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_multi(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_multi(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '/'):  # Division
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_div(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_div(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == 'SUM'):  # Division
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_sum_span(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_sum_span(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == 'Peak b/w troughs'):  # Division
-                self.ui.RGB[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_peak_bw_troughs(self.hsi, self.ui.RGB[rgbnum].data.opfreq1,
-                                                     self.ui.RGB[rgbnum].data.opfreq2,
-                                                     self.ui.RGB[rgbnum].data.opfreq3)
-                self.ui.RGB[rgbnum].changeColor()
+                self.img_RGB_list[rgbnum].data.grayscaleimage =\
+                    Mask*retr_freq_plane_peak_bw_troughs(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
+                                                     self.img_RGB_list[rgbnum].data.opfreq2,
+                                                     self.img_RGB_list[rgbnum].data.opfreq3)
+                self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             else:
                 pass
@@ -1433,12 +1439,12 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.opfreq1 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonOpFreq1.setText(str(round(currentfreq,1)))
-            self.ui.RGB[rgbnum].data.grayscaleimage = self.ui.ui_BWImg.data.grayscaleimage
-            self.ui.RGB[rgbnum].changeColor()
+            self.img_RGB_list[rgbnum].data.opfreq1 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq1.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.grayscaleimage = self.img_BW.data.grayscaleimage
+            self.img_RGB_list[rgbnum].changeColor()
 
-            self.ui.RGB[rgbnum].mpl.draw()
+            self.img_RGB_list[rgbnum].mpl.draw()
 
         except:
             print('Error')
@@ -1454,8 +1460,8 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.opfreq2 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonOpFreq2.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.opfreq2 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq2.setText(str(round(currentfreq,1)))
         except:
             pass
 
@@ -1468,8 +1474,8 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.opfreq3 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonOpFreq3.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.opfreq3 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq3.setText(str(round(currentfreq,1)))
 
         except:
             pass
@@ -1483,8 +1489,8 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.condfreq1 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonCondFreq1.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.condfreq1 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq1.setText(str(round(currentfreq,1)))
 
         except:
             print('Error')
@@ -1498,8 +1504,8 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.condfreq2 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonCondFreq2.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.condfreq2 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq2.setText(str(round(currentfreq,1)))
 
         except:
             print('Error')
@@ -1513,8 +1519,8 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentfreq = float(self.ui.lineEditFreq.text())
 
-            self.ui.RGB[rgbnum].data.condfreq3 = currentfreq
-            self.ui.RGB[rgbnum].math.ui.pushButtonCondFreq3.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].data.condfreq3 = currentfreq
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq3.setText(str(round(currentfreq,1)))
 
         except:
             print('Error')
@@ -1530,7 +1536,7 @@ class CRIkitUI_process(_QMainWindow):
         win_num = self.ui.tabColors.currentIndex()
         win_title = self.ui.tabColors.tabText(win_num)
         label = 'Weighted Spect.: ' + win_title
-        mask = self.ui.RGB[self.ui.tabColors.currentIndex()].data.image
+        mask = self.img_RGB_list[self.ui.tabColors.currentIndex()].data.image
         mask = mask.sum(axis=-1)
         mask -= mask.min()
         mask /= mask.max()
@@ -1569,18 +1575,18 @@ class CRIkitUI_process(_QMainWindow):
         """
         Generate the single-frequency grayscale image
         """
-        xunits = self.ui.ui_BWImg.data.xunits
-        yunits = self.ui.ui_BWImg.data.yunits
-        extent = self.ui.ui_BWImg.data.winextent
+        xunits = self.img_BW.data.xunits
+        yunits = self.img_BW.data.yunits
+        extent = self.img_BW.data.winextent
 
-        self.ui.ui_BWImg.createImg(img = img, xunits = xunits,
+        self.img_BW.createImg(img = img, xunits = xunits,
                               yunits = yunits,
                               extent = extent, showcbar = True,
                               axison = True, cmap = _mpl.cm.gray)
 
-        if self.ui.ui_BWImg.ui.checkBoxFixed.checkState()==0:
-            self.ui.ui_BWImg.ui.lineEditMax.setText(str(round(self.ui.ui_BWImg.data.maxer,4)))
-            self.ui.ui_BWImg.ui.lineEditMin.setText(str(round(self.ui.ui_BWImg.data.minner,4)))
+        if self.img_BW.ui.checkBoxFixed.checkState()==0:
+            self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer,4)))
+            self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner,4)))
 
     def changeSlider(self):
         """
@@ -1594,32 +1600,32 @@ class CRIkitUI_process(_QMainWindow):
         try:
             self.ui.lineEditFreq.setText(str(round(self.hsi.f[pos],2)))
             # Set BW Class Data
-            self.ui.ui_BWImg.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-            self.ui.ui_BWImg.data.set_x(self.hsi.x, 'X ($\mu m$)')
-            self.ui.ui_BWImg.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+            self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
+            self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
+            self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
 
-            if self.ui.ui_BWImg.ui.checkBoxFixed.checkState() == 0:
-                self.ui.ui_BWImg.data.setmax = None
-                self.ui.ui_BWImg.data.setmin = None
+            if self.img_BW.ui.checkBoxFixed.checkState() == 0:
+                self.img_BW.data.setmax = None
+                self.img_BW.data.setmin = None
 
-            self.createImgBW(self.ui.ui_BWImg.data.image)
+            self.createImgBW(self.img_BW.data.image)
 
-            getx = self.ui.ui_BWImg.mpl.ax.get_xlim()
-            gety = self.ui.ui_BWImg.mpl.ax.get_ylim()
+            getx = self.img_BW.mpl.ax.get_xlim()
+            gety = self.img_BW.mpl.ax.get_ylim()
 
-            self.ui.ui_BWImg.mpl.ax.hold(True)
+            self.img_BW.mpl.ax.hold(True)
 #            for pts in self.selectiondata.pointdata_list:
 #                #print('Pts.X:{}'.format(pts.x))
 #                if len(pts.x) == 1:
 #                    #print('X2: {}, X2-Pix: {}, Y2: {}, Y2-Pix:{}'.format(pts.x, pts.xpix, pts.y, pts.ypix))
-#                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
+#                    self.img_BW.mpl.ax.plot(pts.x, pts.y,
 #                                          marker='+',
 #                                          markersize=10,
 #                                          markerfacecolor=pts.style.color,
 #                                          markeredgecolor=pts.style.color,
 #                                          linestyle='None')
 #                else:
-#                    self.ui.ui_BWImg.mpl.ax.plot(pts.x, pts.y,
+#                    self.img_BW.mpl.ax.plot(pts.x, pts.y,
 #                                          marker='None',
 #                                          markersize=10,
 #                                          color=pts.style.color,
@@ -1628,10 +1634,10 @@ class CRIkitUI_process(_QMainWindow):
 #                                          linestyle=pts.style.linestyle,
 #                                          linewidth=2)
 #
-#                self.ui.ui_BWImg.mpl.ax.set_xlim(getx)
-#                self.ui.ui_BWImg.mpl.ax.set_ylim(gety)
+#                self.img_BW.mpl.ax.set_xlim(getx)
+#                self.img_BW.mpl.ax.set_ylim(gety)
 
-            self.ui.ui_BWImg.mpl.draw()
+            self.img_BW.mpl.draw()
 
 #            if self.bcpre.backed_flag.count(True) > 1:
 #                self.ui.actionUndo.setEnabled(True)
@@ -1664,26 +1670,29 @@ class CRIkitUI_process(_QMainWindow):
         """
         Update color composite image.
         """
-        self.ui.CompositeColor.initData(self.ui.RGB)
-        self.ui.CompositeColor.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-        self.ui.CompositeColor.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
-
-
-        self.ui.CompositeColor.createImg(img = self.ui.CompositeColor.data.image,
-                                         xunits = self.ui.CompositeColor.data.xunits,
-                                         yunits = self.ui.CompositeColor.data.yunits,
-                                         showcbar = False, axison = True)
-        self.ui.CompositeColor.mpl.draw()
-
-        self.ui.CompositeColor2.initData(self.ui.RGB)
-        self.ui.CompositeColor2.data.set_x(self.hsi.nvec, 'X ($\mu m$)')
-        self.ui.CompositeColor2.data.set_y(self.hsi.mvec, 'Y ($\mu m$)')
-        self.ui.CompositeColor2.createImg(img = self.ui.CompositeColor2.data.image,
-                                         xunits = self.ui.CompositeColor2.data.xunits,
-                                         yunits = self.ui.CompositeColor2.data.yunits,
-                                         showcbar = False, axison = True)
-        self.ui.CompositeColor2.mpl.draw()
-        #self.ui.CompositeColor.mpl.draw()
+        try:
+            self.img_Composite.initData(self.img_RGB_list)
+            self.img_Composite.data.set_x(self.hsi.x, 'X ($\mu m$)')
+            self.img_Composite.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+    
+    
+            self.img_Composite.createImg(img = self.img_Composite.data.image,
+                                             xunits = self.img_Composite.data.xunits,
+                                             yunits = self.img_Composite.data.yunits,
+                                             showcbar = False, axison = True)
+            self.img_Composite.mpl.draw()
+    
+            self.img_Composite2.initData(self.img_RGB_list)
+            self.img_Composite2.data.set_x(self.hsi.x, 'X ($\mu m$)')
+            self.img_Composite2.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+            self.img_Composite2.createImg(img = self.img_Composite2.data.image,
+                                             xunits = self.img_Composite2.data.xunits,
+                                             yunits = self.img_Composite2.data.yunits,
+                                             showcbar = False, axison = True)
+            self.img_Composite2.mpl.draw()
+#        self.img_Composite.mpl.draw()
+        except:
+            pass
 
 if __name__ == '__main__':
 
