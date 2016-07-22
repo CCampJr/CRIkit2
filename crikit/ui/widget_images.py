@@ -305,7 +305,7 @@ class widgetSglColor(_QWidget):
 
     DEFAULT_COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
 
-    def __init__(self, parent = None):
+    def __init__(self, parent = None, **kwargs):
         super(widgetSglColor, self).__init__(parent)
         self.ui = Ui_SglColorImage_Form()
         self.math = widgetColorMath()
@@ -323,7 +323,7 @@ class widgetSglColor(_QWidget):
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
 
         # Instantiate MPL widget
-        self.mpl = _MplCanvas()
+        self.mpl = _MplCanvas(**kwargs)
         self.mpl.cbar = None  # Monkey patch on a cbar object
 
         self.createImg(img = self.data.image, xunits = self.data.xunits,
@@ -450,7 +450,7 @@ class widgetSglColor(_QWidget):
         sp_win = _sciplot.main()
         sp_win.imshow(img, x_label=xunits, y_label=yunits, cmap=cmap)
         if showcbar == True:
-            sp_win.mpl_widget.axes.colorbar()
+            sp_win.mpl_widget.ax.colorbar()
 #            if new_win.cbar is not None:
 #                new_win.cbar.remove()
 #
@@ -530,7 +530,7 @@ class widgetSglColor(_QWidget):
         self.changeColor()
 
 class widgetCompositeColor(_QWidget):
-    def __init__(self, sgl_color_widget_list = None, parent = None):
+    def __init__(self, sgl_color_widget_list = None, parent = None, **kwargs):
         super(widgetCompositeColor, self).__init__(parent)
         self.ui = Ui_CompositeColor_Form()
         self.ui.setupUi(self)
@@ -545,7 +545,7 @@ class widgetCompositeColor(_QWidget):
         winextent = (self.data.x.min(), self.data.x.max(), self.data.y.min(), self.data.y.max())
 
         # Instantiate mpl widget
-        self.mpl = _MplCanvas()
+        self.mpl = _MplCanvas(**kwargs)
         self.mpl.cbar = None  # Monkey patch on a cbar object
 
         # Create stand-in image data
