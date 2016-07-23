@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_SVD.ui'
+# Form implementation generated from reading ui file 'ui_Factorization.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -12,7 +12,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1386, 825)
+        Dialog.setSizeGripEnabled(True)
         self.gridLayout_2 = QtWidgets.QGridLayout(Dialog)
+        self.gridLayout_2.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -492,7 +494,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Factorization Video"))
         self.label.setText(_translate("Dialog", "Selected SVs"))
         self.label_2.setText(_translate("Dialog", "Max SVs"))
         self.pushButtonPrev.setText(_translate("Dialog", "Prev"))
@@ -514,4 +516,4 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Current Mean Reconstruction"))
         self.label_4.setText(_translate("Dialog", "Remainder"))
 
-from . import icons_all_rc
+import icons_all_rc
