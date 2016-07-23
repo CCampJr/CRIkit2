@@ -46,10 +46,13 @@ import time as _time
 from crikit.utils.general import find_nearest as _find_nearest
 
 # Import from Designer-based GUI
-from crikit.ui.qt_SVD import Ui_Dialog ### EDIT ###
+from crikit.ui.qt_Factorization import Ui_Dialog ### EDIT ###
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
+
+from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
+
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
 _mpl.rcParams['font.size'] = 12

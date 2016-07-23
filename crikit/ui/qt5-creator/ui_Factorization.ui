@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Singular Value Decomposition</string>
+   <string>Factorization Video</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

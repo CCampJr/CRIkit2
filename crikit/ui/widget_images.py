@@ -26,42 +26,36 @@ email: ("charles.camp@nist.gov")
 version: ("16.03.14")
 """
 
-# Append sys path
 import sys as _sys
-import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
+import numpy as _np
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QWidget as _QWidget,
                              QSizePolicy as _QSizePolicy,
                              QColorDialog as _QColorDialog)
+
 import PyQt5.QtCore as _QtCore
 
-# Other imports
-import numpy as _np
-
 # Import from Designer-based GUI
-
 from crikit.ui.qt_SglColorImage import Ui_Form as Ui_SglColorImage_Form
 from crikit.ui.qt_ColorMath import Ui_Form as Ui_ColorMath_Form
 from crikit.ui.qt_BWImage import Ui_Form as Ui_BWImage_Form
 from crikit.ui.qt_CompositeColor import Ui_Form as Ui_CompositeColor_Form
+#from crikit.ui.widget_mpl import MplCanvas as _MplCanvas
+from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
-import matplotlib.pyplot as _plt
+import sciplot as _sciplot
+#import matplotlib.pyplot as _plt
 
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
 _mpl.rcParams['font.size'] = 10
 #import matplotlib.pyplot as plt
 
-from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
-    NavigationToolbar2QT as _NavigationToolbar)
-
-from matplotlib.figure import Figure as _Figure
+from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as _NavigationToolbar)
 
 from crikit.ui.classes_ui import BW, SingleColor, CompositeColor
 
@@ -142,47 +136,45 @@ class widgetColorMath(_QWidget):
             self.ui.pushButtonOpFreq3.setEnabled(True)
 
 class widgetBWImg(_QWidget):
-    def __init__(self, parent = None):
+    """
+    Grayscale image widget
+    """
+    def __init__(self, parent = None, **kwargs):
         super(widgetBWImg, self).__init__(parent)
         self.ui = Ui_BWImage_Form()
         self.ui.setupUi(self)
 
-        #self.data = BW()
         # Initialize underlying data
         self.initData()
 
+        # Stand-in image data
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
         self.data.set_x(_np.linspace(1,400,self.data.xlen))
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
+        
+        # Calculate extent of image
         winextent = (self.data.x.min(), self.data.x.max(), self.data.y.min(), self.data.y.max())
 
-        self.mpl = _mplWin()
-        self.mpl.fig = _Figure(facecolor = [1,1,1])
-
-        self.mpl.ax = self.mpl.fig.add_subplot(111)
-
+        # MPL canvas
+        self.mpl = _MplCanvas(**kwargs)
+        self.mpl.cbar = None  # Monkey patch on a cbar object
+        
+        # Create stand-image plot
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = winextent, showcbar = True,
                               axison = True)
-
-        self.mpl.canvas = _FigureCanvas(self.mpl.fig)
-        self.mpl.canvas.setSizePolicy(_QSizePolicy.Expanding, _QSizePolicy.Expanding)
-        self.mpl.canvas.updateGeometry()
-
-        #self.ui.gridLayout.addWidget(self.mpl.canvas,0, 0, 1, 1, _QtCore.Qt.AlignHCenter)
-        self.ui.verticalLayout.insertWidget(0,self.mpl.canvas,_QtCore.Qt.AlignHCenter)
-        #self.ui.horizontalLayout_2.addWidget(self.mpl.canvas,_QtCore.Qt.AlignHCenter)
-
-        #self.mpl.toolbar = _NavigationToolbar(self.mpl.canvas, None, coordinates = True)
-        self.mpl.useToolBar(use=True)
+        self.mpl.fig.tight_layout()
+        
+        # Insert canvas widget into this widget
+        self.ui.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignHCenter)
         self.ui.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
 
+        # SIGNAL & SLOTS
         self.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
         self.ui.checkBoxRemOutliers.stateChanged.connect(self.checkBoxRemOutliers)
         self.ui.spinBoxStdDevs.valueChanged.connect(self.spinBoxOutliersChanged)
-
         self.ui.lineEditMin.editingFinished.connect(self.textEditMinMaxSet)
         self.ui.lineEditMax.editingFinished.connect(self.textEditMinMaxSet)
 
@@ -230,7 +222,7 @@ class widgetBWImg(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-            self.mpl.canvas.draw()
+            self.mpl.draw()
 
         except:
             pass
@@ -249,7 +241,7 @@ class widgetBWImg(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
     def checkBoxFixed(self):
         """
@@ -284,7 +276,7 @@ class widgetBWImg(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
     def checkBoxCompress(self):
         """
@@ -300,7 +292,7 @@ class widgetBWImg(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
 class widgetSglColor(_QWidget):
     """
@@ -313,7 +305,7 @@ class widgetSglColor(_QWidget):
 
     DEFAULT_COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
 
-    def __init__(self, parent = None):
+    def __init__(self, parent = None, **kwargs):
         super(widgetSglColor, self).__init__(parent)
         self.ui = Ui_SglColorImage_Form()
         self.math = widgetColorMath()
@@ -321,35 +313,33 @@ class widgetSglColor(_QWidget):
         for color in self.DEFAULT_COLORMAP_ORDER:
             self.ui.comboBox.addItem(color)
 
-        #self.data = SingleColor()
+        # Initialize data
         self.initData()
-
         self.data.colormap = self.COLORMAPS[self.ui.comboBox.currentText()]
+        
+        # Create stand-in imahe                                    
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
         self.data.set_x(_np.linspace(1,400,self.data.xlen))
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
 
-        self.mpl = _mplWin()
-        self.mpl.fig = _Figure(facecolor = [1,1,1])
-
-
-        self.mpl.ax = self.mpl.fig.add_subplot(111)
+        # Instantiate MPL widget
+        self.mpl = _MplCanvas(**kwargs)
+        self.mpl.cbar = None  # Monkey patch on a cbar object
 
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = False,
                               axison = False)
 
-        self.mpl.canvas = _FigureCanvas(self.mpl.fig)
-        self.mpl.canvas.figure.tight_layout()
-        #self.mpl.toolbar = _NavigationToolbar(self.mpl.canvas, None, coordinates = True)
-        self.mpl.useToolBar(use=True)
+        self.mpl.fig.tight_layout()
+        
+       
+        # Embed MPL widget into this widget
+        self.ui.horizontalLayoutGainImg.addWidget(self.mpl)
+        self.ui.verticalLayoutMain.insertWidget(1,self.mpl.toolbar, _QtCore.Qt.AlignVCenter)
+        self.ui.verticalLayoutMain.addWidget(self.math)
 
-        self.ui.verticalLayout_3.addWidget(self.mpl.canvas)
-        self.ui.verticalLayout_2.insertWidget(1,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
-        self.ui.verticalLayout_2.addWidget(self.math)
-
-        # SIGNAL-SLOT connections
+        # SIGNALS & SLOTS
         self.ui.comboBox.currentIndexChanged.connect(self.changeColor)
         self.math.ui.lineEditMin.editingFinished.connect(self.textEditMinMaxSet)
         self.math.ui.lineEditMax.editingFinished.connect(self.textEditMinMaxSet)
@@ -397,7 +387,7 @@ class widgetSglColor(_QWidget):
 #                              yunits = self.data.yunits,
 #                              extent = self.data.winextent, showcbar = True,
 #                              axison = True)
-#            self.mpl.canvas.draw()
+#            self.mpl.draw()
             self.math.ui.checkBoxFixed.setChecked(True)
             self.changeColor()
         except:
@@ -422,7 +412,7 @@ class widgetSglColor(_QWidget):
                                   yunits = self.data.yunits,
                                   extent = self.data.winextent, showcbar = False,
                                   axison = False)
-            self.mpl.canvas.draw()
+            self.mpl.draw()
         except:
             print('Error')
 
@@ -451,45 +441,52 @@ class widgetSglColor(_QWidget):
             self.math.ui.lineEditMin.setText(str(round(self.data.minner,4)))
 
     def createImg_Ext(self, img, xunits = None, yunits = None,
-                  extent = None, showcbar = False, axison = True,
+                  extent = None, showcbar = True, axison = True,
                   cmap = _mpl.cm.gray):
         """
         Create new figure window and show image of img
         """
 
-        new_win = _mplWin()
-        #new_win.fig = _Figure(facecolor = [1,1,1])
-        new_win.fig = _plt.figure(figsize=(10,6))
-        plot_font = {'fontname':'Arial', 'size':'14'}
-        new_win.ax = new_win.fig.add_subplot(111)
-
-
-        new_win.img = new_win.ax.imshow(img, interpolation = 'none',
-                                      extent = extent, cmap = cmap, origin='lower')
-        if xunits is not None:
-            _plt.xlabel(xunits, **plot_font)
-        if yunits is not None:
-            _plt.ylabel(yunits, **plot_font)
-
-        if axison == False:
-            new_win.ax.set_axis_off()
-        else:
-            for label in (new_win.ax.get_xticklabels() + new_win.ax.get_yticklabels()):
-                label.set_fontname(plot_font['fontname'])
-                label.set_fontsize(plot_font['size'])
-        _plt.title("Color Image (Change Title)", **plot_font)
+        sp_win = _sciplot.main()
+        sp_win.imshow(img, x_label=xunits, y_label=yunits, cmap=cmap)
         if showcbar == True:
-            if new_win.cbar is not None:
-                new_win.cbar.remove()
+            sp_win.mpl_widget.ax.colorbar()
+#            if new_win.cbar is not None:
+#                new_win.cbar.remove()
+#
+        #new_win = _mplWin()
+        #new_win.fig = _Figure(facecolor = [1,1,1])
+        #new_win.fig = _plt.figure(figsize=(10,6))
+        #plot_font = {'fontname':'Arial', 'size':'14'}
+        #new_win.ax = new_win.fig.add_subplot(111)
 
-            new_win.cbar = new_win.fig.colorbar(new_win.img)
-            new_win.cbar.ax.tick_params(labelsize=plot_font['size'])
 
-        if self.math.ui.checkBoxFixed.isChecked() == False:
-            self.math.ui.lineEditMax.setText(str(round(self.data.maxer,4)))
-            self.math.ui.lineEditMin.setText(str(round(self.data.minner,4)))
-
-        new_win.fig.show()
+        #new_win.img = new_win.ax.imshow(img, interpolation = 'none',
+        #                              extent = extent, cmap = cmap, origin='lower')
+#        if xunits is not None:
+#            _plt.xlabel(xunits, **plot_font)
+#        if yunits is not None:
+#            _plt.ylabel(yunits, **plot_font)
+#
+#        if axison == False:
+#            new_win.ax.set_axis_off()
+#        else:
+#            for label in (new_win.ax.get_xticklabels() + new_win.ax.get_yticklabels()):
+#                label.set_fontname(plot_font['fontname'])
+#                label.set_fontsize(plot_font['size'])
+#        _plt.title("Color Image (Change Title)", **plot_font)
+#        if showcbar == True:
+#            if new_win.cbar is not None:
+#                new_win.cbar.remove()
+#
+#            new_win.cbar = new_win.fig.colorbar(new_win.img)
+#            new_win.cbar.ax.tick_params(labelsize=plot_font['size'])
+#
+#        if self.math.ui.checkBoxFixed.isChecked() == False:
+#            self.math.ui.lineEditMax.setText(str(round(self.data.maxer,4)))
+#            self.math.ui.lineEditMin.setText(str(round(self.data.minner,4)))
+#
+#        new_win.fig.show()
 
     def checkBoxFixed(self):
         """
@@ -533,42 +530,36 @@ class widgetSglColor(_QWidget):
         self.changeColor()
 
 class widgetCompositeColor(_QWidget):
-    def __init__(self, sgl_color_widget_list = None, parent = None):
+    def __init__(self, sgl_color_widget_list = None, parent = None, **kwargs):
         super(widgetCompositeColor, self).__init__(parent)
         self.ui = Ui_CompositeColor_Form()
         self.ui.setupUi(self)
 
-        #self.data = BW()
         # Initialize underlying data
         self.initData(sgl_color_widget_list)
 
+        # Create stand-in image data
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
         self.data.set_x(_np.linspace(1,400,self.data.xlen))
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
         winextent = (self.data.x.min(), self.data.x.max(), self.data.y.min(), self.data.y.max())
 
-        self.mpl = _mplWin()
-        self.mpl.fig = _Figure(facecolor = [1,1,1])
+        # Instantiate mpl widget
+        self.mpl = _MplCanvas(**kwargs)
+        self.mpl.cbar = None  # Monkey patch on a cbar object
 
-        self.mpl.ax = self.mpl.fig.add_subplot(111)
-
+        # Create stand-in image data
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = winextent, showcbar = False,
                               axison = True)
+        self.mpl.fig.tight_layout()
 
-        self.mpl.canvas = _FigureCanvas(self.mpl.fig)
-        self.mpl.canvas.setSizePolicy(_QSizePolicy.Expanding, _QSizePolicy.Expanding)
-        self.mpl.canvas.updateGeometry()
-
-        #self.ui.gridLayout.addWidget(self.mpl.canvas,0, 0, 1, 1, _QtCore.Qt.AlignHCenter)
-        self.ui.verticalLayout.insertWidget(0,self.mpl.canvas,_QtCore.Qt.AlignHCenter)
-        #self.ui.horizontalLayout_2.addWidget(self.mpl.canvas,_QtCore.Qt.AlignHCenter)
-
-        #self.mpl.toolbar = _NavigationToolbar(self.mpl.canvas, None, coordinates = True)
-        self.mpl.useToolBar(use=True)
+        # Insert mpl widget into this widget
+        self.ui.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignHCenter)
         self.ui.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
 
+        # SIGNALS & SLOTS
         self.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
         self.ui.checkBoxRemOutliers.stateChanged.connect(self.checkBoxRemOutliers)
@@ -626,7 +617,7 @@ class widgetCompositeColor(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
     def checkBoxFixed(self):
         """
@@ -661,7 +652,7 @@ class widgetCompositeColor(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
     def checkBoxCompress(self):
         """
@@ -677,7 +668,7 @@ class widgetCompositeColor(_QWidget):
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
                               axison = True)
-        self.mpl.canvas.draw()
+        self.mpl.draw()
 
 class _mplWin:
     def __init__(self, parent = None):
