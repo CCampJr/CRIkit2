@@ -95,7 +95,7 @@ from crikit.ui.subui_hdf_load import SubUiHDFLoad
 from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
 from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 from crikit.ui.subui_SVD import DialogSVD
-#from crikit.ui.dialog_save import DialogSave
+from crikit.ui.dialog_save import DialogSave
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
@@ -107,9 +107,9 @@ _mpl.rcParams['font.size'] = 12
 
 #import matplotlib.pyplot as plt
 
-from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
-    NavigationToolbar2QT as _NavigationToolbar)
-from matplotlib.figure import Figure as _Figure
+#from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
+#    NavigationToolbar2QT as _NavigationToolbar)
+#from matplotlib.figure import Figure as _Figure
 
 jupyter_flag = 0
 try:
@@ -161,7 +161,7 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
 
-        self.plotter = _SciPlotUI()
+        self.plotter = _SciPlotUI(show=False)
 #        self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
@@ -221,7 +221,7 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.tabColors.currentChanged.connect(self.checkCompositeUpdate)
 
 
-        # SET SIGNALS-SLOTS
+        # SIGNALS & SLOTS
 
         # Load Data
         self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
@@ -1159,7 +1159,7 @@ class CRIkitUI_process(_QMainWindow):
             print('Save time: {:.6f} sec'.format(stop-start))
 
 
-#        self.changeSlider()
+        self.changeSlider()
 
     def deNoise(self):
         """
@@ -1273,8 +1273,8 @@ class CRIkitUI_process(_QMainWindow):
                 if nrbloaded:
                     sub_residual.transform(self.nrb.data)
 
-#            # Refresh BW image
-#            self.changeSlider()
+            # Refresh BW image
+            self.changeSlider()
 
     def doMath(self):
         """
@@ -1699,11 +1699,12 @@ if __name__ == '__main__':
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
     win = CRIkitUI_process() ### EDIT ###
-
     # Insert other stuff to do
 
 
     # Final stuff
     win.showMaximized()
+    win.plotter.lower()
+    win.raise_()
     app.exec_()
     #_sys.exit(app.exec_())
