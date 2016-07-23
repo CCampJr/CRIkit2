@@ -57,12 +57,14 @@ from crikit.io.macros import import_hdf_nist_special as io_nist
 from crikit.io.hdf5 import hdf_export_data as _io_export
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
-from crikit.utils.general import find_nearest
+from crikit.utils.general import find_nearest, mean_nd_to_1d
 
 from crikit.preprocess.subtract_dark import SubtractDark
 from crikit.preprocess.subtract_mean import SubtractMeanOverRange
 from crikit.preprocess.crop import (ZeroColumn as _ZeroColumn,
                                     ZeroRow as _ZeroRow)
+from crikit.preprocess.standardize import (Anscombe as _Anscombe,
+                                           AnscombeInverse as _AnscombeInverse)
 
 from crikit.cri.kk import KramersKronig
 
@@ -92,9 +94,10 @@ from crikit.ui.widget_images import widgetBWImg
 
 
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
-from crikit.ui.dialog_options import DialogDarkOptions, DialogKKOptions
-from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
-from crikit.ui.subui_SVD import DialogSVD
+from crikit.ui.dialog_darkOptions import DialogDarkOptions
+#from crikit.ui.dialog_KKOptions import DialogKKOptions
+#from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
+#from crikit.ui.subui_SVD import DialogSVD
 from crikit.ui.dialog_save import DialogSave
 
 # Generic imports for MPL-incorporation
@@ -262,11 +265,16 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
         self.ui.actionKKSpeedTest.triggered.connect(self.testKK)
 
+        # Variance Stabilize
+        self.ui.actionAnscombe.triggered.connect(self.anscombe)
+        self.ui.actionInverseAnscombe.triggered.connect(self.inverseAnscombe)
+        
         # DeNoise
         self.ui.actionDeNoise.triggered.connect(self.deNoise)
 
         # Error Correction
-        self.ui.actionErrorCorrection.triggered.connect(self.errorCorrect)
+        self.ui.actionPhaseErrorCorrection.triggered.connect(self.errorCorrect)
+        self.ui.actionScaleErrorCorrection.triggered.connect(self.errorCorrect)
         self.ui.actionSubtractROI.triggered.connect(self.subtractROIStart)
 
         # SAVE
@@ -278,8 +286,8 @@ class CRIkitUI_process(_QMainWindow):
 #        self.ui.actionROISpectrum.triggered.connect(self.roiSpectrum)
 #        self.plotter.model.dataDeleted.connect(self.deleteSelection)
 #        self.plotter.model.colorChanged.connect(self.colorChange)
-#        self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
-#        self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
+        self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
+        self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
         self.ui.actionShowPlotter.triggered.connect(self.plotter.show)
 #
 #        # Frequency-slider related
@@ -598,30 +606,23 @@ class CRIkitUI_process(_QMainWindow):
         """
         Plot dark spectrum
         """
-        if (self.dark.dark_spectrum == _np.array(None)).any():
+        if self.dark.data is None:
             pass
         else:
-            self.selectiondata.append_selection([None],[None],[None],[None])
-            self.plotter.append_spectrum(freq=self.hsi.f_full,
-                                         spectrum=self.dark.dark_spectrum,
-                                         label='Dark',
-                                         frequnits=self.hsi.frequnits,
-                                         spectrumunits=self.hsi.intensityunits)
+            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.dark.data),
+                              label='Mean Dark Spectrum')
+
             self.plotter.show()
 
     def plotNRBSpectrum(self):
         """
         Plot NRB spectrum
         """
-        if (self.nrb.nrb_spectrum == _np.array(None)).any():
+        if self.nrb.data is None:
             pass
         else:
-            self.selectiondata.append_selection([None],[None],[None],[None])
-            self.plotter.append_spectrum(freq=self.hsi.f_full,
-                                 spectrum=self.nrb.nrb_spectrum,
-                                 label='NRB',
-                                 frequnits=self.hsi.frequnits,
-                                 spectrumunits=self.hsi.intensityunits)
+            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb.data),
+                              label='Mean NRB Spectrum')
 
             self.plotter.show()
 
@@ -750,15 +751,15 @@ class CRIkitUI_process(_QMainWindow):
 
             spectrum = spectrum.astype(self.hsi.spectrafull.dtype)
             if sender == 'actionNRB_from_ROI':
-                self.nrb.nrb_spectrum = spectrum
+                self.nrb.data = spectrum
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
             elif sender == 'actionAppend_NRB_from_ROI':
-                if self.nrb.nrb_spectrum.size == 0:
-                    self.nrb.nrb_spectrum = spectrum
+                if self.nrb.size == 0:
+                    self.nrb.data = spectrum
                 else:
-                    self.nrb.nrb_spectrum = (self.nrb.nrb_spectrum + spectrum)/2
+                    self.nrb.data = (self.nrb.data + spectrum)/2
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
             else:
@@ -1084,15 +1085,15 @@ class CRIkitUI_process(_QMainWindow):
         """
 
         if len(self.hsi.pixrange) == 0:
-            nrb = self.nrb.nrb_spectrum
+            nrb = self.nrb.data
         else:
-            ndim_nrb = _np.squeeze(self.nrb.nrb_spectrum).ndim
+            ndim_nrb = self.nrb.ndim
             if  ndim_nrb == 1:
-                nrb = self.nrb.nrb_spectrum[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+                nrb = self.nrb.data[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
             elif ndim_nrb == 2:
-                nrb = self.nrb.nrb_spectrum[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+                nrb = self.nrb.data[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
             else:
-                nrb = self.nrb.nrb_spectrum[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+                nrb = self.nrb.data[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
 
         rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True)
 
@@ -1276,6 +1277,16 @@ class CRIkitUI_process(_QMainWindow):
             # Refresh BW image
             self.changeSlider()
 
+    def anscombe(self):
+        """
+        Performance Anscombe transformation
+        """
+        
+    def inverseAnscombe(self):
+        """
+        Performance Anscombe transformation
+        """
+        
     def doMath(self):
         """
         Perform selected math operation on single-color imagery.
