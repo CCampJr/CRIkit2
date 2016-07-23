@@ -7,8 +7,6 @@ Created on Tue Feb 16 15:51:32 2016
 
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -22,7 +20,7 @@ import numpy as _np
 
 from yapsy.PluginManager import (PluginManager as _PluginManager,
                                 PluginInfo as _PluginInfo)
-#import crikit.ui.helper_plugin_categories
+
 from crikit.ui.helper_plugin_categories import DeNoiser, ErrorCorrect
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
@@ -251,8 +249,8 @@ class DialogErrCorrPlugins(_QDialog):
 if __name__ == '__main__':
 
    
-    from crikit.data.classes import HSData
-    
+#    from crikit.data.classes import HSData
+#    
     x = _np.linspace(100,200,50)
     y = _np.linspace(200,300,50)
     f = _np.linspace(500,3000,800)
@@ -263,8 +261,8 @@ if __name__ == '__main__':
     for count in range(y.size):
         data[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
 
-    temp = HSData()
-    temp.spectrafull = data
+    #temp = HSData()
+    #temp.spectrafull = data
     
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
@@ -273,28 +271,29 @@ if __name__ == '__main__':
     win = DialogDenoisePlugins.dialogDenoisePlugins()
 
     if win is not None:
-        retwin = win.denoiseHSData(temp)
+        retwin = win.denoiseHSData(data)
         print('RetWin:{}'.format(retwin))
     
-    ### Error Correction Demo
-    win = DialogErrCorrPlugins.dialogErrCorrPlugins()
-    
-    temp = HSData()
-    
-    WN = _np.linspace(500,4000,1000)
-    
-    CARS = _np.zeros((20,20,WN.size), dtype=complex)
-    CARS[:,:,:] = (1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
-    temp.spectrafull = CARS
-    temp.freqvecfull = WN
-    
-    
-    NRB = 0*WN + .055
-    
-    if win is not None:
-        retwin = win.errorCorrectHSData(temp)
-    #if win is not None:
-        #retwin = win.denoiseHSData(temp)
-        #print('RetWin:{}'.format(retwin))
-    
-    _sys.exit()
+#    ### Error Correction Demo
+#    win = DialogErrCorrPlugins.dialogErrCorrPlugins()
+#    
+##    temp = HSData()
+#    
+#    WN = _np.linspace(500,4000,1000)
+#    
+#    CARS = _np.zeros((20,20,WN.size), dtype=complex)
+#    CARS[:,:,:] = (1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
+#    temp.spectrafull = CARS
+#    temp.freqvecfull = WN
+#    
+#    
+#    NRB = 0*WN + .055
+#    
+#    if win is not None:
+#        retwin = win.errorCorrectHSData(data)
+#    #if win is not None:
+#        #retwin = win.denoiseHSData(temp)
+#        #print('RetWin:{}'.format(retwin))
+#    
+#    _sys.exit()
+    app.exec_()

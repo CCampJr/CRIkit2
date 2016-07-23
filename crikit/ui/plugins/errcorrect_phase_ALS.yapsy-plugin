@@ -1,0 +1,8 @@
+[Core]
+Name = Phase Error: ALS
+Module = errcorrect_phase_ALS
+
+[Documentation]
+Author = Charles H. Camp Jr.
+Version = 16.03.01
+Description = Phase error correction with alternating least squares
