@@ -362,17 +362,33 @@ This will be saved to the processed file.</string>
     <property name="title">
      <string>Pre-Process</string>
     </property>
+    <widget class="QMenu" name="menuVariance_Stabilize">
+     <property name="title">
+      <string>Variance Stabilize</string>
+     </property>
+     <addaction name="actionAnscombe"/>
+     <addaction name="separator"/>
+     <addaction name="actionInverseAnscombe"/>
+    </widget>
+    <widget class="QMenu" name="menuCoherent_Raman_Imaging">
+     <property name="title">
+      <string>Coherent Raman Imaging</string>
+     </property>
+     <addaction name="actionKramersKronig"/>
+     <addaction name="actionKKSpeedTest"/>
+     <addaction name="actionPhaseErrorCorrection"/>
+     <addaction name="actionScaleErrorCorrection"/>
+    </widget>
     <addaction name="actionDarkSubtract"/>
+    <addaction name="menuVariance_Stabilize"/>
     <addaction name="actionDeNoise"/>
-    <addaction name="actionKramersKronig"/>
-    <addaction name="actionErrorCorrection"/>
     <addaction name="separator"/>
     <addaction name="actionSimpleOutlierRemoval"/>
     <addaction name="separator"/>
     <addaction name="actionSubtractROI"/>
     <addaction name="separator"/>
-    <addaction name="actionKKSpeedTest"/>
     <addaction name="separator"/>
+    <addaction name="menuCoherent_Raman_Imaging"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -497,7 +513,7 @@ This will be saved to the processed file.</string>
     <string>Kramers-Kronig...</string>
    </property>
   </action>
-  <action name="actionErrorCorrection">
+  <action name="actionPhaseErrorCorrection">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -506,7 +522,7 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/bug-4x.png</normaloff>:/icons/open-iconic-master/png/bug-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Error Correction...</string>
+    <string>Phase Error Correction...</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -719,6 +735,21 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Zero Last Row</string>
+   </property>
+  </action>
+  <action name="actionAnscombe">
+   <property name="text">
+    <string>Anscombe</string>
+   </property>
+  </action>
+  <action name="actionInverseAnscombe">
+   <property name="text">
+    <string>Inverse Anscombe</string>
+   </property>
+  </action>
+  <action name="actionScaleErrorCorrection">
+   <property name="text">
+    <string>Scale Error Correction</string>
    </property>
   </action>
  </widget>
