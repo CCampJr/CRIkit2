@@ -516,4 +516,4 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Current Mean Reconstruction"))
         self.label_4.setText(_translate("Dialog", "Remainder"))
 
-import icons_all_rc
+from . import icons_all_rc
