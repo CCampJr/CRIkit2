@@ -94,7 +94,7 @@ from crikit.ui.widget_images import widgetBWImg
 
 
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
-from crikit.ui.dialog_darkOptions import DialogDarkOptions
+from crikit.ui.dialog_subResidualOptions import DialogSubResidualOptions
 #from crikit.ui.dialog_KKOptions import DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.subui_SVD import DialogSVD
@@ -246,6 +246,7 @@ class CRIkitUI_process(_QMainWindow):
 
         # Subtract DARK-Related
         self.ui.actionDarkSubtract.triggered.connect(self.subDark)
+        self.ui.actionResidualSubtract.triggered.connect(self.subResidual)
 
 
         # ZERO first column or row
@@ -297,10 +298,10 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.freqSlider.setTracking(True)
 #
 #        # Frequency-slider display boxes
-#        self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChanged)
-#        self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChanged)
-#        self.ui.lineEditPix.setVisible(False)
-#        self.ui.labelFreqPixel.setVisible(False)
+        self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChanged)
+        self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChanged)
+        self.ui.lineEditPix.setVisible(False)
+        self.ui.labelFreqPixel.setVisible(False)
 
 
         # Jupyter console
@@ -613,6 +614,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean Dark Spectrum')
 
             self.plotter.show()
+            self.plotter.raise_()
 
     def plotNRBSpectrum(self):
         """
@@ -625,6 +627,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean NRB Spectrum')
 
             self.plotter.show()
+            self.plotter.raise_()
 
     def pointSpectrum(self):
         """
@@ -979,7 +982,7 @@ class CRIkitUI_process(_QMainWindow):
 
         try:
             freq_in = float(self.ui.lineEditFreq.text())
-            pos = self.hsi._get_index_of_freq(freq_in, use_full=False)
+            pos = self.hsi.freq.get_index_of_freq(freq_in, use_full=False)
 
             self.ui.freqSlider.setSliderPosition(pos)
             self.changeSlider()
@@ -1232,50 +1235,78 @@ class CRIkitUI_process(_QMainWindow):
         nrbloaded = self.nrb.data is not None
         darkloaded = self.dark.data is not None
 
-        subdark, subdarkimg, subdarknrb, subresidual, freq = \
-            DialogDarkOptions.dialogDarkOptions(darkloaded=darkloaded,
-                                                nrbloaded=nrbloaded)
-
-        if (subdark is None and subresidual is None):
-            pass
-        else:
-            if subdark:
-#                print('Sub Dark')
-                if subdarkimg:
-                    sub_dark = SubtractDark(self.dark.data)
+        if self.hsi.data is not None:
+            if darkloaded:   
+                # Instantiate SubtractDark
+                sub_dark = SubtractDark(self.dark.data)
+                
+                msg = _QMessageBox(self)
+                msg.setIcon(_QMessageBox.Question)
+                msg.setText('Subtract Dark Spectrum from Image?')
+                msg.setWindowTitle('Confirm dark subtract from image')
+                msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                msg.setDefaultButton(_QMessageBox.Ok)
+                out = msg.exec()
+                
+                if out == _QMessageBox.Ok:
                     sub_dark.transform(self.hsi.data)
-#                    self.dark.alter_dark_sub(self.hsi)
-                    self.bcpre.add_step(['SubDark'])
-                    try:
-                        self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                    except:
-                        print('Error in pickle backup (Undo functionality)')
-                    else:
-                        self.bcpre.backed_up()
-
-                if subdarknrb:
-                    sub_dark.transform(self.nrb.data)
-#                    self.dark.nrb_dark_sub(self.nrb)
-
-            if subresidual:
-                rng = self.hsi.freq.get_index_of_closest_freq(freq)
-                sub_residual = SubtractMeanOverRange(rng)
-                sub_residual.transform(self.hsi.data)
-
-                self.bcpre.add_step(['SubResidual', 'RangeStart', freq[0],
-                                     'RangeEnd', freq[1]])
-                try:
-                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
-
+                    
                 if nrbloaded:
-                    sub_residual.transform(self.nrb.data)
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Dark Spectrum from NRB Spectrum(a)?')
+                    msg.setWindowTitle('Confirm dark subtract from NRB spectrum(a)')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_dark.transform(self.nrb.data)
+                
+                self.changeSlider()
+            else:
+                msg = _QMessageBox(self)
+                msg.setIcon(_QMessageBox.Information)
+                msg.setText('Dark spectrum not loaded.')
+                msg.setStandardButtons(_QMessageBox.Ok)
+                msg.setDefaultButton(_QMessageBox.Ok)
+                msg.exec()
+        else:
+            msg = _QMessageBox(self)
+            msg.setIcon(_QMessageBox.Information)
+            msg.setText('Image data not loaded. Cannot subtract dark spectrum.')
+            msg.setStandardButtons(_QMessageBox.Ok)
+            msg.setDefaultButton(_QMessageBox.Ok)
+            msg.exec()
+            
+    def subResidual(self):
+        """
+        Subtract a linear residual over range
+        """
+        nrbloaded = self.nrb.data is not None
+        imgloaded = self.hsi.data is not None
 
-            # Refresh BW image
-            self.changeSlider()
+        if nrbloaded or imgloaded:
+            out = DialogSubResidualOptions.dialogSubResidualOptions(imgloaded=imgloaded,
+                                                                    nrbloaded=nrbloaded)
+            if out is not None:
+                rng = self.hsi.freq.get_index_of_closest_freq(out['subrange'])
+                sub_residual = SubtractMeanOverRange(rng)
+
+                if out['submain']:
+                    # HSI
+                    sub_residual.transform(self.hsi.data)
+                if out['subnrb']:
+                    # NRB
+                    sub_residual.transform(self.nrb.data)
+                self.changeSlider()
+        else:
+            msg = _QMessageBox(self)
+            msg.setIcon(_QMessageBox.Information)
+            msg.setText('Image or NRB data need be loaded.')
+            msg.setStandardButtons(_QMessageBox.Ok)
+            msg.setDefaultButton(_QMessageBox.Ok)
+            msg.exec()
 
     def anscombe(self):
         """

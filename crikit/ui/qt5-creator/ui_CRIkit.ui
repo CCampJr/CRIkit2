@@ -380,6 +380,7 @@ This will be saved to the processed file.</string>
      <addaction name="actionScaleErrorCorrection"/>
     </widget>
     <addaction name="actionDarkSubtract"/>
+    <addaction name="actionResidualSubtract"/>
     <addaction name="menuVariance_Stabilize"/>
     <addaction name="actionDeNoise"/>
     <addaction name="separator"/>
@@ -750,6 +751,11 @@ This will be saved to the processed file.</string>
   <action name="actionScaleErrorCorrection">
    <property name="text">
     <string>Scale Error Correction</string>
+   </property>
+  </action>
+  <action name="actionResidualSubtract">
+   <property name="text">
+    <string>Residual Subtract</string>
    </property>
   </action>
  </widget>

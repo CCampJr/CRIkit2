@@ -325,6 +325,8 @@ class Ui_MainWindow(object):
         self.actionInverseAnscombe.setObjectName("actionInverseAnscombe")
         self.actionScaleErrorCorrection = QtWidgets.QAction(MainWindow)
         self.actionScaleErrorCorrection.setObjectName("actionScaleErrorCorrection")
+        self.actionResidualSubtract = QtWidgets.QAction(MainWindow)
+        self.actionResidualSubtract.setObjectName("actionResidualSubtract")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addSeparator()
@@ -342,6 +344,7 @@ class Ui_MainWindow(object):
         self.menuCoherent_Raman_Imaging.addAction(self.actionPhaseErrorCorrection)
         self.menuCoherent_Raman_Imaging.addAction(self.actionScaleErrorCorrection)
         self.menuPre_Process.addAction(self.actionDarkSubtract)
+        self.menuPre_Process.addAction(self.actionResidualSubtract)
         self.menuPre_Process.addAction(self.menuVariance_Stabilize.menuAction())
         self.menuPre_Process.addAction(self.actionDeNoise)
         self.menuPre_Process.addSeparator()
@@ -431,5 +434,6 @@ class Ui_MainWindow(object):
         self.actionAnscombe.setText(_translate("MainWindow", "Anscombe"))
         self.actionInverseAnscombe.setText(_translate("MainWindow", "Inverse Anscombe"))
         self.actionScaleErrorCorrection.setText(_translate("MainWindow", "Scale Error Correction"))
+        self.actionResidualSubtract.setText(_translate("MainWindow", "Residual Subtract"))
 
 from . import icons_all_rc
