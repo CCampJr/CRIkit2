@@ -980,14 +980,14 @@ class CRIkitUI_process(_QMainWindow):
         Frequency manually entered in frequency-slider-display
         """
 
-        try:
-            freq_in = float(self.ui.lineEditFreq.text())
-            pos = self.hsi.freq.get_index_of_freq(freq_in, use_full=False)
+#        try:
+        freq_in = float(self.ui.lineEditFreq.text())
+        pos = self.hsi.freq.get_index_of_closest_freq(freq_in)
 
-            self.ui.freqSlider.setSliderPosition(pos)
-            self.changeSlider()
-        except:
-            pass
+        self.ui.freqSlider.setSliderPosition(pos)
+        self.changeSlider()
+#        except:
+#            pass
 
     def lineEditPixChanged(self):
         """
