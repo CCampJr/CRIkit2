@@ -364,7 +364,7 @@ This will be saved to the processed file.</string>
     </property>
     <widget class="QMenu" name="menuVariance_Stabilize">
      <property name="title">
-      <string>Variance Stabilize</string>
+      <string>Standardize</string>
      </property>
      <addaction name="actionAnscombe"/>
      <addaction name="separator"/>

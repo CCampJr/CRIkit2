@@ -95,6 +95,8 @@ from crikit.ui.widget_images import widgetBWImg
 
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
 from crikit.ui.dialog_subResidualOptions import DialogSubResidualOptions
+from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
+
 #from crikit.ui.dialog_KKOptions import DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.subui_SVD import DialogSVD
@@ -1312,11 +1314,29 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance Anscombe transformation
         """
+        out = DialogAnscombeOptions.dialogAnscombeOptions()
         
+        if out is not None:
+            rng = self.hsi.freq.op_range_pix
+
+            ansc = _Anscombe(gauss_std=out['stddev'], gauss_mean=0.0,
+                             poisson_multi=out['gain'], rng=rng)
+            ansc.transform(self.hsi.data)
+            self.changeSlider()
+            
     def inverseAnscombe(self):
         """
-        Performance Anscombe transformation
+        Performance an Inverse Anscombe transformation
         """
+        out = DialogAnscombeOptions.dialogAnscombeOptions()
+        
+        if out is not None:
+            rng = self.hsi.freq.op_range_pix
+
+            iansc = _AnscombeInverse(gauss_std=out['stddev'], gauss_mean=0.0,
+                             poisson_multi=out['gain'], rng=rng)
+            iansc.transform(self.hsi.data)
+            self.changeSlider()
         
     def doMath(self):
         """

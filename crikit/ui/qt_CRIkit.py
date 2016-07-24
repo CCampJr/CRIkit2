@@ -397,7 +397,7 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuImport.setTitle(_translate("MainWindow", "Import/Load"))
         self.menuPre_Process.setTitle(_translate("MainWindow", "Pre-Process"))
-        self.menuVariance_Stabilize.setTitle(_translate("MainWindow", "Variance Stabilize"))
+        self.menuVariance_Stabilize.setTitle(_translate("MainWindow", "Standardize"))
         self.menuCoherent_Raman_Imaging.setTitle(_translate("MainWindow", "Coherent Raman Imaging"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuAnalysis.setTitle(_translate("MainWindow", "Analysis"))
