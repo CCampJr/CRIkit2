@@ -9,12 +9,6 @@ Created on Thu Apr 14 08:53:08 2016
 
 __all__ = ['anscombe', 'anscombe_inverse']
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
-import timeit as _timeit
 import copy as _copy
 import numpy as _np
 

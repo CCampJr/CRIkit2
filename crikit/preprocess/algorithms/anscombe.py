@@ -33,32 +33,16 @@ Citation Refs
 
 import numpy as _np
 import numexpr as _ne
-import sys as _sys
 import os as _os
 
-RESOURCE_DIR = './resources/'
-
 resource_dir = None
+resource_dir = _os.path.abspath(_os.path.dirname(__file__)+'\\resources\\')
 
-if _os.path.exists((_os.path.abspath('./resources/'))):  # pragma: no cover
-    resource_dir = './resources/'
-elif _os.path.exists((_os.path.abspath('./preprocess/algorithms/resources/'))):  # pragma: no cover
-    resource_dir = './preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath('./crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
-    resource_dir = './crikit/preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath('../crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
-    resource_dir = '../crikit/preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath('../../crikit2/crikit/preprocess/algorithms/resources/'))):  # pragma: no cover
-    resource_dir = '../../crikit2/crikit/preprocess/algorithms/resources/'
-elif _os.path.exists(_os.path.abspath('../preprocess/algorithms/resources/')):  # pragma: no cover
-    resource_dir = '../preprocess/algorithms/resources/'
-elif _os.path.exists((_os.path.abspath(RESOURCE_DIR))):  # pragma: no cover
-    resource_dir = RESOURCE_DIR
-
-if resource_dir is not None:
-    print('Resource directory: {}'.format(_os.path.abspath(resource_dir)))
+if _os.path.exists(resource_dir):
+    #print('Resource directory: {}'.format(_os.path.abspath(resource_dir)))
+    pass
 else:  # pragma: no cover
-    print('Cannot find resource directory')
+    raise IOError('Cannot find resource directory')
 
 def gen_anscombe_forward(signal, gauss_std, gauss_mean = 0, poisson_multi = 1):
     """
@@ -252,7 +236,7 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
 
     SMALL_VAL = 0
 
-    mat_dict = loadmat(resource_dir + 'GenAnscombe_vectors.mat')
+    mat_dict = loadmat(resource_dir + '\\GenAnscombe_vectors.mat')
 
     Efzmatrix = _np.squeeze(mat_dict['Efzmatrix'])
     Ez = _np.squeeze(mat_dict['Ez'])
@@ -361,7 +345,7 @@ def anscombe_inverse_exact_unbiased(fsignal):
     from scipy.interpolate import InterpolatedUnivariateSpline
 
     #mat_dict = loadmat('C:/Users/chc/Documents/Python/CRIkit_develop_bitbucket/crikit/utils/algorithms/resources/Anscombe_vectors.mat')
-    mat_dict = loadmat(resource_dir + 'Anscombe_vectors.mat')
+    mat_dict = loadmat(resource_dir + '\\Anscombe_vectors.mat')
 
     Efz = mat_dict['Efz']
     Ez = mat_dict['Ez']
