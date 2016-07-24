@@ -97,7 +97,7 @@ from crikit.ui.subui_hdf_load import SubUiHDFLoad
 from crikit.ui.dialog_subResidualOptions import DialogSubResidualOptions
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 
-#from crikit.ui.dialog_KKOptions import DialogKKOptions
+from crikit.ui.dialog_kkOptions import DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 #from crikit.ui.subui_SVD import DialogSVD
 from crikit.ui.dialog_save import DialogSave
@@ -1134,9 +1134,13 @@ class CRIkitUI_process(_QMainWindow):
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
 
-        cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.f_full[..., rng],
+        out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f_full[..., rng],
                                                   nrb[...,rng], rand_spectra])
+        cars_amp_offset = out['cars_amp']
+        nrb_amp_offset = out['nrb_amp']
+        phase_offset = out['phase_offset']
+        norm_to_nrb = out['norm_to_nrb']
+        pad_factor = out['pad_factor']
 
         if cars_amp_offset is not None:
             kk = KramersKronig(cars_amp_offset=cars_amp_offset,
@@ -1145,27 +1149,25 @@ class CRIkitUI_process(_QMainWindow):
                       pad_factor=pad_factor,
                       rng=rng)
 
-            start = _timeit.default_timer()
             self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
-            stop = _timeit.default_timer()
+            self.changeSlider()
+#            stop = _timeit.default_timer()
 
-            num_spectra = int(self.hsi.size/self.hsi.freq.size)
-            print('KK Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start, (stop-start)/num_spectra))
+#            num_spectra = int(self.hsi.size/self.hsi.freq.size)
+#            print('KK Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start, (stop-start)/num_spectra))
 
-            start = _timeit.default_timer()
+#            start = _timeit.default_timer()
 
-            self.bcpre.add_step(['KK','CARSAmp',cars_amp_offset,'NRBAmp',nrb_amp_offset,'Phase',phase_offset,'Norm',norm_to_nrb])
-            try:
-                self.hsi.backup_pickle(self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
-            stop = _timeit.default_timer()
-            print('Save time: {:.6f} sec'.format(stop-start))
+#            self.bcpre.add_step(['KK','CARSAmp',cars_amp_offset,'NRBAmp',nrb_amp_offset,'Phase',phase_offset,'Norm',norm_to_nrb])
+#            try:
+#                self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#            except:
+#                print('Error in pickle backup (Undo functionality)')
+#            else:
+#                self.bcpre.backed_up()
+#            stop = _timeit.default_timer()
+#            print('Save time: {:.6f} sec'.format(stop-start))
 
-
-        self.changeSlider()
 
     def deNoise(self):
         """
