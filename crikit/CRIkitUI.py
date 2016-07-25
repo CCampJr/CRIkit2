@@ -65,6 +65,7 @@ from crikit.preprocess.crop import (ZeroColumn as _ZeroColumn,
                                     ZeroRow as _ZeroRow)
 from crikit.preprocess.standardize import (Anscombe as _Anscombe,
                                            AnscombeInverse as _AnscombeInverse)
+from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
 
 from crikit.cri.kk import KramersKronig
 
@@ -72,7 +73,7 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
-#from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
+from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
 #from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
 #from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 #from crikit.ui.utils.visgenutils import roimask as _roimask
@@ -81,10 +82,6 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 #from crikit.data.retr import retr_freq_plane, retr_freq_plane_add, \
 #    retr_freq_plane_div, retr_freq_plane_multi, retr_freq_plane_peak_bw_troughs, \
 #    retr_freq_plane_sub, retr_freq_plane_sum_span
-
-
-#from crikit.process.phase_retr import (alter_kk as _alter_kk,
-#                                       test_alter_kk as _test_alter_kk)
 
 # Import from Designer-based GUI
 from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
@@ -99,7 +96,7 @@ from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 
 from crikit.ui.dialog_kkOptions import DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
-#from crikit.ui.subui_SVD import DialogSVD
+from crikit.ui.dialog_SVD import DialogSVD
 from crikit.ui.dialog_save import DialogSave
 
 # Generic imports for MPL-incorporation
@@ -1171,21 +1168,40 @@ class CRIkitUI_process(_QMainWindow):
 
     def deNoise(self):
         """
-        DeNoise Plugin Caller
+        SVD
         """
-
-        selected_denoise_cls = DialogDenoisePlugins.dialogDenoisePlugins()
-        if selected_denoise_cls is not None:
-            bcpre_descript = selected_denoise_cls.denoiseHSData(self.hsi)
-            if bcpre_descript is not None:
-                self.bcpre.add_step(bcpre_descript)
-                try:
-                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
-        self.changeSlider()
+        # Range of pixels to perform-over
+        rng = self.hsi.freq.op_range_pix
+#        print('Range: {}'.format(rng))
+        # SVD Decompose
+        svd_decompose = SVDDecompose(rng=rng)
+        UsVh = svd_decompose.calculate(self.hsi.data)
+        
+        # Class method route
+        if rng is None:
+            svs = DialogSVD.main(UsVh, self.hsi.data.shape)
+        else:
+            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape)
+#        print('SV\'s:{}'.format(svs))
+        
+        if svs is not None:
+            svd_recompose = SVDRecompose(rng=rng)
+            svd_recompose.transform(self.hsi.data, UsVh[0], UsVh[1], UsVh[2],
+                                    svs=svs)
+            self.changeSlider()
+#        
+#        selected_denoise_cls = DialogDenoisePlugins.dialogDenoisePlugins()
+#        if selected_denoise_cls is not None:
+#            bcpre_descript = selected_denoise_cls.denoiseHSData(self.hsi)
+#            if bcpre_descript is not None:
+#                self.bcpre.add_step(bcpre_descript)
+#                try:
+#                    self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#                except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                else:
+#                    self.bcpre.backed_up()
+#        
 
     def errorCorrect(self):
         """
@@ -1626,14 +1642,6 @@ class CRIkitUI_process(_QMainWindow):
                                          frequnits=self.hsi.frequnits,
                                          spectrumunits=self.hsi.intensityunits)
         self.plotter.show()
-
-        #_plt.plot(spectrum)
-        #fig.show()
-
-#        fig2 = _plt.figure()
-#        _plt.imshow(mask)
-#        _plt.colorbar()
-#        fig2.show()
 
     def createImgBW(self, img):
         """
