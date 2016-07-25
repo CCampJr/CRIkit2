@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Factorization Video</string>
+   <string>Factorization Viewer</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -28,7 +28,7 @@
         <number>0</number>
        </property>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="labelSelectedFactors">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -36,12 +36,12 @@
           </size>
          </property>
          <property name="text">
-          <string>Selected SVs</string>
+          <string>Selected Factors</string>
          </property>
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLCDNumber" name="lcdSelectedSVs">
+        <widget class="QLCDNumber" name="lcdSelectedFactors">
          <property name="palette">
           <palette>
            <active>
@@ -482,7 +482,7 @@
         <number>0</number>
        </property>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="labelMaxFactors">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -490,12 +490,12 @@
           </size>
          </property>
          <property name="text">
-          <string>Max SVs</string>
+          <string>Max Factors</string>
          </property>
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLCDNumber" name="lcdMaxSVs">
+        <widget class="QLCDNumber" name="lcdMaxFactors">
          <property name="palette">
           <palette>
            <active>

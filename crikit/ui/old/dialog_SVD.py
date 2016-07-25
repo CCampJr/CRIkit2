@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Singular Value Decomposition SubUI (crikit.ui.subui_SVD)
-=======================================================
-
-SubUiSVD : SVD SubUI
+SVD Dialog
 
 Citation Reference
 ------------------
@@ -11,39 +8,17 @@ Citation Reference
 Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
 Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("15.09.29")
 """
 
-# Append sys path
 import sys as _sys
-import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
-
-# Generic imports for QT-based programs
-from PyQt5 import QtWidgets as _QtWidgets
-
-from PyQt5.QtWidgets import (QApplication as _QApplication, \
-QWidget as _QWidget, QMainWindow as _QMainWindow, QLayout as _QLayout,\
- QGridLayout as _QGridLayout, QInputDialog as _QInputDialog, QDialog as _QDialog)
-import PyQt5.QtCore as _QtCore
-from PyQt5.QtGui import (QCursor as _QCursor)
-
-# Other imports
 import numpy as _np
-from scipy.linalg import (svd as _svd, diagsvd as _diagsvd)
-import time as _time
 
-from crikit.utils.general import find_nearest as _find_nearest
+from PyQt5 import QtWidgets as _QtWidgets
+from PyQt5.QtWidgets import (QApplication as _QApplication,
+                             QDialog as _QDialog)
+import PyQt5.QtCore as _QtCore
+
+from scipy.linalg import (svd as _svd, diagsvd as _diagsvd)
 
 # Import from Designer-based GUI
 from crikit.ui.qt_Factorization import Ui_Dialog ### EDIT ###
@@ -56,55 +31,6 @@ from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
 _mpl.rcParams['font.size'] = 12
-
-#import matplotlib.pyplot as plt
-
-from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
-    NavigationToolbar2QT as _NavigationToolbar)
-from matplotlib.figure import Figure as _Figure
-
-
-class _Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(200, 200)
-
-        Form.setStyleSheet("font: 10pt \"Arial\";")
-        self.verticalLayout = _QtWidgets.QVBoxLayout(Form)
-        self.verticalLayout.setObjectName("verticalLayout")
-        sizePolicy = _QtWidgets.QSizePolicy(_QtWidgets.QSizePolicy.Fixed, _QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy = _QtWidgets.QSizePolicy(_QtWidgets.QSizePolicy.Minimum, _QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-
-        self.retranslateUi(Form)
-        _QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
-        _translate = _QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-
-
-class _mplWinData:
-    def __init__(self, parent=None):
-        self.fig = _Figure()
-        self.ax2 = self.fig.add_subplot(313)
-        self.ax1 = self.fig.add_subplot(211)
-
-        self.canvas = _FigureCanvas(self.fig)
-
-class _mplWindow(_QWidget):
-    def __init__(self, parent = None):
-
-        # Generic load/init designer-based GUI
-        super(_mplWindow, self).__init__(parent) ### EDIT ###
-
-        self.ui = _Ui_Form() ### EDIT ###
-        self.ui.setupUi(self)     ### EDIT ###
-        self.mpl = _mplWinData()
-        self.ui.verticalLayout.addWidget(self.mpl.canvas)
 
 class DialogSVD(_QDialog):
     """
@@ -138,7 +64,7 @@ class DialogSVD(_QDialog):
         self.data = _np.zeros([self.Mlen, self.Nlen, self.Olen])
 
         self.selected_svs = set()
-        self.ui.lcdSelectedSVs.display(len(self.selected_svs))
+        self.ui.lcdSelectedFactors.display(len(self.selected_svs))
 
         self.svWins = []
         self.svLabelCheckBoxes = [self.ui.checkBox,
@@ -149,9 +75,9 @@ class DialogSVD(_QDialog):
                                   self.ui.checkBox_6]
 
         for count in range(self.spanSV):
-            self.svWins.append(_mplWindow())
-            self.svWins[count].mpl.ax1.axis('Off')
-            self.svWins[count].mpl.ax2.hold('Off')
+            self.svWins.append(_MplCanvas(subplot=211))
+            self.svWins[count].ax[0].axis('Off')
+            self.svWins[count].ax[1].hold('Off')
 
         self.ui.gridLayout.addWidget(self.svWins[0],1,0)
         self.ui.gridLayout.addWidget(self.svWins[1],1,1)
@@ -161,13 +87,13 @@ class DialogSVD(_QDialog):
         self.ui.gridLayout.addWidget(self.svWins[4],3,1)
         self.ui.gridLayout.addWidget(self.svWins[5],3,2)
 
-        self.reconCurrent = _mplWindow()
-        self.reconCurrent.mpl.ax1.axis('Off')
-        self.reconCurrent.mpl.ax2.hold('Off')
+        self.reconCurrent = _MplCanvas(subplot=211)
+        self.reconCurrent.ax[0].axis('Off')
+        self.reconCurrent.ax[1].hold('Off')
 
-        self.reconRemainder = _mplWindow()
-        self.reconRemainder.mpl.ax1.axis('Off')
-        self.reconRemainder.mpl.ax2.hold('Off')
+        self.reconRemainder = _MplCanvas(subplot=211)
+        self.reconRemainder.ax[0].axis('Off')
+        self.reconRemainder.ax[1].hold('Off')
 
 
         self.ui.verticalLayout_3.insertWidget(1,self.reconCurrent)
@@ -180,8 +106,8 @@ class DialogSVD(_QDialog):
             self.data = data
             if data.ndim == 3:
                 self.Mlen, self.Nlen, self.Olen = data.shape
-                self.reconCurrent.mpl.ax1.imshow(_np.mean(data, axis=-1),interpolation='none', origin='lower')
-                self.reconCurrent.mpl.canvas.draw()
+                self.reconCurrent.ax[0].imshow(_np.mean(data, axis=-1),interpolation='none', origin='lower')
+                self.reconCurrent.draw()
 
                 data = data.reshape([-1, self.Olen])
 
@@ -191,7 +117,7 @@ class DialogSVD(_QDialog):
 
                 self.maxsvs = self.svddata.S.size
 
-                self.ui.lcdMaxSVs.display(self.maxsvs)
+                self.ui.lcdMaxFactors.display(self.maxsvs)
                 self.ui.spinBoxGoTo.setMaximum(self.maxsvs)
 
                 self.updateCurrentRemainder()
@@ -217,8 +143,7 @@ class DialogSVD(_QDialog):
             if svs.size == 0:
                 return None
             else:
-                return [_np.reshape(dialog.svddata.return_svd(dialog.selected_svs),dialog.svddata.orig_shape),
-                        ['SVD','SV_List', svs]]
+                return svs
         else:
             return None
 
@@ -295,7 +220,7 @@ class DialogSVD(_QDialog):
                     pass
 
         #print('Self.S: {}'.format(self.svddata.S[0:3]))
-        self.ui.lcdSelectedSVs.display(len(self.selected_svs))
+        self.ui.lcdSelectedFactors.display(len(self.selected_svs))
         self.updateCurrentRemainder()
 
     def advance(self):
@@ -322,14 +247,15 @@ class DialogSVD(_QDialog):
         script = script.strip('[').strip(']')
         script = script.split(',')
         for count in script:
-#            print(count)
             if ':' in count:
                 temp = count.split(':')
                 self.selected_svs.update(set(_np.arange(int(temp[0]),int(temp[1])+1)))
+            elif count.strip() == '':
+                pass
             else:
                 self.selected_svs.add(int(count))
         self.updateSVPlots(startnum=self.firstSV)
-        self.ui.lcdSelectedSVs.display(len(self.selected_svs))
+        self.ui.lcdSelectedFactors.display(len(self.selected_svs))
         self.updateCurrentRemainder()
 
     def updateCurrentRemainder(self):
@@ -341,14 +267,14 @@ class DialogSVD(_QDialog):
         temp = self.svddata.return_svd(self.selected_svs)
         #print(temp[0:10])
         self.showMeanImg(temp,
-                                 self.reconCurrent.mpl.ax1,
-                                 self.reconCurrent.mpl.ax2,
-                                 self.reconCurrent.mpl.canvas)
+                                 self.reconCurrent.ax[0],
+                                 self.reconCurrent.ax[1],
+                                 self.reconCurrent)
 
         self.showMeanImg(self.svddata.return_remainder(self.selected_svs),
-                         self.reconRemainder.mpl.ax1,
-                         self.reconRemainder.mpl.ax2,
-                         self.reconRemainder.mpl.canvas)
+                         self.reconRemainder.ax[0],
+                         self.reconRemainder.ax[1],
+                         self.reconRemainder)
 
     def updateSVPlots(self, startnum=0):
         """
@@ -370,20 +296,20 @@ class DialogSVD(_QDialog):
         self.firstSV = startnum
 
         for count in range(self.spanSV):
-            self.svWins[count].mpl.ax1.clear()
+            self.svWins[count].ax[0].clear()
             temp = self.svddata.U[:,count + self.firstSV].copy()
             temp = _np.reshape(temp,[self.Mlen, self.Nlen])
 
-            self.svWins[count].mpl.ax1.imshow(-temp*self.svddata.S[count + self.firstSV], interpolation='none', cmap = _mpl.cm.gray , origin='lower')
+            self.svWins[count].ax[0].imshow(-temp*self.svddata.S[count + self.firstSV], interpolation='none', cmap = _mpl.cm.gray , origin='lower')
 
-            self.svWins[count].mpl.ax1.axis('Off')
+            self.svWins[count].ax[0].axis('Off')
 
-            self.svWins[count].mpl.ax2.clear()
-            self.svWins[count].mpl.ax2.plot(-self.svddata.Vh[count + self.firstSV,:]*self.svddata.S[count + self.firstSV])
+            self.svWins[count].ax[1].clear()
+            self.svWins[count].ax[1].plot(-self.svddata.Vh[count + self.firstSV,:]*self.svddata.S[count + self.firstSV])
             #if count == 0:
             #    print(_np.min(self.svddata.Vh[count + self.firstSV,:]))
             self.svLabelCheckBoxes[count].setText('Keep: ' + str(startnum + count))
-            self.svWins[count].mpl.canvas.draw()
+            self.svWins[count].draw()
             if self.firstSV + count in self.selected_svs:
                 self.svLabelCheckBoxes[count].setChecked(True)
             else:
@@ -410,7 +336,7 @@ class DialogSVD(_QDialog):
         Clear selected singular values (i.e., none will be selected)
         """
         self.selected_svs = set()
-        self.ui.lcdSelectedSVs.display(len(self.selected_svs))
+        self.ui.lcdSelectedFactors.display(len(self.selected_svs))
         self.updateCurrentRemainder()
         self.updateSVPlots(startnum=self.firstSV)
 
@@ -425,19 +351,14 @@ if __name__ == '__main__':
     Spectrum = _np.convolve(_np.flipud(Ex),Ex,mode='same')
 
     data = _np.zeros((y.size,x.size,f.size))
-#    data[0:25,0:25,:] = 200
-#    data[0:25,26::,:] = 2000
-#    data[26::,0:25,:] = 100
-#    data[26::,26::,:] = 3000
+
     for count in range(y.size):
         data[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
-
-    #data = _np.random.rand(50,50,800)
 
     win = DialogSVD.dialogSVD(data) ### EDIT ###
 
     print(win)
 
 
-    #_sys.exit(app.exec_())
-    _sys.exit()
+    _sys.exit(app.exec_())
+#    _sys.exit()
