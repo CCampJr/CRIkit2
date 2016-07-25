@@ -52,6 +52,7 @@ class DialogAbstractFactorization(_QDialog):
         self._n_y = img_shape[0]
         self._n_x = img_shape[1]
         self._n_spectra = img_shape[2]
+        self._n_factors = None
 
         self.selected_factors = set()
         
@@ -115,7 +116,7 @@ class DialogAbstractFactorization(_QDialog):
 
     @property
     def unselected_factors(self):
-        all_factors = set(_np.arange(self._n_spectra))
+        all_factors = set(_np.arange(self._n_factors))
         return all_factors - self.selected_factors
         
     @classmethod
@@ -245,8 +246,8 @@ class DialogAbstractFactorization(_QDialog):
             startnum = 0
             self.ui.pushButtonPrev.setEnabled(False)
             self.ui.pushButtonNext.setEnabled(True)
-        elif startnum > self._n_spectra - self._num_factor_visible:
-            startnum = self._n_spectra - self._num_factor_visible
+        elif startnum > self._n_factors - self._num_factor_visible:
+            startnum = self._n_factors - self._num_factor_visible
             self.ui.pushButtonPrev.setEnabled(True)
             self.ui.pushButtonNext.setEnabled(False)
         else:

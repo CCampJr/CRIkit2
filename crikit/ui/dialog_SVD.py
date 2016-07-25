@@ -23,6 +23,7 @@ class DialogSVD(DialogAbstractFactorization):
         self.U = data[0]
         self.s = data[1]
         self.Vh = data[2]
+        self._n_factors = self.s.size
 
         self.updatePlots(0)
         self.updateCurrentRemainder()
@@ -75,11 +76,11 @@ if __name__ == '__main__':
     
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
-    x = _np.linspace(100,200,50)
-    y = _np.linspace(200,300,50)
+    x = _np.linspace(100,200,20)
+    y = _np.linspace(200,300,20)
     
     
-    f = _np.linspace(500,3000,800)
+    f = _np.linspace(500,3000,900)
     Ex = 30*_np.exp((-(f-1750)**2/(200**2)))
     Spectrum = _np.convolve(_np.flipud(Ex),Ex,mode='same')
 #
