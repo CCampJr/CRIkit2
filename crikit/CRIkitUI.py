@@ -982,6 +982,8 @@ class CRIkitUI_process(_QMainWindow):
 #        try:
         freq_in = float(self.ui.lineEditFreq.text())
         pos = self.hsi.freq.get_index_of_closest_freq(freq_in)
+        if self.hsi.freq.op_list_pix is not None:
+            pos -= self.hsi.freq.op_list_pix[0]
 
         self.ui.freqSlider.setSliderPosition(pos)
         self.changeSlider()
@@ -1667,25 +1669,32 @@ class CRIkitUI_process(_QMainWindow):
         pos = self.ui.freqSlider.sliderPosition()
         assert isinstance(pos, int), 'Slider position need be an integer'
 
+        if self.hsi.freq.op_list_pix is not None:
+            offset = self.hsi.freq.op_list_pix[0]
+        else:
+            offset = 0
+
         self.ui.lineEditPix.setText(str(pos))
 
         try:
             self.ui.lineEditFreq.setText(str(round(self.hsi.f[pos],2)))
             # Set BW Class Data
-            self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
+            
+            self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos+offset]
             self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
             self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
-
+    
             if self.img_BW.ui.checkBoxFixed.checkState() == 0:
                 self.img_BW.data.setmax = None
                 self.img_BW.data.setmin = None
-
+    
             self.createImgBW(self.img_BW.data.image)
-
+    
             getx = self.img_BW.mpl.ax.get_xlim()
             gety = self.img_BW.mpl.ax.get_ylim()
-
+    
             self.img_BW.mpl.ax.hold(True)
+            self.img_BW.mpl.draw()
 #            for pts in self.selectiondata.pointdata_list:
 #                #print('Pts.X:{}'.format(pts.x))
 #                if len(pts.x) == 1:
@@ -1709,7 +1718,7 @@ class CRIkitUI_process(_QMainWindow):
 #                self.img_BW.mpl.ax.set_xlim(getx)
 #                self.img_BW.mpl.ax.set_ylim(gety)
 
-            self.img_BW.mpl.draw()
+            
 
 #            if self.bcpre.backed_flag.count(True) > 1:
 #                self.ui.actionUndo.setEnabled(True)
