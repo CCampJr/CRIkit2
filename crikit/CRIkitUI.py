@@ -175,7 +175,7 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
 
-        self.plotter = _SciPlotUI(show=False)
+        self.plotter = _SciPlotUI(show=False, parent=self)
         self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
@@ -184,7 +184,7 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.setupUi(self)     ### EDIT ###
 
         # Initialize Intensity image (single frequency B&W)
-        self.img_BW = widgetBWImg(parent=None, figfacecolor=[1,1,1])
+        self.img_BW = widgetBWImg(parent=self, figfacecolor=[1,1,1])
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
                 self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer,4)))
                 self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner,4)))
@@ -196,7 +196,7 @@ class CRIkitUI_process(_QMainWindow):
         self.img_RGB_list = []
 
         for count in range(self.NUMCOLORS):
-            self.img_RGB_list.append(widgetSglColor(figfacecolor=[1,1,1]))
+            self.img_RGB_list.append(widgetSglColor(figfacecolor=[1,1,1], parent=self))
             self.img_RGB_list[count].data.colormap =\
                 widgetSglColor.COLORMAPS[widgetSglColor.DEFAULT_COLORMAP_ORDER[count]]
             ind = self.img_RGB_list[count].ui.comboBox.findText(widgetSglColor.DEFAULT_COLORMAP_ORDER[count])
@@ -399,21 +399,25 @@ class CRIkitUI_process(_QMainWindow):
             self.jupyterConsole._control.setFocus()
 
     def closeEvent(self, event):
-        self.bcpre.pop_to_last(all=True)
-
-        del_flag = 0
-
-        for count in self.bcpre.cut_list:
-            try:
-                _os.remove(count + '.pickle')
-            except:
-                print('Error in deleting old pickle files')
-            else:
-                del_flag += 1
-        if del_flag == len(self.bcpre.cut_list):
-            del self.bcpre.cut_list
-        else:
-            print('Did not delete pickle file cut list... Something went wrong')
+        print('Closing')
+        app = _QApplication.instance()
+        app.closeAllWindows()
+        app.quit()
+#        self.bcpre.pop_to_last(all=True)
+#
+#        del_flag = 0
+#
+#        for count in self.bcpre.cut_list:
+#            try:
+#                _os.remove(count + '.pickle')
+#            except:
+#                print('Error in deleting old pickle files')
+#            else:
+#                del_flag += 1
+#        if del_flag == len(self.bcpre.cut_list):
+#            del self.bcpre.cut_list
+#        else:
+#            print('Did not delete pickle file cut list... Something went wrong')
 
     def fileOpenHDFNIST(self):
         """
@@ -513,43 +517,26 @@ class CRIkitUI_process(_QMainWindow):
                 self.img_BW.mpl.draw()
 #
 #
-#                # RGB images
-#                temp = 0*self.img_BW.data.grayscaleimage
-#
-#                # Re-initialize RGB images
-#                for count in enumerate(self.img_RGB_list):
-#                    self.img_RGB_list[count[0]].initData()
-#                    self.img_RGB_list[count[0]].data.grayscaleimage = temp
-#                    self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
-#                    self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
-#
-#                    # Cute way of setting the colormap to last setting and replotting
-#                    self.img_RGB_list[count[0]].changeColor()
-#
-#                    # Enable Math
-#                    self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
-#
-#                    # Enable Spectrum
-#                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
-#                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+                # RGB images
+                temp = 0*self.img_BW.data.grayscaleimage
 
-                self.ui.actionFreqWindow.setEnabled(True)
-                self.ui.actionZeroFirstColumn.setEnabled(True)
-                self.ui.actionZeroFirstRow.setEnabled(True)
-                self.ui.actionZeroLastColumn.setEnabled(True)
-                self.ui.actionZeroLastRow.setEnabled(True)
-#                self.ui.actionSave.setEnabled(True)
-                self.ui.actionDeNoise.setEnabled(True)
-#                self.ui.actionErrorCorrection.setEnabled(True)
-#                self.ui.actionAnalysisToolkit.setEnabled(True)
-                self.ui.actionPointSpectrum.setEnabled(True)
-                self.ui.actionROISpectrum.setEnabled(True)
-#                self.ui.actionDarkSubtract.setEnabled(True)
-#                self.ui.actionCalibrate.setEnabled(True)
-#                self.ui.actionResetCalibration.setEnabled(True)
-#                self.ui.actionNRB_from_ROI.setEnabled(True)
-#                self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
-#                self.ui.actionSubtractROI.setEnabled(True)
+                # Re-initialize RGB images
+                for count in enumerate(self.img_RGB_list):
+                    self.img_RGB_list[count[0]].initData()
+                    self.img_RGB_list[count[0]].data.grayscaleimage = temp
+                    self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
+                    self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
+
+                    # Cute way of setting the colormap to last setting and replotting
+                    self.img_RGB_list[count[0]].changeColor()
+
+                    # Enable Math
+                    self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
+
+                    # Enable Spectrum
+                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+
 
     def loadDark(self):
         """
@@ -1152,7 +1139,7 @@ class CRIkitUI_process(_QMainWindow):
                                                    pad_factor=pad_factor,
                                                    num_rows = 10)
                 time_str = 'Est. Total time: {:.3f} s ({:.6f} s/spectrum)'.format(est_tot, est_rate)
-                msg = _QMessageBox(parent=None)
+                msg = _QMessageBox(parent=self)
                 msg.setText(time_str)
                 msg.setWindowTitle('Estimated Speed of Kramers-Kronig')
                 msg.exec()
@@ -1835,6 +1822,7 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
+    app.setQuitOnLastWindowClosed(True)
     win = CRIkitUI_process() ### EDIT ###
     # Insert other stuff to do
 
@@ -1844,4 +1832,5 @@ if __name__ == '__main__':
     win.plotter.lower()
     win.raise_()
     app.exec_()
-    #_sys.exit(app.exec_())
+#    _sys.exit(app.exec_())
+    #app.closeAllWindows()
