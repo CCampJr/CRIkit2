@@ -875,7 +875,7 @@ class CRIkitUI_process(_QMainWindow):
         if mask_hits > 0:  # Len(mask) > 0
             rng = self.hsi.freq.op_range_pix
 
-            spectra = self.hsi.data[mask == 1]
+            spectra = self.hsi.data_imag_over_real[mask == 1]
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra[..., rng], axis=0)
@@ -1159,14 +1159,16 @@ class CRIkitUI_process(_QMainWindow):
         rng = self.hsi.freq.op_range_pix
 
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f_full[..., rng],
-                                                  nrb[...,rng], rand_spectra])
-        cars_amp_offset = out['cars_amp']
-        nrb_amp_offset = out['nrb_amp']
-        phase_offset = out['phase_offset']
-        norm_to_nrb = out['norm_to_nrb']
-        pad_factor = out['pad_factor']
+                                                    nrb[...,rng], 
+                                                    rand_spectra[..., rng]])
+        
+        if out is not None:
+            cars_amp_offset = out['cars_amp']
+            nrb_amp_offset = out['nrb_amp']
+            phase_offset = out['phase_offset']
+            norm_to_nrb = out['norm_to_nrb']
+            pad_factor = out['pad_factor']
 
-        if cars_amp_offset is not None:
             kk = KramersKronig(cars_amp_offset=cars_amp_offset,
                       nrb_amp_offset=nrb_amp_offset,
                       phase_offset=phase_offset, norm_to_nrb=norm_to_nrb,
