@@ -68,13 +68,21 @@ from crikit.preprocess.standardize import (Anscombe as _Anscombe,
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
 
 from crikit.cri.kk import KramersKronig
-
+from crikit.cri.error_correction import (PhaserErrCorrectALS as 
+                                         _PhaserErrCorrectALS, 
+                                         ScaleErrCorrectSG as 
+                                         _ScaleErrCorrectSG)
+from crikit.preprocess.subtract_baseline import (SubtractBaselineALS as
+                                                 _SubtractBaselineALS)
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
 from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
-from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
+from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate,
+                                         widgetALS as _widgetALS,
+                                         widgetSG as _widgetSG)
+
 from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
 
@@ -469,6 +477,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionInverseAnscombe.setEnabled(True)
                     self.ui.actionDeNoise.setEnabled(True)
                     self.ui.actionAmpErrorCorrection.setEnabled(True)
+                    self.ui.actionSubtractROI.setEnabled(True)
+                    self.ui.actionNRB_from_ROI.setEnabled(True)
                     
                     # ANALYSIS
 #                    self.ui.actionAnalysisToolkit.setEnabled(True)
@@ -633,7 +643,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean Dark Spectrum')
 
             self.plotter.show()
-            self.plotter.raise_()
+#            self.plotter.raise_()
 
     def plotNRBSpectrum(self):
         """
@@ -646,7 +656,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean NRB Spectrum')
 
             self.plotter.show()
-            self.plotter.raise_()
+#            self.plotter.raise_()
 
     def pointSpectrum(self):
         """
@@ -697,23 +707,26 @@ class CRIkitUI_process(_QMainWindow):
 
 
         mask_hits = _np.sum(mask)
+        
+        
         if mask_hits > 0:  # Len(mask) > 0
-            spectra = _np.squeeze(self.hsi.spectrafull[mask == 1])
+            
+            spectra = self.hsi.data_imag_over_real[mask == 1]
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra, axis=0)
             else:
                 spectrum = spectra
-
-            spectrum = spectrum.astype(self.hsi.spectrafull.dtype)
-            self.hsi.spectrafull -= spectrum[None,None,:]
-            self.bcpre.add_step(['SubtractROI','Spectrum',spectrum])
-            try:
-                self.hsi.backup_pickle(self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            
+            spectrum = spectrum.astype(self.hsi.data.dtype)
+            self.hsi.data -= spectrum[...,:]
+#            self.bcpre.add_step(['SubtractROI','Spectrum',spectrum])
+#            try:
+#                self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#            except:
+#                print('Error in pickle backup (Undo functionality)')
+#            else:
+#                self.bcpre.backed_up()
 
 
             del spectrum
@@ -764,14 +777,14 @@ class CRIkitUI_process(_QMainWindow):
 
         mask_hits = _np.sum(mask)
         if mask_hits > 0:  # Len(mask) > 0
-            spectra = _np.squeeze(self.hsi.spectrafull[mask == 1])
-
+            spectra = self.hsi.data_imag_over_real[mask == 1]
+            
             if mask_hits > 1:
                 spectrum = _np.mean(spectra, axis=0)
             else:
                 spectrum = spectra
 
-            spectrum = spectrum.astype(self.hsi.spectrafull.dtype)
+            spectrum = spectrum.astype(self.hsi.data.dtype)
             if sender == 'actionNRB_from_ROI':
                 self.nrb.data = spectrum
                 self.ui.actionKramersKronig.setEnabled(True)
@@ -856,7 +869,7 @@ class CRIkitUI_process(_QMainWindow):
                           label=label)
         
         self.plotter.show()
-        self.plotter.raise_()
+#        self.plotter.raise_()
             
     def _roiSpectrumPlot(self, locs):
         """
@@ -907,7 +920,7 @@ class CRIkitUI_process(_QMainWindow):
             
             del spectrum
             self.plotter.show()
-            self.plotter.raise_()
+#            self.plotter.raise_()
 
 
         del x_pix
@@ -1155,15 +1168,16 @@ class CRIkitUI_process(_QMainWindow):
         the Kramers-Kronig phase retrieval algorithm.
         """
 
-        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
+        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True,
+                                                 full=False)
         nrb = self.nrb.mean()
 
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
 
-        out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f_full[..., rng],
-                                                    nrb[...,rng], 
-                                                    rand_spectra[..., rng]])
+        out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
+                                                    nrb[..., rng], 
+                                                    rand_spectra])
         
         if out is not None:
             cars_amp_offset = out['cars_amp']
@@ -1242,19 +1256,91 @@ class CRIkitUI_process(_QMainWindow):
         """
         Error Correction: Phase
         """
-        pass
+        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                 full=False)
+        if _np.iscomplexobj(rand_spectra):
+            rand_spectra = _np.angle(rand_spectra)
+            
+        rng = self.hsi.freq.op_range_pix
+        
+        plugin = _widgetALS()
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
+                                                      xlabel='Wavenumber (cm$^{-1}$)',
+                                                      ylabel='Imag. {$\chi_R$} (au)',
+                                                      show_difference=True)
+        if winPlotEffect is not None:
+            asym_param = winPlotEffect.p
+            smoothness_param = winPlotEffect.lam
+            redux_factor = winPlotEffect.redux
+            phase_err_correct_als = _PhaserErrCorrectALS(smoothness_param=smoothness_param,
+                                                         asym_param=asym_param,
+                                                         redux_factor=redux_factor,
+                                                         rng=rng,
+                                                         print_iteration=False)
+            phase_err_correct_als.transform(self.hsi.data)
+        
+        self.changeSlider()
     
     def errorCorrectScale(self):
         """
         Error Correction: Scale
         """
-        pass
+        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                 full=False)
+        if _np.iscomplexobj(rand_spectra):
+            rand_spectra = rand_spectra.real
+            
+        rng = self.hsi.freq.op_range_pix
+        
+        plugin = _widgetSG()
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
+                                                           xlabel='Wavenumber (cm$^{-1}$)',
+                                                           ylabel='Imag. {$\chi_R$} (au)',
+                                                           show_difference=True)
+        if winPlotEffect is not None:
+            win_size = winPlotEffect.win_size
+            order = winPlotEffect.order
+            
+            scale_err_correct_sg = _ScaleErrCorrectSG(win_size=win_size,
+                                                      order=order,
+                                                      rng=rng)
+            scale_err_correct_sg.transform(self.hsi.data)
+
+            self.changeSlider()
     
     def errorCorrectAmp(self):
         """
         Error Correction: Amp aka Baseline Detrending
+        
+        Note
+        ----
+        If data is complex, amplitude detrending occurs on and only on the \
+        imaginary portion
         """
-        pass
+        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                 full=False)
+        if _np.iscomplexobj(rand_spectra):
+            rand_spectra = rand_spectra.imag
+            
+        rng = self.hsi.freq.op_range_pix
+        
+        plugin = _widgetALS()
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
+                                                      xlabel='Wavenumber (cm$^{-1}$)',
+                                                      ylabel='Imag. {$\chi_R$} (au)',
+                                                      show_difference=True)
+        if winPlotEffect is not None:
+            asym_param = winPlotEffect.p
+            smoothness_param = winPlotEffect.lam
+            redux_factor = winPlotEffect.redux
+            baseline_detrend = _SubtractBaselineALS(smoothness_param=smoothness_param,
+                                            asym_param=asym_param,
+                                            redux_factor=redux_factor,
+                                            rng=rng, use_imag=True,
+                                            print_iteration=False)
+            baseline_detrend.transform(self.hsi.data)
+        
+        self.changeSlider()
     
     
 #        selected_err_correct_cls = DialogErrCorrPlugins.dialogErrCorrPlugins()
