@@ -316,6 +316,7 @@ class widgetSglColor(_QWidget):
         # Initialize data
         self.initData()
         self.data.colormap = self.COLORMAPS[self.ui.comboBox.currentText()]
+        self.external_plots = []
         
         # Create stand-in imahe                                    
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
@@ -348,6 +349,7 @@ class widgetSglColor(_QWidget):
         self.math.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.math.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
         self.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
+                                                                         showcbar=False,
                                                                          xunits=self.data.xunits,
                                                                          yunits=self.data.yunits))
         self.ui.pushButtonGSPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.imageGS,
@@ -447,12 +449,10 @@ class widgetSglColor(_QWidget):
         Create new figure window and show image of img
         """
 
-        sp_win = _sciplot.main()
-        sp_win.imshow(img, x_label=xunits, y_label=yunits, cmap=cmap)
-        if showcbar == True:
-            sp_win.mpl_widget.ax.colorbar()
-#            if new_win.cbar is not None:
-#                new_win.cbar.remove()
+        self.external_plots.append(_sciplot.main(parent=self))
+        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
+                      cmap=cmap, cbar=showcbar)
+        
 #
         #new_win = _mplWin()
         #new_win.fig = _Figure(facecolor = [1,1,1])
