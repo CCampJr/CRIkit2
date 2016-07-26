@@ -73,8 +73,8 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
-from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
-#from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
+from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
+from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
 from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
 
@@ -95,6 +95,7 @@ from crikit.ui.dialog_subResidualOptions import DialogSubResidualOptions
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 
 from crikit.ui.dialog_kkOptions import DialogKKOptions
+
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
 
 from crikit.ui.dialog_save import DialogSave
@@ -598,8 +599,9 @@ class CRIkitUI_process(_QMainWindow):
         """
         Calibrate spectra
         """
-        rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True, full=True)
-        plugin = _widgetCalibrate(calib_dict=self.hsi.freqcalib)
+        
+        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True, full=True)
+        plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
                                                       xlabel='Wavenumber (cm$^{-1}$)',
                                                       ylabel='Imag. {$\chi_R$} (au)',
@@ -607,8 +609,8 @@ class CRIkitUI_process(_QMainWindow):
 
         if winPlotEffect is not None:
             #print('New Calibration Dictionary: {}'.format(winPlotEffect.new_calib_dict))
-            self.hsi.freqcalib = winPlotEffect.new_calib_dict
-            self.hsi.freqcalib_update()
+            self.hsi.freq.calib = winPlotEffect.new_calib_dict
+            self.hsi.freq.update()
         self.changeSlider()
 
 
@@ -616,7 +618,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         Set self.hsi.freqcalib back to self.hsi.freqcaliborig
         """
-        del self.hsi.freqcalib
+        self.hsi.freq.calib = None
+        self.hsi.freq.update()
         self.changeSlider()
 
     def plotDarkSpectrum(self):

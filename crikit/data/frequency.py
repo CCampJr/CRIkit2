@@ -147,8 +147,16 @@ class Frequency:
             self._calib = value
             if self._calib_orig is None:
                 self._calib_orig = value
+        elif value is None:
+            self._calib = None
+            self.update()
         else:
             raise TypeError('calib must be of type dict')
+            
+    @calib.deleter
+    def calib(self):
+        self._calib = None
+        self.update()
 
 
     @property
