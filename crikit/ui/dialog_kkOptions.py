@@ -25,7 +25,7 @@ from PyQt5.QtWidgets import (QApplication as _QApplication,
 # Import from Designer-based GUI
 from crikit.ui.qt_KKOptions import Ui_Dialog as Ui_KKOptions
 
-from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
+from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
 from crikit.ui.widget_ploteffect import widgetKK as _widgetKK
 
 # Generic imports for MPL-incorporation

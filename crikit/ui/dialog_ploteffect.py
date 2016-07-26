@@ -344,8 +344,19 @@ if __name__ == '__main__':
     # Calibrate Demo
     plugin = widgetCalibrate()
     
-    from crikit.utils.gen_utils import make_freq_vector
-    WN, _, calib_dict = make_freq_vector()
+    
+    calib_dict = {}
+    calib_dict['n_pix'] = 1600
+    calib_dict['ctr_wl'] = 730.0
+    calib_dict['ctr_wl0'] = 730.0
+    calib_dict['probe'] = 771.461
+    calib_dict['units'] = 'nm'
+    calib_dict['a_vec'] = (-0.167740721307557, 863.8736708961577)  # slope, intercept
+
+    from crikit.data.frequency import calib_pix_wl, calib_pix_wn
+    wl_vec, units_wl = calib_pix_wl(calib_dict)
+    WN, units_wn = calib_pix_wn(calib_dict)
+    
     #WN = _np.linspace(500,4000,800)
     CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
     NRB = 0*WN + .055
