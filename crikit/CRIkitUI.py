@@ -711,15 +711,18 @@ class CRIkitUI_process(_QMainWindow):
         
         if mask_hits > 0:  # Len(mask) > 0
             
-            spectra = self.hsi.data_imag_over_real[mask == 1]
+            spectra = self.hsi.data[mask == 1]
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra, axis=0)
             else:
                 spectrum = spectra
-            
+#            print('spectrum.shape: {}'.format(spectrum.shape))
+            print(spectrum)
             spectrum = spectrum.astype(self.hsi.data.dtype)
             self.hsi.data -= spectrum[...,:]
+            self.changeSlider()
+#            print('Here')
 #            self.bcpre.add_step(['SubtractROI','Spectrum',spectrum])
 #            try:
 #                self.hsi.backup_pickle(self.bcpre.id_list[-1])
