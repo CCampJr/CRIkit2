@@ -268,7 +268,7 @@ class Hsi(_Spectrum):
             num_spectra = num + 5
         else:
             num_spectra = num
-
+            
         temp = _np.zeros((num_spectra, self.data.shape[-1]))
 
         quad_mid_row = int(_np.round(mlen/2))
@@ -326,8 +326,8 @@ class Hsi(_Spectrum):
                 else:
                     temp[count,:] = _np.squeeze(_np.mean(self.data[rows[0]:rows[1], cols[0]:cols[1], :], axis=(0, 1)))
 
-        if full is True:
-            self.pixrange = store_pixrange
+        if not full:
+            temp = temp[..., self.freq.op_range_pix]
 
         return temp
 
