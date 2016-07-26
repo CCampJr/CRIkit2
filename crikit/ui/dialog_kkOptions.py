@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-CRIkit Options Dialogs (crikit.ui.dialog_options)
-=======================================================
-
-Classes that present dialog boxes that retrieve options
-
-DialogDarkOptions : Dark subtraction options dialog
-
-DialogKKOptions : Phase retrieval options dialog. Note: this class only\
-                    considers the Kramers-Kronig currently
+Kramers-Kronig phase retrieval
 
 References
 ----------
@@ -16,33 +8,19 @@ References
 Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
 Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.03.14")
 """
 
-# Append sys path
 import sys as _sys
 import os as _os
+import numpy as _np
+
 if __name__ == '__main__':
     _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
-                             QWidget as _QWidget, QDialog as _QDialog,
-                             QMainWindow as _QMainWindow,
-                             QSizePolicy as _QSizePolicy)
-import PyQt5.QtCore as _QtCore
+                             QDialog as _QDialog)
 
-# Other imports
-import numpy as _np
 
 # Import from Designer-based GUI
 from crikit.ui.qt_KKOptions import Ui_Dialog as Ui_KKOptions
@@ -55,12 +33,6 @@ import matplotlib as _mpl
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
 _mpl.rcParams['font.size'] = 10
-#import matplotlib.pyplot as plt
-
-from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
-    NavigationToolbar2QT as _NavigationToolbar)
-
-from matplotlib.figure import Figure as _Figure
 
 
 class DialogKKOptions(_QDialog):
