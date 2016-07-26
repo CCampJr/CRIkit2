@@ -268,8 +268,13 @@ class Hsi(_Spectrum):
             num_spectra = num + 5
         else:
             num_spectra = num
+        
+        if _np.iscomplexobj(self.data):
+            dtype = _np.complex
+        else:
+            dtype = _np.float
             
-        temp = _np.zeros((num_spectra, self.data.shape[-1]))
+        temp = _np.zeros((num_spectra, self.data.shape[-1]), dtype=dtype)
 
         quad_mid_row = int(_np.round(mlen/2))
         quad_mid_col = int(_np.round(nlen/2))
