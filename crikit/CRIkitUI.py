@@ -285,12 +285,13 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionDeNoise.triggered.connect(self.deNoise)
 
         # Error Correction
-        self.ui.actionPhaseErrorCorrection.triggered.connect(self.errorCorrect)
-        self.ui.actionScaleErrorCorrection.triggered.connect(self.errorCorrect)
+        self.ui.actionPhaseErrorCorrection.triggered.connect(self.errorCorrectPhase)
+        self.ui.actionScaleErrorCorrection.triggered.connect(self.errorCorrectScale)
+        self.ui.actionAmpErrorCorrection.triggered.connect(self.errorCorrectAmp)
         self.ui.actionSubtractROI.triggered.connect(self.subtractROIStart)
 
         # SAVE
-        self.ui.actionSave.setEnabled(True)
+#        self.ui.actionSave.setEnabled(False)
         self.ui.actionSave.triggered.connect(self.save)
 
         # Plotting spectra-related
@@ -435,25 +436,42 @@ class CRIkitUI_process(_QMainWindow):
                 success = io_nist(self.path, self.filename, self.dataset_name,
                                    self.hsi)
                 if success:
-                    self.ui.actionLoadDark.setEnabled(True)
-                    self.ui.actionLoadNRB.setEnabled(True)
+                    # FILE
+                    self.ui.actionSave.setEnabled(True)
+                    
+                    # EDIT
                     self.ui.actionZeroFirstColumn.setEnabled(True)
                     self.ui.actionZeroFirstRow.setEnabled(True)
                     self.ui.actionZeroLastColumn.setEnabled(True)
                     self.ui.actionZeroLastRow.setEnabled(True)
+                    self.ui.actionFreqWindow.setEnabled(True)
+                    self.ui.actionCalibrate.setEnabled(True)
+                    self.ui.actionResetCalibration.setEnabled(True)
+                    
+                    # VIEW
+                    self.ui.actionPointSpectrum.setEnabled(True)
+                    self.ui.actionROISpectrum.setEnabled(True)
+                    
+                    # IMPORT/LOAD
+                    self.ui.actionLoadDark.setEnabled(True)
+                    self.ui.actionLoadNRB.setEnabled(True)
+                    self.ui.actionNRB_from_ROI.setEnabled(True)
+                    self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
 
-#                self.ui.actionSave.setEnabled(True)
-#                self.ui.actionDeNoise.setEnabled(True)
-#                self.ui.actionErrorCorrection.setEnabled(True)
-#                self.ui.actionAnalysisToolkit.setEnabled(True)
-#                self.ui.actionPointSpectrum.setEnabled(True)
-#                self.ui.actionROISpectrum.setEnabled(True)
-#                self.ui.actionDarkSubtract.setEnabled(True)
-#                self.ui.actionCalibrate.setEnabled(True)
-#                self.ui.actionResetCalibration.setEnabled(True)
-#                self.ui.actionNRB_from_ROI.setEnabled(True)
-#                self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
-#                self.ui.actionSubtractROI.setEnabled(True)
+                    # PREPROCESS
+                    self.ui.actionResidualSubtract.setEnabled(True)
+                    self.ui.actionAnscombe.setEnabled(True)
+                    self.ui.actionInverseAnscombe.setEnabled(True)
+                    self.ui.actionDeNoise.setEnabled(True)
+                    self.ui.actionAmpErrorCorrection.setEnabled(True)
+                    
+                    # ANALYSIS
+#                    self.ui.actionAnalysisToolkit.setEnabled(True)
+                    
+                    is_complex = _np.iscomplexobj(self.hsi.data)
+                    if is_complex:
+                        self.ui.actionPhaseErrorCorrection.setEnabled(True)
+                        self.ui.actionScaleErrorCorrection.setEnabled(True)
                 else:
                     self.ui.actionLoadDark.setEnabled(False)
                     self.ui.actionLoadNRB.setEnabled(False)
@@ -850,21 +868,6 @@ class CRIkitUI_process(_QMainWindow):
         self.plotter.show()
         self.plotter.raise_()
             
-#            spectrum = _np.squeeze(self.hsi.spectra[y_pix,x_pix,:])
-#            plot_num = self.plotter._data.num_plots
-#            label = 'Point ' + str(plot_num)
-#
-#            self.plotter.append_spectrum(freq=self.hsi.f,
-#                             spectrum=spectrum,
-#                             label=label,
-#                             frequnits=self.hsi.frequnits,
-#                             spectrumunits=self.hsi.intensityunits)
-#
-#            self.plotter.show()
-#            self.plotter.raise_()
-#        except:
-#            print('Error in _pointSpectrumPlot')
-
     def _roiSpectrumPlot(self, locs):
         """
         Add a plot (in plotter) of the mean spectrum over a region
@@ -880,17 +883,12 @@ class CRIkitUI_process(_QMainWindow):
         mask, path = _roimask(self.hsi.x, self.hsi.y,
                               x_loc_list, y_loc_list)
 
-        #_plt.figure()
-        #_plt.imshow(mask,origin='lower')
-        #_plt.show()
-#        print('Mask size: {}; nvec size: {}; mvec size: {}'.format(mask.shape,
-#              self.hsi.x.size, self.hsi.y.size))
-
+        
         mask_hits = _np.sum(mask)
         if mask_hits > 0:  # Len(mask) > 0
             rng = self.hsi.freq.op_range_pix
+
             spectra = self.hsi.data[mask == 1]
-#            print('Spectra.shape: {}'.format(spectra.shape))
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra[..., rng], axis=0)
@@ -908,6 +906,8 @@ class CRIkitUI_process(_QMainWindow):
             
             # Alternative
             #color = self.plotter.modelLine._model_data[-1]['color']
+
+            # Plot +-1 std. dev.
             if mask_hits > 1:
                 self.plotter.fill_between(self.hsi.f, spectrum-stddev,
                                           spectrum+stddev, color=color, 
@@ -917,6 +917,7 @@ class CRIkitUI_process(_QMainWindow):
             
             del spectrum
             self.plotter.show()
+            self.plotter.raise_()
 
 
         del x_pix
@@ -1187,6 +1188,9 @@ class CRIkitUI_process(_QMainWindow):
 
             self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
             self.changeSlider()
+            
+            self.ui.actionPhaseErrorCorrection.setEnabled(True)
+            self.ui.actionScaleErrorCorrection.setEnabled(True)
 #            stop = _timeit.default_timer()
 
 #            num_spectra = int(self.hsi.size/self.hsi.freq.size)
@@ -1242,23 +1246,38 @@ class CRIkitUI_process(_QMainWindow):
 #                    self.bcpre.backed_up()
 #        
 
-    def errorCorrect(self):
+    def errorCorrectPhase(self):
         """
-        Error Correction plugin caller
+        Error Correction: Phase
         """
-        selected_err_correct_cls = DialogErrCorrPlugins.dialogErrCorrPlugins()
-#        print(selected_err_correct_cls)
-        if selected_err_correct_cls is not None:
-             bcpre_descript = selected_err_correct_cls.errorCorrectHSData(self.hsi)
-             if bcpre_descript is not None:
-                 self.bcpre.add_step(bcpre_descript)
-                 try:
-                     self.hsi.backup_pickle(self.bcpre.id_list[-1])
-                 except:
-                    print('Error in pickle backup (Undo functionality)')
-                 else:
-                    self.bcpre.backed_up()
-        self.changeSlider()
+        pass
+    
+    def errorCorrectScale(self):
+        """
+        Error Correction: Scale
+        """
+        pass
+    
+    def errorCorrectAmp(self):
+        """
+        Error Correction: Amp aka Baseline Detrending
+        """
+        pass
+    
+    
+#        selected_err_correct_cls = DialogErrCorrPlugins.dialogErrCorrPlugins()
+##        print(selected_err_correct_cls)
+#        if selected_err_correct_cls is not None:
+#             bcpre_descript = selected_err_correct_cls.errorCorrectHSData(self.hsi)
+#             if bcpre_descript is not None:
+#                 self.bcpre.add_step(bcpre_descript)
+#                 try:
+#                     self.hsi.backup_pickle(self.bcpre.id_list[-1])
+#                 except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                 else:
+#                    self.bcpre.backed_up()
+#        self.changeSlider()
 
     def doUndo(self):
         """

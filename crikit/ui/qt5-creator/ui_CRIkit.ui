@@ -363,6 +363,9 @@ This will be saved to the processed file.</string>
      <string>Pre-Process</string>
     </property>
     <widget class="QMenu" name="menuVariance_Stabilize">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="title">
       <string>Standardize</string>
      </property>
@@ -383,6 +386,7 @@ This will be saved to the processed file.</string>
     <addaction name="actionResidualSubtract"/>
     <addaction name="menuVariance_Stabilize"/>
     <addaction name="actionDeNoise"/>
+    <addaction name="actionAmpErrorCorrection"/>
     <addaction name="separator"/>
     <addaction name="actionSimpleOutlierRemoval"/>
     <addaction name="separator"/>
@@ -700,6 +704,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionResetCalibration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/x-2x.png</normaloff>:/icons/open-iconic-master/png/x-2x.png</iconset>
@@ -721,6 +728,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionZeroLastColumn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
@@ -730,6 +740,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionZeroLastRow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
@@ -739,23 +752,51 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionAnscombe">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Anscombe</string>
    </property>
   </action>
   <action name="actionInverseAnscombe">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Inverse Anscombe</string>
    </property>
   </action>
   <action name="actionScaleErrorCorrection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/bug-3x.png</normaloff>:/icons/open-iconic-master/png/bug-3x.png</iconset>
+   </property>
    <property name="text">
     <string>Scale Error Correction</string>
    </property>
   </action>
   <action name="actionResidualSubtract">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Residual Subtract</string>
+   </property>
+  </action>
+  <action name="actionAmpErrorCorrection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/graph-3x.png</normaloff>:/icons/open-iconic-master/png/graph-3x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Baseline Detrending</string>
    </property>
   </action>
  </widget>
