@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Widgets for Plot-Effect Interface (crikit.ui.subui_ploteffect)
+Widgets for Plot-Effect Interface (crikit.ui.widget_ploteffect)
 =======================================================
 
 widgetNothing : This demo widget does nothing
@@ -22,16 +22,6 @@ data_in : (np.array, list)
 
 changed : QtCore.pyqtSignal
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.02.29")
 """
 
 # Append sys path
@@ -64,6 +54,8 @@ from crikit.ui.qt_PlotEffect_Calibrate import Ui_Form as Ui_Calibrate_Form
 
 from crikit.cri.algorithms.kk import kkrelation as _kk
 from crikit.preprocess.algorithms.als import als_baseline_redux as _als
+
+from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn)
 
 from crikit.utils.general import find_nearest as _find_nearest
 
@@ -112,19 +104,17 @@ class widgetCalibrate(_QWidget):
 
     version: ("16.03.15")
     """
-    DEFAULT_NPIXELS = 1600
-    DEFAULT_F0 = 730.0
-    DEFAULT_F0_CALIB = 730.0
-    DEFAULT_SLOPE = -0.167740721307557
-    DEFAULT_INTERCEPT = 863.8736708961577
+    DEFAULT_N_PIX = 1600
+    DEFAULT_CTR_WL = 730.0
+    DEFAULT_CTR_WL0 = 730.0
+    DEFAULT_A_VEC = (-0.167740721307557, 863.8736708961577)
     DEFAULT_PROBE = 771.461
 
     DEFAULT_MEAS = 1004.0
 
-    CALIB_DICT = {'npixels' : DEFAULT_NPIXELS, 'f0' : DEFAULT_F0,\
-        'f0_calib' : DEFAULT_F0_CALIB, 'slope' : DEFAULT_SLOPE,\
-        'intercept' : DEFAULT_INTERCEPT, 'probe' : DEFAULT_PROBE}
-
+    CALIB_DICT = {'n_pix' : DEFAULT_N_PIX, 'ctr_wl' : DEFAULT_CTR_WL,
+                  'ctr_wl0' : DEFAULT_CTR_WL0, 'a_vec' : DEFAULT_A_VEC,
+                  'probe' : DEFAULT_PROBE}
 
     changed = _pyqtSignal()
 
@@ -137,12 +127,17 @@ class widgetCalibrate(_QWidget):
             self.calib_dict = self.CALIB_DICT
         else:
             self.calib_dict = calib_dict
+        if isinstance(self.calib_dict['a_vec'], tuple):
+            self.calib_dict['a_vec'] = list(self.calib_dict['a_vec'])
 
         self.new_calib_dict = _copy.deepcopy(self.calib_dict)
 
         self.updateUI()
-        self.WN, self.WL, _ = _make_freq_vector(self.calib_dict)
-        self.WN_2, self.WL_2, _ = _make_freq_vector(self.new_calib_dict)
+        self.WN, _ = _calib_pix_wn(self.calib_dict)
+        self.WN_2, _ = _calib_pix_wn(self.new_calib_dict)
+        
+#        self.WN, self.WL, _ = _make_freq_vector(self.calib_dict)
+#        self.WN_2, self.WL_2, _ = _make_freq_vector(self.new_calib_dict)
 
         self.ui.spinBoxMeas.setValue(self.DEFAULT_MEAS)
         self.ui.spinBoxCorrect.setValue(self.DEFAULT_MEAS)
@@ -196,9 +191,9 @@ class widgetCalibrate(_QWidget):
         delta_lambda = 1/(((self.correct)/1e7) + 1/self.calib_dict['probe']) - \
                         1/(((self.meas)/1e7) + 1/self.calib_dict['probe'])
 
-        self.new_calib_dict['intercept'] = self.calib_dict['intercept'] + delta_lambda
+        self.new_calib_dict['a_vec'][1] = self.calib_dict['a_vec'][1] + delta_lambda
 
-        self.WN_2 = _make_freq_vector(self.new_calib_dict)[0]
+        self.WN_2, _ = _calib_pix_wn(self.new_calib_dict)
 
         self.updateUI()
         self.changed.emit()
@@ -206,20 +201,20 @@ class widgetCalibrate(_QWidget):
     def updateUI(self):
         # Set calibration values
 
-        self.ui.spinBoxNPix.setValue(self.calib_dict['npixels'])
-        self.ui.spinBoxNPix_2.setValue(self.new_calib_dict['npixels'])
+        self.ui.spinBoxNPix.setValue(self.calib_dict['n_pix'])
+        self.ui.spinBoxNPix_2.setValue(self.new_calib_dict['n_pix'])
 
-        self.ui.spinBoxCenterWL.setValue(self.calib_dict['f0'])
-        self.ui.spinBoxCenterWL_2.setValue(self.new_calib_dict['f0'])
+        self.ui.spinBoxCenterWL.setValue(self.calib_dict['ctr_wl'])
+        self.ui.spinBoxCenterWL_2.setValue(self.new_calib_dict['ctr_wl'])
 
-        self.ui.spinBoxCalibWL.setValue(self.calib_dict['f0_calib'])
-        self.ui.spinBoxCalibWL_2.setValue(self.new_calib_dict['f0_calib'])
+        self.ui.spinBoxCalibWL.setValue(self.calib_dict['ctr_wl0'])
+        self.ui.spinBoxCalibWL_2.setValue(self.new_calib_dict['ctr_wl0'])
 
-        self.ui.spinBoxSlope.setValue(self.calib_dict['slope'])
-        self.ui.spinBoxSlope_2.setValue(self.new_calib_dict['slope'])
+        self.ui.spinBoxSlope.setValue(self.calib_dict['a_vec'][0])
+        self.ui.spinBoxSlope_2.setValue(self.new_calib_dict['a_vec'][0])
 
-        self.ui.spinBoxIntercept.setValue(self.calib_dict['intercept'])
-        self.ui.spinBoxIntercept_2.setValue(self.new_calib_dict['intercept'])
+        self.ui.spinBoxIntercept.setValue(self.calib_dict['a_vec'][1])
+        self.ui.spinBoxIntercept_2.setValue(self.new_calib_dict['a_vec'][1])
 
         self.ui.spinBoxProbeWL.setValue(self.calib_dict['probe'])
         self.ui.spinBoxProbeWL_2.setValue(self.new_calib_dict['probe'])
