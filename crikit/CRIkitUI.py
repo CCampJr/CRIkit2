@@ -75,8 +75,8 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 from crikit.ui.subui_ploteffect import DialogPlotEffect as _DialogPlotEffect
 #from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate)
-#from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
-#from crikit.ui.utils.visgenutils import roimask as _roimask
+from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
+from crikit.ui.utils.roi import roimask as _roimask
 
 
 #from crikit.data.retr import retr_freq_plane, retr_freq_plane_add, \
@@ -96,8 +96,20 @@ from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 
 from crikit.ui.dialog_kkOptions import DialogKKOptions
 #from crikit.ui.dialog_plugin import DialogDenoisePlugins, DialogErrCorrPlugins
-from crikit.ui.dialog_SVD import DialogSVD
+
 from crikit.ui.dialog_save import DialogSave
+
+try:
+    import crikit2_sw
+except:
+    __sw_installed = False
+    print('SW package not installed, using standard')
+    from crikit.ui.dialog_SVD import DialogSVD
+else:
+    __sw_installed = True
+    print('SW package installed, let\'s rock!')
+    from crikit2.ui.dialog_SVD import DialogSVD
+    
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
@@ -164,7 +176,7 @@ class CRIkitUI_process(_QMainWindow):
         self.nrb = Spectra()
 
         self.plotter = _SciPlotUI(show=False)
-#        self.selectiondata = _ImageSelection()
+        self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
 
@@ -282,8 +294,8 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionSave.triggered.connect(self.save)
 
         # Plotting spectra-related
-#        self.ui.actionPointSpectrum.triggered.connect(self.pointSpectrum)
-#        self.ui.actionROISpectrum.triggered.connect(self.roiSpectrum)
+        self.ui.actionPointSpectrum.triggered.connect(self.pointSpectrum)
+        self.ui.actionROISpectrum.triggered.connect(self.roiSpectrum)
 #        self.plotter.model.dataDeleted.connect(self.deleteSelection)
 #        self.plotter.model.colorChanged.connect(self.colorChange)
         self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
@@ -512,8 +524,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionDeNoise.setEnabled(True)
 #                self.ui.actionErrorCorrection.setEnabled(True)
 #                self.ui.actionAnalysisToolkit.setEnabled(True)
-#                self.ui.actionPointSpectrum.setEnabled(True)
-#                self.ui.actionROISpectrum.setEnabled(True)
+                self.ui.actionPointSpectrum.setEnabled(True)
+                self.ui.actionROISpectrum.setEnabled(True)
 #                self.ui.actionDarkSubtract.setEnabled(True)
 #                self.ui.actionCalibrate.setEnabled(True)
 #                self.ui.actionResetCalibration.setEnabled(True)
@@ -819,27 +831,39 @@ class CRIkitUI_process(_QMainWindow):
         """
         Add a plot (in plotter) of a point spectrum
         """
-        try:
-            x_loc, y_loc = locs
-            x_pix = find_nearest(self.hsi.x, x_loc)[1]
-            y_pix = find_nearest(self.hsi.y, y_loc)[1]
-            self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
-            self.changeSlider()
+#        try:
+        x_loc, y_loc = locs
+        x_pix = find_nearest(self.hsi.x, x_loc)[1]
+        y_pix = find_nearest(self.hsi.y, y_loc)[1]
+        self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
+        self.changeSlider()
 
-            spectrum = _np.squeeze(self.hsi.spectra[y_pix,x_pix,:])
-            plot_num = self.plotter._data.num_plots
-            label = 'Point ' + str(plot_num)
-
-            self.plotter.append_spectrum(freq=self.hsi.f,
-                             spectrum=spectrum,
-                             label=label,
-                             frequnits=self.hsi.frequnits,
-                             spectrumunits=self.hsi.intensityunits)
-
-            self.plotter.show()
-            self.plotter.raise_()
-        except:
-            print('Error in _pointSpectrumPlot')
+        plot_num = len(self.plotter._plot_data)
+        label = 'Point ' + str(plot_num)
+        
+        rng = self.hsi.freq.op_range_pix
+        
+        self.plotter.plot(self.hsi.f, 
+                          self.hsi.data_imag_over_real[y_pix, x_pix, rng],
+                          label=label)
+        
+        self.plotter.show()
+        self.plotter.raise_()
+            
+#            spectrum = _np.squeeze(self.hsi.spectra[y_pix,x_pix,:])
+#            plot_num = self.plotter._data.num_plots
+#            label = 'Point ' + str(plot_num)
+#
+#            self.plotter.append_spectrum(freq=self.hsi.f,
+#                             spectrum=spectrum,
+#                             label=label,
+#                             frequnits=self.hsi.frequnits,
+#                             spectrumunits=self.hsi.intensityunits)
+#
+#            self.plotter.show()
+#            self.plotter.raise_()
+#        except:
+#            print('Error in _pointSpectrumPlot')
 
     def _roiSpectrumPlot(self, locs):
         """
@@ -859,25 +883,38 @@ class CRIkitUI_process(_QMainWindow):
         #_plt.figure()
         #_plt.imshow(mask,origin='lower')
         #_plt.show()
-        #print('Mask size: {}; nvec size: {}; mvec size: {}'.format(mask.shape,
-        #      self.hsi.x.size, self.hsi.y.size))
+#        print('Mask size: {}; nvec size: {}; mvec size: {}'.format(mask.shape,
+#              self.hsi.x.size, self.hsi.y.size))
 
         mask_hits = _np.sum(mask)
         if mask_hits > 0:  # Len(mask) > 0
-            spectra = _np.squeeze(self.hsi.spectra[mask == 1])
+            rng = self.hsi.freq.op_range_pix
+            spectra = self.hsi.data[mask == 1]
+#            print('Spectra.shape: {}'.format(spectra.shape))
 
             if mask_hits > 1:
-                spectrum = _np.mean(spectra, axis=0)
+                spectrum = _np.mean(spectra[..., rng], axis=0)
+                stddev = _np.std(spectra[..., rng], axis=0)
             else:
-                spectrum = spectra
-            plot_num = self.plotter._data.num_plots
+                spectrum = spectra[..., rng]
+            plot_num = len(self.plotter._plot_data)
             label = 'ROI ' + str(plot_num)
-            self.plotter.append_spectrum(freq=self.hsi.f,
-                                         spectrum=spectrum,
-                                         label=label,
-                                         frequnits=self.hsi.frequnits,
-                                         spectrumunits=self.hsi.intensityunits)
-
+            
+            # Plot line
+            self.plotter.plot(self.hsi.f, spectrum, label=label)
+            
+            # Check color of line b/c uses color cycler-- for fill_b/w
+            color = self.plotter._plot_data[-1].style_dict['color']
+            
+            # Alternative
+            #color = self.plotter.modelLine._model_data[-1]['color']
+            if mask_hits > 1:
+                self.plotter.fill_between(self.hsi.f, spectrum-stddev,
+                                          spectrum+stddev, color=color, 
+                                          alpha=0.25,
+                                          label='$\pm$1 Std. Dev. (' + label +
+                                                                   ')')
+            
             del spectrum
             self.plotter.show()
 
