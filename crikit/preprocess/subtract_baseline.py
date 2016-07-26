@@ -24,14 +24,36 @@ from crikit.utils.datacheck import _rng_is_pix_vec
 
 
 class SubtractBaselineALS:
-    def __init__(self, smoothness_param=1, asym_param=1e-2,
-                 redux_factor=10, rng=None, **kwargs):
+    """
+    Subtract baseline using asymmetric least squares algorithm
+    
+    Parameters
+    ----------
+    smoothness_param : float, optional (default=1.0)
+        Smoothness parameter aka 'lambda'
+        
+    asym_param : float, optional (default=1e-2)
+        Asymmetry parameter aka 'p'
+        
+    redux_factor : int, optional (default=10)
+        Down-sampling factor (more down-sampling leads to faster detrending,
+        but with more chance of non-optimal detrending)
+        
+    rng : ndarray (1D), optional (default=None)
+        Range in pixels to perform action over
+    
+    use_imag : bool, optional (default=True)
+        If spectrum(a) are complex-values, use the imaginary portion?
+    """
+    def __init__(self, smoothness_param=1.0, asym_param=1e-2,
+                 redux_factor=10, rng=None, use_imag=True, **kwargs):
 
         self.smoothness_param = smoothness_param
         self.asym_param = asym_param
         self.redux_factor = redux_factor
 
         self.rng = _rng_is_pix_vec(rng)
+        self.use_imag = use_imag
 
     @property
     def redux_factor(self):
@@ -53,7 +75,14 @@ class SubtractBaselineALS:
 
             # Iterate over the sub-array -- super slick way of doing it
             for idx in _np.ndindex(shp):
-                ret_obj[idx] -= self._als_method(data[idx], smoothness_param=self.smoothness_param,
+                # Imaginary portion set
+                if self.use_imag and _np.iscomplexobj(data):
+                    ret_obj[idx] -= 1j*self._als_method(data[idx].imag, smoothness_param=self.smoothness_param,
+                                                asym_param=self.asym_param,
+                                                redux_factor=self.redux_factor,
+                                                **kwargs)[0]
+                else:  # Real portion set or real object
+                    ret_obj[idx] -= self._als_method(data[idx].real, smoothness_param=self.smoothness_param,
                                                 asym_param=self.asym_param,
                                                 redux_factor=self.redux_factor,
                                                 **kwargs)[0]
