@@ -45,15 +45,31 @@
 * docstring for arpls algorithms
 * make sub_baseline_arpls
 
-# From crikit to crikit2
-* Denoise with SVD
-* KK
-* Phase-error correction
-* Scaling
-* Subtract from ROI (maybe)
-* Grayscale image return
-* RGB color return and math (maybe)
-* Save functionality
+# From crikit to crikit2 (as of 8/17/2016)
+* ~~Load HDF~~
+* ~~Load Dark~~
+* ~~Load NRB~~
+* ~~Dark Subtract~~
+* ~~Dark Subtract from NRB~~
+* ~~Residual Subtract~~
+* ~~Set Frequency Window~~
+* ~~Zero first column~~
+* ~~Anscombe transform~~
+* ~~SVD~~
+** Fix max factors LCD display
+* ~~Inverse Anscombe~~
+* ~~KK~~
+** ~~Interactive~~
+* ~~Phase error correction with ALS~~
+* ~~Scale error correction~~
+* ~~Subtract from ROI~~
+* ~~Calibrate~~
+* ~~Save~~
 
-# Etc
-~~Make layout SVG~~
+# To fix
+* SVD max factors
+* ROI and point markers
+* Sciplot always in front
+* Setup breadcrumbs
+
+
