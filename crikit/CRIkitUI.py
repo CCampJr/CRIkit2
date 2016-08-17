@@ -117,7 +117,7 @@ except:
 else:
     __sw_installed = True
     print('SW package installed, let\'s rock!')
-    from crikit2.ui.dialog_SVD import DialogSVD
+    from crikit2_sw.ui.dialog_SVD import DialogSVD
     
 
 # Generic imports for MPL-incorporation
@@ -369,18 +369,16 @@ class CRIkitUI_process(_QMainWindow):
                 try:
                     f_out = _h5py.File(self.save_path + self.save_filename, 'a')
                     loc = f_out.require_group(self.save_grp)
-                    dset = loc.create_dataset(self.save_dataset_name_no_grp, data=self.hsi.spectrafull)
-
-                    for attr_key in self.hsi.attr:
+                    dset = loc.create_dataset(self.save_dataset_name_no_grp, data=self.hsi.data)
+                    for attr_key in self.hsi.meta:
                         try:
-                            dset.attrs.create(attr_key,self.hsi.attr[attr_key])
+                            dset.attrs.create(attr_key,self.hsi.meta[attr_key])
                         except:
                             print('Error in HSI attributes')
-
+                    
                     bc_attr_dict = self.bcpre.attr_dict
-#                    print('BC Attr Dict: {}'.format(bc_attr_dict))
+    
                     for attr_key in bc_attr_dict:
-                        #print('Key: {}, Val: {}'.format(attr_key, bc_attr_dict[attr_key]))
                         val = bc_attr_dict[attr_key]
                         if isinstance(val, str):
                             dset.attrs[attr_key] = val
@@ -397,11 +395,8 @@ class CRIkitUI_process(_QMainWindow):
                 finally:
                     f_out.close()
 
-
-
-
         except:
-            pass
+            print('Couldn\'t open save dialog')
 
     def tabMainChange(self):
         if self.ui.tabMain.currentIndex() == 4:  # Jupyter console
