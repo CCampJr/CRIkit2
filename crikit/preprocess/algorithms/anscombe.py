@@ -42,7 +42,7 @@ if _os.path.exists(resource_dir):
     #print('Resource directory: {}'.format(_os.path.abspath(resource_dir)))
     pass
 else:  # pragma: no cover
-    raise IOError('Cannot find resource directory')
+    raise IOError('Cannot find resource directory for Anscombe')
 
 def gen_anscombe_forward(signal, gauss_std, gauss_mean = 0, poisson_multi = 1):
     """
