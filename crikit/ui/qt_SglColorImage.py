@@ -105,7 +105,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.pushButtonPop.setText(_translate("Form", "Pop"))
-        self.pushButtonSpectrum.setText(_translate("Form", "Spectrum"))
+        self.pushButtonSpectrum.setText(_translate("Form", "Mean Spectrum"))
         self.pushButtonGSPop.setText(_translate("Form", "Grayscale"))
         self.groupBox.setTitle(_translate("Form", "Gain"))
         self.lineEditGainSlider.setText(_translate("Form", "1.0"))

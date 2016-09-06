@@ -715,7 +715,7 @@ class CRIkitUI_process(_QMainWindow):
             else:
                 spectrum = spectra
 #            print('spectrum.shape: {}'.format(spectrum.shape))
-            print(spectrum)
+#            print(spectrum)
             spectrum = spectrum.astype(self.hsi.data.dtype)
             self.hsi.data -= spectrum[...,:]
             self.changeSlider()
@@ -1504,8 +1504,7 @@ class CRIkitUI_process(_QMainWindow):
         operation_index = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentIndex()
         operation_text = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentText()
 
-        print('Conditional freq 1: {}'.format(self.img_RGB_list[rgbnum].data.condfreq1))
-        print('Operation freq 1: {}'.format(self.img_RGB_list[rgbnum].data.opfreq1))
+        
         if operation_index == 0:
             num_freq_needed = 0
         else:
@@ -1552,32 +1551,32 @@ class CRIkitUI_process(_QMainWindow):
             Mask = 1
         else:
             if (operation_text == '' or operation_text == ' '):  # Return just a plane
-                Mask = _peakamps.MeasurePeak(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real, 
                                              condloc1)
                 
 
             elif (operation_text == '+'):  # Addition
-                Mask = _peakamps.MeasurePeakAdd(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2)
 
             elif (operation_text == '-'):  # Subtraction
-                Mask = _peakamps.MeasurePeakMinus(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2)
 
             elif (operation_text == '*'):  # Multiplication
-                Mask = _peakamps.MeasurePeakMultiply(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2)
 
             elif (operation_text == '/'):  # Division
-                Mask = _peakamps.MeasurePeakDivide(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2)
 
             elif (operation_text == 'SUM'):  # Summation over range
-                Mask = _peakamps.MeasurePeakSummation(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2)
 
             elif (operation_text == 'Peak b/w troughs'):  # Peak between troughs
-                Mask = _peakamps.MeasurePeakBWTroughs(self.hsi.data_imag_over_real, 
+                Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real, 
                                              condloc1, condloc2, condloc3)
             else:
                 pass
@@ -1789,41 +1788,54 @@ class CRIkitUI_process(_QMainWindow):
 
     def spectrumColorImg(self):
         """
-        Generate plot of mean or weighted-mean spectrum from color-image
+        Generate plot of mean
         """
-        fig = _plt.figure(figsize=(10,6))
-#        plot_font = {'fontname':'Arial', 'size':'14'}
-        ax = fig.add_subplot(111)
+        # Which RGB image is it
+        rgbnum = self.ui.tabColors.currentIndex()
+        
+        Mask = self.img_RGB_list[rgbnum].data.grayscaleimage
+        
+        if self.img_RGB_list[0].data.setmin is not None:
+            Mask *= Mask >= self.img_RGB_list[0].data.setmin
 
-        win_num = self.ui.tabColors.currentIndex()
-        win_title = self.ui.tabColors.tabText(win_num)
-        label = 'Weighted Spect.: ' + win_title
-        mask = self.img_RGB_list[self.ui.tabColors.currentIndex()].data.image
-        mask = mask.sum(axis=-1)
-        mask -= mask.min()
-        mask /= mask.max()
-        y_loc, x_loc = _np.where(mask > 0)
-#        print('Mask shape: {}'.format(mask.shape))
-#        print('Mask[y_loc, x_loc] shape: {}'.format(mask[y_loc, x_loc].shape))
-        # Weighted mean
-        spectrum = mask[y_loc, x_loc, None]*self.hsi.spectra[y_loc,x_loc,:]
-#        print(spectrum.shape)
-        spectrum = spectrum.sum(axis=0)
-#        print(spectrum.shape)
-        #spectrum /= mask[y_loc, x_loc].sum()
+        if self.img_RGB_list[0].data.setmax is not None:
+            Mask *= Mask <= self.img_RGB_list[0].data.setmax
+        
+        if Mask.max() <= 0:
+            pass
+        else:
+            
+            Mask = Mask > 0
+            Mask = Mask.astype(_np.integer)
+            
+            mask_hits = Mask.sum()
+            #print('Number of spectra: {}'.format(mask_hits))
+            
+            mloc, nloc = _np.where(Mask)
+            
+            mean_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].mean(axis=0)
+            std_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].std(axis=0)
+            
+            
+            # Plot line
+            self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum')
+            
+            # Check color of line b/c uses color cycler-- for fill_b/w
+            color = self.plotter._plot_data[-1].style_dict['color']
+            
+            # Alternative
+            #color = self.plotter.modelLine._model_data[-1]['color']
 
-        # Unweighted mean
-#        spectrum = self.hsi.spectra[y_loc,x_loc,:].sum(axis=1).sum(axis=0)
+            # Plot +-1 std. dev.
+            if mask_hits > 1:
+                self.plotter.fill_between(self.hsi.f, mean_spect - std_spect,
+                                          mean_spect + std_spect, 
+                                          color=color, 
+                                          alpha=0.25,
+                                          label='$\pm$1 Std. Dev.')
+            
+            self.plotter.show()
 
-        spectrum /= y_loc.size
-
-        self.selectiondata.append_selection([None],[None],[None],[None])
-        self.plotter.append_spectrum(freq=self.hsi.f,
-                                         spectrum=spectrum,
-                                         label=label,
-                                         frequnits=self.hsi.frequnits,
-                                         spectrumunits=self.hsi.intensityunits)
-        self.plotter.show()
 
     def createImgBW(self, img):
         """

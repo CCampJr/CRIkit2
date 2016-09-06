@@ -56,7 +56,7 @@
            <bool>true</bool>
           </property>
           <property name="text">
-           <string>Spectrum</string>
+           <string>Mean Spectrum</string>
           </property>
          </widget>
         </item>
