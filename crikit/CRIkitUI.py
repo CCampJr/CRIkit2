@@ -86,7 +86,7 @@ from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate,
 from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
 
-
+import crikit.measurement.peakamps as _peakamps
 #from crikit.data.retr import retr_freq_plane, retr_freq_plane_add, \
 #    retr_freq_plane_div, retr_freq_plane_multi, retr_freq_plane_peak_bw_troughs, \
 #    retr_freq_plane_sub, retr_freq_plane_sum_span
@@ -1494,30 +1494,53 @@ class CRIkitUI_process(_QMainWindow):
         """
         Perform selected math operation on single-color imagery.
         """
+        
+        # Which RGB image is it
         rgbnum = self.ui.tabColors.currentIndex()
 
-        # Check conditional frequencies are set
+        # Which operation is selected
         operation_index = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentIndex()
         operation_text = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentText()
 
+        print('Conditional freq 1: {}'.format(self.img_RGB_list[rgbnum].data.condfreq1))
+        print('Operation freq 1: {}'.format(self.img_RGB_list[rgbnum].data.opfreq1))
         if operation_index == 0:
             num_freq_needed = 0
         else:
             num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index-1]
 
+        # Check conditional frequencies are set
         cond_set = False
 
         if (num_freq_needed == 1 and
             self.img_RGB_list[rgbnum].data.condfreq1 is not None):
+            
+            # Conditional frequency LOCATION 1
+            condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
+            
+            # All frequencies set
             cond_set = True
         elif (num_freq_needed == 2 and
             self.img_RGB_list[rgbnum].data.condfreq1 is not None and
             self.img_RGB_list[rgbnum].data.condfreq2 is not None):
+            
+            # Conditional frequency LOCATIONS
+            condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
+            condloc2 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq2)
+            
+            # All frequencies set
             cond_set = True
         elif (num_freq_needed == 3 and
             self.img_RGB_list[rgbnum].data.condfreq1 is not None and
             self.img_RGB_list[rgbnum].data.condfreq2 is not None and
             self.img_RGB_list[rgbnum].data.condfreq3 is not None):
+            
+            # Conditional frequency LOCATIONS
+            condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
+            condloc2 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq2)
+            condloc3 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq3)
+            
+            # All frequencies set
             cond_set = True
         else:
             cond_set = False
@@ -1527,32 +1550,33 @@ class CRIkitUI_process(_QMainWindow):
             Mask = 1
         else:
             if (operation_text == '' or operation_text == ' '):  # Return just a plane
-                Mask = retr_freq_plane(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1)
+                Mask = _peakamps.MeasurePeak(self.hsi.data_imag_over_real, 
+                                             condloc1)
+                
 
             elif (operation_text == '+'):  # Addition
-                Mask = retr_freq_plane_add(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                           self.img_RGB_list[rgbnum].data.condfreq2)
+                Mask = _peakamps.MeasurePeakAdd(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2)
 
             elif (operation_text == '-'):  # Subtraction
-                Mask = retr_freq_plane_sub(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                           self.img_RGB_list[rgbnum].data.condfreq2)
+                Mask = _peakamps.MeasurePeakMinus(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2)
 
             elif (operation_text == '*'):  # Multiplication
-                Mask = retr_freq_plane_multi(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                                     self.img_RGB_list[rgbnum].data.condfreq2)
+                Mask = _peakamps.MeasurePeakMultiply(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2)
 
             elif (operation_text == '/'):  # Division
-                Mask = retr_freq_plane_div(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                                     self.img_RGB_list[rgbnum].data.condfreq2)
+                Mask = _peakamps.MeasurePeakDivide(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2)
 
             elif (operation_text == 'SUM'):  # Summation over range
-                Mask = retr_freq_plane_sum_span(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                                     self.img_RGB_list[rgbnum].data.condfreq2)
+                Mask = _peakamps.MeasurePeakSummation(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2)
 
             elif (operation_text == 'Peak b/w troughs'):  # Peak between troughs
-                Mask = retr_freq_plane_peak_bw_troughs(self.hsi, self.img_RGB_list[rgbnum].data.condfreq1,
-                                                     self.img_RGB_list[rgbnum].data.condfreq2,
-                                                     self.img_RGB_list[rgbnum].data.condfreq3)
+                Mask = _peakamps.MeasurePeakBWTroughs(self.hsi.data_imag_over_real, 
+                                             condloc1, condloc2, condloc3)
             else:
                 pass
 
@@ -1582,60 +1606,82 @@ class CRIkitUI_process(_QMainWindow):
 
         if (num_freq_needed == 1 and
             self.img_RGB_list[rgbnum].data.opfreq1 is not None):
+            
+            # Operating frequency LOCATION 1
+            oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
+            
+            # All frequencies set
             freq_set = True
         elif (num_freq_needed == 2 and
             self.img_RGB_list[rgbnum].data.opfreq1 is not None and
             self.img_RGB_list[rgbnum].data.opfreq2 is not None):
+            
+            # Operating frequency LOCATIONS
+            oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
+            oploc2 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq2)
+            
+            # All frequencies set
             freq_set = True
+            
         elif (num_freq_needed == 3 and
             self.img_RGB_list[rgbnum].data.opfreq1 is not None and
             self.img_RGB_list[rgbnum].data.opfreq2 is not None and
             self.img_RGB_list[rgbnum].data.opfreq3 is not None):
+            
+            # Operating frequency LOCATIONS
+            oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
+            oploc2 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq2)
+            oploc3 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq3)
+            
+            # All frequencies set
             freq_set = True
+            
         else:
             freq_set = False
 
         if freq_set == True:
             if (operation_text == '' or operation_text == ' '):  # Return just a plane
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
+                                                  oploc1)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '+'):  # Addition
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_add(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real,
+                                                     oploc1, oploc2)
+                                                  
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '-'):  # Subtraction
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_sub(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real,
+                                                       oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '*'):  # Multiplication
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_multi(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real,
+                                                          oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == '/'):  # Division
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_div(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real,
+                                                        oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == 'SUM'):  # Division
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_sum_span(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
+                                                           oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             elif (operation_text == 'Peak b/w troughs'):  # Division
-                self.img_RGB_list[rgbnum].data.grayscaleimage =\
-                    Mask*retr_freq_plane_peak_bw_troughs(self.hsi, self.img_RGB_list[rgbnum].data.opfreq1,
-                                                     self.img_RGB_list[rgbnum].data.opfreq2,
-                                                     self.img_RGB_list[rgbnum].data.opfreq3)
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
+                                                           oploc1, oploc2,
+                                                           oploc3)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
             else:

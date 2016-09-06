@@ -7,6 +7,48 @@ Created on Wed Jun 29 01:28:44 2016
 
 import numpy as _np
 
+class MeasurePeak:
+    """
+    Meausure peak amplitude.
+    
+    Parameters
+    ----------
+    pk : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk):
+        self.amp = None
+
+        self.pk = pk
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk):
+        inst = MeasurePeak(pk)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = signal[..., self.pk]
+
+        return amp
 
 class MeasurePeakBWTroughs:
     """
@@ -65,6 +107,237 @@ class MeasurePeakBWTroughs:
                  (self.tr_right - self.tr_left)
         amp = signal[..., self.pk] - (slope*(self.pk - self.tr_left) + \
                 signal[..., self.tr_left])
+
+        return amp
+        
+class MeasurePeakMinus:
+    """
+    Meausure the difference (subtraction) of two peaks (pk1 - pk2).
+    
+    Parameters
+    ----------
+    pk1 : int
+        Peak location in pixel coordinates
+    pk2 : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk1, pk2):
+        self.amp = None
+
+        self.pk1 = pk1
+        self.pk2 = pk2
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk1, pk2):
+        inst = MeasurePeakMinus(pk1, pk2)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = signal[..., self.pk1] - signal[..., self.pk2]
+
+        return amp
+        
+class MeasurePeakAdd:
+    """
+    Meausure the addition of two peaks (pk1 + pk2).
+    
+    Parameters
+    ----------
+    pk1 : int
+        Peak location in pixel coordinates
+    pk2 : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk1, pk2):
+        self.amp = None
+
+        self.pk1 = pk1
+        self.pk2 = pk2
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk1, pk2):
+        inst = MeasurePeakAdd(pk1, pk2)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = signal[..., self.pk1] + signal[..., self.pk2]
+
+        return amp
+        
+class MeasurePeakMultiply:
+    """
+    Meausure the multiplication of two peak.
+    
+    Parameters
+    ----------
+    pk1 : int
+        Peak location in pixel coordinates
+    pk2 : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk1, pk2):
+        self.amp = None
+
+        self.pk1 = pk1
+        self.pk2 = pk2
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk1, pk2):
+        inst = MeasurePeakMultiply(pk1, pk2)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = signal[..., self.pk1] * signal[..., self.pk2]
+
+        return amp
+        
+class MeasurePeakDivide:
+    """
+    Meausure the ratio (division) of two peaks. pk1/pk2
+    
+    Parameters
+    ----------
+    pk1 : int
+        Peak location in pixel coordinates
+    pk2 : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk1, pk2):
+        self.amp = None
+
+        self.pk1 = pk1
+        self.pk2 = pk2
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk1, pk2):
+        inst = MeasurePeakDivide(pk1, pk2)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = signal[..., self.pk1] / signal[..., self.pk2]
+
+        return amp
+        
+class MeasurePeakSummation:
+    """
+    Meausure the summation of all amplitudes between (inclusive) two peak
+    locations.
+    
+    Parameters
+    ----------
+    pk1 : int
+        Peak location in pixel coordinates
+    pk2 : int
+        Peak location in pixel coordinates
+    
+    Attributes
+    ----------
+    amp : float or ndarray
+        Amplitude of peak
+    
+    Methods
+    -------
+    calculate : Calculate the amplitude
+    
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+    
+    """
+    def __init__(self, pk1, pk2):
+        self.amp = None
+
+        self.pk1 = pk1
+        self.pk2 = pk2
+        
+    def calculate(self, signal):
+        self.amp = self._calc(signal)
+
+        return self.amp
+        
+    @staticmethod
+    def measure(signal, pk1, pk2):
+        inst = MeasurePeakSummation(pk1, pk2)
+        return inst.calculate(signal)
+
+    def _calc(self, signal):
+        amp = _np.sum(signal[..., self.pk1:self.pk2+1], axis=-1)
 
         return amp
         
