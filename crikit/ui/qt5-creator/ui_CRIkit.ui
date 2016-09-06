@@ -48,7 +48,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>CRIkit2</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

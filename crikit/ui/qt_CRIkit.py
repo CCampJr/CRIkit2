@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_CRIkit.ui'
+# Form implementation generated from reading ui file '.\ui_CRIkit.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -402,7 +402,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CRIkit2"))
         self.tabMain.setTabText(self.tabMain.indexOf(self.tab), _translate("MainWindow", "Single Frequency"))
         self.tabMain.setTabText(self.tabMain.indexOf(self.tabCompositeLarge), _translate("MainWindow", "Composite"))
         self.tabMain.setTabText(self.tabMain.indexOf(self.tabSettings), _translate("MainWindow", "Settings"))
