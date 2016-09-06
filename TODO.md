@@ -67,7 +67,7 @@
 * ~~Save~~
 
 # To fix
-* SVD max factors
+* ~~SVD max factors~~
 * ROI and point markers
 * Sciplot always in front
 * Setup breadcrumbs
