@@ -229,6 +229,8 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[count].math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
 
             self.img_RGB_list[count].math.ui.pushButtonDoMath.pressed.connect(self.doMath)
+            self.img_RGB_list[count].math.ui.lineEditMax.editingFinished.connect(self.doComposite)
+            self.img_RGB_list[count].math.ui.lineEditMin.editingFinished.connect(self.doComposite)
             self.img_RGB_list[count].ui.gainSlider.valueChanged.connect(self.doComposite)
 
 
