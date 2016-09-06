@@ -8,10 +8,7 @@ Created on Mon May 23 10:17:16 2016
 @author: chc
 """
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
+import os as _os
 
 from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
@@ -44,7 +41,9 @@ def hdf_is_valid_dsets(pth, filename, dset_list):
     Validate file and datasets exist. Return boolean as to whether valid
 
     """
-    pfname = pth + filename
+    # Join path and filename in an os-independant way
+    pfname = _os.path.normpath(_os.path.join(pth, filename))
+
 
     isvalid = False
     fileexists = False
@@ -166,7 +165,9 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
             return the data from dset_list and associated meta data.
 
     """
-    pfname = pth + filename
+    # Join path and filename in an os-independant way
+    pfname = _os.path.normpath(_os.path.join(pth, filename))
+
     if hdf_is_valid_dsets(pth, filename,dset_list) == False:
         print('Invalid filename or dataset list')
         return False
@@ -252,7 +253,10 @@ def hdf_export_data(output_cls_instance, pth, filename, dsetname):
     save_dataset_name_no_grp = dsetname.rpartition('/')[-1]
 
     try:
-        f_out = _h5py.File(pth + filename, 'a')
+        # Join path and filename in an os-independant way
+        pfname_out = _os.path.normpath(_os.path.join(pth, filename))
+        
+        f_out = _h5py.File(pfname_out, 'a')
         loc = f_out.require_group(save_grp)
         dset = loc.create_dataset(save_dataset_name_no_grp, data=output_cls_instance.data)
 
