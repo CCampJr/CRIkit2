@@ -266,7 +266,7 @@ class SingleColor(BW, _ColorMath):
 
         else:
             fudge_factor = .001
-            fudge_amt = np.abs((self.setmax - self.setmin)*fudge_factor)
+            fudge_amt = _np.abs((self.setmax - self.setmin)*fudge_factor)
             fudged_min = self.setmin - fudge_amt
             fudged_max = self.setmax + fudge_amt
             
