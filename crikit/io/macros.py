@@ -18,9 +18,11 @@ if __name__ == '__main__':  # pragma: no cover
 import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 
-from crikit.io.meta_configs import (special_nist_bcars2 as _snb)
+from crikit.io.meta_configs import (special_nist_bcars2 as _snb,
+                                    special_nist_bcars1_sample_scan as _snb1ss)
 from crikit.io.meta_process import meta_process as _meta_process
 from crikit.io.hdf5 import hdf_import_data as _hdf_import_data
+from crikit.io.csv_nist import csv_nist_import_data as _csv_nist_import_data
 
 __all__ = []
 
@@ -42,6 +44,29 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
         _meta_process(_snb(), output_cls_instance)
     except:
         print('Something failed in import_hdf_nist_special')
+        return False
+    else:
+        return True
+        
+def import_csv_nist_special1(pth, filename_header, filename_data,
+                             output_cls_instance):
+    """
+    Import data from CSV File as specified by NIST-specific settings
+
+    Returns
+    -------
+    Success : bool
+        Whether import was successful
+    """
+
+    try:
+        import_success = _csv_nist_import_data(pth, filename_header,
+                                               filename_data, output_cls_instance)
+        if import_success is None or import_success is False:
+            raise ValueError('csv_import_data returned None')
+        _meta_process(_snb1ss(), output_cls_instance)
+    except:
+        print('Something failed in import_csv_nist_special')
         return False
     else:
         return True

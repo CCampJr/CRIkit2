@@ -44,3 +44,38 @@ def special_nist_bcars2():
     rosetta['ColorCalibWN'] = ['Processing.WNCalib','Processing.WNCalibOrig']
 
     return rosetta
+    
+def special_nist_bcars1_sample_scan():
+    """
+    Return import attributes particular to the "BCARS 1" system at NIST
+    """
+    rosetta = {}
+
+    rosetta['XPixelSize'] = 'X scan Parameters.x step size (um)'
+    rosetta['XStart'] = 'X scan Parameters.x start (um)'
+    rosetta['XStop'] = 'RasterScanParams.FastAxisStop'
+    rosetta['XLength'] = 'X scan Parameters.x steps'
+    rosetta['XLabel'] = 'RasterScanParams.FastAxis'
+    rosetta['XUnits'] = ['RasterScanParams.FastAxisUnits','!','\mum']
+
+    rosetta['YPixelSize'] = 'Y scan Paramters.y step size (um)'
+    rosetta['YStart'] = 'Y scan Paramters.y start (um)'
+    rosetta['YStop'] = 'RasterScanParams.SlowAxisStop'
+    rosetta['YLength'] = 'Y scan Paramters.y steps'
+    rosetta['YLabel'] = 'RasterScanParams.SlowAxis'
+    rosetta['YUnits'] = ['RasterScanParams.SlowAxisUnits','!','\mum']
+
+    rosetta['ZPosition'] = 'Z scan parameters.z start (um)'
+    rosetta['ZLabel'] = 'RasterScanParams.FixedAxis'
+
+    rosetta['ColorCenterWL'] = ['Frequency Calibration.CenterWavelength','!',696.831]
+    rosetta['ColorUnits'] = ['!','nm']
+    rosetta['ColorChannels'] = ['Frequency Calibration.freq index length','!',512]
+    rosetta['ColorCalibWL'] = ['Frequency Calibration.CenterWavelength','!',696.831]
+    rosetta['ColorSlope'] = ['Frequency Calibration.Slope','!', -0.50418919]
+    rosetta['ColorIntercept'] = ['Frequency Calibration.Intercept','!', 825.651318]
+    rosetta['ColorProbe'] = ['Frequency Calibration.probe(nm)','!', 830.0]
+    rosetta['ColorWnMode'] = ['!', True]
+    rosetta['ColorCalibWN'] = ['Processing.WNCalib','Processing.WNCalibOrig']
+
+    return rosetta
