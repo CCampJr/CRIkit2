@@ -25,7 +25,7 @@ version: ("16.02.13")
 
 import time as _time
 import copy as _copy
-
+import pickle as _pickle
 
 class BCPre:
     """
@@ -140,6 +140,40 @@ class BCPre:
             return None
     
     # METHODS
+    @staticmethod
+    def backup_pickle(data, fname, addl_attr = None):
+        """
+        Dump current state of data (class of type crikit.data.spectrum or 
+        subclass)to pickle file (filename= fname). 
+        
+        Can append additional attributes (addl_attr) to \
+        attribute dictionary (self.attr)
+        """
+        if fname.find('.pickle') == -1:
+            fname += '.pickle'
+
+        if addl_attr is not None:
+            data.attr.update(addl_attr)
+
+        with open(fname, 'xb') as f:
+            # Pickle with highest protocol
+            # Surpasses the default protocol 3 4Gb limit
+            _pickle.dump(data, f, protocol=-1)
+            
+    @staticmethod
+    def load_pickle(fname):
+        """
+        Static method.
+
+        Return a loaded pickled version of this class (filename= fname).
+
+        """
+        if fname.find('.pickle') == -1:
+            fname += '.pickle'
+
+        with open(fname, 'rb') as f:
+            return _pickle.load(f)
+            
     def add_step(self, process_desc):
         """
         Adds a steps to the list

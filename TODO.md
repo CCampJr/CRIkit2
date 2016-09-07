@@ -10,8 +10,8 @@
 # Process functionality enhancements
 
 # Frequency class
-* Accept calib dict or list with only n_pix, returning pixel vector
-* Implement op_range_pix, op_range_freq, plot_range_pix, plot_range_freq
+* ~~ (?)Accept calib dict or list with only n_pix, returning pixel vector~~
+* ~~Implement op_range_pix, op_range_freq, plot_range_pix, plot_range_freq~~
 
 # Spectra class
 * ~~Implement Replicate class container~~
@@ -56,7 +56,7 @@
 * ~~Zero first column~~
 * ~~Anscombe transform~~
 * ~~SVD~~
-** Fix max factors LCD display
+** ~~Fix max factors LCD display~~
 * ~~Inverse Anscombe~~
 * ~~KK~~
 ** ~~Interactive~~
@@ -67,9 +67,9 @@
 * ~~Save~~
 
 # To fix
-* ~~SVD max factors~~
 * ROI and point markers
-* Sciplot always in front
-* Setup breadcrumbs
+* ~~SVD max factors~~
+* ~~Sciplot always in front~~
+* ~~Setup breadcrumbs~~
 
 
