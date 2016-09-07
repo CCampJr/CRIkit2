@@ -342,6 +342,69 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.tabMain.currentChanged.connect(self.tabMainChange)
 
 
+        # Temporary toolbar setup
+        self.ui.toolBar.setVisible(True)
+        self.ui.toolBar.setToolButtonStyle(_QtCore.Qt.ToolButtonTextUnderIcon)
+        self.ui.actionToolBarNIST.triggered.connect(self.toolbarSetting)
+        self.ui.actionToolBarNone.triggered.connect(self.toolbarSetting)
+        
+        # Default toolbar is NIST Workflow
+        self.ui.actionToolBarNIST.trigger()
+        
+        
+    def toolbarSetting(self):
+        """
+        Toolbar settings through View menu.
+        """
+        toolbar_actions = [self.ui.actionToolBarNone,
+                           self.ui.actionToolBarNIST]
+                   
+        sndr = self.sender()
+        for tb in toolbar_actions:
+            if sndr == tb:
+                tb.setChecked(True)
+            else:
+                tb.setChecked(False)
+                
+        # Hide toolbar if None
+        if sndr == self.ui.actionToolBarNone:
+            self.ui.toolBar.setVisible(False)
+        else:
+            self.ui.toolBar.clear()
+            self.ui.toolBar.setVisible(True)
+            
+        # So far only NIST toolbar setup
+        if sndr == self.ui.actionToolBarNIST:
+            self.ui.actionToolBarNIST.setChecked(True)
+            self.ui.toolBar.addActions([self.ui.actionOpenHDFNIST,
+                                        self.ui.actionSave])
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionPointSpectrum,
+                                        self.ui.actionROISpectrum])
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addAction(self.ui.actionUndo)
+            
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionLoadDark, 
+                                        self.ui.actionLoadNRB])
+            
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionDarkSubtract,
+                                        self.ui.actionResidualSubtract,
+                                        self.ui.actionFreqWindow,
+                                        self.ui.actionAnscombe,
+                                        self.ui.actionDeNoise,
+                                        self.ui.actionInverseAnscombe,
+                                        self.ui.actionKramersKronig,
+                                        self.ui.actionPhaseErrorCorrection,
+                                        self.ui.actionScaleErrorCorrection,
+                                        self.ui.actionSubtractROI,
+                                        self.ui.actionCalibrate,
+                                        self.ui.actionAmpErrorCorrection])
+            
+            
+        
+        
     def save(self):
         suffix = self.bcpre.dset_name_suffix
 #        print('Suffix: {}'.format(suffix))
