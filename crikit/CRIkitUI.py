@@ -184,7 +184,7 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
 
-        self.plotter = _SciPlotUI(show=False, parent=self)
+        self.plotter = _SciPlotUI(show=False, parent=None)
         self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
