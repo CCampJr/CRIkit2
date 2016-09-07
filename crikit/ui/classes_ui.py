@@ -265,11 +265,19 @@ class SingleColor(BW, _ColorMath):
             return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
 
         else:
+            fudge_factor = .001
+            fudge_amt = np.abs((self.setmax - self.setmin)*fudge_factor)
+            fudged_min = self.setmin - fudge_amt
+            fudged_max = self.setmax + fudge_amt
+            
             if self.compress == True:
-                mask_pass = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
-                mask_low = (self.grayscaleimage < self.setmin)
-                mask_high = (self.grayscaleimage > self.setmax)
-                masked_img = mask_pass*self.grayscaleimage + mask_low*self.setmin + mask_high*self.setmax
+                mask_pass = (self.grayscaleimage >= fudged_min) * \
+                            (self.grayscaleimage <= fudged_max)
+                mask_low = (self.grayscaleimage < fudged_min)
+                mask_high = (self.grayscaleimage > fudged_max)
+                masked_img = mask_pass*self.grayscaleimage + \
+                             mask_low*fudged_min + \
+                             mask_high*fudged_max
 
                 scaled_gs = SingleColor._imgnorm(masked_img)
                 scaled_gain_gs = scaled_gs*self.setgain
@@ -277,7 +285,8 @@ class SingleColor(BW, _ColorMath):
                 return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
 
             else:
-                mask = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
+                mask = (self.grayscaleimage >= fudged_min) * \
+                       (self.grayscaleimage <= fudged_max)
                 masked_img = self.grayscaleimage*mask
 
                 scaled_gs = SingleColor._imgnorm(masked_img)
