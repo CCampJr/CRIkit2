@@ -82,3 +82,14 @@ if __name__ == '__main__':  # pragma: no cover
     print('Shape of img: {}'.format(img.shape))
     print('Shape of img.mean(): {}'.format(img.mean().shape))
     print(img.y_rep.data)
+    
+    from crikit.data.spectrum import Spectrum as _Spectrum
+    
+    sp = _Spectrum()
+    pth = '../../../Young_150617/'
+    filename_header = 'SH-03.h'
+    filename_data = 'base061715_152213_60ms.txt'
+    
+    import_csv_nist_special1(pth, filename_header, filename_data,
+                    output_cls_instance=sp)
+    

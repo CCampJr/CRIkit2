@@ -148,6 +148,7 @@ def meta_process(rosetta, output_cls_instance):
         print('Type Spectra')
         output_cls_instance.reps.units = 'acq number'
         output_cls_instance.reps.data = _np.arange(output_cls_instance.data.shape[0])
+#        print(output_cls_instance.reps.data.shape)
         output_cls_instance.reps.update_calib_from_data()
 
     elif type(output_cls_instance) == _Spectrum:
