@@ -40,6 +40,7 @@ QWidget as _QWidget, QMainWindow as _QMainWindow, QLayout as _QLayout,\
  QMessageBox as _QMessageBox)
 import PyQt5.QtCore as _QtCore
 from PyQt5.QtGui import (QCursor as _QCursor)
+from PyQt5.QtWidgets import (QFileDialog as _QFileDialog)
 
 # Other imports
 import numpy as _np
@@ -50,10 +51,13 @@ import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 
 # CRIkit import
+from crikit.data.spectrum import Spectrum
 from crikit.data.spectra import Spectra
 from crikit.data.hsi import Hsi
 
-from crikit.io.macros import import_hdf_nist_special as io_nist
+from crikit.io.macros import (import_hdf_nist_special as io_nist,
+                              import_csv_nist_special1 as io_nist_dlm)
+
 from crikit.io.hdf5 import hdf_export_data as _io_export
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
@@ -252,6 +256,10 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
         self.ui.actionLoadNRB.triggered.connect(self.loadNRB)
         self.ui.actionLoadDark.triggered.connect(self.loadDark)
+        
+        self.ui.actionOpenDLMNIST.triggered.connect(self.fileOpenDLMNIST)
+        self.ui.actionLoadNRBDLM.triggered.connect(self.loadNRBDLM)
+        self.ui.actionLoadDarkDLM.triggered.connect(self.loadDarkDLM)
 
         self.ui.actionNRB_from_ROI.triggered.connect(self.nrbFromROI)
         self.ui.actionAppend_NRB_from_ROI.triggered.connect(self.nrbFromROI)
@@ -345,11 +353,12 @@ class CRIkitUI_process(_QMainWindow):
         # Temporary toolbar setup
         self.ui.toolBar.setVisible(True)
         self.ui.toolBar.setToolButtonStyle(_QtCore.Qt.ToolButtonTextUnderIcon)
-        self.ui.actionToolBarNIST.triggered.connect(self.toolbarSetting)
+        self.ui.actionToolBarNIST1.triggered.connect(self.toolbarSetting)
+        self.ui.actionToolBarNIST2.triggered.connect(self.toolbarSetting)
         self.ui.actionToolBarNone.triggered.connect(self.toolbarSetting)
         
         # Default toolbar is NIST Workflow
-        self.ui.actionToolBarNIST.trigger()
+        self.ui.actionToolBarNIST2.trigger()
         
         
     def toolbarSetting(self):
@@ -357,7 +366,8 @@ class CRIkitUI_process(_QMainWindow):
         Toolbar settings through View menu.
         """
         toolbar_actions = [self.ui.actionToolBarNone,
-                           self.ui.actionToolBarNIST]
+                           self.ui.actionToolBarNIST2,
+                           self.ui.actionToolBarNIST1]
                    
         sndr = self.sender()
         for tb in toolbar_actions:
@@ -374,10 +384,11 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.toolBar.setVisible(True)
             
         # So far only NIST toolbar setup
-        if sndr == self.ui.actionToolBarNIST:
-            self.ui.actionToolBarNIST.setChecked(True)
+        if sndr == self.ui.actionToolBarNIST2:
+            self.ui.actionToolBarNIST2.setChecked(True)
             self.ui.toolBar.addActions([self.ui.actionOpenHDFNIST,
                                         self.ui.actionSave])
+            
             self.ui.toolBar.addSeparator()
             self.ui.toolBar.addActions([self.ui.actionPointSpectrum,
                                         self.ui.actionROISpectrum])
@@ -402,8 +413,34 @@ class CRIkitUI_process(_QMainWindow):
                                         self.ui.actionCalibrate,
                                         self.ui.actionAmpErrorCorrection])
             
+        elif sndr == self.ui.actionToolBarNIST1:
+            self.ui.actionToolBarNIST2.setChecked(True)
+            self.ui.toolBar.addActions([self.ui.actionOpenDLMNIST,
+                                        self.ui.actionSave])
             
-        
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionPointSpectrum,
+                                        self.ui.actionROISpectrum])
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addAction(self.ui.actionUndo)
+            
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionLoadDarkDLM, 
+                                        self.ui.actionLoadNRBDLM])
+            
+            self.ui.toolBar.addSeparator()
+            self.ui.toolBar.addActions([self.ui.actionDarkSubtract,
+                                        self.ui.actionResidualSubtract,
+                                        self.ui.actionFreqWindow,
+                                        self.ui.actionAnscombe,
+                                        self.ui.actionDeNoise,
+                                        self.ui.actionInverseAnscombe,
+                                        self.ui.actionKramersKronig,
+                                        self.ui.actionPhaseErrorCorrection,
+                                        self.ui.actionScaleErrorCorrection,
+                                        self.ui.actionSubtractROI,
+                                        self.ui.actionCalibrate,
+                                        self.ui.actionAmpErrorCorrection])
         
     def save(self):
         suffix = self.bcpre.dset_name_suffix
@@ -505,107 +542,146 @@ class CRIkitUI_process(_QMainWindow):
                 self.hsi = Hsi()
                 success = io_nist(self.path, self.filename, self.dataset_name,
                                    self.hsi)
-                if success:
-                    # FILE
-                    self.ui.actionSave.setEnabled(True)
-                    
-                    # EDIT
-                    self.ui.actionZeroFirstColumn.setEnabled(True)
-                    self.ui.actionZeroFirstRow.setEnabled(True)
-                    self.ui.actionZeroLastColumn.setEnabled(True)
-                    self.ui.actionZeroLastRow.setEnabled(True)
-                    self.ui.actionFreqWindow.setEnabled(True)
-                    self.ui.actionCalibrate.setEnabled(True)
-                    self.ui.actionResetCalibration.setEnabled(True)
-                    
-                    # VIEW
-                    self.ui.actionPointSpectrum.setEnabled(True)
-                    self.ui.actionROISpectrum.setEnabled(True)
-                    
-                    # IMPORT/LOAD
-                    self.ui.actionLoadDark.setEnabled(True)
-                    self.ui.actionLoadNRB.setEnabled(True)
-                    self.ui.actionNRB_from_ROI.setEnabled(True)
-                    self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+                self.fileOpenSuccess(success)
+                
+    def fileOpenDLMNIST(self):
+        """
+        Open and load DLM File
+        """
 
-                    # PREPROCESS
-                    self.ui.actionResidualSubtract.setEnabled(True)
-                    self.ui.actionAnscombe.setEnabled(True)
-                    self.ui.actionInverseAnscombe.setEnabled(True)
-                    self.ui.actionDeNoise.setEnabled(True)
-                    self.ui.actionAmpErrorCorrection.setEnabled(True)
-                    self.ui.actionSubtractROI.setEnabled(True)
-                    self.ui.actionNRB_from_ROI.setEnabled(True)
+        # Get data and load into CRI_HSI class
+        # This will need to change to accomodate multiple-file selection
+        filename_header,_ = _QFileDialog.getOpenFileName(self, 
+                                                         "Open Header File", 
+                                                         "./",
+                                                         "All Files (*.*)")
+        
+        
+        if filename_header != '':
+            self.path = _os.path.dirname(filename_header) + '/'
+            filename_data,_ = _QFileDialog.getOpenFileName(self, 
+                                                         "Open Data File", 
+                                                         self.path,
+                                                         "All Files (*.*)")
+        
+            if filename_data != '':
+                self.path = _os.path.dirname(filename_data) + '/'
+                self.filename = filename_data.split(_os.path.dirname(filename_data))[1][1::]
+                self.filename_header = filename_header
+                
+                success = io_nist_dlm(self.path, self.filename_header,
+                                      self.filename, 
+                                      self.hsi)
+                self.fileOpenSuccess(success)
                     
-                    # ANALYSIS
+    def fileOpenSuccess(self, success):
+        """
+        Executed after a file is loaded. Checks success and appropriately
+        activates or deactivates action (buttons)
+        """
+        if success:
+            # FILE
+            self.ui.actionSave.setEnabled(True)
+            
+            # EDIT
+            self.ui.actionZeroFirstColumn.setEnabled(True)
+            self.ui.actionZeroFirstRow.setEnabled(True)
+            self.ui.actionZeroLastColumn.setEnabled(True)
+            self.ui.actionZeroLastRow.setEnabled(True)
+            self.ui.actionFreqWindow.setEnabled(True)
+            self.ui.actionCalibrate.setEnabled(True)
+            self.ui.actionResetCalibration.setEnabled(True)
+            
+            # VIEW
+            self.ui.actionPointSpectrum.setEnabled(True)
+            self.ui.actionROISpectrum.setEnabled(True)
+            
+            # IMPORT/LOAD
+            self.ui.actionLoadDark.setEnabled(True)
+            self.ui.actionLoadNRB.setEnabled(True)
+            self.ui.actionLoadDarkDLM.setEnabled(True)
+            self.ui.actionLoadNRBDLM.setEnabled(True)
+            self.ui.actionNRB_from_ROI.setEnabled(True)
+            self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+
+            # PREPROCESS
+            self.ui.actionResidualSubtract.setEnabled(True)
+            self.ui.actionAnscombe.setEnabled(True)
+            self.ui.actionInverseAnscombe.setEnabled(True)
+            self.ui.actionDeNoise.setEnabled(True)
+            self.ui.actionAmpErrorCorrection.setEnabled(True)
+            self.ui.actionSubtractROI.setEnabled(True)
+            self.ui.actionNRB_from_ROI.setEnabled(True)
+            
+            # ANALYSIS
 #                    self.ui.actionAnalysisToolkit.setEnabled(True)
-                    
-                    is_complex = _np.iscomplexobj(self.hsi.data)
-                    if is_complex:
-                        self.ui.actionPhaseErrorCorrection.setEnabled(True)
-                        self.ui.actionScaleErrorCorrection.setEnabled(True)
-                else:
-                    self.ui.actionLoadDark.setEnabled(False)
-                    self.ui.actionLoadNRB.setEnabled(False)
-                    self.ui.actionZeroFirstColumn.setEnabled(False)
-                    self.ui.actionZeroFirstRow.setEnabled(False)
-                    self.ui.actionZeroLastColumn.setEnabled(False)
-                    self.ui.actionZeroLastRow.setEnabled(False)
+            
+            is_complex = _np.iscomplexobj(self.hsi.data)
+            if is_complex:
+                self.ui.actionPhaseErrorCorrection.setEnabled(True)
+                self.ui.actionScaleErrorCorrection.setEnabled(True)
+        else:
+            self.ui.actionLoadDark.setEnabled(False)
+            self.ui.actionLoadNRB.setEnabled(False)
+            self.ui.actionZeroFirstColumn.setEnabled(False)
+            self.ui.actionZeroFirstRow.setEnabled(False)
+            self.ui.actionZeroLastColumn.setEnabled(False)
+            self.ui.actionZeroLastRow.setEnabled(False)
 
-                # Backup for Undo
-                self.bcpre.add_step(['Raw'])
-                try:
-                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
-                    
-                # Set frequency slider and associated displays
-                self.ui.freqSlider.setMinimum(self.hsi.freq.op_range_pix[0])
-                self.ui.freqSlider.setMaximum(self.hsi.freq.op_range_pix[-1])
-                self.ui.freqSlider.setSliderPosition(self.hsi.freq.op_range_pix[0])
-                pos = self.ui.freqSlider.sliderPosition()
-                self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
-                self.ui.lineEditFreq.setText(str(round(self.hsi.f[0],2)))
+        # Backup for Undo
+        self.bcpre.add_step(['Raw'])
+        try:
+            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+        except:
+            print('Error in pickle backup (Undo functionality)')
+        else:
+            self.bcpre.backed_up()
+            
+        # Set frequency slider and associated displays
+        self.ui.freqSlider.setMinimum(self.hsi.freq.op_range_pix[0])
+        self.ui.freqSlider.setMaximum(self.hsi.freq.op_range_pix[-1])
+        self.ui.freqSlider.setSliderPosition(self.hsi.freq.op_range_pix[0])
+        pos = self.ui.freqSlider.sliderPosition()
+        self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
+        self.ui.lineEditFreq.setText(str(round(self.hsi.f[0],2)))
 #
 #
-                # Set BW Class Data
-                self.img_BW.initData()
-                self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
+        # Set BW Class Data
+        self.img_BW.initData()
+        self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
 #                self.img_BW.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-                self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
-                self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+        self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
+        self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
 #
-                # Set min/max, fixed, compress, etc buttons to defaults
-                self.img_BW.ui.checkBoxFixed.setChecked(False)
-                self.img_BW.ui.checkBoxCompress.setChecked(False)
-                self.img_BW.ui.checkBoxRemOutliers.setChecked(False)
+        # Set min/max, fixed, compress, etc buttons to defaults
+        self.img_BW.ui.checkBoxFixed.setChecked(False)
+        self.img_BW.ui.checkBoxCompress.setChecked(False)
+        self.img_BW.ui.checkBoxRemOutliers.setChecked(False)
 #
 #                # Plot Grayscale image
-                self.createImgBW(self.img_BW.data.image)
-                self.img_BW.mpl.draw()
+        self.createImgBW(self.img_BW.data.image)
+        self.img_BW.mpl.draw()
 #
 #
-                # RGB images
-                temp = 0*self.img_BW.data.grayscaleimage
+        # RGB images
+        temp = 0*self.img_BW.data.grayscaleimage
 
-                # Re-initialize RGB images
-                for count in enumerate(self.img_RGB_list):
-                    self.img_RGB_list[count[0]].initData()
-                    self.img_RGB_list[count[0]].data.grayscaleimage = temp
-                    self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
-                    self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
+        # Re-initialize RGB images
+        for count in enumerate(self.img_RGB_list):
+            self.img_RGB_list[count[0]].initData()
+            self.img_RGB_list[count[0]].data.grayscaleimage = temp
+            self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
+            self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
 
-                    # Cute way of setting the colormap to last setting and replotting
-                    self.img_RGB_list[count[0]].changeColor()
+            # Cute way of setting the colormap to last setting and replotting
+            self.img_RGB_list[count[0]].changeColor()
 
-                    # Enable Math
-                    self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
+            # Enable Math
+            self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
 
-                    # Enable Spectrum
-                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
-                    self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+            # Enable Spectrum
+            self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+            self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
 
     def loadDark(self):
@@ -631,7 +707,43 @@ class CRIkitUI_process(_QMainWindow):
                 self.dark = Spectra()
                 self.ui.actionDarkSubtract.setEnabled(False)
                 self.ui.actionDarkSpectrum.setEnabled(False)
+                
+    def loadDarkDLM(self):
+        """
+        Open DLM file and load dark spectrum(a)
+        """
 
+        
+        filename,_ = _QFileDialog.getOpenFileName(self, "Open Dark File", 
+                                                         self.path,
+                                                         "All Files (*.*)")
+        if filename != '':
+            pth = _os.path.dirname(filename) + '/'
+            filename = filename.split(_os.path.dirname(filename))[1][1::]
+            
+            
+            # Spectra first
+            self.dark = Spectra()
+            success = io_nist_dlm(self.path, self.filename_header, filename, 
+                                     self.dark)
+            if not success: # Maybe Spectrum
+                self.dark = Spectrum()
+                success = io_nist_dlm(self.path, self.filename_header, filename, 
+                                      self.dark)
+#            print('Success: {}'.format(success))
+            
+            if success:
+                if self.dark.shape[-1] == self.hsi.freq.size:
+                    self.ui.actionDarkSubtract.setEnabled(True)
+                    self.ui.actionDarkSpectrum.setEnabled(True)
+                else:
+                    self.dark = Spectra()
+                    print('Dark was the wrong shape')
+            else:
+                self.dark = Spectra()
+                self.ui.actionDarkSubtract.setEnabled(False)
+                self.ui.actionDarkSpectrum.setEnabled(False)
+       
 
     def loadNRB(self):
         """
@@ -657,6 +769,44 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(False)
                 self.ui.actionNRBSpectrum.setEnabled(False)
 
+    def loadNRBDLM(self):
+        """
+        Open DLM file and load NRB spectrum(a)
+        """
+
+        
+        filename,_ = _QFileDialog.getOpenFileName(self, "Open NRB File", 
+                                                         self.path,
+                                                         "All Files (*.*)")
+        if filename != '':
+            pth = _os.path.dirname(filename) + '/'
+            filename = filename.split(_os.path.dirname(filename))[1][1::]
+            
+            
+            # Spectra first
+            self.nrb = Spectra()
+            success = io_nist_dlm(self.path, self.filename_header, filename, 
+                                     self.nrb)
+            if not success: # Maybe Spectrum
+                self.nrb = Spectrum()
+                success = io_nist_dlm(self.path, self.filename_header, filename, 
+                                      self.nrb)
+            print('Success: {}'.format(success))
+            
+            if success:
+                if self.dark.shape[-1] == self.hsi.freq.size:
+                    self.ui.actionKramersKronig.setEnabled(True)
+                    self.ui.actionKKSpeedTest.setEnabled(True)
+                    self.ui.actionNRBSpectrum.setEnabled(True)
+                else:
+                    self.nrb = Spectra()
+                    print('NRB was the wrong shape')
+            else:
+                self.nrb = Spectra()
+                self.ui.actionKramersKronig.setEnabled(False)
+                self.ui.actionKKSpeedTest.setEnabled(False)
+                self.ui.actionNRBSpectrum.setEnabled(False)
+                
     def settings(self):
         """
         Go to settings tab

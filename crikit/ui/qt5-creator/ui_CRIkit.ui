@@ -356,6 +356,7 @@ This will be saved to the processed file.</string>
      <string>File</string>
     </property>
     <addaction name="actionOpenHDFNIST"/>
+    <addaction name="actionOpenDLMNIST"/>
     <addaction name="actionSave"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
@@ -366,6 +367,9 @@ This will be saved to the processed file.</string>
     </property>
     <addaction name="actionLoadDark"/>
     <addaction name="actionLoadNRB"/>
+    <addaction name="separator"/>
+    <addaction name="actionLoadDarkDLM"/>
+    <addaction name="actionLoadNRBDLM"/>
     <addaction name="separator"/>
     <addaction name="actionNRB_from_ROI"/>
     <addaction name="actionAppend_NRB_from_ROI"/>
@@ -435,7 +439,8 @@ This will be saved to the processed file.</string>
       <string>Toolbar</string>
      </property>
      <addaction name="actionToolBarNone"/>
-     <addaction name="actionToolBarNIST"/>
+     <addaction name="actionToolBarNIST2"/>
+     <addaction name="actionToolBarNIST1"/>
     </widget>
     <addaction name="menuToolbar"/>
     <addaction name="separator"/>
@@ -520,7 +525,7 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Load Dark</string>
+    <string>Load Dark (HDF)</string>
    </property>
   </action>
   <action name="actionLoadNRB">
@@ -532,7 +537,7 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Load NRB</string>
+    <string>Load NRB (HDF)</string>
    </property>
   </action>
   <action name="actionSave">
@@ -912,7 +917,7 @@ This will be saved to the processed file.</string>
     <string>Baseline Detrending</string>
    </property>
   </action>
-  <action name="actionToolBarNIST">
+  <action name="actionToolBarNIST2">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -929,6 +934,59 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>None</string>
+   </property>
+  </action>
+  <action name="actionOpenDLMNIST">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open DLM (NIST)</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Deliminated File (NIST)</string>
+   </property>
+  </action>
+  <action name="actionLoadDarkDLM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Dark (DLM)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load Dark (DLM)</string>
+   </property>
+  </action>
+  <action name="actionLoadNRBDLM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load NRB (DLM)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (DLM)</string>
+   </property>
+  </action>
+  <action name="actionToolBarNIST1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>NIST CRI Workflow (BCARS1)</string>
    </property>
   </action>
  </widget>
