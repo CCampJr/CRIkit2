@@ -531,7 +531,7 @@ class CRIkitUI_process(_QMainWindow):
         # This will need to change to accomodate multiple-file selection
 
         try:
-            to_open = SubUiHDFLoad.getFileDataSets()
+            to_open = SubUiHDFLoad.getFileDataSets(self.path)
             print('to_open: {}'.format(to_open))
             if to_open is not None:
                 self.path, self.filename, self.dataset_name = to_open
@@ -689,7 +689,7 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load dark spectrum(a)
         """
 
-        to_open = SubUiHDFLoad.getFileDataSets()
+        to_open = SubUiHDFLoad.getFileDataSets(self.path)
         print('To_open: {}'.format(to_open))
 
         if to_open is not None:
@@ -750,7 +750,7 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load NRB spectrum(a)
         """
 
-        to_open = SubUiHDFLoad.getFileDataSets()
+        to_open = SubUiHDFLoad.getFileDataSets(self.path)
         if to_open is not None:
             pth, filename, datasets = to_open
 
@@ -935,12 +935,13 @@ class CRIkitUI_process(_QMainWindow):
 
             # Backup for Undo
             self.bcpre.add_step(['SubtractROI','Spectrum',spectrum])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
 
 
             del spectrum
@@ -1422,15 +1423,14 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['KK','CARSAmp',cars_amp_offset,'NRBAmp',
                                  nrb_amp_offset,'Phase',phase_offset,
                                  'Norm',norm_to_nrb])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
-#            stop = _timeit.default_timer()
-#            print('Save time: {:.6f} sec'.format(stop-start))
-
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
+#           
 
     def deNoise(self):
         """
@@ -1456,12 +1456,13 @@ class CRIkitUI_process(_QMainWindow):
                                     svs=svs)
             # Backup for Undo
             self.bcpre.add_step(['SVD','SVs',svs])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
             self.changeSlider()
 
 
@@ -1496,12 +1497,13 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['PhaseErrorCorrectALS',
                                  'Smoothness_param',smoothness_param, 
                                  'Asym_param',asym_param])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
         
         self.changeSlider()
     
@@ -1534,12 +1536,14 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['ScaleErrorCorrectSG',
                                  'Win_size',win_size, 
                                  'Order',order])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
         self.changeSlider()
     
     def errorCorrectAmp(self):
@@ -1578,12 +1582,14 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['AmpErrorCorrectALS',
                                  'Smoothness_param',smoothness_param, 
                                  'Asym_param',asym_param])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
         
         self.changeSlider()
     
@@ -1652,12 +1658,13 @@ class CRIkitUI_process(_QMainWindow):
                 
                 # Backup for Undo
                 self.bcpre.add_step(['SubDark'])
-                try:
-                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
+                if self.ui.actionUndo_Backup_Enabled.isChecked():
+                    try:
+                        _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                    except:
+                        print('Error in pickle backup (Undo functionality)')
+                    else:
+                        self.bcpre.backed_up()
                     
                 self.changeSlider()
             else:
@@ -1700,12 +1707,13 @@ class CRIkitUI_process(_QMainWindow):
                 self.bcpre.add_step(['SubResidual','RangeStart',
                                      out['subrange'][0],'RangeEnd',
                                      out['subrange'][1]])
-                try:
-                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
+                if self.ui.actionUndo_Backup_Enabled.isChecked():
+                    try:
+                        _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                    except:
+                        print('Error in pickle backup (Undo functionality)')
+                    else:
+                        self.bcpre.backed_up()
                 self.changeSlider()
         else:
             msg = _QMessageBox(self)
@@ -1732,12 +1740,13 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['Anscombe','Gauss_mean', 0.0,
                                  'Gauss_std', out['stddev'],
                                  'Poisson_multi', out['gain']])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
             self.changeSlider()
             
     def inverseAnscombe(self):
@@ -1757,12 +1766,13 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['InvAnscombe','Gauss_mean', 0.0,
                                  'Gauss_std', out['stddev'],
                                  'Poisson_multi', out['gain']])
-            try:
-                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
-                print('Error in pickle backup (Undo functionality)')
-            else:
-                self.bcpre.backed_up()
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
             self.changeSlider()
         
     def doMath(self):
