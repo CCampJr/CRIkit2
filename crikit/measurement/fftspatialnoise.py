@@ -12,9 +12,6 @@ if __name__ == '__main__':  # pragma: no cover
     import os as _os
     _sys.path.append(_os.path.abspath('../../'))
 
-from crikit.utils.gen_utils import row_col_from_lin as _row_col_from_lin
-from crikit.utils.gen_utils import lin_from_row_col as _lin_from_row_col
-
 
 class FFTSignalMetric:
     """
@@ -90,6 +87,19 @@ if __name__ == '__main__':
 
     tmr = _timeit.default_timer()
     fmet = FFTSignalMetric(img_shp=(side_len, side_len))
+    fmet.calc(img)
+    tmr -= _timeit.default_timer()
+
+    print('\n---------')
+    print('Calculated in {:.3g} sec'.format(-tmr))
+    print('FFT Signal Metric of random: {:.3g}'.format(fmet.value))
+    print('Is close to ideal 0 value (+/- .1): {}'.format(_np.isclose(fmet.value, 0,
+          atol=1e-1)))
+    
+    img = _np.random.rand(1, side_len)
+
+    tmr = _timeit.default_timer()
+    fmet = FFTSignalMetric(img_shp=(1, side_len))
     fmet.calc(img)
     tmr -= _timeit.default_timer()
 
