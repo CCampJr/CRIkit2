@@ -66,13 +66,14 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         # Initial Actions
 
     @staticmethod
-    def getFileDataSets(parent = None):
+    def getFileDataSets(start_path='./', parent = None):
         """
         Retrieve the filename and datasets selected by the user (via GUI)
 
         Inputs
         ----------
-        None
+        start_path : str
+            Home directory to start in
 
         Returns
         ----------
@@ -81,9 +82,12 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
             filename : (str)
             dataset(s) : (list[str])
         """
+        if start_path is None:
+            start_path = './'
+            
         dialog = SubUiHDFLoad(parent)
 
-        ret_fileopen = dialog.fileopen()
+        ret_fileopen = dialog.fileopen(start_path)
 
         if ret_fileopen is None:
             return None
@@ -98,10 +102,14 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         else:
             return (dialog.path, dialog.filename, dialog.allselect)
 
-    def fileopen(self):
+    def fileopen(self, start_path='./'):
         """ Select HDF5 File """
 
-        filename = _QFileDialog.getOpenFileName(self, "Open H5 File", "./",\
+        if start_path is None:
+            start_path = './'
+            
+        filename = _QFileDialog.getOpenFileName(self, "Open H5 File", 
+                                                start_path,\
             "HDF5 Files (*.h5 *.hdf);;All Files (*.*)")
 
         if filename[0]:
