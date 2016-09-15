@@ -43,6 +43,7 @@ packages may work.
 * PyQT5 (5.5.1)
 * Matplotlib (1.5.0rc3)
 * Yapsy (1.11.223)
+* H5Py (2.5)
 
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
