@@ -42,6 +42,8 @@ import PyQt5.QtCore as _QtCore
 from PyQt5.QtGui import (QCursor as _QCursor)
 from PyQt5.QtWidgets import (QFileDialog as _QFileDialog)
 
+from PyQt5.QtCore import QObject as _QObject
+
 # Other imports
 import numpy as _np
 import timeit as _timeit
@@ -188,13 +190,17 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
 
-        self.plotter = _SciPlotUI(show=False, parent=None)
+        self.plotter = _SciPlotUI(show=False, parent=parent)
+#        self.plotter.show()
+#        self.plotter.hide()
+                
         self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
 
 
         self.ui.setupUi(self)     ### EDIT ###
+        
 
         # Initialize Intensity image (single frequency B&W)
         self.img_BW = widgetBWImg(parent=self, figfacecolor=[1,1,1])
@@ -320,7 +326,7 @@ class CRIkitUI_process(_QMainWindow):
 #        self.plotter.model.colorChanged.connect(self.colorChange)
         self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
         self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
-        self.ui.actionShowPlotter.triggered.connect(self.plotter.show)
+        self.ui.actionShowPlotter.triggered.connect(self.plotter_show)
 #
 #        # Frequency-slider related
         self.ui.freqSlider.valueChanged.connect(self.changeSlider)
@@ -360,6 +366,9 @@ class CRIkitUI_process(_QMainWindow):
         # Default toolbar is NIST Workflow
         self.ui.actionToolBarNIST2.trigger()
         
+    def plotter_show(self):
+        self.plotter.show()
+        self.plotter.raise_()
         
     def toolbarSetting(self):
         """
@@ -852,7 +861,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean Dark Spectrum')
 
             self.plotter.show()
-#            self.plotter.raise_()
+            self.plotter.raise_()
 
     def plotNRBSpectrum(self):
         """
@@ -865,7 +874,7 @@ class CRIkitUI_process(_QMainWindow):
                               label='Mean NRB Spectrum')
 
             self.plotter.show()
-#            self.plotter.raise_()
+            self.plotter.raise_()
 
     def pointSpectrum(self):
         """
@@ -878,7 +887,8 @@ class CRIkitUI_process(_QMainWindow):
         ------
             Left mouse-click : Select vertex point
         """
-        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._pointClick(event, self._pointSpectrumPlot))
+        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+                                               lambda event: self._pointClick(event, self._pointSpectrumPlot))
 
         self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
@@ -1084,6 +1094,7 @@ class CRIkitUI_process(_QMainWindow):
                           label=label)
         
         self.plotter.show()
+        self.plotter.raise_()
 #        self.plotter.raise_()
             
     def _roiSpectrumPlot(self, locs):
@@ -1135,7 +1146,7 @@ class CRIkitUI_process(_QMainWindow):
             
             del spectrum
             self.plotter.show()
-#            self.plotter.raise_()
+            self.plotter.raise_()
 
 
         del x_pix
@@ -1451,9 +1462,12 @@ class CRIkitUI_process(_QMainWindow):
 #        print('SV\'s:{}'.format(svs))
         
         if svs is not None:
+#            print('1')
             svd_recompose = SVDRecompose(rng=rng)
+#            print('2')
             svd_recompose.transform(self.hsi.data, UsVh[0], UsVh[1], UsVh[2],
                                     svs=svs)
+#            print('3')
             # Backup for Undo
             self.bcpre.add_step(['SVD','SVs',svs])
             if self.ui.actionUndo_Backup_Enabled.isChecked():
@@ -2118,6 +2132,7 @@ class CRIkitUI_process(_QMainWindow):
                                           label='$\pm$1 Std. Dev.')
             
             self.plotter.show()
+            self.plotter.raise_()
 
 
     def createImgBW(self, img):
@@ -2254,15 +2269,17 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
-    app.setQuitOnLastWindowClosed(True)
-    win = CRIkitUI_process() ### EDIT ###
+    app.setQuitOnLastWindowClosed(False)
+    
+    obj = _QWidget()
+    win = CRIkitUI_process(parent=obj) ### EDIT ###
     # Insert other stuff to do
 
 
     # Final stuff
     win.showMaximized()
-    win.plotter.lower()
-    win.raise_()
+    #win.plotter.lower()
+    #win.raise_()
     app.exec_()
 #    _sys.exit(app.exec_())
     #app.closeAllWindows()
