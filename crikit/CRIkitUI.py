@@ -1681,14 +1681,15 @@ class CRIkitUI_process(_QMainWindow):
                         sub_dark.transform(self.nrb.data)
                 
                 # Backup for Undo
-                self.bcpre.add_step(['SubDark'])
-                if self.ui.actionUndo_Backup_Enabled.isChecked():
-                    try:
-                        _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                    except:
-                        print('Error in pickle backup (Undo functionality)')
-                    else:
-                        self.bcpre.backed_up()
+                if (darkloaded | nrbloaded):
+                    self.bcpre.add_step(['SubDark'])
+                    if self.ui.actionUndo_Backup_Enabled.isChecked():
+                        try:
+                            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                        except:
+                            print('Error in pickle backup (Undo functionality)')
+                        else:
+                            self.bcpre.backed_up()
                     
                 self.changeSlider()
             else:
