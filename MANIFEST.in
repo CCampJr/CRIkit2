@@ -1,4 +1,6 @@
+recursive-exclude * __pycache__
 include *.rst
+recursive-include crikit/preprocess/algorithms/resources *.mat
 recursive-include docs *
 prune docs/build
 include NONLICENSE.md

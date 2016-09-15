@@ -8,7 +8,7 @@ Created on Thu Jul 21 01:11:04 2016
 from setuptools import setup, find_packages
 
 setup(name='crikit2',
-      version = '0.1',
+      version = '0.2',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
       platform (user interface, UI)',
       url = 'https://github.com/CCampJr/crikit2',
@@ -21,7 +21,8 @@ setup(name='crikit2',
               'crikit2-start = crikit.__main__:main')},
       zip_safe = False,
       include_package_data = True,
-      install_requires=['numpy','matplotlib','yapsy','sciplot-pyqt>=0.1.3'],
+      install_requires=['numpy','matplotlib','yapsy','sciplot-pyqt>=0.1.3', 
+                        'h5py'],
       classifiers=['Development Status :: 2 - Pre-Alpha',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',
