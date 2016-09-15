@@ -36,7 +36,8 @@ import numpy as _np
 import os as _os
 
 resource_dir = None
-resource_dir = _os.path.abspath(_os.path.dirname(__file__)+'\\resources\\')
+resource_dir = _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
+                             'resources')
 
 if _os.path.exists(resource_dir):
     #print('Resource directory: {}'.format(_os.path.abspath(resource_dir)))
@@ -253,7 +254,7 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
 
     SMALL_VAL = 0
 
-    mat_dict = loadmat(resource_dir + '\\GenAnscombe_vectors.mat')
+    mat_dict = loadmat(_os.path.join(resource_dir,'GenAnscombe_vectors.mat'))
 
     Efzmatrix = _np.squeeze(mat_dict['Efzmatrix'])
     Ez = _np.squeeze(mat_dict['Ez'])
@@ -361,8 +362,7 @@ def anscombe_inverse_exact_unbiased(fsignal):
     from scipy.io import loadmat
     from scipy.interpolate import InterpolatedUnivariateSpline
 
-    #mat_dict = loadmat('C:/Users/chc/Documents/Python/CRIkit_develop_bitbucket/crikit/utils/algorithms/resources/Anscombe_vectors.mat')
-    mat_dict = loadmat(resource_dir + '\\Anscombe_vectors.mat')
+    mat_dict = loadmat(_os.path.join(resource_dir,'Anscombe_vectors.mat'))
 
     Efz = mat_dict['Efz']
     Ez = mat_dict['Ez']
@@ -387,7 +387,6 @@ def anscombe_inverse_exact_unbiased(fsignal):
 if __name__ == '__main__':  # pragma: no cover
     import numpy as np
     import matplotlib as mpl
-    mpl.use('Qt5Agg')
     import matplotlib.pyplot as plt
 
     stddev = 20
