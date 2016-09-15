@@ -455,10 +455,11 @@ class CRIkitUI_process(_QMainWindow):
         suffix = self.bcpre.dset_name_suffix
 #        print('Suffix: {}'.format(suffix))
         try:
-            ret = DialogSave.dialogSave(current_filename=self.filename,
-                                                                current_path=self.path,
-                                                                current_dataset_name=self.dataset_name[0],
-                                                                suffix=suffix)
+            ret = DialogSave.dialogSave(parent=self, 
+                                        current_filename=self.filename,
+                                        current_path=self.path,
+                                        current_dataset_name=self.dataset_name[0],
+                                        suffix=suffix)
             if ret is None:
                 pass # Save canceled
             else:
@@ -833,7 +834,7 @@ class CRIkitUI_process(_QMainWindow):
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
                                                       xlabel='Wavenumber (cm$^{-1}$)',
                                                       ylabel='Imag. {$\chi_R$} (au)',
-                                                      show_difference=False)
+                                                      show_difference=False, parent=self)
 
         if winPlotEffect is not None:
             #print('New Calibration Dictionary: {}'.format(winPlotEffect.new_calib_dict))
@@ -1456,9 +1457,9 @@ class CRIkitUI_process(_QMainWindow):
         
         # Class method route
         if rng is None:
-            svs = DialogSVD.main(UsVh, self.hsi.data.shape)
+            svs = DialogSVD.main(UsVh, self.hsi.data.shape, parent=self)
         else:
-            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape)
+            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape, parent=self)
 #        print('SV\'s:{}'.format(svs))
         
         if svs is not None:
@@ -1492,10 +1493,13 @@ class CRIkitUI_process(_QMainWindow):
         rng = self.hsi.freq.op_range_pix
         
         plugin = _widgetALS()
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
-                                                      xlabel='Wavenumber (cm$^{-1}$)',
-                                                      ylabel='Imag. {$\chi_R$} (au)',
-                                                      show_difference=True)
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
+                                                           x=self.hsi.f, 
+                                                           plugin=plugin,
+                                                           xlabel='Wavenumber (cm$^{-1}$)',
+                                                           ylabel='Imag. {$\chi_R$} (au)',
+                                                           show_difference=True,
+                                                           parent=self)
         if winPlotEffect is not None:
             asym_param = winPlotEffect.p
             smoothness_param = winPlotEffect.lam
@@ -1533,10 +1537,13 @@ class CRIkitUI_process(_QMainWindow):
         rng = self.hsi.freq.op_range_pix
         
         plugin = _widgetSG()
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
+                                                           x=self.hsi.f, 
+                                                           plugin=plugin,
                                                            xlabel='Wavenumber (cm$^{-1}$)',
                                                            ylabel='Imag. {$\chi_R$} (au)',
-                                                           show_difference=True)
+                                                           show_difference=True,
+                                                           parent=self)
         if winPlotEffect is not None:
             win_size = winPlotEffect.win_size
             order = winPlotEffect.order
@@ -1577,10 +1584,13 @@ class CRIkitUI_process(_QMainWindow):
         rng = self.hsi.freq.op_range_pix
         
         plugin = _widgetALS()
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f, plugin=plugin,
-                                                      xlabel='Wavenumber (cm$^{-1}$)',
-                                                      ylabel='Imag. {$\chi_R$} (au)',
-                                                      show_difference=True)
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
+                                                           x=self.hsi.f, 
+                                                           plugin=plugin,
+                                                           xlabel='Wavenumber (cm$^{-1}$)',
+                                                           ylabel='Imag. {$\chi_R$} (au)',
+                                                           show_difference=True,
+                                                           parent=self)
         if winPlotEffect is not None:
             asym_param = winPlotEffect.p
             smoothness_param = winPlotEffect.lam
@@ -1704,7 +1714,7 @@ class CRIkitUI_process(_QMainWindow):
         imgloaded = self.hsi.data is not None
 
         if nrbloaded or imgloaded:
-            out = DialogSubResidualOptions.dialogSubResidualOptions(imgloaded=imgloaded,
+            out = DialogSubResidualOptions.dialogSubResidualOptions(parent=self,imgloaded=imgloaded,
                                                                     nrbloaded=nrbloaded)
             if out is not None:
                 rng = self.hsi.freq.get_index_of_closest_freq(out['subrange'])
@@ -1741,7 +1751,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions()
+        out = DialogAnscombeOptions.dialogAnscombeOptions(self)
         
         if out is not None:
             rng = self.hsi.freq.op_range_pix
@@ -1767,7 +1777,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance an Inverse Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions()
+        out = DialogAnscombeOptions.dialogAnscombeOptions(self)
         
         if out is not None:
             rng = self.hsi.freq.op_range_pix
@@ -2273,6 +2283,7 @@ if __name__ == '__main__':
     
     obj = _QWidget()
     win = CRIkitUI_process(parent=obj) ### EDIT ###
+    
     # Insert other stuff to do
 
 
