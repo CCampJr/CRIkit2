@@ -214,7 +214,7 @@ def hilbertfft(spectra, pad_factor=1):
                                               auto_align_input=True,
                                               planner_effort='FFTW_MEASURE')
 
-        padded *= 1j*_np.sign(time_vec)
+        padded = padded*1j*_np.sign(time_vec)
 
         padded = _pyfftw.interfaces.scipy_fftpack.fft(padded, axis=-1,
                                               overwrite_x=True,
@@ -233,12 +233,11 @@ def hilbertfft(spectra, pad_factor=1):
     return _np.real(padded[...,pad_len:pad_len+freq_len])
 
 if __name__ == '__main__':
-    import numpy as _np
     import timeit as _timeit
 
-    x = _np.random.rand(300,300,900)
+    x = _np.random.rand(300,900)
     print(x.dtype)
-    y = _np.random.rand(300,300,900)
+    y = _np.random.rand(300,900)
     start = _timeit.default_timer()
     #out = kkrelation(x,y)
     out = hilbertfft(x)
