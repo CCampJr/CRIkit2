@@ -60,7 +60,11 @@ class FFTSignalMetric:
         sum_inner = f_img[self.cutoff_row[0]:self.cutoff_row[1]+1,
                           self.cutoff_col[0]:self.cutoff_col[1]+1].sum()
         sum_outter = f_img.sum() - sum_inner
-        self.value = self.scaler*sum_inner/sum_outter
+        
+        if sum_outter == 0:
+            self.value = 1e6
+        else:
+            self.value = self.scaler*sum_inner/sum_outter
 
         self.value -= 1
 
