@@ -1370,7 +1370,7 @@ class CRIkitUI_process(_QMainWindow):
         rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True)
 
         cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra])
+            DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra],parent=self)
 
         if cars_amp_offset is not None:
             try:
@@ -1404,7 +1404,7 @@ class CRIkitUI_process(_QMainWindow):
 
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
                                                     nrb[..., rng], 
-                                                    rand_spectra])
+                                                    rand_spectra], parent=self)
         
         if out is not None:
             cars_amp_offset = out['cars_amp']
