@@ -30,7 +30,7 @@ pip install -e .
 
 ## Starting CRIkit2 UI ##
 ```
-python -m crikit
+python3 -m crikit
 ```
 
 ## Dependencies ##
