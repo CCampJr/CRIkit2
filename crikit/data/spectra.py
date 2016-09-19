@@ -163,7 +163,7 @@ class Spectra(_Spectrum):
         Return standard deviation spectrum
         """
         if extent is None:
-            return self._data.mean(axis=0)
+            return self._data.std(axis=0)
         else:
             return self._data[:,extent[0]:extent[1]+1].std(axis=0)
 
