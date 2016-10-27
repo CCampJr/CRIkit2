@@ -17,7 +17,7 @@ class DialogSVD(DialogAbstractFactorization):
     """
     SVD Class
     """
-    def __init__(self, data, img_shape, parent=None):
+    def __init__(self, data, img_shape, mask=None, parent=None):
         super(DialogSVD, self).__init__(data, img_shape, parent=parent) ### EDIT ###
 
         self.U = data[0]

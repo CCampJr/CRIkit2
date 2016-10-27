@@ -1473,9 +1473,12 @@ class CRIkitUI_process(_QMainWindow):
         
         # Class method route
         if rng is None:
-            svs = DialogSVD.main(UsVh, self.hsi.data.shape, parent=self)
+            # Note: .main in dialog_AbstractFactorization
+            svs = DialogSVD.main(UsVh, self.hsi.data.shape, mask=self.hsi.mask, 
+                                 parent=self)
         else:
-            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape, parent=self)
+            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape, 
+                                 mask=self.hsi.mask, parent=self)
 #        print('SV\'s:{}'.format(svs))
         
         if svs is not None:

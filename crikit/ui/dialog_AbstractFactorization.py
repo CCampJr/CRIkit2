@@ -32,7 +32,7 @@ class DialogAbstractFactorization(_QDialog):
     SubUiSVD : SVD SubUI
     """
 
-    def __init__(self, data, img_shape, parent=None):
+    def __init__(self, data, img_shape, mask=None, parent=None):
 #        raise NotImplementedError('This is an abstract class.')
         super(DialogAbstractFactorization, self).__init__(parent) ### EDIT ###
         self.setup()
