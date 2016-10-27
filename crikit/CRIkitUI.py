@@ -1272,8 +1272,12 @@ class CRIkitUI_process(_QMainWindow):
         Zero first non-all-zero column. (Rather than crop)
 
         """
-        zc = _ZeroColumn(first_or_last=0)
-        zc.transform(self.hsi.data)
+        self.zc = _ZeroColumn(first_or_last=0)
+        self.zc.transform(self.hsi.data)
+        
+        # Adjust mask
+        self.hsi._mask[:,self.zc.zero_col] *= 0
+
         self.changeSlider()
 
     def zeroFirstRow(self):
@@ -1281,8 +1285,12 @@ class CRIkitUI_process(_QMainWindow):
         Zero first non-all-zero row. (Rather than crop)
 
         """
-        zr = _ZeroRow(first_or_last=0)
-        zr.transform(self.hsi.data)
+        self.zr = _ZeroRow(first_or_last=0)
+        self.zr.transform(self.hsi.data)
+        
+        # Adjust mask
+        self.hsi._mask[self.zr.zero_row, :] *= 0
+
         self.changeSlider()
 
     def zeroLastColumn(self):
@@ -1290,8 +1298,12 @@ class CRIkitUI_process(_QMainWindow):
         Zero first non-all-zero column. (Rather than crop)
 
         """
-        zc = _ZeroColumn(first_or_last=-1)
-        zc.transform(self.hsi.data)
+        self.zc = _ZeroColumn(first_or_last=-1)
+        self.zc.transform(self.hsi.data)
+        
+        # Adjust mask
+        self.hsi._mask[:,self.zc.zero_col] *= 0
+
         self.changeSlider()
 
     def zeroLastRow(self):
@@ -1299,8 +1311,12 @@ class CRIkitUI_process(_QMainWindow):
         Zero first non-all-zero row. (Rather than crop)
 
         """
-        zr = _ZeroRow(first_or_last=-1)
-        zr.transform(self.hsi.data)
+        self.zr = _ZeroRow(first_or_last=-1)
+        self.zr.transform(self.hsi.data)
+        
+        # Adjust mask
+        self.hsi._mask[self.zr.zero_row, :] *= 0
+
         self.changeSlider()
 
     def opChange(self):
