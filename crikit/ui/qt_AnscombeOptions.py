@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_AnscombeOptions.ui'
+# Form implementation generated from reading ui file '.\ui_AnscombeOptions.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(411, 107)
+        Dialog.resize(447, 108)
         Dialog.setStyleSheet("font: 10pt \"Arial\";")
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
@@ -26,6 +26,7 @@ class Ui_Dialog(object):
         self.labelGain.setObjectName("labelGain")
         self.verticalLayoutGain.addWidget(self.labelGain, 0, QtCore.Qt.AlignHCenter)
         self.spinBoxGain = QtWidgets.QDoubleSpinBox(Dialog)
+        self.spinBoxGain.setDecimals(6)
         self.spinBoxGain.setProperty("value", 1.4)
         self.spinBoxGain.setObjectName("spinBoxGain")
         self.verticalLayoutGain.addWidget(self.spinBoxGain)
@@ -36,6 +37,8 @@ class Ui_Dialog(object):
         self.labelStdDev.setObjectName("labelStdDev")
         self.verticalLayoutStdDev.addWidget(self.labelStdDev, 0, QtCore.Qt.AlignHCenter)
         self.spinBoxStdDev = QtWidgets.QDoubleSpinBox(Dialog)
+        self.spinBoxStdDev.setDecimals(6)
+        self.spinBoxStdDev.setSingleStep(0.1)
         self.spinBoxStdDev.setProperty("value", 12.44)
         self.spinBoxStdDev.setObjectName("spinBoxStdDev")
         self.verticalLayoutStdDev.addWidget(self.spinBoxStdDev)
