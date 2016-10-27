@@ -38,6 +38,8 @@ def rosetta_query(key, rosetta, output_cls_instance):
                     else:
                         temp_key = count
                         temp_val = output_cls_instance.meta[temp_key]
+                        break
+#                        print('{}:{}'.format(count, temp_val))
                 else:
                     pass
             except:
@@ -68,9 +70,22 @@ def meta_process(rosetta, output_cls_instance):
     # Frequency-related
     calib_dict = {}
     calibrated = rosetta_query('ColorCalibWN',rosetta, output_cls_instance)
-    print(calibrated)
+
     if calibrated is not None:  # Contains a calibration in the meta
         print('Using calibration from {}'.format(calibrated[1]))
+        
+        if isinstance(calibrated[0], _np.ndarray):  # Calib vec style
+            calib_vec = calibrated[0]
+            calib_dict = {}
+            calib_dict['n_pix'] = calib_vec[0]
+            calib_dict['ctr_wl'] = calib_vec[1]
+            calib_dict['ctr_wl0'] = calib_vec[2]
+            calib_dict['probe'] = calib_vec[5]
+            calib_dict['a_vec'] = [calib_vec[3], calib_vec[4]]
+            
+            output_cls_instance.freq.calib_fcn = _calib_pix_wn
+            output_cls_instance.freq.calib = calib_dict
+            output_cls_instance.freq.update()
 
     else:
         temp = rosetta_query('ColorChannels',rosetta, output_cls_instance)
