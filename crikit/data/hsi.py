@@ -28,6 +28,9 @@ class Hsi(_Spectrum):
     ----------
     data : 3D ndarray [y_pix, x_pix, f_pix]
         HSI image
+        
+    data : 3D ndarray (int) [y_pix, x_pix, f_pix]
+        0,1 mask with 1 is a usable pixel and 0 is not
 
     freq : crikit.data.frequency.Frequency instance
         Frequency [wavelength, wavenumber] object (i.e., the independent \
@@ -103,6 +106,7 @@ class Hsi(_Spectrum):
         self._meta = None
         self._x_rep = _Replicate()
         self._y_rep = _Replicate()
+        self._mask = None
 
         if data is not None:
             self.data = _copy.deepcopy(data)
@@ -126,6 +130,10 @@ class Hsi(_Spectrum):
         if meta is not None:
             self.meta = _copy.deepcopy(meta)
 
+    @property
+    def mask(self):
+        return self._mask
+        
     @property
     def x_rep(self):
         return self._x_rep
@@ -175,13 +183,22 @@ class Hsi(_Spectrum):
             if value.ndim == 3:
                 if self.freq is None or self.freq.op_list_pix is None:
                     self._data = value
+                    self._mask = _np.ones((self._data.shape[0],
+                                           self._data.shape[1]), 
+                                          dtype=_np.int)
                 else:
                     if value.shape[-1] == self.freq.op_range_pix.size:
                         temp = _np.zeros((self._data.shape),dtype=value.dtype)
                         temp[:,:,self.freq.op_range_pix] = value
                         self._data = temp
+                        self._mask = _np.ones((self._data.shape[0],
+                                               self._data.shape[1]), 
+                                              dtype=_np.int)
                     elif value.shape[-1] == self._data.shape[-1]:
                         self._data = value
+                        self._mask = _np.ones((self._data.shape[0],
+                                               self._data.shape[1]), 
+                                              dtype=_np.int)
                     else:
                         #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
                         raise TypeError('pre-data: {}, value: {}'.format(self._data.shape,value.shape))
