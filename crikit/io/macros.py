@@ -36,7 +36,8 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
     Success : bool
         Whether import was successful
     """
-
+    
+    print('\n')
     try:
         import_success = _hdf_import_data(pth, filename, dset, output_cls_instance)
         if import_success is None or import_success is False:
@@ -46,6 +47,7 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
         print('Something failed in import_hdf_nist_special')
         return False
     else:
+        print('\n')
         return True
         
 def import_csv_nist_special1(pth, filename_header, filename_data,
