@@ -293,7 +293,10 @@ if __name__ == '__main__':
     CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
     NRB = 0*WN + .055
     
-    winPlotEffect = DialogPlotEffect.dialogPlotEffect([WN, NRB, CARS], x=WN, plugin=plugin, xlabel='Wavenumber (cm$^{-1}$)', ylabel='Imag. {$\chi_R$} (au)')
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect([WN, NRB, CARS], x=WN, 
+                                                      plugin=plugin, 
+                                                      xlabel='Wavenumber (cm$^{-1}$)', 
+                                                      ylabel='Imag. {$\chi_R$} (au)')
     
     if winPlotEffect is not None:
         print('CARS Bias: {}'.format(winPlotEffect.cars_bias))
