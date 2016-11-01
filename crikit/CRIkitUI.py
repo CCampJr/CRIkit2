@@ -189,6 +189,10 @@ class CRIkitUI_process(_QMainWindow):
 
         self.dark = Spectra()
         self.nrb = Spectra()
+        
+        # Piecewise NRB's (not always used)
+        self.nrb_blue = Spectra()
+        self.nrb_red = Spectra()
 
         self.plotter = _SciPlotUI(show=False, parent=parent)
 #        self.plotter.show()
@@ -270,6 +274,13 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionNRB_from_ROI.triggered.connect(self.nrbFromROI)
         self.ui.actionAppend_NRB_from_ROI.triggered.connect(self.nrbFromROI)
 
+        self.ui.actionLoad_NRB_Blue_Side.triggered.connect(self.loadNRB)
+#        self.ui.actionNRB_from_ROI_Blue_Side.triggered.connect()
+        
+        self.ui.actionLoad_NRB_Red_Side.triggered.connect(self.loadNRB)
+#        self.ui.actionNRB_from_ROI_Red_Side.triggered.connect()
+        
+        self.ui.actionMergeNRBs.triggered.connect(self.mergeNRBs)
 
         # Settings
         self.ui.actionSettings.triggered.connect(self.settings)
@@ -760,24 +771,36 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load NRB spectrum(a)
         """
 
+        sender = self.sender()
+        
+        if sender == self.ui.actionLoadNRB:
+            nrb = self.nrb
+        elif sender == self.ui.actionLoad_NRB_Blue_Side:
+            nrb = self.nrb_blue
+        elif sender == self.ui.actionLoad_NRB_Red_Side:
+            nrb = self.nrb_red
+            
+        print('Sender: {}'.format(sender))
         to_open = SubUiHDFLoad.getFileDataSets(self.path)
         if to_open is not None:
             pth, filename, datasets = to_open
 
-            success = io_nist(pth, filename, datasets, self.nrb)
+            success = io_nist(pth, filename, datasets, nrb)
             if success:
-                if self.nrb.shape[-1] == self.hsi.freq.size:
-                    self.ui.actionKramersKronig.setEnabled(True)
-                    self.ui.actionKKSpeedTest.setEnabled(True)
-                    self.ui.actionNRBSpectrum.setEnabled(True)
+                if nrb.shape[-1] == self.hsi.freq.size:
+                    if sender == self.ui.actionLoadNRB:
+                        self.ui.actionKramersKronig.setEnabled(True)
+                        self.ui.actionKKSpeedTest.setEnabled(True)
+                        self.ui.actionNRBSpectrum.setEnabled(True)
                 else:
-                    self.nrb = Spectra()
+                    nrb = Spectra()
                     print('NRB was the wrong shape')
             else:
-                self.nrb = Spectra()
-                self.ui.actionKramersKronig.setEnabled(False)
-                self.ui.actionKKSpeedTest.setEnabled(False)
-                self.ui.actionNRBSpectrum.setEnabled(False)
+                nrb = Spectra()
+                if sender == self.ui.actionLoadNRB:
+                    self.ui.actionKramersKronig.setEnabled(False)
+                    self.ui.actionKKSpeedTest.setEnabled(False)
+                    self.ui.actionNRBSpectrum.setEnabled(False)
 
     def loadNRBDLM(self):
         """
@@ -817,6 +840,9 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(False)
                 self.ui.actionNRBSpectrum.setEnabled(False)
                 
+    def mergeNRBs(self):
+        raise NotImplementedError
+        
     def settings(self):
         """
         Go to settings tab
