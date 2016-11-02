@@ -280,10 +280,12 @@ class DialogPlotEffect(_QDialog):
     
 if __name__ == '__main__':
 
-    from crikit.ui.widget_ploteffect import widgetNothing, widgetKK, \
-                                            widgetALS, widgetSG, widgetCalibrate
+    from crikit.ui.widget_ploteffect import (widgetNothing, widgetKK,
+                                             widgetALS, widgetSG, 
+                                             widgetCalibrate)
     
     app = _QApplication(_sys.argv)
+    
     
     #################
     # KK Demo

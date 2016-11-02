@@ -9,6 +9,9 @@ widgetKK : This applies the Kramers-Kronig relation phase retrieval operation
 
 widgetALS : Controls alternating least square parameters
 
+widgetCalibrate : Controls calibration parameters
+
+
 Operation
 ---------
 PlotEffect subUI widgets are essentially 3 parts: a visual component that \
@@ -32,9 +35,7 @@ if __name__ == '__main__':
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
-                             QWidget as _QWidget,
-                             QSizePolicy as _QSizePolicy,
-                             QColorDialog as _QColorDialog)
+                             QWidget as _QWidget)
 
 from PyQt5.QtCore import pyqtSignal as _pyqtSignal
 
@@ -51,6 +52,7 @@ from crikit.ui.qt_PlotEffect_KK import Ui_Form as Ui_KK_Form
 from crikit.ui.qt_PlotEffect_ALS import Ui_Form as Ui_ALS_Form
 from crikit.ui.qt_PlotEffect_SG import Ui_Form as Ui_SG_Form
 from crikit.ui.qt_PlotEffect_Calibrate import Ui_Form as Ui_Calibrate_Form
+
 
 from crikit.cri.algorithms.kk import kkrelation as _kk
 from crikit.preprocess.algorithms.als import als_baseline_redux as _als
@@ -299,6 +301,9 @@ class widgetKK(_QWidget):
         super(widgetKK, self).__init__(parent) ### EDIT ###
         self.ui = Ui_KK_Form() ### EDIT ###
         self.ui.setupUi(self)     ### EDIT ###
+        self.setupKK()
+        
+    def setupKK(self):
 
         self.ui.checkBoxNRBNorm.setChecked(self.NRB_NORM)
         self.nrb_norm = self.NRB_NORM
@@ -547,6 +552,12 @@ class widgetKK(_QWidget):
     def changeSpinBoxPadFactor(self):
         self.pad_factor = self.ui.spinBoxPadFactor.value()
         self.changed.emit()
+        
+
+
+
+
+
 
 class widgetALS(_QWidget):
     """
@@ -760,5 +771,8 @@ if __name__ == '__main__':
     winCalib = widgetCalibrate()
     winCalib.show()
 
+    winMerge = widgetMergeNRBs()
+    winMerge.show()
+    
     app.exec_()
     _sys.exit()
