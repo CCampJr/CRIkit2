@@ -61,6 +61,7 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.groupBoxMerge)
 
         self.retranslateUi(Form)
+        self.comboBoxScaleLeftRight.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):

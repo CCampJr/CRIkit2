@@ -52,7 +52,7 @@ class widgetMergeNRBs(_QWidget):
         
     """
 
-    SCALE_IDX = 0
+    SCALE_IDX = 1
     WN = 2800.0
     
     changed = _pyqtSignal()

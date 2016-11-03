@@ -25,6 +25,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QComboBox" name="comboBoxScaleLeftRight">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
         <item>
          <property name="text">
           <string>Scale Left NRB</string>
