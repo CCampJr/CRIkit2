@@ -366,16 +366,19 @@ This will be saved to the processed file.</string>
      <string>Import/Load</string>
     </property>
     <widget class="QMenu" name="menuPiece_wise_NRB">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Piece-wise NRB</string>
      </property>
      <addaction name="actionMergeNRBs"/>
      <addaction name="separator"/>
-     <addaction name="actionLoad_NRB_Blue_Side"/>
-     <addaction name="actionNRB_from_ROI_Blue_Side"/>
+     <addaction name="actionLoad_NRB_Left_Side"/>
+     <addaction name="actionNRB_from_ROI_Left_Side"/>
      <addaction name="separator"/>
-     <addaction name="actionLoad_NRB_Red_Side"/>
-     <addaction name="actionNRB_from_ROI_Red_Side"/>
+     <addaction name="actionLoad_NRB_Right_Side"/>
+     <addaction name="actionNRB_from_ROI_Right_Side"/>
     </widget>
     <addaction name="actionLoadDark"/>
     <addaction name="actionLoadNRB"/>
@@ -465,6 +468,8 @@ This will be saved to the processed file.</string>
     <addaction name="separator"/>
     <addaction name="actionDarkSpectrum"/>
     <addaction name="actionNRBSpectrum"/>
+    <addaction name="actionLeftSideNRBSpect"/>
+    <addaction name="actionRightSideNRBSpect"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -1021,27 +1026,30 @@ This will be saved to the processed file.</string>
     <string>Undo/Backup Enabled</string>
    </property>
   </action>
-  <action name="actionLoad_NRB_Blue_Side">
+  <action name="actionLoad_NRB_Left_Side">
    <property name="text">
-    <string>Load NRB (HDF; Blue-Side)</string>
+    <string>Load NRB (HDF; Left-Side)</string>
    </property>
   </action>
-  <action name="actionLoad_NRB_Red_Side">
+  <action name="actionLoad_NRB_Right_Side">
    <property name="text">
-    <string>Load NRB (HDF; Red-Side)</string>
+    <string>Load NRB (HDF; Right-Side)</string>
    </property>
   </action>
-  <action name="actionNRB_from_ROI_Blue_Side">
+  <action name="actionNRB_from_ROI_Left_Side">
    <property name="text">
-    <string>NRB from ROI (Blue-Side)</string>
+    <string>NRB from ROI (Left-Side)</string>
    </property>
   </action>
-  <action name="actionNRB_from_ROI_Red_Side">
+  <action name="actionNRB_from_ROI_Right_Side">
    <property name="text">
-    <string>NRB from ROI (Red-Side)</string>
+    <string>NRB from ROI (Right-Side)</string>
    </property>
   </action>
   <action name="actionMergeNRBs">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Merge NRBs</string>
    </property>
@@ -1049,6 +1057,22 @@ This will be saved to the processed file.</string>
   <action name="actionMerge_NRBs_KK_Preview">
    <property name="text">
     <string>Merge NRBs (KK Preview)</string>
+   </property>
+  </action>
+  <action name="actionLeftSideNRBSpect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Left-Side NRB Spect</string>
+   </property>
+  </action>
+  <action name="actionRightSideNRBSpect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Right-Side NRB Spec</string>
    </property>
   </action>
  </widget>

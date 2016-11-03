@@ -80,11 +80,16 @@ from crikit.cri.error_correction import (PhaserErrCorrectALS as
                                          _ScaleErrCorrectSG)
 from crikit.preprocess.subtract_baseline import (SubtractBaselineALS as
                                                  _SubtractBaselineALS)
+from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
 from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
+from crikit.ui.dialog_ploteffect_mergeNRBs import (DialogPlotEffectMergeNRBs as
+                                                   _DialogPlotEffectMergeNRBs)
+
 from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate,
                                          widgetALS as _widgetALS,
                                          widgetSG as _widgetSG)
@@ -191,8 +196,8 @@ class CRIkitUI_process(_QMainWindow):
         self.nrb = Spectra()
         
         # Piecewise NRB's (not always used)
-        self.nrb_blue = Spectra()
-        self.nrb_red = Spectra()
+        self.nrb_left = Spectra()
+        self.nrb_right = Spectra()
 
         self.plotter = _SciPlotUI(show=False, parent=parent)
 #        self.plotter.show()
@@ -274,11 +279,11 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionNRB_from_ROI.triggered.connect(self.nrbFromROI)
         self.ui.actionAppend_NRB_from_ROI.triggered.connect(self.nrbFromROI)
 
-        self.ui.actionLoad_NRB_Blue_Side.triggered.connect(self.loadNRB)
-#        self.ui.actionNRB_from_ROI_Blue_Side.triggered.connect()
+        self.ui.actionLoad_NRB_Left_Side.triggered.connect(self.loadNRB)
+        self.ui.actionNRB_from_ROI_Left_Side.triggered.connect(self.nrbFromROI)
         
-        self.ui.actionLoad_NRB_Red_Side.triggered.connect(self.loadNRB)
-#        self.ui.actionNRB_from_ROI_Red_Side.triggered.connect()
+        self.ui.actionLoad_NRB_Right_Side.triggered.connect(self.loadNRB)
+        self.ui.actionNRB_from_ROI_Right_Side.triggered.connect(self.nrbFromROI)
         
         self.ui.actionMergeNRBs.triggered.connect(self.mergeNRBs)
 
@@ -337,6 +342,8 @@ class CRIkitUI_process(_QMainWindow):
 #        self.plotter.model.colorChanged.connect(self.colorChange)
         self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
         self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
+        self.ui.actionLeftSideNRBSpect.triggered.connect(self.plotLeftNRBSpectrum)
+        self.ui.actionRightSideNRBSpect.triggered.connect(self.plotRightNRBSpectrum)
         self.ui.actionShowPlotter.triggered.connect(self.plotter_show)
 #
 #        # Frequency-slider related
@@ -624,6 +631,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionLoadNRBDLM.setEnabled(True)
             self.ui.actionNRB_from_ROI.setEnabled(True)
             self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+            self.ui.menuPiece_wise_NRB.setEnabled(True)
 
             # PREPROCESS
             self.ui.actionResidualSubtract.setEnabled(True)
@@ -775,10 +783,10 @@ class CRIkitUI_process(_QMainWindow):
         
         if sender == self.ui.actionLoadNRB:
             nrb = self.nrb
-        elif sender == self.ui.actionLoad_NRB_Blue_Side:
-            nrb = self.nrb_blue
-        elif sender == self.ui.actionLoad_NRB_Red_Side:
-            nrb = self.nrb_red
+        elif sender == self.ui.actionLoad_NRB_Left_Side:
+            nrb = self.nrb_left
+        elif sender == self.ui.actionLoad_NRB_Right_Side:
+            nrb = self.nrb_right
             
         print('Sender: {}'.format(sender))
         to_open = SubUiHDFLoad.getFileDataSets(self.path)
@@ -792,6 +800,18 @@ class CRIkitUI_process(_QMainWindow):
                         self.ui.actionKramersKronig.setEnabled(True)
                         self.ui.actionKKSpeedTest.setEnabled(True)
                         self.ui.actionNRBSpectrum.setEnabled(True)
+                    elif sender == self.ui.actionLoad_NRB_Left_Side:
+                        self.ui.actionLeftSideNRBSpect.setEnabled(True)
+                        if ((self.nrb_left.data is not None) and 
+                            (self.nrb_right.data is not None)):
+                            if self.nrb_right.mean().size == self.nrb_left.mean().size:
+                                self.ui.actionMergeNRBs.setEnabled(True)
+                    elif sender == self.ui.actionLoad_NRB_Right_Side:
+                        self.ui.actionRightSideNRBSpect.setEnabled(True)
+                        if ((self.nrb_left.data is not None) and 
+                            (self.nrb_right.data is not None)):
+                            if self.nrb_right.mean().size == self.nrb_left.mean().size:
+                                self.ui.actionMergeNRBs.setEnabled(True)
                 else:
                     nrb = Spectra()
                     print('NRB was the wrong shape')
@@ -841,7 +861,43 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionNRBSpectrum.setEnabled(False)
                 
     def mergeNRBs(self):
-        raise NotImplementedError
+        """
+        Interactive merge of the left- and right-side NRB
+        """
+        if self.nrb_left is not None and self.nrb_right is not None:
+            rng = self.hsi.freq.op_range_pix
+#            print('Range: {}'.format(rng))
+#            print('nrb_left shape'.format(self.nrb_left.shape))
+            
+            
+            rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
+            
+            winPlotEffect = _DialogPlotEffectMergeNRBs.dialogPlotEffect(nrb_left=
+                                                                        self.nrb_left.mean()[rng], 
+                                                                        nrb_right=
+                                                                        self.nrb_right.mean()[rng],
+                                                                        x=self.hsi.f,
+                                                                        data=rand_spectra)
+            
+            if winPlotEffect is not None:
+                print('NRB merge pixel: {}'.format(winPlotEffect.pix))
+                print('NRB merge WN: {}'.format(winPlotEffect.wn))
+                print('NRB merge scale left side: {}'.format(winPlotEffect.scale))
+                print('NRB merged size: {}'.format(winPlotEffect.nrb_merge.size))
+                
+                self.nrb.data = _np.squeeze(0*self.nrb_left.mean())
+                print('nrb shape: {}'.format(self.nrb.shape))
+                
+                
+                # Need 2D because of class Spectra NOT Spectrum
+                self.nrb.data[:,self.hsi.freq.op_range_pix] = winPlotEffect.nrb_merge
+                
+                self.ui.actionNRBSpectrum.setEnabled(True)
+                self.ui.actionKramersKronig.setEnabled(True)
+                self.ui.actionKKSpeedTest.setEnabled(True)
+                
+        else:
+            pass
         
     def settings(self):
         """
@@ -856,6 +912,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         
         rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True, full=True)
+#        print('rand_spectra shape: {}'.format(rand_spectra.shape))
+        
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
                                                       xlabel='Wavenumber (cm$^{-1}$)',
@@ -899,6 +957,32 @@ class CRIkitUI_process(_QMainWindow):
         else:
             self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb.data),
                               label='Mean NRB Spectrum')
+
+            self.plotter.show()
+            self.plotter.raise_()
+            
+    def plotLeftNRBSpectrum(self):
+        """
+        Plot Left-Side NRB spectrum
+        """
+        if self.nrb_left.data is None:
+            pass
+        else:
+            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb_left.data),
+                              label='Mean Left-Side NRB Spectrum')
+
+            self.plotter.show()
+            self.plotter.raise_()
+            
+    def plotRightNRBSpectrum(self):
+        """
+        Plot NRB spectrum
+        """
+        if self.nrb_right.data is None:
+            pass
+        else:
+            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb_right.data),
+                              label='Mean Right-Side NRB Spectrum')
 
             self.plotter.show()
             self.plotter.raise_()
@@ -997,17 +1081,29 @@ class CRIkitUI_process(_QMainWindow):
 
         """
 
+        # I found that the objectName is a better way than a reference to the
+        # actual action (e.g., self.ui.action_*) as the reference may change
+        # depending on the call location or how this method is called
         sender = self.sender().objectName()
-        if sender == 'actionNRB_from_ROI' or sender == 'actionAppend_NRB_from_ROI':
+        
+        if ((sender == 'actionNRB_from_ROI') or 
+            (sender == 'actionAppend_NRB_from_ROI') or
+            (sender == 'actionNRB_from_ROI_Left_Side') or
+            (sender == 'actionNRB_from_ROI_Right_Side')):
             # Updated by _roiClick
             self.x_loc_list = []
             self.y_loc_list = []
 
-
+#            print('Sender: {}'.format(sender))
+#            print('Sender is actionNRB_from_ROI: {}'.format(sender == self.ui.actionNRB_from_ROI))
+            
+            # Need to send sender as the text name as the actual object 
+            # will change
             self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
 
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
             self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        
         else:
             print('Unknown action send to nrbFromROI')
 
@@ -1016,7 +1112,13 @@ class CRIkitUI_process(_QMainWindow):
         Acquire an average spectrum from a user-selected ROI and subtract.
 
         """
+        # Sender was sent as a text reference to the actual sender
+        # the pass of sender put it in a tuple; thus the [0]
         sender = sender[0]
+
+#        print('Sender: {}'.format(sender))
+#        print('Sender is actionNRB_from_ROI: {}'.format(sender == self.ui.actionNRB_from_ROI))
+#        print('Sender is \'actionNRB_from_ROI\': {}'.format(sender == 'actionNRB_from_ROI'))
 
         x_loc_list, y_loc_list = locs
 
@@ -1035,7 +1137,7 @@ class CRIkitUI_process(_QMainWindow):
                 spectrum = _np.mean(spectra, axis=0)
             else:
                 spectrum = spectra
-
+            
             spectrum = spectrum.astype(self.hsi.data.dtype)
             if sender == 'actionNRB_from_ROI':
                 self.nrb.data = spectrum
@@ -1049,6 +1151,21 @@ class CRIkitUI_process(_QMainWindow):
                     self.nrb.data = (self.nrb.data + spectrum)/2
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
+            elif sender == 'actionNRB_from_ROI_Left_Side':
+                self.nrb_left.data = spectrum
+                self.ui.actionLeftSideNRBSpect.setEnabled(True)
+                if ((self.nrb_left.data is not None) and 
+                    (self.nrb_right.data is not None)):
+                    if self.nrb_right.mean().size == self.nrb_left.mean().size:
+                        self.ui.actionMergeNRBs.setEnabled(True)
+                
+            elif sender == 'actionNRB_from_ROI_Right_Side':
+                self.nrb_right.data = spectrum
+                self.ui.actionLeftSideNRBSpect.setEnabled(True)
+                if ((self.nrb_left.data is not None) and 
+                    (self.nrb_right.data is not None)):
+                    if self.nrb_right.mean().size == self.nrb_left.mean().size:
+                        self.ui.actionMergeNRBs.setEnabled(True)
             else:
                 print('Unknown action sent to _roiNRB')
 
@@ -1409,7 +1526,7 @@ class CRIkitUI_process(_QMainWindow):
             else:
                 nrb = self.nrb.data[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
 
-        rand_spectra = self.hsi._get_rand_spectra(5,pt_sz=3,quads=True)
+        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
 
         cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
             DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra],parent=self)
@@ -1724,6 +1841,30 @@ class CRIkitUI_process(_QMainWindow):
                     
                     if out == _QMessageBox.Ok:
                         sub_dark.transform(self.nrb.data)
+                        
+#                if self.nrb_left is not None:
+#                    msg = _QMessageBox(self)
+#                    msg.setIcon(_QMessageBox.Question)
+#                    msg.setText('Subtract Dark Spectrum from left-Side NRB Spectrum(a)?')
+#                    msg.setWindowTitle('Confirm dark subtract from left-Side NRB spectrum(a)')
+#                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+#                    msg.setDefaultButton(_QMessageBox.Ok)
+#                    out = msg.exec()
+#                    
+#                    if out == _QMessageBox.Ok:
+#                        sub_dark.transform(self.nrb_left.data)
+#                        
+#                if self.nrb_right is not None:
+#                    msg = _QMessageBox(self)
+#                    msg.setIcon(_QMessageBox.Question)
+#                    msg.setText('Subtract Dark Spectrum from right-Side NRB Spectrum(a)?')
+#                    msg.setWindowTitle('Confirm dark subtract from right-Side NRB spectrum(a)')
+#                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+#                    msg.setDefaultButton(_QMessageBox.Ok)
+#                    out = msg.exec()
+#                    
+#                    if out == _QMessageBox.Ok:
+#                        sub_dark.transform(self.nrb_right.data)
                 
                 # Backup for Undo
                 if (darkloaded | nrbloaded):

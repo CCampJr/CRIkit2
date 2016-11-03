@@ -251,8 +251,9 @@ class DialogPlotEffectMergeNRBs(_QDialog):
                                 norm_to_nrb=self.nrb_norm,
                                 pad_factor=self.pad_factor)
             kkd = kk.calculate(self.data, self.nrb_merge)
+#            print('KKd shape: {}'.format(kkd.shape))
             self.mpl_affected.ax.clear()
-            self.mpl_affected.ax.plot(self.x, kkd.imag)
+            self.mpl_affected.ax.plot(self.x, kkd.imag.T)
             self.mpl_affected.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
             self.mpl_affected.ax.set_ylabel('KK Int.')
             self.mpl_affected.draw()
@@ -327,7 +328,7 @@ if __name__ == '__main__':
                      left_side_scale=False).calculate()
     
     CARS = _np.abs(500*(1/(1000-WN-1j*20) + 1/(2700-WN-1j*20)) + NRB**0.5)**2
-
+    CARS = _np.dot(_np.ones((10,1), dtype=_np.double),CARS[None,:])
 #    _plt.plot(WN, NRB)
 #    _plt.plot(WN, CARS/NRB)
 #    _plt.plot(WN, NRB_LEFT)
@@ -342,6 +343,7 @@ if __name__ == '__main__':
                                                                nrb_right=NRB_RIGHT,
                                                                x=WN, data=CARS)
     
+    print(winPlotEffect)
     if winPlotEffect is not None:
         print('CARS Bias: {}'.format(winPlotEffect.cars_bias))
         print('NRB Bias: {}'.format(winPlotEffect.nrb_bias))
