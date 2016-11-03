@@ -225,26 +225,32 @@ class Hsi(_Spectrum):
         """
         Return mean spectrum (or over extent)
         """
-        if over_space:  # Mean over spatial axes
-            if extent is None:
-                return self._data.mean(axis=0).mean(axis=0)
-            else:
-                return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
-
-        else:  # Over spectrum
-            if extent is None:
-                return self._data.mean(axis=-1)
-            else:
-                return self._data[:,:,extent[0]:extent[1]+1].mean(axis=-1)
+        if self._data is None:
+            return None
+        else:
+            if over_space:  # Mean over spatial axes
+                if extent is None:
+                    return self._data.mean(axis=0).mean(axis=0)
+                else:
+                    return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
+    
+            else:  # Over spectrum
+                if extent is None:
+                    return self._data.mean(axis=-1)
+                else:
+                    return self._data[:,:,extent[0]:extent[1]+1].mean(axis=-1)
 
     def std(self, extent=None):
         """
         Return standard deviation spectrum
         """
-        if extent is None:
-            return self._data.std(axis=0).std(axis=0)
+        if self._data is None:
+            return None
         else:
-            return self._data[:,:,extent[0]:extent[1]+1].std(axis=0).std(axis=0)
+            if extent is None:
+                return self._data.std(axis=0).std(axis=0)
+            else:
+                return self._data[:,:,extent[0]:extent[1]+1].std(axis=0).std(axis=0)
 
     def subtract(self, spectra, overwrite=True):
         """

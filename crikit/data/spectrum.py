@@ -184,15 +184,24 @@ class Spectrum:
 
     @property
     def ndim(self):
-        return self._data.ndim
+        if self._data is None:
+            return None
+        else:
+            return self._data.ndim
 
     @property
     def shape(self):
-        return self._data.shape
+        if self._data is None:
+            return None
+        else:
+            return self._data.shape
 
     @property
     def size(self):
-        return self._data.size
+        if self._data is None:
+            return None
+        else:
+            return self._data.size
 
     def mean(self, extent=None, over_space=None):
         """
@@ -203,19 +212,25 @@ class Spectrum:
         over_space only included for consistency: with 1 spectrum there is\
         no spatial (rep) component.
         """
-        if extent is None:
-            return self._data.mean()
+        if self._data is None:
+            return None
         else:
-            return self._data[extent[0]:extent[1]+1].mean()
+            if extent is None:
+                return self._data.mean()
+            else:
+                return self._data[extent[0]:extent[1]+1].mean()
 
     def std(self, extent=None):
         """
         Return standard deviation value (or over extent [inclusive])
         """
-        if extent is None:
-            return self._data.std()
+        if self._data is None:
+            return None
         else:
-            return self._data[extent[0]:extent[1]+1].std()
+            if extent is None:
+                return self._data.std()
+            else:
+                return self._data[extent[0]:extent[1]+1].std()
 
     def subtract(self, spectrum, overwrite=True):
         """
