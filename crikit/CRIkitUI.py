@@ -916,8 +916,9 @@ class CRIkitUI_process(_QMainWindow):
         """
         
         rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True, full=True)
-#        print('rand_spectra shape: {}'.format(rand_spectra.shape))
-        
+        if _np.iscomplexobj(rand_spectra):
+            rand_spectra = rand_spectra.imag
+            
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
                                                       xlabel='Wavenumber (cm$^{-1}$)',
