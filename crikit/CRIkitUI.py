@@ -2318,12 +2318,21 @@ class CRIkitUI_process(_QMainWindow):
             
             mloc, nloc = _np.where(Mask)
             
-            mean_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].mean(axis=0)
-            std_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].std(axis=0)
-            
-            
-            # Plot line
-            self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum')
+            if mask_hits > 1:
+                mean_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].mean(axis=0)
+                std_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].std(axis=0)
+#                print(mean_spect.shape)
+                # Plot mean spectrum
+                self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum')
+            elif mask_hits == 1:
+#                print(mloc)
+#                print(nloc)
+                mean_spect = _np.squeeze(self.hsi.data_imag_over_real[mloc,nloc,:])[self.hsi.freq.op_range_pix]
+#                print(mean_spect.shape)
+                std_spect = 0
+                # Plot spectrum
+                self.plotter.plot(self.hsi.f, mean_spect, label='Spectrum')
+                
             
             # Check color of line b/c uses color cycler-- for fill_b/w
             color = self.plotter._plot_data[-1].style_dict['color']
@@ -2338,6 +2347,7 @@ class CRIkitUI_process(_QMainWindow):
                                           color=color, 
                                           alpha=0.25,
                                           label='$\pm$1 Std. Dev.')
+                            
             
             self.plotter.show()
             self.plotter.raise_()
