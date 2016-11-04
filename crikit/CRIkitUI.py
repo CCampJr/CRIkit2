@@ -199,6 +199,10 @@ class CRIkitUI_process(_QMainWindow):
         self.nrb_left = Spectra()
         self.nrb_right = Spectra()
 
+        # Internal Parameters
+        self._anscombe_params = None
+        
+        
         self.plotter = _SciPlotUI(show=False, parent=parent)
 #        self.plotter.show()
 #        self.plotter.hide()
