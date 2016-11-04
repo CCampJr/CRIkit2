@@ -2298,7 +2298,7 @@ class CRIkitUI_process(_QMainWindow):
         # Which RGB image is it
         rgbnum = self.ui.tabColors.currentIndex()
         
-        Mask = self.img_RGB_list[rgbnum].data.grayscaleimage
+        Mask = _copy.deepcopy(self.img_RGB_list[rgbnum].data.grayscaleimage)
         
         if self.img_RGB_list[0].data.setmin is not None:
             Mask *= Mask >= self.img_RGB_list[0].data.setmin
