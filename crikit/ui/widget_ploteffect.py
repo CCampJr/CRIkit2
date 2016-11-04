@@ -708,25 +708,29 @@ class widgetSG(_QWidget):
 
     changed = _pyqtSignal()
 
-    WIN_SIZE = 601  # Window size
-    ORDER = 2  # Order
+#    WIN_SIZE = 601  # Window size
+#    ORDER = 2  # Order
 
-    def __init__(self, parent = None):
+    def __init__(self, win_size=601, order=2, parent = None):
         super(widgetSG, self).__init__(parent) ### EDIT ###
         self.ui = Ui_SG_Form() ### EDIT ###
         self.ui.setupUi(self)     ### EDIT ###
 
+        self.win_size = win_size
+        self.order = order
+        
+        # Window size must be > order
+        if self.win_size <= self.order:
+            self.win_size = self.order + 1
+            
         # Window size must be odd
-        if self.WIN_SIZE%2 == 1:
+        if self.win_size%2 == 1:
             pass
         else:
-            self.WIN_SIZE += 1
+            self.win_size += 1
 
-        self.ui.spinBoxWinSize.setValue(self.WIN_SIZE)
-        self.ui.spinBoxOrder.setValue(self.ORDER)
-
-        self.win_size = self.WIN_SIZE
-        self.order = self.ORDER
+        self.ui.spinBoxWinSize.setValue(self.win_size)
+        self.ui.spinBoxOrder.setValue(self.order)
 
         self.ui.spinBoxWinSize.valueChanged.connect(self.changeWinSize)
         self.ui.spinBoxOrder.valueChanged.connect(self.changeOrder)
@@ -765,14 +769,12 @@ if __name__ == '__main__':
     winALS = widgetALS()
     winALS.show()
 
-    winSG = widgetSG()
+    winSG = widgetSG(win_size=3, order=3)
     winSG.show()
 
     winCalib = widgetCalibrate()
     winCalib.show()
 
-    winMerge = widgetMergeNRBs()
-    winMerge.show()
     
     app.exec_()
     _sys.exit()

@@ -329,7 +329,7 @@ if __name__ == '__main__':
         
     ################
     # SG Demo
-    plugin = widgetSG()
+    plugin = widgetSG(win_size=501, order=5)
     
     WN = _np.linspace(500,4000,800)
     CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
