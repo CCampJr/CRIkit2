@@ -410,11 +410,13 @@ This will be saved to the processed file.</string>
      <property name="title">
       <string>Coherent Raman Imaging</string>
      </property>
+     <addaction name="actionDeNoiseNRB"/>
      <addaction name="actionKramersKronig"/>
      <addaction name="actionKKSpeedTest"/>
      <addaction name="actionPhaseErrorCorrection"/>
      <addaction name="actionScaleErrorCorrection"/>
     </widget>
+    <addaction name="actionDeNoiseDark"/>
     <addaction name="actionDarkSubtract"/>
     <addaction name="actionResidualSubtract"/>
     <addaction name="menuVariance_Stabilize"/>
@@ -1073,6 +1075,16 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Right-Side NRB Spec</string>
+   </property>
+  </action>
+  <action name="actionDeNoiseNRB">
+   <property name="text">
+    <string>De-Noise NRB</string>
+   </property>
+  </action>
+  <action name="actionDeNoiseDark">
+   <property name="text">
+    <string>De-Noise Dark</string>
    </property>
   </action>
  </widget>

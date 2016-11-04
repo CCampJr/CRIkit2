@@ -49,6 +49,8 @@ import numpy as _np
 import timeit as _timeit
 import copy as _copy
 
+from scipy.signal import savgol_filter as _sg
+
 import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 
@@ -328,6 +330,8 @@ class CRIkitUI_process(_QMainWindow):
         
         # DeNoise
         self.ui.actionDeNoise.triggered.connect(self.deNoise)
+        self.ui.actionDeNoiseNRB.triggered.connect(self.deNoiseNRB)
+        self.ui.actionDeNoiseDark.triggered.connect(self.deNoiseDark)
 
         # Error Correction
         self.ui.actionPhaseErrorCorrection.triggered.connect(self.errorCorrectPhase)
@@ -792,7 +796,7 @@ class CRIkitUI_process(_QMainWindow):
         elif sender == self.ui.actionLoad_NRB_Right_Side:
             nrb = self.nrb_right
             
-        print('Sender: {}'.format(sender))
+#        print('Sender: {}'.format(sender))
         to_open = SubUiHDFLoad.getFileDataSets(self.path)
         if to_open is not None:
             pth, filename, datasets = to_open
@@ -1608,6 +1612,82 @@ class CRIkitUI_process(_QMainWindow):
                     self.bcpre.backed_up()
 #           
 
+    def deNoiseNRB(self):
+        """
+        Denoise NRB with Savitky-Golay
+        """
+        # Range of pixels to perform-over
+        rng = self.hsi.freq.op_range_pix
+        
+        plugin = _widgetSG(win_size=11, order=3)
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.nrb.mean()[rng],
+                                                           x=self.hsi.f, 
+                                                           plugin=plugin,
+                                                           xlabel='Wavenumber (cm$^{-1}$)',
+                                                           ylabel='Int (au)',
+                                                           show_difference=True,
+                                                           parent=self)
+        if winPlotEffect is not None:
+            win_size = winPlotEffect.win_size
+            order = winPlotEffect.order
+            
+            nrb_denoise = _copy.deepcopy(_np.squeeze(self.nrb.data))
+            nrb_denoise[...,rng] = _sg(nrb_denoise[...,rng], win_size, order)
+            
+            self.nrb.data = nrb_denoise
+            
+            # Backup for Undo
+            self.bcpre.add_step(['DenoiseNrbSG',
+                                 'Win_size',win_size, 
+                                 'Order',order])
+            
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
+        self.changeSlider()
+        
+    def deNoiseDark(self):
+        """
+        Denoise Dark with Savitky-Golay
+        """
+        # Range of pixels to perform-over
+        rng = self.hsi.freq.op_range_pix
+        
+        plugin = _widgetSG(win_size=201, order=3)
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.dark.mean()[rng],
+                                                           x=self.hsi.f, 
+                                                           plugin=plugin,
+                                                           xlabel='Wavenumber (cm$^{-1}$)',
+                                                           ylabel='Int (au)',
+                                                           show_difference=True,
+                                                           parent=self)
+        if winPlotEffect is not None:
+            win_size = winPlotEffect.win_size
+            order = winPlotEffect.order
+            
+            dark_denoise = _copy.deepcopy(_np.squeeze(self.dark.data))
+            dark_denoise[...,rng] = _sg(dark_denoise[...,rng], win_size, order)
+            
+            self.dark.data = dark_denoise
+            
+            # Backup for Undo
+            self.bcpre.add_step(['DenoiseDarkSG',
+                                 'Win_size',win_size, 
+                                 'Order',order])
+            
+            if self.ui.actionUndo_Backup_Enabled.isChecked():
+                try:
+                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                except:
+                    print('Error in pickle backup (Undo functionality)')
+                else:
+                    self.bcpre.backed_up()
+        self.changeSlider()
+        
     def deNoise(self):
         """
         SVD
@@ -1703,7 +1783,7 @@ class CRIkitUI_process(_QMainWindow):
             
         rng = self.hsi.freq.op_range_pix
         
-        plugin = _widgetSG()
+        plugin = _widgetSG(win_size=601, order=2)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
