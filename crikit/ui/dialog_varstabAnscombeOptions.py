@@ -24,20 +24,18 @@ class DialogAnscombeOptions(_QDialog):
     Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
     """
-    STDDEV = 12.44
-    GAIN = 1.4
-
-    def __init__(self, parent = None):
+    
+    def __init__(self, stddev=12.44, gain=1.4, parent = None):
         super(DialogAnscombeOptions, self).__init__(parent) ### EDIT ###
         self.ui = Ui_AnscombeOptions() ### EDIT ###
         self.ui.setupUi(self)     ### EDIT ###
 
-        self.ui.spinBoxGain.setValue(self.GAIN)
-        self.ui.spinBoxStdDev.setValue(self.STDDEV)
+        self.ui.spinBoxGain.setValue(gain)
+        self.ui.spinBoxStdDev.setValue(stddev)
 
 
     @staticmethod
-    def dialogAnscombeOptions(parent = None):
+    def dialogAnscombeOptions(stddev=12.44, gain=1.4, parent=None):
         """
         Static Method.
 
@@ -53,7 +51,8 @@ class DialogAnscombeOptions(_QDialog):
             Standard deviation of Gaussian noise : (float)
             Detector gain of Poisson noise : (float)
         """
-        dialog = DialogAnscombeOptions(parent)
+        dialog = DialogAnscombeOptions(stddev=stddev, gain=gain, 
+                                       parent=parent)
 
         result = dialog.exec_()
 
