@@ -1938,9 +1938,11 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions(self)
-        
+        out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+
         if out is not None:
+            self._anscombe_params = _copy.deepcopy(out)
+            
             rng = self.hsi.freq.op_range_pix
 
             ansc = _Anscombe(gauss_std=out['stddev'], gauss_mean=0.0,
@@ -1964,8 +1966,13 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance an Inverse Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions(self)
-        
+        if self._anscombe_params is None:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+        else:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(
+                  stddev=self._anscombe_params['stddev'], 
+                  gain=self._anscombe_params['gain'], parent=self)
+            
         if out is not None:
             rng = self.hsi.freq.op_range_pix
 
