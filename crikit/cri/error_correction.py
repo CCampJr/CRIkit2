@@ -24,7 +24,7 @@ from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
 from crikit.utils.datacheck import _rng_is_pix_vec
 
 
-class PhaserErrCorrectALS:
+class PhaseErrCorrectALS:
     """
     Phase error correction using alternating least squares (ALS)
 
@@ -183,16 +183,21 @@ if __name__ == '__main__':
     kkd = kk.calculate(sig, sigRef)
     kkd = _np.dot(_np.ones((NUM_REPS, NUM_REPS, 1)), kkd[None, :])
 
-#    plt.plot(chi.imag/chiNR.real, label='Ideal')
-#    plt.plot(kkd[5, 5, :].imag, label='Before Correction')
+    plt.plot(chi.imag/chiNR.real, label='Ideal')
+    plt.plot(kkd[5, 5, :].imag, label='Before Correction')
 
     start = timeit.default_timer()
-    phase_err_correct_als = PhaserErrCorrectALS(print_iteration=False)
-    success = phase_err_correct_als.transform(kkd)
+    phase_err_correct_als = PhaseErrCorrectALS()
+    success = phase_err_correct_als.transform(kkd, print_iteration=False)
     print('Success? : {}'.format(success))
     stop = timeit.default_timer()
     print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
 
+    
+#    
+    plt.plot(kkd[5,5,:].imag, label='After PhErr Corr.')
+    plt.legend()
+    plt.show()
 #    scale_err_correct_sg = ScaleErrCorrectSG()
 #    success = scale_err_correct_sg.transform(kkd)
 #    print('Success? : {}'.format(success))
@@ -200,28 +205,25 @@ if __name__ == '__main__':
 #    plt.legend(loc='best')
 #    plt.show()
 
-    scale_err_correct_sg = ScaleErrCorrectSG()
-    out = scale_err_correct_sg.calculate(kkd[0,0,:])
-    plt.plot(out.imag)
-    
-    scale_err_correct_sg = ScaleErrCorrectSG(win_size=11, order=2)
-    out = scale_err_correct_sg.calculate(kkd[0,0,:])
-    plt.plot(out.imag)
-    
-    plt.show()
+#    scale_err_correct_sg = ScaleErrCorrectSG()
+#    out = scale_err_correct_sg.calculate(kkd[0,0,:])
+#    plt.plot(out.imag)
+#    
+#    scale_err_correct_sg = ScaleErrCorrectSG(win_size=11, order=2)
+#    out = scale_err_correct_sg.calculate(kkd[0,0,:])
+#    plt.plot(out.imag)
+#    
+#    plt.show()
     
 #
-#    phase_err_correct_als = PhaserErrCorrectALS(print_iteration=False)
+#    phase_err_correct_als = PhaseErrCorrectALS(print_iteration=False)
 #    out = phase_err_correct_als.calculate(kkd)
 #    
 #    plt.plot(out[0,0,:].imag)
 #    
-#    phase_err_correct_als = PhaserErrCorrectALS(smoothness_param=1e1, 
+#    phase_err_correct_als = PhaseErrCorrectALS(smoothness_param=1e1, 
 #                                                asym_param=1e-2,
 #                                                redux_factor=1)
-#    out = phase_err_correct_als.calculate(kkd)
-#    
-#    plt.plot(out[0,0,:].imag)
-#    plt.show()
+    
     
 #    print(phase_err_correct_als._k)

@@ -76,8 +76,8 @@ from crikit.preprocess.standardize import (Anscombe as _Anscombe,
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
 
 from crikit.cri.kk import KramersKronig
-from crikit.cri.error_correction import (PhaserErrCorrectALS as 
-                                         _PhaserErrCorrectALS, 
+from crikit.cri.error_correction import (PhaseErrCorrectALS as 
+                                         _PhaseErrCorrectALS, 
                                          ScaleErrCorrectSG as 
                                          _ScaleErrCorrectSG)
 from crikit.preprocess.subtract_baseline import (SubtractBaselineALS as
@@ -1751,7 +1751,7 @@ class CRIkitUI_process(_QMainWindow):
             asym_param = winPlotEffect.p
             smoothness_param = winPlotEffect.lam
             redux_factor = winPlotEffect.redux
-            phase_err_correct_als = _PhaserErrCorrectALS(smoothness_param=smoothness_param,
+            phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
                                                          asym_param=asym_param,
                                                          redux_factor=redux_factor,
                                                          rng=rng,
@@ -2381,11 +2381,11 @@ class CRIkitUI_process(_QMainWindow):
         
         Mask = _copy.deepcopy(self.img_RGB_list[rgbnum].data.grayscaleimage)
         
-        if self.img_RGB_list[0].data.setmin is not None:
-            Mask *= Mask >= self.img_RGB_list[0].data.setmin
+        if self.img_RGB_list[rgbnum].data.setmin is not None:
+            Mask *= Mask >= self.img_RGB_list[rgbnum].data.setmin
 
-        if self.img_RGB_list[0].data.setmax is not None:
-            Mask *= Mask <= self.img_RGB_list[0].data.setmax
+        if self.img_RGB_list[rgbnum].data.setmax is not None:
+            Mask *= Mask <= self.img_RGB_list[rgbnum].data.setmax
         
         if Mask.max() <= 0:
             pass
@@ -2395,16 +2395,17 @@ class CRIkitUI_process(_QMainWindow):
             Mask = Mask.astype(_np.integer)
             
             mask_hits = Mask.sum()
-            #print('Number of spectra: {}'.format(mask_hits))
+#            print('Mask hits: {}'.format(mask_hits))
             
             mloc, nloc = _np.where(Mask)
+#            print(mloc, nloc)
             
             if mask_hits > 1:
                 mean_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].mean(axis=0)
                 std_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].std(axis=0)
 #                print(mean_spect.shape)
                 # Plot mean spectrum
-                self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum')
+                self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum ({})'.format(mask_hits))
             elif mask_hits == 1:
 #                print(mloc)
 #                print(nloc)
