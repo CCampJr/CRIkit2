@@ -177,13 +177,13 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 6
+    NUM_REPS = 100
 
     kk = KramersKronig()
     kkd = kk.calculate(sig, sigRef)
-    kkd = _np.dot(_np.ones((NUM_REPS, NUM_REPS, 1)), kkd[None, :])
+    kkd = _np.dot(_np.random.rand(NUM_REPS,NUM_REPS,1)*_np.ones((NUM_REPS, NUM_REPS, 1)), kkd[None, :])
 
-    plt.plot(chi.imag/chiNR.real, label='Ideal')
+#    plt.plot(chi.imag/chiNR.real, label='Ideal')
     plt.plot(kkd[5, 5, :].imag, label='Before Correction')
 
     start = timeit.default_timer()

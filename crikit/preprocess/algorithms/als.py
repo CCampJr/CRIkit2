@@ -524,7 +524,7 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
 
     version: ("15.06.19")
     """
-
+#    print('Print iteration: {}'.format(print_iteration))
     signal_shape_orig = signal_input.shape
     signal_length = signal_shape_orig[-1]
 
@@ -747,3 +747,31 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
                       count_spectra + 1, num_to_detrend))
 
     return baseline_output
+
+if __name__ == '__main__':
+    import matplotlib.pyplot as _plt
+#    import multiprocessing as _mp
+#    from multiprocessing.pool import Pool as _Pool
+    
+    x = _np.linspace(0,1000,800)
+    data = _np.exp(-(x-500)**2/300**2) + _np.abs(5/(300 - x -1j*10) + .005)
+    
+    N = 300
+    D = 2
+    
+    if D == 3:
+        data = _np.dot((_np.random.rand(N,N)*_np.ones((N,N)))[...,None], data[None,:])
+    else:
+        data = _np.dot((_np.random.rand(N)*_np.ones((N)))[...,None], data[None,:])
+    
+    print('Data.shape: {}\n'.format(data.shape))
+    
+    tmr = _timeit.default_timer()
+    als = als_baseline_cvxopt(data, smoothness_param=1e3, asym_param=1e-3, print_iteration=False)
+    tmr -= _timeit.default_timer()
+    print('Timer: {:.4f} sec'.format(-tmr))
+    
+    if (D <= 2) & (N<21):
+        _plt.plot(data.T,'k')
+        _plt.plot(als.T,'r')
+        _plt.show()
