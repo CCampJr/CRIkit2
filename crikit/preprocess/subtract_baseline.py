@@ -54,6 +54,9 @@ class SubtractBaselineALS:
 
         self.rng = _rng_is_pix_vec(rng)
         self.use_imag = use_imag
+        
+        self._k = {}
+        self._k.update(kwargs)
 
     @property
     def redux_factor(self):
@@ -72,7 +75,7 @@ class SubtractBaselineALS:
         try:
             # Get the subarray shape
             shp = data.shape[0:-1]
-
+#            print('kwargs: {}'.format(kwargs))
             # Iterate over the sub-array -- super slick way of doing it
             for idx in _np.ndindex(shp):
                 # Imaginary portion set
