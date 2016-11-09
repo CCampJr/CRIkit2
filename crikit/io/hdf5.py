@@ -262,7 +262,10 @@ def hdf_export_data(output_cls_instance, pth, filename, dsetname):
 
         for attr_key in output_cls_instance.meta:
             try:
-                dset.attrs.create(attr_key,output_cls_instance.meta[attr_key])
+                attribute = output_cls_instance.meta[attr_key]
+                if isinstance(attribute, str):
+                    attribute = _np.array(attribute, dtype='S')
+                dset.attrs.create(attr_key,attribute)
             except:
                 print('Error in attributes')
 
