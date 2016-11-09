@@ -269,9 +269,17 @@ def hdf_export_data(output_cls_instance, pth, filename, dsetname):
             except:
                 print('Error in attributes')
 
-#  Breadcrumb attributes
-#        bc_attr_dict = self.bcpre.attr_dict
-#        for attr_key in bc_attr_dict:
+        #  Breadcrumb attributes
+        bc_attr_dict = self.bcpre.attr_dict
+        for attr_key in bc_attr_dict:
+            try:
+                attribute = bc_attr_dict[attr_key]
+                if isinstance(attribute, str):
+                    attribute = _np.array(attribute, dtype='S')
+                dset.attrs.create(attr_key,attribute)
+            except:
+                print('Error in attributes')
+                
 #            #print('Key: {}, Val: {}'.format(attr_key, bc_attr_dict[attr_key]))
 #            val = bc_attr_dict[attr_key]
 #            if isinstance(val, str):
