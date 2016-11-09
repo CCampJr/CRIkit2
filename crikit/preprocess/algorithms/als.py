@@ -272,6 +272,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
     """
 
     signal_shape_orig = signal_input.shape
+    signal_ndim = _np.ndim(signal_input)
 
     x = _np.arange(0, signal_shape_orig[-1], 1)  # dummy indep variable
 
@@ -289,7 +290,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
                                    print_iteration=print_iteration)
         return [baseline, cholesky_type]
 
-    if signal_input.ndim == 1:
+    if signal_ndim == 1:
         spl = _USpline(x, signal_input, s=0)
         sampled_signal = spl(x_sub)
         sub_baseline, _ = als_baseline(sampled_signal,
@@ -298,7 +299,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
                                        print_iteration=print_iteration)
         spl2 = _USpline(x_sub, sub_baseline, s=0)
         baseline = spl2(x)
-    elif signal_input.ndim == 2:
+    elif signal_ndim == 2:
         sampled_signal = _np.zeros((signal_shape_orig[0],x_sub.size))
         baseline = _np.zeros(signal_shape_orig)
         for num, sp in enumerate(signal_input):
@@ -315,7 +316,7 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
             baseline[num,:] = spl2(x)
 
 
-    elif signal_input.ndim == 3:
+    elif signal_ndim == 3:
         sampled_signal = _np.zeros((signal_shape_orig[0],signal_shape_orig[1], x_sub.size))
         baseline = _np.zeros(signal_shape_orig)
         for row_num, blk in enumerate(signal_input):
@@ -392,7 +393,8 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     signal_shape_orig = signal_input.shape
     signal_length = signal_shape_orig[-1]
 
-    dim = signal_input.ndim
+    dim = _np.ndim(signal_input)
+    
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
@@ -528,7 +530,7 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     signal_shape_orig = signal_input.shape
     signal_length = signal_shape_orig[-1]
 
-    dim = signal_input.ndim
+    dim = _np.ndim(signal_input)
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
@@ -663,7 +665,7 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     signal_shape_orig = signal_input.shape
     signal_length = signal_shape_orig[-1]
 
-    dim = signal_input.ndim
+    dim = _np.ndim(signal_input)
     assert dim <= 3, "The input signal_input needs to be 1D, 2D, or 3D"
     if dim == 1:
         num_to_detrend = 1
