@@ -82,4 +82,4 @@ def _mask_from_path(x, y, path):
     """
     X, Y = _np.meshgrid(x, y)
     allpts = _np.hstack((X.flatten()[:, None], Y.flatten()[:, None]))
-    return _np.reshape(path.contains_points(allpts),[y.size, x.size])
+    return _np.reshape(path.contains_points(allpts, radius=1e-12),[y.size, x.size])
