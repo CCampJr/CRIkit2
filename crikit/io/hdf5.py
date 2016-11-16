@@ -244,7 +244,7 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
             f.close()
             return ret
 
-def hdf_export_data(output_cls_instance, pth, filename, dsetname):
+def hdf_export_data(self, output_cls_instance, pth, filename, dsetname):
     """
 
     """
