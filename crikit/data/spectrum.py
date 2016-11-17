@@ -186,8 +186,10 @@ class Spectrum:
     def ndim(self):
         if self._data is None:
             return None
-        else:
+        elif isinstance(self._data, _np.ndarray):
             return self._data.ndim
+        else:
+            return len(self._data.shape)
 
     @property
     def shape(self):
@@ -203,34 +205,74 @@ class Spectrum:
         else:
             return self._data.size
 
-    def mean(self, extent=None, over_space=None):
+    def mean(self, extent=None, over_space=True):
         """
-        Return mean value or mean value over extent (inclusive).
-
-        Note
-        ----
-        over_space only included for consistency: with 1 spectrum there is\
-        no spatial (rep) component.
+        Return mean spectrum (or mean over extent [list with 2 elements]). If\
+        over_space is False, returns reps-number of mean spectra
         """
         if self._data is None:
             return None
-        else:
-            if extent is None:
+        
+        ndim = len(self._data.shape)
+        
+        if ndim == 1:
+            if isinstance(self._data, _np.ndarray):
                 return self._data.mean()
             else:
-                return self._data[extent[0]:extent[1]+1].mean()
+                return _np.mean(self._data)
+                
+        if ndim > 1:
+            if over_space == True:
+                axes = tuple(_np.arange(ndim-1))
+            else:
+                axes = -1
+            
+        if isinstance(self._data, _np.ndarray):
+            if extent is None:
+                return self._data.mean(axis=axes)
+            else:
+                return self._data[:,extent[0]:extent[1]+1].mean(axis=axes)
+        else:
+            if extent is None:
+                return _np.mean(self._data, axis=axes)
+            else:
+                return _np.mean(self._data[:,extent[0]:extent[1]+1], 
+                                axis=axes)
 
-    def std(self, extent=None):
+    def std(self, extent=None, over_space=True):
         """
-        Return standard deviation value (or over extent [inclusive])
+        Return standard deviation (std) spectrum (or std over extent 
+        [list with 2 elements]). If over_space is False, reps (or reps x reps)
+        number of std's.
         """
         if self._data is None:
             return None
-        else:
-            if extent is None:
+        
+        ndim = len(self._data.shape)
+        
+        if ndim == 1:
+            if isinstance(self._data, _np.ndarray):
                 return self._data.std()
             else:
-                return self._data[extent[0]:extent[1]+1].std()
+                return _np.std(self._data)
+                
+        if ndim > 1:
+            if over_space == True:
+                axes = tuple(_np.arange(ndim-1))
+            else:
+                axes = -1
+            
+        if isinstance(self._data, _np.ndarray):
+            if extent is None:
+                return self._data.std(axis=axes)
+            else:
+                return self._data[:,extent[0]:extent[1]+1].std(axis=axes)
+        else:
+            if extent is None:
+                return _np.std(self._data, axis=axes)
+            else:
+                return _np.std(self._data[:,extent[0]:extent[1]+1], 
+                                axis=axes)
 
     def subtract(self, spectrum, overwrite=True):
         """

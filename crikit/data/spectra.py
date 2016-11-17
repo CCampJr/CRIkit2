@@ -124,7 +124,8 @@ class Spectra(_Spectrum):
                 else:
                     raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
         else:
-               raise TypeError('data must be a ndarray')
+            print('Assigning non-ndarray to data. Not shape checking')
+            self._data = value
 
     @property
     def n_pix(self):
@@ -140,38 +141,6 @@ class Spectra(_Spectrum):
             self._reps = value
         elif isinstance(value, _np.ndarray):
             self._reps.data = value
-
-
-    def mean(self, extent=None, over_space=True):
-        """
-        Return mean spectrum (or mean over extent [list with 2 elements]). If\
-        over_space is False, returns reps-number of mean spectra
-        """
-        if self._data is None:
-            return None
-        else:
-            if over_space:  # Mean over all space
-                if extent is None:
-                    return self._data.mean(axis=0)
-                else:
-                    return self._data[:,extent[0]:extent[1]+1].mean(axis=0)
-            else:
-                if extent is None:
-                    return self._data.mean(axis=-1)
-                else:
-                    return self._data[:,extent[0]:extent[1]+1].mean(axis=-1)
-
-    def std(self, extent=None):
-        """
-        Return standard deviation spectrum
-        """
-        if self._data is None:
-            return None
-        else:
-            if extent is None:
-                return self._data.std(axis=0)
-            else:
-                return self._data[:,extent[0]:extent[1]+1].std(axis=0)
 
     def subtract(self, spectra, overwrite=True):
         """

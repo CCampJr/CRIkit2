@@ -205,8 +205,9 @@ class Hsi(_Spectrum):
             else:
                 raise TypeError('data must be 3D')
         else:
-           raise TypeError('data must be a 3D ndarray')
-
+            print('Assigning non-ndarray to data. Not shape checking')
+            self._data = value
+            
     @property
     def data_imag_over_real(self):
         if _np.iscomplexobj(self._data):
@@ -220,37 +221,6 @@ class Hsi(_Spectrum):
             return self._data.real
         else:
             return self._data
-            
-    def mean(self, extent=None, over_space=True):
-        """
-        Return mean spectrum (or over extent)
-        """
-        if self._data is None:
-            return None
-        else:
-            if over_space:  # Mean over spatial axes
-                if extent is None:
-                    return self._data.mean(axis=0).mean(axis=0)
-                else:
-                    return self._data[:,:,extent[0]:extent[1]+1].mean(axis=0).mean(axis=0)
-    
-            else:  # Over spectrum
-                if extent is None:
-                    return self._data.mean(axis=-1)
-                else:
-                    return self._data[:,:,extent[0]:extent[1]+1].mean(axis=-1)
-
-    def std(self, extent=None):
-        """
-        Return standard deviation spectrum
-        """
-        if self._data is None:
-            return None
-        else:
-            if extent is None:
-                return self._data.std(axis=0).std(axis=0)
-            else:
-                return self._data[:,:,extent[0]:extent[1]+1].std(axis=0).std(axis=0)
 
     def subtract(self, spectra, overwrite=True):
         """
@@ -354,7 +324,7 @@ class Hsi(_Spectrum):
                 else:
                     temp[count,:] = _np.squeeze(_np.mean(self.data[rows[0]:rows[1], cols[0]:cols[1], :], axis=(0, 1)))
 
-        if not full:
+        if (not full) and (self.freq.data is not None):
             temp = temp[..., self.freq.op_range_pix]
 
         return temp
