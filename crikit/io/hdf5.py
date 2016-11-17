@@ -135,7 +135,7 @@ def hdf_attr_to_dict(attr):
             try:
                 output_dict[count] = attr[count]
             except:
-                print('Fail: {}'.count)
+                print('Fail: {}'.format(count))
     return output_dict
 
 def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
