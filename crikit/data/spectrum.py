@@ -115,7 +115,26 @@ class Spectrum:
         else:
                raise TypeError('data must be a 1D ndarray')
 
-
+    @property
+    def data_imag_over_real(self):
+        if _np.iscomplexobj(self._data):
+            if isinstance(self._data, _np.ndarray):
+                return self._data.imag
+            else:
+                return _np.imag(self._data)
+        else:
+            return self._data
+    
+    @property
+    def data_real_over_imag(self):
+        if _np.iscomplexobj(self._data):
+            if isinstance(self._data, _np.ndarray):
+                return self._data.real
+            else:
+                return _np.real(self._data)
+        else:
+            return self._data
+            
     @property
     def freq(self):
         return self._freq

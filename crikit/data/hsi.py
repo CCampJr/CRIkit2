@@ -207,20 +207,6 @@ class Hsi(_Spectrum):
         else:
             print('Assigning non-ndarray to data. Not shape checking')
             self._data = value
-            
-    @property
-    def data_imag_over_real(self):
-        if _np.iscomplexobj(self._data):
-            return self._data.imag
-        else:
-            return self._data
-    
-    @property
-    def data_real_over_imag(self):
-        if _np.iscomplexobj(self._data):
-            return self._data.real
-        else:
-            return self._data
 
     def subtract(self, spectra, overwrite=True):
         """
