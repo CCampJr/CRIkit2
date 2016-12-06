@@ -431,6 +431,10 @@ class Ui_MainWindow(object):
         self.actionDeNoiseNRB.setObjectName("actionDeNoiseNRB")
         self.actionDeNoiseDark = QtWidgets.QAction(MainWindow)
         self.actionDeNoiseDark.setObjectName("actionDeNoiseDark")
+        self.actionShowOverlays = QtWidgets.QAction(MainWindow)
+        self.actionShowOverlays.setCheckable(True)
+        self.actionShowOverlays.setChecked(True)
+        self.actionShowOverlays.setObjectName("actionShowOverlays")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -489,6 +493,7 @@ class Ui_MainWindow(object):
         self.menuView.addAction(self.menuToolbar.menuAction())
         self.menuView.addSeparator()
         self.menuView.addAction(self.actionShowPlotter)
+        self.menuView.addAction(self.actionShowOverlays)
         self.menuView.addSeparator()
         self.menuView.addAction(self.actionPointSpectrum)
         self.menuView.addAction(self.actionROISpectrum)
@@ -603,5 +608,6 @@ class Ui_MainWindow(object):
         self.actionRightSideNRBSpect.setText(_translate("MainWindow", "Right-Side NRB Spec"))
         self.actionDeNoiseNRB.setText(_translate("MainWindow", "De-Noise NRB"))
         self.actionDeNoiseDark.setText(_translate("MainWindow", "De-Noise Dark"))
+        self.actionShowOverlays.setText(_translate("MainWindow", "Show ROI Overlays"))
 
 from . import icons_all_rc
