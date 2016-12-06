@@ -1237,7 +1237,6 @@ class CRIkitUI_process(_QMainWindow):
         self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
         self.changeSlider()
 
-#        plot_num = len(self.plotter._plot_data)
         plot_num = self.plotter.n_lines
         label = 'Point ' + str(plot_num)
         
@@ -1278,7 +1277,7 @@ class CRIkitUI_process(_QMainWindow):
                 stddev = _np.std(spectra[..., rng], axis=0)
             else:
                 spectrum = spectra[..., rng]
-#            plot_num = len(self.plotter._plot_data)
+
             plot_num = self.plotter.n_lines
             label = 'ROI ' + str(plot_num)
             
@@ -1286,7 +1285,6 @@ class CRIkitUI_process(_QMainWindow):
             self.plotter.plot(self.hsi.f, spectrum, label=label)
             
             # Check color of line b/c uses color cycler-- for fill_b/w
-#            color = self.plotter._plot_data[-1].style_dict['color']
             color = self.plotter.list_all[-1].style_dict['color']
             
             
@@ -2421,7 +2419,6 @@ class CRIkitUI_process(_QMainWindow):
                 
             
             # Check color of line b/c uses color cycler-- for fill_b/w
-#            color = self.plotter._plot_data[-1].style_dict['color']
             color = self.plotter.list_all[-1].style_dict['color']
             
             # Alternative
