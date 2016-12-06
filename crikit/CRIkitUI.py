@@ -1219,20 +1219,27 @@ class CRIkitUI_process(_QMainWindow):
         After this function completes, it sends the data (x_pt, y_pt) on to \
         the pass_fcn function.
         """
-        if event.inaxes == self.img_BW.mpl.ax:
-                #self.tempverts += [[event.xdata, event.ydata]]
-            x_loc = event.xdata
-            y_loc = event.ydata
-
-            # Send on to a function that will use the collected data
-            pass_fcn((x_loc, y_loc))
-
+        if event.button == 1:
+            if event.inaxes == self.img_BW.mpl.ax:
+                    #self.tempverts += [[event.xdata, event.ydata]]
+                x_loc = event.xdata
+                y_loc = event.ydata
+    
+                # Send on to a function that will use the collected data
+                pass_fcn((x_loc, y_loc))
+    
+                self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+                self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+                self.img_BW.mpl.mpl_disconnect(self.cid)
+                self.cid = None
+            else:  # Clicked out-of-bounds
+                pass
+#                print('Clicked out-of-bounds')
+        else: # Right-or-middle clicked; thus, cancel
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.mpl_disconnect(self.cid)
             self.cid = None
-        else:
-            print('Clicked out-of-bounds')
 
     def _pointSpectrumPlot(self, locs):
         """
@@ -1353,14 +1360,16 @@ class CRIkitUI_process(_QMainWindow):
 
                     self.img_BW.mpl.draw()
         else:
-            self.x_loc_list.append(self.x_loc_list[0])
-            self.y_loc_list.append(self.y_loc_list[0])
-
-            # Pass on roi data
-            if not args:
-                pass_fcn((self.x_loc_list, self.y_loc_list))
-            else:
-                pass_fcn((self.x_loc_list, self.y_loc_list), args)
+            if len(self.x_loc_list) > 0: # Insure at least 1 vertex
+                self.x_loc_list.append(self.x_loc_list[0])
+                self.y_loc_list.append(self.y_loc_list[0])
+    
+                # Pass on roi data
+                if not args:
+                    pass_fcn((self.x_loc_list, self.y_loc_list))
+                else:
+                    pass_fcn((self.x_loc_list, self.y_loc_list), args)
+            
             del self.x_loc_list
             del self.y_loc_list
 
