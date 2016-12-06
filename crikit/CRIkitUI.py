@@ -225,6 +225,8 @@ class CRIkitUI_process(_QMainWindow):
 
         self.ui.sweeperVL.insertWidget(0, self.img_BW)
         self.img_BW.mpl.fig.tight_layout(pad = 2)
+        # ID used for matplotlib to connect to a figure
+        self.cid = None
 
         # Initialize Single-Color RGB widgets
         self.img_RGB_list = []
@@ -1007,11 +1009,12 @@ class CRIkitUI_process(_QMainWindow):
         ------
             Left mouse-click : Select vertex point
         """
-        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
-                                               lambda event: self._pointClick(event, self._pointSpectrumPlot))
-
-        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
-        self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        if self.cid is None:
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+                                                   lambda event: self._pointClick(event, self._pointSpectrumPlot))
+        
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def subtractROIStart(self):
         """
@@ -1021,15 +1024,17 @@ class CRIkitUI_process(_QMainWindow):
         MPL window. It executes all the way through
 
         """
-        # Updated by _roiClick
-        self.x_loc_list = []
-        self.y_loc_list = []
-
-
-        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
-
-        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
-        self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        
+        if self.cid is None:
+            # Updated by _roiClick
+            self.x_loc_list = []
+            self.y_loc_list = []
+    
+    
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
+    
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _roiSubtract(self, locs):
         """
@@ -1108,10 +1113,11 @@ class CRIkitUI_process(_QMainWindow):
             
             # Need to send sender as the text name as the actual object 
             # will change
-            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
-
-            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
-            self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            if self.cid is None:
+                self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
+    
+                self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+                self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         
         else:
             print('Unknown action send to nrbFromROI')
@@ -1195,15 +1201,16 @@ class CRIkitUI_process(_QMainWindow):
             Left mouse-click : Select vertex point
             Right mouse-click : Close polygon
         """
-        # Updated by _roiClick
-        self.x_loc_list = []
-        self.y_loc_list = []
-
-
-        self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
-
-        self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
-        self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        if self.cid is None:
+            # Updated by _roiClick
+            self.x_loc_list = []
+            self.y_loc_list = []
+    
+    
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSpectrumPlot))
+    
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
 
     def _pointClick(self, event, pass_fcn):
         """
@@ -1223,6 +1230,7 @@ class CRIkitUI_process(_QMainWindow):
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.mpl_disconnect(self.cid)
+            self.cid = None
         else:
             print('Clicked out-of-bounds')
 
@@ -1359,6 +1367,7 @@ class CRIkitUI_process(_QMainWindow):
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.mpl_disconnect(self.cid)
+            self.cid = None
             self.changeSlider()
 
 
