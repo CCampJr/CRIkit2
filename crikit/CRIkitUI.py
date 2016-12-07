@@ -96,7 +96,7 @@ from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate,
                                          widgetALS as _widgetALS,
                                          widgetSG as _widgetSG)
 
-from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
+#from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
 
 import crikit.measurement.peakamps as _peakamps
@@ -197,6 +197,10 @@ class CRIkitUI_process(_QMainWindow):
         self.dark = Spectra()
         self.nrb = Spectra()
         
+        # Overlays
+        self.overlays = []
+        self.show_overlays = True
+        
         # Piecewise NRB's (not always used)
         self.nrb_left = Spectra()
         self.nrb_right = Spectra()
@@ -206,17 +210,24 @@ class CRIkitUI_process(_QMainWindow):
         
         
         self.plotter = _SciPlotUI(show=False, parent=parent)
+        
+        
+        
+        
 #        self.plotter.show()
 #        self.plotter.hide()
                 
-        self.selectiondata = _ImageSelection()
+#        self.selectiondata = _ImageSelection()
 
         self.ui = Ui_MainWindow() ### EDIT ###
 
 
         self.ui.setupUi(self)     ### EDIT ###
         
-
+        # Match UI Show overlays to attribute of this class
+        self.ui.actionShowOverlays.setChecked(self.show_overlays)
+        
+        
         # Initialize Intensity image (single frequency B&W)
         self.img_BW = widgetBWImg(parent=self, figfacecolor=[1,1,1])
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
@@ -355,7 +366,14 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionLeftSideNRBSpect.triggered.connect(self.plotLeftNRBSpectrum)
         self.ui.actionRightSideNRBSpect.triggered.connect(self.plotRightNRBSpectrum)
         self.ui.actionShowPlotter.triggered.connect(self.plotter_show)
-#
+
+        # Overlays
+        self.plotter.modelLine.dataDeleted.connect(self.updateOverlays)
+        self.plotter.modelLine.dataChanged.connect(self.updateOverlays)
+        self.plotter.all_cleared.connect(self.deleteOverlays)
+        self.ui.actionShowOverlays.triggered.connect(self.checkShowOverlays)
+        self.ui.actionShowOverlayLegend.triggered.connect(self.changeSlider)
+        
 #        # Frequency-slider related
         self.ui.freqSlider.valueChanged.connect(self.changeSlider)
         self.ui.freqSlider.sliderPressed.connect(self.sliderPressed)
@@ -1249,7 +1267,7 @@ class CRIkitUI_process(_QMainWindow):
         x_loc, y_loc = locs
         x_pix = find_nearest(self.hsi.x, x_loc)[1]
         y_pix = find_nearest(self.hsi.y, y_loc)[1]
-        self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
+#        self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
         self.changeSlider()
 
         plot_num = self.plotter.n_lines
@@ -1257,12 +1275,17 @@ class CRIkitUI_process(_QMainWindow):
         
         rng = self.hsi.freq.op_range_pix
         
+        meta = {'x': x_loc, 'y': y_loc, 'x_pix': x_pix, 'y_pix': y_pix, 
+                'overlay': True}
+        
         self.plotter.plot(self.hsi.f, 
                           self.hsi.data_imag_over_real[y_pix, x_pix, rng],
-                          label=label)
+                          label=label, meta=meta)
+        
         
         self.plotter.show()
         self.plotter.raise_()
+        self.updateOverlays()
 #        self.plotter.raise_()
             
     def _roiSpectrumPlot(self, locs):
@@ -1274,7 +1297,7 @@ class CRIkitUI_process(_QMainWindow):
         x_pix = find_nearest(self.hsi.x,x_loc_list)[1]
         y_pix = find_nearest(self.hsi.y,y_loc_list)[1]
 
-        self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
+#        self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
         #self.img_BW.mpl.mpl_disconnect(self.cid)
 
         mask, path = _roimask(self.hsi.x, self.hsi.y,
@@ -1297,7 +1320,9 @@ class CRIkitUI_process(_QMainWindow):
             label = 'ROI ' + str(plot_num)
             
             # Plot line
-            self.plotter.plot(self.hsi.f, spectrum, label=label)
+            meta = {'x': x_loc_list, 'y': y_loc_list, 'x_pix': x_pix,
+                    'y_pix': y_pix, 'overlay': True}
+            self.plotter.plot(self.hsi.f, spectrum, label=label, meta=meta)
             
             # Check color of line b/c uses color cycler-- for fill_b/w
             color = self.plotter.list_all[-1].style_dict['color']
@@ -1312,11 +1337,13 @@ class CRIkitUI_process(_QMainWindow):
                                           spectrum+stddev, color=color, 
                                           alpha=0.25,
                                           label='$\pm$1 Std. Dev. (' + label +
-                                                                   ')')
+                                                                   ')',
+                                          meta=meta)
             
             del spectrum
             self.plotter.show()
             self.plotter.raise_()
+            self.updateOverlays()
 
 
         del x_pix
@@ -2504,39 +2531,113 @@ class CRIkitUI_process(_QMainWindow):
             gety = self.img_BW.mpl.ax.get_ylim()
     
             self.img_BW.mpl.ax.hold(True)
-            self.img_BW.mpl.draw()
-#            for pts in self.selectiondata.pointdata_list:
-#                #print('Pts.X:{}'.format(pts.x))
-#                if len(pts.x) == 1:
-#                    #print('X2: {}, X2-Pix: {}, Y2: {}, Y2-Pix:{}'.format(pts.x, pts.xpix, pts.y, pts.ypix))
-#                    self.img_BW.mpl.ax.plot(pts.x, pts.y,
-#                                          marker='+',
-#                                          markersize=10,
-#                                          markerfacecolor=pts.style.color,
-#                                          markeredgecolor=pts.style.color,
-#                                          linestyle='None')
-#                else:
-#                    self.img_BW.mpl.ax.plot(pts.x, pts.y,
-#                                          marker='None',
-#                                          markersize=10,
-#                                          color=pts.style.color,
-#                                          markerfacecolor=pts.style.color,
-#                                          markeredgecolor=pts.style.color,
-#                                          linestyle=pts.style.linestyle,
-#                                          linewidth=2)
-#
-#                self.img_BW.mpl.ax.set_xlim(getx)
-#                self.img_BW.mpl.ax.set_ylim(gety)
-
-            
-
-            if self.bcpre.backed_flag.count(True) > 1:
-                self.ui.actionUndo.setEnabled(True)
-            else:
-                self.ui.actionUndo.setEnabled(False)
-
         except:
-            print('Error in changeSlider')
+            print('Error in changeSlider: display img_BW')
+            
+        try:
+            if self.show_overlays:
+                for ol in self.overlays:
+                    if (isinstance(ol['meta']['x'], list) | 
+                        isinstance(ol['meta']['x'], _np.ndarray)):
+                        
+                        if len(ol['meta']['x']) > 1:
+                            
+                            x = ol['meta']['x']
+                            y = ol['meta']['y']
+                            color = ol['color']
+                            mfc = color
+                            mec = color
+                            lw = ol['linewidth']
+                            label = ol['label']
+                            ls = ol['linestyle']
+                            ms = ol['markersize']
+                            a = ol['alpha']
+                            
+                            marker = ol['marker']
+                            self.img_BW.mpl.ax.plot(x, y, marker=marker, 
+                                                    mfc=mfc, mec=mec, 
+                                                    color=color, lw=lw,
+                                                    ls=ls, ms=ms, alpha=a, 
+                                                    label=label)
+                            
+                            if self.ui.actionShowOverlayLegend.isChecked():
+                                try:
+                                    self.img_BW.mpl.ax.legend(loc='best')
+                                except:
+                                    pass
+                            
+                        else:
+                            x = ol['meta']['x'][0]
+                            y = ol['meta']['y'][0]
+                            color = ol['color']
+                            mfc = color
+                            mec = color
+                            lw = ol['linewidth']
+                            label = ol['label']
+                            ls = ol['linestyle']
+                            ms = ol['markersize']
+                            a = ol['alpha']
+                            
+                            marker = ol['marker']
+                            
+                            if isinstance(marker, str):
+                                # Need some sort of marker
+                                if marker.lower() == 'none':
+                                    marker = 'x'
+                                else:
+                                    pass
+                            self.img_BW.mpl.ax.plot(x, y, marker=marker,
+                                                    color=color, mfc=mfc,
+                                                    mec=mec, lw=lw,
+                                                    ls=ls, ms=ms, alpha=a, 
+                                                    label=label)
+                            if self.ui.actionShowOverlayLegend.isChecked():
+                                try:
+                                    self.img_BW.mpl.ax.legend(loc='best')
+                                except:
+                                    pass
+                            
+                    else:
+                        x = ol['meta']['x']
+                        y = ol['meta']['y']
+                        color = ol['color']
+                        mfc = color
+                        mec = color
+                        lw = ol['linewidth']
+                        label = ol['label']
+                        ls = ol['linestyle']
+                        ms = ol['markersize']
+                        a = ol['alpha']
+                        
+                        marker = ol['marker']
+                        
+                        if isinstance(marker, str):
+                            # Need some sort of marker
+                            if marker.lower() == 'none':
+                                marker = 'x'
+                            else:
+                                pass
+                        self.img_BW.mpl.ax.plot(x, y, marker=marker,
+                                                color=color, mfc=mfc, 
+                                                mec=mec, lw=lw,
+                                                ls=ls, ms=ms, alpha=a, 
+                                                label=label)
+                        if self.ui.actionShowOverlayLegend.isChecked():
+                                try:
+                                    self.img_BW.mpl.ax.legend(loc='best')
+                                except:
+                                    pass
+        except:
+            print('Error in changeSlider: display overlays')
+            
+        self.img_BW.mpl.draw()
+
+        if self.bcpre.backed_flag.count(True) > 1:
+            self.ui.actionUndo.setEnabled(True)
+        else:
+            self.ui.actionUndo.setEnabled(False)
+
+        
 
     def sliderPressed(self):
         """
@@ -2584,6 +2685,24 @@ class CRIkitUI_process(_QMainWindow):
 #        self.img_Composite.mpl.draw()
         except:
             pass
+        
+    def updateOverlays(self):
+        self.overlays=[]
+        for ln in self.plotter.list_line_objs:
+            ms = ln.model_style
+            
+            # Make sure there is the appropriate meta data
+            if ms.get('meta').get('overlay') is not None:
+                if ms['meta']['overlay'] == True:
+                    self.overlays.append(ms)
+        self.changeSlider()
+        
+    def deleteOverlays(self):
+        self.updateOverlays()
+        
+    def checkShowOverlays(self):
+        self.show_overlays = self.ui.actionShowOverlays.isChecked()
+        self.changeSlider()
 
 if __name__ == '__main__':
 
