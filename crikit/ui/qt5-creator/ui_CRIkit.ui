@@ -465,6 +465,7 @@ This will be saved to the processed file.</string>
     <addaction name="separator"/>
     <addaction name="actionShowPlotter"/>
     <addaction name="actionShowOverlays"/>
+    <addaction name="actionShowOverlayLegend"/>
     <addaction name="separator"/>
     <addaction name="actionPointSpectrum"/>
     <addaction name="actionROISpectrum"/>
@@ -1097,6 +1098,14 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Show ROI Overlays</string>
+   </property>
+  </action>
+  <action name="actionShowOverlayLegend">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Overlay Legend</string>
    </property>
   </action>
  </widget>

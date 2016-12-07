@@ -435,6 +435,9 @@ class Ui_MainWindow(object):
         self.actionShowOverlays.setCheckable(True)
         self.actionShowOverlays.setChecked(True)
         self.actionShowOverlays.setObjectName("actionShowOverlays")
+        self.actionShowOverlayLegend = QtWidgets.QAction(MainWindow)
+        self.actionShowOverlayLegend.setCheckable(True)
+        self.actionShowOverlayLegend.setObjectName("actionShowOverlayLegend")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -494,6 +497,7 @@ class Ui_MainWindow(object):
         self.menuView.addSeparator()
         self.menuView.addAction(self.actionShowPlotter)
         self.menuView.addAction(self.actionShowOverlays)
+        self.menuView.addAction(self.actionShowOverlayLegend)
         self.menuView.addSeparator()
         self.menuView.addAction(self.actionPointSpectrum)
         self.menuView.addAction(self.actionROISpectrum)
@@ -609,5 +613,6 @@ class Ui_MainWindow(object):
         self.actionDeNoiseNRB.setText(_translate("MainWindow", "De-Noise NRB"))
         self.actionDeNoiseDark.setText(_translate("MainWindow", "De-Noise Dark"))
         self.actionShowOverlays.setText(_translate("MainWindow", "Show ROI Overlays"))
+        self.actionShowOverlayLegend.setText(_translate("MainWindow", "Show Overlay Legend"))
 
 from . import icons_all_rc
