@@ -211,14 +211,6 @@ class CRIkitUI_process(_QMainWindow):
         
         self.plotter = _SciPlotUI(show=False, parent=parent)
         
-        
-        
-        
-#        self.plotter.show()
-#        self.plotter.hide()
-                
-#        self.selectiondata = _ImageSelection()
-
         self.ui = Ui_MainWindow() ### EDIT ###
 
 
@@ -1407,25 +1399,6 @@ class CRIkitUI_process(_QMainWindow):
             self.changeSlider()
 
 
-#    def colorChange(self, num):
-#        """
-#        Changes color of point or ROI overlay. May be triggered by alterations \
-#        made in plotter subui
-#        """
-#        self.selectiondata.pointdata_list[num].style.color = \
-#            self.plotter._data.spectra_list[num].style.color
-#        self.changeSlider()
-#
-#
-#    def deleteSelection(self, num):
-#        """
-#        Removes point or ROI overlay. May be triggered by deletion of \
-#        selection from plotter subui
-#        """
-#        self.selectiondata.pointdata_list.pop(num)
-#        self.changeSlider()
-
-
     def freqWindow(self):
         """
         Limit the frequency window displayed and analyzed
@@ -1639,12 +1612,6 @@ class CRIkitUI_process(_QMainWindow):
             
             self.ui.actionPhaseErrorCorrection.setEnabled(True)
             self.ui.actionScaleErrorCorrection.setEnabled(True)
-#            stop = _timeit.default_timer()
-
-#            num_spectra = int(self.hsi.size/self.hsi.freq.size)
-#            print('KK Total time: {:.6f} sec ({:.6f} sec/spectrum)'.format(stop-start, (stop-start)/num_spectra))
-
-#            start = _timeit.default_timer()
 
             # Backup for Undo
             self.bcpre.add_step(['KK','CARSAmp',cars_amp_offset,'NRBAmp',
@@ -1974,29 +1941,6 @@ class CRIkitUI_process(_QMainWindow):
                     if out == _QMessageBox.Ok:
                         sub_dark.transform(self.nrb.data)
                         
-#                if self.nrb_left is not None:
-#                    msg = _QMessageBox(self)
-#                    msg.setIcon(_QMessageBox.Question)
-#                    msg.setText('Subtract Dark Spectrum from left-Side NRB Spectrum(a)?')
-#                    msg.setWindowTitle('Confirm dark subtract from left-Side NRB spectrum(a)')
-#                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
-#                    msg.setDefaultButton(_QMessageBox.Ok)
-#                    out = msg.exec()
-#                    
-#                    if out == _QMessageBox.Ok:
-#                        sub_dark.transform(self.nrb_left.data)
-#                        
-#                if self.nrb_right is not None:
-#                    msg = _QMessageBox(self)
-#                    msg.setIcon(_QMessageBox.Question)
-#                    msg.setText('Subtract Dark Spectrum from right-Side NRB Spectrum(a)?')
-#                    msg.setWindowTitle('Confirm dark subtract from right-Side NRB spectrum(a)')
-#                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
-#                    msg.setDefaultButton(_QMessageBox.Ok)
-#                    out = msg.exec()
-#                    
-#                    if out == _QMessageBox.Ok:
-#                        sub_dark.transform(self.nrb_right.data)
                 
                 # Backup for Undo
                 if (darkloaded | nrbloaded):
