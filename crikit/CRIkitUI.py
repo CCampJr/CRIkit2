@@ -2481,96 +2481,36 @@ class CRIkitUI_process(_QMainWindow):
         try:
             if self.show_overlays:
                 for ol in self.overlays:
-                    if (isinstance(ol['meta']['x'], list) | 
-                        isinstance(ol['meta']['x'], _np.ndarray)):
-                        
-                        if len(ol['meta']['x']) > 1:
-                            
-                            x = ol['meta']['x']
-                            y = ol['meta']['y']
-                            color = ol['color']
-                            mfc = color
-                            mec = color
-                            lw = ol['linewidth']
-                            label = ol['label']
-                            ls = ol['linestyle']
-                            ms = ol['markersize']
-                            a = ol['alpha']
-                            
-                            marker = ol['marker']
-                            self.img_BW.mpl.ax.plot(x, y, marker=marker, 
-                                                    mfc=mfc, mec=mec, 
-                                                    color=color, lw=lw,
-                                                    ls=ls, ms=ms, alpha=a, 
-                                                    label=label)
-                            
-                            if self.ui.actionShowOverlayLegend.isChecked():
-                                try:
-                                    self.img_BW.mpl.ax.legend(loc='best')
-                                except:
-                                    pass
-                            
-                        else:
-                            x = ol['meta']['x'][0]
-                            y = ol['meta']['y'][0]
-                            color = ol['color']
-                            mfc = color
-                            mec = color
-                            lw = ol['linewidth']
-                            label = ol['label']
-                            ls = ol['linestyle']
-                            ms = ol['markersize']
-                            a = ol['alpha']
-                            
-                            marker = ol['marker']
-                            
-                            if isinstance(marker, str):
-                                # Need some sort of marker
-                                if marker.lower() == 'none':
-                                    marker = 'x'
-                                else:
-                                    pass
-                            self.img_BW.mpl.ax.plot(x, y, marker=marker,
-                                                    color=color, mfc=mfc,
-                                                    mec=mec, lw=lw,
-                                                    ls=ls, ms=ms, alpha=a, 
-                                                    label=label)
-                            if self.ui.actionShowOverlayLegend.isChecked():
-                                try:
-                                    self.img_BW.mpl.ax.legend(loc='best')
-                                except:
-                                    pass
-                            
-                    else:
-                        x = ol['meta']['x']
-                        y = ol['meta']['y']
-                        color = ol['color']
-                        mfc = color
-                        mec = color
-                        lw = ol['linewidth']
-                        label = ol['label']
-                        ls = ol['linestyle']
-                        ms = ol['markersize']
-                        a = ol['alpha']
-                        
-                        marker = ol['marker']
-                        
+                    x = ol['meta']['x']
+                    y = ol['meta']['y']
+                    
+                    color = ol['color']
+                    mfc = color  # Marker face color
+                    mec = color  # Marker edge color
+                    lw = ol['linewidth']  # Linewidth
+                    label = ol['label']
+                    ls = ol['linestyle']  # Linestyle
+                    ms = ol['markersize']  # Markersize
+                    a = ol['alpha']
+                    marker = ol['marker']
+                    
+                    # Need some sort of marker if just a point
+                    if _np.size(x) == 1:
                         if isinstance(marker, str):
-                            # Need some sort of marker
                             if marker.lower() == 'none':
                                 marker = 'x'
-                            else:
-                                pass
-                        self.img_BW.mpl.ax.plot(x, y, marker=marker,
-                                                color=color, mfc=mfc, 
-                                                mec=mec, lw=lw,
-                                                ls=ls, ms=ms, alpha=a, 
-                                                label=label)
-                        if self.ui.actionShowOverlayLegend.isChecked():
-                                try:
-                                    self.img_BW.mpl.ax.legend(loc='best')
-                                except:
-                                    pass
+                   
+                    self.img_BW.mpl.ax.plot(x, y, marker=marker, 
+                                            mfc=mfc, mec=mec, 
+                                            color=color, lw=lw,
+                                            ls=ls, ms=ms, alpha=a, 
+                                            label=label)
+                            
+                    if self.ui.actionShowOverlayLegend.isChecked():
+                        try:
+                            self.img_BW.mpl.ax.legend(loc='best')
+                        except:
+                            pass
         except:
             print('Error in changeSlider: display overlays')
             
