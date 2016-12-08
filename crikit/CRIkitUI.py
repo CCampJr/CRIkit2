@@ -1911,6 +1911,8 @@ class CRIkitUI_process(_QMainWindow):
         """
 
         nrbloaded = self.nrb.data is not None
+        nrbloaded_left = self.nrb_left.data is not None
+        nrbloaded_right = self.nrb_right.data is not None
         darkloaded = self.dark.data is not None
 
         if self.hsi.data is not None:
@@ -1940,6 +1942,30 @@ class CRIkitUI_process(_QMainWindow):
                     
                     if out == _QMessageBox.Ok:
                         sub_dark.transform(self.nrb.data)
+                        
+                if nrbloaded_left:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Dark Spectrum from Left-Side NRB Spectrum(a)?')
+                    msg.setWindowTitle('Confirm dark subtract from Left-Side NRB spectrum(a)')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_dark.transform(self.nrb_left.data)
+                        
+                if nrbloaded_right:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Dark Spectrum from Right-Side NRB Spectrum(a)?')
+                    msg.setWindowTitle('Confirm dark subtract from Right-Side NRB spectrum(a)')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_dark.transform(self.nrb_right.data)
                         
                 
                 # Backup for Undo
