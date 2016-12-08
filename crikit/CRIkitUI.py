@@ -112,7 +112,7 @@ from crikit.ui.widget_images import widgetBWImg
 
 
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
-from crikit.ui.dialog_subResidualOptions import DialogSubResidualOptions
+
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 
 from crikit.ui.dialog_kkOptions import DialogKKOptions
@@ -2000,33 +2000,80 @@ class CRIkitUI_process(_QMainWindow):
         Subtract a linear residual over range
         """
         nrbloaded = self.nrb.data is not None
+        nrbloaded_left = self.nrb_left.data is not None
+        nrbloaded_right = self.nrb_right.data is not None
         imgloaded = self.hsi.data is not None
 
         if nrbloaded or imgloaded:
-            out = DialogSubResidualOptions.dialogSubResidualOptions(parent=self,imgloaded=imgloaded,
-                                                                    nrbloaded=nrbloaded)
-            if out is not None:
-                rng = self.hsi.freq.get_index_of_closest_freq(out['subrange'])
+            text, ok = _QInputDialog.getText(None, 'Frequency Window', 'Range Tuple (cm-1): ', text='(-1500, -500)')
+            if ok:
+                text_str_list = text.strip('(').strip(')').strip().split(',')
+                freqwin = [float(q) for q in text_str_list]
+                freqwin.sort()
+                
+                rng = self.hsi.freq.get_index_of_closest_freq(freqwin)
                 sub_residual = SubtractMeanOverRange(rng)
 
-                if out['submain']:
-                    # HSI
-                    sub_residual.transform(self.hsi.data)
-                if out['subnrb']:
-                    # NRB
-                    sub_residual.transform(self.nrb.data)
+                if imgloaded:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Residual Dark Spectrum from Image?')
+                    msg.setWindowTitle('Confirm residual subtraction from Image')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out_img = msg.exec()
                     
+                    if out_img == _QMessageBox.Ok:
+                        sub_residual.transform(self.hsi.data)
+                        
+                if nrbloaded:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Residual Dark Spectrum from NRB?')
+                    msg.setWindowTitle('Confirm residual subtraction from NRB')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_residual.transform(self.nrb.data)
+                        
+                if nrbloaded_left:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Residual Dark Spectrum from Left-Side NRB?')
+                    msg.setWindowTitle('Confirm residual subtraction from Left-Side NRB')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_residual.transform(self.nrb_left.data)
+                        
+                if nrbloaded_right:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Question)
+                    msg.setText('Subtract Residual Dark Spectrum from Right-Side NRB?')
+                    msg.setWindowTitle('Confirm residual subtraction from Right-Side NRB')
+                    msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    
+                    if out == _QMessageBox.Ok:
+                        sub_residual.transform(self.nrb_right.data)
+                                            
                 # Backup for Undo
-                self.bcpre.add_step(['SubResidual','RangeStart',
-                                     out['subrange'][0],'RangeEnd',
-                                     out['subrange'][1]])
-                if self.ui.actionUndo_Backup_Enabled.isChecked():
-                    try:
-                        _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                    except:
-                        print('Error in pickle backup (Undo functionality)')
-                    else:
-                        self.bcpre.backed_up()
+                if out_img == _QMessageBox.Ok:
+                    self.bcpre.add_step(['SubResidual','RangeStart',
+                                         freqwin[0],'RangeEnd',
+                                         freqwin[1]])
+                    if self.ui.actionUndo_Backup_Enabled.isChecked():
+                        try:
+                            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                        except:
+                            print('Error in pickle backup (Undo functionality)')
+                        else:
+                            self.bcpre.backed_up()
                 self.changeSlider()
         else:
             msg = _QMessageBox(self)
