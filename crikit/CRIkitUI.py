@@ -890,7 +890,7 @@ class CRIkitUI_process(_QMainWindow):
 #            print('nrb_left shape'.format(self.nrb_left.shape))
             
             
-            rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
+            rand_spectra = self.hsi.get_rand_spectra(2,pt_sz=3,quads=True)
             
             winPlotEffect = _DialogPlotEffectMergeNRBs.dialogPlotEffect(nrb_left=
                                                                         self.nrb_left.mean()[rng], 
