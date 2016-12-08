@@ -83,6 +83,12 @@ class widgetMergeNRBs(_QWidget):
         self.ui.spinBoxPix.setMinimum(0)
         self.ui.spinBoxPix.setMaximum(self.wn_vec.size-1)
         
+        # Set Range
+        self.ui.spinBoxLowRange.setValue(wn_vec.min())
+        self.ui.spinBoxHighRange.setValue(wn_vec.max())
+        self.rng = None
+        self.rangeChanged()
+        
         self.ui.comboBoxScaleLeftRight.setCurrentIndex(self.SCALE_IDX)
         self.ui.spinBoxWN.setValue(self.wn)
         self.ui.spinBoxPix.setValue(self.pix)
@@ -93,7 +99,28 @@ class widgetMergeNRBs(_QWidget):
         self.ui.comboBoxScaleLeftRight.currentIndexChanged.connect(self.scaleChanged)
         self.ui.spinBoxWN.editingFinished.connect(self.wnChanged)
         self.ui.spinBoxPix.editingFinished.connect(self.pixChanged)
-
+        
+        self.ui.spinBoxLowRange.editingFinished.connect(self.rangeChanged)
+        self.ui.spinBoxHighRange.editingFinished.connect(self.rangeChanged)
+    
+    def rangeChanged(self):
+        low = self.ui.spinBoxLowRange.value()
+        high = self.ui.spinBoxHighRange.value()
+        self.rng = [low, high]
+        self.rng.sort()
+        self.changed.emit()
+        
+    @property
+    def fullRange(self):
+        low = self.rng[0]
+        high = self.rng[1]
+        
+        if (_np.isclose(self.wn_vec.min(), low, atol=.1) & 
+            _np.isclose(self.wn_vec.max(), high, atol=.1)):
+            return True
+        else:
+            return False
+        
     def kkChanged(self):
         self.changed.emit()
     
@@ -189,6 +216,8 @@ class DialogPlotEffectMergeNRBs(_QDialog):
         self.merge_widget = widgetMergeNRBs(self.x)
         self.ui.verticalLayout.insertWidget(8, self.merge_widget)
         
+        
+        
         # Signal emited when something changes in the plugin widget
         self.merge_widget.changed.connect(self.widget_changed)
         
@@ -218,9 +247,18 @@ class DialogPlotEffectMergeNRBs(_QDialog):
         self.phase_bias = self.merge_widget.kk_widget.phaselin
         self.pad_factor = self.merge_widget.kk_widget.pad_factor
         
+        if self.merge_widget.fullRange:
+            x = self.x
+            locs = _np.arange(x.size, dtype=_np.integer)
+        else:
+            list_rng_pix = _find_nearest(self.x, self.merge_widget.rng)[1]
+            x = self.x[list_rng_pix[0]:list_rng_pix[1]+1]
+            locs = _np.arange(list_rng_pix[0],list_rng_pix[1]+1, 
+                              dtype=_np.integer)
+            
         self.mpl_orig.ax.clear()
-        self.mpl_orig.ax.plot(self.x, self.nrb_left, label='Left')
-        self.mpl_orig.ax.plot(self.x, self.nrb_right, label='Right')
+        self.mpl_orig.ax.plot(x, self.nrb_left[...,locs], label='Left')
+        self.mpl_orig.ax.plot(x, self.nrb_right[...,locs], label='Right')
         self.mpl_orig.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
         self.mpl_orig.ax.legend()
 #        self.mpl_orig.fig.tight_layout()
@@ -230,7 +268,7 @@ class DialogPlotEffectMergeNRBs(_QDialog):
         
         if self.data is None:
             self.mpl_affected.ax.clear()
-            self.mpl_affected.ax.plot(self.x, self.nrb_merge, 
+            self.mpl_affected.ax.plot(x, self.nrb_merge[...,locs], 
                                       label='Merged')
             self.mpl_affected.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
 #            self.mpl_affected.fig.tight_layout()
@@ -239,8 +277,8 @@ class DialogPlotEffectMergeNRBs(_QDialog):
             self.mpl_affected.draw()
             
         else:
-            self.mpl_orig.ax.plot(self.x, self.data.T, label='Data')
-            self.mpl_orig.ax.plot(self.x, self.nrb_merge, 
+            self.mpl_orig.ax.plot(x, self.data[...,locs].T, label='Data')
+            self.mpl_orig.ax.plot(x, self.nrb_merge[...,locs], 
                                       label='Merged') 
             self.mpl_orig.ax.legend(loc='best')
             self.mpl_orig.draw()
@@ -250,10 +288,10 @@ class DialogPlotEffectMergeNRBs(_QDialog):
                                 phase_offset=self.phase_bias,
                                 norm_to_nrb=self.nrb_norm,
                                 pad_factor=self.pad_factor)
-            kkd = kk.calculate(self.data, self.nrb_merge)
+            kkd = kk.calculate(self.data[...,locs], self.nrb_merge[...,locs])
 #            print('KKd shape: {}'.format(kkd.shape))
             self.mpl_affected.ax.clear()
-            self.mpl_affected.ax.plot(self.x, kkd.imag.T)
+            self.mpl_affected.ax.plot(x, kkd.imag.T)
             self.mpl_affected.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
             self.mpl_affected.ax.set_ylabel('KK Int.')
             self.mpl_affected.draw()
@@ -316,10 +354,13 @@ if __name__ == '__main__':
     # KK Demo
 #    plugin = _widgetMergeNRBs()
     
-    WN = _np.linspace(500,3600,800)
+    WN = _np.linspace(-1500,3600,1600)
     
     NRB_LEFT = 20e3*_np.exp(-(WN)**2/(1000**2)) + 500
     NRB_RIGHT = 6e3*_np.exp(-(WN-2500)**2/(400**2)) + 500
+    
+    NRB_LEFT[WN<500] *= 0
+    NRB_RIGHT[WN<500] *= 0
     
     
 #    NRB = _np.exp(-(WN-2450)**2/(500**2))
