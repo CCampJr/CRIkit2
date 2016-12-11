@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_HDFLoad.ui'
+# Form implementation generated from reading ui file '.\ui_HDFLoad.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -137,7 +137,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "HDF File Inspector"))
         self.label_1.setText(_translate("Dialog", "Groups Containing Datasets"))
         self.label_2.setText(_translate("Dialog", "Datasets"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Include</span> Entires with Substring (separate by \',\' [comma])</p></body></html>"))

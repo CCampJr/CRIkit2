@@ -370,7 +370,7 @@ This will be saved to the processed file.</string>
       <bool>false</bool>
      </property>
      <property name="title">
-      <string>Piece-wise NRB</string>
+      <string>Piecewise NRB</string>
      </property>
      <addaction name="actionMergeNRBs"/>
      <addaction name="separator"/>

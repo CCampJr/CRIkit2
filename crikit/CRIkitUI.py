@@ -1670,7 +1670,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
-        
+                
         plugin = _widgetSG(win_size=201, order=3)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.dark.mean()[rng],
                                                            x=self.hsi.f, 

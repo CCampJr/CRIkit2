@@ -534,7 +534,7 @@ class Ui_MainWindow(object):
         self.labelWavenumber.setText(_translate("MainWindow", "Wavenumber (cm-1)"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuImport.setTitle(_translate("MainWindow", "Import/Load"))
-        self.menuPiece_wise_NRB.setTitle(_translate("MainWindow", "Piece-wise NRB"))
+        self.menuPiece_wise_NRB.setTitle(_translate("MainWindow", "Piecewise NRB"))
         self.menuPre_Process.setTitle(_translate("MainWindow", "Pre-Process"))
         self.menuVariance_Stabilize.setTitle(_translate("MainWindow", "Standardize"))
         self.menuCoherent_Raman_Imaging.setTitle(_translate("MainWindow", "Coherent Raman Imaging"))
