@@ -223,6 +223,8 @@ class DialogPlotEffectMergeNRBs(_QDialog):
         
         
         self.widget_changed()
+        self.mpl_orig.ax.axis('tight')
+        self.mpl_affected.ax.axis('tight')
 
         self.ui.pushButtonOk.clicked.connect(self.accept)
         self.ui.pushButtonCancel.clicked.connect(self.reject)
@@ -256,32 +258,46 @@ class DialogPlotEffectMergeNRBs(_QDialog):
             locs = _np.arange(list_rng_pix[0],list_rng_pix[1]+1, 
                               dtype=_np.integer)
             
+        # Capture original axis limits for future setting
+        orig_ax_lims = self.mpl_orig.ax.axis()
+        
         self.mpl_orig.ax.clear()
+        
         self.mpl_orig.ax.plot(x, self.nrb_left[...,locs], label='Left')
         self.mpl_orig.ax.plot(x, self.nrb_right[...,locs], label='Right')
         self.mpl_orig.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
         self.mpl_orig.ax.legend()
 #        self.mpl_orig.fig.tight_layout()
 
+        # Set axis limits to that which the plot started
+        self.mpl_orig.ax.axis(orig_ax_lims)
+        
         self.mpl_orig.draw()
         
         
         if self.data is None:
+            affected_ax_lims = self.mpl_affected.ax.axis()
             self.mpl_affected.ax.clear()
+        
             self.mpl_affected.ax.plot(x, self.nrb_merge[...,locs], 
-                                      label='Merged')
+                                      lw=2, label='Merged')
             self.mpl_affected.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
 #            self.mpl_affected.fig.tight_layout()
             self.mpl_affected.ax.legend()
             
+            # Set axis limits to that which the plot started
+            self.mpl_affected.ax.axis(affected_ax_lims)
             self.mpl_affected.draw()
             
         else:
-            self.mpl_orig.ax.plot(x, self.data[...,locs].T, label='Data')
             self.mpl_orig.ax.plot(x, self.data[...,locs].T)
             self.mpl_orig.ax.plot(x, self.nrb_merge[...,locs], 
-                                      label='Merged') 
+                                  lw=2, label='Merged') 
             self.mpl_orig.ax.legend(loc='best')
+            
+            # Set axis limits to that which the plot started
+            self.mpl_orig.ax.axis(orig_ax_lims)
+            
             self.mpl_orig.draw()
 
             kk = _KramersKronig(cars_amp_offset=self.cars_bias,
@@ -290,11 +306,18 @@ class DialogPlotEffectMergeNRBs(_QDialog):
                                 norm_to_nrb=self.nrb_norm,
                                 pad_factor=self.pad_factor)
             kkd = kk.calculate(self.data[...,locs], self.nrb_merge[...,locs])
-#            print('KKd shape: {}'.format(kkd.shape))
+
+            # Capture original axis limits for future setting
+            affected_ax_lims = self.mpl_affected.ax.axis()
             self.mpl_affected.ax.clear()
+            
             self.mpl_affected.ax.plot(x, kkd.imag.T)
             self.mpl_affected.ax.set_xlabel('Wavenumber (cm$^{-1}$)')
             self.mpl_affected.ax.set_ylabel('KK Int.')
+            
+            # Set axis limits to that which the plot started
+            self.mpl_affected.ax.axis(affected_ax_lims)
+            
             self.mpl_affected.draw()
 
             
