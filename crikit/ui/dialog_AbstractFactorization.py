@@ -49,12 +49,16 @@ class DialogAbstractFactorization(_QDialog):
     
     def setupData(self, img_shape):
         self._img_shape = img_shape
+        self._img_size = int(_np.array(img_shape).prod())
+        self._img_shape2D = tuple(_np.array(img_shape)[0:2])
+        self._img_size2D = int(_np.array(img_shape)[0:2].prod())
         self._n_y = img_shape[0]
         self._n_x = img_shape[1]
         self._n_spectra = img_shape[2]
-        self._n_factors = None
+        self._n_factors = self.max_factors()
 
         self.selected_factors = set()
+
         
     def setup(self, parent = None):
 
@@ -77,6 +81,7 @@ class DialogAbstractFactorization(_QDialog):
         self._num_factor_visible = 6
 
         self.ui.lcdSelectedFactors.display(0)
+        self.ui.lcdMaxFactors.display(self.max_factors())
 
         self.factorWins = []
         self.factorLabelCheckBoxes = [self.ui.checkBox,
@@ -109,7 +114,7 @@ class DialogAbstractFactorization(_QDialog):
 
 
         self.ui.verticalLayout_3.insertWidget(1,self.reconCurrent)
-        self.ui.verticalLayout_3.insertWidget(4,self.reconRemainder)
+        self.ui.verticalLayout_3.insertWidget(-1,self.reconRemainder)
 
         for count in range(self._num_factor_visible):
             self.factorLabelCheckBoxes[count].setText('Keep: ' + str(count))
@@ -120,13 +125,13 @@ class DialogAbstractFactorization(_QDialog):
         return all_factors - self.selected_factors
         
     @classmethod
-    def main(cls, data, img_shape, parent=None):
+    def main(cls, data, img_shape, mask=None, parent=None):
         """
             Executes DialogAbstractFactorization dialog and returns values
         """
 #        raise NotImplementedError
         
-        dialog = cls(data, img_shape, parent)
+        dialog = cls(data, img_shape, mask, parent)
         dialog.showMaximized()
         result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
 
@@ -193,6 +198,9 @@ class DialogAbstractFactorization(_QDialog):
         self.ui.lcdSelectedFactors.display(len(self.selected_factors))
         self.updateCurrentRemainder()
 
+    def max_factors(self):
+        raise NotImplementedError('max_factors method not implemented')
+        
     def combiner(self, factors=None):
         raise NotImplementedError('combiner method not implemented')
 
@@ -235,7 +243,7 @@ class DialogAbstractFactorization(_QDialog):
                                        cmap = _mpl.cm.gray, origin='lower')
         self.reconRemainder.ax[1].plot(spect_nonselect)
         self.reconRemainder.draw()
-                
+        
 
     def updatePlots(self, startnum=0):
         """
@@ -299,7 +307,7 @@ if __name__ == '__main__':
     for count in range(y.size):
         data[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
 
-    win = DialogAbstractFactorization.main(None, DialogAbstractFactorization) ### EDIT ###
+    win = DialogAbstractFactorization.main(data, data.shape) ### EDIT ###
 
     print(win)
 

@@ -25,9 +25,22 @@ class DialogSVD(DialogAbstractFactorization):
         self.Vh = data[2]
         self._n_factors = self.s.size
 
+        self.mask = mask
+        
         self.updatePlots(0)
         self.updateCurrentRemainder()
     
+    def max_factors(self):
+        """
+        Return maximum number of factors. Since DialogAbstractFactorization
+        (parent) is initialized first (before self.s), need to return None
+        at first.
+        """
+        try:
+            return self.s.size
+        except:
+            return None
+            
     def combiner(self, selections=None):
         S = self.s_from_selected(selections=selections)
         
