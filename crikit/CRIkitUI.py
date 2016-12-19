@@ -2520,6 +2520,11 @@ class CRIkitUI_process(_QMainWindow):
         """
         Respond to change in frequency slider
         """
+        
+        # Get current axis limits to reset to these
+        # after refresh is performed
+        orig_axis_lims = self.img_BW.mpl.ax.axis()
+        
         pos = self.ui.freqSlider.sliderPosition()
         assert isinstance(pos, int), 'Slider position need be an integer'
 
@@ -2544,8 +2549,8 @@ class CRIkitUI_process(_QMainWindow):
     
             self.createImgBW(self.img_BW.data.image)
     
-            getx = self.img_BW.mpl.ax.get_xlim()
-            gety = self.img_BW.mpl.ax.get_ylim()
+            # Set axis to original limits
+            self.img_BW.mpl.ax.axis(orig_axis_lims)
     
             self.img_BW.mpl.ax.hold(True)
         except:
