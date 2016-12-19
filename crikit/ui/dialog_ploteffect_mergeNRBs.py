@@ -278,6 +278,7 @@ class DialogPlotEffectMergeNRBs(_QDialog):
             
         else:
             self.mpl_orig.ax.plot(x, self.data[...,locs].T, label='Data')
+            self.mpl_orig.ax.plot(x, self.data[...,locs].T)
             self.mpl_orig.ax.plot(x, self.nrb_merge[...,locs], 
                                       label='Merged') 
             self.mpl_orig.ax.legend(loc='best')
