@@ -83,7 +83,7 @@ class PhaseErrCorrectALS:
                 h = _np.zeros(err_phase.shape)
                 h += _hilbert(err_phase)
 
-                correction_factor = 1/_np.exp(h.imag) * _np.exp(-1j*err_phase)
+                correction_factor = 1/_np.exp(h) * _np.exp(-1j*err_phase)
 
                 if self.rng is None:
                     ret_obj[idx] *= correction_factor
