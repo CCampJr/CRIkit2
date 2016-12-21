@@ -1655,13 +1655,13 @@ class CRIkitUI_process(_QMainWindow):
                                  'Win_size',win_size, 
                                  'Order',order])
             
-            if self.ui.actionUndo_Backup_Enabled.isChecked():
-                try:
-                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
+#            if self.ui.actionUndo_Backup_Enabled.isChecked():
+#                try:
+#                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+#                except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                else:
+#                    self.bcpre.backed_up()
         self.changeSlider()
         
     def deNoiseDark(self):
@@ -1693,13 +1693,13 @@ class CRIkitUI_process(_QMainWindow):
                                  'Win_size',win_size, 
                                  'Order',order])
             
-            if self.ui.actionUndo_Backup_Enabled.isChecked():
-                try:
-                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
-                    print('Error in pickle backup (Undo functionality)')
-                else:
-                    self.bcpre.backed_up()
+#            if self.ui.actionUndo_Backup_Enabled.isChecked():
+#                try:
+#                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+#                except:
+#                    print('Error in pickle backup (Undo functionality)')
+#                else:
+#                    self.bcpre.backed_up()
         self.changeSlider()
         
     def deNoise(self):
