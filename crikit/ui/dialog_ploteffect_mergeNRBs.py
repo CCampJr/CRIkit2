@@ -61,11 +61,9 @@ class widgetMergeNRBs(_QWidget):
         super(widgetMergeNRBs, self).__init__(parent) ### EDIT ###
         self.ui = Ui_Merge_NRBs_Form()
         self.ui.setupUi(self)
-        self.kk_widget = _widgetKK(self)
         
-        # Disable sigmoidal phase correction
-        self.kk_widget.ui.tabWidget.setTabEnabled(1, False)
-#        self.kk_widget.ui.tabWidget.removeTab(1)
+        self.kk_widget = _widgetKK()
+        
 
         self.ui.horizontalLayoutKK.insertWidget(0, self.kk_widget)
         
@@ -242,12 +240,12 @@ class DialogPlotEffectMergeNRBs(_QDialog):
                                 nrb_right=self.nrb_right,
                                 pix=self.pix, left_side_scale=self.scale)
         self.nrb_merge = nrb_splice.calculate()
-        
-        self.cars_bias = self.merge_widget.kk_widget.cars_bias
-        self.nrb_bias = self.merge_widget.kk_widget.nrb_bias
-        self.nrb_norm = self.merge_widget.kk_widget.nrb_norm
-        self.phase_bias = self.merge_widget.kk_widget.phaselin
-        self.pad_factor = self.merge_widget.kk_widget.pad_factor
+                
+        self.cars_bias = self.merge_widget.kk_widget.parameters['cars_amp_offset']
+        self.nrb_bias = self.merge_widget.kk_widget.parameters['nrb_amp_offset']
+        self.nrb_norm = self.merge_widget.kk_widget.parameters['norm_to_nrb']
+        self.phase_bias = self.merge_widget.kk_widget.parameters['phase_offset']
+        self.pad_factor = self.merge_widget.kk_widget.parameters['pad_factor']
         
         if self.merge_widget.fullRange:
             x = self.x
