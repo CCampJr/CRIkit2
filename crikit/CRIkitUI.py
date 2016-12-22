@@ -31,28 +31,23 @@ Authors
 # Append sys path
 import sys as _sys
 import os as _os
-
-
-# Generic imports for QT-based programs
-from PyQt5.QtWidgets import (QApplication as _QApplication, \
-QWidget as _QWidget, QMainWindow as _QMainWindow, QLayout as _QLayout,\
- QGridLayout as _QGridLayout, QInputDialog as _QInputDialog,
- QMessageBox as _QMessageBox)
-import PyQt5.QtCore as _QtCore
-from PyQt5.QtGui import (QCursor as _QCursor)
-from PyQt5.QtWidgets import (QFileDialog as _QFileDialog)
-
-from PyQt5.QtCore import QObject as _QObject
-
-# Other imports
-import numpy as _np
-import timeit as _timeit
 import copy as _copy
+
+import numpy as _np
+import h5py as _h5py
+_h5py.get_config().complex_names = ('Re','Im')
+
+import PyQt5.QtCore as _QtCore
 
 from scipy.signal import savgol_filter as _sg
 
-import h5py as _h5py
-_h5py.get_config().complex_names = ('Re','Im')
+from PyQt5.QtWidgets import (QApplication as _QApplication,
+QWidget as _QWidget, QMainWindow as _QMainWindow,
+QInputDialog as _QInputDialog,
+ QMessageBox as _QMessageBox)
+
+from PyQt5.QtGui import (QCursor as _QCursor)
+from PyQt5.QtWidgets import (QFileDialog as _QFileDialog)
 
 # CRIkit import
 from crikit.data.spectrum import Spectrum
@@ -61,8 +56,6 @@ from crikit.data.hsi import Hsi
 
 from crikit.io.macros import (import_hdf_nist_special as io_nist,
                               import_csv_nist_special1 as io_nist_dlm)
-
-from crikit.io.hdf5 import hdf_export_data as _io_export
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
 from crikit.utils.general import find_nearest, mean_nd_to_1d
@@ -82,19 +75,27 @@ from crikit.cri.error_correction import (PhaseErrCorrectALS as
                                          _ScaleErrCorrectSG)
 from crikit.preprocess.subtract_baseline import (SubtractBaselineALS as
                                                  _SubtractBaselineALS)
-from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+
+# Currently, the subUI does the merging, but will be redone in the future
+#from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
 
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
-from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
+from crikit.ui.dialog_ploteffect_future import (DialogPlotEffectFuture 
+                                                as _DialogPlotEffect)
+
 from crikit.ui.dialog_ploteffect_mergeNRBs import (DialogPlotEffectMergeNRBs as
                                                    _DialogPlotEffectMergeNRBs)
 
-from crikit.ui.widget_ploteffect import (widgetCalibrate as _widgetCalibrate,
+from crikit.ui.widget_SG import (widgetSG as _widgetSG)
+from crikit.ui.widget_KK import (widgetKK as _widgetKK)
+from crikit.ui.widget_DeTrending import (widgetDeTrending 
+                                         as _widgetDeTrending,
                                          widgetALS as _widgetALS,
-                                         widgetSG as _widgetSG)
+                                         widgetArPLS as _widgetArPLS)
+from crikit.ui.widget_Calibrate import (widgetCalibrate as _widgetCalibrate)
 
 #from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
@@ -135,17 +136,11 @@ else:
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
-import matplotlib.pyplot as _plt
+#import matplotlib.pyplot as _plt
 
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
 _mpl.rcParams['font.size'] = 12
-
-#import matplotlib.pyplot as plt
-
-#from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as _FigureCanvas, \
-#    NavigationToolbar2QT as _NavigationToolbar)
-#from matplotlib.figure import Figure as _Figure
 
 jupyter_flag = 0
 try:
@@ -937,13 +932,11 @@ class CRIkitUI_process(_QMainWindow):
             
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
-                                                      xlabel='Wavenumber (cm$^{-1}$)',
-                                                      ylabel='Imag. {$\chi_R$} (au)',
                                                       show_difference=False, parent=self)
 
         if winPlotEffect is not None:
             #print('New Calibration Dictionary: {}'.format(winPlotEffect.new_calib_dict))
-            self.hsi.freq.calib = winPlotEffect.new_calib_dict
+            self.hsi.freq.calib = winPlotEffect.parameters['new_calib_dict']
             self.hsi.freq.update()
         self.changeSlider()
 
@@ -1633,17 +1626,14 @@ class CRIkitUI_process(_QMainWindow):
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
         
-        plugin = _widgetSG(win_size=11, order=3)
+        plugin = _widgetSG(window_length=11, polyorder=3)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.nrb.mean()[rng],
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
-                                                           xlabel='Wavenumber (cm$^{-1}$)',
-                                                           ylabel='Int (au)',
-                                                           show_difference=True,
                                                            parent=self)
         if winPlotEffect is not None:
-            win_size = winPlotEffect.win_size
-            order = winPlotEffect.order
+            win_size = winPlotEffect.parameters['window_length']
+            order = winPlotEffect.parameters['polyorder']
             
             nrb_denoise = _copy.deepcopy(_np.squeeze(self.nrb.data))
             nrb_denoise[...,rng] = _sg(nrb_denoise[...,rng], win_size, order)
@@ -1671,17 +1661,14 @@ class CRIkitUI_process(_QMainWindow):
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
                 
-        plugin = _widgetSG(win_size=201, order=3)
+        plugin = _widgetSG(window_length=201, polyorder=3)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.dark.mean()[rng],
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
-                                                           xlabel='Wavenumber (cm$^{-1}$)',
-                                                           ylabel='Int (au)',
-                                                           show_difference=True,
                                                            parent=self)
         if winPlotEffect is not None:
-            win_size = winPlotEffect.win_size
-            order = winPlotEffect.order
+            win_size = winPlotEffect.parameters['window_length']
+            order = winPlotEffect.parameters['polyorder']
             
             dark_denoise = _copy.deepcopy(_np.squeeze(self.dark.data))
             dark_denoise[...,rng] = _sg(dark_denoise[...,rng], win_size, order)
@@ -1757,14 +1744,12 @@ class CRIkitUI_process(_QMainWindow):
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
-                                                           xlabel='Wavenumber (cm$^{-1}$)',
-                                                           ylabel='Imag. {$\chi_R$} (au)',
-                                                           show_difference=True,
                                                            parent=self)
         if winPlotEffect is not None:
-            asym_param = winPlotEffect.p
-            smoothness_param = winPlotEffect.lam
-            redux_factor = winPlotEffect.redux
+            asym_param = winPlotEffect.parameters['asym_param']
+            smoothness_param = winPlotEffect.parameters['smoothness_param']
+            redux_factor = winPlotEffect.parameters['redux']
+            
             phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
                                                          asym_param=asym_param,
                                                          redux_factor=redux_factor,
@@ -1797,17 +1782,14 @@ class CRIkitUI_process(_QMainWindow):
             
         rng = self.hsi.freq.op_range_pix
         
-        plugin = _widgetSG(win_size=601, order=2)
+        plugin = _widgetSG(window_length=601, polyorder=2)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
-                                                           xlabel='Wavenumber (cm$^{-1}$)',
-                                                           ylabel='Imag. {$\chi_R$} (au)',
-                                                           show_difference=True,
                                                            parent=self)
         if winPlotEffect is not None:
-            win_size = winPlotEffect.win_size
-            order = winPlotEffect.order
+            win_size = winPlotEffect.parameters['window_length']
+            order = winPlotEffect.parameters['polyorder']
             
             scale_err_correct_sg = _ScaleErrCorrectSG(win_size=win_size,
                                                       order=order,
@@ -1848,14 +1830,11 @@ class CRIkitUI_process(_QMainWindow):
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
                                                            x=self.hsi.f, 
                                                            plugin=plugin,
-                                                           xlabel='Wavenumber (cm$^{-1}$)',
-                                                           ylabel='Imag. {$\chi_R$} (au)',
-                                                           show_difference=True,
                                                            parent=self)
         if winPlotEffect is not None:
-            asym_param = winPlotEffect.p
-            smoothness_param = winPlotEffect.lam
-            redux_factor = winPlotEffect.redux
+            asym_param = winPlotEffect.parameters['asym_param']
+            smoothness_param = winPlotEffect.parameters['smoothness_param']
+            redux_factor = winPlotEffect.parameters['redux']
             baseline_detrend = _SubtractBaselineALS(smoothness_param=smoothness_param,
                                             asym_param=asym_param,
                                             redux_factor=redux_factor,
