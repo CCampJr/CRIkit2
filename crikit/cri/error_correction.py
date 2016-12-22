@@ -5,12 +5,6 @@ Created on Mon Jun  6 11:20:35 2016
 @author: chc
 """
 
-if __name__ == '__main__':
-    import os as _os
-    import sys as _sys
-    _sys.path.append(_os.path.abspath('../../'))
-
-
 import numpy as _np
 import copy as _copy
 
@@ -18,9 +12,8 @@ from scipy.signal import savgol_filter as _sg
 
 from crikit.cri.algorithms.kk import hilbertfft as _hilbert
 
-from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
-                                              als_baseline_redux as
-                                              _als_baseline_redux)
+from crikit.preprocess.algorithms.als import AlsCvxopt as _AlsCvxopt
+
 from crikit.utils.datacheck import _rng_is_pix_vec
 
 
@@ -33,39 +26,26 @@ class PhaseErrCorrectALS:
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
     def __init__(self, smoothness_param=1, asym_param=1e-2,
-                 redux_factor=10, rng=None, **kwargs):
-
-        self.smoothness_param = smoothness_param
-        self.asym_param = asym_param
-        self._rf = None
-        self.redux_factor = redux_factor
-
+                 redux=10, order=2, rng=None, fix_end_points=False, 
+                 max_iter=100, min_diff=1e-5, **kwargs):
+                 
+        
         self.rng = _rng_is_pix_vec(rng)
         self._k = kwargs
         
-        self._k.update({'smoothness_param':self.smoothness_param, 
-                        'asym_param':self.asym_param})
+        self._k.update({'smoothness_param' : smoothness_param, 
+                        'asym_param' : asym_param,
+                        'redux' : redux,
+                        'order' : order,
+                        'fix_end_points' : fix_end_points,
+                        'max_iter' : max_iter,
+                        'min_diff' : min_diff})
         
-        if self.redux_factor is not None:
-            self._k.update({'redux_factor':self.redux_factor})
-        else:
-            self._k.pop('redux_factor',None)
-
-    @property
-    def redux_factor(self):
-        return self._rf
-
-    @redux_factor.setter
-    def redux_factor(self, value):
-        if value is None or value <= 1:
-            self._rf = None
-            self._als_method = _als_baseline
-        else:
-            self._rf = value
-            self._als_method = _als_baseline_redux
-
+            
     def _calc(self, data, ret_obj, **kwargs):
-
+        
+        self._inst_als = _AlsCvxopt(**kwargs)
+        
         try:
             shp = data.shape[0:-2]
             total_num = _np.array(shp).prod()
@@ -75,11 +55,10 @@ class PhaseErrCorrectALS:
                 print('Detrended iteration {} / {}'.format(counter, total_num))
                 ph = _np.unwrap(_np.angle(data[idx]))
                 if self.rng is None:
-                    err_phase, _ = self._als_method(ph, **kwargs)
+                    err_phase = self._inst_als.calculate(ph)
                 else:
-                    err_phase, _ = self._als_method(ph[..., self.rng],
-                                                    **kwargs)
-
+                    err_phase = self._inst_als.calculate(ph[..., self.rng])
+                
                 h = _np.zeros(err_phase.shape)
                 h += _hilbert(err_phase)
 
@@ -99,6 +78,7 @@ class PhaseErrCorrectALS:
 
         data_copy = _copy.deepcopy(data)
         self._k.update(kwargs)
+        
         success = self._calc(data, ret_obj=data_copy, **self._k)
         if success:
             return data_copy
@@ -177,7 +157,7 @@ if __name__ == '__main__':
     sigNR = _np.abs(chiNR)**2
     sigRef = chiNR*(WN/1e3)**.5
 
-    NUM_REPS = 100
+    NUM_REPS = 10
 
     kk = KramersKronig()
     kkd = kk.calculate(sig, sigRef)
@@ -187,8 +167,11 @@ if __name__ == '__main__':
     plt.plot(kkd[5, 5, :].imag, label='Before Correction')
 
     start = timeit.default_timer()
-    phase_err_correct_als = PhaseErrCorrectALS()
-    success = phase_err_correct_als.transform(kkd, print_iteration=False)
+    phase_err_correct_als = PhaseErrCorrectALS(fix_end_points=True,
+                                               smoothness_param=1e8, 
+                                               asym_param=1e-3, 
+                                               redux=1)
+    success = phase_err_correct_als.transform(kkd, verbose=False)
     print('Success? : {}'.format(success))
     stop = timeit.default_timer()
     print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
