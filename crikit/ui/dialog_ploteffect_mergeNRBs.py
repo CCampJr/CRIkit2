@@ -36,7 +36,7 @@ _mpl.rcParams['legend.fontsize'] = 10
 
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
-from crikit.ui.widget_ploteffect import (widgetKK as _widgetKK)
+from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 from crikit.ui.qt_PlotEffect_MergeNRBs import Ui_Form as Ui_Merge_NRBs_Form
 from crikit.utils.general import find_nearest as _find_nearest
 from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs

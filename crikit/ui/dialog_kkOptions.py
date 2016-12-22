@@ -14,9 +14,6 @@ import sys as _sys
 import os as _os
 import numpy as _np
 
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
-
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QDialog as _QDialog)
@@ -25,8 +22,9 @@ from PyQt5.QtWidgets import (QApplication as _QApplication,
 # Import from Designer-based GUI
 from crikit.ui.qt_KKOptions import Ui_Dialog as Ui_KKOptions
 
-from crikit.ui.dialog_ploteffect import DialogPlotEffect as _DialogPlotEffect
-from crikit.ui.widget_ploteffect import widgetKK as _widgetKK
+from crikit.ui.dialog_ploteffect_future import (DialogPlotEffectFuture as 
+                                                _DialogPlotEffect)
+from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
@@ -95,14 +93,17 @@ class DialogKKOptions(_QDialog):
 
         plugin = _widgetKK()
 
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.data, x=self.data[0], plugin=plugin, xlabel='Wavenumber (cm$^{-1}$)', ylabel='Imag. {$\chi_R$} (au)')
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(self.data[1:], 
+                                                           x=self.data[0], 
+                                                           plugin=plugin,
+                                                           parent=self)
 
         if winPlotEffect is not None:
-            self.ui.doubleSpinBoxCARSAmp.setValue(winPlotEffect.cars_bias)
-            self.ui.doubleSpinBoxNRBAmp.setValue(winPlotEffect.nrb_bias)
-            self.ui.checkBoxNormToNRB.setChecked(winPlotEffect.nrb_norm)
-            self.ui.doubleSpinBoxPhase.setValue(winPlotEffect.phaselin)
-            self.ui.spinBoxPadFactor.setValue(winPlotEffect.pad_factor)
+            self.ui.doubleSpinBoxCARSAmp.setValue(winPlotEffect.parameters['cars_amp_offset'])
+            self.ui.doubleSpinBoxNRBAmp.setValue(winPlotEffect.parameters['nrb_amp_offset'])
+            self.ui.checkBoxNormToNRB.setChecked(winPlotEffect.parameters['norm_to_nrb'])
+            self.ui.doubleSpinBoxPhase.setValue(winPlotEffect.parameters['phase_offset'])
+            self.ui.spinBoxPadFactor.setValue(winPlotEffect.parameters['pad_factor'])
 
     @staticmethod
     def dialogKKOptions(parent=None, data=None):
