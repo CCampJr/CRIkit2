@@ -40,12 +40,6 @@ class KramersKronig:
 
     Parameters
     ----------
-    cars_obj : ndarray
-        Coherent Raman signal.
-
-    nrb_obj : ndarray
-        Nonresonant background (NRB)
-
     cars_amp_offset : float, optional (default=0.0)
         DC offset applied to CARS spectrum(a) prior to KK relation. See Notes \
         and Ref. [2].
@@ -152,6 +146,13 @@ class KramersKronig:
         return True
 
     def calculate(self, cars, nrb):
+        """
+        cars : ndarray
+        Coherent Raman signal.
+
+        nrb : ndarray
+            Nonresonant background (NRB)
+        """
 
         kkd = _np.zeros(cars.shape, dtype=_np.complex)
         success = self._calc(cars, nrb, ret_obj=kkd)
