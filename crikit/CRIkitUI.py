@@ -1191,7 +1191,7 @@ class CRIkitUI_process(_QMainWindow):
                 
             elif sender == 'actionNRB_from_ROI_Right_Side':
                 self.nrb_right.data = spectrum
-                self.ui.actionLeftSideNRBSpect.setEnabled(True)
+                self.ui.actionRightSideNRBSpect.setEnabled(True)
                 if ((self.nrb_left.data is not None) and 
                     (self.nrb_right.data is not None)):
                     if self.nrb_right.mean().size == self.nrb_left.mean().size:
