@@ -1763,18 +1763,32 @@ class CRIkitUI_process(_QMainWindow):
             asym_param = winPlotEffect.parameters['asym_param']
             smoothness_param = winPlotEffect.parameters['smoothness_param']
             redux_factor = winPlotEffect.parameters['redux']
+            fix_end_points = winPlotEffect.parameters['fix_end_points']
+            max_iter = winPlotEffect.parameters['max_iter'] 
+            min_diff =winPlotEffect.parameters['min_diff']  
             
             phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
                                                          asym_param=asym_param,
-                                                         redux=redux_factor,
+                                                         redux=redux_factor, 
+                                                         order=2,
                                                          rng=rng,
+                                                         fix_end_points=fix_end_points,
+                                                         max_iter=max_iter,
+                                                         min_diff=min_diff,
                                                          verbose=False)
+            
             phase_err_correct_als.transform(self.hsi.data)
             
             # Backup for Undo
             self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                 'Smoothness_param',smoothness_param, 
-                                 'Asym_param',asym_param])
+                                 'smoothness_param',smoothness_param, 
+                                 'asym_param',asym_param, 
+                                 'redux', redux_factor,
+                                 'order', 2,
+                                 'fix_end_points', fix_end_points,
+                                 'max_iter', max_iter,
+                                 'min_diff', min_diff])
+            
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -1812,8 +1826,8 @@ class CRIkitUI_process(_QMainWindow):
             
             # Backup for Undo
             self.bcpre.add_step(['ScaleErrorCorrectSG',
-                                 'Win_size',win_size, 
-                                 'Order',order])
+                                 'win_size',win_size, 
+                                 'order',order])
             
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1849,17 +1863,31 @@ class CRIkitUI_process(_QMainWindow):
             asym_param = winPlotEffect.parameters['asym_param']
             smoothness_param = winPlotEffect.parameters['smoothness_param']
             redux_factor = winPlotEffect.parameters['redux']
+            fix_end_points = winPlotEffect.parameters['fix_end_points']
+            max_iter = winPlotEffect.parameters['max_iter'] 
+            min_diff =winPlotEffect.parameters['min_diff']  
+            
+            
             baseline_detrend = _SubtractBaselineALS(smoothness_param=smoothness_param,
-                                            asym_param=asym_param,
-                                            redux_factor=redux_factor,
-                                            rng=rng, use_imag=True,
-                                            verbose=False)
+                                                         asym_param=asym_param,
+                                                         redux=redux_factor, 
+                                                         order=2,
+                                                         rng=rng,
+                                                         fix_end_points=fix_end_points,
+                                                         max_iter=max_iter,
+                                                         min_diff=min_diff,
+                                                         verbose=False)
             baseline_detrend.transform(self.hsi.data)
             
             # Backup for Undo
             self.bcpre.add_step(['AmpErrorCorrectALS',
-                                 'Smoothness_param',smoothness_param, 
-                                 'Asym_param',asym_param])
+                                 'smoothness_param', smoothness_param, 
+                                 'asym_param', asym_param,
+                                 'redux', redux_factor,
+                                 'order', 2,
+                                 'fix_end_points', fix_end_points,
+                                 'max_iter', max_iter,
+                                 'min_diff', min_diff])
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
