@@ -72,6 +72,7 @@ class PhaseErrCorrectALS:
         except:
             return False
         else:
+#            print(self._inst_als.__dict__)
             return True
 
     def calculate(self, data, **kwargs):
