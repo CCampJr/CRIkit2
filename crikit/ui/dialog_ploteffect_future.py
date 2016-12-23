@@ -277,6 +277,25 @@ if __name__ == '__main__':
     NRB = 0*WN + .055
     CARS = _np.dot(_np.ones((5,1)),CARS[None,:])
     
+    
+    
+    NRB_LEFT = 20e3*_np.exp(-(WN)**2/(1000**2)) + 500
+    NRB_RIGHT = 6e3*_np.exp(-(WN-2500)**2/(400**2)) + 500
+    
+    NRB_LEFT[WN<500] *= 0
+    NRB_LEFT[WN<500] += 1e-6
+    NRB_RIGHT[WN<500] *= 0
+    NRB_RIGHT[WN<500] += 1e-6
+    
+    from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+    from crikit.utils.general import find_nearest as _find_nearest
+    NRB2 = _MergeNRBs(nrb_left=NRB_LEFT, nrb_right=NRB_RIGHT, 
+                     pix=_find_nearest(WN, 1885.0)[1],
+                     left_side_scale=False).calculate()
+    
+    CARS2 = _np.abs(500*(1/(1000-WN-1j*20) + 1/(2700-WN-1j*20)) + NRB2**0.5)**2
+    CARS2 = _np.dot(_np.ones((10,1), dtype=_np.double),CARS2[None,:])
+    
 #    # Demo
 #    plugin = widgetDemoPlotEffectPlugin()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
@@ -285,7 +304,7 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 #    # ALS
-#    from crikit2_sw.ui.widget_ALS import widgetALS as _widgetALS
+#    from crikit.ui.widget_ALS import widgetALS as _widgetALS
 #    
 #    plugin = _widgetALS()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
@@ -294,7 +313,7 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 #    # ArPLS
-#    from crikit2_sw.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
+#    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
 #    plugin = _widgetArPLS()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
@@ -302,7 +321,7 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #    
 #    # Detrending
-#    from crikit2_sw.ui.widget_DeTrending import (widgetDeTrending as 
+#    from crikit.ui.widget_DeTrending import (widgetDeTrending as 
 #                                                  _widgetDeTrending)
 #    plugin = _widgetDeTrending()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
@@ -311,7 +330,7 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #    
 #    # SG
-#    from crikit2_sw.ui.widget_SG import (widgetSG as _widgetSG)
+#    from crikit.ui.widget_SG import (widgetSG as _widgetSG)
 #    plugin = _widgetSG()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
@@ -319,23 +338,31 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #    
 #    # KK
-#    from crikit2_sw.ui.widget_KK import (widgetKK as _widgetKK)
+#    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 #    plugin = _widgetKK()
 #    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect([NRB,CARS], x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
 #        
-    # Calibrate
-    from crikit2_sw.ui.widget_Calibrate import (widgetCalibrate as 
-                                                _widgetCalibrate)
-    plugin = _widgetCalibrate(calib_dict)
-    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    # Calibrate
+#    from crikit.ui.widget_Calibrate import (widgetCalibrate as 
+#                                                _widgetCalibrate)
+#    plugin = _widgetCalibrate(calib_dict)
+#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#                                                            plugin=plugin)
+#    if winPlotEffect is not None:
+#        print(winPlotEffect.parameters)
+    
+    # Merge NRBs
+    from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
+                                            _widgetMergeNRBs)
+    plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
+    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
                                                             plugin=plugin)
     if winPlotEffect is not None:
         print(winPlotEffect.parameters)
-    
-    
+        
     
     
     
