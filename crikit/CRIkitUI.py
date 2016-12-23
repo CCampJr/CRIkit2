@@ -320,7 +320,8 @@ class CRIkitUI_process(_QMainWindow):
 
         # Perform KK
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
-        self.ui.actionKKSpeedTest.triggered.connect(self.testKK)
+#        self.ui.actionKKSpeedTest.triggered.connect(self.testKK)
+        self.ui.actionKKSpeedTest.setEnabled(False)
 
         # Variance Stabilize
         self.ui.actionAnscombe.triggered.connect(self.anscombe)
@@ -1545,43 +1546,43 @@ class CRIkitUI_process(_QMainWindow):
         except:
             pass
 
-    def testKK(self):
-        """
-        KK Speed test
-        """
-
-        if len(self.hsi.pixrange) == 0:
-            nrb = self.nrb.data
-        else:
-            ndim_nrb = self.nrb.ndim
-            if  ndim_nrb == 1:
-                nrb = self.nrb.data[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
-            elif ndim_nrb == 2:
-                nrb = self.nrb.data[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
-            else:
-                nrb = self.nrb.data[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
-
-        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
-
-        cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
-            DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra],parent=self)
-
-        if cars_amp_offset is not None:
-            try:
-                est_rate, est_tot = _test_alter_kk(self.hsi, self.nrb,
-                                                   cars_amp_offset=cars_amp_offset,
-                                                   nrb_amp_offset=nrb_amp_offset,
-                                                   phase_offset=phase_offset,
-                                                   norm_to_nrb=norm_to_nrb,
-                                                   pad_factor=pad_factor,
-                                                   num_rows = 10)
-                time_str = 'Est. Total time: {:.3f} s ({:.6f} s/spectrum)'.format(est_tot, est_rate)
-                msg = _QMessageBox(parent=self)
-                msg.setText(time_str)
-                msg.setWindowTitle('Estimated Speed of Kramers-Kronig')
-                msg.exec()
-            except:
-                print('Something went wrong. Try again')
+#    def testKK(self):
+#        """
+#        KK Speed test
+#        """
+#
+#        if len(self.hsi.pixrange) == 0:
+#            nrb = self.nrb.data
+#        else:
+#            ndim_nrb = self.nrb.ndim
+#            if  ndim_nrb == 1:
+#                nrb = self.nrb.data[self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+#            elif ndim_nrb == 2:
+#                nrb = self.nrb.data[:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+#            else:
+#                nrb = self.nrb.data[:,:,self.hsi.pixrange[0]:self.hsi.pixrange[1]+1]
+#
+#        rand_spectra = self.hsi.get_rand_spectra(5,pt_sz=3,quads=True)
+#
+#        cars_amp_offset, nrb_amp_offset, phase_offset, norm_to_nrb, pad_factor= \
+#            DialogKKOptions.dialogKKOptions(data=[self.hsi.f, nrb, rand_spectra],parent=self)
+#
+#        if cars_amp_offset is not None:
+#            try:
+#                est_rate, est_tot = _test_alter_kk(self.hsi, self.nrb,
+#                                                   cars_amp_offset=cars_amp_offset,
+#                                                   nrb_amp_offset=nrb_amp_offset,
+#                                                   phase_offset=phase_offset,
+#                                                   norm_to_nrb=norm_to_nrb,
+#                                                   pad_factor=pad_factor,
+#                                                   num_rows = 10)
+#                time_str = 'Est. Total time: {:.3f} s ({:.6f} s/spectrum)'.format(est_tot, est_rate)
+#                msg = _QMessageBox(parent=self)
+#                msg.setText(time_str)
+#                msg.setWindowTitle('Estimated Speed of Kramers-Kronig')
+#                msg.exec()
+#            except:
+#                print('Something went wrong. Try again')
 
     def doKK(self):
         """
