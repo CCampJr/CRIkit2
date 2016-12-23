@@ -67,28 +67,41 @@ class SubtractBaselineALS:
         
         try:
             # Get the subarray shape
-            shp = data.shape[0:-1]
-    #            print('kwargs: {}'.format(kwargs))
+            shp = data.shape[0:-2]
+            total_num = _np.array(shp).prod()
+   
             # Iterate over the sub-array -- super slick way of doing it
-            for idx in _np.ndindex(shp):
+            for num, idx in enumerate(_np.ndindex(shp)):
+                print('Detrended iteration {} / {}'.format(num+1, total_num))
                 # Imaginary portion set
                 if self.use_imag and _np.iscomplexobj(data):
-                    ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
+                    if self.rng is None:
+                        ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
+                    else:
+                        ret_obj[idx][..., self.rng] -= 1j*self._inst_als.calculate(data[idx][..., self.rng].imag)
                 else:  # Real portion set or real object
-                    ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
+                    if self.rng is None:
+                        ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
+                    else:
+                        ret_obj[idx][..., self.rng] -= self._inst_als.calculate(data[idx][..., self.rng].real)
         except:
             return False
         else:
+#            print(self._inst_als.__dict__)
             return True
 
     def transform(self, data, **kwargs):
-        success = self._calc(data, ret_obj=data, **kwargs)
+        self._k.update(kwargs)
+        
+        success = self._calc(data, ret_obj=data, **self._k)
         return success
 
     def calculate(self, data, **kwargs):
 
         data_copy = _copy.deepcopy(data)
-        success = self._calc(data, ret_obj=data_copy, **kwargs)
+        self._k.update(kwargs)
+        
+        success = self._calc(data, ret_obj=data_copy, **self._k)
         if success:
             return data_copy
         else:
