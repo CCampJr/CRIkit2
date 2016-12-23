@@ -80,7 +80,7 @@ class widgetALS(_AbstractPlotEffectPlugin):
                        'title' : 'Detrended'
                       }
                       
-    def __init__(self, asym_param=1e-6, smoothness_param=1, redux=1,
+    def __init__(self, asym_param=1e-2, smoothness_param=1, redux=10,
                  pstart=1e-4, pend=1e-8, fixed_p=True, fix_end_points=True, 
                  max_iter=100, min_diff=1e-6, parent = None):
                       
@@ -211,9 +211,11 @@ class widgetALS(_AbstractPlotEffectPlugin):
         
         if sdr == self.ui.spinBoxPStart:
             self.parameters['asym_param_start'] = self.ui.spinBoxPStart.value()
+            self.selectFixedOrLog()
             
         elif sdr == self.ui.spinBoxPEnd:
             self.parameters['asym_param_end'] = self.ui.spinBoxPEnd.value()
+            self.selectFixedOrLog()
             
         elif sdr == self.ui.spinBoxLambda:
             self.parameters['smoothness_param'] = self.ui.spinBoxLambda.value()
@@ -260,10 +262,11 @@ class widgetALS(_AbstractPlotEffectPlugin):
             self.ui.frame_2.setEnabled(True)
             self.ui.frame.setEnabled(False)
             self.parameters['asym_param'] = \
-                lambda x: _np.logspace(_np.log10(self.pstart),
-                                       _np.log10(self.pend),x) 
+                lambda x: _np.logspace(_np.log10(self.parameters['asym_param_start']),
+                                       _np.log10(self.parameters['asym_param_end']),x) 
 
         self.changed.emit()
+        
         
 if __name__ == '__main__':
     import sys as _sys
