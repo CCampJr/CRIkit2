@@ -73,6 +73,8 @@ from crikit.cri.error_correction import (PhaseErrCorrectALS as
                                          _PhaseErrCorrectALS, 
                                          ScaleErrCorrectSG as 
                                          _ScaleErrCorrectSG)
+from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+
 from crikit.preprocess.subtract_baseline import (SubtractBaselineALS as
                                                  _SubtractBaselineALS)
 
@@ -86,16 +88,14 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 from crikit.ui.dialog_ploteffect_future import (DialogPlotEffectFuture 
                                                 as _DialogPlotEffect)
 
-from crikit.ui.dialog_ploteffect_mergeNRBs import (DialogPlotEffectMergeNRBs as
-                                                   _DialogPlotEffectMergeNRBs)
-
 from crikit.ui.widget_SG import (widgetSG as _widgetSG)
-from crikit.ui.widget_KK import (widgetKK as _widgetKK)
+#from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 from crikit.ui.widget_DeTrending import (widgetDeTrending 
                                          as _widgetDeTrending,
                                          widgetALS as _widgetALS,
                                          widgetArPLS as _widgetArPLS)
 from crikit.ui.widget_Calibrate import (widgetCalibrate as _widgetCalibrate)
+from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as _widgetMergeNRBs)
 
 #from crikit.ui.helper_roiselect import ImageSelection as _ImageSelection
 from crikit.ui.utils.roi import roimask as _roimask
@@ -109,8 +109,6 @@ import crikit.measurement.peakamps as _peakamps
 from crikit.ui.qt_CRIkit import Ui_MainWindow ### EDIT ###
 
 from crikit.ui.widget_images import widgetSglColor, widgetColorMath, widgetBWImg, widgetCompositeColor
-from crikit.ui.widget_images import widgetBWImg
-
 
 from crikit.ui.subui_hdf_load import SubUiHDFLoad
 
@@ -887,29 +885,44 @@ class CRIkitUI_process(_QMainWindow):
             
             rand_spectra = self.hsi.get_rand_spectra(2,pt_sz=3,quads=True)
             
-            winPlotEffect = _DialogPlotEffectMergeNRBs.dialogPlotEffect(nrb_left=
-                                                                        self.nrb_left.mean()[rng], 
-                                                                        nrb_right=
-                                                                        self.nrb_right.mean()[rng],
-                                                                        x=self.hsi.f,
-                                                                        data=rand_spectra)
+            plugin = _widgetMergeNRBs(wn_vec=self.hsi.f, 
+                                      nrb_left=self.nrb_left.mean()[rng],
+                                      nrb_right=self.nrb_right.mean()[rng])
+            winPlotEffect = _DialogPlotEffect.dialogPlotEffect(data=rand_spectra,
+                                                               x=self.hsi.f, 
+                                                               plugin=plugin)
             
             if winPlotEffect is not None:
-                print('NRB merge pixel: {}'.format(winPlotEffect.pix))
-                print('NRB merge WN: {}'.format(winPlotEffect.wn))
-                print('NRB merge scale left side: {}'.format(winPlotEffect.scale))
-                print('NRB merged size: {}'.format(winPlotEffect.nrb_merge.size))
+                print('NRB merge pixel: {}'.format(winPlotEffect.parameters['pix_switchpt']))
+                print('NRB merge WN: {}'.format(winPlotEffect.parameters['wn_switchpt']))
+                print('NRB merge scale left side: {}'.format(winPlotEffect.parameters['scale_left']))
                 
                 self.nrb.data = _np.squeeze(0*self.nrb_left.mean())
                 print('nrb shape: {}'.format(self.nrb.shape))
                 
-                
+                inst_nrb_merge = _MergeNRBs(nrb_left=self.nrb_left.mean()[rng], 
+                                            nrb_right=self.nrb_right.mean()[rng],
+                                            pix=winPlotEffect.parameters['pix_switchpt'],
+                                            left_side_scale=winPlotEffect.parameters['scale_left'])
+                nrb_merge = inst_nrb_merge.calculate()
+        
                 # Need 2D because of class Spectra NOT Spectrum
-                self.nrb.data[:,self.hsi.freq.op_range_pix] = winPlotEffect.nrb_merge
+                self.nrb.data[:,self.hsi.freq.op_range_pix] = nrb_merge
                 
                 self.ui.actionNRBSpectrum.setEnabled(True)
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
+                
+                wn, pix = find_nearest(self.hsi.f_full, \
+                   self.hsi.f[winPlotEffect.parameters['pix_switchpt']])
+                
+                # Backup for Undo
+                self.bcpre.add_step(['MergeNRBs',
+                                     'pix_switchpt',pix,
+                                     'wn_switchpt', 
+                                     winPlotEffect.parameters['wn_switchpt'],
+                                     'scale_left', 
+                                     winPlotEffect.parameters['scale_left']])
                 
         else:
             pass
