@@ -1752,9 +1752,9 @@ class CRIkitUI_process(_QMainWindow):
             
             phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
                                                          asym_param=asym_param,
-                                                         redux_factor=redux_factor,
+                                                         redux=redux_factor,
                                                          rng=rng,
-                                                         print_iteration=False)
+                                                         verbose=False)
             phase_err_correct_als.transform(self.hsi.data)
             
             # Backup for Undo
@@ -1839,7 +1839,7 @@ class CRIkitUI_process(_QMainWindow):
                                             asym_param=asym_param,
                                             redux_factor=redux_factor,
                                             rng=rng, use_imag=True,
-                                            print_iteration=False)
+                                            verbose=False)
             baseline_detrend.transform(self.hsi.data)
             
             # Backup for Undo
