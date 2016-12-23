@@ -761,7 +761,6 @@ class CRIkitUI_process(_QMainWindow):
                                                          self.path,
                                                          "All Files (*.*)")
         if filename != '':
-            pth = _os.path.dirname(filename) + '/'
             filename = filename.split(_os.path.dirname(filename))[1][1::]
             
             
@@ -846,7 +845,6 @@ class CRIkitUI_process(_QMainWindow):
                                                          self.path,
                                                          "All Files (*.*)")
         if filename != '':
-            pth = _os.path.dirname(filename) + '/'
             filename = filename.split(_os.path.dirname(filename))[1][1::]
             
             
