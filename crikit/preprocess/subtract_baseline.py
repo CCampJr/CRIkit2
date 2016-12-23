@@ -16,9 +16,7 @@ import copy as _copy
 
 import numpy as _np
 
-from crikit.preprocess.algorithms.als import (als_baseline as _als_baseline,
-                                              als_baseline_redux as
-                                              _als_baseline_redux)
+from crikit.preprocess.algorithms.als import (AlsCvxopt as _AlsCvxopt)
 
 from crikit.utils.datacheck import _rng_is_pix_vec
 
@@ -45,63 +43,65 @@ class SubtractBaselineALS:
     use_imag : bool, optional (default=True)
         If spectrum(a) are complex-values, use the imaginary portion?
     """
-    def __init__(self, smoothness_param=1.0, asym_param=1e-2,
-                 redux_factor=10, rng=None, use_imag=True, **kwargs):
-
-        self.smoothness_param = smoothness_param
-        self.asym_param = asym_param
-        self.redux_factor = redux_factor
+    def __init__(self, smoothness_param=1, asym_param=1e-2,
+                 redux=10, order=2, rng=None, fix_end_points=False, 
+                 max_iter=100, min_diff=1e-5, use_imag=True, 
+                 **kwargs):
 
         self.rng = _rng_is_pix_vec(rng)
+        self._k = kwargs
+        
+        self._k.update({'smoothness_param' : smoothness_param, 
+                        'asym_param' : asym_param,
+                        'redux' : redux,
+                        'order' : order,
+                        'fix_end_points' : fix_end_points,
+                        'max_iter' : max_iter,
+                        'min_diff' : min_diff})
+        
         self.use_imag = use_imag
         
-        self._k = {}
-        self._k.update(kwargs)
-
-    @property
-    def redux_factor(self):
-        return self._rf
-
-    @redux_factor.setter
-    def redux_factor(self, value):
-        if value is None or value <= 1:
-            self._rf = None
-            self._als_method = _als_baseline
-        else:
-            self._rf = value
-            self._als_method = _als_baseline_redux
-
     def _calc(self, data, ret_obj, **kwargs):
+        
+        self._inst_als = _AlsCvxopt(**kwargs)
+        
         try:
             # Get the subarray shape
-            shp = data.shape[0:-1]
-#            print('kwargs: {}'.format(kwargs))
+            shp = data.shape[0:-2]
+            total_num = _np.array(shp).prod()
+   
             # Iterate over the sub-array -- super slick way of doing it
-            for idx in _np.ndindex(shp):
+            for num, idx in enumerate(_np.ndindex(shp)):
+                print('Detrended iteration {} / {}'.format(num+1, total_num))
                 # Imaginary portion set
                 if self.use_imag and _np.iscomplexobj(data):
-                    ret_obj[idx] -= 1j*self._als_method(data[idx].imag, smoothness_param=self.smoothness_param,
-                                                asym_param=self.asym_param,
-                                                redux_factor=self.redux_factor,
-                                                **kwargs)[0]
+                    if self.rng is None:
+                        ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
+                    else:
+                        ret_obj[idx][..., self.rng] -= 1j*self._inst_als.calculate(data[idx][..., self.rng].imag)
                 else:  # Real portion set or real object
-                    ret_obj[idx] -= self._als_method(data[idx].real, smoothness_param=self.smoothness_param,
-                                                asym_param=self.asym_param,
-                                                redux_factor=self.redux_factor,
-                                                **kwargs)[0]
+                    if self.rng is None:
+                        ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
+                    else:
+                        ret_obj[idx][..., self.rng] -= self._inst_als.calculate(data[idx][..., self.rng].real)
         except:
             return False
         else:
+#            print(self._inst_als.__dict__)
             return True
 
     def transform(self, data, **kwargs):
-        success = self._calc(data, ret_obj=data, **kwargs)
+        self._k.update(kwargs)
+        
+        success = self._calc(data, ret_obj=data, **self._k)
         return success
 
     def calculate(self, data, **kwargs):
 
         data_copy = _copy.deepcopy(data)
-        success = self._calc(data, ret_obj=data_copy, **kwargs)
+        self._k.update(kwargs)
+        
+        success = self._calc(data, ret_obj=data_copy, **self._k)
         if success:
             return data_copy
         else:
