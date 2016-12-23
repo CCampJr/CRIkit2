@@ -943,8 +943,10 @@ class CRIkitUI_process(_QMainWindow):
             rand_spectra = rand_spectra.imag
             
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, x=self.hsi.f_full, plugin=plugin,
-                                                      show_difference=False, parent=self)
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra, 
+                                                           x=self.hsi.f_full,
+                                                           plugin=plugin,
+                                                           parent=self)
 
         if winPlotEffect is not None:
             #print('New Calibration Dictionary: {}'.format(winPlotEffect.new_calib_dict))
