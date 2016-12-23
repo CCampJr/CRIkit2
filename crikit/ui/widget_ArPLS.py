@@ -131,6 +131,7 @@ class widgetArPLS(_AbstractPlotEffectPlugin):
         """
         
         data_out = _np.zeros(data_in.shape)
+        baseline = _np.zeros(data_in.shape)
                
         smoothness_param = self.parameters['smoothness_param']
         redux = self.parameters['redux']
@@ -148,8 +149,8 @@ class widgetArPLS(_AbstractPlotEffectPlugin):
             data_out = data_in - baseline
         else:
             for num, spectrum in enumerate(data_in):
-                baseline = _arpls.calculate(spectrum)
-                data_out[num,:] = spectrum - baseline
+                baseline[num,:] = _arpls.calculate(spectrum)
+                data_out[num,:] = spectrum - baseline[num,:]
         return [baseline, data_out]
         
     

@@ -138,6 +138,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
         """
         
         data_out = _np.zeros(data_in.shape)
+        baseline = _np.zeros(data_in.shape)
+        
         if callable(self.parameters['asym_param']):
             self.parameters['asym_param'] = \
                 self.parameters['asym_param'](data_in.shape[-1])
@@ -160,8 +162,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
             data_out = data_in - baseline
         else:
             for num, spectrum in enumerate(data_in):
-                baseline = _als.calculate(spectrum)
-                data_out[num,:] = spectrum - baseline
+                baseline[num,:] = _als.calculate(spectrum)
+                data_out[num,:] = spectrum - baseline[num,:]
         return [baseline, data_out]
         
     
