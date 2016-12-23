@@ -48,12 +48,29 @@ class AlsCvxopt(AbstractBaseline):
         """
         
         self.smoothness_param=smoothness_param
-        self.asym_param=asym_param
+        self._asym_param=asym_param
         
         self.setup(redux=redux, verbose=verbose, order=order, 
                    fix_end_points=fix_end_points, max_iter=max_iter,
                    min_diff=min_diff)
 
+    @property
+    def asym_param(self):
+        if _np.size(self._asym_param) == 1:
+            return self._asym_param
+        elif self.redux == 1:
+            return self._asym_param
+        elif self.redux > 1:
+            x = _np.arange(0, self._asym_param.size, self.redux, 
+                           dtype=_np.integer)
+            
+            
+            return self._asym_param[x]
+            
+    @asym_param.setter
+    def asym_param(self, value):
+        self._asym_param = value
+        
     def _calc(self, signal):
         """
         Perform the ALS. Called from self.calculate (defined in 
