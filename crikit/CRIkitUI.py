@@ -1410,7 +1410,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Limit the frequency window displayed and analyzed
         """
-        text, ok = _QInputDialog.getText(None, 'Frequency Window', 'Range Tuple (cm-1): ', text='(500, 4000)')
+        text, ok = _QInputDialog.getText(None, 'Frequency Window', 'Range Tuple (cm-1): ', text='(500, 3400)')
         if ok:
             text_str_list = text.strip('(').strip(')').strip().split(',')
             freqwin = [float(q) for q in text_str_list]
@@ -1780,14 +1780,28 @@ class CRIkitUI_process(_QMainWindow):
             phase_err_correct_als.transform(self.hsi.data)
             
             # Backup for Undo
-            self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                 'smoothness_param',smoothness_param, 
-                                 'asym_param',asym_param, 
-                                 'redux', redux_factor,
-                                 'order', 2,
-                                 'fix_end_points', fix_end_points,
-                                 'max_iter', max_iter,
-                                 'min_diff', min_diff])
+            
+            if _np.size(asym_param) == 1:
+                self.bcpre.add_step(['PhaseErrorCorrectALS',
+                                     'smoothness_param',smoothness_param, 
+                                     'asym_param',asym_param, 
+                                     'redux', redux_factor,
+                                     'order', 2,
+                                     'fix_end_points', fix_end_points,
+                                     'max_iter', max_iter,
+                                     'min_diff', min_diff])
+            else:
+                self.bcpre.add_step(['PhaseErrorCorrectALS',
+                                     'smoothness_param',smoothness_param, 
+                                     'asym_param_start', 
+                                     winPlotEffect.parameters['asym_param_start'], 
+                                     'asym_param_end', 
+                                     winPlotEffect.parameters['asym_param_end'], 
+                                     'redux', redux_factor,
+                                     'order', 2,
+                                     'fix_end_points', fix_end_points,
+                                     'max_iter', max_iter,
+                                     'min_diff', min_diff])
             
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1880,14 +1894,28 @@ class CRIkitUI_process(_QMainWindow):
             baseline_detrend.transform(self.hsi.data)
             
             # Backup for Undo
-            self.bcpre.add_step(['AmpErrorCorrectALS',
-                                 'smoothness_param', smoothness_param, 
-                                 'asym_param', asym_param,
-                                 'redux', redux_factor,
-                                 'order', 2,
-                                 'fix_end_points', fix_end_points,
-                                 'max_iter', max_iter,
-                                 'min_diff', min_diff])
+            if _np.size(asym_param) == 1:
+                self.bcpre.add_step(['AmpErrorCorrectALS',
+                                     'smoothness_param', smoothness_param, 
+                                     'asym_param', asym_param,
+                                     'redux', redux_factor,
+                                     'order', 2,
+                                     'fix_end_points', fix_end_points,
+                                     'max_iter', max_iter,
+                                     'min_diff', min_diff])
+            else:
+                self.bcpre.add_step(['AmpErrorCorrectALS',
+                                     'smoothness_param',smoothness_param, 
+                                     'asym_param_start', 
+                                     winPlotEffect.parameters['asym_param_start'], 
+                                     'asym_param_end', 
+                                     winPlotEffect.parameters['asym_param_end'], 
+                                     'redux', redux_factor,
+                                     'order', 2,
+                                     'fix_end_points', fix_end_points,
+                                     'max_iter', max_iter,
+                                     'min_diff', min_diff])
+                
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
