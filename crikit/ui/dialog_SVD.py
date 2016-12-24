@@ -17,8 +17,10 @@ class DialogSVD(DialogAbstractFactorization):
     """
     SVD Class
     """
-    def __init__(self, data, img_shape, mask=None, parent=None):
-        super(DialogSVD, self).__init__(data, img_shape, parent=parent) ### EDIT ###
+    def __init__(self, data, img_shape, mask=None, use_imag=True, 
+                 parent=None):
+        super(DialogSVD, self).__init__(data, img_shape, mask, use_imag, 
+                                        parent=parent) ### EDIT ###
 
         self.U = data[0]
         self.s = data[1]
@@ -27,8 +29,12 @@ class DialogSVD(DialogAbstractFactorization):
 
         self.mask = mask
         
+        self._use_imag = use_imag # By default, use imag portion of complex data
+        
         self.updatePlots(0)
         self.updateCurrentRemainder()
+        
+        
     
     def max_factors(self):
         """
@@ -50,11 +56,25 @@ class DialogSVD(DialogAbstractFactorization):
         
     def mean_spatial(self, cube):
         ret = cube.mean(axis=-1)
-        ret = ret.reshape((self._n_x, self._n_y))
-        return ret
+        ret = ret.reshape((self._n_y, self._n_x))
+        if _np.iscomplexobj(ret):
+            if self._use_imag:
+                return _np.imag(ret)
+            else:
+                return _np.real(ret)
+        else:
+            return ret
         
     def mean_spectral(self, cube):
-        return cube.mean(axis=0)
+        ret = cube.mean(axis=0)
+        
+        if _np.iscomplexobj(ret):
+            if self._use_imag:
+                return _np.imag(ret)
+            else:
+                return _np.real(ret)
+        else:
+            return ret
         
     def s_from_selected(self, selections=None):
         """
@@ -77,12 +97,27 @@ class DialogSVD(DialogAbstractFactorization):
         
     def get_spatial_slice(self, num):
         img = self.U[...,num].reshape((self._n_y, self._n_x))
-        return img
+        
+        if _np.iscomplexobj(img):
+            if self._use_imag:
+                return _np.imag(img)
+            else:
+                return _np.real(img)
+        else:
+            return img
+            
+      
         
     def get_spectral_slice(self, num):
         spect = self.Vh[num,:]
-        return spect
-
+        
+        if _np.iscomplexobj(spect):
+            if self._use_imag:
+                return _np.imag(spect)
+            else:
+                return _np.real(spect)
+        else:
+            return spect
 
 if __name__ == '__main__':
     from scipy.linalg import svd as _svd
@@ -101,7 +136,7 @@ if __name__ == '__main__':
 #
     for count in range(y.size):
         hsi[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
-
+    hsi = hsi + 1j*_np.random.rand(hsi.shape[0], hsi.shape[1], hsi.shape[2])
     
     data = _svd(hsi.reshape((-1,f.size)), full_matrices=False)
     

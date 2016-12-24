@@ -32,7 +32,7 @@ class DialogAbstractFactorization(_QDialog):
     SubUiSVD : SVD SubUI
     """
 
-    def __init__(self, data, img_shape, mask=None, parent=None):
+    def __init__(self, data, img_shape, mask=None, use_imag=True, parent=None):
 #        raise NotImplementedError('This is an abstract class.')
         super(DialogAbstractFactorization, self).__init__(parent) ### EDIT ###
         self.setup()
@@ -125,13 +125,13 @@ class DialogAbstractFactorization(_QDialog):
         return all_factors - self.selected_factors
         
     @classmethod
-    def main(cls, data, img_shape, mask=None, parent=None):
+    def main(cls, data, img_shape, mask=None, use_imag=True, parent=None):
         """
             Executes DialogAbstractFactorization dialog and returns values
         """
 #        raise NotImplementedError
         
-        dialog = cls(data, img_shape, mask, parent)
+        dialog = cls(data, img_shape, mask, use_imag, parent)
         dialog.showMaximized()
         result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
 
