@@ -166,6 +166,8 @@ class widgetMergeNRBs(_AbstractPlotEffectPlugin):
             
         nrb_merged = inst_nrb_merge.calculate()
         kkd = _np.zeros(data_in.shape)
+
+        # Note: kk_widget.fcn return imag part
         kkd[..., pix] = self.kk_widget.fcn([nrb_merged[pix], data_in[..., pix]])
         
         return [_np.vstack((self.nrb_left, self.nrb_right, nrb_merged)),
