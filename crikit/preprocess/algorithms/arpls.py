@@ -12,7 +12,7 @@ import cvxopt.cholmod as _cholmod
 _cvxopt.cholmod.options['supernodal'] = 1
 _cvxopt.cholmod.options['postorder'] = False
 
-from crikit2_sw.preprocess.algorithms.abstract_als import AbstractBaseline
+from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
     
 class ArPlsCvxopt(AbstractBaseline):
     def __init__(self, smoothness_param=1e-8, redux=1, order=2, 
