@@ -1717,22 +1717,22 @@ class CRIkitUI_process(_QMainWindow):
         # Class method route
         if rng is None:
             # Note: .main in dialog_AbstractFactorization
-            svs = DialogSVD.main(UsVh, self.hsi.data.shape, mask=self.hsi.mask, 
+            svs = DialogSVD.dialogSVD(UsVh, self.hsi.data.shape, mask=self.hsi.mask, 
                                  parent=self)
         else:
-            svs = DialogSVD.main(UsVh, self.hsi.data[..., rng].shape, 
+            svs = DialogSVD.dialogSVD(UsVh, self.hsi.data[..., rng].shape, 
                                  mask=self.hsi.mask, parent=self)
-#        print('SV\'s:{}'.format(svs))
+
+        print('SV\'s:{}'.format(svs))
         
         if svs is not None:
-#            print('1')
             svd_recompose = SVDRecompose(rng=rng)
-#            print('2')
             svd_recompose.transform(self.hsi.data, UsVh[0], UsVh[1], UsVh[2],
                                     svs=svs)
-#            print('3')
+            
             # Backup for Undo
             self.bcpre.add_step(['SVD','SVs',svs])
+            
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -1741,7 +1741,7 @@ class CRIkitUI_process(_QMainWindow):
                 else:
                     self.bcpre.backed_up()
             self.changeSlider()
-
+            
 
     def errorCorrectPhase(self):
         """

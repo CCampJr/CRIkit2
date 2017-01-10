@@ -32,12 +32,12 @@ class DialogAbstractFactorization(_QDialog):
     SubUiSVD : SVD SubUI
     """
 
-    def __init__(self, data, img_shape, mask=None, use_imag=True, parent=None):
+##    def __init__(self, parent=None):
 #        raise NotImplementedError('This is an abstract class.')
-        super(DialogAbstractFactorization, self).__init__(parent) ### EDIT ###
-        self.setup()
-        self.setupData(img_shape=img_shape)
-        self.ui_changes()
+##        super(DialogAbstractFactorization, self).__init__(parent=parent) ### EDIT ###
+##        self.setup()
+##        self.setupData(img_shape=img_shape)
+##        self.ui_changes()
 #        pass
 
         
@@ -124,27 +124,28 @@ class DialogAbstractFactorization(_QDialog):
         all_factors = set(_np.arange(self._n_factors))
         return all_factors - self.selected_factors
         
-    @classmethod
-    def main(cls, data, img_shape, mask=None, use_imag=True, parent=None):
-        """
-            Executes DialogAbstractFactorization dialog and returns values
-        """
-#        raise NotImplementedError
+#     @staticmethod
+#     def dialogAbstractFactorization(data, img_shape, mask=None, use_imag=True, 
+#                                     parent=None):
+#         """
+#             Executes DialogAbstractFactorization dialog and returns values
+#         """
+# #        raise NotImplementedError
         
-        dialog = cls(data, img_shape, mask, use_imag, parent)
-        dialog.showMaximized()
-        result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
+#         dialog = DialogAbstractFactorization(data, img_shape=img_shape, mask=mask,
+#                                              use_imag=use_imag, parent=parent)
+#         result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
 
-        if result == 1:
-            factors = list(dialog.selected_factors)
-            if len(factors) == 0:
-                factors = None
-            else:
-                factors.sort()
-                factors = _np.array(factors)
-            return factors
-        else:
-            return None
+#         if result == 1:
+#             factors = list(dialog.selected_factors)
+#             if len(factors) == 0:
+#                 factors = None
+#             else:
+#                 factors.sort()
+#                 factors = _np.array(factors)
+#             return factors
+#         else:
+#             return None
 
     def applyCheckBoxes(self):
         """
@@ -294,23 +295,24 @@ class DialogAbstractFactorization(_QDialog):
 
 
 if __name__ == '__main__':
-    app = _QApplication(_sys.argv)
-    app.setStyle('Cleanlooks')
-    x = _np.linspace(100,200,50)
-    y = _np.linspace(200,300,50)
-    f = _np.linspace(500,3000,800)
-    Ex = 30*_np.exp((-(f-1750)**2/(200**2)))
-    Spectrum = _np.convolve(_np.flipud(Ex),Ex,mode='same')
+    pass
+#     app = _QApplication(_sys.argv)
+#     app.setStyle('Cleanlooks')
+#     x = _np.linspace(100,200,50)
+#     y = _np.linspace(200,300,50)
+#     f = _np.linspace(500,3000,800)
+#     Ex = 30*_np.exp((-(f-1750)**2/(200**2)))
+#     Spectrum = _np.convolve(_np.flipud(Ex),Ex,mode='same')
 
-    data = _np.zeros((y.size,x.size,f.size))
+#     data = _np.zeros((y.size,x.size,f.size))
 
-    for count in range(y.size):
-        data[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
+#     for count in range(y.size):
+#         data[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
 
-    win = DialogAbstractFactorization.main(data, data.shape) ### EDIT ###
+#     win = DialogAbstractFactorization.dialogAbstractFactorization(data, data.shape) ### EDIT ###
 
-    print(win)
+#     print(win)
 
 
-    _sys.exit(app.exec_())
-#    _sys.exit()
+#     _sys.exit(app.exec_())
+# #    _sys.exit()
