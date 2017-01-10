@@ -6,14 +6,17 @@ imaging (HSI) platform (user interface, UI).
 HSI Processing:
 * Dark subtraction
 * Detrending
-* Denoising
+* Denoising via SVD
 
 Coherent Raman-Specific Processing:
 * Kramers-Kronig phase retrieval
 * Phase- and scale-error correction
 
-Analysis:
-* (Coming soon)
+Coming Soon:
+* SVD automated selection tools
+* Analysis toolkit (separate UI)
+* Interactive Raman database
+* Much more
 
 ## Installation ##
 ```
