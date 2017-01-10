@@ -203,6 +203,8 @@ def hilbertfft(spectra, pad_factor=1):
     else:
         padded = spectra
 
+    padded = padded.astype(_np.complex)
+
     # Use pyFFTW (supposed optimal) library or Scipy
     # Note (although not obvious with pyFFTW) these functions overwrite
     # the input variable-- saves memory and increases speed
@@ -214,7 +216,7 @@ def hilbertfft(spectra, pad_factor=1):
                                               auto_align_input=True,
                                               planner_effort='FFTW_MEASURE')
 
-        padded = padded*1j*_np.sign(time_vec)
+        padded *= 1j*_np.sign(time_vec)
 
         padded = _pyfftw.interfaces.scipy_fftpack.fft(padded, axis=-1,
                                               overwrite_x=True,
