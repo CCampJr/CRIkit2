@@ -6,11 +6,7 @@ Created on Thu May 26 14:31:39 2016
 
 @author: chc
 """
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
+import copy as _copy
 import numpy as _np
 
 from crikit.utils.general import find_nearest as _find_nearest
@@ -84,7 +80,7 @@ if __name__ == '__main__':  # pragma: no cover
     from crikit.data.spectra import Spectra as _Spectra
     from crikit.data.hsi import Hsi as _Hsi
 
-    import copy as _copy
+    
 
     x = _np.linspace(0, 100, 10)
     y = _np.linspace(0, 100, 10)
