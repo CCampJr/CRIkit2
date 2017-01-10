@@ -30,7 +30,7 @@ pip install -e .
 
 ## Starting CRIkit2 UI ##
 ```
-python3 -m crikit
+python3 -m crikit or python -m crikit
 ```
 
 ## Dependencies ##
@@ -38,12 +38,12 @@ python3 -m crikit
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
-* Python >= 3.4
-* Numpy (1.9.3)
+* python >= 3.4
+* numpy (1.9.3)
 * PyQT5 (5.5.1)
-* Matplotlib (1.5.0rc3)
-* Yapsy (1.11.223)
-* H5Py (2.5)
+* matplotlib (1.5.0rc3)
+* cvxopt (1.1.7)
+* h5py (2.5)
 
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
