@@ -304,14 +304,14 @@ if __name__ == '__main__':
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
 #
-    # ALS
-    from crikit.ui.widget_ALS import widgetALS as _widgetALS
-    
-    plugin = _widgetALS()
-    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
-                                                            plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
+##    # ALS
+##    from crikit.ui.widget_ALS import widgetALS as _widgetALS
+##    
+##    plugin = _widgetALS()
+##    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+##                                                            plugin=plugin)
+##    if winPlotEffect is not None:
+##        print(winPlotEffect.parameters)
 #
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
@@ -355,14 +355,14 @@ if __name__ == '__main__':
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
     
-#    # Merge NRBs
-#    from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
-#                                            _widgetMergeNRBs)
-#    plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
-#                                                            plugin=plugin)
-#    if winPlotEffect is not None:
-#        print(winPlotEffect.parameters)
+    # Merge NRBs
+    from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
+                                            _widgetMergeNRBs)
+    plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
+    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
+                                                            plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
         
     
     
