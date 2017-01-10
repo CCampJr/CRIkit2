@@ -31,6 +31,8 @@ class DialogAbstractFactorization(_QDialog):
     """
     SubUiSVD : SVD SubUI
     """
+    def __init__(self, parent=None):
+        super(DialogAbstractFactorization, self).__init__(parent=parent)
 
 ##    def __init__(self, parent=None):
 #        raise NotImplementedError('This is an abstract class.')
@@ -63,7 +65,7 @@ class DialogAbstractFactorization(_QDialog):
     def setup(self, parent = None):
 
         # Generic load/init designer-based GUI
-        super(DialogAbstractFactorization, self).__init__(parent) ### EDIT ###
+        # super(DialogAbstractFactorization, self).__init__(parent) ### EDIT ###
 
         self.ui = Ui_Dialog() ### EDIT ###
         self.ui.setupUi(self)     ### EDIT ###
