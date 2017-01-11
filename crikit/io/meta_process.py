@@ -37,7 +37,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
                         break
                     else:
                         temp_key = count
-                        temp_val = output_cls_instance.meta[temp_key]
+                        temp_val = output_cls_instance._meta[temp_key]
                         break
 #                        print('{}:{}'.format(count, temp_val))
                 else:
@@ -53,7 +53,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
 
     elif isinstance(rosetta[key],str):
         try:
-            temp = output_cls_instance.meta[rosetta[key]]
+            temp = output_cls_instance._meta[rosetta[key]]
         except:
             return None
         else:
