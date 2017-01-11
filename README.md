@@ -6,14 +6,17 @@ imaging (HSI) platform (user interface, UI).
 HSI Processing:
 * Dark subtraction
 * Detrending
-* Denoising
+* Denoising via SVD
 
 Coherent Raman-Specific Processing:
 * Kramers-Kronig phase retrieval
 * Phase- and scale-error correction
 
-Analysis:
-* (Coming soon)
+Coming Soon:
+* SVD automated selection tools
+* Analysis toolkit (separate UI)
+* Interactive Raman database
+* Much more
 
 ## Installation ##
 ```
@@ -22,15 +25,23 @@ Analysis:
 git clone https://github.com/CCampJr/crikit2.git
 
 # Install (mainly check installation)
-pip install -e .
+pip3 install -e .
 
-# IMPORTANT: You will need to manually install PyQt5 and Qt5
+# IMPORTANT: for Python 3.4
+# You will need to manually install PyQt5 and Qt5
 # These packages are not pip-installable at this time
+
+# For Python 3.5
+pip3 install pyqt5 
 ```
 
 ## Starting CRIkit2 UI ##
 ```
-python3 -m crikit or python -m crikit
+python3 -m crikit 
+
+# or
+
+python -m crikit
 ```
 
 ## Dependencies ##
@@ -38,7 +49,7 @@ python3 -m crikit or python -m crikit
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
-* python >= 3.4
+* python >= 3.4 (Currently, transitioning to python 3.5)
 * numpy (1.9.3)
 * PyQT5 (5.5.1)
 * matplotlib (1.5.0rc3)
