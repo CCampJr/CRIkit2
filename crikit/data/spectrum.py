@@ -187,7 +187,52 @@ class Spectrum:
 
     @property
     def meta(self):
-        return self._meta
+        temp_dict = self._meta.copy()
+
+        if self.freq.calib is not None:
+            try:
+                calib_dict = {}
+                calib_prefix = 'Calib.'
+
+                calib_dict[calib_prefix + 'a_vec'] = self.freq.calib['a_vec']
+                calib_dict[calib_prefix + 'ctr_wl'] = self.freq.calib['ctr_wl']
+                calib_dict[calib_prefix + 'ctr_wl0'] = self.freq.calib['ctr_wl0']
+                calib_dict[calib_prefix + 'n_pix'] = self.freq.calib['n_pix']
+                calib_dict[calib_prefix + 'probe'] = self.freq.calib['probe']
+
+                try:  # Doesn't really matter if we have the units
+                    calib_dict[calib_prefix + 'units'] = self.freq.calib['units']
+                except:
+                    pass
+
+            except:
+                print('Could not get calibration information')
+            else:
+                temp_dict.update(calib_dict)
+
+        if self.freq.calib_orig is not None:
+            try:
+                calib_dict = {}
+                calib_prefix = 'CalibOrig.'
+
+                calib_dict[calib_prefix + 'a_vec'] = self.freq.calib_orig['a_vec']
+                calib_dict[calib_prefix + 'ctr_wl'] = self.freq.calib_orig['ctr_wl']
+                calib_dict[calib_prefix + 'ctr_wl0'] = self.freq.calib_orig['ctr_wl0']
+                calib_dict[calib_prefix + 'n_pix'] = self.freq.calib_orig['n_pix']
+                calib_dict[calib_prefix + 'probe'] = self.freq.calib_orig['probe']
+
+                try:  # Doesn't really matter if we have the units
+                    calib_dict[calib_prefix + 'units'] = self.freq.calib_orig['units']
+                except:
+                    pass
+
+            except:
+                print('Could not get calibration information')
+            else:
+                temp_dict.update(calib_dict)
+ 
+        # return self._meta
+        return temp_dict
 
     @meta.setter
     def meta(self, value):
