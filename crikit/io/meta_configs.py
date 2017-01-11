@@ -43,7 +43,17 @@ def special_nist_bcars2():
     rosetta['ColorPolyVals'] = ['Calib.a_vec', '!', [-0.167740721307557,
                                                      863.8736708961577]]
     rosetta['ColorWnMode'] = ['!', True]
+
+    # Color Calibration Original
+    rosetta['OrigColorCenterWL'] = ['Spectro.CenterWavelength', 'CalibOrig.ctr_wl']
+    rosetta['OrigColorUnits'] = ['CalibOrig.units']
+    rosetta['OrigColorChannels'] = ['CalibOrig.n_pix']
+    rosetta['OrigColorCalibWL'] = ['CalibOrig.ctr_wl']
+
     rosetta['OrigColorPolyVals'] = ['CalibOrig.a_vec']
+
+    rosetta['OrigColorProbe'] = ['CalibOrig.probe']
+    rosetta['OrigColorWnMode'] = ['!', True]
 
     return rosetta
     
