@@ -97,7 +97,7 @@ class Spectra(_Spectrum):
         if units is not None:
             self.units = _copy.deepcopy(units)
         if meta is not None:
-            self.meta = _copy.deepcopy(meta)
+            self._meta = _copy.deepcopy(meta)
 
     @property
     def data(self):
