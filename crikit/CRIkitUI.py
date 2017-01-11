@@ -511,11 +511,17 @@ class CRIkitUI_process(_QMainWindow):
                     f_out = _h5py.File(self.save_path + self.save_filename, 'a')
                     loc = f_out.require_group(self.save_grp)
                     dset = loc.create_dataset(self.save_dataset_name_no_grp, data=self.hsi.data)
-                    for attr_key in self.hsi.meta:
-                        try:
-                            dset.attrs.create(attr_key,self.hsi.meta[attr_key])
-                        except:
-                            print('Error in HSI attributes')
+                    
+                    meta = self.hsi.meta
+                    for attr_key in meta:
+                        val = meta[attr_key]
+                        if isinstance(val, str):
+                            dset.attrs[attr_key] = val
+                        else:
+                            try:
+                                dset.attrs.create(attr_key,self.hsi.meta[attr_key])
+                            except:
+                                print('Error in HSI attributes: {}'.format(attr_key))
                     
                     bc_attr_dict = self.bcpre.attr_dict
     
