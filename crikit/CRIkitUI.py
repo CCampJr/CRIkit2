@@ -85,7 +85,7 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 #
 
-from crikit.ui.dialog_ploteffect_future import (DialogPlotEffectFuture 
+from crikit.ui.dialog_ploteffect import (DialogPlotEffectFuture 
                                                 as _DialogPlotEffect)
 
 from crikit.ui.widget_SG import (widgetSG as _widgetSG)
