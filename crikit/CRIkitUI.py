@@ -661,7 +661,8 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionAmpErrorCorrection.setEnabled(True)
             self.ui.actionSubtractROI.setEnabled(True)
             self.ui.actionNRB_from_ROI.setEnabled(True)
-            
+            self.ui.menuVariance_Stabilize.setEnabled(True)
+
             # ANALYSIS
 #                    self.ui.actionAnalysisToolkit.setEnabled(True)
             
@@ -749,6 +750,7 @@ class CRIkitUI_process(_QMainWindow):
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
+                    self.ui.actionDeNoiseDark.setEnabled(True)
                 else:
                     self.dark = Spectra()
                     print('Dark was the wrong shape')
@@ -756,6 +758,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.dark = Spectra()
                 self.ui.actionDarkSubtract.setEnabled(False)
                 self.ui.actionDarkSpectrum.setEnabled(False)
+                self.ui.actionDeNoiseDark.setEnabled(False)
+                
                 
     def loadDarkDLM(self):
         """
@@ -816,9 +820,11 @@ class CRIkitUI_process(_QMainWindow):
             if success:
                 if nrb.shape[-1] == self.hsi.freq.size:
                     if sender == self.ui.actionLoadNRB:
+                        self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
                         self.ui.actionKramersKronig.setEnabled(True)
                         self.ui.actionKKSpeedTest.setEnabled(True)
                         self.ui.actionNRBSpectrum.setEnabled(True)
+                        self.ui.actionDeNoiseNRB.setEnabled(True)
                     elif sender == self.ui.actionLoad_NRB_Left_Side:
                         self.ui.actionLeftSideNRBSpect.setEnabled(True)
                         if ((self.nrb_left.data is not None) and 
@@ -869,6 +875,7 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionKramersKronig.setEnabled(True)
                     self.ui.actionKKSpeedTest.setEnabled(True)
                     self.ui.actionNRBSpectrum.setEnabled(True)
+                    self.ui.actionDeNoiseNRB.setEnabled(True)
                 else:
                     self.nrb = Spectra()
                     print('NRB was the wrong shape')
@@ -877,6 +884,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKramersKronig.setEnabled(False)
                 self.ui.actionKKSpeedTest.setEnabled(False)
                 self.ui.actionNRBSpectrum.setEnabled(False)
+                self.ui.actionDeNoiseNRB.setEnabled(False)
                 
     def mergeNRBs(self):
         """
@@ -917,6 +925,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionNRBSpectrum.setEnabled(True)
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
+                self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
+                self.ui.actionDeNoiseNRB.setEnabled(True)
                 
                 wn, pix = find_nearest(self.hsi.f_full, \
                    self.hsi.f[winPlotEffect.parameters['pix_switchpt']])

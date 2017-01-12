@@ -397,7 +397,7 @@ This will be saved to the processed file.</string>
     </property>
     <widget class="QMenu" name="menuVariance_Stabilize">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="title">
       <string>Standardize</string>
@@ -407,6 +407,9 @@ This will be saved to the processed file.</string>
      <addaction name="actionInverseAnscombe"/>
     </widget>
     <widget class="QMenu" name="menuCoherent_Raman_Imaging">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Coherent Raman Imaging</string>
      </property>
@@ -1080,11 +1083,17 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionDeNoiseNRB">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>De-Noise NRB</string>
    </property>
   </action>
   <action name="actionDeNoiseDark">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>De-Noise Dark</string>
    </property>
