@@ -120,12 +120,11 @@ class DialogPlotEffectFuture(_QDialog):
         """
         Plugin widget has changed. Re-submit data to plugin function.
         """
-#        try:
-        affected_data = self.plugin.fcn(self.data)
-#        except:
-#            print('Error in plugin.fcn')
-#        else:
-        if True:
+        try:
+            affected_data = self.plugin.fcn(self.data)
+        except:
+            print('Error in plugin.fcn')
+        else:
             # If affected_data is a list, [0] is added to the original data
             # plots and is bolded
             if isinstance(affected_data, list):
