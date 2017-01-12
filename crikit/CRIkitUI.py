@@ -650,7 +650,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionLoadDarkDLM.setEnabled(True)
             self.ui.actionLoadNRBDLM.setEnabled(True)
             self.ui.actionNRB_from_ROI.setEnabled(True)
-            self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
+            # self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
             self.ui.menuPiece_wise_NRB.setEnabled(True)
 
             # PREPROCESS
@@ -927,7 +927,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
                 self.ui.actionDeNoiseNRB.setEnabled(True)
-                
+
                 wn, pix = find_nearest(self.hsi.f_full, \
                    self.hsi.f[winPlotEffect.parameters['pix_switchpt']])
                 
@@ -1192,6 +1192,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
+                self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
+
             elif sender == 'actionAppend_NRB_from_ROI':
                 if self.nrb.size == 0:
                     self.nrb.data = spectrum
