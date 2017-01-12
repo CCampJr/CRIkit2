@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\ui_CRIkit.ui'
+# Form implementation generated from reading ui file 'crikit2\crikit\ui\qt5-creator\ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -51,6 +51,7 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.tab)
+        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.sweeperVL = QtWidgets.QVBoxLayout()
         self.sweeperVL.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -62,6 +63,7 @@ class Ui_MainWindow(object):
         self.tabCompositeLarge = QtWidgets.QWidget()
         self.tabCompositeLarge.setObjectName("tabCompositeLarge")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.tabCompositeLarge)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.sweeperVL_2 = QtWidgets.QVBoxLayout()
         self.sweeperVL_2.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -73,6 +75,7 @@ class Ui_MainWindow(object):
         self.tabSettings = QtWidgets.QWidget()
         self.tabSettings.setObjectName("tabSettings")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.tabSettings)
+        self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
@@ -81,6 +84,7 @@ class Ui_MainWindow(object):
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.tab_3)
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
@@ -176,9 +180,10 @@ class Ui_MainWindow(object):
         self.menuPre_Process = QtWidgets.QMenu(self.menubar)
         self.menuPre_Process.setObjectName("menuPre_Process")
         self.menuVariance_Stabilize = QtWidgets.QMenu(self.menuPre_Process)
-        self.menuVariance_Stabilize.setEnabled(True)
+        self.menuVariance_Stabilize.setEnabled(False)
         self.menuVariance_Stabilize.setObjectName("menuVariance_Stabilize")
         self.menuCoherent_Raman_Imaging = QtWidgets.QMenu(self.menuPre_Process)
+        self.menuCoherent_Raman_Imaging.setEnabled(False)
         self.menuCoherent_Raman_Imaging.setObjectName("menuCoherent_Raman_Imaging")
         self.menuEdit = QtWidgets.QMenu(self.menubar)
         self.menuEdit.setObjectName("menuEdit")
@@ -428,8 +433,10 @@ class Ui_MainWindow(object):
         self.actionRightSideNRBSpect.setEnabled(False)
         self.actionRightSideNRBSpect.setObjectName("actionRightSideNRBSpect")
         self.actionDeNoiseNRB = QtWidgets.QAction(MainWindow)
+        self.actionDeNoiseNRB.setEnabled(False)
         self.actionDeNoiseNRB.setObjectName("actionDeNoiseNRB")
         self.actionDeNoiseDark = QtWidgets.QAction(MainWindow)
+        self.actionDeNoiseDark.setEnabled(False)
         self.actionDeNoiseDark.setObjectName("actionDeNoiseDark")
         self.actionShowOverlays = QtWidgets.QAction(MainWindow)
         self.actionShowOverlays.setCheckable(True)

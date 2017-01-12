@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import (QApplication as _QApplication,
 # Import from Designer-based GUI
 from crikit.ui.qt_KKOptions import Ui_Dialog as Ui_KKOptions
 
-from crikit.ui.dialog_ploteffect_future import (DialogPlotEffectFuture as 
+from crikit.ui.dialog_ploteffect import (DialogPlotEffectFuture as 
                                                 _DialogPlotEffect)
 from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 
