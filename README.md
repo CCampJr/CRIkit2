@@ -18,21 +18,59 @@ Coming Soon:
 * Interactive Raman database
 * Much more
 
+## Dependencies ##
+
+Note: These are the developmental system specs. Older versions of certain
+packages may work.
+
+* python >= 3.4 (Currently, transitioning to python 3.5)
+* numpy (1.9.3)
+* PyQT5 (5.5.* or 5.6.*)
+* matplotlib (1.5.0rc3)
+* cvxopt (1.1.7)
+* h5py (2.5)
+
+### IMPORTANT: For Python 3.4 ###
+You will need to manually install PyQt5 and Qt5 or get it through a distribution
+* PyQt5: https://www.riverbankcomputing.com/software/pyqt/download5
+* Qt: https://www.qt.io/
+
+### For Python 3.5, installation through pip available ###
+pip3 install pyqt5
+
+## Known Issues ##
+There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the individual plot entries 
+(see https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html). Apparently, this will be fixed in 5.7.2.
+
+* As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.
+* Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
+
 ## Installation ##
+### Option 1: Easily updatable through git (dynamic copy)###
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
 git clone https://github.com/CCampJr/crikit2.git
 
-# Install (mainly check installation)
+# Within install directory
 pip3 install -e .
 
-# IMPORTANT: for Python 3.4
-# You will need to manually install PyQt5 and Qt5
-# These packages are not pip-installable at this time
+# To update installation, from within crikit2 directory
+git pull
+```
 
-# For Python 3.5
-pip3 install pyqt5 
+### Option 2: Static Copy ###
+```
+# Make new directory for crikit2 and enter it
+# Clone from github
+git clone https://github.com/CCampJr/crikit2.git
+
+# or download a copy from https://github.com/CCampJr/crikit2
+
+# Within install directory
+pip3 install .
+
+# You can now delete the source files you downloaded
 ```
 
 ## Starting CRIkit2 UI ##
@@ -43,18 +81,6 @@ python3 -m crikit
 
 python -m crikit
 ```
-
-## Dependencies ##
-
-Note: These are the developmental system specs. Older versions of certain
-packages may work.
-
-* python >= 3.4 (Currently, transitioning to python 3.5)
-* numpy (1.9.3)
-* PyQT5 (5.5.1)
-* matplotlib (1.5.0rc3)
-* cvxopt (1.1.7)
-* h5py (2.5)
 
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
