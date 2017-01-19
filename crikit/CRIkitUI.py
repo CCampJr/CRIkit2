@@ -557,8 +557,7 @@ class CRIkitUI_process(_QMainWindow):
 
         if filename_header != '':
             self.path = _os.path.dirname(filename_header) + '/'
-            filename_data,_ = _QFileDialog.getOpenFileName(self,
-                                                           'Open Data File',
+            filename_data,_ = _QFileDialog.getOpenFileName(self, 'Open Data File',
                                                            self.path,
                                                            'All Files (*.*)')
 
@@ -838,9 +837,9 @@ class CRIkitUI_process(_QMainWindow):
         """
 
 
-        filename,_ = _QFileDialog.getOpenFileName(self, 'Open NRB File',
-                                                  self.path,
-                                                  'All Files (*.*)')
+        filename, _ = _QFileDialog.getOpenFileName(self, 'Open NRB File',
+                                                   self.path,
+                                                   'All Files (*.*)')
         if filename != '':
             filename = filename.split(_os.path.dirname(filename))[1][1::]
 
@@ -1875,7 +1874,7 @@ class CRIkitUI_process(_QMainWindow):
                                      'min_diff', min_diff])
             else:
                 self.bcpre.add_step(['AmpErrorCorrectALS',
-                                     'smoothness_param',smoothness_param,
+                                     'smoothness_param', smoothness_param,
                                      'asym_param_start',
                                      winPlotEffect.parameters['asym_param_start'],
                                      'asym_param_end',
@@ -1988,7 +1987,7 @@ class CRIkitUI_process(_QMainWindow):
 
 
                 # Backup for Undo
-                if (darkloaded | nrbloaded):
+                if darkloaded or nrbloaded:
                     self.bcpre.add_step(['SubDark'])
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
@@ -2024,7 +2023,9 @@ class CRIkitUI_process(_QMainWindow):
         imgloaded = self.hsi.data is not None
 
         if nrbloaded or imgloaded:
-            text, ok = _QInputDialog.getText(None, 'Frequency Window', 'Range Tuple (cm-1): ', text='(-1500, -500)')
+            text, ok = _QInputDialog.getText(None, 'Frequency Window',
+                                             'Range Tuple (cm-1): ',
+                                             text='(-1500, -500)')
             if ok:
                 text_str_list = text.strip('(').strip(')').strip().split(',')
                 freqwin = [float(q) for q in text_str_list]
@@ -2084,7 +2085,7 @@ class CRIkitUI_process(_QMainWindow):
                 # Backup for Undo
                 if out_img == _QMessageBox.Ok:
                     self.bcpre.add_step(['SubResidual','RangeStart',
-                                         freqwin[0],'RangeEnd',
+                                         freqwin[0], 'RangeEnd',
                                          freqwin[1]])
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
@@ -2137,15 +2138,15 @@ class CRIkitUI_process(_QMainWindow):
         if self._anscombe_params is None:
             out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
         else:
-            out = DialogAnscombeOptions.dialogAnscombeOptions(
-                  stddev=self._anscombe_params['stddev'],
-                  gain=self._anscombe_params['gain'], parent=self)
+            out = DialogAnscombeOptions.dialogAnscombeOptions(stddev=self._anscombe_params['stddev'],
+                                                              gain=self._anscombe_params['gain'],
+                                                              parent=self)
 
         if out is not None:
             rng = self.hsi.freq.op_range_pix
 
             iansc = _AnscombeInverse(gauss_std=out['stddev'], gauss_mean=0.0,
-                             poisson_multi=out['gain'], rng=rng)
+                                     poisson_multi=out['gain'], rng=rng)
             iansc.transform(self.hsi.data)
 
             # Backup for Undo
@@ -2219,7 +2220,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.setCurrentIndex(0)
             Mask = 1
         else:
-            if (operation_text == '') | (operation_text == ' '):  # Return just a plane
+            if (operation_text == '') or (operation_text == ' '):  # Return just a plane
                 Mask = _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
                                                      condloc1)
 
@@ -2242,7 +2243,7 @@ class CRIkitUI_process(_QMainWindow):
 
             elif operation_text == 'SUM':  # Summation over range
                 Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2)
+                                                              condloc1, condloc2)
 
             elif operation_text == 'Peak b/w troughs':  # Peak between troughs
                 Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
@@ -2294,9 +2295,9 @@ class CRIkitUI_process(_QMainWindow):
             freq_set = True
 
         elif (num_freq_needed == 3 and
-            self.img_RGB_list[rgbnum].data.opfreq1 is not None and
-            self.img_RGB_list[rgbnum].data.opfreq2 is not None and
-            self.img_RGB_list[rgbnum].data.opfreq3 is not None):
+              self.img_RGB_list[rgbnum].data.opfreq1 is not None and
+              self.img_RGB_list[rgbnum].data.opfreq2 is not None and
+              self.img_RGB_list[rgbnum].data.opfreq3 is not None):
 
             # Operating frequency LOCATIONS
             oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
@@ -2310,44 +2311,44 @@ class CRIkitUI_process(_QMainWindow):
             freq_set = False
 
         if freq_set == True:
-            if (operation_text == '' or operation_text == ' '):  # Return just a plane
+            if (operation_text == '') or (operation_text == ' '):  # Return just a plane
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
                                                   oploc1)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == '+'):  # Addition
+            elif operation_text == '+':  # Addition
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real,
                                                      oploc1, oploc2)
 
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == '-'):  # Subtraction
+            elif operation_text == '-':  # Subtraction
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real,
                                                        oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == '*'):  # Multiplication
+            elif operation_text == '*':  # Multiplication
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real,
                                                           oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == '/'):  # Division
+            elif operation_text == '/':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real,
                                                         oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == 'SUM'):  # Division
+            elif operation_text == 'SUM':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
                                                            oploc1, oploc2)
                 self.img_RGB_list[rgbnum].changeColor()
                 #self.updateImgColorMinMax()
-            elif (operation_text == 'Peak b/w troughs'):  # Division
+            elif operation_text == 'Peak b/w troughs':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
                                                            oploc1, oploc2,
@@ -2370,7 +2371,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.opfreq1 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq1.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq1.setText(str(round(currentfreq, 1)))
             self.img_RGB_list[rgbnum].data.grayscaleimage = self.img_BW.data.grayscaleimage
             self.img_RGB_list[rgbnum].changeColor()
 
@@ -2391,7 +2392,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.opfreq2 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq2.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq2.setText(str(round(currentfreq, 1)))
         except:
             pass
 
@@ -2405,7 +2406,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.opfreq3 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq3.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq3.setText(str(round(currentfreq, 1)))
 
         except:
             pass
@@ -2420,7 +2421,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.condfreq1 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq1.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq1.setText(str(round(currentfreq, 1)))
 
         except:
             print('Error')
@@ -2435,7 +2436,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.condfreq2 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq2.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq2.setText(str(round(currentfreq, 1)))
 
         except:
             print('Error')
@@ -2450,7 +2451,7 @@ class CRIkitUI_process(_QMainWindow):
             currentfreq = float(self.ui.lineEditFreq.text())
 
             self.img_RGB_list[rgbnum].data.condfreq3 = currentfreq
-            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq3.setText(str(round(currentfreq,1)))
+            self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq3.setText(str(round(currentfreq, 1)))
 
         except:
             print('Error')
@@ -2484,8 +2485,8 @@ class CRIkitUI_process(_QMainWindow):
 #            print(mloc, nloc)
 
             if mask_hits > 1:
-                mean_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].mean(axis=0)
-                std_spect = self.hsi.data_imag_over_real[mloc,nloc,:][:,self.hsi.freq.op_range_pix].std(axis=0)
+                mean_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].mean(axis=0)
+                std_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].std(axis=0)
 #                print(mean_spect.shape)
                 # Plot mean spectrum
                 self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum ({})'.format(mask_hits))
@@ -2527,14 +2528,14 @@ class CRIkitUI_process(_QMainWindow):
         yunits = self.img_BW.data.yunits
         extent = self.img_BW.data.winextent
 
-        self.img_BW.createImg(img = img, xunits = xunits,
-                              yunits = yunits,
-                              extent = extent, showcbar = True,
-                              axison = True, cmap = _mpl.cm.gray)
+        self.img_BW.createImg(img=img, xunits=xunits,
+                              yunits=yunits,
+                              extent=extent, showcbar=True,
+                              axison=True, cmap=_mpl.cm.gray)
 
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
-            self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer,4)))
-            self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner,4)))
+            self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer, 4)))
+            self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner, 4)))
 
     def changeSlider(self):
         """
