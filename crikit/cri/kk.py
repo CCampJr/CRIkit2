@@ -15,22 +15,21 @@ Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
 
 """
 
-__all__ = ['kk']
+import timeit as _timeit
 
 import numpy as _np
-import timeit as _timeit
+
+from crikit.cri.algorithms.kk import kkrelation as _kkrelation
+from crikit.utils.datacheck import _rng_is_pix_vec
+from crikit.utils.general import find_nearest as _find_nearest
+from crikit.utils.general import mean_nd_to_1d as _mean_nd_to_1d
 
 if __name__ == '__main__':  # pragma: no cover
     import sys as _sys
     import os as _os
     _sys.path.append(_os.path.abspath('../../'))
 
-from crikit.cri.algorithms.kk import kkrelation as _kkrelation
-
-from crikit.utils.general import (find_nearest as _find_nearest,
-                                  mean_nd_to_1d as _mean_nd_to_1d)
-from crikit.utils.datacheck import _rng_is_pix_vec
-
+__all__ = ['kk']
 
 class KramersKronig:
     """
@@ -119,10 +118,10 @@ class KramersKronig:
         for idx in _np.ndindex(shp):
             if self.rng is None:
                 kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
-                                      cri=cars[idx] + self.cars_amp_offset,
-                                      phase_offset=self.phase_offset,
-                                      norm_by_bg=self.norm_to_nrb,
-                                      pad_factor=self.pad_factor)
+                                  cri=cars[idx] + self.cars_amp_offset,
+                                  phase_offset=self.phase_offset,
+                                  norm_by_bg=self.norm_to_nrb,
+                                  pad_factor=self.pad_factor)
             else:
                 kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
                                       cri=cars[idx][..., self.rng] + self.cars_amp_offset,
