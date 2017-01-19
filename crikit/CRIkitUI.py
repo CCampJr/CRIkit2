@@ -176,33 +176,35 @@ class CRIkitUI_process(_QMainWindow):
         self.img_RGB_list = []
 
         for count in range(self.NUMCOLORS):
-            self.img_RGB_list.append(widgetSglColor(figfacecolor=[1, 1, 1], parent=self))
-            self.img_RGB_list[count].data.colormap =\
+            self.img_RGB_list.append(widgetSglColor(figfacecolor=[1, 1, 1],
+                                                    parent=self))
+
+        # Split from previous for-loop for compactness of code
+        for count, rgb_img in enumerate(self.img_RGB_list):
+            rgb_img.data.colormap =\
                 widgetSglColor.COLORMAPS[widgetSglColor.COLORMAP_ORDER[count]]
-            ind = self.img_RGB_list[count].ui.comboBox.findText(widgetSglColor.COLORMAP_ORDER[count])
-            self.img_RGB_list[count].ui.comboBox.setCurrentIndex(ind)
+            ind = rgb_img.ui.comboBox.findText(widgetSglColor.COLORMAP_ORDER[count])
+            rgb_img.ui.comboBox.setCurrentIndex(ind)
 
-            self.img_RGB_list[count].ui.pushButtonSpectrum.setEnabled(False)
-            self.ui.tabColors.addTab(self.img_RGB_list[count], 'Color ' + str(count))
+            rgb_img.ui.pushButtonSpectrum.setEnabled(False)
+            self.ui.tabColors.addTab(rgb_img, 'Color ' + str(count))
 
-            self.img_RGB_list[count].math.ui.pushButtonDoMath.setEnabled(False)
+            rgb_img.math.ui.pushButtonDoMath.setEnabled(False)
 
-            self.img_RGB_list[count].math.ui.pushButtonOpFreq1.pressed.connect(self.setOpFreq1)
-            self.img_RGB_list[count].math.ui.pushButtonOpFreq2.pressed.connect(self.setOpFreq2)
-            self.img_RGB_list[count].math.ui.pushButtonOpFreq3.pressed.connect(self.setOpFreq3)
-            self.img_RGB_list[count].math.ui.comboBoxOperations.currentIndexChanged.connect(self.opChange)
-
-            self.img_RGB_list[count].math.ui.pushButtonCondFreq1.pressed.connect(self.setCondFreq1)
-            self.img_RGB_list[count].math.ui.pushButtonCondFreq2.pressed.connect(self.setCondFreq2)
-            self.img_RGB_list[count].math.ui.pushButtonCondFreq3.pressed.connect(self.setCondFreq3)
-            self.img_RGB_list[count].math.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpChange)
-            self.img_RGB_list[count].math.ui.comboBoxCondInEquality.currentIndexChanged.connect(self.condInEqualityChange)
-            self.img_RGB_list[count].math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
-
-            self.img_RGB_list[count].math.ui.pushButtonDoMath.pressed.connect(self.doMath)
-            self.img_RGB_list[count].math.ui.lineEditMax.editingFinished.connect(self.doComposite)
-            self.img_RGB_list[count].math.ui.lineEditMin.editingFinished.connect(self.doComposite)
-            self.img_RGB_list[count].ui.gainSlider.valueChanged.connect(self.doComposite)
+            rgb_img.math.ui.pushButtonOpFreq1.pressed.connect(self.setOpFreq1)
+            rgb_img.math.ui.pushButtonOpFreq2.pressed.connect(self.setOpFreq2)
+            rgb_img.math.ui.pushButtonOpFreq3.pressed.connect(self.setOpFreq3)
+            rgb_img.math.ui.comboBoxOperations.currentIndexChanged.connect(self.opChange)
+            rgb_img.math.ui.pushButtonCondFreq1.pressed.connect(self.setCondFreq1)
+            rgb_img.math.ui.pushButtonCondFreq2.pressed.connect(self.setCondFreq2)
+            rgb_img.math.ui.pushButtonCondFreq3.pressed.connect(self.setCondFreq3)
+            rgb_img.math.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpChange)
+            rgb_img.math.ui.comboBoxCondInEquality.currentIndexChanged.connect(self.condInEqualityChange)
+            rgb_img.math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
+            rgb_img.math.ui.pushButtonDoMath.pressed.connect(self.doMath)
+            rgb_img.math.ui.lineEditMax.editingFinished.connect(self.doComposite)
+            rgb_img.math.ui.lineEditMin.editingFinished.connect(self.doComposite)
+            rgb_img.ui.gainSlider.valueChanged.connect(self.doComposite)
 
 
         self.img_Composite = widgetCompositeColor(self.img_RGB_list,
@@ -549,15 +551,15 @@ class CRIkitUI_process(_QMainWindow):
 
         # Get data and load into CRI_HSI class
         # This will need to change to accomodate multiple-file selection
-        filename_header,_ = _QFileDialog.getOpenFileName(self, 'Open Header File', 
+        filename_header,_ = _QFileDialog.getOpenFileName(self, 'Open Header File',
                                                          './', 'All Files (*.*)')
 
 
         if filename_header != '':
             self.path = _os.path.dirname(filename_header) + '/'
-            filename_data,_ = _QFileDialog.getOpenFileName(self, 
-                                                           'Open Data File', 
-                                                           self.path, 
+            filename_data,_ = _QFileDialog.getOpenFileName(self,
+                                                           'Open Data File',
+                                                           self.path,
                                                            'All Files (*.*)')
 
             if filename_data != '':
@@ -686,29 +688,30 @@ class CRIkitUI_process(_QMainWindow):
         temp = 0*self.img_BW.data.grayscaleimage
 
         # Re-initialize RGB images
-        for count in enumerate(self.img_RGB_list):
-            self.img_RGB_list[count[0]].initData()
-            self.img_RGB_list[count[0]].data.grayscaleimage = temp
-            self.img_RGB_list[count[0]].data.set_x(self.hsi.x, xlabel)
-            self.img_RGB_list[count[0]].data.set_y(self.hsi.y, ylabel)
+
+        for rgb_img in self.img_RGB_list:
+            rgb_img.initData()
+            rgb_img.data.grayscaleimage = temp
+            rgb_img.data.set_x(self.hsi.x, xlabel)
+            rgb_img.data.set_y(self.hsi.y, ylabel)
 
             # Cute way of setting the colormap to last setting and replotting
-            self.img_RGB_list[count[0]].changeColor()
+            rgb_img.changeColor()
 
             # Enable Math
-            self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
+            rgb_img.math.ui.pushButtonDoMath.setEnabled(True)
 
             # Enable mean spectrum from RGB images
             # Note: if load new file after one has already loaded, need to disconnect
             # signal then reconnect (or could have ignored, but this is easier)
             try:
-                self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.disconnect()
+                rgb_img.ui.pushButtonSpectrum.pressed.disconnect()
             except:
                 pass
 
-            self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+            rgb_img.ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
 
-            self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
+            rgb_img.ui.pushButtonSpectrum.setEnabled(True)
 
         # Set X- and Y- scales, labels, etc for composite color images
         self.img_Composite.data.set_x(self.hsi.x, xlabel)
@@ -1116,9 +1119,9 @@ class CRIkitUI_process(_QMainWindow):
         sender = self.sender().objectName()
 
         if ((sender == 'actionNRB_from_ROI') or
-            (sender == 'actionAppend_NRB_from_ROI') or
-            (sender == 'actionNRB_from_ROI_Left_Side') or
-            (sender == 'actionNRB_from_ROI_Right_Side')):
+                (sender == 'actionAppend_NRB_from_ROI') or
+                (sender == 'actionNRB_from_ROI_Left_Side') or
+                (sender == 'actionNRB_from_ROI_Right_Side')):
             # Updated by _roiClick
             self.x_loc_list = []
             self.y_loc_list = []
@@ -1187,7 +1190,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.nrb_left.data = spectrum
                 self.ui.actionLeftSideNRBSpect.setEnabled(True)
                 if ((self.nrb_left.data is not None) and
-                    (self.nrb_right.data is not None)):
+                        (self.nrb_right.data is not None)):
                     if self.nrb_right.mean().size == self.nrb_left.mean().size:
                         self.ui.actionMergeNRBs.setEnabled(True)
 
@@ -1195,7 +1198,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.nrb_right.data = spectrum
                 self.ui.actionRightSideNRBSpect.setEnabled(True)
                 if ((self.nrb_left.data is not None) and
-                    (self.nrb_right.data is not None)):
+                        (self.nrb_right.data is not None)):
                     if self.nrb_right.mean().size == self.nrb_left.mean().size:
                         self.ui.actionMergeNRBs.setEnabled(True)
             else:
@@ -1617,7 +1620,7 @@ class CRIkitUI_process(_QMainWindow):
             order = winPlotEffect.parameters['polyorder']
 
             nrb_denoise = _copy.deepcopy(_np.squeeze(self.nrb.data))
-            nrb_denoise[...,rng] = _sg(nrb_denoise[..., rng], win_size, order)
+            nrb_denoise[..., rng] = _sg(nrb_denoise[..., rng], win_size, order)
 
             self.nrb.data = nrb_denoise
 
@@ -1685,10 +1688,10 @@ class CRIkitUI_process(_QMainWindow):
         if rng is None:
             # Note: .main in dialog_AbstractFactorization
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data.shape, mask=self.hsi.mask,
-                                 parent=self)
+                                      parent=self)
         else:
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data[..., rng].shape,
-                                 mask=self.hsi.mask, parent=self)
+                                      mask=self.hsi.mask, parent=self)
 
         print('SV\'s:{}'.format(svs))
 
@@ -1698,7 +1701,7 @@ class CRIkitUI_process(_QMainWindow):
                                     svs=svs)
 
             # Backup for Undo
-            self.bcpre.add_step(['SVD','SVs',svs])
+            self.bcpre.add_step(['SVD', 'SVs', svs])
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1732,17 +1735,17 @@ class CRIkitUI_process(_QMainWindow):
             redux_factor = winPlotEffect.parameters['redux']
             fix_end_points = winPlotEffect.parameters['fix_end_points']
             max_iter = winPlotEffect.parameters['max_iter']
-            min_diff =winPlotEffect.parameters['min_diff']
+            min_diff = winPlotEffect.parameters['min_diff']
 
             phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
-                                                         asym_param=asym_param,
-                                                         redux=redux_factor,
-                                                         order=2,
-                                                         rng=rng,
-                                                         fix_end_points=fix_end_points,
-                                                         max_iter=max_iter,
-                                                         min_diff=min_diff,
-                                                         verbose=False)
+                                                        asym_param=asym_param,
+                                                        redux=redux_factor,
+                                                        order=2,
+                                                        rng=rng,
+                                                        fix_end_points=fix_end_points,
+                                                        max_iter=max_iter,
+                                                        min_diff=min_diff,
+                                                        verbose=False)
 
             phase_err_correct_als.transform(self.hsi.data)
 
@@ -1750,8 +1753,8 @@ class CRIkitUI_process(_QMainWindow):
 
             if _np.size(asym_param) == 1:
                 self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                     'smoothness_param',smoothness_param,
-                                     'asym_param',asym_param,
+                                     'smoothness_param', smoothness_param,
+                                     'asym_param', asym_param,
                                      'redux', redux_factor,
                                      'order', 2,
                                      'fix_end_points', fix_end_points,
@@ -1759,7 +1762,7 @@ class CRIkitUI_process(_QMainWindow):
                                      'min_diff', min_diff])
             else:
                 self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                     'smoothness_param',smoothness_param,
+                                     'smoothness_param', smoothness_param,
                                      'asym_param_start',
                                      winPlotEffect.parameters['asym_param_start'],
                                      'asym_param_end',
@@ -1807,8 +1810,8 @@ class CRIkitUI_process(_QMainWindow):
 
             # Backup for Undo
             self.bcpre.add_step(['ScaleErrorCorrectSG',
-                                 'win_size',win_size,
-                                 'order',order])
+                                 'win_size', win_size,
+                                 'order', order])
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1846,18 +1849,18 @@ class CRIkitUI_process(_QMainWindow):
             redux_factor = winPlotEffect.parameters['redux']
             fix_end_points = winPlotEffect.parameters['fix_end_points']
             max_iter = winPlotEffect.parameters['max_iter']
-            min_diff =winPlotEffect.parameters['min_diff']
+            min_diff = winPlotEffect.parameters['min_diff']
 
 
             baseline_detrend = _SubtractBaselineALS(smoothness_param=smoothness_param,
-                                                         asym_param=asym_param,
-                                                         redux=redux_factor,
-                                                         order=2,
-                                                         rng=rng,
-                                                         fix_end_points=fix_end_points,
-                                                         max_iter=max_iter,
-                                                         min_diff=min_diff,
-                                                         verbose=False)
+                                                    asym_param=asym_param,
+                                                    redux=redux_factor,
+                                                    order=2,
+                                                    rng=rng,
+                                                    fix_end_points=fix_end_points,
+                                                    max_iter=max_iter,
+                                                    min_diff=min_diff,
+                                                    verbose=False)
             baseline_detrend.transform(self.hsi.data)
 
             # Backup for Undo
@@ -2180,7 +2183,7 @@ class CRIkitUI_process(_QMainWindow):
         cond_set = False
 
         if (num_freq_needed == 1 and
-            self.img_RGB_list[rgbnum].data.condfreq1 is not None):
+                self.img_RGB_list[rgbnum].data.condfreq1 is not None):
 
             # Conditional frequency LOCATION 1
             condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
@@ -2188,8 +2191,8 @@ class CRIkitUI_process(_QMainWindow):
             # All frequencies set
             cond_set = True
         elif (num_freq_needed == 2 and
-            self.img_RGB_list[rgbnum].data.condfreq1 is not None and
-            self.img_RGB_list[rgbnum].data.condfreq2 is not None):
+              self.img_RGB_list[rgbnum].data.condfreq1 is not None and
+              self.img_RGB_list[rgbnum].data.condfreq2 is not None):
 
             # Conditional frequency LOCATIONS
             condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
@@ -2198,9 +2201,9 @@ class CRIkitUI_process(_QMainWindow):
             # All frequencies set
             cond_set = True
         elif (num_freq_needed == 3 and
-            self.img_RGB_list[rgbnum].data.condfreq1 is not None and
-            self.img_RGB_list[rgbnum].data.condfreq2 is not None and
-            self.img_RGB_list[rgbnum].data.condfreq3 is not None):
+              self.img_RGB_list[rgbnum].data.condfreq1 is not None and
+              self.img_RGB_list[rgbnum].data.condfreq2 is not None and
+              self.img_RGB_list[rgbnum].data.condfreq3 is not None):
 
             # Conditional frequency LOCATIONS
             condloc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.condfreq1)
@@ -2216,34 +2219,34 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.setCurrentIndex(0)
             Mask = 1
         else:
-            if (operation_text == '' or operation_text == ' '):  # Return just a plane
+            if (operation_text == '') | (operation_text == ' '):  # Return just a plane
                 Mask = _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
-                                             condloc1)
+                                                     condloc1)
 
 
-            elif (operation_text == '+'):  # Addition
+            elif operation_text == '+':  # Addition
                 Mask = _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2)
+                                                        condloc1, condloc2)
 
-            elif (operation_text == '-'):  # Subtraction
+            elif operation_text == '-':  # Subtraction
                 Mask = _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2)
+                                                          condloc1, condloc2)
 
-            elif (operation_text == '*'):  # Multiplication
+            elif operation_text == '*':  # Multiplication
                 Mask = _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2)
+                                                             condloc1, condloc2)
 
-            elif (operation_text == '/'):  # Division
+            elif operation_text == '/':  # Division
                 Mask = _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2)
+                                                           condloc1, condloc2)
 
-            elif (operation_text == 'SUM'):  # Summation over range
+            elif operation_text == 'SUM':  # Summation over range
                 Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
                                              condloc1, condloc2)
 
-            elif (operation_text == 'Peak b/w troughs'):  # Peak between troughs
+            elif operation_text == 'Peak b/w troughs':  # Peak between troughs
                 Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
-                                             condloc1, condloc2, condloc3)
+                                                              condloc1, condloc2, condloc3)
             else:
                 pass
 
@@ -2272,7 +2275,7 @@ class CRIkitUI_process(_QMainWindow):
         freq_set = False
 
         if (num_freq_needed == 1 and
-            self.img_RGB_list[rgbnum].data.opfreq1 is not None):
+                self.img_RGB_list[rgbnum].data.opfreq1 is not None):
 
             # Operating frequency LOCATION 1
             oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
@@ -2280,8 +2283,8 @@ class CRIkitUI_process(_QMainWindow):
             # All frequencies set
             freq_set = True
         elif (num_freq_needed == 2 and
-            self.img_RGB_list[rgbnum].data.opfreq1 is not None and
-            self.img_RGB_list[rgbnum].data.opfreq2 is not None):
+              self.img_RGB_list[rgbnum].data.opfreq1 is not None and
+              self.img_RGB_list[rgbnum].data.opfreq2 is not None):
 
             # Operating frequency LOCATIONS
             oploc1 = self.hsi.freq.get_index_of_closest_freq(self.img_RGB_list[rgbnum].data.opfreq1)
