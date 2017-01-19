@@ -1,75 +1,9 @@
 # Major initiatives
-* Add rng functionality to all fcns
-* Implement and test dask/out-of-core processing
-* Remove references to Spectrum subclasses in unittests
 * Implement logging
-* ~~Test-out Change all inputs to type numpy rather than class~~
+* Continue development of out-of-core analysis package
+* Carryover database package from SW into standalone and integrate
 
-# Numerical performance
-
-# Process functionality enhancements
-
-# Frequency class
-* ~~ (?)Accept calib dict or list with only n_pix, returning pixel vector~~
-* ~~Implement op_range_pix, op_range_freq, plot_range_pix, plot_range_freq~~
-
-# Spectra class
-* ~~Implement Replicate class container~~
-* ~~If writing back data the size of op_range_\*, correctly pad~~
-
-# Spectrum class
-* ~~If writing back data the size of op_range_\*, correctly pad~~
-
-# Hsi class
-* ~~If writing back data the size of op_range_\*, correctly pad~~
-
-# denoise
-* Implement plugin framework
-
-# io package
-* Implement out-of-core processing system with temporary HDF file-as-data solution
-* Make into plugin system to make custom import modules more streamline
-* Make tests for meta and hdf after artificial test hdf file is created
-* special create list of filename
-* Handle list of HSI image imaports
-* Redo frequency calibration meta config and meta process
-* hdf_import_data needs to return something
-* ~~HDF5 import~~
-
-# preprocess package
-* tests for subtract_mean
-* tests for subtract_dark
-* tests for subtract_baseline
-* docstring for subtract_baseline
-* docstring for als algorithms
-* docstring for arpls algorithms
-* make sub_baseline_arpls
-
-# From crikit to crikit2 (as of 8/17/2016)
-* ~~Load HDF~~
-* ~~Load Dark~~
-* ~~Load NRB~~
-* ~~Dark Subtract~~
-* ~~Dark Subtract from NRB~~
-* ~~Residual Subtract~~
-* ~~Set Frequency Window~~
-* ~~Zero first column~~
-* ~~Anscombe transform~~
-* ~~SVD~~
-** ~~Fix max factors LCD display~~
-* ~~Inverse Anscombe~~
-* ~~KK~~
-** ~~Interactive~~
-* ~~Phase error correction with ALS~~
-* ~~Scale error correction~~
-* ~~Subtract from ROI~~
-* ~~Calibrate~~
-* ~~Save~~
-
-# To fix
-* ROI and point markers
-* ~~SVD max factors~~
-* ~~Sciplot always in front~~
-* ~~Setup breadcrumbs~~
-
-
+# Enhancements
+* Carryover SVD auto-selection tools from SW package
+* Add rng functionality to all fcns
+* Move from ALS-only to ALS/ArPLS detrending
