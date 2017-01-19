@@ -749,8 +749,16 @@ class CRIkitUI_process(_QMainWindow):
             # Enable Math
             self.img_RGB_list[count[0]].math.ui.pushButtonDoMath.setEnabled(True)
 
-            # Enable Spectrum
+            # Enable mean spectrum from RGB images
+            # Note: if load new file after one has already loaded, need to disconnect
+            # signal then reconnect (or could have ignored, but this is easier)
+            try:
+                self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.disconnect()
+            except:
+                pass
+            
             self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+
             self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
         # Set X- and Y- scales, labels, etc for composite color images
