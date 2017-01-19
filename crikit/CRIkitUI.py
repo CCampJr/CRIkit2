@@ -1334,12 +1334,14 @@ class CRIkitUI_process(_QMainWindow):
                 spectrum = spectra[..., rng]
 
             plot_num = self.plotter.n_lines
-            label = 'ROI ' + str(plot_num)
+            
+            label_plot = 'ROI {} ({})'.format(plot_num, mask_hits)
+            label_std = '$\pm$1 Std. Dev. ROI {} ({})'.format(plot_num, mask_hits)
             
             # Plot line
             meta = {'x': x_loc_list, 'y': y_loc_list, 'x_pix': x_pix,
                     'y_pix': y_pix, 'overlay': True}
-            self.plotter.plot(self.hsi.f, spectrum, label=label, meta=meta)
+            self.plotter.plot(self.hsi.f, spectrum, label=label_plot, meta=meta)
             
             # Check color of line b/c uses color cycler-- for fill_b/w
             color = self.plotter.list_all[-1].style_dict['color']
@@ -1353,8 +1355,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.plotter.fill_between(self.hsi.f, spectrum-stddev,
                                           spectrum+stddev, color=color, 
                                           alpha=0.25,
-                                          label='$\pm$1 Std. Dev. (' + label +
-                                                                   ')',
+                                          label=label_std,
                                           meta=meta)
             
             del spectrum
@@ -2544,7 +2545,8 @@ class CRIkitUI_process(_QMainWindow):
 #                print(mean_spect.shape)
                 std_spect = 0
                 # Plot spectrum
-                self.plotter.plot(self.hsi.f, mean_spect, label='Spectrum')
+
+                self.plotter.plot(self.hsi.f, mean_spect, label='Spectrum ({})'.format(mask_hits))
                 
             
             # Check color of line b/c uses color cycler-- for fill_b/w
@@ -2559,7 +2561,7 @@ class CRIkitUI_process(_QMainWindow):
                                           mean_spect + std_spect, 
                                           color=color, 
                                           alpha=0.25,
-                                          label='$\pm$1 Std. Dev.')
+                                          label='$\pm$1 Std. Dev. ({})'.format(mask_hits))
                             
             
             self.plotter.show()
