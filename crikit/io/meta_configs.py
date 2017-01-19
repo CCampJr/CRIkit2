@@ -20,15 +20,15 @@ def special_nist_bcars2():
     rosetta['XStart'] = 'RasterScanParams.FastAxisStart'
     rosetta['XStop'] = 'RasterScanParams.FastAxisStop'
     rosetta['XLength'] = 'RasterScanParams.FastAxisSteps'
-    rosetta['XLabel'] = 'RasterScanParams.FastAxis'
-    rosetta['XUnits'] = ['RasterScanParams.FastAxisUnits','!','$\mu m$']
+    rosetta['XLabel'] = ['RasterScanParams.FastAxis','!','X']
+    rosetta['XUnits'] = ['RasterScanParams.FastAxisUnits','!','$\\mu$m']
 
     rosetta['YPixelSize'] = 'RasterScanParams.SlowAxisStepSize'
     rosetta['YStart'] = 'RasterScanParams.SlowAxisStart'
     rosetta['YStop'] = 'RasterScanParams.SlowAxisStop'
     rosetta['YLength'] = 'RasterScanParams.SlowAxisSteps'
-    rosetta['YLabel'] = 'RasterScanParams.SlowAxis'
-    rosetta['YUnits'] = ['RasterScanParams.SlowAxisUnits','!','$\mu m$']
+    rosetta['YLabel'] = ['RasterScanParams.SlowAxis','!','Y']
+    rosetta['YUnits'] = ['RasterScanParams.SlowAxisUnits','!','$\\mu$m']
 
     rosetta['ZPosition'] = 'RasterScanParams.FixedAxisPosition'
     rosetta['ZLabel'] = 'RasterScanParams.FixedAxis'

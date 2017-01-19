@@ -700,8 +700,29 @@ class CRIkitUI_process(_QMainWindow):
         self.img_BW.initData()
         self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
 #                self.img_BW.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
-        self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
-        self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+        
+        xlabel = ''
+        if isinstance(self.hsi.x_rep.label, str):
+            xlabel += self.hsi.x_rep.label.strip()
+        if isinstance(self.hsi.x_rep.units, str):
+            xlabel += ' ('
+            xlabel += self.hsi.x_rep.units.strip()
+            xlabel += ')'
+
+        # print('Xlabel: {}'.format(xlabel))
+        ylabel = ''
+        if isinstance(self.hsi.y_rep.label, str):
+            ylabel += self.hsi.y_rep.label.strip()
+        if isinstance(self.hsi.y_rep.units, str):
+            ylabel += ' ('
+            ylabel += self.hsi.y_rep.units.strip()
+            ylabel += ')'
+        # xlabel = r'{} ({})'.format(self.hsi.x_rep.label.strip(), self.hsi.x_rep.units.strip())
+        # ylabel = r'{} ({})'.format(self.hsi.y_rep.label.strip(), self.hsi.y_rep.units.strip())
+
+        # print('Ylabel: {}'.format(ylabel))
+        self.img_BW.data.set_x(self.hsi.x, xlabel)
+        self.img_BW.data.set_y(self.hsi.y, ylabel)
 #
         # Set min/max, fixed, compress, etc buttons to defaults
         self.img_BW.ui.checkBoxFixed.setChecked(False)
@@ -720,8 +741,8 @@ class CRIkitUI_process(_QMainWindow):
         for count in enumerate(self.img_RGB_list):
             self.img_RGB_list[count[0]].initData()
             self.img_RGB_list[count[0]].data.grayscaleimage = temp
-            self.img_RGB_list[count[0]].data.set_x(self.hsi.x, 'X ($\mu m$)')
-            self.img_RGB_list[count[0]].data.set_y(self.hsi.y, 'Y ($\mu m$)')
+            self.img_RGB_list[count[0]].data.set_x(self.hsi.x, xlabel)
+            self.img_RGB_list[count[0]].data.set_y(self.hsi.y, ylabel)
 
             # Cute way of setting the colormap to last setting and replotting
             self.img_RGB_list[count[0]].changeColor()
@@ -733,7 +754,12 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[count[0]].ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
             self.img_RGB_list[count[0]].ui.pushButtonSpectrum.setEnabled(True)
 
-
+        # Set X- and Y- scales, labels, etc for composite color images
+        self.img_Composite.data.set_x(self.hsi.x, xlabel)
+        self.img_Composite.data.set_y(self.hsi.y, ylabel)
+        self.img_Composite2.data.set_x(self.hsi.x, xlabel)
+        self.img_Composite2.data.set_y(self.hsi.y, ylabel)
+        
     def loadDark(self):
         """
         Open HDF file and load dark spectrum(a)
@@ -2609,8 +2635,26 @@ class CRIkitUI_process(_QMainWindow):
             # Set BW Class Data
             
             self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos+offset]
-            self.img_BW.data.set_x(self.hsi.x, 'X ($\mu m$)')
-            self.img_BW.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+
+            xlabel = ''
+            if isinstance(self.hsi.x_rep.label, str):
+                xlabel += self.hsi.x_rep.label.strip()
+            if isinstance(self.hsi.x_rep.units, str):
+                xlabel += ' ('
+                xlabel += self.hsi.x_rep.units.strip()
+                xlabel += ')'
+
+            # print('Xlabel: {}'.format(xlabel))
+            ylabel = ''
+            if isinstance(self.hsi.y_rep.label, str):
+                ylabel += self.hsi.y_rep.label.strip()
+            if isinstance(self.hsi.y_rep.units, str):
+                ylabel += ' ('
+                ylabel += self.hsi.y_rep.units.strip()
+                ylabel += ')'
+                
+            self.img_BW.data.set_x(self.hsi.x, xlabel)
+            self.img_BW.data.set_y(self.hsi.y, ylabel)
     
             if self.img_BW.ui.checkBoxFixed.checkState() == 0:
                 self.img_BW.data.setmax = None
@@ -2695,22 +2739,41 @@ class CRIkitUI_process(_QMainWindow):
         """
         try:
             self.img_Composite.initData(self.img_RGB_list)
-            self.img_Composite.data.set_x(self.hsi.x, 'X ($\mu m$)')
-            self.img_Composite.data.set_y(self.hsi.y, 'Y ($\mu m$)')
-    
+
+            xlabel = ''
+            if isinstance(self.hsi.x_rep.label, str):
+                xlabel += self.hsi.x_rep.label.strip()
+            if isinstance(self.hsi.x_rep.units, str):
+                xlabel += ' ('
+                xlabel += self.hsi.x_rep.units.strip()
+                xlabel += ')'
+
+            # print('Xlabel: {}'.format(xlabel))
+            ylabel = ''
+            if isinstance(self.hsi.y_rep.label, str):
+                ylabel += self.hsi.y_rep.label.strip()
+            if isinstance(self.hsi.y_rep.units, str):
+                ylabel += ' ('
+                ylabel += self.hsi.y_rep.units.strip()
+                ylabel += ')'
+                
+            self.img_Composite.data.set_x(self.hsi.x, xlabel)
+            self.img_Composite.data.set_y(self.hsi.y, ylabel)
     
             self.img_Composite.createImg(img = self.img_Composite.data.image,
                                              xunits = self.img_Composite.data.xunits,
                                              yunits = self.img_Composite.data.yunits,
+                                             extent=self.img_BW.data.winextent,
                                              showcbar = False, axison = True)
             self.img_Composite.mpl.draw()
     
             self.img_Composite2.initData(self.img_RGB_list)
-            self.img_Composite2.data.set_x(self.hsi.x, 'X ($\mu m$)')
-            self.img_Composite2.data.set_y(self.hsi.y, 'Y ($\mu m$)')
+            self.img_Composite2.data.set_x(self.hsi.x, xlabel)
+            self.img_Composite2.data.set_y(self.hsi.y, ylabel)
             self.img_Composite2.createImg(img = self.img_Composite2.data.image,
                                              xunits = self.img_Composite2.data.xunits,
                                              yunits = self.img_Composite2.data.yunits,
+                                             extent=self.img_BW.data.winextent,
                                              showcbar = False, axison = True)
             self.img_Composite2.mpl.draw()
 #        self.img_Composite.mpl.draw()

@@ -348,12 +348,16 @@ class widgetSglColor(_QWidget):
         self.ui.pushButtonGain1.pressed.connect(self.gain1)
         self.math.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.math.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
+
         self.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                          showcbar=False,
+                                                                         extent=self.data.winextent,
                                                                          xunits=self.data.xunits,
                                                                          yunits=self.data.yunits))
+        
         self.ui.pushButtonGSPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.imageGS,
                                                                            showcbar=True,
+                                                                           extent=self.data.winextent,
                                                                            xunits=self.data.xunits,
                                                                            yunits=self.data.yunits))
 
@@ -451,7 +455,7 @@ class widgetSglColor(_QWidget):
 
         self.external_plots.append(_sciplot.main(parent=self))
         self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
-                      cmap=cmap, cbar=showcbar)
+                      cmap=cmap, cbar=showcbar, extent=extent)
         
 #
         #new_win = _mplWin()

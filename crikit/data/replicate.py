@@ -52,10 +52,11 @@ class Replicate:
     """
 
 
-    def __init__(self, data=None, calib=None, units=None):
+    def __init__(self, data=None, calib=None, units=None, label=None):
         self._data = None
         self._calib = None
         self._units = None
+        self._label = None
 
         if data is not None:
             self.data = data
@@ -63,6 +64,8 @@ class Replicate:
             self.calib = calib
         if units is not None:
             self.units = units
+        if label is not None:
+            self.label = label
 
     @property
     def data(self):
@@ -121,6 +124,17 @@ class Replicate:
             self._units = value
         else:
             raise TypeError('units should be of type str')
+
+    @property
+    def label(self):
+        return self._label
+
+    @label.setter
+    def label(self, value):
+        if isinstance(value, str):
+            self._label = value
+        else:
+            raise TypeError('label should be of type str')
 
     def update_data_from_calib(self):
         """
