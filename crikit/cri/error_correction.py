@@ -25,26 +25,26 @@ class PhaseErrCorrectALS:
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
     def __init__(self, smoothness_param=1, asym_param=1e-2,
-                 redux=10, order=2, rng=None, fix_end_points=False, 
+                 redux=10, order=2, rng=None, fix_end_points=False,
                  max_iter=100, min_diff=1e-5, **kwargs):
-                 
-        
+
+
         self.rng = _rng_is_pix_vec(rng)
         self._k = kwargs
-        
-        self._k.update({'smoothness_param' : smoothness_param, 
+
+        self._k.update({'smoothness_param' : smoothness_param,
                         'asym_param' : asym_param,
                         'redux' : redux,
                         'order' : order,
                         'fix_end_points' : fix_end_points,
                         'max_iter' : max_iter,
                         'min_diff' : min_diff})
-        
-            
+
+
     def _calc(self, data, ret_obj, **kwargs):
-        
+
         self._inst_als = _AlsCvxopt(**kwargs)
-        
+
         try:
             shp = data.shape[0:-2]
             total_num = _np.array(shp).prod()
@@ -57,7 +57,7 @@ class PhaseErrCorrectALS:
                     err_phase = self._inst_als.calculate(ph)
                 else:
                     err_phase = self._inst_als.calculate(ph[..., self.rng])
-                
+
                 h = _np.zeros(err_phase.shape)
                 h += _hilbert(err_phase)
 
@@ -78,7 +78,7 @@ class PhaseErrCorrectALS:
 
         data_copy = _copy.deepcopy(data)
         self._k.update(kwargs)
-        
+
         success = self._calc(data, ret_obj=data_copy, **self._k)
         if success:
             return data_copy
@@ -140,7 +140,7 @@ class ScaleErrCorrectSG:
         return success
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     import matplotlib.pyplot as plt
     from crikit.cri.kk import KramersKronig
     import timeit
@@ -168,16 +168,16 @@ if __name__ == '__main__':
 
     start = timeit.default_timer()
     phase_err_correct_als = PhaseErrCorrectALS(fix_end_points=True,
-                                               smoothness_param=1e8, 
-                                               asym_param=1e-3, 
+                                               smoothness_param=1e8,
+                                               asym_param=1e-3,
                                                redux=1)
     success = phase_err_correct_als.transform(kkd, verbose=False)
     print('Success? : {}'.format(success))
     stop = timeit.default_timer()
     print('Sec/spectrum: {:.3g}'.format((stop-start)/NUM_REPS**2))
 
-    
-#    
+
+#
     plt.plot(kkd[5,5,:].imag, label='After PhErr Corr.')
     plt.legend()
     plt.show()
@@ -191,22 +191,22 @@ if __name__ == '__main__':
 #    scale_err_correct_sg = ScaleErrCorrectSG()
 #    out = scale_err_correct_sg.calculate(kkd[0,0,:])
 #    plt.plot(out.imag)
-#    
+#
 #    scale_err_correct_sg = ScaleErrCorrectSG(win_size=11, order=2)
 #    out = scale_err_correct_sg.calculate(kkd[0,0,:])
 #    plt.plot(out.imag)
-#    
+#
 #    plt.show()
-    
+
 #
 #    phase_err_correct_als = PhaseErrCorrectALS(print_iteration=False)
 #    out = phase_err_correct_als.calculate(kkd)
-#    
+#
 #    plt.plot(out[0,0,:].imag)
-#    
-#    phase_err_correct_als = PhaseErrCorrectALS(smoothness_param=1e1, 
+#
+#    phase_err_correct_als = PhaseErrCorrectALS(smoothness_param=1e1,
 #                                                asym_param=1e-2,
 #                                                redux_factor=1)
-    
-    
+
+
 #    print(phase_err_correct_als._k)
