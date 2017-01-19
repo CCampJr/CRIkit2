@@ -178,8 +178,8 @@ class CRIkitUI_process(_QMainWindow):
         for count in range(self.NUMCOLORS):
             self.img_RGB_list.append(widgetSglColor(figfacecolor=[1, 1, 1], parent=self))
             self.img_RGB_list[count].data.colormap =\
-                widgetSglColor.COLORMAPS[widgetSglColor.DEFAULT_COLORMAP_ORDER[count]]
-            ind = self.img_RGB_list[count].ui.comboBox.findText(widgetSglColor.DEFAULT_COLORMAP_ORDER[count])
+                widgetSglColor.COLORMAPS[widgetSglColor.COLORMAP_ORDER[count]]
+            ind = self.img_RGB_list[count].ui.comboBox.findText(widgetSglColor.COLORMAP_ORDER[count])
             self.img_RGB_list[count].ui.comboBox.setCurrentIndex(ind)
 
             self.img_RGB_list[count].ui.pushButtonSpectrum.setEnabled(False)

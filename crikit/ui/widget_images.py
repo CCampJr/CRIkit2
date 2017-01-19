@@ -302,14 +302,14 @@ class widgetSglColor(_QWidget):
                  'Cyan':[0, 1, 1], 'Magenta':[1, 0, 1], 'Yellow':[1, 1, 0],
                  'B&W':[1, 1, 1]}
 
-    DEFAULT_COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
+    COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
 
     def __init__(self, parent = None, **kwargs):
         super(widgetSglColor, self).__init__(parent)
         self.ui = Ui_SglColorImage_Form()
         self.math = widgetColorMath()
         self.ui.setupUi(self)
-        for color in self.DEFAULT_COLORMAP_ORDER:
+        for color in self.COLORMAP_ORDER:
             self.ui.comboBox.addItem(color)
 
         # Initialize data
