@@ -7,3 +7,6 @@
 * Carryover SVD auto-selection tools from SW package
 * Add rng functionality to all fcns
 * Move from ALS-only to ALS/ArPLS detrending
+
+# Dev
+* Refactor classes_ui to correctly initialize parent class and use no or fewer class attributes
