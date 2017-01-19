@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 User Interface and Visualization Classes (crikit.ui.classes_ui)
 =======================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CRI Spectral Processing Tools (CRIkit)
 =======================================================

@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  3 12:26:14 2016
-
-@author: chc
-"""
-
-# -*- coding: utf-8 -*-
 """
 CRIkit Save Dialog (crikit.ui.dialog_save)
 =======================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Configuration settings for HDF imports
 

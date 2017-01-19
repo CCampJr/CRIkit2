@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)
 =======================================================

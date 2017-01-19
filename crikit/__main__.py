@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Coherent Raman Imaging toolKit 2:  User Interface Loader (main)
 =======================================================

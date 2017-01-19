@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Visualization Widgets (crikit.ui.widget_images)
 =======================================================

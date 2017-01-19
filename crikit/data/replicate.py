@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Replicate class used for things such as repetitive measurements or even spatial \
 vectors (e.g., x and y)

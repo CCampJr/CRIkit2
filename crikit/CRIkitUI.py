@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CRIKit2: Hyperspectral imaging toolkit
 ==============================================================

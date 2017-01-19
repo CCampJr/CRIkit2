@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Widget for PlotEffect that adjusts the parameters appropriate for
 asymmetrically reweights penalized least squares (arPLS)

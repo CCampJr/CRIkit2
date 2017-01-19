@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectra class and function (very similar to Spetcrum except this deals with
 multiple entries)

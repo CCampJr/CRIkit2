@@ -1,41 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-NAME (NameName.name)
-=======================================================
-
-HSIData : Defines the Hyperspectral Images class
-
-Attributes
-----------
-    blank : type
-        Description
-
-Methods
--------
-    blank : returb type
-        Description
-
-
-Notes
------
-
-
-Citation Reference
-------------------
-
-
-References
-----------
-
-Software Info
---------------
-
-Original Python branch: Feb 16 2015\n
-\n
-@author: ("Charles H Camp Jr")\n
-@email: ("charles.camp@nist.gov")\n
-@date: Thu Oct  1 13:28:44 2015\n
-@version: ("1.1")\n
 """
 
 # Append sys path
