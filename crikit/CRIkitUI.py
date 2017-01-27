@@ -493,6 +493,7 @@ class CRIkitUI_process(_QMainWindow):
                     print('Saved without issues')
                 finally:
                     f_out.close()
+                    self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
 
         except:
             print('Couldn\'t open save dialog')
@@ -577,6 +578,7 @@ class CRIkitUI_process(_QMainWindow):
         activates or deactivates action (buttons)
         """
         if success:
+            self.setWindowTitle('{}: {}'.format(self.windowTitle(), self.filename))
             # FILE
             self.ui.actionSave.setEnabled(True)
 
