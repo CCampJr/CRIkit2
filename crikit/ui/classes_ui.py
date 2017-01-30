@@ -221,15 +221,16 @@ class CompositeColor(BW):
 
             if len(self.sgl_color_list) > 1:
                 for count in self.sgl_color_list[1::]:
-                    #print(count.image.shape)
-                    #print(temp.shape)
-
+                    # temp -= count.image
                     temp += count.image
-            if temp.min() < 0:
-                temp -= temp.min()
-            if temp.max() > 1:
-                temp /= temp.max()
+            # temp = abs(temp)
+            # temp /= temp.max()
+            # if temp.min() < 0:
+            #     temp -= temp.min()
+            # if temp.max() > 1:
+            #     temp /= temp.max()
 
+            temp[temp > 1] = 1
             return temp
 
     @property
