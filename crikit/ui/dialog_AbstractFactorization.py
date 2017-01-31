@@ -20,6 +20,7 @@ from crikit.ui.qt_Factorization import Ui_Dialog ### EDIT ###
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
 
+
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
 _mpl.use('Qt5Agg')
@@ -234,15 +235,18 @@ class DialogAbstractFactorization(_QDialog):
         self.reconCurrent.ax[0].cla()
         self.reconCurrent.ax[1].cla()
         
+        s_lim = _np.abs(img_select).max()
         self.reconCurrent.ax[0].imshow(img_select, interpolation='None', 
-                                       cmap = _mpl.cm.gray, origin='lower')
+                                       cmap = 'bwr', origin='lower', vmin=0, vmax=s_lim)
         self.reconCurrent.ax[1].plot(spect_select)
         self.reconCurrent.draw()
         
         self.reconRemainder.ax[0].cla()
         self.reconRemainder.ax[1].cla()
+
+        s_lim = _np.abs(img_nonselect).max()
         self.reconRemainder.ax[0].imshow(img_nonselect, interpolation='None', 
-                                       cmap = _mpl.cm.gray, origin='lower')
+                                       cmap = 'bwr', origin='lower', vmin=-s_lim, vmax=s_lim)
         self.reconRemainder.ax[1].plot(spect_nonselect)
         self.reconRemainder.draw()
         
@@ -269,9 +273,11 @@ class DialogAbstractFactorization(_QDialog):
         for count in range(self._num_factor_visible):
             self.factorWins[count].ax[0].clear()
 
-            self.factorWins[count].ax[0].imshow(self.get_spatial_slice(count 
-                + self._first_factor_visible), interpolation='none',
-                cmap = _mpl.cm.gray , origin='lower')
+            sl = self.get_spatial_slice(count + self._first_factor_visible)
+            sl_lim = _np.abs(sl).max()
+            self.factorWins[count].ax[0].imshow(sl, vmin=-sl_lim, vmax=sl_lim, 
+                                                interpolation='none',
+                                                cmap = 'bwr' , origin='lower')
 
             self.factorWins[count].ax[0].axis('Off')
 
