@@ -86,6 +86,8 @@ from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 _h5py.get_config().complex_names = ('Re', 'Im')
 
+force_not_sw = False
+
 try:
     import crikit2_sw
 except:
@@ -94,8 +96,14 @@ except:
     from crikit.ui.dialog_SVD import DialogSVD
 else:
     __sw_installed = True
-    print('SW package installed, let\'s rock!')
-    from crikit2_sw.ui.dialog_SVD import DialogSVD
+
+    if force_not_sw:
+        print('SW package installed, but forced off -- using standard')
+        from crikit.ui.dialog_SVD import DialogSVD    
+    else:
+        print('SW package installed, let\'s rock!')
+        from crikit2_sw.ui.dialog_SVD import DialogSVD
+    
 
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
