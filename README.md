@@ -83,6 +83,14 @@ python3 -m crikit
 python -m crikit
 ```
 
+## Known Operational Nuances
+* The SVD visualization tool works best with complex or real spectra. Spectra that are PURELY IMAGINARY
+ will operate (denoise) correctly, but the spatial component visualization will likely just
+show noise (the spectra will work fine). The workaround is to make the input data real when loaded
+into CRIkit. The other workaround, is to apply components individually, and look at the current 
+reconstruction and remainder, which are unaffected by this nuance of SVD. In the future, a warning 
+box may be generated in this rare situation.
+
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
 Technology (NIST) by employees of the Federal Government in the course of
