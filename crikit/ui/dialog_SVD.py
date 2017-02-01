@@ -4,7 +4,7 @@ Created on Mon Jul 25 13:57:24 2016
 @author: chc
 """
 import sys as _sys
-
+# import timeit
 import numpy as _np
 
 from PyQt5.QtWidgets import (QApplication as _QApplication, QWidget as _QWidget)
@@ -65,10 +65,25 @@ class DialogSVD(DialogAbstractFactorization):
             return None
 
     def combiner(self, selections=None):
-        S = self.s_from_selected(selections=selections)
+        """Performs U*S*Vh"""
 
-        # U*S*Vh
-        ret = _np.dot(self.U, _np.dot(S, self.Vh))
+        # Straight-forward way, but slow
+        # tmr = timeit.default_timer()
+        # S = self.s_from_selected(selections=selections)
+        # ret = _np.dot(self.U, _np.dot(S, self.Vh))
+        # tmr -= timeit.default_timer()
+        # # print('Selections: {}'.format(selections))
+        # print('S (head): {}'.format(_np.diag(S)[0:10]))
+        # print('Old way: {}'.format(-tmr))
+
+        # New faster method
+        # tmr = timeit.default_timer()
+        ret = _np.dot(self.U[:, list(selections)], _np.dot(_np.diag(self.s[list(selections)]), self.Vh[list(selections), :]))
+        # tmr -= timeit.default_timer()
+        # print('S (head): {}'.format(self.s[list(selections)]))
+        # print('New way: {}'.format(-tmr))
+        # print('Old == New: {}\n'.format(_np.allclose(ret,ret2)))
+        
         return ret
 
     def mean_spatial(self, cube):
@@ -141,8 +156,8 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
-    x = _np.linspace(100, 200, 20)
-    y = _np.linspace(200, 300, 20)
+    x = _np.linspace(100, 200, 100)
+    y = _np.linspace(200, 300, 100)
 
 
     f = _np.linspace(500,3000,900)

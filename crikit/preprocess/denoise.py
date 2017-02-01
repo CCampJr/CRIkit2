@@ -164,20 +164,26 @@ class SVDRecompose:
             if ret_obj.ndim == 2:
                 if self.rng is None:
                 # out = U*S*Vh
-                    ret_obj += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                    # ret_obj += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                    ret_obj += _np.dot(U[:, self.svs], _np.dot(_np.diag(s[self.svs]), Vh[self.svs, :]))
                 else:
-                    ret_obj[..., self.rng] += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                    # ret_obj[..., self.rng] += _np.dot(U, _np.dot(_np.diag(s), Vh))
+                    ret_obj[..., self.rng] += _np.dot(U[:, self.svs], _np.dot(_np.diag(s[self.svs]), Vh[self.svs, :]))
             elif ret_obj.ndim == 3:
                 # If 3D (calculate is performed in 2D), reshape.
                 if self.rng is None:
                     # out = U*S*Vh
-                    ret_obj += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
-                                           ret_obj.shape)
+                    # ret_obj += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
+                    #                        ret_obj.shape)
+                    ret_obj += _np.reshape(_np.dot(U[:, self.svs], 
+                                                   _np.dot(_np.diag(s[self.svs]),
+                                                           Vh[self.svs, :])), ret_obj.shape)               
                 else:
                     shp = list(ret_obj.shape)
                     shp[-1] = self.rng.size
-                    ret_obj[..., self.rng] += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
-                                           shp)
+                    # ret_obj[..., self.rng] += _np.reshape(_np.dot(U, _np.dot(_np.diag(s), Vh)),
+                    #                        shp)
+                    ret_obj[..., self.rng] += _np.reshape(_np.dot(U[:, self.svs], _np.dot(_np.diag(s[self.svs]),Vh[self.svs, :])), shp)
 
         except:
             return False
@@ -192,8 +198,11 @@ class SVDRecompose:
             self.svs = svs
         if self.svs is None:
             self.svs = _np.arange(s.size)
+        
         self.s_keep = 0*s
         self.s_keep[self.svs] = s[self.svs]
+        # print(self.s_keep)
+        # self.s_keep = s[svs]
 
     def transform(self, data, U, s, Vh, svs=None):
         # Set what singular values to keep
@@ -225,12 +234,11 @@ if __name__ == '__main__':  # pragma: no cover
     U, s, Vh = svd_decompose.calculate(y)
 
     y2 = svd_recompose.calculate(y,U,s,Vh,svs=[])
-
     print('0 singular values selected...')
     print('Returns matrix is all 0\'s: {}'.format(_np.allclose(y2,0) == True))
+    
     [U,s,Vh] = svd_decompose.calculate(y)
-    y2 = svd_recompose.calculate(y, U, s, Vh, svs=[0])
-
+    y2 = svd_recompose.calculate(y, U, s, Vh, svs=[1])
     print('\n1 singular value selected...')
     print('Returns matrix is NOT all 0\'s: {}'.format(_np.allclose(y2,0) == False))
     print('Return matrix is all based on 1 component: {}'.format(_np.isclose(\
@@ -256,3 +264,4 @@ if __name__ == '__main__':  # pragma: no cover
     print('0 singular values selected...')
     print('Input is NOT same as output: {}'.format(not _np.allclose(y,y_copy)))
     print('Returns matrix is all 0\'s: {}'.format(_np.allclose(y,0) == True))
+
