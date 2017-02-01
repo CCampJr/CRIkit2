@@ -125,29 +125,6 @@ class DialogAbstractFactorization(_QDialog):
     def unselected_factors(self):
         all_factors = set(_np.arange(self._n_factors))
         return all_factors - self.selected_factors
-        
-#     @staticmethod
-#     def dialogAbstractFactorization(data, img_shape, mask=None, use_imag=True, 
-#                                     parent=None):
-#         """
-#             Executes DialogAbstractFactorization dialog and returns values
-#         """
-# #        raise NotImplementedError
-        
-#         dialog = DialogAbstractFactorization(data, img_shape=img_shape, mask=mask,
-#                                              use_imag=use_imag, parent=parent)
-#         result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
-
-#         if result == 1:
-#             factors = list(dialog.selected_factors)
-#             if len(factors) == 0:
-#                 factors = None
-#             else:
-#                 factors.sort()
-#                 factors = _np.array(factors)
-#             return factors
-#         else:
-#             return None
 
     def applyCheckBoxes(self):
         """
