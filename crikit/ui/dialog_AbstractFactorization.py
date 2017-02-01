@@ -219,7 +219,9 @@ class DialogAbstractFactorization(_QDialog):
         self.reconCurrent.ax[0].cla()
         self.reconCurrent.ax[1].cla()
         
-        s_lim = _np.abs(img_select).max()
+        # s_lim = _np.abs(img_select).max()
+        s_lim = _np.abs(img_select.mean() + 3*img_select.std())
+
         self.reconCurrent.ax[0].imshow(img_select, interpolation='None', 
                                        cmap = 'bwr', origin='lower', vmin=0, vmax=s_lim)
         self.reconCurrent.ax[1].plot(spect_select)
@@ -228,7 +230,8 @@ class DialogAbstractFactorization(_QDialog):
         self.reconRemainder.ax[0].cla()
         self.reconRemainder.ax[1].cla()
 
-        s_lim = _np.abs(img_nonselect).max()
+        # s_lim = _np.abs(img_nonselect).max()
+        s_lim = _np.abs(img_nonselect.mean() + 3*img_nonselect.std())
         self.reconRemainder.ax[0].imshow(img_nonselect, interpolation='None', 
                                        cmap = 'bwr', origin='lower', vmin=-s_lim, vmax=s_lim)
         self.reconRemainder.ax[1].plot(spect_nonselect)
@@ -258,7 +261,8 @@ class DialogAbstractFactorization(_QDialog):
             self.factorWins[count].ax[0].clear()
 
             sl = self.get_spatial_slice(count + self._first_factor_visible)
-            sl_lim = _np.abs(sl).max()
+            # sl_lim = _np.abs(sl).max()
+            sl_lim = _np.abs(sl.mean() + 3*sl.std())
             self.factorWins[count].ax[0].imshow(sl, vmin=-sl_lim, vmax=sl_lim, 
                                                 interpolation='none',
                                                 cmap = 'bwr' , origin='lower')
