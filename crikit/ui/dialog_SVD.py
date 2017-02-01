@@ -33,6 +33,13 @@ class DialogSVD(DialogAbstractFactorization):
 
         self._use_imag = use_imag # By default, use imag portion of complex data
 
+        # print('factors: {}'.format(self._n_factors))
+        # self.cube_all = self.combiner(selections=_np.arange(self._n_factors))
+        # # print(self.cube_all)
+        # self.img_all = self.mean_spatial(self.cube_all)
+        # # print(self.img_all)
+        # self.spect_all = self.mean_spectral(self.cube_all)
+
         self.updatePlots(0)
         self.updateCurrentRemainder()
 

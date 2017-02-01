@@ -60,6 +60,9 @@ class DialogAbstractFactorization(_QDialog):
         self._n_factors = self.max_factors()
 
         self.selected_factors = set()
+        self.cube_all = None
+        self.img_all = None
+        self.spect_all = None
 
         
     def setup(self, parent = None):
@@ -206,8 +209,12 @@ class DialogAbstractFactorization(_QDialog):
         spect_select = self.mean_spectral(cube_select)
         
         cube_nonselect = self.combiner(self.unselected_factors)
+        
+        # cube_nonselect = self.cube_all - cube_select
         img_nonselect = self.mean_spatial(cube_nonselect)
         spect_nonselect = self.mean_spectral(cube_nonselect)
+        # img_nonselect = self.img_all - img_select
+        # spect_nonselect = self.spect_all - spect_select
         
         self.reconCurrent.ax[0].cla()
         self.reconCurrent.ax[1].cla()
