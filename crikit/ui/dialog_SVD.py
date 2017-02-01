@@ -38,8 +38,12 @@ class DialogSVD(DialogAbstractFactorization):
             self.img_all = self.mean_spatial(cube_all)
             self.spect_all = self.mean_spectral(cube_all)
         else:
-            self.img_all = img_all
-            self.spect_all = spect_all
+            self.img_all = img_all.real
+            if _np.iscomplexobj(spect_all):
+                if self._use_imag:    
+                    self.spect_all = spect_all.imag
+                else:
+                    self.spect_all = spect_all.real
 
         self.updatePlots(0)
         self.updateCurrentRemainder()
@@ -137,14 +141,18 @@ class DialogSVD(DialogAbstractFactorization):
 
     def get_spatial_slice(self, num):
         img = self.U[...,num].reshape((self._n_y, self._n_x))
+        return _np.real(img)
 
-        if _np.iscomplexobj(img):
-            if self._use_imag:
-                return _np.imag(img)
-            else:
-                return _np.real(img)
-        else:
-            return img
+        # Used to return complex, but the SVD of complex numbers tends to
+        # shove everything in U into the real component
+
+        # if _np.iscomplexobj(img):
+        #     if self._use_imag:
+        #         return _np.imag(img)
+        #     else:
+        #         return _np.real(img)
+        # else:
+        #     return img
 
 
 
@@ -177,7 +185,7 @@ if __name__ == '__main__':
     for count in range(y.size):
         # hsi[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
         hsi[count,:,:] = y[count]*_np.dot(x[:,None],Spectrum[None,:])
-    # hsi = hsi + 1j*_np.random.rand(hsi.shape[0], hsi.shape[1], hsi.shape[2])
+    hsi = 0*hsi + 1j*hsi
 
     data = _svd(hsi.reshape((-1,f.size)), full_matrices=False)
 
