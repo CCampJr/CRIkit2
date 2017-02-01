@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Widgets for Plot-Effect Interface (crikit.ui.widget_ploteffect)
 =======================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Functions to check and (if needed) convert input variables
 

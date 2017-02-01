@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Widget for PlotEffect that adjusts the parameters appropriate for
 asymmetric least squares (ALS)

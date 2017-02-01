@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 From https://gist.github.com/jdreaver -- scientificspin.py
 

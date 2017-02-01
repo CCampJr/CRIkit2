@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Abstract Factorization Class
 
@@ -20,6 +19,7 @@ from crikit.ui.qt_Factorization import Ui_Dialog ### EDIT ###
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
+
 
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
@@ -60,6 +60,9 @@ class DialogAbstractFactorization(_QDialog):
         self._n_factors = self.max_factors()
 
         self.selected_factors = set()
+        self.cube_all = None
+        self.img_all = None
+        self.spect_all = None
 
         
     def setup(self, parent = None):
@@ -125,29 +128,6 @@ class DialogAbstractFactorization(_QDialog):
     def unselected_factors(self):
         all_factors = set(_np.arange(self._n_factors))
         return all_factors - self.selected_factors
-        
-#     @staticmethod
-#     def dialogAbstractFactorization(data, img_shape, mask=None, use_imag=True, 
-#                                     parent=None):
-#         """
-#             Executes DialogAbstractFactorization dialog and returns values
-#         """
-# #        raise NotImplementedError
-        
-#         dialog = DialogAbstractFactorization(data, img_shape=img_shape, mask=mask,
-#                                              use_imag=use_imag, parent=parent)
-#         result = dialog.exec_()  # 1 = Aceepted, 0 = Rejected/Canceled
-
-#         if result == 1:
-#             factors = list(dialog.selected_factors)
-#             if len(factors) == 0:
-#                 factors = None
-#             else:
-#                 factors.sort()
-#                 factors = _np.array(factors)
-#             return factors
-#         else:
-#             return None
 
     def applyCheckBoxes(self):
         """
@@ -228,22 +208,32 @@ class DialogAbstractFactorization(_QDialog):
         img_select = self.mean_spatial(cube_select)
         spect_select = self.mean_spectral(cube_select)
         
-        cube_nonselect = self.combiner(self.unselected_factors)
-        img_nonselect = self.mean_spatial(cube_nonselect)
-        spect_nonselect = self.mean_spectral(cube_nonselect)
+        # cube_nonselect = self.combiner(self.unselected_factors)
+        
+        # cube_nonselect = self.cube_all - cube_select
+        # img_nonselect = self.mean_spatial(cube_nonselect)
+        # spect_nonselect = self.mean_spectral(cube_nonselect)
+        img_nonselect = self.img_all - img_select
+        spect_nonselect = self.spect_all - spect_select
         
         self.reconCurrent.ax[0].cla()
         self.reconCurrent.ax[1].cla()
         
+        # s_lim = _np.abs(img_select).max()
+        s_lim = _np.abs(img_select.mean() + 3*img_select.std())
+
         self.reconCurrent.ax[0].imshow(img_select, interpolation='None', 
-                                       cmap = _mpl.cm.gray, origin='lower')
+                                       cmap = 'bwr', origin='lower', vmin=0, vmax=s_lim)
         self.reconCurrent.ax[1].plot(spect_select)
         self.reconCurrent.draw()
         
         self.reconRemainder.ax[0].cla()
         self.reconRemainder.ax[1].cla()
+
+        # s_lim = _np.abs(img_nonselect).max()
+        s_lim = _np.abs(img_nonselect.mean() + 3*img_nonselect.std())
         self.reconRemainder.ax[0].imshow(img_nonselect, interpolation='None', 
-                                       cmap = _mpl.cm.gray, origin='lower')
+                                       cmap = 'bwr', origin='lower', vmin=-s_lim, vmax=s_lim)
         self.reconRemainder.ax[1].plot(spect_nonselect)
         self.reconRemainder.draw()
         
@@ -270,9 +260,12 @@ class DialogAbstractFactorization(_QDialog):
         for count in range(self._num_factor_visible):
             self.factorWins[count].ax[0].clear()
 
-            self.factorWins[count].ax[0].imshow(self.get_spatial_slice(count 
-                + self._first_factor_visible), interpolation='none',
-                cmap = _mpl.cm.gray , origin='lower')
+            sl = self.get_spatial_slice(count + self._first_factor_visible)
+            # sl_lim = _np.abs(sl).max()
+            sl_lim = _np.abs(sl.mean() + 3*sl.std())
+            self.factorWins[count].ax[0].imshow(sl, vmin=-sl_lim, vmax=sl_lim, 
+                                                interpolation='none',
+                                                cmap = 'bwr' , origin='lower')
 
             self.factorWins[count].ax[0].axis('Off')
 

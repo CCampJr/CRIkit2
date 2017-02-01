@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Visualization Widgets (crikit.ui.widget_images)
 =======================================================
@@ -303,14 +302,14 @@ class widgetSglColor(_QWidget):
                  'Cyan':[0, 1, 1], 'Magenta':[1, 0, 1], 'Yellow':[1, 1, 0],
                  'B&W':[1, 1, 1]}
 
-    DEFAULT_COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
+    COLORMAP_ORDER = ['Red', 'Green', 'Blue', 'B&W', 'Magenta', 'Yellow', 'Cyan', 'Other']
 
     def __init__(self, parent = None, **kwargs):
         super(widgetSglColor, self).__init__(parent)
         self.ui = Ui_SglColorImage_Form()
         self.math = widgetColorMath()
         self.ui.setupUi(self)
-        for color in self.DEFAULT_COLORMAP_ORDER:
+        for color in self.COLORMAP_ORDER:
             self.ui.comboBox.addItem(color)
 
         # Initialize data
@@ -348,12 +347,16 @@ class widgetSglColor(_QWidget):
         self.ui.pushButtonGain1.pressed.connect(self.gain1)
         self.math.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.math.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
+
         self.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                          showcbar=False,
+                                                                         extent=self.data.winextent,
                                                                          xunits=self.data.xunits,
                                                                          yunits=self.data.yunits))
+        
         self.ui.pushButtonGSPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.imageGS,
                                                                            showcbar=True,
+                                                                           extent=self.data.winextent,
                                                                            xunits=self.data.xunits,
                                                                            yunits=self.data.yunits))
 
@@ -451,7 +454,7 @@ class widgetSglColor(_QWidget):
 
         self.external_plots.append(_sciplot.main(parent=self))
         self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
-                      cmap=cmap, cbar=showcbar)
+                      cmap=cmap, cbar=showcbar, extent=extent)
         
 #
         #new_win = _mplWin()

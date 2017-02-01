@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Asymmetric Least Square methods (CRIKIT.utils.als_methods)
 =======================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Widget for PlotEffect that contains and presents different detrending
 algorithms. Whichever algorithm is plugged in effectively acts as the

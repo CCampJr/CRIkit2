@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 "Frequency" [,wavelength, and wavenumber] class and function.
 

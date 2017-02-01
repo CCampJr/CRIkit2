@@ -1,177 +1,67 @@
-# -*- coding: utf-8 -*-
 """
-Test Kramers-Kronig
+Testing for Kramers-Kronig Phase Retrieval Method
 
-Created on Wed Apr 13 10:32:22 2016
+Using the math relation a^2 / (a^2 + x^2) (Lorentz/Cauchy) has an 
+analytical Hilbert transform: x^2 / (a^2 + x^2)-- and how that plays into
+the KK
 
-@author: chc
 """
 
-import unittest
-from crikit.data.hsi import Hsi
-from crikit.data.spectrum import Spectrum
-from crikit.data.spectra import Spectra
-import crikit.data.frequency as freq
-from crikit.cri.kk import kk
-from crikit.cri.algorithms.kk import kkrelation
-from crikit.utils.gen_utils import find_nearest
-
-import copy
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 
-class FreqTest(unittest.TestCase):
+from crikit.cri.kk import KramersKronig
 
-    def setUp(self):
 
-        self.WN = np.linspace(-1386,3826,400)
-        self.X = .055 + 1/(1000-self.WN-1j*20) + 1/(3000-self.WN-1j*20)
-        self.XNR = 0*self.X + 0.055
-        self.E = 1*np.exp(-(self.WN-2000)**2/(2*3000**2))
+def test_kk():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+    hilb_y_analytical = x/(2**2 + x**2)
+    
+    kk = KramersKronig(pad_factor=10)
+    kkd = kk.calculate(np.exp(2*y), 0*y + 1)
+    
+    kkd_angle = np.angle(kkd)
+    assert_array_almost_equal(hilb_y_analytical, kkd_angle, decimal=4)
 
-        # Simulated spectrum
-        self.CARS = np.abs(self.E+self.X)**2
-        self.NRB = np.abs(self.E+self.XNR)**2
+def test_kk_no_bg_norm():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
 
-#    def test_kk_overwrite(self):
-#        self.cars3 = Hsi()
-#        self.cars2 = Spectra()
-#        self.cars1 = Spectrum()
-#        self.nrb1 = Spectrum()
-#        self.nrb2 = Spectra()
-#
-#        self.cars3.data = np.dot(np.ones((10,10,1)),self.CARS[None,:])
-#        self.cars3.freq = self.WN
-#
-#        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
-#        self.cars2.freq = self.WN
-#
-#        self.cars1.data = self.CARS
-#        self.cars1.freq = self.WN
-#
-#        self.nrb1.data = self.NRB
-#        self.nrb2.data = self.NRB
-#
-#        out = kk(self.cars3,self.nrb1)
-#        self.assertIsNone(out)
-#        self.assertTrue(issubclass(self.cars3.data.dtype.type,np.complex))
-#        out = kk(self.cars2,self.nrb1)
-#        self.assertIsNone(out)
-#        out = kk(self.cars1,self.nrb1)
-#        self.assertIsNone(out)
-#
-#        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
-#        self.cars2.freq = self.WN
-#        out = kk(self.cars2,self.nrb2)
-#        self.assertIsNone(out)
-#        self.assertTrue(np.allclose(self.X.imag, self.cars1.data.imag,rtol=1))
+    kk = KramersKronig(norm_to_nrb=False)
+    kkd = kk.calculate(y, 0*y + 1)
 
-    def test_kk_no_overwrite(self):
-        self.cars3 = Hsi()
-        self.cars2 = Spectra()
-        self.cars1 = Spectrum()
-        self.nrb1 = Spectrum()
-        self.nrb2 = Spectra()
+    assert_array_almost_equal(np.abs(kkd), np.sqrt(y))
 
-        self.cars3.data = np.dot(np.ones((10,10,1)),self.CARS[None,:])
-        self.cars3.freq = self.WN
+def test_kk_rng():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
 
-        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
-        self.cars2.freq = self.WN
+    rng = np.arange(5, x.size)
 
-        self.cars1.data = self.CARS
-        self.cars1.freq = self.WN
+    kk = KramersKronig(norm_to_nrb=False, rng=rng)
+    kkd = kk.calculate(y, 0*y + 1)
 
-        self.nrb1.data = self.NRB
-        self.nrb2.data = self.NRB
+    assert_array_almost_equal(np.abs(kkd[rng]), np.sqrt(y[rng]))
 
-        out = kk(self.cars3.data,self.nrb1.data)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
+def test_kk_transform():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+    y_complex = y.astype(np.complex)
 
-        out = kk(self.cars3.data,self.nrb1.data)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
+    kk = KramersKronig(norm_to_nrb=False)
+    success = kk._transform(y_complex, 0*y_complex + 1)
 
-        out = kk(self.cars2.data,self.nrb1.data)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
+    assert success
+    assert_array_almost_equal(np.abs(y_complex), np.sqrt(y))
 
-        out = kk(self.cars1.data,self.nrb1.data)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
-        self.assertTrue(np.allclose(self.X.imag, out.imag,rtol=1))
+def test_kk_transform_fail():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+    y_complex = y.astype(np.complex)
 
-        self.cars2.data = np.dot(np.ones((100,1)),self.CARS[None,:])
-        self.cars2.freq = self.WN
-        out = kk(self.cars2.data,self.nrb2.data)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
+    kk = KramersKronig(norm_to_nrb=False)
+    
+    success = kk._transform(y, 0*y + 1)
+    assert not success
 
-    def test_kk_pixrange(self):
-        self.cars3 = Hsi()
-        self.cars2 = Spectra()
-        self.cars1 = Spectrum()
-        self.nrb1 = Spectrum()
-        self.nrb2 = Spectra()
-
-        self.cars3.data = np.dot(np.ones((10,10,1)),self.CARS[None,:])
-        self.cars3.freq = self.WN
-        self.cars3.freq.op_list_freq = [500,4000]
-
-        self.nrb1.data = self.NRB
-
-        out = kk(self.cars3.data,self.nrb1.data, rng=self.cars3.freq.op_range_pix)
-        self.assertIsNotNone(out)
-        self.assertTrue(issubclass(out.dtype.type,np.complex))
-        self.assertNotEqual(out.shape,self.cars3.shape)
-
-#        sh = self.cars3.shape
-#        out = kk(self.cars3,self.nrb1, overwrite=True)
-#        self.assertIsNone(out)
-#        self.assertTrue(issubclass(self.cars3.data.dtype.type,np.complex))
-#        self.assertEqual(sh,self.cars3.shape)
-#        self.assertTrue(np.allclose(self.X.imag[self.cars3.freq.op_range_pix],
-#                                    self.cars3.data[0,0,self.cars3.freq.op_range_pix].imag,rtol=1))
-
-    def test_kk_wrong_inputs(self):
-        self.cars3 = Hsi()
-        self.cars2 = Spectra()
-        self.cars1 = Spectrum()
-        self.nrb1 = Spectrum()
-        self.nrb2 = Spectra()
-
-        self.cars3._data = np.random.rand(10,10,10)
-        self.cars3.freq = self.WN
-        self.nrb1.data = self.NRB
-
-        self.assertRaises(TypeError,kk,self.cars3,self.nrb1)
-
-        self.cars3._data = np.random.rand(10,10,10,400)
-        self.cars3.freq = self.WN
-        self.nrb1.data = self.NRB
-
-        self.assertRaises(NotImplementedError,kk,self.cars3,self.nrb1)
-
-    def test_kk_alg(self):
-        self.cars3 = Hsi()
-        self.cars2 = Spectra()
-        self.cars1 = Spectrum()
-        self.nrb1 = Spectrum()
-        self.nrb2 = Spectra()
-
-        self.cars3.data = np.dot(np.ones((10,10,1)),self.CARS[None,:])
-        self.cars3.freq = self.WN
-
-        self.cars2.data = np.dot(np.ones((10,1)),self.CARS[None,:])
-        self.cars2.freq = self.WN
-
-        self.cars1.data = self.CARS
-        self.cars1.freq = self.WN
-
-        self.nrb1.data = self.NRB
-        self.nrb2.data = self.NRB
-
-#        out = kkrelation(self.nrb1.data,self.cars3.data)
-#        out = kkrelation(self.cars3.data,self.cars3.data)
-#        out = kkrelation(self.cars1.data,self.cars1.data)
-#        out = kkrelation(self.cars1.data,self.cars1.data, norm_by_bg=False)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Subtract mean value (optionally, over a range from all spectrum/spectra/hsi)
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Visualization General Utilities (crikit.ui.visgentuils)
 =======================================================

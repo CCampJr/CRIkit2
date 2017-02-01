@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CRIkit Options Dialogs (crikit.ui.dialog_options)
 =======================================================

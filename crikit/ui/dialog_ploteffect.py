@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Extensible Dialog that shows the effect of a plugin on input data.
 

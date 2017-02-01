@@ -1,38 +1,24 @@
-# -*- coding: utf-8 -*-
 """
 Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)
 =======================================================
 
     kkrelation : Retrieve real and imaginary components from a
-    spectrum that is the modulus of a function\n
+    spectrum that is the modulus of a function
 
-    hilbertfft : Fourier-domain Hilbert transform\n
+    hilbertfft : Fourier-domain Hilbert transform
 
 Citation ref
 ------------------
-C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent 
+Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase 
 Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
-
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.06.06")
-
 """
 import numpy as _np
-# import numexpr as _ne
+from scipy import fftpack as _fftpack
 
 __all__ = ['kkrelation', 'hilbertfft']
 
 _DEFAULT_THREADS = 1
-
 
 # Conditional modules
 # Check for and load pyFFTW if available (kkrelation, hilbertfft)
@@ -43,8 +29,9 @@ except ImportError:  # pragma: no cover
     print("No pyFFTW found. Using Scipy instead. \n\
     You may want to install pyFFTW and FFTW for [potentially]\n\
     significant performance enhancement")
-    from scipy import fftpack as _fftpack
     _pyfftw_available = False
+
+
 
 # Check for and load multiprocessing to determine number of CPUs
 try:
@@ -104,20 +91,9 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting \
     Errors in Phase Retrieval," Journal of Raman Spectroscopy (2016). \
     arXiv:1507.06543.
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.10.02")
     """
 
-    ratio = cri/bg
+    ratio = cri / bg
     ratio[_np.isnan(ratio)] = 1e-8
     ratio[_np.isinf(ratio)] = 1e-8
 
@@ -133,36 +109,35 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
 
     # Note: disabled numexpr eval due to stability issues
     if norm_by_bg is True:
-        out = _np.sqrt(ratio)*_np.exp(1j*phase_offset + 1j*h)
+        out = _np.sqrt(ratio) * _np.exp(1j * phase_offset + 1j * h)
         # out = _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
         return out
     else:
-        out = _np.sqrt(cri)*_np.exp(1j*phase_offset + 1j*h)
+        out = _np.sqrt(cri) * _np.exp(1j * phase_offset + 1j * h)
         return out
         # return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
 
 
-def hilbertfft(spectra, pad_factor=1):
+def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
     """
     Compute the one-dimensional Hilbert Transform.
 
     This function computes the one-dimentional Hilbert transform
     using the Fourier-domain implementation.
 
-    NEW v1.2: Just returns the Hilbert transformed component (not
-    the analytic function)
-
     Parameters
     ----------
     spectra : ndarray
         Input array that can be one-,two-,or three-dimensional
-    (pad_factor) : int, optional
+    pad_factor : int, optional
         The multiple number of spectra-length pads that will be
         applied before and after the original spectra
+    use_pyfftw : bool, optional
+        If available, use pyfftw. Else use scipy scipack implementation
 
     Returns
     -------
-    out : ndarray
+    ndarray
         Hilbert transformed data
 
     References
@@ -175,18 +150,6 @@ def hilbertfft(spectra, pad_factor=1):
     A D Poularikas, "The Hilbert Transform," in The Handbook of \
     Formulas and Tables for Signal Processing (ed., A. D. Poularikas), \
     Boca Raton, CRC Press LLC (1999).
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.6.28")
-
     """
 
     assert spectra.ndim <= 2, 'Input data need be 1D or 2D for memory'
@@ -197,9 +160,9 @@ def hilbertfft(spectra, pad_factor=1):
     time_vec = _np.fft.fftfreq(freq_pad_len)
 
     if pad_factor > 0:
-        pad_left = _np.dot(spectra[...,0][...,None],_np.ones((1,pad_len)))
-        pad_right = _np.dot(spectra[...,-1][...,None],_np.ones((1,pad_len)))
-        padded = _np.concatenate((pad_left,spectra, pad_right), axis=-1)
+        pad_left = _np.dot(spectra[..., 0][..., None], _np.ones((1, pad_len)))
+        pad_right = _np.dot(spectra[..., -1][..., None], _np.ones((1, pad_len)))
+        padded = _np.concatenate((pad_left, spectra, pad_right), axis=-1)
     else:
         padded = spectra
 
@@ -208,21 +171,21 @@ def hilbertfft(spectra, pad_factor=1):
     # Use pyFFTW (supposed optimal) library or Scipy
     # Note (although not obvious with pyFFTW) these functions overwrite
     # the input variable-- saves memory and increases speed
-    if _pyfftw_available is True:
+    if _pyfftw_available and use_pyfftw:
         _pyfftw.interfaces.cache.enable()
         padded = _pyfftw.interfaces.scipy_fftpack.ifft(padded, axis=-1,
-                                              overwrite_x=True,
-                                              threads=_thread_num,
-                                              auto_align_input=True,
-                                              planner_effort='FFTW_MEASURE')
+                                                       overwrite_x=True,
+                                                       threads=_thread_num,
+                                                       auto_align_input=True,
+                                                       planner_effort='FFTW_MEASURE')
 
         padded *= 1j*_np.sign(time_vec)
 
         padded = _pyfftw.interfaces.scipy_fftpack.fft(padded, axis=-1,
-                                              overwrite_x=True,
-                                              threads=_thread_num,
-                                              auto_align_input=True,
-                                              planner_effort='FFTW_MEASURE')
+                                                      overwrite_x=True,
+                                                      threads=_thread_num,
+                                                      auto_align_input=True,
+                                                      planner_effort='FFTW_MEASURE')
     else: # Perform Hilbert Transform with Scipy FFTPACK
         _fftpack.ifft(padded, axis=-1, overwrite_x=True)
         padded *= 1j*_np.sign(time_vec)
@@ -232,9 +195,9 @@ def hilbertfft(spectra, pad_factor=1):
     padded[_np.isnan(padded)] = 1e-8
     padded[_np.isinf(padded)] = 1e-8
 
-    return _np.real(padded[...,pad_len:pad_len+freq_len])
+    return _np.real(padded[..., pad_len:pad_len + freq_len])
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
 
     x = _np.random.rand(300,900)
@@ -245,4 +208,3 @@ if __name__ == '__main__':
     out = hilbertfft(x)
     start -= _timeit.default_timer()
     print('Time: {:.3g} sec'.format(-start))
-

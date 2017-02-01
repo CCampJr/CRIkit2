@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Plot-Effect Interface (crikit.ui.subui_ploteffect)
 =======================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)
 =======================================================

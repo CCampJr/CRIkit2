@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CRIkit User Interfaces (crikit.ui)
 =======================================================

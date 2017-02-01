@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Mon May 23 16:55:09 2016
 
@@ -127,20 +126,36 @@ def meta_process(rosetta, output_cls_instance):
             stop = rosetta_query('XStop',rosetta, output_cls_instance)[0]
             steps = rosetta_query('XLength',rosetta, output_cls_instance)[0]
             units = rosetta_query('XUnits',rosetta, output_cls_instance)[0]
+            label = rosetta_query('XLabel',rosetta, output_cls_instance)[0]
+
+            # HDF files store strings in np.bytes format
+            if isinstance(units, bytes):
+                units = units.decode()
+            if isinstance(label, bytes):
+                label = label.decode()
 
             output_cls_instance.x_rep.data = _np.linspace(start, stop, steps)
             output_cls_instance.x_rep.units = units
+            output_cls_instance.x_rep.label = label
             output_cls_instance.x_rep.update_calib_from_data()
 
-            del start, stop, steps, units
+            del start, stop, steps, units, label
 
             start = rosetta_query('YStart',rosetta, output_cls_instance)[0]
             stop = rosetta_query('YStop',rosetta, output_cls_instance)[0]
             steps = rosetta_query('YLength',rosetta, output_cls_instance)[0]
             units = rosetta_query('YUnits',rosetta, output_cls_instance)[0]
+            label = rosetta_query('YLabel',rosetta, output_cls_instance)[0]
+
+            # HDF files store strings in np.bytes format
+            if isinstance(units, bytes):
+                units = units.decode()
+            if isinstance(label, bytes):
+                label = label.decode()
 
             output_cls_instance.y_rep.data = _np.linspace(start, stop, steps)
             output_cls_instance.y_rep.units = units
+            output_cls_instance.y_rep.label = label
             output_cls_instance.y_rep.update_calib_from_data()
 
             del start, stop, steps, units
@@ -150,7 +165,8 @@ def meta_process(rosetta, output_cls_instance):
     elif type(output_cls_instance) == _Spectra:
         try:
             print('Type Spectra')
-            output_cls_instance.reps.units = 'acq number'
+            output_cls_instance.reps.units = None
+            output_cls_instance.reps.label = 'Acq Number'
             output_cls_instance.reps.data = _np.arange(output_cls_instance.data.shape[0])
     #        print(output_cls_instance.reps.data.shape)
             output_cls_instance.reps.update_calib_from_data()

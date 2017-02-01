@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)
 ==============================================================================
