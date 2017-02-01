@@ -233,7 +233,7 @@ class DialogAbstractFactorization(_QDialog):
         # s_lim = _np.abs(img_nonselect).max()
         s_lim = _np.abs(img_nonselect.mean() + 3*img_nonselect.std())
         self.reconRemainder.ax[0].imshow(img_nonselect, interpolation='None', 
-                                       cmap = 'bwr', origin='lower', vmin=-s_lim, vmax=s_lim)
+                                         cmap = 'bwr', origin='lower', vmin=-s_lim, vmax=s_lim)
         self.reconRemainder.ax[1].plot(spect_nonselect)
         self.reconRemainder.draw()
         
