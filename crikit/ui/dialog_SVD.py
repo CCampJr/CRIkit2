@@ -44,6 +44,8 @@ class DialogSVD(DialogAbstractFactorization):
                     self.spect_all = spect_all.imag
                 else:
                     self.spect_all = spect_all.real
+            else: 
+                self.spect_all = spect_all
 
         self.updatePlots(0)
         self.updateCurrentRemainder()
