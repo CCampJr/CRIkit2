@@ -154,6 +154,9 @@ class AlsCvxopt(AbstractBaseline):
                     if self.fix_end_points:
                         penalty_vector[0] = 1
                         penalty_vector[-1] = 1
+
+                    if self.fix_rng is not None:
+                        penalty_vector[self.fix_rng] = 1
             
             baseline_output[coords] = baseline_current
             
