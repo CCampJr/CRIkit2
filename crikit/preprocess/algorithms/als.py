@@ -14,7 +14,7 @@ from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
     
 class AlsCvxopt(AbstractBaseline):   
     def __init__(self, smoothness_param=1e3, asym_param=1e-4, redux=1,
-                 order=2, fix_end_points=False, max_iter=100, min_diff=1e-5, 
+                 order=2, fix_end_points=False, fix_rng=None, max_iter=100, min_diff=1e-5, 
                  verbose=False):
         """
         Parameters
@@ -34,6 +34,10 @@ class AlsCvxopt(AbstractBaseline):
         fix_end_points : bool, optional (default, False)
             Weight the baseline endpoints to approach equally the end-points
             of the data.
+
+        fix_rng : ndarray (1D), optional (default, None)
+            Pixels to weight so that the baseline strongly approaches the data
+            at these pixels.
         
         max_iter : int, optional (default, 100)
             Maximum number of least-squares iterations to perform
@@ -50,8 +54,8 @@ class AlsCvxopt(AbstractBaseline):
         self._asym_param=asym_param
         
         self.setup(redux=redux, verbose=verbose, order=order, 
-                   fix_end_points=fix_end_points, max_iter=max_iter,
-                   min_diff=min_diff)
+                   fix_end_points=fix_end_points, fix_rng=fix_rng, 
+                   max_iter=max_iter, min_diff=min_diff)
 
     @property
     def asym_param(self):
