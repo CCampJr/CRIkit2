@@ -214,6 +214,8 @@ class DialogAbstractFactorization(_QDialog):
         # img_nonselect = self.mean_spatial(cube_nonselect)
         # spect_nonselect = self.mean_spectral(cube_nonselect)
         img_nonselect = self.img_all - img_select
+        print('Spect_select: {}'.format(spect_select))
+        print('Spect_select is None: {}'.format(spect_select is None))
         spect_nonselect = self.spect_all - spect_select
         
         self.reconCurrent.ax[0].cla()
