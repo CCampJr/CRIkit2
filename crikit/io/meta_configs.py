@@ -15,37 +15,43 @@ def special_nist_bcars2():
     """
     rosetta = {}
 
-    rosetta['XPixelSize'] = 'RasterScanParams.FastAxisStepSize'
-    rosetta['XStart'] = 'RasterScanParams.FastAxisStart'
-    rosetta['XStop'] = 'RasterScanParams.FastAxisStop'
-    rosetta['XLength'] = 'RasterScanParams.FastAxisSteps'
-    rosetta['XLabel'] = ['RasterScanParams.FastAxis','!','X']
+    rosetta['XPixelSize'] = ['RasterScanParams.FastAxisStepSize', 
+                             'Raster.Fast.StepSize']
+    rosetta['XStart'] = ['RasterScanParams.FastAxisStart', 'Raster.Fast.Start']
+    rosetta['XStop'] = ['RasterScanParams.FastAxisStop', 'Raster.Fast.Stop']
+    rosetta['XLength'] = ['RasterScanParams.FastAxisSteps', 'Raster.Fast.Steps']
+    rosetta['XLabel'] = ['RasterScanParams.FastAxis','Raster.Fast.Axis','!','X']
     rosetta['XUnits'] = ['RasterScanParams.FastAxisUnits','!','$\\mu$m']
 
-    rosetta['YPixelSize'] = 'RasterScanParams.SlowAxisStepSize'
-    rosetta['YStart'] = 'RasterScanParams.SlowAxisStart'
-    rosetta['YStop'] = 'RasterScanParams.SlowAxisStop'
-    rosetta['YLength'] = 'RasterScanParams.SlowAxisSteps'
-    rosetta['YLabel'] = ['RasterScanParams.SlowAxis','!','Y']
+    rosetta['YPixelSize'] = ['RasterScanParams.SlowAxisStepSize', 
+                            'Raster.Slow.StepSize']
+    rosetta['YStart'] = ['RasterScanParams.SlowAxisStart', 'Raster.Slow.Start']
+    rosetta['YStop'] = ['RasterScanParams.SlowAxisStop', 'Raster.Slow.Stop']
+    rosetta['YLength'] = ['RasterScanParams.SlowAxisSteps', 'Raster.Slow.Steps']
+    rosetta['YLabel'] = ['RasterScanParams.SlowAxis','Raster.Slow.Axis','!','Y']
     rosetta['YUnits'] = ['RasterScanParams.SlowAxisUnits','!','$\\mu$m']
 
-    rosetta['ZPosition'] = 'RasterScanParams.FixedAxisPosition'
-    rosetta['ZLabel'] = 'RasterScanParams.FixedAxis'
+    rosetta['ZPosition'] = ['RasterScanParams.FixedAxisPosition', 
+                            'Raster.Stack.Position','!',0]
+    rosetta['ZLabel'] = ['RasterScanParams.FixedAxis', 'Raster.Stack.Axis','!','Z']
 
     # Color Calibration
-    rosetta['ColorCenterWL'] = ['Spectro.CenterWavelength', 'Calib.ctr_wl',
+    rosetta['ColorCenterWL'] = ['Spectro.CenterWavelength', 
+                                'Spectro.CurrentWavelength', 'Calib.ctr_wl',
                                 '!', 729.994]
     rosetta['ColorUnits'] = ['Calib.units', '!', 'nm']
     rosetta['ColorChannels'] = ['Calib.n_pix', '!', 1600]
-    rosetta['ColorCalibWL'] = ['Calib.ctr_wl', '!', 729.994]
-    rosetta['ColorPolyVals'] = ['Calib.a_vec', '!', [-0.167740721307557,
+    rosetta['ColorCalibWL'] = ['Calib.ctr_wl', 'Spectro.CalibWavelength', '!', 729.994]
+    rosetta['ColorPolyVals'] = ['Spectro.Avec', 'Calib.a_vec', '!', [-0.167740721307557,
                                                      863.8736708961577]]
 
-    rosetta['ColorProbe'] = ['Calib.probe', '!', 771.461]
+    rosetta['ColorProbe'] = ['Spectro.ProbeWavelength', 'Calib.probe', '!', 771.461]
     rosetta['ColorWnMode'] = ['!', True]
 
     # Color Calibration Original
-    rosetta['OrigColorCenterWL'] = ['Spectro.CenterWavelength', 'CalibOrig.ctr_wl']
+    rosetta['OrigColorCenterWL'] = ['Spectro.CenterWavelength',
+                                    'Spectro.CurrentWavelength',
+                                    'CalibOrig.ctr_wl']
     rosetta['OrigColorUnits'] = ['CalibOrig.units']
     rosetta['OrigColorChannels'] = ['CalibOrig.n_pix']
     rosetta['OrigColorCalibWL'] = ['CalibOrig.ctr_wl']
