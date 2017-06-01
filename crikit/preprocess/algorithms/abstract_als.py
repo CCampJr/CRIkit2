@@ -11,10 +11,11 @@ from scipy.interpolate import UnivariateSpline as _USpline
 class AbstractBaseline:
     
     def setup(self, redux=1, verbose=False, order=2, fix_end_points=False, 
-              max_iter=100, min_diff=1e-5):
+              fix_rng=None, max_iter=100, min_diff=1e-5):
         self.redux = redux
         self.order = order
         self.fix_end_points = fix_end_points
+        self.fix_rng = fix_rng
         self.max_iter = max_iter
         self.min_diff = min_diff
         

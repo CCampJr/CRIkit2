@@ -87,6 +87,16 @@ python3 -m crikit
 python -m crikit
 ```
 
+## Known Operational Nuances
+* The SVD visualization tool uses a complex-valued SVD for complex values; thus, there are a few
+things to avoid
+    * If your spectra are PURELY IMAGINARY, convert them to PURELY REAL
+    * If your real and imaginary parts of your spectra are IDENTICAL, then
+    consider using just the real or imaginary portion
+    * NOTE: this does not affect the accuracy or performance of SVD or the returned
+    results, but you will see unexpected visualizations of the spatial and spectral
+    components.
+
 ## NONLICENSE ##
 This software was developed at the National Institute of Standards and
 Technology (NIST) by employees of the Federal Government in the course of

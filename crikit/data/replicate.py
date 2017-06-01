@@ -119,7 +119,7 @@ class Replicate:
 
     @units.setter
     def units(self, value):
-        if isinstance(value, str):
+        if isinstance(value, str) | (value is None):
             self._units = value
         else:
             raise TypeError('units should be of type str')
@@ -130,7 +130,7 @@ class Replicate:
 
     @label.setter
     def label(self, value):
-        if isinstance(value, str):
+        if isinstance(value, str) | (value is None):
             self._label = value
         else:
             raise TypeError('label should be of type str')

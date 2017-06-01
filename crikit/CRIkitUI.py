@@ -1697,10 +1697,15 @@ class CRIkitUI_process(_QMainWindow):
         if rng is None:
             # Note: .main in dialog_AbstractFactorization
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data.shape, mask=self.hsi.mask,
+                                      img_all=self.hsi.data.mean(axis=-1),
+                                      spect_all=self.hsi.data.mean(axis=(0,1)), 
                                       parent=self)
         else:
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data[..., rng].shape,
-                                      mask=self.hsi.mask, parent=self)
+                                      mask=self.hsi.mask, 
+                                      img_all=self.hsi.data[..., rng].mean(axis=-1),
+                                      spect_all=self.hsi.data[..., rng].mean(axis=(0,1)),
+                                      parent=self)
 
         print('SV\'s:{}'.format(svs))
 

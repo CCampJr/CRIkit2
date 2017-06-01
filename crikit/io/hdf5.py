@@ -135,6 +135,13 @@ def hdf_attr_to_dict(attr):
                 output_dict[count] = attr[count]
             except:
                 print('Fail: {}'.format(count))
+    
+    # String in HDF are treated as numpy bytes_ literals
+    # We want out instance in memeory to have Python Strings
+    # This does a simple conversion
+    for k in output_dict:
+        if isinstance(output_dict[k], _np.bytes_):
+            output_dict[k] = output_dict[k].decode('UTF-8')
     return output_dict
 
 def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):

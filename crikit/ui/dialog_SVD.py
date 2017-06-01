@@ -4,7 +4,7 @@ Created on Mon Jul 25 13:57:24 2016
 @author: chc
 """
 import sys as _sys
-
+# import timeit
 import numpy as _np
 
 from PyQt5.QtWidgets import (QApplication as _QApplication, QWidget as _QWidget)
@@ -17,7 +17,7 @@ class DialogSVD(DialogAbstractFactorization):
     """
     SVD Class
     """
-    def __init__(self, data, img_shape, mask=None, use_imag=True,
+    def __init__(self, data, img_shape, mask=None, use_imag=True, img_all=None, spect_all=None,
                  parent=None):
         super(DialogSVD, self).__init__(parent=parent) ### EDIT ###
         self.setup(parent=parent)
@@ -33,13 +33,27 @@ class DialogSVD(DialogAbstractFactorization):
 
         self._use_imag = use_imag # By default, use imag portion of complex data
 
+        if (img_all is None) and (spect_all is None):
+            cube_all = self.combiner(selections=_np.arange(self._n_factors))
+            self.img_all = self.mean_spatial(cube_all)
+            self.spect_all = self.mean_spectral(cube_all)
+        else:
+            self.img_all = img_all.real
+            if _np.iscomplexobj(spect_all):
+                if self._use_imag:    
+                    self.spect_all = spect_all.imag
+                else:
+                    self.spect_all = spect_all.real
+            else: 
+                self.spect_all = spect_all
+
         self.updatePlots(0)
         self.updateCurrentRemainder()
 
     @staticmethod
-    def dialogSVD(data, img_shape, mask=None, use_imag=True, parent=None):
+    def dialogSVD(data, img_shape, mask=None, use_imag=True, img_all=None, spect_all=None, parent=None):
         dialog = DialogSVD(data=data, img_shape=img_shape, mask=mask,
-                           use_imag=use_imag, parent=parent)
+                           use_imag=use_imag, img_all=img_all, spect_all=spect_all, parent=parent)
         result = dialog.exec_()
 
         if result == 1:
@@ -65,10 +79,25 @@ class DialogSVD(DialogAbstractFactorization):
             return None
 
     def combiner(self, selections=None):
-        S = self.s_from_selected(selections=selections)
+        """Performs U*S*Vh"""
 
-        # U*S*Vh
-        ret = _np.dot(self.U, _np.dot(S, self.Vh))
+        # Straight-forward way, but slow
+        # tmr = timeit.default_timer()
+        # S = self.s_from_selected(selections=selections)
+        # ret = _np.dot(self.U, _np.dot(S, self.Vh))
+        # tmr -= timeit.default_timer()
+        # # print('Selections: {}'.format(selections))
+        # print('S (head): {}'.format(_np.diag(S)[0:10]))
+        # print('Old way: {}'.format(-tmr))
+
+        # New faster method
+        # tmr = timeit.default_timer()
+        ret = _np.dot(self.U[:, list(selections)], _np.dot(_np.diag(self.s[list(selections)]), self.Vh[list(selections), :]))
+        # tmr -= timeit.default_timer()
+        # print('S (head): {}'.format(self.s[list(selections)]))
+        # print('New way: {}'.format(-tmr))
+        # print('Old == New: {}\n'.format(_np.allclose(ret,ret2)))
+        
         return ret
 
     def mean_spatial(self, cube):
@@ -114,14 +143,18 @@ class DialogSVD(DialogAbstractFactorization):
 
     def get_spatial_slice(self, num):
         img = self.U[...,num].reshape((self._n_y, self._n_x))
+        return _np.real(img)
 
-        if _np.iscomplexobj(img):
-            if self._use_imag:
-                return _np.imag(img)
-            else:
-                return _np.real(img)
-        else:
-            return img
+        # Used to return complex, but the SVD of complex numbers tends to
+        # shove everything in U into the real component
+
+        # if _np.iscomplexobj(img):
+        #     if self._use_imag:
+        #         return _np.imag(img)
+        #     else:
+        #         return _np.real(img)
+        # else:
+        #     return img
 
 
 
@@ -141,8 +174,8 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
-    x = _np.linspace(100, 200, 20)
-    y = _np.linspace(200, 300, 20)
+    x = _np.linspace(100, 200, 100)
+    y = _np.linspace(200, 300, 100)
 
 
     f = _np.linspace(500,3000,900)
@@ -152,8 +185,9 @@ if __name__ == '__main__':
     hsi = _np.zeros((y.size,x.size,f.size))
 #
     for count in range(y.size):
-        hsi[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
-    hsi = hsi + 1j*_np.random.rand(hsi.shape[0], hsi.shape[1], hsi.shape[2])
+        # hsi[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))
+        hsi[count,:,:] = y[count]*_np.dot(x[:,None],Spectrum[None,:])
+    hsi = 0*hsi + 1j*hsi
 
     data = _svd(hsi.reshape((-1,f.size)), full_matrices=False)
 
@@ -163,7 +197,7 @@ if __name__ == '__main__':
 
     # Full route
     obj = _QWidget()
-    svs = DialogSVD.dialogSVD(data, hsi.shape, parent=obj)
+    svs = DialogSVD.dialogSVD(data, hsi.shape, img_all=hsi.mean(axis=-1), spect_all=hsi.mean(axis=(0,1)) ,parent=obj)
 
     print('Factors selected: {}'.format(svs))
 

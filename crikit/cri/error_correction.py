@@ -26,7 +26,7 @@ class PhaseErrCorrectALS:
     """
     def __init__(self, smoothness_param=1, asym_param=1e-2,
                  redux=10, order=2, rng=None, fix_end_points=False,
-                 max_iter=100, min_diff=1e-5, **kwargs):
+                 fix_rng=None, max_iter=100, min_diff=1e-5, **kwargs):
 
 
         self.rng = _rng_is_pix_vec(rng)
@@ -37,6 +37,7 @@ class PhaseErrCorrectALS:
                         'redux' : redux,
                         'order' : order,
                         'fix_end_points' : fix_end_points,
+                        'fix_rng' : fix_rng,
                         'max_iter' : max_iter,
                         'min_diff' : min_diff})
 
