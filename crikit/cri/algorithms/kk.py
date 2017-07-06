@@ -203,8 +203,30 @@ if __name__ == '__main__':  # pragma: no cover
     x = _np.random.rand(300,900)
     print(x.dtype)
     y = _np.random.rand(300,900)
+    
+    
+    if _pyfftw_available:
+        start = _timeit.default_timer()
+        #out = kkrelation(x,y)
+        out = hilbertfft(x)
+        start -= _timeit.default_timer()
+        print('PyFFTW Time (Trial 1): {:.3g} sec'.format(-start))
+
+        start = _timeit.default_timer()
+        #out = kkrelation(x,y)
+        out = hilbertfft(x)
+        start -= _timeit.default_timer()
+        print('PyFFTW Time (Trial 2): {:.3g} sec'.format(-start))
+
     start = _timeit.default_timer()
     #out = kkrelation(x,y)
-    out = hilbertfft(x)
+    out = hilbertfft(x, use_pyfftw=False)
     start -= _timeit.default_timer()
-    print('Time: {:.3g} sec'.format(-start))
+    print('Scipy Time (Trial 1): {:.3g} sec'.format(-start))
+
+    start = _timeit.default_timer()
+    #out = kkrelation(x,y)
+    out = hilbertfft(x, use_pyfftw=False)
+    start -= _timeit.default_timer()
+    print('Scipy Time (Trial 2): {:.3g} sec'.format(-start))
+
