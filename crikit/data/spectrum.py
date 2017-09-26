@@ -6,11 +6,6 @@ Spectrum class and function
 import numpy as _np
 import copy as _copy
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
-#    _sys.path.append(_os.path.abspath('./utils'))
 from crikit.data.frequency import Frequency as _Frequency
 
 __all__ = ['Spectrum']
@@ -92,6 +87,27 @@ class Spectrum:
         if meta is not None:
             self._meta = _copy.deepcopy(meta)
 
+        self._data_idx_freq = self._IndexDataByFreq(self, self._data)
+        self._data_imag_over_real_idx_freq = \
+            self._IndexDataByFreq(self, self.data_imag_over_real)
+        self._data_real_over_imag_idx_freq = \
+            self._IndexDataByFreq(self, self.data_real_over_imag)
+
+    def __getitem__(self, idx):
+        """
+        Enable indexing and iterating through individual components of 
+        self._data
+        """
+        if self._data is None:
+            return None
+        else:
+            if isinstance(idx, int):
+                return self._data[idx]
+            elif isinstance(idx, slice):
+                return self._data[idx]
+            else:
+                raise TypeError('Index must be of type int or slice')
+
     @property
     def data(self):
         return self._data
@@ -134,6 +150,46 @@ class Spectrum:
         else:
             return self._data
             
+    class _IndexDataByFreq:
+        """ 
+        Class that allows indexing of Spectrum.data by frequency instead of
+        just pixel number.
+
+        Note: this is INCLUSIVE indexing by frequency
+        """
+
+        def __init__(self, parent, to_return):
+            self._parent = parent
+            self._to_return = to_return
+
+        def __getitem__(self, idx):
+            def _extract(self, idx):
+                if idx.step is None:
+                    starter = self._parent.freq.get_index_of_closest_freq(idx.start)
+                    ender = self._parent.freq.get_index_of_closest_freq(idx.stop)
+                    stepper = 1
+                    locs = _np.arange(starter, ender+1, stepper)
+                    return locs
+                else:
+                    starter = self._parent.freq.get_closest_freq(idx.start)
+                    ender = self._parent.freq.get_closest_freq(idx.stop)
+                    stepper = idx.step
+                    to_find = _np.arange(starter,ender,stepper)
+                    locs = _np.unique(self._parent.freq.get_index_of_closest_freq(to_find))
+                    # locs = _np.append(locs, locs[-1]+1)
+                    return locs
+
+            if isinstance(idx, (int,float)):
+                loc = self._parent.freq.get_index_of_closest_freq(idx)
+                return self._to_return[...,loc]
+            elif isinstance(idx, slice):
+                locs = _extract(self, idx)
+                return self._to_return[...,locs]
+            elif isinstance(idx, (list,tuple)):
+                idx_space = idx[:-1]
+                locs = _extract(self, idx[-1])
+                return self._to_return[[*idx_space,locs]]
+
     @property
     def freq(self):
         return self._freq
@@ -361,15 +417,33 @@ class Spectrum:
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
 
-    a = Spectrum(data=_np.random.rand(300,300,1000))
+    N = 10001
+    wn = _np.linspace(500,3000,N)
+    sp = Spectrum(data=_np.random.rand(N) + 1j*_np.random.rand(N), freq=wn)
 
-    start = _timeit.default_timer()
-    q = a.data[:,:,100:900]
-    stop = _timeit.default_timer()
-    print(stop-start)
-    del q
+    tmr = _timeit.default_timer()
+    sp.data[200:500]
+    tmr -= _timeit.default_timer()
+    print(-tmr)
 
-    start = _timeit.default_timer()
-    q = a.set_data[:,:,100:900]
-    stop = _timeit.default_timer()
-    print(stop-start)
+    tmr = _timeit.default_timer()
+    sp[200:500]
+    tmr -= _timeit.default_timer()
+    print(-tmr)
+
+    tmr = _timeit.default_timer()
+    sp._data_idx_freq[500:600]
+    tmr -= _timeit.default_timer()
+    print(-tmr)
+
+    tmr = _timeit.default_timer()
+    sp._data_imag_over_real_idx_freq[500:600]
+    tmr -= _timeit.default_timer()
+    print(-tmr)
+
+    tmr = _timeit.default_timer()
+    locs = _np.arange(sp.freq.get_index_of_closest_freq(500),
+                     sp.freq.get_index_of_closest_freq(600))
+    sp.data_imag_over_real[locs]
+    tmr -= _timeit.default_timer()
+    print(-tmr)

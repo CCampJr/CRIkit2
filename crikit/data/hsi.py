@@ -129,6 +129,12 @@ class Hsi(_Spectrum):
         if meta is not None:
             self._meta = _copy.deepcopy(meta)
 
+        self._data_idx_freq = self._IndexDataByFreq(self, self._data)
+        self._data_imag_over_real_idx_freq = \
+            self._IndexDataByFreq(self, self.data_imag_over_real)
+        self._data_real_over_imag_idx_freq = \
+            self._IndexDataByFreq(self, self.data_real_over_imag)
+
     @property
     def mask(self):
         return self._mask
