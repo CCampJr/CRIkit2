@@ -25,6 +25,7 @@ Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
 * python >= 3.4 (Currently, transitioning to python 3.5)
+* SciPlot-PyQt >= 0.1.3
 * numpy (1.9.3)
 * PyQT5 (5.5.* or 5.6.*)
 * matplotlib (1.5.0rc3)
@@ -45,6 +46,9 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 
 * As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.
 * Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
+
+## SciPlot-PyQt ##
+Currently, SciPlot 0.1.3 is not available through pip. You can however clone the repository from github.
 
 ## Installation ##
 ### Option 1: Easily updatable through git (dynamic copy)###
