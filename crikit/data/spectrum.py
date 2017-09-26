@@ -21,13 +21,13 @@ class Spectrum:
 
     _data_idx_freq : 1D ndarray [f_pix]
         EXPERIMENTAL: Retrieve data via indexing over frequency space
-        
+
     _data_imag_over_real_idx_freq : 1D ndarray [f_pix]
-        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
+        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
         space
-        
+
     _data_real_over_imag_idx_freq : 1D ndarray [f_pix]
-        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
+        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
         space
 
     freq : crikit.data.Frequency instance
@@ -106,7 +106,7 @@ class Spectrum:
 
     def __getitem__(self, idx):
         """
-        Enable indexing and iterating through individual components of 
+        Enable indexing and iterating through individual components of
         self._data
         """
         if self._data is None:
@@ -150,7 +150,7 @@ class Spectrum:
                 return _np.imag(self._data)
         else:
             return self._data
-    
+
     @property
     def data_real_over_imag(self):
         if _np.iscomplexobj(self._data):
@@ -160,9 +160,9 @@ class Spectrum:
                 return _np.real(self._data)
         else:
             return self._data
-            
+
     class _IndexDataByFreq:
-        """ 
+        """
         Class that allows indexing of Spectrum.data by frequency instead of
         just pixel number.
 
@@ -296,7 +296,7 @@ class Spectrum:
                 print('Could not get calibration information')
             else:
                 temp_dict.update(calib_dict)
- 
+
         # return self._meta
         return temp_dict
 
@@ -342,21 +342,21 @@ class Spectrum:
         """
         if self._data is None:
             return None
-        
+
         ndim = len(self._data.shape)
-        
+
         if ndim == 1:
             if isinstance(self._data, _np.ndarray):
                 return self._data.mean()
             else:
                 return _np.mean(self._data)
-                
+
         if ndim > 1:
             if over_space == True:
                 axes = tuple(_np.arange(ndim-1))
             else:
                 axes = -1
-            
+
         if isinstance(self._data, _np.ndarray):
             if extent is None:
                 return self._data.mean(axis=axes)
@@ -366,32 +366,32 @@ class Spectrum:
             if extent is None:
                 return _np.mean(self._data, axis=axes)
             else:
-                return _np.mean(self._data[:,extent[0]:extent[1]+1], 
+                return _np.mean(self._data[:,extent[0]:extent[1]+1],
                                 axis=axes)
 
     def std(self, extent=None, over_space=True):
         """
-        Return standard deviation (std) spectrum (or std over extent 
+        Return standard deviation (std) spectrum (or std over extent
         [list with 2 elements]). If over_space is False, reps (or reps x reps)
         number of std's.
         """
         if self._data is None:
             return None
-        
+
         ndim = len(self._data.shape)
-        
+
         if ndim == 1:
             if isinstance(self._data, _np.ndarray):
                 return self._data.std()
             else:
                 return _np.std(self._data)
-                
+
         if ndim > 1:
             if over_space == True:
                 axes = tuple(_np.arange(ndim-1))
             else:
                 axes = -1
-            
+
         if isinstance(self._data, _np.ndarray):
             if extent is None:
                 return self._data.std(axis=axes)
@@ -401,7 +401,7 @@ class Spectrum:
             if extent is None:
                 return _np.std(self._data, axis=axes)
             else:
-                return _np.std(self._data[:,extent[0]:extent[1]+1], 
+                return _np.std(self._data[:,extent[0]:extent[1]+1],
                                 axis=axes)
 
     def subtract(self, spectrum, overwrite=True):

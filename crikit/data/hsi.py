@@ -23,16 +23,16 @@ class Hsi(_Spectrum):
     ----------
     data : 3D ndarray [y_pix, x_pix, f_pix]
         HSI image
-        
+
     _data_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
         EXPERIMENTAL: Retrieve data via indexing over frequency space
-        
+
     _data_imag_over_real_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
-        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
+        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
         space
-        
+
     _data_real_over_imag_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
-        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
+        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
         space
 
     mask : 3D ndarray (int) [y_pix, x_pix, f_pix]
@@ -67,10 +67,10 @@ class Hsi(_Spectrum):
     ----------
     data_imag_over_real : ndarray (3D)
         If data is complex, return the imaginary portion
-        
+
     data_real_over_imag : ndarray (3D)
         If data is complex, return the real portion
-        
+
     f_pix : int, read-only
         Size of data's frequency axis. Note: this matches the size of data and \
         does NOT check the size of freq.freq_vec.
@@ -121,7 +121,7 @@ class Hsi(_Spectrum):
     @property
     def mask(self):
         return self._mask
-        
+
     @property
     def x_rep(self):
         return self._x_rep
@@ -172,7 +172,7 @@ class Hsi(_Spectrum):
                 if self.freq is None or self.freq.op_list_pix is None:
                     self._data = value
                     self._mask = _np.ones((self._data.shape[0],
-                                           self._data.shape[1]), 
+                                           self._data.shape[1]),
                                           dtype=_np.int)
                 else:
                     if value.shape[-1] == self.freq.op_range_pix.size:
@@ -180,12 +180,12 @@ class Hsi(_Spectrum):
                         temp[:,:,self.freq.op_range_pix] = value
                         self._data = temp
                         self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]), 
+                                               self._data.shape[1]),
                                               dtype=_np.int)
                     elif value.shape[-1] == self._data.shape[-1]:
                         self._data = value
                         self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]), 
+                                               self._data.shape[1]),
                                               dtype=_np.int)
                     else:
                         #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
@@ -235,12 +235,12 @@ class Hsi(_Spectrum):
             num_spectra = num + 5
         else:
             num_spectra = num
-        
+
         if _np.iscomplexobj(self.data):
             dtype = _np.complex
         else:
             dtype = _np.float
-            
+
         temp = _np.zeros((num_spectra, self.data.shape[-1]), dtype=dtype)
 
         quad_mid_row = int(_np.round(mlen/2))

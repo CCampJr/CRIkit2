@@ -99,11 +99,11 @@ else:
 
     if force_not_sw:
         print('SW package installed, but forced off -- using standard')
-        from crikit.ui.dialog_SVD import DialogSVD    
+        from crikit.ui.dialog_SVD import DialogSVD
     else:
         print('SW package installed, let\'s rock!')
         from crikit2_sw.ui.dialog_SVD import DialogSVD
-    
+
 
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
@@ -1058,7 +1058,8 @@ class CRIkitUI_process(_QMainWindow):
             self.y_loc_list = []
 
 
-            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiSubtract))
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+                                                   lambda event: self._roiClick(event, self._roiSubtract))
 
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
             self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
@@ -1141,7 +1142,8 @@ class CRIkitUI_process(_QMainWindow):
             # Need to send sender as the text name as the actual object
             # will change
             if self.cid is None:
-                self.cid = self.img_BW.mpl.mpl_connect('button_press_event', lambda event: self._roiClick(event, self._roiNRB, sender))
+                self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+                                                       lambda event: self._roiClick(event, self._roiNRB, sender))
 
                 self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
                 self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
@@ -1698,11 +1700,11 @@ class CRIkitUI_process(_QMainWindow):
             # Note: .main in dialog_AbstractFactorization
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data.shape, mask=self.hsi.mask,
                                       img_all=self.hsi.data.mean(axis=-1),
-                                      spect_all=self.hsi.data.mean(axis=(0,1)), 
+                                      spect_all=self.hsi.data.mean(axis=(0,1)),
                                       parent=self)
         else:
             svs = DialogSVD.dialogSVD(UsVh, self.hsi.data[..., rng].shape,
-                                      mask=self.hsi.mask, 
+                                      mask=self.hsi.mask,
                                       img_all=self.hsi.data[..., rng].mean(axis=-1),
                                       spect_all=self.hsi.data[..., rng].mean(axis=(0,1)),
                                       parent=self)
@@ -2701,21 +2703,21 @@ class CRIkitUI_process(_QMainWindow):
             self.img_Composite.data.set_x(self.hsi.x, xlabel)
             self.img_Composite.data.set_y(self.hsi.y, ylabel)
 
-            self.img_Composite.createImg(img = self.img_Composite.data.image,
-                                             xunits = self.img_Composite.data.xunits,
-                                             yunits = self.img_Composite.data.yunits,
-                                             extent=self.img_BW.data.winextent,
-                                             showcbar = False, axison = True)
+            self.img_Composite.createImg(img=self.img_Composite.data.image,
+                                         xunits=self.img_Composite.data.xunits,
+                                         yunits=self.img_Composite.data.yunits,
+                                         extent=self.img_BW.data.winextent,
+                                         showcbar=False, axison=True)
             self.img_Composite.mpl.draw()
 
             self.img_Composite2.initData(self.img_RGB_list)
             self.img_Composite2.data.set_x(self.hsi.x, xlabel)
             self.img_Composite2.data.set_y(self.hsi.y, ylabel)
-            self.img_Composite2.createImg(img = self.img_Composite2.data.image,
-                                             xunits = self.img_Composite2.data.xunits,
-                                             yunits = self.img_Composite2.data.yunits,
-                                             extent=self.img_BW.data.winextent,
-                                             showcbar = False, axison = True)
+            self.img_Composite2.createImg(img=self.img_Composite2.data.image,
+                                          xunits=self.img_Composite2.data.xunits,
+                                          yunits=self.img_Composite2.data.yunits,
+                                          extent=self.img_BW.data.winextent,
+                                          showcbar=False, axison=True)
             self.img_Composite2.mpl.draw()
 #        self.img_Composite.mpl.draw()
         except:
