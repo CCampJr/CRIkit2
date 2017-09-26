@@ -545,7 +545,7 @@ class CRIkitUI_process(_QMainWindow):
             if to_open is not None:
                 self.path, self.filename, self.dataset_name = to_open
         except:
-            pass
+            print('Could not open file. Corrupt or not appropriate file format.')
         else:
             if to_open is not None:
                 self.hsi = Hsi()
