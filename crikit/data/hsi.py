@@ -28,7 +28,18 @@ class Hsi(_Spectrum):
     data : 3D ndarray [y_pix, x_pix, f_pix]
         HSI image
         
-    data : 3D ndarray (int) [y_pix, x_pix, f_pix]
+    _data_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
+        EXPERIMENTAL: Retrieve data via indexing over frequency space
+        
+    _data_imag_over_real_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
+        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
+        space
+        
+    _data_real_over_imag_idx_freq : 3D ndarray [y_pix, x_pix, f_pix]
+        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
+        space
+
+    mask : 3D ndarray (int) [y_pix, x_pix, f_pix]
         0,1 mask with 1 is a usable pixel and 0 is not
 
     freq : crikit.data.frequency.Frequency instance

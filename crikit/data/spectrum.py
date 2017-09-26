@@ -19,6 +19,17 @@ class Spectrum:
     data : 1D ndarray [f_pix]
         Spectrum
 
+    _data_idx_freq : 1D ndarray [f_pix]
+        EXPERIMENTAL: Retrieve data via indexing over frequency space
+        
+    _data_imag_over_real_idx_freq : 1D ndarray [f_pix]
+        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
+        space
+        
+    _data_real_over_imag_idx_freq : 1D ndarray [f_pix]
+        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
+        space
+
     freq : crikit.data.Frequency instance
         Frequency [wavelength, wavenumber] object (i.e., the independent \
         variable)
