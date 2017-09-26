@@ -88,32 +88,8 @@ class Spectra(_Spectrum):
     """
 
     def __init__(self, data=None, freq=None, label=None, units=None, meta=None):
-
-        self._data = None
-        self._freq = _Frequency()
-        self._label = None
-        self._units = None
-        self._meta = None
+        super().__init__(data, freq, label, units, meta)
         self._reps = _Replicate()
-
-        if data is not None:
-            self.data = _copy.deepcopy(data)
-        if freq is not None:
-            self.freq = _copy.deepcopy(freq)
-        else:
-            self.freq = _Frequency()
-        if label is not None:
-            self.label = _copy.deepcopy(label)
-        if units is not None:
-            self.units = _copy.deepcopy(units)
-        if meta is not None:
-            self._meta = _copy.deepcopy(meta)
-
-        self._data_idx_freq = self._IndexDataByFreq(self, self._data)
-        self._data_imag_over_real_idx_freq = \
-            self._IndexDataByFreq(self, self.data_imag_over_real)
-        self._data_real_over_imag_idx_freq = \
-            self._IndexDataByFreq(self, self.data_real_over_imag)
 
     @property
     def data(self):
