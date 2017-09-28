@@ -1,4 +1,5 @@
 # Major initiatives
+* Selector option to use complex64 instead of 128
 * Implement logging
 * Continue development of out-of-core analysis package
 * Carryover database package from SW into standalone and integrate
