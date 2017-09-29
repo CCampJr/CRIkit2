@@ -172,8 +172,8 @@ class CRIkitUI_process(_QMainWindow):
         # Initialize Intensity image (single frequency B&W)
         self.img_BW = widgetBWImg(parent=self, figfacecolor=[1, 1, 1])
         if self.img_BW.ui.checkBoxFixed.checkState() == 0:
-            self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer, 4)))
-            self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner, 4)))
+            self.img_BW.ui.spinBoxMax.setValue(self.img_BW.data.maxer)
+            self.img_BW.ui.spinBoxMin.setValue(self.img_BW.data.minner)
 
         self.ui.sweeperVL.insertWidget(0, self.img_BW)
         self.img_BW.mpl.fig.tight_layout(pad=2)
@@ -658,7 +658,12 @@ class CRIkitUI_process(_QMainWindow):
         # Set BW Class Data
         self.img_BW.initData()
         self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-#                self.img_BW.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
+        val_extrema = self.max([np.abs(self.hsi.data_imag_over_real.max()),
+                                np.abs(self.hsi.data_imag_over_real.min())])
+        self.img_BW.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
+        self.img_BW.ui.spinBoxMin.setMaximum(1.1*val_extrema)
+        self.img_BW.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
+        self.img_BW.ui.spinBoxMax.setMaximum(1.1*val_extrema)
 
         xlabel = ''
         if isinstance(self.hsi.x_rep.label, str):
@@ -685,7 +690,8 @@ class CRIkitUI_process(_QMainWindow):
 #
         # Set min/max, fixed, compress, etc buttons to defaults
         self.img_BW.ui.checkBoxFixed.setChecked(False)
-        self.img_BW.ui.checkBoxCompress.setChecked(False)
+        # self.img_BW.ui.checkBoxCompress.setChecked(False)
+        self.img_BW.ui.comboBoxAboveMax.setCurrentIndex(0)
         self.img_BW.ui.checkBoxRemOutliers.setChecked(False)
 #
 #                # Plot Grayscale image
@@ -2551,8 +2557,8 @@ class CRIkitUI_process(_QMainWindow):
                               axison=True, cmap=_mpl.cm.gray)
 
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
-            self.img_BW.ui.lineEditMax.setText(str(round(self.img_BW.data.maxer, 4)))
-            self.img_BW.ui.lineEditMin.setText(str(round(self.img_BW.data.minner, 4)))
+            self.img_BW.ui.spinBoxMax.setValue(self.img_BW.data.maxer)
+            self.img_BW.ui.spinBoxMin.setValue(self.img_BW.data.minner)
 
     def changeSlider(self):
         """
