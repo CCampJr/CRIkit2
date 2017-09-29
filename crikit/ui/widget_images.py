@@ -59,38 +59,26 @@ from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as _Navigat
 from crikit.ui.classes_ui import BW, SingleColor, CompositeColor
 
 
-class widgetColorMath(_QWidget):
+class widgetImageGainMath(_QWidget):
     """
-    Contains information about what mathematical operations are possible for \
-    taking raw HSI data and converting it to grayscale/color.
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.14")
+    Panel that controle image gain and applies math
     """
     OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs','SUM']
     OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2]
     COND_TYPE_STRINGS = ['>','<','=','<=','>=']
 
-    def __init__(self, parent = None):
-        super(widgetColorMath, self).__init__(parent) ### EDIT ###
-        self.ui = Ui_ColorMath_Form() ### EDIT ###
-        self.ui.setupUi(self)     ### EDIT ###
+    def __init__(self, parent=None, **kwargs):
+        super().__init__(parent)
+        self.ui = Ui_ImageGainMath()
+        self.ui.setupUi(self)
 
         self.ui.comboBoxCondOps.addItem('OFF')
 
-        for item in widgetColorMath.OPERATION_STRINGS:
+        for item in widgetImageGainMath.OPERATION_STRINGS:
             self.ui.comboBoxOperations.addItem(item)
             self.ui.comboBoxCondOps.addItem(item)
 
-        for item in widgetColorMath.COND_TYPE_STRINGS:
+        for item in widgetImageGainMath.COND_TYPE_STRINGS:
             self.ui.comboBoxCondInEquality.addItem(item)
 
         self.ui.comboBoxOperations.currentIndexChanged.connect(self.operationchange)
@@ -102,7 +90,7 @@ class widgetColorMath(_QWidget):
         if index == 0:
             num_freq = 0
         else:
-            num_freq = widgetColorMath.OPERATION_FREQ_COUNT[index-1]
+            num_freq = widgetImageGainMath.OPERATION_FREQ_COUNT[index-1]
 
         self.ui.pushButtonCondFreq1.setEnabled(False)
         self.ui.pushButtonCondFreq2.setEnabled(False)
@@ -122,7 +110,7 @@ class widgetColorMath(_QWidget):
     def operationchange(self):
         index = self.ui.comboBoxOperations.currentIndex()
 
-        num_freq = widgetColorMath.OPERATION_FREQ_COUNT[index]
+        num_freq = widgetImageGainMath.OPERATION_FREQ_COUNT[index]
 
         self.ui.pushButtonOpFreq1.setEnabled(False)
         self.ui.pushButtonOpFreq2.setEnabled(False)
@@ -134,15 +122,6 @@ class widgetColorMath(_QWidget):
             self.ui.pushButtonOpFreq2.setEnabled(True)
         if num_freq >= 3:
             self.ui.pushButtonOpFreq3.setEnabled(True)
-
-class widgetImageGainMath(_QWidget):
-    """
-    Panel that controle image gain and applies math
-    """
-    def __init__(self, parent=None, **kwargs):
-        super().__init__(parent)
-        self.ui = Ui_ImageGainMath()
-        self.ui.setupUi(self)
 
 class widgetPopSpectrumGS(_QWidget):
     """ 
@@ -689,12 +668,13 @@ if __name__ == '__main__':
     
     # winColorMath = widgetColorMath()
     # winColorMath.setWindowTitle('Color Math')
-    
+    # winColorMath.show()
+
     # winCompositeColor = widgetCompositeColor(sgl_color_widget_list=[winSglColor])
     # winCompositeColor.setWindowTitle('Composite Color')
     
     # Final stuff
-    # winColorMath.show()
+    
     
     # winCompositeColor.show()
 
