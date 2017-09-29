@@ -27,26 +27,33 @@ class BW:
     """
 
     """
-    XUNITS = 'Pixels'
-    YUNITS = 'Pixels'
+    
+    def __init__(self, **kwargs):
+        self._default_attributes = {
+            'title':None,
+            'setflag':0,
+            'setmax':None,
+            'setmin':None,
+            'compress_low':None,
+            'compress_high':None,
+            'setgain':1,
+            'xunits':'Pixels',
+            'yunits':'Pixels'
+        }
+        self._default_attributes.update(kwargs)
 
-    _grayscaleimage = _np.array(None)  # Spectral plane image to construct color from
-    title = None  # Title of IMG
-    setflag = 0
-    setmax = None
-    setmin = None
-    compress_low = None
-    compress_high = None
-    setgain = 1
-
-    _x = _np.array(None)
-    _y = _np.array(None)
-
-    _xunits = XUNITS
-    _yunits = YUNITS
-
-    def __init__(self):
-        pass
+        self._grayscaleimage = None
+        self.title = self._default_attributes['title']
+        self.setflag = self._default_attributes['setflag']
+        self.setmax = self._default_attributes['setmax']
+        self.setmin = self._default_attributes['setmin']
+        self.compress_high = self._default_attributes['compress_high']
+        self.compress_low = self._default_attributes['compress_low']
+        self.setgain = self._default_attributes['setgain']
+        self.xunits = self._default_attributes['xunits']
+        self.yunits = self._default_attributes['yunits']
+        self._x = None
+        self._y = None
 
     @property
     def image(self):
@@ -67,10 +74,8 @@ class BW:
 
     @property
     def winextent(self):
-        return (self._x.min(),
-                     self._x.max(),
-                     self._y.min(),
-                     self._y.max())
+        return (self.x.min(), self.x.max(), self.y.min(), self.y.max())
+
     @property
     def maxer(self):
         return self.grayscaleimage.max()
@@ -96,20 +101,12 @@ class BW:
             return None
 
     @property
-    def xunits(self):
-        return self._xunits
-
-    @property
-    def yunits(self):
-        return self._yunits
-
-    @property
     def ylen(self):
-        return self.grayscaleimage.shape[0]
+        return self._grayscaleimage.shape[0]
 
     @property
     def xlen(self):
-        return self.grayscaleimage.shape[1]
+        return self._grayscaleimage.shape[1]
 
     @property
     def grayscaleimage(self):
@@ -127,13 +124,12 @@ class BW:
 
                     self._x = _np.linspace(1, value.shape[1], value.shape[1])
                     self._y = _np.linspace(1, value.shape[0], value.shape[0])
-                    self.xunits = self.XUNITS
-                    self.yunits = self.YUNITS
+                    
 
                 else:
                     pass
         except:
-            pass
+            print('Set grayscaleimage error')
 
     @grayscaleimage.deleter
     def grayscaleimage(self):
@@ -161,7 +157,7 @@ class BW:
         if self.xlen == value.size:
             self._x = value
             if units is not None:
-                self._xunits = units
+                self.xunits = units
         else:
             pass
 
@@ -169,7 +165,7 @@ class BW:
         if self.ylen == value.size:
             self._y = value
             if units is not None:
-                self._yunits = units
+                self.yunits = units
         else:
             pass
 
@@ -239,22 +235,23 @@ class SingleColor(BW, _ColorMath):
     """
 
     """
-    COLORMAP = [0, 0, 1]
-
+    
     def __init__(self):
-        self.colormap = self.COLORMAP
+        BW.__init__(self)
+        self.bgcolor = [0,0,0]
+        self.colormap = [1,0,0]
 
     def __add__(self, other):
         return self.image + other.image
 
     @property
     def image(self):
-
+        
         if (self.setmax is None or self.setmin is None):
             scaled_gs = SingleColor._imgnorm(self.grayscaleimage)
             scaled_gain_gs = scaled_gs*self.setgain
             final_scaled_gs = SingleColor._imgnormcompress(scaled_gain_gs)
-            return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
+            return SingleColor._bwtocolor(final_scaled_gs, self.colormap, self.bgcolor)
 
         else:
             fudge_factor = .001
@@ -262,29 +259,29 @@ class SingleColor(BW, _ColorMath):
             fudged_min = self.setmin - fudge_amt
             fudged_max = self.setmax + fudge_amt
             
-            if self.compress == True:
-                mask_pass = (self.grayscaleimage >= fudged_min) * \
-                            (self.grayscaleimage <= fudged_max)
-                mask_low = (self.grayscaleimage < fudged_min)
-                mask_high = (self.grayscaleimage > fudged_max)
-                masked_img = mask_pass*self.grayscaleimage + \
-                             mask_low*fudged_min + \
-                             mask_high*fudged_max
+            # if self.compress == True:
+            mask_pass = (self.grayscaleimage >= fudged_min) * \
+                        (self.grayscaleimage <= fudged_max)
+            mask_low = (self.grayscaleimage < fudged_min)
+            mask_high = (self.grayscaleimage > fudged_max)
+            masked_img = mask_pass*self.grayscaleimage + \
+                            self.compress_low*mask_low*fudged_min + \
+                            self.compress_high*mask_high*fudged_max
 
-                scaled_gs = SingleColor._imgnorm(masked_img)
-                scaled_gain_gs = scaled_gs*self.setgain
-                final_scaled_gs = SingleColor._imgnormcompress(scaled_gain_gs)
-                return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
+            scaled_gs = SingleColor._imgnorm(masked_img)
+            scaled_gain_gs = scaled_gs*self.setgain
+            final_scaled_gs = SingleColor._imgnormcompress(scaled_gain_gs)
+            return SingleColor._bwtocolor(final_scaled_gs, self.colormap, self.bgcolor)
 
-            else:
-                mask = (self.grayscaleimage >= fudged_min) * \
-                       (self.grayscaleimage <= fudged_max)
-                masked_img = self.grayscaleimage*mask
+            # else:
+            #     mask = (self.grayscaleimage >= fudged_min) * \
+            #            (self.grayscaleimage <= fudged_max)
+            #     masked_img = self.grayscaleimage*mask
 
-                scaled_gs = SingleColor._imgnorm(masked_img)
-                scaled_gain_gs = scaled_gs*self.setgain
-                final_scaled_gs = SingleColor._imgnormcompress(scaled_gain_gs)
-                return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
+            #     scaled_gs = SingleColor._imgnorm(masked_img)
+            #     scaled_gain_gs = scaled_gs*self.setgain
+            #     final_scaled_gs = SingleColor._imgnormcompress(scaled_gain_gs)
+            #     return SingleColor._bwtocolor(final_scaled_gs, self.colormap)
 
     @property
     def imageGS(self):
@@ -295,19 +292,20 @@ class SingleColor(BW, _ColorMath):
             return self.grayscaleimage
 
         else:
-            if self.compress == True:
-                mask_pass = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
-                mask_low = (self.grayscaleimage < self.setmin)
-                mask_high = (self.grayscaleimage > self.setmax)
-                masked_img = mask_pass*self.grayscaleimage + mask_low*self.setmin + mask_high*self.setmax
+            # if self.compress == True:
+            mask_pass = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
+            mask_low = (self.grayscaleimage < self.setmin)
+            mask_high = (self.grayscaleimage > self.setmax)
+            masked_img = (mask_pass*self.grayscaleimage + self.compress_low*mask_low*self.setmin +
+                          self.compress_high*mask_high*self.setmax)
 
-                return masked_img
+            return masked_img
 
-            else:
-                mask = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
-                masked_img = self.grayscaleimage*mask
+            # else:
+            #     mask = (self.grayscaleimage >= self.setmin)*(self.grayscaleimage <= self.setmax)
+            #     masked_img = self.grayscaleimage*mask
 
-                return masked_img
+            #     return masked_img
 
     @staticmethod
     def _imgnorm(img, low = None, high = None):
@@ -343,11 +341,12 @@ class SingleColor(BW, _ColorMath):
         return mask_pass*img + mask_high
 
     @staticmethod
-    def _bwtocolor(gs, colormap):
+    def _bwtocolor(gs, colormap, bgcolor=[0,0,0]):
         """
         Convert normalized [0,1] B&W image (gs) to color, applying a
         3-value list colormap (colormap)
         """
-        img = _np.ones((gs.shape[0], gs.shape[1], 3))
-        gs_3d = _np.dot(gs[:,:,None],_np.ones((1,3)))
-        return (img*colormap)*gs_3d
+        # img = _np.ones((gs.shape[0], gs.shape[1], 3))
+        # gs_3d = _np.dot(gs[:,:,None],_np.ones((1,3)))
+        # return (img*colormap)*gs_3d
+        return (1-gs[:,:,None])*bgcolor + gs[:,:,None]*colormap
