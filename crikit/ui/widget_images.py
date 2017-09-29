@@ -275,11 +275,12 @@ class widgetBWImg(_QWidget):
             self.data.setmin = self.ui.spinBoxMin.value()
             self.data.setmax = self.ui.spinBoxMax.value()
             self.ui.checkBoxFixed.setChecked(True)
-            print(self.sender())
+            
+            # Spin-Box call from Outlier-related widgets?
             if ((self.sender() == self.ui.checkBoxRemOutliers) |
                 (self.sender() == self.ui.spinBoxStdDevs)):
                 pass
-            else:
+            else:  # Max-min set manually
                 self.ui.checkBoxRemOutliers.setChecked(False)
 
             self.createImg(img=self.data.image, xunits=self.data.xunits,
