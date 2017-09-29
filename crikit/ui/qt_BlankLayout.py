@@ -15,6 +15,8 @@ class Ui_Form(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout.setSpacing(2)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.gridLayout = QtWidgets.QGridLayout()

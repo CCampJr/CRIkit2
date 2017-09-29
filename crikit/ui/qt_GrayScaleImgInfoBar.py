@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_formWidgetGrayScaleImgInfoBar(object):
     def setupUi(self, formWidgetGrayScaleImgInfoBar):
         formWidgetGrayScaleImgInfoBar.setObjectName("formWidgetGrayScaleImgInfoBar")
-        formWidgetGrayScaleImgInfoBar.resize(802, 134)
+        formWidgetGrayScaleImgInfoBar.resize(522, 134)
         self.verticalLayout = QtWidgets.QVBoxLayout(formWidgetGrayScaleImgInfoBar)
         self.verticalLayout.setObjectName("verticalLayout")
         self.mainFrame = QtWidgets.QFrame(formWidgetGrayScaleImgInfoBar)
@@ -20,7 +20,7 @@ class Ui_formWidgetGrayScaleImgInfoBar(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mainFrame.sizePolicy().hasHeightForWidth())
         self.mainFrame.setSizePolicy(sizePolicy)
-        self.mainFrame.setMinimumSize(QtCore.QSize(780, 0))
+        self.mainFrame.setMinimumSize(QtCore.QSize(500, 0))
         self.mainFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.mainFrame.setFrameShadow(QtWidgets.QFrame.Plain)
         self.mainFrame.setObjectName("mainFrame")
