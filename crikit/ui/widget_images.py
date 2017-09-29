@@ -49,6 +49,7 @@ from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 from crikit.ui.qt_GrayScaleImgInfoBar import Ui_formWidgetGrayScaleImgInfoBar as Ui_GrayImgInfoBar
 from crikit.ui.qt_ColorModeSetting import Ui_Form as Ui_ColorModeSetting
 from crikit.ui.qt_BlankLayout import Ui_Form as Ui_Blank
+from crikit.ui.qt_PopSpectrumGS import Ui_Form as Ui_PopSpectrumGS
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
@@ -142,6 +143,16 @@ class widgetColorMath(_QWidget):
         if num_freq >= 3:
             self.ui.pushButtonOpFreq3.setEnabled(True)
 
+class widgetPopSpectrumGS(_QWidget):
+    """ 
+    Panel that let's user pop the current image, an average spectrum,
+    or a grayscale image to SciPlot
+    """
+    def __init__(self, parent=None, **kwargs):
+        super().__init__(parent)
+        self.ui = Ui_PopSpectrumGS()
+        self.ui.setupUi(self)
+
 class widgetGrayScaleInfoBar(_QWidget):
     """
     Grayscale image info bar
@@ -183,7 +194,9 @@ class widgetBWImg(_QWidget):
         self.win = Ui_Blank()
         self.win.setupUi(self)
         self.win.gridLayout.setEnabled(False)
+        
         self.gsinfo = widgetGrayScaleInfoBar(parent=self)
+        
         self.colormode = widgetColorMode(parent=self)
         self.colormode.ui.comboBoxColorMode.setCurrentIndex(1)
         self.colormode.ui.comboBoxFGColor.setVisible(False)
@@ -193,10 +206,14 @@ class widgetBWImg(_QWidget):
         self.colormode.ui.labelFGColor.setVisible(False)
         self.colormode.ui.labelColorMode.setVisible(False)
 
+        self.popimage = widgetPopSpectrumGS(parent=self)
+        self.popimage.ui.pushButtonGSPop.setVisible(False)
+
         self.ui = self.gsinfo.ui  # Alias
 
         self.win.horizLayout = _QHBoxLayout()
         self.win.horizLayout.setContentsMargins(2,2,2,2)
+
         self.win.verticalLayout.insertLayout(0, self.win.horizLayout)
         
         self.win.horizLayout.insertWidget(0, self.gsinfo, _QtCore.Qt.AlignHCenter)
@@ -204,6 +221,7 @@ class widgetBWImg(_QWidget):
 
         # Initialize underlying data
         self.initData()
+        self.external_plots = []
 
         # Stand-in image data
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
@@ -227,6 +245,7 @@ class widgetBWImg(_QWidget):
         
         # Insert canvas widget into this widget
         self.win.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignCenter)
+        self.win.verticalLayout.insertWidget(0,self.popimage,_QtCore.Qt.AlignCenter)
         self.win.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
 
         # # SIGNAL & SLOTS
@@ -240,11 +259,28 @@ class widgetBWImg(_QWidget):
         self.ui.spinBoxMax.editingFinished.connect(self.spinBoxMinMaxSet)
         self.ui.spinBoxMin.editingFinished.connect(self.spinBoxMinMaxSet)
         self.colormode.ui.comboBoxColormap.currentIndexChanged.connect(self.checkBoxFixed)
+        self.popimage.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img=self.data.image,
+                                                      cmap=self.colormode.ui.comboBoxColormap.currentText(),
+                                                      showcbar=True,
+                                                      extent=self.data.winextent,
+                                                      xunits=self.data.xunits,
+                                                      yunits=self.data.yunits))
     def initData(self):
         """
         (Re)-initialize self.data
         """
         self.data = BW()
+
+    def createImg_Ext(self, img, xunits = None, yunits = None,
+                  extent = None, showcbar = True, axison = True,
+                  cmap = _mpl.cm.gray):
+        """
+        Create new figure window and show image of img
+        """
+
+        self.external_plots.append(_sciplot.main(parent=self))
+        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
+                      cmap=cmap, cbar=showcbar, extent=extent)
 
     def createImg(self, img, xunits = None, yunits = None,
                   extent = None, showcbar = True, axison = True,
@@ -771,19 +807,24 @@ if __name__ == '__main__':
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
 
-    # winSglColor = widgetSglColor()
-    # winSglColor.setWindowTitle('Single Color')
-    # winColorMath = widgetColorMath()
-    # winColorMath.setWindowTitle('Color Math')
     winBWImg = widgetBWImg()
     winBWImg.setWindowTitle('BW Image')
+    winBWImg.show()
+    
+    # winSglColor = widgetSglColor()
+    # winSglColor.setWindowTitle('Single Color')
+    # winSglColor.show()
+    
+    
+    # winColorMath = widgetColorMath()
+    # winColorMath.setWindowTitle('Color Math')
+    
     # winCompositeColor = widgetCompositeColor(sgl_color_widget_list=[winSglColor])
     # winCompositeColor.setWindowTitle('Composite Color')
     
     # Final stuff
-    # winSglColor.show()
     # winColorMath.show()
-    winBWImg.show()
+    
     # winCompositeColor.show()
 
     _sys.exit(app.exec_())
