@@ -35,10 +35,9 @@ class BW:
     setflag = 0
     setmax = None
     setmin = None
-    compress = None
+    compress_low = None
+    compress_high = None
     setgain = 1
-    setoutlierstds = None
-    #setnorm = None
 
     _x = _np.array(None)
     _y = _np.array(None)
@@ -52,26 +51,19 @@ class BW:
     @property
     def image(self):
         """
-        Note: Outlier removal is BEFORE min/max and compression
-        """
-        if self.setoutlierstds is not None:
-            mask_pass = (self.grayscaleimage <= self.mean + self.std*self.setoutlierstds)*\
-                        (self.grayscaleimage >= self.mean - self.std*self.setoutlierstds)
-            img = self.grayscaleimage*mask_pass
-        else:
-            img = self.grayscaleimage
+        For image from property settings (limits, compression, etc)
+        """    
+        img = self.grayscaleimage
 
         if (self.setmax is None or self.setmin is None):
             return img*self.setgain
         else:
-            if self.compress == True:
-                mask_pass = (img >= self.setmin)*(img <= self.setmax)
-                mask_low = (img < self.setmin)
-                mask_high = (img > self.setmax)
-                return mask_pass*img + mask_low*self.setmin + mask_high*self.setmax
-            else:
-                mask = (img >= self.setmin)*(img <= self.setmax)
-                return img*mask*self.setgain
+            mask_pass = (img >= self.setmin)*(img <= self.setmax)
+            mask_low = (img < self.setmin)
+            mask_high = (img > self.setmax)
+            img = (mask_pass*img + self.compress_low*mask_low*self.setmin + 
+                    self.compress_high*mask_high*self.setmax)
+            return img*self.setgain
 
     @property
     def winextent(self):

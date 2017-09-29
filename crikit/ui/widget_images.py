@@ -32,7 +32,8 @@ import numpy as _np
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QWidget as _QWidget,
                              QSizePolicy as _QSizePolicy,
-                             QColorDialog as _QColorDialog)
+                             QColorDialog as _QColorDialog,
+                             QHBoxLayout as _QHBoxLayout)
 
 import PyQt5.QtCore as _QtCore
 
@@ -44,8 +45,14 @@ from crikit.ui.qt_CompositeColor import Ui_Form as Ui_CompositeColor_Form
 #from crikit.ui.widget_mpl import MplCanvas as _MplCanvas
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
+# NEW
+from crikit.ui.qt_GrayScaleImgInfoBar import Ui_formWidgetGrayScaleImgInfoBar as Ui_GrayImgInfoBar
+from crikit.ui.qt_ColorModeSetting import Ui_Form as Ui_ColorModeSetting
+from crikit.ui.qt_BlankLayout import Ui_Form as Ui_Blank
+
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
+import matplotlib.cm as _mpl_cm
 import sciplot as _sciplot
 #import matplotlib.pyplot as _plt
 
@@ -57,6 +64,7 @@ _mpl.rcParams['font.size'] = 10
 from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as _NavigationToolbar)
 
 from crikit.ui.classes_ui import BW, SingleColor, CompositeColor
+
 
 class widgetColorMath(_QWidget):
     """
@@ -134,14 +142,65 @@ class widgetColorMath(_QWidget):
         if num_freq >= 3:
             self.ui.pushButtonOpFreq3.setEnabled(True)
 
+class widgetGrayScaleInfoBar(_QWidget):
+    """
+    Grayscale image info bar
+    """
+    def __init__(self, parent = None, **kwargs):
+        super().__init__(parent)
+        self.ui = Ui_GrayImgInfoBar()
+        self.ui.setupUi(self)
+
+class widgetColorMode(_QWidget):
+    """
+    Color mode selector
+    """
+    def __init__(self, parent=None, **kwargs):
+        super().__init__(parent)
+        self.ui = Ui_ColorModeSetting()
+        self.ui.setupUi(self)
+
+        # Get all MPL named colors
+        color_list = ['red', 'green', 'blue', 'magenta', 'cyan', 'yellow', 
+                      'black', 'white']
+        color_list.extend(sorted(set(_mpl.colors.cnames.keys()) - set(color_list)))
+        self.ui.comboBoxBGColor.addItems(color_list)
+        self.ui.comboBoxFGColor.addItems(color_list)
+
+        # Get all mpl colormaps and set combo box
+        list_of_colormaps = sorted(_mpl_cm.datad.keys())
+        self.ui.comboBoxColormap.addItems(list_of_colormaps)
+
+        # Set default colormap to 'gray'
+        idx = self.ui.comboBoxColormap.findText('gray')
+        self.ui.comboBoxColormap.setCurrentIndex(idx)
 class widgetBWImg(_QWidget):
     """
     Grayscale image widget
     """
     def __init__(self, parent = None, **kwargs):
         super(widgetBWImg, self).__init__(parent)
-        self.ui = Ui_BWImage_Form()
-        self.ui.setupUi(self)
+        self.win = Ui_Blank()
+        self.win.setupUi(self)
+        self.win.gridLayout.setEnabled(False)
+        self.gsinfo = widgetGrayScaleInfoBar(parent=self)
+        self.colormode = widgetColorMode(parent=self)
+        self.colormode.ui.comboBoxColorMode.setCurrentIndex(1)
+        self.colormode.ui.comboBoxFGColor.setVisible(False)
+        self.colormode.ui.comboBoxBGColor.setVisible(False)
+        self.colormode.ui.comboBoxColorMode.setVisible(False)
+        self.colormode.ui.labelBGColor.setVisible(False)
+        self.colormode.ui.labelFGColor.setVisible(False)
+        self.colormode.ui.labelColorMode.setVisible(False)
+
+        self.ui = self.gsinfo.ui  # Alias
+
+        self.win.horizLayout = _QHBoxLayout()
+        self.win.horizLayout.setContentsMargins(2,2,2,2)
+        self.win.verticalLayout.insertLayout(0, self.win.horizLayout)
+        
+        self.win.horizLayout.insertWidget(0, self.gsinfo, _QtCore.Qt.AlignHCenter)
+        self.win.horizLayout.insertWidget(0, self.colormode, _QtCore.Qt.AlignHCenter)
 
         # Initialize underlying data
         self.initData()
@@ -159,24 +218,28 @@ class widgetBWImg(_QWidget):
         self.mpl.cbar = None  # Monkey patch on a cbar object
         
         # Create stand-image plot
-        self.createImg(img = self.data.image, xunits = self.data.xunits,
-                              yunits = self.data.yunits,
-                              extent = winextent, showcbar = True,
-                              axison = True)
+        self.createImg(img=self.data.image, xunits=self.data.xunits,
+                       yunits=self.data.yunits,
+                       extent=winextent, showcbar=True,
+                       axison=True,
+                       cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.fig.tight_layout()
         
         # Insert canvas widget into this widget
-        self.ui.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignHCenter)
-        self.ui.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
+        self.win.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignCenter)
+        self.win.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
 
-        # SIGNAL & SLOTS
+        # # SIGNAL & SLOTS
         self.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
-        self.ui.checkBoxCompress.stateChanged.connect(self.checkBoxCompress)
         self.ui.checkBoxRemOutliers.stateChanged.connect(self.checkBoxRemOutliers)
-        self.ui.spinBoxStdDevs.valueChanged.connect(self.spinBoxOutliersChanged)
-        self.ui.lineEditMin.editingFinished.connect(self.textEditMinMaxSet)
-        self.ui.lineEditMax.editingFinished.connect(self.textEditMinMaxSet)
-
+        self.ui.spinBoxStdDevs.editingFinished.connect(self.checkBoxRemOutliers)
+        
+        # New
+        self.ui.comboBoxAboveMax.currentIndexChanged.connect(self.comboBoxCompress)
+        self.ui.comboBoxBelowMin.currentIndexChanged.connect(self.comboBoxCompress)
+        self.ui.spinBoxMax.editingFinished.connect(self.spinBoxMinMaxSet)
+        self.ui.spinBoxMin.editingFinished.connect(self.spinBoxMinMaxSet)
+        self.colormode.ui.comboBoxColormap.currentIndexChanged.connect(self.checkBoxFixed)
     def initData(self):
         """
         (Re)-initialize self.data
@@ -204,42 +267,50 @@ class widgetBWImg(_QWidget):
             self.mpl.cbar = self.mpl.fig.colorbar(self.mpl.img)
 
         if self.ui.checkBoxFixed.isChecked() == False:
-            self.ui.lineEditMax.setText(str(round(self.data.maxer,4)))
-            self.ui.lineEditMin.setText(str(round(self.data.minner,4)))
-
-
-    def textEditMinMaxSet(self):
-
-        #len_min = len(self.ui.lineEditMin.text())
-        #len_max = len(self.ui.lineEditMax.text())
-
+            self.ui.spinBoxMax.setValue(self.data.maxer)
+            self.ui.spinBoxMin.setValue(self.data.minner)
+           
+    def spinBoxMinMaxSet(self):
         try:
-            self.data.setmin = float(self.ui.lineEditMin.text())
-            self.data.setmax = float(self.ui.lineEditMax.text())
+            self.data.setmin = self.ui.spinBoxMin.value()
+            self.data.setmax = self.ui.spinBoxMax.value()
             self.ui.checkBoxFixed.setChecked(True)
-            self.createImg(img = self.data.image, xunits = self.data.xunits,
-                              yunits = self.data.yunits,
-                              extent = self.data.winextent, showcbar = True,
-                              axison = True)
+            print(self.sender())
+            if ((self.sender() == self.ui.checkBoxRemOutliers) |
+                (self.sender() == self.ui.spinBoxStdDevs)):
+                pass
+            else:
+                self.ui.checkBoxRemOutliers.setChecked(False)
+
+            self.createImg(img=self.data.image, xunits=self.data.xunits,
+                           yunits=self.data.yunits,
+                           extent=self.data.winextent, showcbar=True,
+                           axison=True,
+                           cmap=self.colormode.ui.comboBoxColormap.currentText())
             self.mpl.draw()
 
         except:
             pass
 
-    def spinBoxOutliersChanged(self):
-        self.checkBoxRemOutliers()
-
     def checkBoxRemOutliers(self):
         """
         """
         if self.ui.checkBoxRemOutliers.isChecked() == False:
-            self.data.setoutlierstds = None
+            pass
         else:
-            self.data.setoutlierstds = float(self.ui.spinBoxStdDevs.value())
-        self.createImg(img = self.data.image, xunits = self.data.xunits,
-                              yunits = self.data.yunits,
-                              extent = self.data.winextent, showcbar = True,
-                              axison = True)
+            new_max = self.data.mean + self.ui.spinBoxStdDevs.value()* \
+                      self.data.std
+            new_min = self.data.mean - self.ui.spinBoxStdDevs.value()* \
+                      self.data.std
+            self.ui.spinBoxMax.setValue(new_max)
+            self.ui.spinBoxMin.setValue(new_min)
+            self.spinBoxMinMaxSet()
+           
+        self.createImg(img=self.data.image, xunits=self.data.xunits,
+                       yunits=self.data.yunits,
+                       extent=self.data.winextent, showcbar=True,
+                       axison=True,
+                       cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
     def checkBoxFixed(self):
@@ -250,47 +321,53 @@ class widgetBWImg(_QWidget):
 
         # See if there is a min and max in the textBrowsers
 
-        len_min = len(self.ui.lineEditMin.text())
-        len_max = len(self.ui.lineEditMax.text())
-
         if self.ui.checkBoxFixed.isChecked() == True:  # Checked
-            if len_min > 0 and len_max > 0:
-                try:
-                    self.data.setmin = float(self.ui.lineEditMin.text())
-                    self.data.setmax = float(self.ui.lineEditMax.text())
-                    if self.ui.checkBoxCompress.isChecked() == False:
-                        self.data.compress = False
-                    else:
-                        self.data.compress = True
-                except:
-                    pass
-            else:
+            try:
+                self.data.setmin = self.ui.spinBoxMin.value()
+                self.data.setmax = self.ui.spinBoxMax.value()
+                if self.ui.comboBoxAboveMax.currentIndex() == 0:
+                    self.data.compress_high = False
+                else:
+                    self.data.compress_high = True
+                if self.ui.comboBoxBelowMin.currentIndex() == 0:
+                    self.data.compress_low = False
+                else:
+                    self.data.compress_low = True
+            except:
                 pass
         else:
             self.data.setmin = None
             self.data.setmax = None
-            self.data.compress = None
+            self.data.compress_low = None
+            self.data.compress_high = None
+            self.ui.checkBoxRemOutliers.setChecked(False)
 
-        self.createImg(img = self.data.image, xunits = self.data.xunits,
-                              yunits = self.data.yunits,
-                              extent = self.data.winextent, showcbar = True,
-                              axison = True)
+        self.createImg(img=self.data.image, xunits=self.data.xunits,
+                       yunits=self.data.yunits,
+                       extent=self.data.winextent, showcbar=True,
+                       axison=True,
+                       cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
-    def checkBoxCompress(self):
+    def comboBoxCompress(self):
         """
-        See if compression is activated via the checkbox_4
+        See if compression is activated via the comboBoxAboveMax
         """
-
-        if self.ui.checkBoxCompress.isChecked() == False:
-            self.data.compress = False
+        if self.ui.comboBoxAboveMax.currentIndex() == 0:
+            self.data.compress_high = False
         else:
-            self.data.compress = True
+            self.data.compress_high = True
 
-        self.createImg(img = self.data.image, xunits = self.data.xunits,
-                              yunits = self.data.yunits,
-                              extent = self.data.winextent, showcbar = True,
-                              axison = True)
+        if self.ui.comboBoxBelowMin.currentIndex() == 0:
+            self.data.compress_low = False
+        else:
+            self.data.compress_low = True
+
+        self.createImg(img=self.data.image, xunits=self.data.xunits,
+                       yunits=self.data.yunits,
+                       extent=self.data.winextent, showcbar=True,
+                       axison=True,
+                       cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
 class widgetSglColor(_QWidget):
@@ -613,9 +690,9 @@ class widgetCompositeColor(_QWidget):
         """
         """
         if self.ui.checkBoxRemOutliers.isChecked() == False:
-            self.data.setoutlierstds = None
+            pass
         else:
-            self.data.setoutlierstds = float(self.ui.spinBoxStdDevs.value())
+            pass
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = self.data.winextent, showcbar = True,
@@ -693,19 +770,19 @@ if __name__ == '__main__':
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
 
-    winSglColor = widgetSglColor()
-    winSglColor.setWindowTitle('Single Color')
-    winColorMath = widgetColorMath()
-    winColorMath.setWindowTitle('Color Math')
+    # winSglColor = widgetSglColor()
+    # winSglColor.setWindowTitle('Single Color')
+    # winColorMath = widgetColorMath()
+    # winColorMath.setWindowTitle('Color Math')
     winBWImg = widgetBWImg()
     winBWImg.setWindowTitle('BW Image')
-    winCompositeColor = widgetCompositeColor(sgl_color_widget_list=[winSglColor])
-
-    winCompositeColor.setWindowTitle('Composite Color')
+    # winCompositeColor = widgetCompositeColor(sgl_color_widget_list=[winSglColor])
+    # winCompositeColor.setWindowTitle('Composite Color')
+    
     # Final stuff
-    winSglColor.show()
-    winColorMath.show()
+    # winSglColor.show()
+    # winColorMath.show()
     winBWImg.show()
-    winCompositeColor.show()
+    # winCompositeColor.show()
 
     _sys.exit(app.exec_())
