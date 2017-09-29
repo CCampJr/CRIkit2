@@ -409,7 +409,7 @@ class widgetBWImg(_QWidget):
                        cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
-class widgetSglColor_new(widgetBWImg):
+class widgetSglColor(widgetBWImg):
     """
     Single-color widget
     """
@@ -682,7 +682,7 @@ if __name__ == '__main__':
     # winBWImg.setWindowTitle('BW Image')
     # winBWImg.show()
     
-    winSglColor = widgetSglColor_new()
+    winSglColor = widgetSglColor()
     winSglColor.setWindowTitle('Single Color')
     winSglColor.show()
     
