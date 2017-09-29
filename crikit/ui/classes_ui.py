@@ -22,6 +22,8 @@ version: ("15.9.15")
 """
 
 import numpy as _np
+import copy as _copy
+import matplotlib as _mpl
 
 class BW:
     """
@@ -194,32 +196,63 @@ class CompositeColor(BW):
 
     """
     def __init__(self, sgl_color_list = None):
+        BW.__init__(self)
+        self.bgcolor = [0,0,0]
+        self.mode = 0  # 0: emission; 1: absorption
+
         if sgl_color_list is None:
             self.sgl_color_list = []
         else:
             self.sgl_color_list = sgl_color_list
 
     @property
+    def mode_txt(self):
+        if self.mode == 0:
+            return 'Emission'
+        else:
+            return 'Absorption'
+        
+    @property
     def image(self):
         #print(self.sgl_color_list)
         if len(self.sgl_color_list) == 0:
             return _np.zeros(self.grayscaleimage.shape)
         else:
-            temp = self.sgl_color_list[0].image
+            temp = _np.zeros(self.sgl_color_list[0].image.shape)
+            # temp = self.sgl_color_list[0].image
+            list_imgs = _copy.deepcopy(self.sgl_color_list)
 
-            if len(self.sgl_color_list) > 1:
-                for count in self.sgl_color_list[1::]:
-                    # temp -= count.image
-                    temp += count.image
+            for img in list_imgs:
+                img.bgcolor = [0,0,0]
+                temp += img.image
+                
+
+            # if len(self.sgl_color_list) > 1:
+            #     for count in self.sgl_color_list[1::]:
+            #         # temp -= count.image
+            #         temp += count.image
             # temp = abs(temp)
             # temp /= temp.max()
             # if temp.min() < 0:
             #     temp -= temp.min()
             # if temp.max() > 1:
             #     temp /= temp.max()
-
+            
             temp[temp > 1] = 1
-            return temp
+
+            if self.mode == 0:  # Emission
+                return temp
+            else:
+                img = 1*temp    
+                img_hsv = _mpl.colors.rgb_to_hsv(img)
+                loc_row, loc_col = _np.where((img_hsv[:,:,1] == 0.0) & (img_hsv[:,:,2] == 0.0))
+                img_hsv[loc_row, loc_col, 1] = 1
+                temp = 0*img_hsv
+                temp[...,0] = img_hsv[...,0]
+                temp[...,2] = img_hsv[...,1]
+                temp[...,1] = img_hsv[...,2]
+
+            return _mpl.colors.hsv_to_rgb(temp)
 
     @property
     def ylen(self):
