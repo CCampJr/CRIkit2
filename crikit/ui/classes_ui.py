@@ -139,7 +139,12 @@ class BW:
 
     @property
     def x(self):
-        return self._x
+        if self._x is not None:
+            return self._x
+        else:
+            self._x = _np.arange(self.xlen)
+            self.xunits = self._default_attributes['xunits']
+            return self._x
 
     @x.deleter
     def x(self):
@@ -148,7 +153,12 @@ class BW:
 
     @property
     def y(self):
-        return self._y
+        if self._y is not None:
+            return self._y
+        else:
+            self._y = _np.arange(self.ylen)
+            self.yunits = self._default_attributes['yunits']
+            return self._y
 
     @y.deleter
     def y(self):
@@ -156,20 +166,26 @@ class BW:
         self.yunits = self.YUNITS
 
     def set_x(self, value, units = None):
-        if self.xlen == value.size:
-            self._x = value
-            if units is not None:
-                self.xunits = units
-        else:
+        if value is None:
             pass
+        else:
+            if self.xlen == value.size:
+                self._x = value
+                if units is not None:
+                    self.xunits = units
+            else:
+                pass
 
     def set_y(self, value, units = None):
-        if self.ylen == value.size:
-            self._y = value
-            if units is not None:
-                self.yunits = units
-        else:
+        if value is None:
             pass
+        else:
+            if self.ylen == value.size:
+                self._y = value
+                if units is not None:
+                    self.yunits = units
+            else:
+                pass
 
 
 class _ColorMath:
