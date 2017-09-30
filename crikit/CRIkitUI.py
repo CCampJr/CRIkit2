@@ -34,7 +34,9 @@ import sys as _sys
 import h5py as _h5py
 import matplotlib as _mpl
 import numpy as _np
+
 import PyQt5.QtCore as _QtCore
+
 from PyQt5.QtGui import QCursor as _QCursor
 from PyQt5.QtWidgets import QApplication as _QApplication
 from PyQt5.QtWidgets import QFileDialog as _QFileDialog
@@ -45,16 +47,20 @@ from PyQt5.QtWidgets import QWidget as _QWidget
 from scipy.signal import savgol_filter as _sg
 
 import crikit.measurement.peakamps as _peakamps
+
 from crikit.cri.error_correction import \
     PhaseErrCorrectALS as _PhaseErrCorrectALS
 from crikit.cri.error_correction import ScaleErrCorrectSG as _ScaleErrCorrectSG
 from crikit.cri.kk import KramersKronig
 from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+
 from crikit.data.hsi import Hsi
 from crikit.data.spectra import Spectra
 from crikit.data.spectrum import Spectrum
+
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
 from crikit.io.macros import import_hdf_nist_special as io_nist
+
 from crikit.preprocess.crop import ZeroColumn as _ZeroColumn
 from crikit.preprocess.crop import ZeroRow as _ZeroRow
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
@@ -64,6 +70,7 @@ from crikit.preprocess.subtract_baseline import \
     SubtractBaselineALS as _SubtractBaselineALS
 from crikit.preprocess.subtract_dark import SubtractDark
 from crikit.preprocess.subtract_mean import SubtractMeanOverRange
+
 from crikit.ui.dialog_kkOptions import DialogKKOptions
 from crikit.ui.dialog_ploteffect import \
     DialogPlotEffectFuture as _DialogPlotEffect
@@ -76,12 +83,14 @@ from crikit.ui.widget_Calibrate import widgetCalibrate as _widgetCalibrate
 from crikit.ui.widget_DeTrending import widgetALS as _widgetALS
 from crikit.ui.widget_DeTrending import widgetArPLS as _widgetArPLS
 from crikit.ui.widget_DeTrending import widgetDeTrending as _widgetDeTrending
-from crikit.ui.widget_images import (widgetBWImg, widgetColorMath,
-                                     widgetCompositeColor, widgetSglColor)
+from crikit.ui.widget_images import (widgetBWImg, widgetCompositeColor, widgetSglColor)
+
 from crikit.ui.widget_mergeNRBs import widgetMergeNRBs as _widgetMergeNRBs
 from crikit.ui.widget_SG import widgetSG as _widgetSG
+
 from crikit.utils.breadcrumb import BCPre as _BCPre
 from crikit.utils.general import find_nearest, mean_nd_to_1d
+
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 _h5py.get_config().complex_names = ('Re', 'Im')
@@ -159,6 +168,7 @@ class CRIkitUI_process(_QMainWindow):
 
 
         self.plotter = _SciPlotUI(show=False, parent=parent)
+        self._mpl_v2 = self.plotter._mpl_v2
 
         self.ui = Ui_MainWindow() ### EDIT ###
 
@@ -189,15 +199,16 @@ class CRIkitUI_process(_QMainWindow):
 
         # Split from previous for-loop for compactness of code
         for count, rgb_img in enumerate(self.img_RGB_list):
-            rgb_img.data.colormap =\
-                widgetSglColor.COLORMAPS[widgetSglColor.COLORMAP_ORDER[count]]
-            ind = rgb_img.ui.comboBox.findText(widgetSglColor.COLORMAP_ORDER[count])
-            rgb_img.ui.comboBox.setCurrentIndex(ind)
+            color_str = rgb_img.colormode.ui.comboBoxFGColor.itemText(count)
+            rgb_img.data.colormap = _mpl.colors.to_rgb(_mpl.colors.cnames[color_str])
+            rgb_img.colormode.ui.comboBoxFGColor.setCurrentIndex(count)
 
-            rgb_img.ui.pushButtonSpectrum.setEnabled(False)
+            rgb_img.popimage.ui.pushButtonSpectrum.setEnabled(False)
             self.ui.tabColors.addTab(rgb_img, 'Color ' + str(count))
 
-            rgb_img.math.ui.pushButtonDoMath.setEnabled(False)
+            
+            rgb_img.math.ui.pushButtonBasicMath.setEnabled(False)
+            rgb_img.math.ui.pushButtonScripting.setEnabled(False)
 
             rgb_img.math.ui.pushButtonOpFreq1.pressed.connect(self.setOpFreq1)
             rgb_img.math.ui.pushButtonOpFreq2.pressed.connect(self.setOpFreq2)
@@ -209,10 +220,10 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.math.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpChange)
             rgb_img.math.ui.comboBoxCondInEquality.currentIndexChanged.connect(self.condInEqualityChange)
             rgb_img.math.ui.spinBoxInEquality.editingFinished.connect(self.spinBoxInEqualityChange)
-            rgb_img.math.ui.pushButtonDoMath.pressed.connect(self.doMath)
-            rgb_img.math.ui.lineEditMax.editingFinished.connect(self.doComposite)
-            rgb_img.math.ui.lineEditMin.editingFinished.connect(self.doComposite)
-            rgb_img.ui.gainSlider.valueChanged.connect(self.doComposite)
+            rgb_img.math.ui.pushButtonBasicMath.pressed.connect(self.doMath)
+            rgb_img.ui.spinBoxMax.editingFinished.connect(self.doComposite)
+            rgb_img.ui.spinBoxMin.editingFinished.connect(self.doComposite)
+            rgb_img.math.ui.spinBoxGain.valueChanged.connect(self.doComposite)
 
 
         self.img_Composite = widgetCompositeColor(self.img_RGB_list,
@@ -658,8 +669,8 @@ class CRIkitUI_process(_QMainWindow):
         # Set BW Class Data
         self.img_BW.initData()
         self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-        val_extrema = self.max([np.abs(self.hsi.data_imag_over_real.max()),
-                                np.abs(self.hsi.data_imag_over_real.min())])
+        val_extrema = _np.max([_np.abs(self.hsi.data_imag_over_real.max()),
+                                _np.abs(self.hsi.data_imag_over_real.min())])
         self.img_BW.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
         self.img_BW.ui.spinBoxMin.setMaximum(1.1*val_extrema)
         self.img_BW.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
@@ -704,29 +715,35 @@ class CRIkitUI_process(_QMainWindow):
 
         # Re-initialize RGB images
 
-        for rgb_img in self.img_RGB_list:
+        for num, rgb_img in enumerate(self.img_RGB_list):
             rgb_img.initData()
+            rgb_img.math.clear()
             rgb_img.data.grayscaleimage = temp
             rgb_img.data.set_x(self.hsi.x, xlabel)
             rgb_img.data.set_y(self.hsi.y, ylabel)
+            
+            color_str = rgb_img.colormode.ui.comboBoxFGColor.itemText(num)
+            rgb_img.data.colormap = _mpl.colors.to_rgb(_mpl.colors.cnames[color_str])
+            rgb_img.colormode.ui.comboBoxFGColor.setCurrentIndex(num)
 
             # Cute way of setting the colormap to last setting and replotting
             rgb_img.changeColor()
 
             # Enable Math
-            rgb_img.math.ui.pushButtonDoMath.setEnabled(True)
+            # rgb_img.math.ui.pushButtonDoMath.setEnabled(True)
+            rgb_img.math.ui.pushButtonBasicMath.setEnabled(True)
 
             # Enable mean spectrum from RGB images
             # Note: if load new file after one has already loaded, need to disconnect
             # signal then reconnect (or could have ignored, but this is easier)
             try:
-                rgb_img.ui.pushButtonSpectrum.pressed.disconnect()
+                rgb_img.popimage.ui.pushButtonSpectrum.pressed.disconnect()
             except:
                 pass
 
-            rgb_img.ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
+            rgb_img.popimage.ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
 
-            rgb_img.ui.pushButtonSpectrum.setEnabled(True)
+            rgb_img.popimage.ui.pushButtonSpectrum.setEnabled(True)
 
         # Set X- and Y- scales, labels, etc for composite color images
         self.img_Composite.data.set_x(self.hsi.x, xlabel)
@@ -2201,8 +2218,8 @@ class CRIkitUI_process(_QMainWindow):
         if operation_index == 0:
             num_freq_needed = 0
         else:
-            num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index-1]
-
+            # num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index-1]
+            num_freq_needed = self.img_RGB_list[rgbnum].math.OPERATION_FREQ_COUNT[operation_index-1]
         # Check conditional frequencies are set
         cond_set = False
 
@@ -2294,7 +2311,8 @@ class CRIkitUI_process(_QMainWindow):
         operation_index = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentIndex()
         operation_text = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentText()
 
-        num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index]
+        # num_freq_needed = widgetColorMath.OPERATION_FREQ_COUNT[operation_index]
+        num_freq_needed = self.img_RGB_list[rgbnum].math.OPERATION_FREQ_COUNT[operation_index]
 
         freq_set = False
 
@@ -2553,8 +2571,8 @@ class CRIkitUI_process(_QMainWindow):
 
         self.img_BW.createImg(img=img, xunits=xunits,
                               yunits=yunits,
-                              extent=extent, showcbar=True,
-                              axison=True, cmap=_mpl.cm.gray)
+                              extent=extent, 
+                              cmap=self.img_BW.colormode.ui.comboBoxColormap.currentText())
 
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
             self.img_BW.ui.spinBoxMax.setValue(self.img_BW.data.maxer)
@@ -2605,16 +2623,17 @@ class CRIkitUI_process(_QMainWindow):
             self.img_BW.data.set_x(self.hsi.x, xlabel)
             self.img_BW.data.set_y(self.hsi.y, ylabel)
 
-            if self.img_BW.ui.checkBoxFixed.checkState() == 0:
-                self.img_BW.data.setmax = None
-                self.img_BW.data.setmin = None
-
-            self.createImgBW(self.img_BW.data.image)
-
+            self.img_BW.checkBoxRemOutliers()
+            # if self.img_BW.ui.checkBoxFixed.checkState() == 0:
+            #     self.img_BW.data.setmax = None
+            #     self.img_BW.data.setmin = None
+            
             # Set axis to original limits
             self.img_BW.mpl.ax.axis(orig_axis_lims)
 
-            self.img_BW.mpl.ax.hold(True)
+            if not self._mpl_v2:
+                self.img_BW.mpl.ax.hold(True)
+
         except:
             print('Error in changeSlider: display img_BW')
 
@@ -2712,8 +2731,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_Composite.createImg(img=self.img_Composite.data.image,
                                          xunits=self.img_Composite.data.xunits,
                                          yunits=self.img_Composite.data.yunits,
-                                         extent=self.img_BW.data.winextent,
-                                         showcbar=False, axison=True)
+                                         extent=self.img_BW.data.winextent)
             self.img_Composite.mpl.draw()
 
             self.img_Composite2.initData(self.img_RGB_list)
@@ -2722,12 +2740,11 @@ class CRIkitUI_process(_QMainWindow):
             self.img_Composite2.createImg(img=self.img_Composite2.data.image,
                                           xunits=self.img_Composite2.data.xunits,
                                           yunits=self.img_Composite2.data.yunits,
-                                          extent=self.img_BW.data.winextent,
-                                          showcbar=False, axison=True)
+                                          extent=self.img_BW.data.winextent)
             self.img_Composite2.mpl.draw()
 #        self.img_Composite.mpl.draw()
         except:
-            pass
+            print('Error in doComposite')
 
     def updateOverlays(self):
         self.overlays=[]
