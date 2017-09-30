@@ -77,6 +77,27 @@ class widgetImageGainMath(_QWidget):
         self.ui.comboBoxOperations.currentIndexChanged.connect(self.operationchange)
         self.ui.comboBoxCondOps.currentIndexChanged.connect(self.condOpsChange)
 
+    def clear(self):
+        """
+        Resets the ui to it's initial state
+        """
+        self.ui.checkBoxDisable.setChecked(False)
+        
+        self.ui.spinBoxGain.setValue(1.0)
+        self.ui.tabWidgetMath.setCurrentIndex(0)
+
+        self.ui.pushButtonOpFreq1.setText('Freq 1')
+        self.ui.pushButtonOpFreq2.setText('Freq 2')
+        self.ui.pushButtonOpFreq3.setText('Freq 3')
+        self.ui.comboBoxOperations.setCurrentIndex(0)
+
+        self.ui.pushButtonCondFreq1.setText('Freq 1')
+        self.ui.pushButtonCondFreq2.setText('Freq 2')
+        self.ui.pushButtonCondFreq3.setText('Freq 3')
+        self.ui.comboBoxCondOps.setCurrentIndex(0)
+        self.ui.comboBoxCondInEquality.setCurrentIndex(0)
+        self.ui.spinBoxInEquality.setValue(0.0)
+        
     def condOpsChange(self):
         index = self.ui.comboBoxCondOps.currentIndex()
 
@@ -291,11 +312,15 @@ class widgetBWImg(_QWidget):
             self.ui.checkBoxFixed.setChecked(True)
             
             # Spin-Box call from Outlier-related widgets?
-            if ((self.sender() == self.ui.checkBoxRemOutliers) |
-                (self.sender() == self.ui.spinBoxStdDevs)):
+            sent_by = self.sender()
+            if ((sent_by == self.ui.checkBoxRemOutliers) |
+                (sent_by == self.ui.spinBoxStdDevs)):
                 pass
-            else:  # Max-min set manually
-                self.ui.checkBoxRemOutliers.setChecked(False)
+            elif ((sent_by == self.ui.spinBoxMax) |
+                  (sent_by == self.ui.spinBoxMin)):
+                  self.ui.checkBoxRemOutliers.setChecked(False)
+            else:
+                pass
 
             self.createImg(img=self.data.image, xunits=self.data.xunits,
                            yunits=self.data.yunits,
@@ -430,8 +455,8 @@ class widgetSglColor(widgetBWImg):
         
         try:
             self.popimage.ui.pushButtonGSPop.pressed.disconnect()
-        except:
-            pass
+        except TypeError:
+            pass  # Just means pushButtonGSPop wasn't connected to anything
         self.popimage.ui.pushButtonGSPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.imageGS,
                                                                                     showcbar=True,
                                                                                     extent=self.data.winextent,
