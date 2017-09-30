@@ -78,7 +78,7 @@ def meta_process(rosetta, output_cls_instance):
         calib_dict['units'] = rosetta_query('ColorUnits',rosetta, output_cls_instance)[0]
 
         output_cls_instance.freq.calib = calib_dict
-        print('Calibration meta data found')
+        # print('Calibration meta data found')  # Not if it used a '!'
 
         use_wn = rosetta_query('ColorWnMode',rosetta, output_cls_instance)[0]
         print('Use wavenumber: {}'.format(use_wn))
