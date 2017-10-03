@@ -2707,6 +2707,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         try:
             self.img_Composite.initData(self.img_RGB_list)
+            self.img_Composite.changeMode()  # This checks what mode is set
 
             xlabel = ''
             if isinstance(self.hsi.x_rep.label, str):
