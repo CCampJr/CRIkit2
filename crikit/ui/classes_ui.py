@@ -234,41 +234,43 @@ class CompositeColor(BW):
         if len(self.sgl_color_list) == 0:
             return _np.zeros(self.grayscaleimage.shape)
         else:
-            temp = _np.zeros(self.sgl_color_list[0].image.shape)
-            # temp = self.sgl_color_list[0].image
-            list_imgs = _copy.deepcopy(self.sgl_color_list)
-
-            for img in list_imgs:
-                img.bgcolor = [0,0,0]
-                temp += img.image
-                
-
-            # if len(self.sgl_color_list) > 1:
-            #     for count in self.sgl_color_list[1::]:
-            #         # temp -= count.image
-            #         temp += count.image
-            # temp = abs(temp)
-            # temp /= temp.max()
-            # if temp.min() < 0:
-            #     temp -= temp.min()
-            # if temp.max() > 1:
-            #     temp /= temp.max()
-            
-            temp[temp > 1] = 1
-
             if self.mode == 0:  # Emission
-                return temp
-            else:
-                img = 1*temp    
-                img_hsv = _mpl.colors.rgb_to_hsv(img)
-                loc_row, loc_col = _np.where((img_hsv[:,:,1] == 0.0) & (img_hsv[:,:,2] == 0.0))
-                img_hsv[loc_row, loc_col, 1] = 1
-                temp = 0*img_hsv
-                temp[...,0] = img_hsv[...,0]
-                temp[...,2] = img_hsv[...,1]
-                temp[...,1] = img_hsv[...,2]
+                img_emission = _np.zeros(self.sgl_color_list[0].image.shape)
+            
+                list_imgs = _copy.deepcopy(self.sgl_color_list)
+            
+                for img in list_imgs:
+                    img.bgcolor = [0,0,0]
+                    img_emission += img.image
+                img_emission[img_emission>1] = 1
+                return img_emission
+            else:  # Absorption
+                img_absorption = _np.zeros(self.sgl_color_list[0].image.shape)
+                img_frac_coverage = _np.zeros(self.sgl_color_list[0].grayscaleimage.shape)
+                img_num_covered = _np.zeros(self.sgl_color_list[0].grayscaleimage.shape)
 
-            return _mpl.colors.hsv_to_rgb(temp)
+                list_imgs = _copy.deepcopy(self.sgl_color_list)
+                
+                for img in list_imgs:
+                    if (img.grayscaleimage.nonzero()[0].size == 0) | (img.setgain == 0.0):
+                        pass
+                    else:
+                        img.bgcolor = [0,0,0]
+
+                        temp = 1*img.imageGS
+                        temp -= temp.min()
+                        if temp.max() != 0:
+                            temp /= temp.max()
+
+                        img_absorption += temp[:,:,None]*img.colormap
+                        img_frac_coverage += temp
+                        img_num_covered += (temp > 0)
+                img_frac_coverage[img_frac_coverage>1] = 1
+                img_absorb_bg = (1-img_frac_coverage)[:,:,None]*[1,1,1]
+                img_absorb_bg[img_absorb_bg<0] = 0
+                img_absorption /= (img_num_covered+1e-10)[:,:,None]
+                img_absorption += img_absorb_bg
+                return img_absorption
 
     @property
     def ylen(self):
