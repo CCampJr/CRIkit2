@@ -633,7 +633,9 @@ class widgetCompositeColor(_QWidget):
     #     self.mpl.draw()
     
     def changeMode(self):
-        self.data.mode = _np.abs(self.data.mode - 1).astype(int)
+        self.data.mode = self.ui.comboBoxColorMode.currentIndex()
+        # self.data.mode = _np.abs(self.data.mode - 1).astype(int)
+        self.mpl.ax.clear()
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = self.data.winextent)
