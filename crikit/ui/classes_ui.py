@@ -244,7 +244,7 @@ class CompositeColor(BW):
                     img_emission += img.image
                 img_emission[img_emission>1] = 1
                 return img_emission
-            else:  # Absorption
+            elif self.mode == 1:  # Absorption
                 img_absorption = _np.zeros(self.sgl_color_list[0].image.shape)
                 img_frac_coverage = _np.zeros(self.sgl_color_list[0].grayscaleimage.shape)
                 img_num_covered = _np.zeros(self.sgl_color_list[0].grayscaleimage.shape)
@@ -271,6 +271,36 @@ class CompositeColor(BW):
                 img_absorption /= (img_num_covered+1e-10)[:,:,None]
                 img_absorption += img_absorb_bg
                 return img_absorption
+            elif self.mode == 2: # Absorption version 2
+                
+                img_emission = _np.zeros(self.sgl_color_list[0].image.shape)
+                list_imgs = _copy.deepcopy(self.sgl_color_list)
+            
+                # Start with emission image BUT white background
+                # This addition will BRIGHTEN as well
+                # thus needs contrast enhancement later
+                num = 0
+                for img in list_imgs:
+                    img.bgcolor = [1,1,1]
+                    temp = img.image
+                    if (temp.max() != temp.min()) & (img.setgain != 0.0):
+                        img_emission += temp
+                        num += 1
+
+                # Average
+                if num != 0:
+                    img_emission /= num
+                    
+                    # This enhances contrast
+                    # Yes, the first step cancels out the step above
+                    # but this keep the norm. and contrast steps separate
+                    img_emission *= num
+                    img_emission -= (num-1)
+
+                img_emission[img_emission<0] = 0
+                img_emission[img_emission>1] = 1
+                
+                return img_emission
 
     @property
     def ylen(self):

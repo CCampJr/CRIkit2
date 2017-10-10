@@ -39,6 +39,7 @@ class Ui_Form(object):
         self.comboBoxColorMode.setObjectName("comboBoxColorMode")
         self.comboBoxColorMode.addItem("")
         self.comboBoxColorMode.addItem("")
+        self.comboBoxColorMode.addItem("")
         self.verticalLayoutColorMode.addWidget(self.comboBoxColorMode)
         self.horizontalLayout.addLayout(self.verticalLayoutColorMode)
         self.verticalLayoutBGColor = QtWidgets.QVBoxLayout()
@@ -65,5 +66,6 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "Color Mode"))
         self.comboBoxColorMode.setItemText(0, _translate("Form", "Emission Mode"))
         self.comboBoxColorMode.setItemText(1, _translate("Form", "Absorption Mode"))
+        self.comboBoxColorMode.setItemText(2, _translate("Form", "Absorption v2"))
         self.labelBGColor.setText(_translate("Form", "Background Color"))
 

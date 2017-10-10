@@ -77,6 +77,11 @@
             <string>Absorption Mode</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>Absorption v2</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
