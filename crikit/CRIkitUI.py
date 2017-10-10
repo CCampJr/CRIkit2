@@ -2736,6 +2736,8 @@ class CRIkitUI_process(_QMainWindow):
             self.img_Composite.mpl.draw()
 
             self.img_Composite2.initData(self.img_RGB_list)
+            self.img_Composite2.changeMode()
+            
             self.img_Composite2.data.set_x(self.hsi.x, xlabel)
             self.img_Composite2.data.set_y(self.hsi.y, ylabel)
             self.img_Composite2.createImg(img=self.img_Composite2.data.image,
