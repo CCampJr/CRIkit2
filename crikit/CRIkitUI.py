@@ -30,6 +30,7 @@ Authors
 import copy as _copy
 import os as _os
 import sys as _sys
+import webbrowser as _webbrowser
 
 import h5py as _h5py
 import matplotlib as _mpl
@@ -117,6 +118,13 @@ except:
     print('No appropriate Jupyter/IPython installation found. Console will not be available')
     jupyter_flag = -1
 
+help_index = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), 
+                              '../docs/build/html/index.html'))
+
+if _os.path.exists(help_index):
+    pass
+else:
+    help_index = None
 
 class CRIkitUI_process(_QMainWindow):
     """
@@ -330,6 +338,11 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.lineEditPix.setVisible(False)
         self.ui.labelFreqPixel.setVisible(False)
 
+        # Help
+        if help_index is not None:
+            self.ui.actionHelpManual.triggered.connect(lambda: _webbrowser.open('file:///' + help_index, new=1))
+        else:
+            self.ui.actionHelpManual.setEnabled(False)
 
         # Jupyter console
 
