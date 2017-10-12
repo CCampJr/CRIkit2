@@ -93,7 +93,10 @@ system.
 # From within the docs/ directory
 sphinx-apidoc -o ./source/ ../crikit/
 
-make html
+
+make html  
+# On Windows
+make.bat html
 
 
 ```
