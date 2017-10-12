@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.ui.qt_CRIkit &mdash; CRIKit2 16.07 documentation</title>
+  <title>crikit.ui.qt_CRIkit &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="CRIKit2 16.07 documentation" href="../../../index.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0
+                17.10
               </div>
             
           
@@ -89,8 +89,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running CRIkit2 UI</a></li>
+</ul>
+
             
           
         </div>
@@ -155,9 +158,9 @@
   <h1>Source code for crikit.ui.qt_CRIkit</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="c1"># Form implementation generated from reading ui file &#39;crikit2\crikit\ui\qt5-creator\ui_CRIkit.ui&#39;</span>
+<span class="c1"># Form implementation generated from reading ui file &#39;.\ui_CRIkit.ui&#39;</span>
 <span class="c1">#</span>
-<span class="c1"># Created by: PyQt5 UI code generator 5.6</span>
+<span class="c1"># Created by: PyQt5 UI code generator 5.8.1</span>
 <span class="c1">#</span>
 <span class="c1"># WARNING! All changes made in this file will be lost!</span>
 
@@ -350,6 +353,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menuToolbar</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;menuToolbar&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuSettings</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuSettings</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;menuSettings&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menuHelp</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menuHelp</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;menuHelp&quot;</span><span class="p">)</span>
         <span class="n">MainWindow</span><span class="o">.</span><span class="n">setMenuBar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">statusbar</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QStatusBar</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">statusbar</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;statusbar&quot;</span><span class="p">)</span>
@@ -600,6 +605,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlayLegend</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlayLegend</span><span class="o">.</span><span class="n">setCheckable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlayLegend</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;actionShowOverlayLegend&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+        <span class="n">icon24</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">()</span>
+        <span class="n">icon24</span><span class="o">.</span><span class="n">addPixmap</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="s2">&quot;:/icons/open-iconic-master/png/question-mark-2x.png&quot;</span><span class="p">),</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="o">.</span><span class="n">Off</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">icon24</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;actionHelpManual&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuFile</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionOpenHDFNIST</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuFile</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionOpenDLMNIST</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuFile</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionSave</span><span class="p">)</span>
@@ -669,6 +679,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menuView</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionLeftSideNRBSpect</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuView</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionRightSideNRBSpect</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuSettings</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionUndo_Backup_Enabled</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menuHelp</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuFile</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuEdit</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuView</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
@@ -676,6 +687,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuPre_Process</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuAnalysis</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuSettings</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menuHelp</span><span class="o">.</span><span class="n">menuAction</span><span class="p">())</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">retranslateUi</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabColors</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -705,6 +717,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menuView</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;View&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuToolbar</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Toolbar&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menuSettings</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Settings&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menuHelp</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Help&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">toolBar</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;toolBar&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionOpenHDFNIST</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Open HDF (NIST)...&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionOpenHDFNIST</span><span class="o">.</span><span class="n">setShortcut</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Ctrl+O&quot;</span><span class="p">))</span>
@@ -775,7 +788,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">actionDeNoiseNRB</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;De-Noise NRB&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionDeNoiseDark</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;De-Noise Dark&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlays</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Show ROI Overlays&quot;</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlayLegend</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Show Overlay Legend&quot;</span><span class="p">))</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionShowOverlayLegend</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Show Overlay Legend&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;Manual&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionHelpManual</span><span class="o">.</span><span class="n">setShortcut</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;F1&quot;</span><span class="p">))</span></div></div>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">icons_all_rc</span>
 </pre></div>
@@ -814,7 +829,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'16.07',
+            VERSION:'17.10b1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

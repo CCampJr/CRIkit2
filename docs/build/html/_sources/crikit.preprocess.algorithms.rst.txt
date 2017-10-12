@@ -4,6 +4,14 @@ crikit.preprocess.algorithms package
 Submodules
 ----------
 
+crikit.preprocess.algorithms.abstract_als module
+------------------------------------------------
+
+.. automodule:: crikit.preprocess.algorithms.abstract_als
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 crikit.preprocess.algorithms.als module
 ---------------------------------------
 

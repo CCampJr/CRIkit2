@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.io package &mdash; CRIKit2 16.07 documentation</title>
+  <title>crikit.io package &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0
+                17.10
               </div>
             
           
@@ -88,19 +88,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">crikit.io package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-crikit.io.hdf5">crikit.io.hdf5 module</a></li>
-<li><a class="reference internal" href="#module-crikit.io.macros">crikit.io.macros module</a></li>
-<li><a class="reference internal" href="#module-crikit.io.meta_configs">crikit.io.meta_configs module</a></li>
-<li><a class="reference internal" href="#module-crikit.io.meta_process">crikit.io.meta_process module</a></li>
-<li><a class="reference internal" href="#module-crikit.io">Module contents</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running CRIkit2 UI</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -166,6 +158,54 @@
 <h1>crikit.io package<a class="headerlink" href="#crikit-io-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.io.csv_nist">
+<span id="crikit-io-csv-nist-module"></span><h2>crikit.io.csv_nist module<a class="headerlink" href="#module-crikit.io.csv_nist" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Sep  7 12:36:36 2016</p>
+<p>&#64;author: chc</p>
+<dl class="function">
+<dt id="crikit.io.csv_nist.csv_nist_import_data">
+<code class="descclassname">crikit.io.csv_nist.</code><code class="descname">csv_nist_import_data</code><span class="sig-paren">(</span><em>pth</em>, <em>filename_header</em>, <em>filename_data</em>, <em>output_cls_instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/csv_nist.html#csv_nist_import_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.csv_nist.csv_nist_import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import dataset(s) from HDF file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pth</strong> : str</p>
+<blockquote>
+<div><p>Path</p>
+</div></blockquote>
+<p><strong>filename_header</strong> : str</p>
+<blockquote>
+<div><p>File name of header</p>
+</div></blockquote>
+<p><strong>filename_data</strong> : str</p>
+<blockquote>
+<div><p>File name of data</p>
+</div></blockquote>
+<p><strong>output_cls_instance</strong> : crikit.data.spectrum.Spectrum (or subclass)</p>
+<blockquote>
+<div><p>Spectrum class (or sub) object</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Success</strong> : bool</p>
+<blockquote class="last">
+<div><blockquote>
+<div><p>Success of import</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>Data, Meta <span class="classifier-delimiter">:</span> <span class="classifier">list (ndarray, dict)</span></dt>
+<dd><p class="first last">If output_cls_instance is None and import is successful, will             return the data from dset_list and associated meta data.</p>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-crikit.io.hdf5">
 <span id="crikit-io-hdf5-module"></span><h2>crikit.io.hdf5 module<a class="headerlink" href="#module-crikit.io.hdf5" title="Permalink to this headline">¶</a></h2>
@@ -314,7 +354,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'16.07',
+            VERSION:'17.10b1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

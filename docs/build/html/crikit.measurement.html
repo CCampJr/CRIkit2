@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.measurement package &mdash; CRIKit2 16.07 documentation</title>
+  <title>crikit.measurement package &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0
+                17.10
               </div>
             
           
@@ -88,18 +88,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">crikit.measurement package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-crikit.measurement.fftspatialnoise">crikit.measurement.fftspatialnoise module</a></li>
-<li><a class="reference internal" href="#crikit-measurement-moran-module">crikit.measurement.moran module</a></li>
-<li><a class="reference internal" href="#module-crikit.measurement.peakamps">crikit.measurement.peakamps module</a></li>
-<li><a class="reference internal" href="#module-crikit.measurement">Module contents</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running CRIkit2 UI</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -163,6 +156,19 @@
             
   <div class="section" id="crikit-measurement-package">
 <h1>crikit.measurement package<a class="headerlink" href="#crikit-measurement-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crikit.measurement.tests.html">crikit.measurement.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.measurement.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.measurement.tests.html#module-crikit.measurement.tests.test_peakfind">crikit.measurement.tests.test_peakfind module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.measurement.tests.html#module-crikit.measurement.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -173,7 +179,7 @@
 <dl class="class">
 <dt id="crikit.measurement.fftspatialnoise.FFTSignalMetric">
 <em class="property">class </em><code class="descclassname">crikit.measurement.fftspatialnoise.</code><code class="descname">FFTSignalMetric</code><span class="sig-paren">(</span><em>img_shp</em>, <em>cutoff=0.5</em>, <em>img=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>FFT Spatial Noise Metric (Ratio - 1)</p>
 <dl class="method">
 <dt id="crikit.measurement.fftspatialnoise.FFTSignalMetric._calc_mtxs">
@@ -190,9 +196,6 @@
 </dd></dl>
 
 </div>
-<div class="section" id="crikit-measurement-moran-module">
-<h2>crikit.measurement.moran module<a class="headerlink" href="#crikit-measurement-moran-module" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-crikit.measurement.peakamps">
 <span id="crikit-measurement-peakamps-module"></span><h2>crikit.measurement.peakamps module<a class="headerlink" href="#module-crikit.measurement.peakamps" title="Permalink to this headline">¶</a></h2>
 <p>Created on Wed Jun 29 01:28:44 2016</p>
@@ -200,7 +203,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeak">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeak</code><span class="sig-paren">(</span><em>pk</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure peak amplitude.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -258,7 +261,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakAdd">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakAdd</code><span class="sig-paren">(</span><em>pk1</em>, <em>pk2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the addition of two peaks (pk1 + pk2).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -320,7 +323,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakBWTroughs">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakBWTroughs</code><span class="sig-paren">(</span><em>pk</em>, <em>tr1</em>, <em>tr2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakBWTroughs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the amplitude of a peak between troughs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -386,7 +389,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakDivide">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakDivide</code><span class="sig-paren">(</span><em>pk1</em>, <em>pk2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakDivide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the ratio (division) of two peaks. pk1/pk2</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -448,7 +451,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakMinus">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakMinus</code><span class="sig-paren">(</span><em>pk1</em>, <em>pk2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the difference (subtraction) of two peaks (pk1 - pk2).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -510,7 +513,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakMultiply">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakMultiply</code><span class="sig-paren">(</span><em>pk1</em>, <em>pk2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMultiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the multiplication of two peak.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -572,7 +575,7 @@
 <dl class="class">
 <dt id="crikit.measurement.peakamps.MeasurePeakSummation">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakamps.</code><code class="descname">MeasurePeakSummation</code><span class="sig-paren">(</span><em>pk1</em>, <em>pk2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSummation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSummation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Meausure the summation of all amplitudes between (inclusive) two peak
 locations.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -633,6 +636,105 @@ locations.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-crikit.measurement.peakfind">
+<span id="crikit-measurement-peakfind-module"></span><h2>crikit.measurement.peakfind module<a class="headerlink" href="#module-crikit.measurement.peakfind" title="Permalink to this headline">¶</a></h2>
+<p>Peak-finding utilities</p>
+<div class="section" id="note">
+<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="crikit.measurement.peakfind.PeakFinder">
+<em class="property">class </em><code class="descclassname">crikit.measurement.peakfind.</code><code class="descname">PeakFinder</code><span class="sig-paren">(</span><em>noise_sigma</em>, <em>cwt_width=10</em>, <em>n_noise_tests=1000</em>, <em>cutoff_d1=None</em>, <em>cutoff_d2=None</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Find peaks and shoulders of a signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>QQ</strong> : int</p>
+<blockquote class="last">
+<div><p>Peak location in pixel coordinates</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>amp</td>
+<td>(float or ndarray) Amplitude of peak</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<dl class="method">
+<dt id="crikit.measurement.peakfind.PeakFinder._calc_cutoff">
+<code class="descname">_calc_cutoff</code><span class="sig-paren">(</span><em>recalc_cutoff=True</em>, <em>method='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder._calc_cutoff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder._calc_cutoff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.measurement.peakfind.PeakFinder.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>y</em>, <em>x=None</em>, <em>recalc_cutoff=True</em>, <em>method='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find peaks</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.measurement.peakfind.PeakFinder.cwt_diff">
+<em class="property">static </em><code class="descname">cwt_diff</code><span class="sig-paren">(</span><em>signal</em>, <em>wv_width</em>, <em>order=1</em>, <em>method='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.cwt_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a numerical derivative using a Haar wavelet (noise-supression)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray (1D)</p>
+<blockquote>
+<div><p>Signal data</p>
+</div></blockquote>
+<p><strong>wv_width</strong> : int</p>
+<blockquote>
+<div><p>Width of wavelet to use (balance noise suppression and distortion)</p>
+</div></blockquote>
+<p><strong>order</strong> : int, optional (default=1)</p>
+<blockquote>
+<div><p>Order of derivative (e.g., 1st-order derivative)</p>
+</div></blockquote>
+<p><strong>method</strong> : str {&#8216;auto&#8217; (default), &#8216;fft&#8217;, &#8216;direct&#8217;}</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deriv</strong> : ndarray (1D)</p>
+<blockquote class="last">
+<div><p>Derivative of input signal</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.measurement.peakfind.PeakFinder.cwt_width">
+<code class="descname">cwt_width</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.measurement.peakfind.PeakFinder.haar">
+<em class="property">static </em><code class="descname">haar</code><span class="sig-paren">(</span><em>width</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.haar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.haar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Haar wavelet (wv) with specified width (width)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.measurement.peakfind.PeakFinder.noise_sigma">
+<code class="descname">noise_sigma</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.noise_sigma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
 <div class="section" id="module-crikit.measurement">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.measurement" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -673,7 +775,7 @@ locations.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'16.07',
+            VERSION:'17.10b1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

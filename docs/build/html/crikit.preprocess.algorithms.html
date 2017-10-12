@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.preprocess.algorithms package &mdash; CRIKit2 16.07 documentation</title>
+  <title>crikit.preprocess.algorithms package &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0
+                17.10
               </div>
             
           
@@ -88,25 +88,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">crikit.preprocess.algorithms package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-crikit.preprocess.algorithms.als">crikit.preprocess.algorithms.als module</a></li>
-<li><a class="reference internal" href="#module-crikit.preprocess.algorithms.anscombe">crikit.preprocess.algorithms.anscombe module</a><ul>
-<li><a class="reference internal" href="#variance-stabilization">Variance Stabilization</a><ul>
-<li><a class="reference internal" href="#notes">Notes</a></li>
-<li><a class="reference internal" href="#citation-refs">Citation Refs</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running CRIkit2 UI</a></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-crikit.preprocess.algorithms.arpls">crikit.preprocess.algorithms.arpls module</a></li>
-<li><a class="reference internal" href="#module-crikit.preprocess.algorithms">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -173,6 +159,32 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-crikit.preprocess.algorithms.abstract_als">
+<span id="crikit-preprocess-algorithms-abstract-als-module"></span><h2>crikit.preprocess.algorithms.abstract_als module<a class="headerlink" href="#module-crikit.preprocess.algorithms.abstract_als" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon Dec  5 13:44:58 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.algorithms.abstract_als.</code><code class="descname">AbstractBaseline</code><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><em>redux=1</em>, <em>verbose=False</em>, <em>order=2</em>, <em>fix_end_points=False</em>, <em>fix_rng=None</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-crikit.preprocess.algorithms.als">
 <span id="crikit-preprocess-algorithms-als-module"></span><h2>crikit.preprocess.algorithms.als module<a class="headerlink" href="#module-crikit.preprocess.algorithms.als" title="Permalink to this headline">¶</a></h2>
 <p>Created on Mon Dec  5 12:12:51 2016</p>
@@ -180,7 +192,7 @@
 <dl class="class">
 <dt id="crikit.preprocess.algorithms.als.AlsCvxopt">
 <em class="property">class </em><code class="descclassname">crikit.preprocess.algorithms.als.</code><code class="descname">AlsCvxopt</code><span class="sig-paren">(</span><em>smoothness_param=1000.0</em>, <em>asym_param=0.0001</em>, <em>redux=1</em>, <em>order=2</em>, <em>fix_end_points=False</em>, <em>fix_rng=None</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="crikit.preprocess.algorithms.abstract_als.AbstractBaseline"><code class="xref py py-class docutils literal"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></a></p>
 <dl class="method">
 <dt id="crikit.preprocess.algorithms.als.AlsCvxopt._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt._calc" title="Permalink to this definition">¶</a></dt>
@@ -428,7 +440,7 @@ Analysis, Cambridge University Press, Cambridge, 1998)</p>
 <dl class="class">
 <dt id="crikit.preprocess.algorithms.arpls.ArPlsCvxopt">
 <em class="property">class </em><code class="descclassname">crikit.preprocess.algorithms.arpls.</code><code class="descname">ArPlsCvxopt</code><span class="sig-paren">(</span><em>smoothness_param=1e-08</em>, <em>redux=1</em>, <em>order=2</em>, <em>fix_end_points=False</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/arpls.html#ArPlsCvxopt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.arpls.ArPlsCvxopt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="crikit.preprocess.algorithms.abstract_als.AbstractBaseline"><code class="xref py py-class docutils literal"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></a></p>
 <dl class="method">
 <dt id="crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/arpls.html#ArPlsCvxopt._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc" title="Permalink to this definition">¶</a></dt>
@@ -477,7 +489,7 @@ Analysis, Cambridge University Press, Cambridge, 1998)</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'16.07',
+            VERSION:'17.10b1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

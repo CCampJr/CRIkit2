@@ -4,6 +4,14 @@ crikit.io package
 Submodules
 ----------
 
+crikit.io.csv_nist module
+-------------------------
+
+.. automodule:: crikit.io.csv_nist
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 crikit.io.hdf5 module
 ---------------------
 

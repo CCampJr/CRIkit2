@@ -12,6 +12,7 @@ Subpackages
     crikit.measurement
     crikit.preprocess
     crikit.transform
+    crikit.ui
     crikit.utils
 
 Submodules

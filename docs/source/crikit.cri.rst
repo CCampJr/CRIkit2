@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
 
     crikit.cri.algorithms
+    crikit.cri.tests
 
 Submodules
 ----------
@@ -23,6 +24,14 @@ crikit.cri.kk module
 --------------------
 
 .. automodule:: crikit.cri.kk
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+crikit.cri.merge_nrbs module
+----------------------------
+
+.. automodule:: crikit.cri.merge_nrbs
     :members:
     :undoc-members:
     :show-inheritance:

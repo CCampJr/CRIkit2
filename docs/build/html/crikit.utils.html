@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.utils package &mdash; CRIKit2 16.07 documentation</title>
+  <title>crikit.utils package &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0
+                17.10
               </div>
             
           
@@ -88,38 +88,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">crikit.utils package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-crikit.utils.breadcrumb">crikit.utils.breadcrumb module</a><ul>
-<li><a class="reference internal" href="#hyperspectral-imaging-process-description-container-class-crikit-data-breadcrumb">HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)</a><ul>
-<li><a class="reference internal" href="#class-methods">Class Methods</a></li>
-<li><a class="reference internal" href="#software-info">Software Info</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running CRIkit2 UI</a></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-crikit.utils.datacheck">crikit.utils.datacheck module</a></li>
-<li><a class="reference internal" href="#module-crikit.utils.general">crikit.utils.general module</a><ul>
-<li><a class="reference internal" href="#note">Note</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-crikit.utils.h5">crikit.utils.h5 module</a><ul>
-<li><a class="reference internal" href="#hdf5-utilities-crikit-utils-h5">hdf5 utilities (crikit.utils.h5)</a><ul>
-<li><a class="reference internal" href="#methods">Methods</a></li>
-<li><a class="reference internal" href="#id1">Software Info</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-crikit.utils.mplstyle">crikit.utils.mplstyle module</a></li>
-<li><a class="reference internal" href="#module-crikit.utils.roi">crikit.utils.roi module</a></li>
-<li><a class="reference internal" href="#module-crikit.utils">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -210,7 +183,7 @@
 <dl class="class">
 <dt id="crikit.utils.breadcrumb.BCPre">
 <em class="property">class </em><code class="descclassname">crikit.utils.breadcrumb.</code><code class="descname">BCPre</code><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Container that describes processing steps (ie it contains &#8220;breadcrumbs&#8221;)</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
@@ -636,7 +609,7 @@ a larger array. Other datasets are copied as is.</p>
 <dl class="class">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle">
 <em class="property">class </em><code class="descclassname">crikit.utils.mplstyle.</code><code class="descname">CrikitMplStyle</code><a class="reference internal" href="_modules/crikit/utils/mplstyle.html#CrikitMplStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._base_crikit">
 <code class="descname">_base_crikit</code><em class="property"> = {'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'axes.prop_cycle': cycler('color', [array([ 0.12156863,  0.46666667,  0.70588235]), array([ 1.        ,  0.49803922,  0.05490196]), array([ 0.17254902,  0.62745098,  0.17254902]), array([ 0.83921569,  0.15294118,  0.15686275]), array([ 0.58039216,  0.40392157,  0.74117647]), array([ 0.54901961,  0.3372549 ,  0.29411765]), array([ 0.89019608,  0.46666667,  0.76078431]), array([ 0.49803922,  0.49803922,  0.49803922]), array([ 0.7372549 ,  0.74117647,  0.13333333]), array([ 0.09019608,  0.74509804,  0.81176471])]), 'image.cmap': 'viridis', 'image.interpolation': 'none'}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._base_crikit" title="Permalink to this definition">¶</a></dt>
@@ -759,7 +732,7 @@ a larger array. Other datasets are copied as is.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'16.07',
+            VERSION:'17.10b1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
