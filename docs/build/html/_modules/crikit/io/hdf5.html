@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.io.hdf5 &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.io.hdf5</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.io.hdf5</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="sd">Created on Mon May 23 10:17:16 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+
+
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
+<span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Re&#39;</span><span class="p">,</span><span class="s1">&#39;Im&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hdf_dset_list_rep&#39;</span><span class="p">,</span><span class="s1">&#39;hdf_is_valid_dsets&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;hdf_attr_to_dict&#39;</span><span class="p">,</span><span class="s1">&#39;hdf_import_data&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="hdf_dset_list_rep"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_dset_list_rep">[docs]</a><span class="k">def</span> <span class="nf">hdf_dset_list_rep</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span><span class="n">suffixes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a list of dataset names</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">sfx</span> <span class="ow">in</span> <span class="n">suffixes</span><span class="p">:</span>
+        <span class="n">dset_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sfx</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dset_list</span></div>
+
+<div class="viewcode-block" id="hdf_is_valid_dsets"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_is_valid_dsets">[docs]</a><span class="k">def</span> <span class="nf">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate file and datasets exist. Return boolean as to whether valid</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Join path and filename in an os-independant way</span>
+    <span class="n">pfname</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+
+    <span class="n">isvalid</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fileexists</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">pfname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;File exists: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pfname</span><span class="p">))</span>
+        <span class="n">fileexists</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;File does not exist: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pfname</span><span class="p">))</span>
+        <span class="n">fileexists</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># List of dataset(s)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">dset_list</span><span class="p">:</span>
+                    <span class="n">f</span><span class="p">[</span><span class="n">count</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dataset: </span><span class="si">{}</span><span class="s1"> is invalid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All datasets are valid&#39;</span><span class="p">)</span>
+                <span class="n">isvalid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># Single dataset string name</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dataset </span><span class="si">{}</span><span class="s1"> is invalid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dataset is valid&#39;</span><span class="p">)</span>
+                <span class="n">isvalid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dset_list is unrecognized type&#39;</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fileexists</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">isvalid</span></div>
+
+<span class="k">def</span> <span class="nf">_convert_to_np_dtype</span><span class="p">(</span><span class="n">dset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an HDF5 dataset, return the values in a numpy-builtin datatype</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : h5py.Dataset</span>
+<span class="sd">        HDF5 (h5py) dataset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.ndarray (dtype = numpy built-in)</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The software accounts for big-/little-endianness, and the inability of \</span>
+<span class="sd">    hdf5 to natively store complex numbers.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">),</span> <span class="s1">&#39;Input is not of type h5py.Dataset&#39;</span>
+    <span class="c1"># Single datatype</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">converted</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">))</span>
+        <span class="n">dset</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">converted</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>  <span class="c1"># Integer to float</span>
+            <span class="n">converted</span> <span class="o">=</span> <span class="n">converted</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">converted</span>
+    <span class="c1">#Compound datatype of length 2-- assumed (&#39;Re&#39;,&#39;Im&#39;)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: h5py.complex_names set incorrectly using </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> and </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> </span><span class="se">\</span>
+<span class="s1">for Re and Im, respectively&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">file</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">converted</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">))</span>
+        <span class="n">dset</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+    <span class="c1"># Unknown datatype</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: Unknown datatype. Returning dataset values as is.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dset</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">return</span> <span class="n">converted</span>
+
+<div class="viewcode-block" id="hdf_attr_to_dict"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_attr_to_dict">[docs]</a><span class="k">def</span> <span class="nf">hdf_attr_to_dict</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert from HDF attributes to valid dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">output_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">output_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">attr</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">output_dict</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="n">count</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fail: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    
+    <span class="c1"># String in HDF are treated as numpy bytes_ literals</span>
+    <span class="c1"># We want out instance in memeory to have Python Strings</span>
+    <span class="c1"># This does a simple conversion</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">_np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">):</span>
+            <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_dict</span></div>
+
+<div class="viewcode-block" id="hdf_import_data"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_import_data">[docs]</a><span class="k">def</span> <span class="nf">hdf_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import dataset(s) from HDF file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pth : str</span>
+<span class="sd">        Path</span>
+
+<span class="sd">    filename : str</span>
+<span class="sd">        File name</span>
+
+<span class="sd">    dset_list : list</span>
+<span class="sd">        List of 1 or more datasets</span>
+
+<span class="sd">    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)</span>
+<span class="sd">        Spectrum class (or sub) object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        Success : bool</span>
+<span class="sd">            Success of import</span>
+<span class="sd">        Data, Meta : list (ndarray, dict)</span>
+<span class="sd">            If output_cls_instance is None and import is successful, will \</span>
+<span class="sd">            return the data from dset_list and associated meta data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Join path and filename in an os-independant way</span>
+    <span class="n">pfname</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="n">dset_list</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid filename or dataset list&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">pfname</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Hsi</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Hsi&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">])</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cannot accept more than 1 HSI image at this time&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])))</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectra</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectra&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">])</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])</span>
+                            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])))</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectrum</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectrum&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">])</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Will average spectra into a single spectrum&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])</span>
+                        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">/=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">output_cls_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">])</span>
+                    <span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">data</span> <span class="o">=</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])</span>
+                            <span class="n">meta</span> <span class="o">=</span> <span class="n">hdf_attr_to_dict</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">_convert_to_np_dtype</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dname</span><span class="p">])))</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;output_cls must be Spectrum, Spectra, or Hsi&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Something failed in import_hdf_nist_special&#39;</span><span class="p">)</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+
+<span class="k">def</span> <span class="nf">hdf_export_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">,</span> <span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dsetname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">save_grp</span> <span class="o">=</span> <span class="n">dsetname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">save_dataset_name_no_grp</span> <span class="o">=</span> <span class="n">dsetname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Join path and filename in an os-independant way</span>
+        <span class="n">pfname_out</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+        
+        <span class="n">f_out</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">pfname_out</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">f_out</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="n">save_grp</span><span class="p">)</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">loc</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">save_dataset_name_no_grp</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">attribute</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">attribute</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S&#39;</span><span class="p">)</span>
+                <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr_key</span><span class="p">,</span><span class="n">attribute</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in attributes&#39;</span><span class="p">)</span>
+
+        <span class="c1">#  Breadcrumb attributes</span>
+        <span class="n">bc_attr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bcpre</span><span class="o">.</span><span class="n">attr_dict</span>
+        <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">bc_attr_dict</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">attribute</span> <span class="o">=</span> <span class="n">bc_attr_dict</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">attribute</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S&#39;</span><span class="p">)</span>
+                <span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr_key</span><span class="p">,</span><span class="n">attribute</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in attributes&#39;</span><span class="p">)</span>
+                
+<span class="c1">#            #print(&#39;Key: {}, Val: {}&#39;.format(attr_key, bc_attr_dict[attr_key]))</span>
+<span class="c1">#            val = bc_attr_dict[attr_key]</span>
+<span class="c1">#            if isinstance(val, str):</span>
+<span class="c1">#                dset.attrs[attr_key] = val</span>
+<span class="c1">#            else:</span>
+<span class="c1">#                try:</span>
+<span class="c1">#                    dset.attrs.create(attr_key,bc_attr_dict[attr_key])</span>
+<span class="c1">#                except:</span>
+<span class="c1">#                    print(&#39;Could not create attribute&#39;)</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something went wrong while saving&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved without issues&#39;</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">f_out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="kn">from</span> <span class="nn">crikit.io.meta_configs</span> <span class="k">import</span> <span class="p">(</span><span class="n">special_nist_bcars2</span>
+                                            <span class="k">as</span> <span class="n">_snb</span><span class="p">)</span>
+    <span class="n">rosetta</span> <span class="o">=</span> <span class="n">_snb</span><span class="p">()</span>
+
+    <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;../../../&#39;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;mP2_w_small.h5&#39;</span>
+
+    <span class="n">dset</span> <span class="o">=</span> <span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="s1">&#39;fake.h5&#39;</span><span class="p">,</span><span class="s1">&#39;fake&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tester</span> <span class="o">==</span> <span class="kc">False</span>
+
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="s1">&#39;fake_dset&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tester</span> <span class="o">==</span> <span class="kc">False</span>
+
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,[</span><span class="s1">&#39;fake_dset1&#39;</span><span class="p">,</span><span class="s1">&#39;fake_dset2&#39;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">tester</span> <span class="o">==</span> <span class="kc">False</span>
+
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="n">dset</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tester</span> <span class="o">==</span> <span class="kc">True</span>
+
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="n">hdf_dset_list_rep</span><span class="p">(</span><span class="s1">&#39;/Spectra/Dark_3_5ms_&#39;</span><span class="p">,</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="n">dset_list</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tester</span> <span class="o">==</span> <span class="kc">True</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">spect_dark</span> <span class="o">=</span> <span class="n">_Spectra</span><span class="p">()</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">hdf_is_valid_dsets</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,[</span><span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span><span class="p">])</span>
+    <span class="n">hdf_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span><span class="p">,</span><span class="n">spect_dark</span><span class="p">)</span>
+    <span class="c1">#hdf_process_attr(rosetta, spect_dark)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of dark spectra: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spect_dark</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of dark spectra.mean(): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spect_dark</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">_Hsi</span><span class="p">()</span>
+    <span class="n">hdf_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of img: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of img.mean(): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

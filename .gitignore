@@ -14,7 +14,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
+# build/
 develop-eggs/
 dist/
 downloads/
@@ -58,7 +58,7 @@ coverage.xml
 *.log
 
 # Sphinx documentation
-#docs/build/
+# docs/build/
 
 # PyBuilder
 target/

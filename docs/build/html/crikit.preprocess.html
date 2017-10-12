@@ -1,0 +1,544 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.preprocess package &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">crikit.preprocess package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.preprocess.crop">crikit.preprocess.crop module</a></li>
+<li><a class="reference internal" href="#crikit-preprocess-denoise-module">crikit.preprocess.denoise module</a></li>
+<li><a class="reference internal" href="#crikit-preprocess-standardize-module">crikit.preprocess.standardize module</a></li>
+<li><a class="reference internal" href="#module-crikit.preprocess.subtract_baseline">crikit.preprocess.subtract_baseline module</a></li>
+<li><a class="reference internal" href="#module-crikit.preprocess.subtract_dark">crikit.preprocess.subtract_dark module</a></li>
+<li><a class="reference internal" href="#module-crikit.preprocess.subtract_mean">crikit.preprocess.subtract_mean module</a></li>
+<li><a class="reference internal" href="#module-crikit.preprocess">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>crikit.preprocess package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crikit.preprocess.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crikit-preprocess-package">
+<h1>crikit.preprocess package<a class="headerlink" href="#crikit-preprocess-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crikit.preprocess.algorithms.html">crikit.preprocess.algorithms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.algorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.algorithms.html#module-crikit.preprocess.algorithms.als">crikit.preprocess.algorithms.als module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.algorithms.html#module-crikit.preprocess.algorithms.anscombe">crikit.preprocess.algorithms.anscombe module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="crikit.preprocess.algorithms.html#variance-stabilization">Variance Stabilization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.algorithms.html#notes">Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.algorithms.html#citation-refs">Citation Refs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.algorithms.html#module-crikit.preprocess.algorithms.arpls">crikit.preprocess.algorithms.arpls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.algorithms.html#module-crikit.preprocess.algorithms">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.preprocess.crop">
+<span id="crikit-preprocess-crop-module"></span><h2>crikit.preprocess.crop module<a class="headerlink" href="#module-crikit.preprocess.crop" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jun 21 14:28:49 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.crop.ZeroColumn">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.crop.</code><code class="descname">ZeroColumn</code><span class="sig-paren">(</span><em>first_or_last=0</em>, <em>zero_col=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Set first or last column that is not all 0&#8217;s to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>first_or_last</strong> : int, optional (default = 0 [first])</p>
+<blockquote>
+<div><p>Find first (= 0) or last (= -1)</p>
+</div></blockquote>
+<p><strong>zero_col</strong> : int, optional (default = None)</p>
+<blockquote class="last">
+<div><p>Zero a specified column</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroColumn._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroColumn.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.calculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroColumn.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.preprocess.crop.ZeroRow">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.crop.</code><code class="descname">ZeroRow</code><span class="sig-paren">(</span><em>first_or_last=0</em>, <em>zero_row=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Set first or last row that is not all 0&#8217;s to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>first_or_last</strong> : int, optional (default = 0 [first])</p>
+<blockquote>
+<div><p>Find first (= 0) or last (= -1)</p>
+</div></blockquote>
+<p><strong>zero_row</strong> : int, optional (default = None)</p>
+<blockquote class="last">
+<div><p>Zero a specified row</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroRow._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroRow.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.calculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.ZeroRow.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="crikit-preprocess-denoise-module">
+<h2>crikit.preprocess.denoise module<a class="headerlink" href="#crikit-preprocess-denoise-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-crikit.preprocess.denoise"></span><p>Denoising</p>
+<p>Created on Fri Apr 22 23:55:22 2016</p>
+<p>&#64;author: chc</p>
+</div>
+<div class="section" id="crikit-preprocess-standardize-module">
+<h2>crikit.preprocess.standardize module<a class="headerlink" href="#crikit-preprocess-standardize-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-crikit.preprocess.standardize"></span><p>Standardization</p>
+<p>Created on Thu Apr 14 08:53:08 2016</p>
+<p>&#64;author: chc</p>
+</div>
+<div class="section" id="module-crikit.preprocess.subtract_baseline">
+<span id="crikit-preprocess-subtract-baseline-module"></span><h2>crikit.preprocess.subtract_baseline module<a class="headerlink" href="#module-crikit.preprocess.subtract_baseline" title="Permalink to this headline">¶</a></h2>
+<p>Subtract baseline</p>
+<p>Created on Sat May 28 00:41:41 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_baseline.</code><code class="descname">SubtractBaselineALS</code><span class="sig-paren">(</span><em>smoothness_param=1</em>, <em>asym_param=0.01</em>, <em>redux=10</em>, <em>order=2</em>, <em>rng=None</em>, <em>fix_end_points=False</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>use_imag=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Subtract baseline using asymmetric least squares algorithm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>smoothness_param</strong> : float, optional (default=1.0)</p>
+<blockquote>
+<div><p>Smoothness parameter aka &#8216;lambda&#8217;</p>
+</div></blockquote>
+<p><strong>asym_param</strong> : float, optional (default=1e-2)</p>
+<blockquote>
+<div><p>Asymmetry parameter aka &#8216;p&#8217;</p>
+</div></blockquote>
+<p><strong>redux_factor</strong> : int, optional (default=10)</p>
+<blockquote>
+<div><p>Down-sampling factor (more down-sampling leads to faster detrending,
+but with more chance of non-optimal detrending)</p>
+</div></blockquote>
+<p><strong>rng</strong> : ndarray (1D), optional (default=None)</p>
+<blockquote>
+<div><p>Range in pixels to perform action over</p>
+</div></blockquote>
+<p><strong>use_imag</strong> : bool, optional (default=True)</p>
+<blockquote class="last">
+<div><p>If spectrum(a) are complex-values, use the imaginary portion?</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.calculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.preprocess.subtract_dark">
+<span id="crikit-preprocess-subtract-dark-module"></span><h2>crikit.preprocess.subtract_dark module<a class="headerlink" href="#module-crikit.preprocess.subtract_dark" title="Permalink to this headline">¶</a></h2>
+<p>Subtract mean value (optionally, over a range from all spectrum/spectra/hsi)</p>
+<p>Created on Thu May 26 14:31:39 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.subtract_dark.SubtractDark">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_dark.</code><code class="descname">SubtractDark</code><span class="sig-paren">(</span><em>dark</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="crikit.preprocess.subtract_dark.SubtractDark._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_dark.SubtractDark.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract dark spectrum (return copy).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Data from which dark is subtracted.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>Returns data with dark subtracted (or None if fails)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_dark.SubtractDark.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract dark spectrum (overwrite original data).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Data from which dark is subtracted.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">bool</p>
+<blockquote class="last">
+<div><p>Returns the success state (True=success)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.preprocess.subtract_mean">
+<span id="crikit-preprocess-subtract-mean-module"></span><h2>crikit.preprocess.subtract_mean module<a class="headerlink" href="#module-crikit.preprocess.subtract_mean" title="Permalink to this headline">¶</a></h2>
+<p>Subtract mean value (optionally, over a range from all spectrum/spectra/hsi)</p>
+<p>Created on Thu May 26 14:31:39 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange">
+<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_mean.</code><code class="descname">SubtractMeanOverRange</code><span class="sig-paren">(</span><em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.4/library/functions.html#object" title="(in Python v3.4)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract the mean intensity over a pixel range (rng).         (Return copy).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>Returns data with mean subtracted (or None if fails)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract the mean intensity over a pixel range (rng).         (Overwrite data).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">bool</p>
+<blockquote class="last">
+<div><p>Returns the success state (True=success)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.preprocess">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.preprocess" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

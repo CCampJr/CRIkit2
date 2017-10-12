@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.utils package &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">crikit.ui.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.ui.utils.roi">crikit.ui.utils.roi module</a><ul>
+<li><a class="reference internal" href="#visualization-general-utilities-crikit-ui-visgentuils">Visualization General Utilities (crikit.ui.visgentuils)</a><ul>
+<li><a class="reference internal" href="#software-info">Software Info</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-crikit.ui.utils">Module contents</a><ul>
+<li><a class="reference internal" href="#cri-spectral-processing-tools-crikit">CRI Spectral Processing Tools (CRIkit)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>crikit.ui.utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crikit.ui.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crikit-ui-utils-package">
+<h1>crikit.ui.utils package<a class="headerlink" href="#crikit-ui-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.ui.utils.roi">
+<span id="crikit-ui-utils-roi-module"></span><h2>crikit.ui.utils.roi module<a class="headerlink" href="#module-crikit.ui.utils.roi" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="visualization-general-utilities-crikit-ui-visgentuils">
+<h3>Visualization General Utilities (crikit.ui.visgentuils)<a class="headerlink" href="#visualization-general-utilities-crikit-ui-visgentuils" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>roimask : Create a region-of-interest binary mask</div></blockquote>
+<div class="section" id="software-info">
+<h4>Software Info<a class="headerlink" href="#software-info" title="Permalink to this headline">¶</a></h4>
+<p>Original Python branch: Feb 16 2015</p>
+<p>author: (&#8220;Charles H Camp Jr&#8221;)</p>
+<p>email: (&#8220;<a class="reference external" href="mailto:charles&#46;camp&#37;&#52;&#48;nist&#46;gov">charles<span>&#46;</span>camp<span>&#64;</span>nist<span>&#46;</span>gov</a>&#8221;)</p>
+<p>version: (&#8220;15.10.04&#8221;)</p>
+<dl class="function">
+<dt id="crikit.ui.utils.roi._mask_from_path">
+<code class="descclassname">crikit.ui.utils.roi.</code><code class="descname">_mask_from_path</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/utils/roi.html#_mask_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.utils.roi._mask_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create mask from path</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.ui.utils.roi._pts_to_verts">
+<code class="descclassname">crikit.ui.utils.roi.</code><code class="descname">_pts_to_verts</code><span class="sig-paren">(</span><em>xvec</em>, <em>yvec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/utils/roi.html#_pts_to_verts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.utils.roi._pts_to_verts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert points to vertices, i.e., convert from 2 1D arrays (or list) of     x- and y-coordinates to a list-of-lists of [x,y] pairs</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.ui.utils.roi._verts_to_path">
+<code class="descclassname">crikit.ui.utils.roi.</code><code class="descname">_verts_to_path</code><span class="sig-paren">(</span><em>verts</em>, <em>isclose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/utils/roi.html#_verts_to_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.utils.roi._verts_to_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert vertices to paths</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.ui.utils.roi.roimask">
+<code class="descclassname">crikit.ui.utils.roi.</code><code class="descname">roimask</code><span class="sig-paren">(</span><em>imgx</em>, <em>imgy</em>, <em>xvec</em>, <em>yvec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/utils/roi.html#roimask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.utils.roi.roimask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a region-of-interest binary mask from vertices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>imgx</strong> : ndarray</p>
+<blockquote>
+<div><p>X-axis vector in physical units</p>
+</div></blockquote>
+<p><strong>imgy</strong> : ndarray</p>
+<blockquote>
+<div><p>Y-axis vector in physical units</p>
+</div></blockquote>
+<p><strong>xvec</strong> : ndarray</p>
+<blockquote>
+<div><p>Vector of x-locations of selected points</p>
+</div></blockquote>
+<p><strong>yvec</strong> : ndarray</p>
+<blockquote>
+<div><p>Vector of y-locations of selected points</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>mask</strong> : ndarray</p>
+<blockquote>
+<div><p>Binary mask</p>
+</div></blockquote>
+<p><strong>path</strong> : MPL path object</p>
+<blockquote class="last">
+<div><p>Matplotlib path object describing ROI</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="module-crikit.ui.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.ui.utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cri-spectral-processing-tools-crikit">
+<h3>CRI Spectral Processing Tools (CRIkit)<a class="headerlink" href="#cri-spectral-processing-tools-crikit" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Original Python branch: Feb 16 2015</p>
+<p>&#64;author: (&#8220;Charles H Camp Jr&#8221;)</p>
+<p>&#64;email: (&#8220;<a class="reference external" href="mailto:charles&#46;camp&#37;&#52;&#48;nist&#46;gov">charles<span>&#46;</span>camp<span>&#64;</span>nist<span>&#46;</span>gov</a>&#8221;)</p>
+<p>&#64;date: (&#8220;Aug 13 2015&#8221;)</p>
+<p>&#64;version: (&#8220;1.1&#8221;)</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

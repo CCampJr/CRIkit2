@@ -1,0 +1,728 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.utils.h5 &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.utils.h5</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.utils.h5</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">hdf5 utilities (crikit.utils.h5)</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">    Utilities for for reading and writing data to HDF5 files</span>
+
+<span class="sd">Methods</span>
+<span class="sd">--------</span>
+<span class="sd">    convert_to_np_dtype : convert from HDF5 dataset to numpy ndarray with \</span>
+<span class="sd">    numpy-builtin and native datatype</span>
+
+<span class="sd">    retrieve_group_dataset_dict : Retrieve dictionary describing groups that \</span>
+<span class="sd">    contain data [key] and the datasets [value]. {group : [dataset(s)]}</span>
+
+<span class="sd">    retrieve_dataset_attribute_dict : Retrieve dictionary describing \</span>
+<span class="sd">    attributes that contain data [key] and the datasets [value]. \</span>
+<span class="sd">    {group : [dataset(s)]}</span>
+
+<span class="sd">Software Info</span>
+<span class="sd">--------------</span>
+
+<span class="sd">Original Python branch: Feb 16 2015</span>
+
+<span class="sd">author: (&quot;Charles H Camp Jr&quot;)</span>
+
+<span class="sd">email: (&quot;charles.camp@nist.gov&quot;)</span>
+
+<span class="sd">version: (&quot;15.6.28&quot;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
+<span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Re&#39;</span><span class="p">,</span><span class="s1">&#39;Im&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<div class="viewcode-block" id="convert_to_np_dtype"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.convert_to_np_dtype">[docs]</a><span class="k">def</span> <span class="nf">convert_to_np_dtype</span><span class="p">(</span><span class="n">dset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an HDF5 dataset, return the values in a numpy-builtin datatype</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : h5py.Dataset</span>
+<span class="sd">        HDF5 (h5py) dataset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.ndarray (dtype = numpy built-in)</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The software accounts for big-/little-endianness, and the inability of \</span>
+<span class="sd">    hdf5 to natively store complex numbers.</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;16.02.18&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">),</span> <span class="s1">&#39;Input is not of type h5py.Dataset&#39;</span>
+    <span class="c1"># Single datatype</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">converted</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">))</span>
+        <span class="n">dset</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">converted</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>  <span class="c1"># Integer to float</span>
+            <span class="n">converted</span> <span class="o">=</span> <span class="n">converted</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">converted</span>
+    <span class="c1">#Compound datatype of length 2-- assumed (&#39;Re&#39;,&#39;Im&#39;)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: h5py.complex_names set incorrectly using </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> and </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> </span><span class="se">\</span>
+<span class="s1">for Re and Im, respectively&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">file</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">converted</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">))</span>
+        <span class="n">dset</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+    <span class="c1"># Unknown datatype</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: Unknown datatype. Returning dataset values as is.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dset</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">return</span> <span class="n">converted</span></div>
+
+
+<div class="viewcode-block" id="retrieve_group_dataset_dict"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.retrieve_group_dataset_dict">[docs]</a><span class="k">def</span> <span class="nf">retrieve_group_dataset_dict</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an HDF5 filename, return a dictionary with keys named with full \</span>
+<span class="sd">    paths to datasets (values)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        filename of HDF5 file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : dict</span>
+<span class="sd">        {group path : [dataset list]}</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;15.6.28&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">list_of_items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">list_of_items</span><span class="o">.</span><span class="n">append</span><span class="p">)</span>
+
+        <span class="n">groups_all</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">datasets_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">list_of_items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">count</span><span class="p">],</span><span class="n">_h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">groups_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">count</span><span class="p">],</span><span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">datasets_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="n">groups_with_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">group_count</span> <span class="ow">in</span> <span class="n">groups_all</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item_count</span> <span class="ow">in</span> <span class="n">f</span><span class="p">[</span><span class="n">group_count</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">group_count</span><span class="p">][</span><span class="n">item_count</span><span class="p">],</span><span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+                    <span class="n">groups_with_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group_count</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="c1"># Setup dictionary group_with_dataset : datasetnames</span>
+        <span class="n">group_dataset_dict</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">group_count</span> <span class="ow">in</span> <span class="n">groups_with_datasets</span><span class="p">:</span>
+            <span class="n">dataset_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item_count</span> <span class="ow">in</span> <span class="n">f</span><span class="p">[</span><span class="n">group_count</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">group_count</span><span class="p">][</span><span class="n">item_count</span><span class="p">],</span><span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+                    <span class="n">dataset_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item_count</span><span class="p">)</span>
+            <span class="n">group_dataset_dict</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">group_count</span><span class="p">,</span><span class="n">dataset_list</span><span class="p">])</span>
+
+        <span class="n">group_dataset_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">group_dataset_dict</span><span class="p">)</span>
+
+        <span class="c1">#print(&#39;Returning {0} groups covering {1} datasets&#39;.format\</span>
+        <span class="c1">#        (len(groups_with_datasets), len(datasets_all)))</span>
+
+
+
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">group_dataset_dict</span></div>
+
+<div class="viewcode-block" id="retrieve_dataset_attribute_dict"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.retrieve_dataset_attribute_dict">[docs]</a><span class="k">def</span> <span class="nf">retrieve_dataset_attribute_dict</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">datasetfullname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an HDF5 filename and dataset, return a dictionary with keys named \</span>
+<span class="sd">    with parameters and values</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        filename of HDF5 file</span>
+
+<span class="sd">    datasetfullname : str</span>
+<span class="sd">        full pathname to dataset (e.g., /group/subgroup/dataset)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : dict</span>
+<span class="sd">        {parameter : value}</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;15.6.28&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">datasetfullname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+            <span class="n">temp</span> <span class="o">=</span>  <span class="nb">dict</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in attributes... Usually an empty one&#39;</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">count</span><span class="p">]</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">temp</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="special_exclude_datasets"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.special_exclude_datasets">[docs]</a><span class="k">def</span> <span class="nf">special_exclude_datasets</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">str_excl</span> <span class="o">=</span> <span class="s1">&#39;_background&#39;</span><span class="p">,</span> <span class="n">new_filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes any datasets with &#39;_background&#39; in the name. Creates a new</span>
+<span class="sd">    h5 file with &#39;_excl*_.h5&#39; appended (unless specified)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        filename (str) : name of file to analyze/repack/copy</span>
+
+<span class="sd">        str_excl (str) : (default: &#39;_background&#39;) exclude datasets with this string in the name</span>
+
+<span class="sd">        new_filename (str) : (Optional) Output filename</span>
+
+<span class="sd">    Output</span>
+<span class="sd">    ------</span>
+<span class="sd">        Return (str) : filename of new HDF5 file</span>
+
+<span class="sd">        Writes a new file filename(-.h5) + &#39;_excl_&#39; + str_exclude + &#39;.h5&#39;</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;15.6.28&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">new_filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;.h5&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_excl_&#39;</span> <span class="o">+</span> <span class="n">str_excl</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.h5&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">dataset_dict</span> <span class="o">=</span> <span class="n">retrieve_group_dataset_dict</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="n">f_input</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">f_output</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">new_filename</span><span class="p">,</span> <span class="s1">&#39;w-&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Interate trhough groups/subgroups</span>
+        <span class="k">for</span> <span class="n">groups</span> <span class="ow">in</span> <span class="n">dataset_dict</span><span class="p">:</span>
+            <span class="n">dsets_in_group</span> <span class="o">=</span> <span class="n">dataset_dict</span><span class="p">[</span><span class="n">groups</span><span class="p">]</span>
+
+            <span class="c1"># Iterate through each filename in this group</span>
+            <span class="k">for</span> <span class="n">dset_name</span> <span class="ow">in</span> <span class="n">dsets_in_group</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">dset_name</span><span class="p">,</span><span class="n">str_excl</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">temp_name</span> <span class="o">=</span> <span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dset_name</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">f_output</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="n">f_input</span><span class="p">[</span><span class="n">temp_name</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Copying: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp_name</span><span class="p">))</span>
+                    <span class="n">f_input</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">temp_name</span><span class="p">,</span><span class="n">loc</span><span class="p">)</span>
+                    <span class="k">del</span> <span class="n">temp_name</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There was an error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">f_input</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">f_output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">new_filename</span></div>
+
+<div class="viewcode-block" id="special_repack"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.special_repack">[docs]</a><span class="k">def</span> <span class="nf">special_repack</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">repack_str</span> <span class="o">=</span> <span class="s1">&#39;_Movie_&#39;</span><span class="p">,</span> <span class="n">new_filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find datasets (1D) with a given repack_str and concatenates them into</span>
+<span class="sd">    a larger array. Other datasets are copied as is.</span>
+
+<span class="sd">    Creates a new h5 file with &#39;_repack_&#39; + repack_str(-&#39;_&#39;) + .h5&#39; appended</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        filename (str) : name of file to analyze/repack/copy</span>
+
+<span class="sd">        repack_str (str) : string to find in datasets to concatenate</span>
+
+<span class="sd">        new_filename (str) : (Optional) Output filename</span>
+
+<span class="sd">    Output</span>
+<span class="sd">    ------</span>
+<span class="sd">        Return (str) : filename of new HDF5 file</span>
+
+<span class="sd">        Writes a new file filename + &#39;_repack_&#39; + repack_str(-&#39;_&#39;) + .h5&#39;</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The output file cannot already exist</span>
+
+<span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;15.6.28&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">new_filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;.h5&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_repack_&#39;</span> <span class="o">+</span> \
+            <span class="n">repack_str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.h5&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">dataset_dict</span> <span class="o">=</span> <span class="n">retrieve_group_dataset_dict</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="n">f_input</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">f_output</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">new_filename</span><span class="p">,</span> <span class="s1">&#39;w-&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Iterate through each data-containing group</span>
+        <span class="k">for</span> <span class="n">groups</span> <span class="ow">in</span> <span class="n">dataset_dict</span><span class="p">:</span>
+            <span class="n">dsets_in_group</span> <span class="o">=</span> <span class="n">dataset_dict</span><span class="p">[</span><span class="n">groups</span><span class="p">]</span>
+            <span class="c1"># Turn dataset list into one long string and look for</span>
+            <span class="c1"># repack_str if there are none, copy the whole group</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">dsets_in_group</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">repack_str</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">f_output</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets_in_group</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dset</span>
+                    <span class="n">f_input</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">loc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Create a set from the list to remove identical entries</span>
+                <span class="n">unique_dset_prefix_list</span> <span class="o">=</span> \
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">dset_names</span><span class="p">,</span><span class="n">repack_str</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> \
+                    <span class="k">for</span> <span class="n">dset_names</span> <span class="ow">in</span> <span class="n">dsets_in_group</span><span class="p">]))</span>
+
+                <span class="k">for</span> <span class="n">unique_dset_prefix</span> <span class="ow">in</span> <span class="n">unique_dset_prefix_list</span><span class="p">:</span>
+                    <span class="n">dset_w_prefix</span> <span class="o">=</span> <span class="p">[</span><span class="n">dset_names</span> <span class="k">for</span> <span class="n">dset_names</span> <span class="ow">in</span> \
+                        <span class="n">dsets_in_group</span> \
+                        <span class="k">if</span> <span class="n">dset_names</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">unique_dset_prefix</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dset_w_prefix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="c1"># Init larger array with expanded size, same dtype</span>
+                    <span class="n">repack_array</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">dset_w_prefix</span><span class="p">),</span> \
+                        <span class="n">f_input</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span> <span class="o">=</span> \
+                        <span class="n">f_input</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+                    <span class="c1"># Fill in columns</span>
+                    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_w_prefix</span><span class="p">):</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">count</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">repack_array</span><span class="p">[</span><span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">],:]</span> <span class="o">=</span> <span class="n">f_input</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">f_output</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+                    <span class="n">f_output</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">unique_dset_prefix</span><span class="p">)]</span> <span class="o">=</span> <span class="n">repack_array</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dset_w_prefix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">input_attrs</span> <span class="o">=</span> <span class="n">f_input</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> \
+                        <span class="n">dset_w_prefix</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">attrs</span>
+
+                    <span class="c1"># Copy attribute from first dataset to the repack_array</span>
+                    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">input_attrs</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">f_output</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">groups</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> \
+                                <span class="n">unique_dset_prefix</span><span class="p">)]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                                <span class="n">input_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">pass</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There was an error&#39;</span><span class="p">)</span>
+
+    <span class="n">f_input</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">f_output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">new_filename</span></div>
+
+<div class="viewcode-block" id="special_shrink_datasets"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.h5.special_shrink_datasets">[docs]</a><span class="k">def</span> <span class="nf">special_shrink_datasets</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_path</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">stepsize</span><span class="p">,</span>
+                            <span class="n">xstep_attr</span><span class="o">=</span><span class="s1">&#39;RasterScanParams.FastAxisSteps&#39;</span><span class="p">,</span>
+                            <span class="n">xstep_size_attr</span><span class="o">=</span><span class="s1">&#39;RasterScanParams.FastAxisStepSize&#39;</span><span class="p">,</span>
+                            <span class="n">ystep_attr</span><span class="o">=</span><span class="s1">&#39;RasterScanParams.SlowAxisSteps&#39;</span><span class="p">,</span>
+                            <span class="n">ystep_size_attr</span><span class="o">=</span><span class="s1">&#39;RasterScanParams.SlowAxisStepSize&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find a particular dataset and shrink it by stepping over pixels</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Name of file to analyze/repack/copy</span>
+
+<span class="sd">        dset_path : str</span>
+<span class="sd">            Path to dataset</span>
+<span class="sd">            </span>
+<span class="sd">        dset_attr : str</span>
+<span class="sd">            Dataset name</span>
+
+<span class="sd">        stepsize : int</span>
+<span class="sd">            Step size to take (1::stepsize)</span>
+<span class="sd">        </span>
+<span class="sd">        xstep_attr : str</span>
+<span class="sd">            Name of HDF attribute that describes number of steps in the \</span>
+<span class="sd">            X-direction</span>
+<span class="sd">            </span>
+<span class="sd">        xstep_size_attr : str</span>
+<span class="sd">            Name of HDF attribute that describes step size in the \</span>
+<span class="sd">            X-direction</span>
+<span class="sd">            </span>
+<span class="sd">        ystep_attr : str</span>
+<span class="sd">            Name of HDF attribute that describes number of steps in the \</span>
+<span class="sd">            Y-direction</span>
+<span class="sd">        </span>
+<span class="sd">        ystep_size_attr : str</span>
+<span class="sd">            Name of HDF attribute that describes step size in the \</span>
+<span class="sd">            Y-direction</span>
+
+<span class="sd">    Output</span>
+<span class="sd">    ------</span>
+<span class="sd">        Return (str) : filename of new HDF5 file</span>
+
+<span class="sd">        Writes a new file filename + &#39;_repack_&#39; + repack_str(-&#39;_&#39;) + .h5&#39;</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The output file cannot already exist</span>
+
+<span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
+<span class="sd">    </span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    _shrink(&#39;../mP2_w_small.h5&#39;,&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/&#39;,&#39;mP2_3_5ms_Pos_2_0&#39;,10)</span>
+<span class="sd">    </span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+<span class="sd">    </span>
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+<span class="sd">    </span>
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    version: (&quot;15.6.28&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dset_fullname</span> <span class="o">=</span> <span class="n">dset_path</span> <span class="o">+</span> <span class="n">dset_name</span>
+        
+        <span class="n">dset_name_small</span> <span class="o">=</span> <span class="n">dset_name</span> <span class="o">+</span> <span class="s1">&#39;_small&#39;</span>
+        <span class="n">dset_fullname_small</span> <span class="o">=</span> <span class="n">dset_path</span> <span class="o">+</span> <span class="n">dset_name_small</span>
+        
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">dset_fullname</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="n">dset_fullname</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        
+        
+        <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+        <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r+&#39;</span><span class="p">)</span>
+        <span class="n">temp2</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="n">stepsize</span><span class="p">,</span><span class="mi">0</span><span class="p">::</span><span class="n">stepsize</span><span class="p">,:]</span>
+
+        <span class="n">lg_xsteps</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">lg_ysteps</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>        
+        <span class="n">sm_xsteps</span> <span class="o">=</span> <span class="n">temp2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">sm_ysteps</span> <span class="o">=</span> <span class="n">temp2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">dset_path</span><span class="p">]</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dset_name_small</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">temp2</span><span class="p">)</span>    
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">input_attrs</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+
+        <span class="c1"># Copy attribute from first dataset to the repack_array</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">input_attrs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">xstep_attr</span><span class="p">:</span>
+                    <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname_small</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                        <span class="n">sm_xsteps</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">xstep_size_attr</span><span class="p">:</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">input_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+                    
+                    <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname_small</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                        <span class="n">temp</span><span class="o">*</span><span class="p">(</span><span class="n">lg_xsteps</span><span class="o">/</span><span class="n">sm_xsteps</span><span class="p">))</span>
+                    
+                <span class="k">elif</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">ystep_attr</span><span class="p">:</span>
+                    <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname_small</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                        <span class="n">sm_ysteps</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">ystep_size_attr</span><span class="p">:</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">input_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+                    
+                    <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname_small</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                        <span class="n">temp</span><span class="o">*</span><span class="p">(</span><span class="n">lg_ysteps</span><span class="o">/</span><span class="n">sm_ysteps</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">f</span><span class="p">[</span><span class="n">dset_fullname_small</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> \
+                        <span class="n">input_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>    </div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

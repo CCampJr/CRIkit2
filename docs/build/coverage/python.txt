@@ -1,0 +1,29 @@
+Undocumented Python objects
+===========================
+crikit.cri.kk
+-------------
+Classes:
+ * KramersKronig
+
+crikit.io.hdf5
+--------------
+Functions:
+ * hdf_export_data
+
+crikit.io.macros
+----------------
+Functions:
+ * import_hdf_nist_special
+
+crikit.preprocess.denoise
+-------------------------
+Classes:
+ * SVDDecompose
+ * SVDRecompose
+
+crikit.preprocess.standardize
+-----------------------------
+Classes:
+ * Anscombe
+ * AnscombeInverse
+

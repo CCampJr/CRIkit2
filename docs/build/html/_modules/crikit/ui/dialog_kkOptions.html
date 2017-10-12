@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.dialog_kkOptions &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.dialog_kkOptions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.dialog_kkOptions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Kramers-Kronig phase retrieval</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">[1] C H Camp Jr, Y J Lee, and M T Cicerone, &quot;Quantitative, Comparable Coherent \</span>
+<span class="sd">Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \</span>
+<span class="sd">Retrieval,&quot; Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="c1"># Generic imports for QT-based programs</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">)</span>
+
+
+<span class="c1"># Import from Designer-based GUI</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_KKOptions</span> <span class="k">import</span> <span class="n">Ui_Dialog</span> <span class="k">as</span> <span class="n">Ui_KKOptions</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_ploteffect</span> <span class="k">import</span> <span class="p">(</span><span class="n">DialogPlotEffectFuture</span> <span class="k">as</span> 
+                                                <span class="n">_DialogPlotEffect</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_KK</span> <span class="k">import</span> <span class="p">(</span><span class="n">widgetKK</span> <span class="k">as</span> <span class="n">_widgetKK</span><span class="p">)</span>
+
+<span class="c1"># Generic imports for MPL-incorporation</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Qt5Agg&#39;</span><span class="p">)</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<div class="viewcode-block" id="DialogKKOptions"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions">[docs]</a><span class="k">class</span> <span class="nc">DialogKKOptions</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently \</span>
+<span class="sd">        supported) options dialog</span>
+
+<span class="sd">    Static Method</span>
+<span class="sd">    -------------</span>
+<span class="sd">    dialogKKOptions : Used to call UI and retrieve results of dialog</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, &quot;Broadband CARS spectral \</span>
+<span class="sd">    phase retrieval using a time-domain Kramers-Kronig transform,&quot; \</span>
+<span class="sd">    Opt. Lett. 34, 1363-1365 (2009).</span>
+
+<span class="sd">    [2] C H Camp Jr, Y J Lee, and M T Cicerone, &quot;Quantitative, Comparable Coherent \</span>
+<span class="sd">    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \</span>
+<span class="sd">    Retrieval,&quot; Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</span>
+
+<span class="sd">    Software Info</span>
+<span class="sd">    --------------</span>
+
+<span class="sd">    Original Python branch: Feb 16 2015</span>
+
+<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
+
+<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
+
+<span class="sd">    version: (&quot;16.2.16&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NORM_TO_NRB</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">NRB_AMP</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">CARS_AMP</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">PHASE_OFFSET</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">PAD_FACTOR</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DialogKKOptions</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_KKOptions</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxCARSAmp</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CARS_AMP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxNRBAmp</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NRB_AMP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PHASE_OFFSET</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NORM_TO_NRB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAD_FACTOR</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_to_nrb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NORM_TO_NRB</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonInteractive</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonInteractive</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goInteractive</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DialogKKOptions.goInteractive"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions.goInteractive">[docs]</a>    <span class="k">def</span> <span class="nf">goInteractive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetKK</span><span class="p">()</span>
+
+        <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">_DialogPlotEffect</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> 
+                                                           <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                                           <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">,</span>
+                                                           <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">winPlotEffect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxCARSAmp</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;cars_amp_offset&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxNRBAmp</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;nrb_amp_offset&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">])</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DialogKKOptions.dialogKKOptions"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions">[docs]</a>    <span class="k">def</span> <span class="nf">dialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Static Method.</span>
+
+<span class="sd">        Retrieve dark subtraction dialog results</span>
+
+<span class="sd">        Inputs</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None : None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        out : dict{&#39;cars_amp&#39; : float, &#39;nrb_amp&#39; : float,</span>
+<span class="sd">                   &#39;phase_offset&#39; : float, &#39;norm_to_nrb&#39; : bool,</span>
+<span class="sd">                   &#39;pad_factor&#39; : int}</span>
+<span class="sd">            In order: CARS amp offset, NRB amp offset, phase offset, normalize</span>
+<span class="sd">                by NRB, pad factor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;cars_amp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxCARSAmp</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;nrb_amp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxNRBAmp</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+
+
+<span class="c1">#    winDark = DialogDarkOptions.dialogDarkOptions(darkloaded=True)</span>
+
+    <span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">_Hsi</span><span class="p">()</span>
+
+    <span class="n">WN</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="n">WN</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">CARS</span><span class="p">[:,:,:]</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span><span class="p">)</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">CARS</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">WN</span>
+
+
+    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span>
+
+
+    <span class="n">winKK</span> <span class="o">=</span> <span class="n">DialogKKOptions</span><span class="o">.</span><span class="n">dialogKKOptions</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">WN</span><span class="p">,</span> <span class="n">NRB</span><span class="p">,</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">get_rand_spectra</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">pt_sz</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">quads</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KK return: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">winKK</span><span class="p">))</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

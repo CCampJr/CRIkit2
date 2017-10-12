@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.cri.algorithms package &mdash; CRIKit2 16.07 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 16.07 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">crikit.cri.algorithms package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.cri.algorithms.kk">crikit.cri.algorithms.kk module</a><ul>
+<li><a class="reference internal" href="#kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)</a><ul>
+<li><a class="reference internal" href="#citation-ref">Citation ref</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-crikit.cri.algorithms">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>crikit.cri.algorithms package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crikit.cri.algorithms.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crikit-cri-algorithms-package">
+<h1>crikit.cri.algorithms package<a class="headerlink" href="#crikit-cri-algorithms-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.cri.algorithms.kk">
+<span id="crikit-cri-algorithms-kk-module"></span><h2>crikit.cri.algorithms.kk module<a class="headerlink" href="#module-crikit.cri.algorithms.kk" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">
+<h3>Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)<a class="headerlink" href="#kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>kkrelation : Retrieve real and imaginary components from a
+spectrum that is the modulus of a function</p>
+<p>hilbertfft : Fourier-domain Hilbert transform</p>
+</div></blockquote>
+<div class="section" id="citation-ref">
+<h4>Citation ref<a class="headerlink" href="#citation-ref" title="Permalink to this headline">¶</a></h4>
+<p>C H Camp Jr, Y J Lee, and M T Cicerone, &#8220;Quantitative, Comparable Coherent 
+Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase 
+Retrieval,&#8221; Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
+<dl class="function">
+<dt id="crikit.cri.algorithms.kk.kkrelation">
+<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">kkrelation</code><span class="sig-paren">(</span><em>bg</em>, <em>cri</em>, <em>phase_offset=0.0</em>, <em>norm_by_bg=True</em>, <em>pad_factor=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the real and imaginary components of a CRI spectra(um) via
+the Kramers-Kronig (KK) relation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bg</strong> : ndarray</p>
+<blockquote>
+<div><p>Coherent background (bg) spectra(um) array that can be one-, two-,         or three-dimensional</p>
+</div></blockquote>
+<p><strong>cri</strong> : ndarray</p>
+<blockquote>
+<div><p>CRI spectra(um) array that can be one-,two-,or three-dimensional     (phase_offset) : int, float, or ndarray, optional
+Global phase offset applied to the KK, which effecively controls         the real-to-imaginary components relationship</p>
+</div></blockquote>
+<p><strong>(norm_by_bg)</strong> : bool</p>
+<blockquote>
+<div><p>Should the output be normalized by the square-root of the         background (bg) spectrum(a)</p>
+</div></blockquote>
+<p><strong>(pad_factor)</strong> : int</p>
+<blockquote>
+<div><p>The multiple number of spectra-length pads that will be
+applied before and after the original spectra</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : complex ndarray</p>
+<blockquote class="last">
+<div><p>The real and imaginary components of KK.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Y Liu, Y J Lee, and M T Cicerone, &#8220;Broadband CARS spectral phase     retrieval using a time-domain Kramers-Kronig transform,&#8221; Opt. Lett. 34,     1363-1365 (2009).</p>
+<p>C H Camp Jr, Y J Lee, and M T Cicerone, &#8220;Quantitative, Comparable     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting     Errors in Phase Retrieval,&#8221; Journal of Raman Spectroscopy (2016).     arXiv:1507.06543.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.cri.algorithms.kk.hilbertfft">
+<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">hilbertfft</code><span class="sig-paren">(</span><em>spectra</em>, <em>pad_factor=1</em>, <em>use_pyfftw=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#hilbertfft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.hilbertfft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the one-dimensional Hilbert Transform.</p>
+<p>This function computes the one-dimentional Hilbert transform
+using the Fourier-domain implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>spectra</strong> : ndarray</p>
+<blockquote>
+<div><p>Input array that can be one-,two-,or three-dimensional</p>
+</div></blockquote>
+<p><strong>pad_factor</strong> : int, optional</p>
+<blockquote>
+<div><p>The multiple number of spectra-length pads that will be
+applied before and after the original spectra</p>
+</div></blockquote>
+<p><strong>use_pyfftw</strong> : bool, optional</p>
+<blockquote>
+<div><p>If available, use pyfftw. Else use scipy scipack implementation</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>Hilbert transformed data</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>C H Camp Jr, Y J Lee, and M T Cicerone, &#8220;Quantitative, Comparable     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting     Errors in Phase Retrieval,&#8221; Journal of Raman Spectroscopy (2016).     arXiv:1507.06543.</p>
+<p>A D Poularikas, &#8220;The Hilbert Transform,&#8221; in The Handbook of     Formulas and Tables for Signal Processing (ed., A. D. Poularikas),     Boca Raton, CRC Press LLC (1999).</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="module-crikit.cri.algorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.cri.algorithms" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'16.07',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
