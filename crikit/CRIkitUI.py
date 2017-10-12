@@ -387,6 +387,8 @@ class CRIkitUI_process(_QMainWindow):
         if temp is not None:
             try:
                 self.hsi.x = temp
+                self.hsi._x_rep.units = kwargs.get('x_units')
+                self.hsi._x_rep.label = kwargs.get('x_label')
             except:
                 print('Error in input x-array')
                 self.hsi.x = None
@@ -396,6 +398,8 @@ class CRIkitUI_process(_QMainWindow):
         if temp is not None:
             try:
                 self.hsi.y = temp
+                self.hsi._y_rep.units = kwargs.get('y_units')
+                self.hsi._y_rep.label = kwargs.get('y_label')
             except:
                 print('Error in input y-array')
                 self.hsi.y = None
@@ -405,6 +409,8 @@ class CRIkitUI_process(_QMainWindow):
         if temp is not None:
             try:
                 self.hsi.freq._data = temp
+                self.hsi.freq._units = kwargs.get('f_units')
+                self.hsi.freq._label = kwargs.get('f_label')
             except:
                 print('Error in input freq-array (f)')
                 self.hsi.freq._data = None
@@ -2826,8 +2832,29 @@ def crikit_launch(**kwargs):
     x : ndarray (1D)
         x-array
 
+    x_units : str
+        Units of x (e.g. r'$\mu$m')
+
+    x_label : str
+        Label of x (e.g. 'X')
+
     y : ndarray (1D)
         y-array
+
+    y_units : str
+        Units of y (e.g. r'$\mu$m')
+
+    y_label : str
+        Label of y (e.g. 'Y')
+
+    f : ndarray (1D)
+        frequency-array
+
+    f_units : str
+        Units of frequency (e.g. r'cm$^{-1}$')
+
+    f_label : str
+        Label of frequency (e.g. 'Wavenumber')
 
     filename : str
         Filename of HDF data to auto-load (requires path and dataset_name as well)
