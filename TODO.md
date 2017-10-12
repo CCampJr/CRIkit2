@@ -11,3 +11,7 @@
 * Carryover SVD auto-selection tools from SW package
 * Add rng functionality to all fcns
 * Move from ALS-only to ALS/ArPLS detrending
+
+# Minor tweaks
+* Add label and units parameter to Frequency
+* Use Frequency label and units in GUI
