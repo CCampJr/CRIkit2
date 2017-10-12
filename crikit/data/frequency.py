@@ -101,6 +101,7 @@ class Frequency:
         self._calib = None
         self._calib_orig = None
         self._calib_fcn = None
+        self._label = None
         self._units = None
         self._op_list_pix = None
         self._op_list_freq = None
