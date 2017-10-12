@@ -101,6 +101,7 @@ class Frequency:
         self._calib = None
         self._calib_orig = None
         self._calib_fcn = None
+        self._label = None
         self._units = None
         self._op_list_pix = None
         self._op_list_freq = None
@@ -133,6 +134,8 @@ class Frequency:
                 self._data = value
             else:
                 raise TypeError('data must be a 1D ndarray')
+        elif value is None:
+            self._data = None
         else:
             raise TypeError('data must be a 1D ndarray')
 
