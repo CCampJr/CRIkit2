@@ -400,6 +400,15 @@ class CRIkitUI_process(_QMainWindow):
                 print('Error in input y-array')
                 self.hsi.y = None
 
+        # freq-array provided
+        temp = kwargs.get('f')
+        if temp is not None:
+            try:
+                self.hsi.freq._data = temp
+            except:
+                print('Error in input freq-array (f)')
+                self.hsi.freq._data = None
+
         # data provided
         if isinstance(kwargs.get('data'), _np.ndarray):
             try:
@@ -2843,7 +2852,7 @@ def crikit_launch(**kwargs):
         obj = parent
         
     kwargs['parent'] = obj
-    print('Kwargs: {}'.format(kwargs))
+    # print('Kwargs: {}'.format(kwargs))
     win = CRIkitUI_process(**kwargs) ### EDIT ###
 
     # Insert other stuff to do
