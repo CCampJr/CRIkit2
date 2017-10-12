@@ -40,14 +40,13 @@ def hdf_is_valid_dsets(pth, filename, dset_list):
     Validate file and datasets exist. Return boolean as to whether valid
 
     """
-    # Join path and filename in an os-independant way
-    pfname = _os.path.normpath(_os.path.join(pth, filename))
-
-
+    
     isvalid = False
     fileexists = False
 
     try:
+        # Join path and filename in an os-independant way
+        pfname = _os.path.normpath(_os.path.join(pth, filename))
         f = _h5py.File(pfname, 'r')
         print('File exists: \'{}\''.format(pfname))
         fileexists = True
