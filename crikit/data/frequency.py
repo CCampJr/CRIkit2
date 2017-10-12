@@ -133,6 +133,8 @@ class Frequency:
                 self._data = value
             else:
                 raise TypeError('data must be a 1D ndarray')
+        elif value is None:
+            self._data = None
         else:
             raise TypeError('data must be a 1D ndarray')
 
