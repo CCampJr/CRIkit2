@@ -201,7 +201,7 @@ class Hsi(_Spectrum):
         Check x, y, and freq to make sure the dimensions agree with data
         """
         if self._data is None:
-            print('Hsi check: data is None')
+            print('Hsi check: data is None, not checking')
         else:
             if self._x_rep._data is None:
                 self._x_rep._data = _np.arange(self.shape[1])
