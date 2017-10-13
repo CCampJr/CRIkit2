@@ -14,8 +14,6 @@ from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.replicate import Replicate as _Replicate
 from crikit.data.hsi import Hsi as _Hsi
 
-__all__ = ['Hsi']
-
 class _Factorized:
     """
     Factorized class. Contains items unique to factorized spectral data.
