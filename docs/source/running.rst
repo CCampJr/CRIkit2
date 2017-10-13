@@ -11,8 +11,8 @@
 |
 |
 
-Running CRIkit2 UI
-==================
+Running the CRIkit2 Graphical User Interface
+============================================
 
 As a module
 -----------

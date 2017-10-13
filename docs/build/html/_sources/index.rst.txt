@@ -25,11 +25,12 @@ Contents:
 
    installing
    running
+   algorithms
+   io
+   api
    
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
-
