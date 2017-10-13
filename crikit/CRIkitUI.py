@@ -1045,8 +1045,7 @@ class CRIkitUI_process(_QMainWindow):
         Note: This function just sets up the signal-slot connection for the \
         MPL window. It executes all the way through
 
-        Action
-        ------
+        Action:
             Left mouse-click : Select vertex point
         """
         if self.cid is None:
@@ -1240,8 +1239,7 @@ class CRIkitUI_process(_QMainWindow):
         Note: This function just sets up the signal-slot connection for the \
         MPL window. It executes all the way through
 
-        Action
-        ------
+        Action:
             Left mouse-click : Select vertex point
             Right mouse-click : Close polygon
         """

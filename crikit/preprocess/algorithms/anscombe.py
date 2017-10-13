@@ -142,7 +142,7 @@ def gen_anscombe_inverse_closed_form(fsignal, gauss_std, gauss_mean = 0,
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     .. [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
     transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
     doi:10.1109/TIP.2012.2202675
@@ -222,7 +222,7 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     .. [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
     transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
     doi:10.1109/TIP.2012.2202675
@@ -315,7 +315,7 @@ def anscombe_inverse_exact_unbiased(fsignal):
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     .. [1] M. Mäkitalo and A. Foi, "On the inversion of the Anscombe
     transformation in low-count Poisson image denoising", Proc. Int.
     Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,

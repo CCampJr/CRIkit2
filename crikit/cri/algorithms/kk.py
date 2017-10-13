@@ -1,15 +1,15 @@
 """
 Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)
-=======================================================
+=================================================================
 
     kkrelation : Retrieve real and imaginary components from a
     spectrum that is the modulus of a function
 
     hilbertfft : Fourier-domain Hilbert transform
 
-Citation ref
-------------------
-C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent 
+References
+----------
+.. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent 
 Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase 
 Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 """
