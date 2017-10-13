@@ -9,8 +9,8 @@ General utilities
     find_nearest : Given a vector and a value, find the index and value
         of the closest match
 
-Note
-----
+Notes
+-----
 """
 import numpy as _np
 

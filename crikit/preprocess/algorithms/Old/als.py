@@ -20,8 +20,8 @@ Asymmetric Least Square methods (CRIKIT.utils.als_methods)
     als_background_scipy            ALS implementation using the
                                     scipy.linalg (sub-)module.
 
-Note
-----
+Notes
+-----
     als_baseline_cvxopt and als_baseline_scikits_sparse use sparse
     Cholesky factorization matrix; thus, they may be significantly more
     efficient (fast). Read the __doc__ (string) information for more
@@ -141,8 +141,8 @@ cholesky_type=_cholesky_type,print_iteration=True, **kwargs):
     out : [ndarray, string]
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     The optimal implementation of Cholesky factorization for your
     particular application may not be that selected by the order-of-
     presedence. CHOLMOD was selected as the top presendence method
@@ -221,8 +221,8 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
     out : [ndarray, string]
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     The optimal implementation of Cholesky factorization for your
     particular application may not be that selected by the order-of-
     presedence. CHOLMOD was selected as the top presendence method
@@ -338,8 +338,8 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -465,8 +465,8 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -590,8 +590,8 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or

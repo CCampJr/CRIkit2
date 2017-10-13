@@ -72,8 +72,8 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     out : complex ndarray
         The real and imaginary components of KK.
 
-    Note
-    ----
+    Notes
+    -----
     (1) The imaginary components provides the sponatenous Raman-like \
     spectra(um).
 

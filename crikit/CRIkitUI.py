@@ -1855,8 +1855,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         Error Correction: Amp aka Baseline Detrending
 
-        Note
-        ----
+        Notes
+        -----
         If data is complex, amplitude detrending occurs on and only on the \
         imaginary portion
         """

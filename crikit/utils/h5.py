@@ -36,8 +36,8 @@ def convert_to_np_dtype(dset):
     -------
     out : numpy.ndarray (dtype = numpy built-in)
 
-    Note
-    ----
+    Notes
+    -----
     The software accounts for big-/little-endianness, and the inability of \
     hdf5 to natively store complex numbers.
 
@@ -246,8 +246,8 @@ def special_repack(filename, repack_str = '_Movie_', new_filename = None):
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
-    Note
-    ----
+    Notes
+    -----
     The output file cannot already exist
 
     SPECIAL : Only likely useful for the NIST developers
@@ -365,8 +365,8 @@ def special_shrink_datasets(filename, dset_path, dset_name, stepsize,
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
-    Note
-    ----
+    Notes
+    -----
     The output file cannot already exist
 
     SPECIAL : Only likely useful for the NIST developers

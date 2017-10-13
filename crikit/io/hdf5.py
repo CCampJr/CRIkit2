@@ -93,8 +93,8 @@ def _convert_to_np_dtype(dset):
     -------
     out : numpy.ndarray (dtype = numpy built-in)
 
-    Note
-    ----
+    Notes
+    -----
     The software accounts for big-/little-endianness, and the inability of \
     hdf5 to natively store complex numbers.
 

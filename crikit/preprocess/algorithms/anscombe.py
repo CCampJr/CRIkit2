@@ -74,8 +74,8 @@ def gen_anscombe_forward(signal, gauss_std, gauss_mean = 0, poisson_multi = 1):
         "Anscombe-transformed" signal with an approximate unity standard \
         deviation/variance (~ 1)
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
@@ -134,8 +134,8 @@ def gen_anscombe_inverse_closed_form(fsignal, gauss_std, gauss_mean = 0,
         Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
         noise
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
@@ -214,8 +214,8 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
         Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
         noise
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
@@ -307,8 +307,8 @@ def anscombe_inverse_exact_unbiased(fsignal):
     signal : ndarray (matched to signal shape)
         Inverse Anscombe-transformed signal
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references

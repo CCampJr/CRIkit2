@@ -39,8 +39,8 @@ class Replicate:
     calib_data_agree
         Return bool as to whether data and that derived from calib agree
 
-    Note
-    ----
+    Notes
+    -----
     * input to calib can be a list or tuple or 1D ndarray or int or float
 
     Setting calib can take up to 3 entries :
