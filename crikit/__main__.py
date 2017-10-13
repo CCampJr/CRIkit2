@@ -1,6 +1,6 @@
 """
 Coherent Raman Imaging toolKit 2:  User Interface Loader (main)
-=======================================================
+===============================================================
 
 Use of this loader makes all the directories in the path properly and prevents \
 the need to use odd _init.py path appending

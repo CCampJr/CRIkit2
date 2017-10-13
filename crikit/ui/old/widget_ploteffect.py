@@ -1,6 +1,6 @@
 """
 Widgets for Plot-Effect Interface (crikit.ui.widget_ploteffect)
-=======================================================
+===============================================================
 
 widgetNothing : This demo widget does nothing
 
@@ -29,8 +29,6 @@ changed : QtCore.pyqtSignal
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -238,12 +236,11 @@ class widgetKK(_QWidget):
             Global phase addition type: 'linear' or 'sigmoidal'
 
 
-    Functions
+    Methods
     ---------
         fcn : Performs the KK
 
-    Signals
-    -------
+    Signals :
         changed : a value in the UI has changed
 
     """
@@ -543,12 +540,11 @@ class widgetALS(_QWidget):
 
 
 
-    Functions
+    Methods
     ---------
         fcn : Performs the Asymmetric Least Squares
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
     Notes
@@ -558,15 +554,15 @@ class widgetALS(_QWidget):
     
     References
     ----------
-    .. [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    .. [2] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [2] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [3] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [3] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
     """
 
@@ -637,19 +633,18 @@ class widgetSG(_QWidget):
         order : int
             Order (polynomial)
 
-    Functions
+    Methods
     ---------
         fcn : Performs the Savitky-Golay
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
     References
     ----------
-    .. [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 

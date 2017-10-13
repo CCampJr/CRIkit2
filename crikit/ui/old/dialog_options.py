@@ -11,17 +11,15 @@ DialogKKOptions : Phase retrieval options dialog. Note: this class only\
 
 References
 ----------
-.. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+[1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
 """
 
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -63,9 +61,9 @@ class DialogDarkOptions(_QDialog):
 
     References
     ----------
-    .. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+    [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
     """
     SUB_DARK = True
@@ -200,13 +198,13 @@ class DialogKKOptions(_QDialog):
 
     References
     ----------
-    .. [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
-    phase retrieval using a time-domain Kramers-Kronig transform," \
-    Opt. Lett. 34, 1363-1365 (2009).
+    [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
+        phase retrieval using a time-domain Kramers-Kronig transform," \
+        Opt. Lett. 34, 1363-1365 (2009).
 
-    .. [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+    [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
     """
     NORM_TO_NRB = True
@@ -287,62 +285,6 @@ class DialogKKOptions(_QDialog):
                     dialog.ui.spinBoxPadFactor.value())
         else:
             return (None, None, None, None, None)
-#
-#class DialogAnscombeOptions(_QDialog):
-#    """
-#    DialogAnscombeOptions : Anscombe Transformation options dialog
-#
-#    Methods
-#    -------------
-#    dialogAnscombeOptions : Used to call UI and retrieve results of dialog
-#
-#    References
-#    ----------
-#    .. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-#    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-#    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
-#
-#    """
-#    STDDEV = 12.44
-#    GAIN = 1.4
-#
-#    def __init__(self, parent = None):
-#        super(DialogAnscombeOptions, self).__init__(parent) ### EDIT ###
-#        self.ui = Ui_AnscombeOptions() ### EDIT ###
-#        self.ui.setupUi(self)     ### EDIT ###
-#
-#        self.ui.spinBoxGain.setValue(self.GAIN)
-#        self.ui.spinBoxStdDev.setValue(self.STDDEV)
-#
-#        #self.stddev = self.STDDEV
-#        #self.gain = self.GAIN
-#
-#    @staticmethod
-#    def dialogAnscombeOptions(parent = None, nrbloaded = False):
-#        """
-#        Retrieve Anscombe Transform dialog results
-#
-#        Parameters
-#        ----------
-#        None : None
-#
-#        Returns
-#        ----------
-#        out : (tuple)
-#            Standard deviation of Gaussian noise : (float)
-#            Detector gain of Poisson noise : (float)
-#        """
-#        dialog = DialogAnscombeOptions(parent)
-#
-#        result = dialog.exec_()
-#
-#        stddev = dialog.ui.spinBoxStdDev.value()
-#        gain = dialog.ui.spinBoxGain.value()
-#
-#        if result == 1:
-#            return (stddev, gain)
-#        else:
-#            return (None, None)
 
 if __name__ == '__main__':
 
