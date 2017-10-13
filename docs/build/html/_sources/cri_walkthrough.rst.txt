@@ -1,0 +1,36 @@
+.. _criwalkthru:
+
+.. image:: _static/CRIkit2_Logo.png
+    :align: left
+
+|
+|
+|
+|
+|
+|
+|
+
+Walk-Thru: CRI Processing
+=========================
+
+This walk-thru will take you through several steps:
+
+- `Loading HDF file **Hsi** dataset`__
+- Loading **Dark** dataset
+- Loading an **NRB** dataset
+    - From HDF
+    - From an ROI within the **Hsi** dataset
+- Dark subtraction
+- Variance stabilization
+- Denoising via singular value decomposition (SVD)
+- Phase retrieval via Kramers-Kronig relation
+- Phase error correction
+- Scaling error correction
+- Calibration
+- Saving
+
+.. Loading HDF file **Hsi** dataset:
+------------------------------------
+
+Coming Soon

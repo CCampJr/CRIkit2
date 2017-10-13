@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Walk-Thru: CRI Processing &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/>
+        <link rel="next" title="Command Line Tools &amp; Algorthms" href="algorithms.html"/>
+        <link rel="prev" title="Running the CRIkit2 Graphical User Interface" href="running.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Walk-Thru: CRI Processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-hdf-file-hsi-dataset">Loading HDF file Hsi dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-dark-dataset">Loading Dark dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#denoise-dark-optional">Denoise Dark (Optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-an-nrb-dataset">Loading an NRB dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#load-from-hdf-file">Load from HDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-from-roi">Load from ROI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merge-two-nrb-datasets">Merge two NRB datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dark-subtraction">Dark subtraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#residual-dark-subtraction-optional">Residual dark subtraction (Optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variance-stabilization">Variance stabilization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#denoising-via-singular-value-decomposition-svd">Denoising via singular value decomposition (SVD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-retrieval-via-kramers-kronig-relation">Phase retrieval via Kramers-Kronig relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-error-correction">Phase error correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scale-error-correction">Scale error correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calibration">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saving">Saving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pseudo-color-imagery">Pseudo-color imagery</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Walk-Thru: CRI Processing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/cri_walkthru.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="_images/CRIkit2_Logo.png" class="align-left" id="cri-walkthru" src="_images/CRIkit2_Logo.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="walk-thru-cri-processing">
+<h1>Walk-Thru: CRI Processing<a class="headerlink" href="#walk-thru-cri-processing" title="Permalink to this headline">¶</a></h1>
+<p>This walk-thru will take you through several steps:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#loading-hdf-file-hsi-dataset">Loading HDF file Hsi dataset</a></li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#loading-dark-dataset">Loading Dark dataset</a></dt>
+<dd>-<a class="reference internal" href="#denoise-dark-optional">Denoise Dark (Optional)</a></dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#loading-an-nrb-dataset">Loading an NRB dataset</a></dt>
+<dd><ul class="first last">
+<li>From HDF</li>
+<li>From an ROI within the <strong>Hsi</strong> dataset</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><a class="reference internal" href="#dark-subtraction">Dark subtraction</a></li>
+<li><a class="reference internal" href="#residual-dark-subtraction-optional">Residual dark subtraction (Optional)</a></li>
+<li><a class="reference internal" href="#variance-stabilization">Variance stabilization</a></li>
+<li><a class="reference internal" href="#denoising-via-singular-value-decomposition-svd">Denoising via singular value decomposition (SVD)</a></li>
+<li><a class="reference internal" href="#phase-retrieval-via-kramers-kronig-relation">Phase retrieval via Kramers-Kronig relation</a></li>
+<li><a class="reference internal" href="#phase-error-correction">Phase error correction</a></li>
+<li><a class="reference internal" href="#scale-error-correction">Scale error correction</a></li>
+<li><a class="reference internal" href="#calibration">Calibration</a></li>
+<li><a class="reference internal" href="#saving">Saving</a></li>
+<li><a class="reference internal" href="#pseudo-color-imagery">Pseudo-color imagery</a></li>
+</ul>
+<p>The screenshots within this manual may or may not reflect the exact look of the
+version of CRIkit2 UI that you are using.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/overview.jpg" class="align-center" src="_images/overview.jpg" />
+</div>
+<div class="section" id="loading-hdf-file-hsi-dataset">
+<h2>Loading HDF file Hsi dataset<a class="headerlink" href="#loading-hdf-file-hsi-dataset" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/load1.jpg" class="align-center" src="_images/load1.jpg" />
+<img alt="_images/load2.png" class="align-center" src="_images/load2.png" />
+<img alt="_images/load3.png" class="align-center" src="_images/load3.png" />
+</div>
+<div class="section" id="loading-dark-dataset">
+<h2>Loading Dark dataset<a class="headerlink" href="#loading-dark-dataset" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/load_dark.png" class="align-center" src="_images/load_dark.png" />
+<div class="section" id="denoise-dark-optional">
+<h3>Denoise Dark (Optional)<a class="headerlink" href="#denoise-dark-optional" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/denoise_dark.jpg" class="align-center" src="_images/denoise_dark.jpg" />
+</div>
+</div>
+<div class="section" id="loading-an-nrb-dataset">
+<h2>Loading an NRB dataset<a class="headerlink" href="#loading-an-nrb-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="load-from-hdf-file">
+<h3>Load from HDF file<a class="headerlink" href="#load-from-hdf-file" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/load_nrb.png" class="align-center" src="_images/load_nrb.png" />
+</div>
+<div class="section" id="load-from-roi">
+<h3>Load from ROI<a class="headerlink" href="#load-from-roi" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/load_nrb_roi.jpg" class="align-center" src="_images/load_nrb_roi.jpg" />
+</div>
+<div class="section" id="merge-two-nrb-datasets">
+<h3>Merge two NRB datasets<a class="headerlink" href="#merge-two-nrb-datasets" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="dark-subtraction">
+<h2>Dark subtraction<a class="headerlink" href="#dark-subtraction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="residual-dark-subtraction-optional">
+<h2>Residual dark subtraction (Optional)<a class="headerlink" href="#residual-dark-subtraction-optional" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="variance-stabilization">
+<h2>Variance stabilization<a class="headerlink" href="#variance-stabilization" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/Anscombe_action.jpg" class="align-center" src="_images/Anscombe_action.jpg" />
+<img alt="_images/InverseAnscombe_action.png" class="align-center" src="_images/InverseAnscombe_action.png" />
+</div>
+<div class="section" id="denoising-via-singular-value-decomposition-svd">
+<h2>Denoising via singular value decomposition (SVD)<a class="headerlink" href="#denoising-via-singular-value-decomposition-svd" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/denoise_action.jpg" class="align-center" src="_images/denoise_action.jpg" />
+<img alt="_images/svd_widget.jpg" class="align-center" src="_images/svd_widget.jpg" />
+</div>
+<div class="section" id="phase-retrieval-via-kramers-kronig-relation">
+<h2>Phase retrieval via Kramers-Kronig relation<a class="headerlink" href="#phase-retrieval-via-kramers-kronig-relation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="phase-error-correction">
+<h2>Phase error correction<a class="headerlink" href="#phase-error-correction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="scale-error-correction">
+<h2>Scale error correction<a class="headerlink" href="#scale-error-correction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="calibration">
+<h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="saving">
+<h2>Saving<a class="headerlink" href="#saving" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pseudo-color-imagery">
+<h2>Pseudo-color imagery<a class="headerlink" href="#pseudo-color-imagery" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="algorithms.html" class="btn btn-neutral float-right" title="Command Line Tools &amp; Algorthms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="running.html" class="btn btn-neutral" title="Running the CRIkit2 Graphical User Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

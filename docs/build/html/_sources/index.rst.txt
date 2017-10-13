@@ -38,6 +38,7 @@ Contents:
 
   installing
   running
+  cri_walkthru
   algorithms
   io
   nonlicense
