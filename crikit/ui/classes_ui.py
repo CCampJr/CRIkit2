@@ -8,17 +8,6 @@ SingleColor : Single-color images
 
 _ColorMath : Container of math operations
 
-
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("15.9.15")
 """
 
 import numpy as _np

@@ -6,16 +6,6 @@ Plot-Effect Interface (crikit.ui.subui_ploteffect)
 TODO: Do some manual tight layout assessment to make sure labels and titles \
 are fully visible
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.02.29")
 """
 
 # Append sys path
@@ -249,16 +239,6 @@ class DialogPlotEffect(_QDialog):
         out : object
             Returns access to the plugin variables
                 
-        Software Info
-        --------------
-        
-        Original Python branch: Feb 16 2015
-        
-        author: ("Charles H Camp Jr")
-        
-        email: ("charles.camp@nist.gov")
-        
-        version: ("16.03.01")
         """        
         dialog = DialogPlotEffect(data, x=x, plugin=plugin, xlabel=xlabel, 
                                   ylabel=ylabel, show_difference=show_difference,

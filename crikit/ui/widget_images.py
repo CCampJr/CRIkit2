@@ -13,16 +13,6 @@ widgetCompositeColor : Composite-color imagery
 
 _mplWin : Matplotlib window container
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.03.14")
 """
 
 import sys as _sys
@@ -63,16 +53,6 @@ class widgetColorMath(_QWidget):
     Contains information about what mathematical operations are possible for \
     taking raw HSI data and converting it to grayscale/color.
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.14")
     """
     OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs','SUM']
     OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2]

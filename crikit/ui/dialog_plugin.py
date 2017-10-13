@@ -50,20 +50,10 @@ class DialogDenoisePlugins(_QDialog):
     
     References
     ----------
-    [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+    .. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
     Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
     Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.02.16")
     """
 
     def __init__(self, parent = None):
@@ -148,20 +138,10 @@ class DialogErrCorrPlugins(_QDialog):
     
     References
     ----------
-    [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+    .. [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
     Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
     Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.03.01")
     """
     
     def __init__(self, parent = None):

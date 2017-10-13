@@ -67,16 +67,6 @@ class widgetNothing(_QWidget):
     This plugin does nothing (i.e., it is a template and for demonstration \
     purposes).
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
     """
 
     changed = _pyqtSignal()
@@ -93,17 +83,6 @@ class widgetCalibrate(_QWidget):
     """
     This plugin widget provides calibration functionality.
 
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.15")
     """
     DEFAULT_N_PIX = 1600
     DEFAULT_CTR_WL = 730.0
@@ -266,18 +245,6 @@ class widgetKK(_QWidget):
     Signals
     -------
         changed : a value in the UI has changed
-
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
 
     """
 
@@ -592,22 +559,11 @@ class widgetALS(_QWidget):
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
     3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
     asymmetric least squares smoothing," Report. October 21, 2005.
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
 
     """
 
@@ -686,22 +642,11 @@ class widgetSG(_QWidget):
     -------
         changed : a value in the UI has changed
 
-    Citation Reference
-    ------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+    References
+    ----------
+    .. [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
     Comparable Coherent Anti-Stokes Raman Scattering (CARS)
     Spectroscopy: Correcting Errors in Phase Retrieval"
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.02")
 
     """
 

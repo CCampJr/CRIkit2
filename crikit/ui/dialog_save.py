@@ -6,16 +6,6 @@ Classes that present dialog boxes that retrieve options
 
 DialogSave : Save Dialog
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.03.03")
 """
 
 # Append sys path
@@ -48,16 +38,6 @@ class DialogSave(_QDialog):
     -------------
     dialogSave : Used to call UI and retrieve results of dialog
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.03.03")
     """
 
     def __init__(self, current_filename=None, current_path=None,

@@ -8,15 +8,6 @@ HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)
 
     Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015\n
-\n
-@author: ("Charles H Camp Jr")\n
-@email: ("charles.camp@nist.gov")\n
-@date: ("Jun 28 2015")\n
-@version: ("1.1")\n
 """
 
 
