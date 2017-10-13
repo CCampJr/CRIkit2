@@ -551,18 +551,21 @@ class widgetALS(_QWidget):
     -------
         changed : a value in the UI has changed
 
-    Citation Reference
-    ------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+    Notes
+    -----
+    Please cite the C. H. Camp Jr., et al. reference (below) if you
+    use this software.
+    
+    References
+    ----------
+    .. [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
     Comparable Coherent Anti-Stokes Raman Scattering (CARS)
     Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    References
-    ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+    .. [2] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
     3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+    .. [3] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
     asymmetric least squares smoothing," Report. October 21, 2005.
 
     """

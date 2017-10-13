@@ -27,21 +27,18 @@ Notes
     efficient (fast). Read the __doc__ (string) information for more
     information.
 
-Citation Reference
-------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    Please cite the C. H. Camp Jr., et al. reference (below) if you
+    use this software.
 
 References
-    ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+----------
+    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
     3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
     asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
     Comparable Coherent Anti-Stokes Raman Scattering (CARS)
     Spectroscopy: Correcting Errors in Phase Retrieval"
 
