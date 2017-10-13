@@ -20,11 +20,11 @@ below if using this software. http://www.cs.tut.fi/~foi/
 
 References
 ----------
-.. [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
+[1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
     transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
     doi:10.1109/TIP.2012.2202675
 
-.. [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
+[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
     Analysis, Cambridge University Press, Cambridge, 1998)
 
 """
@@ -143,12 +143,12 @@ def gen_anscombe_inverse_closed_form(fsignal, gauss_std, gauss_mean = 0,
 
     References
     ----------
-    .. [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
-    transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
-    doi:10.1109/TIP.2012.2202675
+    [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
+        transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
+        doi:10.1109/TIP.2012.2202675
 
-    .. [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-    Analysis, Cambridge University Press, Cambridge, 1998)
+    [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
+        Analysis, Cambridge University Press, Cambridge, 1998)
 
     """
 
@@ -223,12 +223,12 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
 
     References
     ----------
-    .. [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
-    transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
-    doi:10.1109/TIP.2012.2202675
+    [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
+        transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
+        doi:10.1109/TIP.2012.2202675
 
-    .. [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-    Analysis, Cambridge University Press, Cambridge, 1998)
+    [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
+        Analysis, Cambridge University Press, Cambridge, 1998)
 
     """
     from scipy.io import loadmat
@@ -316,19 +316,19 @@ def anscombe_inverse_exact_unbiased(fsignal):
 
     References
     ----------
-    .. [1] M. Mäkitalo and A. Foi, "On the inversion of the Anscombe
-    transformation in low-count Poisson image denoising", Proc. Int.
-    Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,
-    Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406
+    [1] M. Mäkitalo and A. Foi, "On the inversion of the Anscombe
+        transformation in low-count Poisson image denoising", Proc. Int.
+        Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,
+        Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406
 
-    .. [2] M. Mäkitalo and A. Foi, "Optimal inversion of the Anscombe
-    transformation in low-count Poisson image denoising", IEEE Trans.
-    Image Process., vol. 20, no. 1, pp. 99-109, January 2011.
-    doi:10.1109/TIP.2010.2056693
+    [2] M. Mäkitalo and A. Foi, "Optimal inversion of the Anscombe
+        transformation in low-count Poisson image denoising", IEEE Trans.
+        Image Process., vol. 20, no. 1, pp. 99-109, January 2011.
+        doi:10.1109/TIP.2010.2056693
 
-    .. [3] Anscombe, F.J., "The transformation of Poisson, binomial and
-    negative-binomial data", Biometrika, vol. 35, no. 3/4, pp. 246-254,
-    Dec. 1948.
+    [3] Anscombe, F.J., "The transformation of Poisson, binomial and
+        negative-binomial data", Biometrika, vol. 35, no. 3/4, pp. 246-254,
+        Dec. 1948.
 
     """
     import time

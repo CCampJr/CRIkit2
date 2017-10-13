@@ -43,13 +43,13 @@ class DialogKKOptions(_QDialog):
 
     References
     ----------
-    .. [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
-    phase retrieval using a time-domain Kramers-Kronig transform," \
-    Opt. Lett. 34, 1363-1365 (2009).
+    [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
+        phase retrieval using a time-domain Kramers-Kronig transform," \
+        Opt. Lett. 34, 1363-1365 (2009).
 
-    .. [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+    [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
     """
     NORM_TO_NRB = True

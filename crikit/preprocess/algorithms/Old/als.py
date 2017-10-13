@@ -1,6 +1,6 @@
 """
 Asymmetric Least Square methods (CRIKIT.utils.als_methods)
-=======================================================
+==========================================================
 
     als_baseline                    Compute the baseline_current of signal_input using
                                     an asymmetric least squares (ALS)
@@ -32,13 +32,13 @@ Notes
 
 References
 ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+[1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
     3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+[2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
     asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+[3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
     Comparable Coherent Anti-Stokes Raman Scattering (CARS)
     Spectroscopy: Correcting Errors in Phase Retrieval"
 
@@ -55,11 +55,6 @@ import numpy as _np
 import scipy as _scipy
 from scipy.interpolate import UnivariateSpline as _USpline
 import timeit as _timeit
-
-if __name__ == '__main__':
-    import os as _os
-    import sys as _sys
-    _sys.path.append(_os.path.abspath('../../../'))
 
 from crikit.utils.general import row_col_from_lin as _row_col_from_lin
 
@@ -155,15 +150,15 @@ cholesky_type=_cholesky_type,print_iteration=True, **kwargs):
 
     References
     ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 
@@ -235,15 +230,15 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
 
     References
     ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 
@@ -344,15 +339,15 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
 
     References
     ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 
@@ -471,15 +466,15 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
 
     References
     ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 #    print('Print iteration: {}'.format(print_iteration))
@@ -596,15 +591,15 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
 
     References
     ----------
-    .. [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    .. [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    .. [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 
