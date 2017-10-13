@@ -8,10 +8,6 @@ Created on Fri Apr 22 23:42:40 2016
 
 import numpy as _np
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
 from crikit.data.frequency import Frequency as _Frequency
 from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.replicate import Replicate as _Replicate
