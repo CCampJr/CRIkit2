@@ -33,13 +33,20 @@ The main components of CRIkit2:
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+  :maxdepth: 2
+  :caption: User Documentation
 
-   installing
-   running
-   algorithms
-   io
-   api
+  installing
+  running
+  algorithms
+  io
+  nonlicense
+
+.. toctree::
+  :maxdepth: 2
+  :caption: Developer Documentation
+
+  api
    
 Indices and tables
 ==================
