@@ -81,8 +81,12 @@ The documentation was built using Sphinx. A pre-built version of the html
 files is included with this module, but you may wish to rebuild on your own
 system.::
 
+  # Build all APIs
   # From within the docs/ directory
   sphinx-apidoc -o ./source/ ../crikit/
+
+  # Build API w/o pyuic5-generated files
+  sphinx-apidoc -f -o .\source\ ..\crikit\ ..\crikit\ui\qt_* ..\crikit\ui\*_rc* ..\crikit\ui\old\**
 
   make html  
   # On Windows
