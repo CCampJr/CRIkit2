@@ -20,8 +20,8 @@ class PhaseErrCorrectALS:
     """
     Phase error correction using alternating least squares (ALS)
 
-    Reference
-    ---------
+    References
+    -----------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
     def __init__(self, smoothness_param=1, asym_param=1e-2,
@@ -96,8 +96,8 @@ class ScaleErrCorrectSG:
     """
     Scale error correction using Savitky-Golay
 
-    Reference
-    ---------
+    References
+    -----------
     * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
     """
     def __init__(self, win_size=601, order=2, rng=None):
