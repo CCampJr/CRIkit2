@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.ui.helper_plugin_categories &mdash; CRIKit2 17.10b1 documentation</title>
+  <title>crikit.data.factorized &mdash; CRIKit2 17.10b1 documentation</title>
   
 
   
@@ -138,7 +138,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>crikit.ui.helper_plugin_categories</li>
+      <li>crikit.data.factorized</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,33 +155,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for crikit.ui.helper_plugin_categories</h1><div class="highlight"><pre>
+  <h1>Source code for crikit.data.factorized</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Tue Feb 16 16:07:39 2016</span>
+<span class="sd">Factored data class</span>
 
-<span class="sd">@author: camp</span>
+<span class="sd">Created on Fri Apr 22 23:42:40 2016</span>
+
+<span class="sd">@author: chc</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DeNoiser"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plugin_categories.DeNoiser">[docs]</a><span class="k">class</span> <span class="nc">DeNoiser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plugins of this class denoise hyperspectral data (crikit.data.HSData)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
- 
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Do Nothing&#39;</span>
- 
-<div class="viewcode-block" id="DeNoiser.denoiseHSData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plugin_categories.DeNoiser.denoiseHSData">[docs]</a>    <span class="k">def</span> <span class="nf">denoiseHSData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hsdatacls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">1</span></div></div>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
-<div class="viewcode-block" id="ErrorCorrect"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plugin_categories.ErrorCorrect">[docs]</a><span class="k">class</span> <span class="nc">ErrorCorrect</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="n">Frequency</span> <span class="k">as</span> <span class="n">_Frequency</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.replicate</span> <span class="k">import</span> <span class="n">Replicate</span> <span class="k">as</span> <span class="n">_Replicate</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+
+<div class="viewcode-block" id="_Factorized"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.factorized._Factorized">[docs]</a><span class="k">class</span> <span class="nc">_Factorized</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plugins of this class perform error correction (phase, baseline, etc) on</span>
-<span class="sd">    hyperspectral data</span>
+<span class="sd">    Factorized class. Contains items unique to factorized spectral data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Do Nothing&#39;</span>
-    
-<div class="viewcode-block" id="ErrorCorrect.errorCorrectHSData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plugin_categories.ErrorCorrect.errorCorrectHSData">[docs]</a>    <span class="k">def</span> <span class="nf">errorCorrectHSData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hsdatacls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">1</span></div></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FactorizedHsi"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.factorized.FactorizedHsi">[docs]</a><span class="k">class</span> <span class="nc">FactorizedHsi</span><span class="p">(</span><span class="n">_Hsi</span><span class="p">,</span> <span class="n">_Factorized</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factorized Hsi Class</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * TODO: deside on</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FactorizedSpectra"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.factorized.FactorizedSpectra">[docs]</a><span class="k">class</span> <span class="nc">FactorizedSpectra</span><span class="p">(</span><span class="n">_Spectra</span><span class="p">,</span> <span class="n">_Factorized</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factorized Spectra Class</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * TODO: deside on</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
 </pre></div>
 
            </div>
@@ -228,7 +262,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

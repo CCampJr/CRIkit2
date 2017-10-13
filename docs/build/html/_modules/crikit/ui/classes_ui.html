@@ -158,7 +158,7 @@
   <h1>Source code for crikit.ui.classes_ui</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">User Interface and Visualization Classes (crikit.ui.classes_ui)</span>
-<span class="sd">=======================================================</span>
+<span class="sd">===============================================================</span>
 
 <span class="sd">BW : Grayscale images</span>
 
@@ -166,17 +166,6 @@
 
 <span class="sd">_ColorMath : Container of math operations</span>
 
-
-<span class="sd">Software Info</span>
-<span class="sd">--------------</span>
-
-<span class="sd">Original Python branch: Feb 16 2015</span>
-
-<span class="sd">author: (&quot;Charles H Camp Jr&quot;)</span>
-
-<span class="sd">email: (&quot;charles.camp@nist.gov&quot;)</span>
-
-<span class="sd">version: (&quot;15.9.15&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
@@ -475,8 +464,8 @@
 
                 <span class="k">return</span> <span class="n">masked_img</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SingleColor._imgnorm"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnorm">[docs]</a>    <span class="k">def</span> <span class="nf">_imgnorm</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">low</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SingleColor._imgnorm"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnorm">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_imgnorm</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">low</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Normalize intensity (B&amp;W) image. Values at</span>
 <span class="sd">        low -&gt; 0</span>
@@ -496,8 +485,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">img</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SingleColor._imgnormcompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnormcompress">[docs]</a>    <span class="k">def</span> <span class="nf">_imgnormcompress</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<div class="viewcode-block" id="SingleColor._imgnormcompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnormcompress">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_imgnormcompress</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compress normalized image. Values:</span>
 <span class="sd">        &gt; 1 -&gt; 1</span>
@@ -508,8 +497,8 @@
 
         <span class="k">return</span> <span class="n">mask_pass</span><span class="o">*</span><span class="n">img</span> <span class="o">+</span> <span class="n">mask_high</span></div>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SingleColor._bwtocolor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._bwtocolor">[docs]</a>    <span class="k">def</span> <span class="nf">_bwtocolor</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">colormap</span><span class="p">):</span>
+<div class="viewcode-block" id="SingleColor._bwtocolor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._bwtocolor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_bwtocolor</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">colormap</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert normalized [0,1] B&amp;W image (gs) to color, applying a</span>
 <span class="sd">        3-value list colormap (colormap)</span>
@@ -563,7 +552,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

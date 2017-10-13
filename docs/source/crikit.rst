@@ -18,8 +18,8 @@ Subpackages
 Submodules
 ----------
 
-crikit.CRIkitUI module
-----------------------
+crikit\.CRIkitUI module
+-----------------------
 
 .. automodule:: crikit.CRIkitUI
     :members:

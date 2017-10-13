@@ -1,43 +1,43 @@
-crikit.io package
-=================
+crikit\.io package
+==================
 
 Submodules
 ----------
 
-crikit.io.csv_nist module
--------------------------
+crikit\.io\.csv\_nist module
+----------------------------
 
 .. automodule:: crikit.io.csv_nist
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.io.hdf5 module
----------------------
+crikit\.io\.hdf5 module
+-----------------------
 
 .. automodule:: crikit.io.hdf5
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.io.macros module
------------------------
+crikit\.io\.macros module
+-------------------------
 
 .. automodule:: crikit.io.macros
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.io.meta_configs module
------------------------------
+crikit\.io\.meta\_configs module
+--------------------------------
 
 .. automodule:: crikit.io.meta_configs
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.io.meta_process module
------------------------------
+crikit\.io\.meta\_process module
+--------------------------------
 
 .. automodule:: crikit.io.meta_process
     :members:

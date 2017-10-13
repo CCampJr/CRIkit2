@@ -157,10 +157,12 @@
 <li><a href="crikit/CRIkitUI.html">crikit.CRIkitUI</a></li>
 <li><a href="crikit/cri/algorithms/kk.html">crikit.cri.algorithms.kk</a></li>
 <li><a href="crikit/cri/error_correction.html">crikit.cri.error_correction</a></li>
+<li><a href="crikit/cri/kk.html">crikit.cri.kk</a></li>
 <li><a href="crikit/cri/merge_nrbs.html">crikit.cri.merge_nrbs</a></li>
 <li><a href="crikit/cri/tests/test_hilbert.html">crikit.cri.tests.test_hilbert</a></li>
 <li><a href="crikit/cri/tests/test_kk.html">crikit.cri.tests.test_kk</a></li>
 <li><a href="crikit/cri/tests/test_kk_alg.html">crikit.cri.tests.test_kk_alg</a></li>
+<li><a href="crikit/data/factorized.html">crikit.data.factorized</a></li>
 <li><a href="crikit/data/frequency.html">crikit.data.frequency</a></li>
 <li><a href="crikit/data/hsi.html">crikit.data.hsi</a></li>
 <li><a href="crikit/data/replicate.html">crikit.data.replicate</a></li>
@@ -179,6 +181,8 @@
 <li><a href="crikit/preprocess/algorithms/anscombe.html">crikit.preprocess.algorithms.anscombe</a></li>
 <li><a href="crikit/preprocess/algorithms/arpls.html">crikit.preprocess.algorithms.arpls</a></li>
 <li><a href="crikit/preprocess/crop.html">crikit.preprocess.crop</a></li>
+<li><a href="crikit/preprocess/denoise.html">crikit.preprocess.denoise</a></li>
+<li><a href="crikit/preprocess/standardize.html">crikit.preprocess.standardize</a></li>
 <li><a href="crikit/preprocess/subtract_baseline.html">crikit.preprocess.subtract_baseline</a></li>
 <li><a href="crikit/preprocess/subtract_dark.html">crikit.preprocess.subtract_dark</a></li>
 <li><a href="crikit/preprocess/subtract_mean.html">crikit.preprocess.subtract_mean</a></li>
@@ -192,32 +196,7 @@
 <li><a href="crikit/ui/dialog_subResidualOptions.html">crikit.ui.dialog_subResidualOptions</a></li>
 <li><a href="crikit/ui/dialog_varstabAnscombeOptions.html">crikit.ui.dialog_varstabAnscombeOptions</a></li>
 <li><a href="crikit/ui/helper_plotOptions.html">crikit.ui.helper_plotOptions</a></li>
-<li><a href="crikit/ui/helper_plugin_categories.html">crikit.ui.helper_plugin_categories</a></li>
 <li><a href="crikit/ui/helper_roiselect.html">crikit.ui.helper_roiselect</a></li>
-<li><a href="crikit/ui/icons_all_rc.html">crikit.ui.icons_all_rc</a></li>
-<li><a href="crikit/ui/icons_rc.html">crikit.ui.icons_rc</a></li>
-<li><a href="crikit/ui/qt_AnscombeOptions.html">crikit.ui.qt_AnscombeOptions</a></li>
-<li><a href="crikit/ui/qt_BWImage.html">crikit.ui.qt_BWImage</a></li>
-<li><a href="crikit/ui/qt_CRIkit.html">crikit.ui.qt_CRIkit</a></li>
-<li><a href="crikit/ui/qt_ColorMath.html">crikit.ui.qt_ColorMath</a></li>
-<li><a href="crikit/ui/qt_CompositeColor.html">crikit.ui.qt_CompositeColor</a></li>
-<li><a href="crikit/ui/qt_Factorization.html">crikit.ui.qt_Factorization</a></li>
-<li><a href="crikit/ui/qt_HDFLoad.html">crikit.ui.qt_HDFLoad</a></li>
-<li><a href="crikit/ui/qt_KKOptions.html">crikit.ui.qt_KKOptions</a></li>
-<li><a href="crikit/ui/qt_PlotEffect.html">crikit.ui.qt_PlotEffect</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_ALS.html">crikit.ui.qt_PlotEffect_ALS</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_ArPLS.html">crikit.ui.qt_PlotEffect_ArPLS</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_Calibrate.html">crikit.ui.qt_PlotEffect_Calibrate</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_DeTrending.html">crikit.ui.qt_PlotEffect_DeTrending</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_KK.html">crikit.ui.qt_PlotEffect_KK</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_MergeNRBs.html">crikit.ui.qt_PlotEffect_MergeNRBs</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_Nothing.html">crikit.ui.qt_PlotEffect_Nothing</a></li>
-<li><a href="crikit/ui/qt_PlotEffect_SG.html">crikit.ui.qt_PlotEffect_SG</a></li>
-<li><a href="crikit/ui/qt_PluginSelector.html">crikit.ui.qt_PluginSelector</a></li>
-<li><a href="crikit/ui/qt_Save.html">crikit.ui.qt_Save</a></li>
-<li><a href="crikit/ui/qt_SglColorImage.html">crikit.ui.qt_SglColorImage</a></li>
-<li><a href="crikit/ui/qt_SubResidualOption.html">crikit.ui.qt_SubResidualOption</a></li>
-<li><a href="crikit/ui/qt_SubResidualOptions.html">crikit.ui.qt_SubResidualOptions</a></li>
 <li><a href="crikit/ui/subui_hdf_load.html">crikit.ui.subui_hdf_load</a></li>
 <li><a href="crikit/ui/utils/roi.html">crikit.ui.utils.roi</a></li>
 <li><a href="crikit/ui/widget_ALS.html">crikit.ui.widget_ALS</a></li>
@@ -282,7 +261,7 @@
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

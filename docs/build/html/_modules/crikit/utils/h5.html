@@ -174,16 +174,6 @@
 <span class="sd">    attributes that contain data [key] and the datasets [value]. \</span>
 <span class="sd">    {group : [dataset(s)]}</span>
 
-<span class="sd">Software Info</span>
-<span class="sd">--------------</span>
-
-<span class="sd">Original Python branch: Feb 16 2015</span>
-
-<span class="sd">author: (&quot;Charles H Camp Jr&quot;)</span>
-
-<span class="sd">email: (&quot;charles.camp@nist.gov&quot;)</span>
-
-<span class="sd">version: (&quot;15.6.28&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
@@ -204,21 +194,11 @@
 <span class="sd">    -------</span>
 <span class="sd">    out : numpy.ndarray (dtype = numpy built-in)</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    The software accounts for big-/little-endianness, and the inability of \</span>
 <span class="sd">    hdf5 to natively store complex numbers.</span>
 
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;16.02.18&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">),</span> <span class="s1">&#39;Input is not of type h5py.Dataset&#39;</span>
     <span class="c1"># Single datatype</span>
@@ -258,19 +238,9 @@
 <span class="sd">    out : dict</span>
 <span class="sd">        {group path : [dataset list]}</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;15.6.28&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -334,19 +304,9 @@
 <span class="sd">    out : dict</span>
 <span class="sd">        {parameter : value}</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;15.6.28&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -381,26 +341,16 @@
 
 <span class="sd">        new_filename (str) : (Optional) Output filename</span>
 
-<span class="sd">    Output</span>
-<span class="sd">    ------</span>
-<span class="sd">        Return (str) : filename of new HDF5 file</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        str : filename of new HDF5 file</span>
 
 <span class="sd">        Writes a new file filename(-.h5) + &#39;_excl_&#39; + str_exclude + &#39;.h5&#39;</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
 
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;15.6.28&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">new_filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
@@ -448,28 +398,18 @@
 
 <span class="sd">        new_filename (str) : (Optional) Output filename</span>
 
-<span class="sd">    Output</span>
-<span class="sd">    ------</span>
-<span class="sd">        Return (str) : filename of new HDF5 file</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        str : filename of new HDF5 file</span>
 
 <span class="sd">        Writes a new file filename + &#39;_repack_&#39; + repack_str(-&#39;_&#39;) + .h5&#39;</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    The output file cannot already exist</span>
 
 <span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
 
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;15.6.28&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">new_filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
@@ -577,14 +517,14 @@
 <span class="sd">            Name of HDF attribute that describes step size in the \</span>
 <span class="sd">            Y-direction</span>
 
-<span class="sd">    Output</span>
-<span class="sd">    ------</span>
-<span class="sd">        Return (str) : filename of new HDF5 file</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        str : filename of new HDF5 file</span>
 
 <span class="sd">        Writes a new file filename + &#39;_repack_&#39; + repack_str(-&#39;_&#39;) + .h5&#39;</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    The output file cannot already exist</span>
 
 <span class="sd">    SPECIAL : Only likely useful for the NIST developers</span>
@@ -593,17 +533,6 @@
 <span class="sd">    -------</span>
 <span class="sd">    _shrink(&#39;../mP2_w_small.h5&#39;,&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/&#39;,&#39;mP2_3_5ms_Pos_2_0&#39;,10)</span>
 <span class="sd">    </span>
-
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;15.6.28&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -709,7 +638,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

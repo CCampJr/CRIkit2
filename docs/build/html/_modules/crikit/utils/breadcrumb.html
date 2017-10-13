@@ -157,8 +157,8 @@
             
   <h1>Source code for crikit.utils.breadcrumb</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)</span>
-<span class="sd">==============================================================================</span>
+<span class="sd">Breadcrumb Module</span>
+<span class="sd">=================</span>
 
 <span class="sd">    BCPre : Container describing pre-processing steps</span>
 
@@ -167,17 +167,6 @@
 <span class="sd">    HDFtoClass(filename [str], datasetname [str]) : Load dataset in HDF</span>
 <span class="sd">        file into the HSI Class</span>
 
-
-<span class="sd">Software Info</span>
-<span class="sd">--------------</span>
-
-<span class="sd">Original Python branch: Feb 16 2015</span>
-
-<span class="sd">author: (&quot;Charles H Camp Jr&quot;)</span>
-
-<span class="sd">email: (&quot;charles.camp@nist.gov&quot;)</span>
-
-<span class="sd">version: (&quot;16.02.13&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">_time</span>
@@ -221,16 +210,6 @@
 <span class="sd">    pop_to_last : Remove entries until nearest backup point (excluding current \</span>
 <span class="sd">        step).</span>
 <span class="sd">    </span>
-<span class="sd">    Software Info</span>
-<span class="sd">    --------------</span>
-<span class="sd">    </span>
-<span class="sd">    Original Python branch: Feb 16 2015</span>
-<span class="sd">    </span>
-<span class="sd">    author: (&quot;Charles H Camp Jr&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    email: (&quot;charles.camp@nist.gov&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    version: (&quot;16.02.17&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">HDF_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;Processing.Steps&#39;</span>
@@ -297,8 +276,8 @@
             <span class="k">return</span> <span class="kc">None</span>
     
     <span class="c1"># METHODS</span>
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BCPre.backup_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.backup_pickle">[docs]</a>    <span class="k">def</span> <span class="nf">backup_pickle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">addl_attr</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BCPre.backup_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.backup_pickle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backup_pickle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">addl_attr</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump current state of data (class of type crikit.data.spectrum or </span>
 <span class="sd">        subclass)to pickle file (filename= fname). </span>
@@ -317,8 +296,8 @@
             <span class="c1"># Surpasses the default protocol 3 4Gb limit</span>
             <span class="n">_pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
             
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BCPre.load_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.load_pickle">[docs]</a>    <span class="k">def</span> <span class="nf">load_pickle</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="BCPre.load_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.load_pickle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load_pickle</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Static method.</span>
 
@@ -335,7 +314,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a steps to the list</span>
 <span class="sd">        </span>
-<span class="sd">        Inputs</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ------</span>
 <span class="sd">        process_desc : list</span>
 <span class="sd">            List containing elements of new process with format: \</span>
@@ -364,7 +343,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks most recent process step as backed up in backed_flag list</span>
 <span class="sd">        </span>
-<span class="sd">        Inputs</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ------</span>
 <span class="sd">        None : None</span>
 <span class="sd">            </span>
@@ -517,7 +496,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -158,19 +158,21 @@
   <h1>Source code for crikit.cri.algorithms.kk</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)</span>
-<span class="sd">=======================================================</span>
+<span class="sd">=================================================================</span>
 
 <span class="sd">    kkrelation : Retrieve real and imaginary components from a</span>
 <span class="sd">    spectrum that is the modulus of a function</span>
 
 <span class="sd">    hilbertfft : Fourier-domain Hilbert transform</span>
 
-<span class="sd">Citation ref</span>
-<span class="sd">------------------</span>
-<span class="sd">C H Camp Jr, Y J Lee, and M T Cicerone, &quot;Quantitative, Comparable Coherent </span>
-<span class="sd">Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase </span>
-<span class="sd">Retrieval,&quot; Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</span>
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">[1] C H Camp Jr, Y J Lee, and M T Cicerone, &quot;Quantitative, Comparable Coherent </span>
+<span class="sd">    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase </span>
+<span class="sd">    Retrieval,&quot; Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">fftpack</span> <span class="k">as</span> <span class="n">_fftpack</span>
 
@@ -230,8 +232,8 @@
 <span class="sd">    out : complex ndarray</span>
 <span class="sd">        The real and imaginary components of KK.</span>
 
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    (1) The imaginary components provides the sponatenous Raman-like \</span>
 <span class="sd">    spectra(um).</span>
 
@@ -434,7 +436,7 @@
       <script type="text/javascript" src="../../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

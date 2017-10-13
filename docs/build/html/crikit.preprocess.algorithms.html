@@ -196,17 +196,17 @@
 <dl class="method">
 <dt id="crikit.preprocess.algorithms.als.AlsCvxopt._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt._calc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform the ALS. Called from self.calculate (defined in 
+<dd><p>Perform the ALS. Called from self.calculate (defined in
 AbstractBaseline parent class)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>baseline</strong> : ndarray</p>
-<blockquote class="last">
-<div><p>Baseline of input signal</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>signal</strong> (<em>ndarray</em><em> (</em><em>&gt;= 1D</em><em>)</em>) – Input signal</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>baseline</strong> – Baseline of input signal</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -222,10 +222,10 @@ AbstractBaseline parent class)</p>
 </div>
 <div class="section" id="module-crikit.preprocess.algorithms.anscombe">
 <span id="crikit-preprocess-algorithms-anscombe-module"></span><h2>crikit.preprocess.algorithms.anscombe module<a class="headerlink" href="#module-crikit.preprocess.algorithms.anscombe" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="variance-stabilization">
-<h3>Variance Stabilization<a class="headerlink" href="#variance-stabilization" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><dl class="docutils">
+<p>Variance Stabilization</p>
+<dl class="docutils">
+<dt>Routines:</dt>
+<dd><dl class="first last docutils">
 <dt>gen_anscombe_forward</dt>
 <dd>Generalized forward Anscombe transformation</dd>
 <dt>gen_anscombe_inverse_closed_form</dt>
@@ -233,16 +233,14 @@ AbstractBaseline parent class)</p>
 <dt>gen_anscombe_exact_unbiased</dt>
 <dd>Exact unbiased inverse of Generalized Anscombe variance-stabilizing</dd>
 </dl>
-</div></blockquote>
-<div class="section" id="notes">
-<h4>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h4>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
 <p>This software is a direct translation (with minor alterations) of the original MATLAB software created by Alessandro Foi and Markku Mäkitalo (Tampere University of Technology - 2011-2012). Please cite the references below if using this software. <a class="reference external" href="http://www.cs.tut.fi/~foi/">http://www.cs.tut.fi/~foi/</a></p>
-</div>
-<div class="section" id="citation-refs">
-<h4>Citation Refs<a class="headerlink" href="#citation-refs" title="Permalink to this headline">¶</a></h4>
+<p class="rubric">References</p>
 <dl class="docutils">
-<dt>[1] M. Mäkitalo and A. Foi, &#8220;Optimal inversion of the generalized Anscombe</dt>
-<dd>transformation for Poisson-Gaussian noise&#8221;, IEEE Trans. Image Process.,
+<dt>[1] M. Mäkitalo and A. Foi, “Optimal inversion of the generalized Anscombe</dt>
+<dd>transformation for Poisson-Gaussian noise”, IEEE Trans. Image Process.,
 doi:10.1109/TIP.2012.2202675</dd>
 <dt>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data</dt>
 <dd>Analysis, Cambridge University Press, Cambridge, 1998)</dd>
@@ -260,32 +258,33 @@ Gaussian noise.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fsignal</strong> : ndarray</p>
-<blockquote>
-<div><p>Forward Anscombe-transformed noisy signal (1-,2-,3D)</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fsignal</strong> (<em>ndarray</em>) – Forward Anscombe-transformed noisy signal (1-,2-,3D)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray (matched to signal shape)</p>
-<blockquote class="last">
-<div><p>Inverse Anscombe-transformed signal</p>
-</div></blockquote>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>signal</strong> – Inverse Anscombe-transformed signal</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray (matched to signal shape)</td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This software is a direct translation (with minor alterations) of the
+original MATLAB software created by Alessandro Foi and Markku Mäkitalo
+(Tampere University of Technology - 2011-2012). Please cite the references
+below if using this software. <a class="reference external" href="http://www.cs.tut.fi/~foi/">http://www.cs.tut.fi/~foi/</a></p>
 <p class="rubric">References</p>
-<p>[1] M. Mäkitalo and A. Foi, &#8220;On the inversion of the Anscombe
-transformation in low-count Poisson image denoising&#8221;, Proc. Int.
+<dl class="docutils">
+<dt>[1] M. Mäkitalo and A. Foi, “On the inversion of the Anscombe</dt>
+<dd>transformation in low-count Poisson image denoising”, Proc. Int.
 Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,
-Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406</p>
-<p>[2] M. Mäkitalo and A. Foi, &#8220;Optimal inversion of the Anscombe
-transformation in low-count Poisson image denoising&#8221;, IEEE Trans.
+Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406</dd>
+<dt>[2] M. Mäkitalo and A. Foi, “Optimal inversion of the Anscombe</dt>
+<dd>transformation in low-count Poisson image denoising”, IEEE Trans.
 Image Process., vol. 20, no. 1, pp. 99-109, January 2011.
-doi:10.1109/TIP.2010.2056693</p>
-<p>[3] Anscombe, F.J., &#8220;The transformation of Poisson, binomial and
-negative-binomial data&#8221;, Biometrika, vol. 35, no. 3/4, pp. 246-254,
-Dec. 1948.</p>
+doi:10.1109/TIP.2010.2056693</dd>
+<dt>[3] Anscombe, F.J., “The transformation of Poisson, binomial and</dt>
+<dd>negative-binomial data”, Biometrika, vol. 35, no. 3/4, pp. 246-254,
+Dec. 1948.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -300,33 +299,28 @@ Gaussian noise.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray</p>
-<blockquote>
-<div><p>Noisy signal (1-,2-,3D)</p>
-</div></blockquote>
-<p><strong>gauss_std</strong> : float, int</p>
-<blockquote>
-<div><p>Standard deviation of Gaussian noise</p>
-</div></blockquote>
-<p><strong>poisson_multi</strong> : float or int, optional (default = 1)</p>
-<blockquote>
-<div><p>Effectively a multiplier that scales the effect of the Poisson
-noise</p>
-</div></blockquote>
-<p><strong>gauss_mean</strong> : float or int, optional (default = 0)</p>
-<blockquote>
-<div><p>Mean Gaussian noise level</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>signal</strong> (<em>ndarray</em>) – Noisy signal (1-,2-,3D)</li>
+<li><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Standard deviation of Gaussian noise</li>
+<li><strong>poisson_multi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 1</em><em>)</em>) – Effectively a multiplier that scales the effect of the Poisson
+noise</li>
+<li><strong>gauss_mean</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 0</em><em>)</em>) – Mean Gaussian noise level</li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fsignal</strong> : ndarray (matched to signal shape)</p>
-<blockquote class="last">
-<div><p>&#8220;Anscombe-transformed&#8221; signal with an approximate unity standard         deviation/variance (~ 1)</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fsignal</strong> – “Anscombe-transformed” signal with an approximate unity standard         deviation/variance (~ 1)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray (matched to signal shape)</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This software is a direct translation (with minor alterations) of the
+original MATLAB software created by Alessandro Foi and Markku Mäkitalo
+(Tampere University of Technology - 2011-2012). Please cite the references
+below if using this software. <a class="reference external" href="http://www.cs.tut.fi/~foi/">http://www.cs.tut.fi/~foi/</a></p>
 <p class="rubric">References</p>
 <p>[1] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and
 Data Analysis, Cambridge University Press, Cambridge, 1998)</p>
@@ -345,40 +339,37 @@ Gaussian noise.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fsignal</strong> : ndarray</p>
-<blockquote>
-<div><p>Forward Anscombe-transformed noisy signal (1-,2-,3D)</p>
-</div></blockquote>
-<p><strong>gauss_std</strong> : float, int</p>
-<blockquote>
-<div><p>Standard deviation of Gaussian noise</p>
-</div></blockquote>
-<p><strong>(poisson_multi)</strong> : float, int (default = 1)</p>
-<blockquote>
-<div><p>Effectively a multiplier that scales the effect of the Poisson
-noise</p>
-</div></blockquote>
-<p><strong>(gauss_mean)</strong> : float, int (default = 0)</p>
-<blockquote>
-<div><p>Mean Gaussian noise level</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fsignal</strong> (<em>ndarray</em>) – Forward Anscombe-transformed noisy signal (1-,2-,3D)</li>
+<li><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Standard deviation of Gaussian noise</li>
+<li><strong>(</strong><strong>poisson_multi</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> (</em><em>default = 1</em><em>)</em>) – Effectively a multiplier that scales the effect of the Poisson
+noise</li>
+<li><strong>(</strong><strong>gauss_mean</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> (</em><em>default = 0</em><em>)</em>) – Mean Gaussian noise level</li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray (matched to signal shape)</p>
-<blockquote class="last">
-<div><p>Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>signal</strong> – Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
 noise</p>
-</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray (matched to signal shape)</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This software is a direct translation (with minor alterations) of the
+original MATLAB software created by Alessandro Foi and Markku Mäkitalo
+(Tampere University of Technology - 2011-2012). Please cite the references
+below if using this software. <a class="reference external" href="http://www.cs.tut.fi/~foi/">http://www.cs.tut.fi/~foi/</a></p>
 <p class="rubric">References</p>
-<p>[1] M. Mäkitalo and A. Foi, &#8220;Optimal inversion of the generalized Anscombe
-transformation for Poisson-Gaussian noise&#8221;, IEEE Trans. Image Process.,
-doi:10.1109/TIP.2012.2202675</p>
-<p>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-Analysis, Cambridge University Press, Cambridge, 1998)</p>
+<dl class="docutils">
+<dt>[1] M. Mäkitalo and A. Foi, “Optimal inversion of the generalized Anscombe</dt>
+<dd>transformation for Poisson-Gaussian noise”, IEEE Trans. Image Process.,
+doi:10.1109/TIP.2012.2202675</dd>
+<dt>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data</dt>
+<dd>Analysis, Cambridge University Press, Cambridge, 1998)</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -394,44 +385,39 @@ Gaussian noise.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fsignal</strong> : ndarray</p>
-<blockquote>
-<div><p>Forward Anscombe-transformed noisy signal (1-,2-,3D)</p>
-</div></blockquote>
-<p><strong>gauss_std</strong> : float, int</p>
-<blockquote>
-<div><p>Standard deviation of Gaussian noise</p>
-</div></blockquote>
-<p><strong>(poisson_multi)</strong> : float, int (default = 1)</p>
-<blockquote>
-<div><p>Effectively a multiplier that scales the effect of the Poisson
-noise</p>
-</div></blockquote>
-<p><strong>(gauss_mean)</strong> : float, int (default = 0)</p>
-<blockquote>
-<div><p>Mean Gaussian noise level</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fsignal</strong> (<em>ndarray</em>) – Forward Anscombe-transformed noisy signal (1-,2-,3D)</li>
+<li><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Standard deviation of Gaussian noise</li>
+<li><strong>(</strong><strong>poisson_multi</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> (</em><em>default = 1</em><em>)</em>) – Effectively a multiplier that scales the effect of the Poisson
+noise</li>
+<li><strong>(</strong><strong>gauss_mean</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> (</em><em>default = 0</em><em>)</em>) – Mean Gaussian noise level</li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray (matched to signal shape)</p>
-<blockquote class="last">
-<div><p>Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>signal</strong> – Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
 noise</p>
-</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray (matched to signal shape)</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This software is a direct translation (with minor alterations) of the
+original MATLAB software created by Alessandro Foi and Markku Mäkitalo
+(Tampere University of Technology - 2011-2012). Please cite the references
+below if using this software. <a class="reference external" href="http://www.cs.tut.fi/~foi/">http://www.cs.tut.fi/~foi/</a></p>
 <p class="rubric">References</p>
-<p>[1] M. Mäkitalo and A. Foi, &#8220;Optimal inversion of the generalized Anscombe
-transformation for Poisson-Gaussian noise&#8221;, IEEE Trans. Image Process.,
-doi:10.1109/TIP.2012.2202675</p>
-<p>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-Analysis, Cambridge University Press, Cambridge, 1998)</p>
+<dl class="docutils">
+<dt>[1] M. Mäkitalo and A. Foi, “Optimal inversion of the generalized Anscombe</dt>
+<dd>transformation for Poisson-Gaussian noise”, IEEE Trans. Image Process.,
+doi:10.1109/TIP.2012.2202675</dd>
+<dt>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data</dt>
+<dd>Analysis, Cambridge University Press, Cambridge, 1998)</dd>
+</dl>
 </dd></dl>
 
-</div>
-</div>
 </div>
 <div class="section" id="module-crikit.preprocess.algorithms.arpls">
 <span id="crikit-preprocess-algorithms-arpls-module"></span><h2>crikit.preprocess.algorithms.arpls module<a class="headerlink" href="#module-crikit.preprocess.algorithms.arpls" title="Permalink to this headline">¶</a></h2>
@@ -499,7 +485,7 @@ Analysis, Cambridge University Press, Cambridge, 1998)</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

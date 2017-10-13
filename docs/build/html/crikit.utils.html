@@ -161,8 +161,8 @@
 </div>
 <div class="section" id="module-crikit.utils.breadcrumb">
 <span id="crikit-utils-breadcrumb-module"></span><h2>crikit.utils.breadcrumb module<a class="headerlink" href="#module-crikit.utils.breadcrumb" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="hyperspectral-imaging-process-description-container-class-crikit-data-breadcrumb">
-<h3>HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)<a class="headerlink" href="#hyperspectral-imaging-process-description-container-class-crikit-data-breadcrumb" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="breadcrumb-module">
+<h3>Breadcrumb Module<a class="headerlink" href="#breadcrumb-module" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div>BCPre : Container describing pre-processing steps</div></blockquote>
 <div class="section" id="class-methods">
@@ -173,46 +173,63 @@
 <dd>file into the HSI Class</dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="software-info">
-<h4>Software Info<a class="headerlink" href="#software-info" title="Permalink to this headline">¶</a></h4>
-<p>Original Python branch: Feb 16 2015</p>
-<p>author: (&#8220;Charles H Camp Jr&#8221;)</p>
-<p>email: (&#8220;<a class="reference external" href="mailto:charles&#46;camp&#37;&#52;&#48;nist&#46;gov">charles<span>&#46;</span>camp<span>&#64;</span>nist<span>&#46;</span>gov</a>&#8221;)</p>
-<p>version: (&#8220;16.02.13&#8221;)</p>
 <dl class="class">
 <dt id="crikit.utils.breadcrumb.BCPre">
 <em class="property">class </em><code class="descclassname">crikit.utils.breadcrumb.</code><code class="descname">BCPre</code><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Container that describes processing steps (ie it contains &#8220;breadcrumbs&#8221;)</p>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="4%" />
-<col width="96%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>process_list</td>
-<td>(list) A list-of-lists. Each contained list follows the format         [&#8216;Process Name&#8217;, &#8216;Var1 Name&#8217;, Val1, &#8216;Var2 Name&#8217;, Val2, ...]. The         variable names and values may be input values to the pre-processing         step. Only the Process Name is mnadatory: the rest are optional.</td>
-</tr>
-<tr class="row-even"><td>backed_flag</td>
-<td>(list) Flag identifying which steps were backed-up to disk (e.g., for undo)</td>
-</tr>
-<tr class="row-odd"><td>id_list</td>
-<td>(list (read-only)) Unique identifier for each step. Can be used to name back-up/undo files</td>
-</tr>
-<tr class="row-even"><td>cut_list</td>
-<td>(list (read-only)) Identifier of id&#8217;s cut with pop_to_last method</td>
-</tr>
-<tr class="row-odd"><td>num_steps</td>
-<td>(int) Number of processing steps</td>
-</tr>
-<tr class="row-even"><td>attr_dict</td>
-<td>(dict) Dictionary-version of process_list that can be written to HDF5 dataset metadata (properties)</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
+<p>Container that describes processing steps (ie it contains “breadcrumbs”)</p>
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.process_list">
+<code class="descname">process_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.process_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> – A list-of-lists. Each contained list follows the format         [‘Process Name’, ‘Var1 Name’, Val1, ‘Var2 Name’, Val2, …]. The         variable names and values may be input values to the pre-processing         step. Only the Process Name is mnadatory: the rest are optional.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.backed_flag">
+<code class="descname">backed_flag</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backed_flag" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> – Flag identifying which steps were backed-up to disk (e.g., for undo)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.id_list">
+<code class="descname">id_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.id_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list (read-only)</em> – Unique identifier for each step. Can be used to name back-up/undo files</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.cut_list">
+<code class="descname">cut_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.cut_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list (read-only)</em> – Identifier of id’s cut with pop_to_last method</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.num_steps">
+<code class="descname">num_steps</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.num_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – Number of processing steps</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.utils.breadcrumb.BCPre.attr_dict">
+<code class="descname">attr_dict</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.attr_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> – Dictionary-version of process_list that can be written to HDF5 dataset
+metadata (properties)</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">add_step : Add a new processing step</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">backed_up : Mark most recent process step as backed up in backed_flag list</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">pop_to_last : Remove entries until nearest backup point (excluding current         step).</code></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.HDF_PREFIX">
 <code class="descname">HDF_PREFIX</code><em class="property"> = 'Processing.Steps'</em><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.HDF_PREFIX" title="Permalink to this definition">¶</a></dt>
@@ -226,15 +243,19 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong> : None</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>process_desc</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List containing elements of new process with format:             [‘Process Name’, ‘Var1 Name’, Val1, ‘Var2 Name’, Val2, …]. The             variable names and values may be input values to the             pre-processing step. Only the Process Name is mnadatory: the rest             are optional.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.utils.breadcrumb.BCPre.attr_dict">
-<code class="descname">attr_dict</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.attr_dict" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">attr_dict</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -245,7 +266,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong> : None</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></td>
 </tr>
 </tbody>
 </table>
@@ -254,14 +279,14 @@
 <dl class="staticmethod">
 <dt id="crikit.utils.breadcrumb.BCPre.backup_pickle">
 <em class="property">static </em><code class="descname">backup_pickle</code><span class="sig-paren">(</span><em>data</em>, <em>fname</em>, <em>addl_attr=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.backup_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backup_pickle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dump current state of data (class of type crikit.data.spectrum or 
+<dd><p>Dump current state of data (class of type crikit.data.spectrum or
 subclass)to pickle file (filename= fname).</p>
 <p>Can append additional attributes (addl_attr) to         attribute dictionary (self.attr)</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.utils.breadcrumb.BCPre.cut_list">
-<code class="descname">cut_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.cut_list" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">cut_list</code></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -270,8 +295,8 @@ subclass)to pickle file (filename= fname).</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.utils.breadcrumb.BCPre.id_list">
-<code class="descname">id_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.id_list" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">id_list</code></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -282,14 +307,14 @@ subclass)to pickle file (filename= fname).</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.utils.breadcrumb.BCPre.num_steps">
-<code class="descname">num_steps</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.num_steps" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">num_steps</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.pop_to_last">
 <code class="descname">pop_to_last</code><span class="sig-paren">(</span><em>all=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.pop_to_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.pop_to_last" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove entries until nearest backup point (excluding current step). 
+<dd><p>Remove entries until nearest backup point (excluding current step).
 That is, if current step IS a backup point, moves to previous one. If         current step is NOT a backup point, moves to nearest point.</p>
 <p>If all = True, will cut everything</p>
 </dd></dl>
@@ -312,21 +337,16 @@ That is, if current step IS a backup point, moves to previous one. If         cu
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rng</strong> : int, list, tuple, or ndarray(1D)</p>
-<blockquote>
-<div><ul class="simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>, or </em><em>ndarray</em><em>(</em><em>1D</em><em>)</em>) – <ul class="simple">
 <li>int: number of pixels in rng</li>
 <li>list, tuple, ndarray with length 2: Start and end of rng</li>
 <li>ndarray (length &gt; 2): actual rng vector</li>
 </ul>
-</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rng</strong> : ndarray (1D)</p>
-<blockquote class="last">
-<div><p>Array of pixel range</p>
-</div></blockquote>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>rng</strong> – Array of pixel range</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray (1D)</td>
 </tr>
 </tbody>
 </table>
@@ -344,8 +364,7 @@ That is, if current step IS a backup point, moves to previous one. If         cu
 <dd>of the closest match</dd>
 </dl>
 </div></blockquote>
-<div class="section" id="note">
-<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Notes</p>
 <dl class="function">
 <dt id="crikit.utils.general.arange_nonzero">
 <code class="descclassname">crikit.utils.general.</code><code class="descname">arange_nonzero</code><span class="sig-paren">(</span><em>start</em>, <em>stop</em>, <em>dtype=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#arange_nonzero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.arange_nonzero" title="Permalink to this definition">¶</a></dt>
@@ -373,17 +392,16 @@ value of the closest match</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>np_vec</strong> : numpy.ndarray</p>
-<blockquote>
-<div><p>Numpy array (list) of values</p>
-</div></blockquote>
-<p><strong>to_find</strong> : int, float, numpy.ndarray, or list</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>np_vec</strong> (<em>numpy.ndarray</em>) – Numpy array (list) of values</li>
+<li><strong>to_find</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>numpy.ndarray</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – </li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : tuple (nearest_value(s), index(es))</p>
-<blockquote class="last">
-<div><p>Closest value (nearest_value) and index (index)</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> – Closest value (nearest_value) and index (index)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a> (nearest_value(s), index(es))</p>
 </td>
 </tr>
 </tbody>
@@ -405,7 +423,7 @@ value of the closest match</p>
 <dl class="function">
 <dt id="crikit.utils.general.np_fcn_nd_to_1d">
 <code class="descclassname">crikit.utils.general.</code><code class="descname">np_fcn_nd_to_1d</code><span class="sig-paren">(</span><em>fcn</em>, <em>data</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#np_fcn_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.np_fcn_nd_to_1d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take in an n-dimensional array and return a 1D version operated on by fcn.    Works with many numpy functions that can take an &#8220;axis&#8221; parameter</p>
+<dd><p>Take in an n-dimensional array and return a 1D version operated on by fcn.    Works with many numpy functions that can take an “axis” parameter</p>
 </dd></dl>
 
 <dl class="function">
@@ -421,27 +439,27 @@ value of the closest match</p>
 </dd></dl>
 
 </div>
-</div>
 <div class="section" id="module-crikit.utils.h5">
 <span id="crikit-utils-h5-module"></span><h2>crikit.utils.h5 module<a class="headerlink" href="#module-crikit.utils.h5" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="hdf5-utilities-crikit-utils-h5">
 <h3>hdf5 utilities (crikit.utils.h5)<a class="headerlink" href="#hdf5-utilities-crikit-utils-h5" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div>Utilities for for reading and writing data to HDF5 files</div></blockquote>
-<div class="section" id="methods">
-<h4>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>convert_to_np_dtype : convert from HDF5 dataset to numpy ndarray with     numpy-builtin and native datatype</p>
-<p>retrieve_group_dataset_dict : Retrieve dictionary describing groups that     contain data [key] and the datasets [value]. {group : [dataset(s)]}</p>
-<p>retrieve_dataset_attribute_dict : Retrieve dictionary describing     attributes that contain data [key] and the datasets [value].     {group : [dataset(s)]}</p>
-</div></blockquote>
-</div>
-<div class="section" id="id1">
-<h4>Software Info<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
-<p>Original Python branch: Feb 16 2015</p>
-<p>author: (&#8220;Charles H Camp Jr&#8221;)</p>
-<p>email: (&#8220;<a class="reference external" href="mailto:charles&#46;camp&#37;&#52;&#48;nist&#46;gov">charles<span>&#46;</span>camp<span>&#64;</span>nist<span>&#46;</span>gov</a>&#8221;)</p>
-<p>version: (&#8220;15.6.28&#8221;)</p>
+<dl class="method">
+<dt>
+<code class="descname">convert_to_np_dtype : convert from HDF5 dataset to numpy ndarray with     numpy-builtin and native datatype</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">retrieve_group_dataset_dict : Retrieve dictionary describing groups that     contain data [key] and the datasets [value]. {group : [dataset(s)]}</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">retrieve_dataset_attribute_dict : Retrieve dictionary describing     attributes that contain data [key] and the datasets [value].     {group : [dataset(s)]}</code></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="crikit.utils.h5.convert_to_np_dtype">
 <code class="descclassname">crikit.utils.h5.</code><code class="descname">convert_to_np_dtype</code><span class="sig-paren">(</span><em>dset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/h5.html#convert_to_np_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.h5.convert_to_np_dtype" title="Permalink to this definition">¶</a></dt>
@@ -450,17 +468,16 @@ value of the closest match</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dset</strong> : h5py.Dataset</p>
-<blockquote>
-<div><p>HDF5 (h5py) dataset</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dset</strong> (<em>h5py.Dataset</em>) – HDF5 (h5py) dataset</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>out</strong> : numpy.ndarray (dtype = numpy built-in)</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>out</strong></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray (dtype = numpy built-in)</td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>The software accounts for big-/little-endianness, and the inability of     hdf5 to natively store complex numbers.</p>
 </dd></dl>
 
 <dl class="function">
@@ -471,24 +488,21 @@ value of the closest match</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote>
-<div><p>filename of HDF5 file</p>
-</div></blockquote>
-<p><strong>datasetfullname</strong> : str</p>
-<blockquote>
-<div><p>full pathname to dataset (e.g., /group/subgroup/dataset)</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – filename of HDF5 file</li>
+<li><strong>datasetfullname</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – full pathname to dataset (e.g., /group/subgroup/dataset)</li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : dict</p>
-<blockquote class="last">
-<div><p>{parameter : value}</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> – {parameter : value}</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
 </dd></dl>
 
 <dl class="function">
@@ -499,40 +513,44 @@ value of the closest match</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote>
-<div><p>filename of HDF5 file</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – filename of HDF5 file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : dict</p>
-<blockquote class="last">
-<div><p>{group path : [dataset list]}</p>
-</div></blockquote>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>out</strong> – {group path : [dataset list]}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.h5.special_exclude_datasets">
 <code class="descclassname">crikit.utils.h5.</code><code class="descname">special_exclude_datasets</code><span class="sig-paren">(</span><em>filename</em>, <em>str_excl='_background'</em>, <em>new_filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/h5.html#special_exclude_datasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.h5.special_exclude_datasets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes any datasets with &#8216;_background&#8217; in the name. Creates a new
-h5 file with &#8216;_excl*_.h5&#8217; appended (unless specified)</p>
+<dd><p>Removes any datasets with ‘_background’ in the name. Creates a new
+h5 file with ‘_excl*_.h5’ appended (unless specified)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename (str)</strong> : name of file to analyze/repack/copy</p>
-<blockquote class="last">
-<div><p>str_excl (str) : (default: &#8216;_background&#8217;) exclude datasets with this string in the name</p>
-<p>new_filename (str) : (Optional) Output filename</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>(</strong><strong>str</strong><strong>)</strong> (<em>new_filename</em>) – </li>
+<li><strong>(</strong><strong>str</strong><strong>)</strong> – </li>
+<li><strong>(</strong><strong>str</strong><strong>)</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>str</strong> (<em>filename of new HDF5 file</em>)</li>
+<li><em>Writes a new file filename(-.h5) + ‘_excl_’ + str_exclude + ‘.h5’</em></li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>SPECIAL : Only likely useful for the NIST developers</p>
 </dd></dl>
 
 <dl class="function">
@@ -540,20 +558,30 @@ h5 file with &#8216;_excl*_.h5&#8217; appended (unless specified)</p>
 <code class="descclassname">crikit.utils.h5.</code><code class="descname">special_repack</code><span class="sig-paren">(</span><em>filename</em>, <em>repack_str='_Movie_'</em>, <em>new_filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/h5.html#special_repack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.h5.special_repack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find datasets (1D) with a given repack_str and concatenates them into
 a larger array. Other datasets are copied as is.</p>
-<p>Creates a new h5 file with &#8216;_repack_&#8217; + repack_str(-&#8216;_&#8217;) + .h5&#8217; appended</p>
+<p>Creates a new h5 file with ‘_repack_’ + repack_str(-‘_’) + .h5’ appended</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename (str)</strong> : name of file to analyze/repack/copy</p>
-<blockquote class="last">
-<div><p>repack_str (str) : string to find in datasets to concatenate</p>
-<p>new_filename (str) : (Optional) Output filename</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>(</strong><strong>str</strong><strong>)</strong> (<em>new_filename</em>) – </li>
+<li><strong>(</strong><strong>str</strong><strong>)</strong> – </li>
+<li><strong>(</strong><strong>str</strong><strong>)</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>str</strong> (<em>filename of new HDF5 file</em>)</li>
+<li><em>Writes a new file filename + ‘_repack_’ + repack_str(-‘_’) + .h5’</em></li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>The output file cannot already exist</p>
+<p>SPECIAL : Only likely useful for the NIST developers</p>
 </dd></dl>
 
 <dl class="function">
@@ -564,42 +592,34 @@ a larger array. Other datasets are copied as is.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
-<div><blockquote>
-<div><p>Name of file to analyze/repack/copy</p>
-</div></blockquote>
-<dl class="docutils">
-<dt>dset_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to dataset</p>
-</dd>
-<dt>dset_attr <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Dataset name</p>
-</dd>
-<dt>stepsize <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Step size to take (1::stepsize)</p>
-</dd>
-<dt>xstep_attr <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of HDF attribute that describes number of steps in the             X-direction</p>
-</dd>
-<dt>xstep_size_attr <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of HDF attribute that describes step size in the             X-direction</p>
-</dd>
-<dt>ystep_attr <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of HDF attribute that describes number of steps in the             Y-direction</p>
-</dd>
-<dt>ystep_size_attr <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of HDF attribute that describes step size in the             Y-direction</p>
-</dd>
-</dl>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of file to analyze/repack/copy</li>
+<li><strong>dset_path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to dataset</li>
+<li><strong>dset_attr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Dataset name</li>
+<li><strong>stepsize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Step size to take (1::stepsize)</li>
+<li><strong>xstep_attr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of HDF attribute that describes number of steps in the             X-direction</li>
+<li><strong>xstep_size_attr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of HDF attribute that describes step size in the             X-direction</li>
+<li><strong>ystep_attr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of HDF attribute that describes number of steps in the             Y-direction</li>
+<li><strong>ystep_size_attr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of HDF attribute that describes step size in the             Y-direction</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>str</strong> (<em>filename of new HDF5 file</em>)</li>
+<li><em>Writes a new file filename + ‘_repack_’ + repack_str(-‘_’) + .h5’</em></li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>The output file cannot already exist</p>
+<p>SPECIAL : Only likely useful for the NIST developers</p>
+<p class="rubric">Example</p>
+<p>_shrink(‘../mP2_w_small.h5’,’/BCARSImage/mP2_3_5ms_Pos_2_0/’,’mP2_3_5ms_Pos_2_0’,10)</p>
 </dd></dl>
 
-</div>
 </div>
 </div>
 <div class="section" id="module-crikit.utils.mplstyle">
@@ -742,7 +762,7 @@ a larger array. Other datasets are copied as is.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -29,17 +29,34 @@ sys.path.insert(0, os.path.abspath('../..'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+# extensions = [
+#     'sphinx.ext.autodoc',
+#     'sphinx.ext.doctest',
+#     'sphinx.ext.intersphinx',
+#     'sphinx.ext.todo',
+#     'sphinx.ext.coverage',
+#     'sphinx.ext.mathjax',
+#     'sphinx.ext.viewcode',
+#     'sphinx.ext.githubpages',
+#     'numpydoc'
+# ]
+
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'numpydoc'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.intersphinx'
 ]
+
+# extension = [
+#     'sphinx.ext.viewcode',
+#     'sphinx.ext.autodoc',
+#     'sphinx.ext.autosummary',
+#     'numpydoc'
+# ]
 
 numpydoc_show_class_members = False
 autodoc_default_flags = ['private-members']

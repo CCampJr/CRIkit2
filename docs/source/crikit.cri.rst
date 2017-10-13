@@ -1,5 +1,5 @@
-crikit.cri package
-==================
+crikit\.cri package
+===================
 
 Subpackages
 -----------
@@ -12,24 +12,24 @@ Subpackages
 Submodules
 ----------
 
-crikit.cri.error_correction module
-----------------------------------
+crikit\.cri\.error\_correction module
+-------------------------------------
 
 .. automodule:: crikit.cri.error_correction
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.cri.kk module
---------------------
+crikit\.cri\.kk module
+----------------------
 
 .. automodule:: crikit.cri.kk
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit.cri.merge_nrbs module
-----------------------------
+crikit\.cri\.merge\_nrbs module
+-------------------------------
 
 .. automodule:: crikit.cri.merge_nrbs
     :members:

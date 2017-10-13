@@ -25,8 +25,6 @@ Contents:
 
    installing
    running
-   genindex
-   modindex
    
 Indices and tables
 ==================

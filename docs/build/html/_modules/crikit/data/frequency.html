@@ -220,11 +220,10 @@
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
 <span class="sd">    update</span>
-<span class="sd">        Updates data based on contents of calib (or calib_orig) and \</span>
-<span class="sd">        calib_fcn</span>
+<span class="sd">        Updates data based on contents of calib (or calib_orig) and calib_fcn</span>
 
 <span class="sd">    get_index_of_closest_freq</span>
-<span class="sd">        Find the closest frequency in freq to a given freq value and RETURN \</span>
+<span class="sd">        Find the closest frequency in freq to a given freq value and RETURN</span>
 <span class="sd">        the pixel value.</span>
 
 <span class="sd">    get_closest_freq</span>
@@ -232,21 +231,21 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Currently, this implementation does not check whether the \</span>
+<span class="sd">    Currently, this implementation does not check whether the </span>
 <span class="sd">    attributes/parameters are contradictory:</span>
-<span class="sd">        * calib</span>
-<span class="sd">        * calib_orig</span>
-<span class="sd">        * data</span>
+<span class="sd">    - calib</span>
+<span class="sd">    - calib_orig</span>
+<span class="sd">    - data</span>
 
-<span class="sd">    * The purpose of \*_list_\* is to limit the range over which operation \</span>
+<span class="sd">    - The purpose of _list_ is to limit the range over which operation \</span>
 <span class="sd">    or plotting is performed. In some instances, for example, one may collect \</span>
 <span class="sd">    a larger set of frequencies that of interest or there may be blank (i.e., \</span>
 <span class="sd">    no signal) regions. Limiting these regions enables faster computation, may \</span>
 <span class="sd">    minimize &quot;edge effects&quot;, and may allow for zoomed-in plotting when there \</span>
 <span class="sd">    are items of interest or a large dynamic range across a spectrum.</span>
 
-<span class="sd">    * For functions, methods, etc. that take into account \*_list_\* \</span>
-<span class="sd">    parameters, they should default to op_list_\* if plot_list_\* are set to \</span>
+<span class="sd">    - For functions, methods, etc. that take into account _list_ \</span>
+<span class="sd">    parameters, they should default to op_list_ if plot_list_ are set to \</span>
 <span class="sd">    None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -662,7 +661,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

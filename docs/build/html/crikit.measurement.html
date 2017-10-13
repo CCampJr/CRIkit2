@@ -185,7 +185,7 @@
 <dt id="crikit.measurement.fftspatialnoise.FFTSignalMetric._calc_mtxs">
 <code class="descname">_calc_mtxs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric._calc_mtxs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric._calc_mtxs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate binary spatial weight maxtrix, wij.</p>
-<p>Note: Currently only supports 1st-order &#8220;rook&#8217;s&#8221; case continuity</p>
+<p>Note: Currently only supports 1st-order “rook’s” case continuity</p>
 </dd></dl>
 
 <dl class="method">
@@ -209,38 +209,36 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeak.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeak._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak._calc" title="Permalink to this definition">¶</a></dt>
@@ -267,42 +265,40 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk1</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>pk2</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>pk2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakAdd.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakAdd._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakAdd._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd._calc" title="Permalink to this definition">¶</a></dt>
@@ -329,46 +325,41 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>tr1</strong> : int</p>
-<blockquote>
-<div><p>Trough 1 location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>tr2</strong> : int</p>
-<blockquote class="last">
-<div><p>Trough 2 location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>tr1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Trough 1 location in pixel coordinates</li>
+<li><strong>tr2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Trough 2 location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakBWTroughs.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakBWTroughs._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakBWTroughs._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs._calc" title="Permalink to this definition">¶</a></dt>
@@ -395,42 +386,40 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk1</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>pk2</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>pk2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakDivide.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakDivide._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakDivide._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide._calc" title="Permalink to this definition">¶</a></dt>
@@ -457,42 +446,40 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk1</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>pk2</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>pk2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakMinus.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakMinus._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinus._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus._calc" title="Permalink to this definition">¶</a></dt>
@@ -519,42 +506,40 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk1</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>pk2</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>pk2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakMultiply.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakMultiply._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMultiply._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply._calc" title="Permalink to this definition">¶</a></dt>
@@ -582,42 +567,40 @@ locations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pk1</strong> : int</p>
-<blockquote>
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-<p><strong>pk2</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pk1</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+<li><strong>pk2</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="74%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>calculate</td>
-<td>(Calculate the amplitude)</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="crikit.measurement.peakamps.MeasurePeakSummation.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSummation.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakamps.MeasurePeakSummation._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSummation._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSummation._calc" title="Permalink to this definition">¶</a></dt>
@@ -639,8 +622,7 @@ locations.</p>
 <div class="section" id="module-crikit.measurement.peakfind">
 <span id="crikit-measurement-peakfind-module"></span><h2>crikit.measurement.peakfind module<a class="headerlink" href="#module-crikit.measurement.peakfind" title="Permalink to this headline">¶</a></h2>
 <p>Peak-finding utilities</p>
-<div class="section" id="note">
-<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Notes</p>
 <dl class="class">
 <dt id="crikit.measurement.peakfind.PeakFinder">
 <em class="property">class </em><code class="descclassname">crikit.measurement.peakfind.</code><code class="descname">PeakFinder</code><span class="sig-paren">(</span><em>noise_sigma</em>, <em>cwt_width=10</em>, <em>n_noise_tests=1000</em>, <em>cutoff_d1=None</em>, <em>cutoff_d2=None</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder" title="Permalink to this definition">¶</a></dt>
@@ -650,27 +632,36 @@ locations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>QQ</strong> : int</p>
-<blockquote class="last">
-<div><p>Peak location in pixel coordinates</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>QQ</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Peak location in pixel coordinates</td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>amp</td>
-<td>(float or ndarray) Amplitude of peak</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
+<dl class="attribute">
+<dt id="crikit.measurement.peakfind.PeakFinder.amp">
+<code class="descname">amp</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.amp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray</em> – Amplitude of peak</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">calculate : Calculate the amplitude</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Static Methods</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">--------------</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="crikit.measurement.peakfind.PeakFinder._calc_cutoff">
 <code class="descname">_calc_cutoff</code><span class="sig-paren">(</span><em>recalc_cutoff=True</em>, <em>method='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder._calc_cutoff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder._calc_cutoff" title="Permalink to this definition">¶</a></dt>
@@ -690,25 +681,18 @@ locations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : ndarray (1D)</p>
-<blockquote>
-<div><p>Signal data</p>
-</div></blockquote>
-<p><strong>wv_width</strong> : int</p>
-<blockquote>
-<div><p>Width of wavelet to use (balance noise suppression and distortion)</p>
-</div></blockquote>
-<p><strong>order</strong> : int, optional (default=1)</p>
-<blockquote>
-<div><p>Order of derivative (e.g., 1st-order derivative)</p>
-</div></blockquote>
-<p><strong>method</strong> : str {&#8216;auto&#8217; (default), &#8216;fft&#8217;, &#8216;direct&#8217;}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>signal</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Signal data</li>
+<li><strong>wv_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Width of wavelet to use (balance noise suppression and distortion)</li>
+<li><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=1</em><em>)</em>) – Order of derivative (e.g., 1st-order derivative)</li>
+<li><strong>method</strong> (<em>str {'auto'</em><em> (</em><em>default</em><em>)</em><em>, </em><em>'fft'</em><em>, </em><em>'direct'}</em>) – </li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deriv</strong> : ndarray (1D)</p>
-<blockquote class="last">
-<div><p>Derivative of input signal</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deriv</strong> – Derivative of input signal</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray (1D)</p>
 </td>
 </tr>
 </tbody>
@@ -733,7 +717,6 @@ locations.</p>
 
 </dd></dl>
 
-</div>
 </div>
 <div class="section" id="module-crikit.measurement">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.measurement" title="Permalink to this headline">¶</a></h2>
@@ -785,7 +768,7 @@ locations.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

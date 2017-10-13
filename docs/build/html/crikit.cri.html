@@ -163,10 +163,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crikit.cri.algorithms.html">crikit.cri.algorithms package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="crikit.cri.algorithms.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.cri.algorithms.html#module-crikit.cri.algorithms.kk">crikit.cri.algorithms.kk module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="crikit.cri.algorithms.html#kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="crikit.cri.algorithms.html#citation-ref">Citation ref</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="crikit.cri.algorithms.html#kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.cri.algorithms.html#module-crikit.cri.algorithms">Module contents</a></li>
@@ -195,6 +192,10 @@
 <em class="property">class </em><code class="descclassname">crikit.cri.error_correction.</code><code class="descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em>smoothness_param=1</em>, <em>asym_param=0.01</em>, <em>redux=10</em>, <em>order=2</em>, <em>rng=None</em>, <em>fix_end_points=False</em>, <em>fix_rng=None</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Phase error correction using alternating least squares (ALS)</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</li>
+</ul>
 <dl class="method">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS._calc" title="Permalink to this definition">¶</a></dt>
@@ -217,6 +218,10 @@
 <em class="property">class </em><code class="descclassname">crikit.cri.error_correction.</code><code class="descname">ScaleErrCorrectSG</code><span class="sig-paren">(</span><em>win_size=601</em>, <em>order=2</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Scale error correction using Savitky-Golay</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</li>
+</ul>
 <dl class="method">
 <dt id="crikit.cri.error_correction.ScaleErrCorrectSG._calc">
 <code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG._calc" title="Permalink to this definition">¶</a></dt>
@@ -235,16 +240,77 @@
 </dd></dl>
 
 </div>
-<div class="section" id="crikit-cri-kk-module">
-<h2>crikit.cri.kk module<a class="headerlink" href="#crikit-cri-kk-module" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-crikit.cri.kk"></span><p>Kramers-Kronig relation phase retrieval.</p>
-<div class="section" id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
-<p>[1] Y. Liu, Y. J. Lee, and M. T. Cicerone, &#8220;Broadband CARS spectral
-phase retrieval using a time-domain Kramers-Kronig transform,&#8221;
+<div class="section" id="module-crikit.cri.kk">
+<span id="crikit-cri-kk-module"></span><h2>crikit.cri.kk module<a class="headerlink" href="#module-crikit.cri.kk" title="Permalink to this headline">¶</a></h2>
+<p>Kramers-Kronig relation phase retrieval.</p>
+<p class="rubric">References</p>
+<p>[1] Y. Liu, Y. J. Lee, and M. T. Cicerone, “Broadband CARS spectral
+phase retrieval using a time-domain Kramers-Kronig transform,”
 Opt. Lett. 34, 1363-1365 (2009).</p>
-<p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, &#8220;Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,&#8221; Journal of Raman Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
-</div>
+<p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
+<dl class="class">
+<dt id="crikit.cri.kk.KramersKronig">
+<em class="property">class </em><code class="descclassname">crikit.cri.kk.</code><code class="descname">KramersKronig</code><span class="sig-paren">(</span><em>cars_amp_offset=0.0</em>, <em>nrb_amp_offset=0.0</em>, <em>phase_offset=0.0</em>, <em>norm_to_nrb=True</em>, <em>pad_factor=1</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Retrieve the real and imaginary components of coherent Raman data via the     Kramers-Kronig (KK) relation. See References.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cars_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to CARS spectrum(a) prior to KK relation. See Notes         and Ref. [2].</li>
+<li><strong>nrb_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to NRB spectrum(a) prior to KK relation. See Notes         and Ref. [2].</li>
+<li><strong>phase_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>ndarray</em><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Phase constant or ndarray applied to retrieved phase prior to         separating the real and imaginary components. See Notes         and Ref. [2].</li>
+<li><strong>norm_to_nrb</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions. Highly recommended. See Ref. [2]</li>
+<li><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=1</em><em>)</em>) – Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum. See Ref. [1].</li>
+<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Range of pixels/frequencies (if freq provided) to perform over</li>
+<li><strong>rng_list</strong> (<em>list/tuple</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – First and Last pixels/frequencies (if freq provided) to perform over</li>
+<li><strong>freq</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Frequency vector</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">KK of cars</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>This function does NOT overwrite input data</li>
+<li>The imaginary components provides the sponatenous Raman-like spectra(um).</li>
+<li>This module assumes the spectra are oriented as such that the frequency     (wavenumber) increases with increasing index.  If this is not the case for     your spectra(um), apply a phase_offset of pi.</li>
+</ul>
+<p class="rubric">References</p>
+<p>[1] Y. Liu, Y. J. Lee, and M. T. Cicerone, “Broadband CARS spectral
+phase retrieval using a time-domain Kramers-Kronig transform,”
+Opt. Lett. 34, 1363-1365 (2009).</p>
+<p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,     Comparable Coherent Anti-Stokes Raman Scattering (CARS)     Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig._calc">
+<code class="descname">_calc</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig._transform">
+<code class="descname">_transform</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>cars : ndarray
+Coherent Raman signal.</p>
+<dl class="docutils">
+<dt>nrb <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>Nonresonant background (NRB)</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-crikit.cri.merge_nrbs">
 <span id="crikit-cri-merge-nrbs-module"></span><h2>crikit.cri.merge_nrbs module<a class="headerlink" href="#module-crikit.cri.merge_nrbs" title="Permalink to this headline">¶</a></h2>
@@ -318,7 +384,7 @@ Opt. Lett. 34, 1363-1365 (2009).</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

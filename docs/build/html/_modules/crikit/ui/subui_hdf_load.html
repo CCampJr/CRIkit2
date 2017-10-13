@@ -166,23 +166,12 @@
 
 <span class="sd">    Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])</span>
 
-<span class="sd">Software Info</span>
-<span class="sd">--------------</span>
-
-<span class="sd">Original Python branch: Feb 16 2015\n</span>
-<span class="sd">\n</span>
-<span class="sd">@author: (&quot;Charles H Camp Jr&quot;)\n</span>
-<span class="sd">@email: (&quot;charles.camp@nist.gov&quot;)\n</span>
-<span class="sd">@date: (&quot;Jun 28 2015&quot;)\n</span>
-<span class="sd">@version: (&quot;1.1&quot;)\n</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
 <span class="c1"># Append sys path</span>
 <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
 <span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">_sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../../&#39;</span><span class="p">))</span>
 
 <span class="c1"># Generic imports for QT-based programs</span>
 <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span> \
@@ -222,12 +211,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">allselect</span><span class="o">=</span><span class="kc">None</span>
         <span class="c1"># Initial Actions</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SubUiHDFLoad.getFileDataSets"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.getFileDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getFileDataSets</span><span class="p">(</span><span class="n">start_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SubUiHDFLoad.getFileDataSets"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.getFileDataSets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">getFileDataSets</span><span class="p">(</span><span class="n">start_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the filename and datasets selected by the user (via GUI)</span>
 
-<span class="sd">        Inputs</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        start_path : str</span>
 <span class="sd">            Home directory to start in</span>
@@ -338,7 +327,7 @@
                 <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="SubUiHDFLoad.filterlist"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.filterlist">[docs]</a>    <span class="k">def</span> <span class="nf">filterlist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Action : Filter available dataset list (*.ui.dataSetList) based on</span>
+        <span class="sd">&quot;&quot;&quot; Action : Filter available dataset list (.ui.dataSetList) based on</span>
 <span class="sd">        include or exclude strings (or comma-separated strings)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -436,7 +425,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
