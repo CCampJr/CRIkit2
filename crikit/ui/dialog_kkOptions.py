@@ -37,8 +37,8 @@ class DialogKKOptions(_QDialog):
     DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently \
         supported) options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogKKOptions : Used to call UI and retrieve results of dialog
 
     References
@@ -97,8 +97,6 @@ class DialogKKOptions(_QDialog):
     @staticmethod
     def dialogKKOptions(parent=None, data=None):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
         Inputs

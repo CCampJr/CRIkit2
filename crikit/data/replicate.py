@@ -28,8 +28,8 @@ class Replicate:
 
     size : int, read-only
 
-    Method
-    ------
+    Methods
+    -------
     update_calib_from_data
         Calculate and set calib parameter from data
 

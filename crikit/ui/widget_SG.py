@@ -31,7 +31,7 @@ class widgetSG(_AbstractPlotEffectPlugin):
     parent : QObject
         Parent
         
-    Method
+    Methods
     ---------
     fcn : Performs the Savitky-Golay
 

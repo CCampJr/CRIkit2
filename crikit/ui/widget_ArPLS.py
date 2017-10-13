@@ -48,8 +48,8 @@ class widgetArPLS(_AbstractPlotEffectPlugin):
     parent: QObject
         Parent
         
-    Method
-    ------
+    Methods
+    -------
     fcn : Perform arPLS detrending
     
     Signals

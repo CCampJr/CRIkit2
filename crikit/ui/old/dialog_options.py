@@ -57,8 +57,8 @@ class DialogDarkOptions(_QDialog):
     """
     DialogDarkOptions : Dark subtraction options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogDarkOptions : Used to call UI and retrieve results of dialog
 
     References
@@ -103,8 +103,6 @@ class DialogDarkOptions(_QDialog):
     @staticmethod
     def dialogDarkOptions(parent = None, darkloaded = False, nrbloaded = False):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
         Inputs
@@ -196,8 +194,8 @@ class DialogKKOptions(_QDialog):
     DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently \
         supported) options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogKKOptions : Used to call UI and retrieve results of dialog
 
     References
@@ -261,8 +259,6 @@ class DialogKKOptions(_QDialog):
     @staticmethod
     def dialogKKOptions(parent=None, data=None):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
         Inputs
@@ -296,7 +292,7 @@ class DialogKKOptions(_QDialog):
 #    """
 #    DialogAnscombeOptions : Anscombe Transformation options dialog
 #
-#    Static Method
+#    Methods
 #    -------------
 #    dialogAnscombeOptions : Used to call UI and retrieve results of dialog
 #
@@ -324,8 +320,6 @@ class DialogKKOptions(_QDialog):
 #    @staticmethod
 #    def dialogAnscombeOptions(parent = None, nrbloaded = False):
 #        """
-#        Static Method.
-#
 #        Retrieve Anscombe Transform dialog results
 #
 #        Inputs

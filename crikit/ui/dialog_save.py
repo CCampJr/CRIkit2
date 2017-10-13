@@ -34,8 +34,8 @@ class DialogSave(_QDialog):
     """
     DialogDarkOptions : Dark subtraction options dialog
     
-    Static Method
-    -------------
+    Methods
+    --------
     dialogSave : Used to call UI and retrieve results of dialog
     
     """
@@ -195,8 +195,6 @@ class DialogSave(_QDialog):
                  save_path=None, save_dataset_name=None, suffix=None,
                  parent=None):
         """
-        Static Method.
-        
         Retrieve save dialog results
 
         Parameters

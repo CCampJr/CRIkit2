@@ -44,8 +44,8 @@ class DialogDenoisePlugins(_QDialog):
     """
     DialogDenoisePlugins : Denoise plugin selector
     
-    Static Method
-    -------------
+    Methods
+    --------
     dialogDenoisePlugins : Used to call UI and retrieve results of dialog
     
     References
@@ -103,18 +103,6 @@ class DialogDenoisePlugins(_QDialog):
     @staticmethod
     def dialogDenoisePlugins(parent = None):
         """
-        Static Method.
-        
-        XXX
-
-        Inputs
-        ----------
-        None : None
-
-        Returns
-        ----------
-        out : (tuple)
-            XXX : (TYPE)
 
         """
         
@@ -132,8 +120,8 @@ class DialogErrCorrPlugins(_QDialog):
     """
     DialogErrCorrPlugins : Error correction plugin selector
     
-    Static Method
-    -------------
+    Methods
+    -------
     dialogErrCorrPlugins : Used to call UI and retrieve results of dialog
     
     References
@@ -199,19 +187,7 @@ class DialogErrCorrPlugins(_QDialog):
     @staticmethod
     def dialogErrCorrPlugins(parent = None):
         """
-        Static Method.
         
-        XXX
-
-        Inputs
-        ----------
-        None : None
-
-        Returns
-        ----------
-        out : (tuple)
-            XXX : (TYPE)
-
         """
         
         dialog = DialogErrCorrPlugins(parent)

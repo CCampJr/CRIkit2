@@ -32,8 +32,8 @@ class widgetCalibrate(_AbstractPlotEffectPlugin):
     calib_dict : dict
         Calibration dictionary
         
-    Method
-    ------
+    Methods
+    -------
     fcn : Perform arPLS detrending
     
     Signals
