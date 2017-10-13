@@ -13,9 +13,6 @@ import sys as _sys
 import os as _os
 import datetime as _datetime
 
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
-
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QWidget as _QWidget, QDialog as _QDialog,
@@ -218,9 +215,9 @@ class DialogSave(_QDialog):
             Dataset path and name where previously saved (if so)
         
         suffix : str
-            Suffix to append to *_dataset_name based on processing steps
+            Suffix to append to _dataset_name based on processing steps
             
-        NOTE : save_* parameters supercede current_* parameters
+        NOTE : save_ parameters supercede current_ parameters
 
         Returns
         ----------

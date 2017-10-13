@@ -6,10 +6,6 @@ Created on Sat May 28 00:41:41 2016
 
 @author: chc
 """
-if __name__ == '__main__':
-    import os as _os
-    import sys as _sys
-    _sys.path.append(_os.path.abspath('../../'))
 
 import copy as _copy
 

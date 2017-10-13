@@ -12,14 +12,9 @@ import numpy as _np
 
 from numpy.linalg import svd as _svd
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
 from crikit.utils.datacheck import _rng_is_pix_vec
 
-__all__ = ['svd_decompose', 'svd_recompose']
+__all__ = ['SVDDecompose', 'SVDRecompose']
 
 
 class SVDDecompose:

@@ -4,16 +4,6 @@ Created on Thu May 26 13:16:12 2016
 @author: chc
 """
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
-#from crikit.data.spectrum import Spectrum as _Spectrum
-#from crikit.data.spectra import Spectra as _Spectra
-#
-
-
 import h5py as _h5py
 _h5py.get_config().complex_names = ('Re','Im')
 

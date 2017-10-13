@@ -24,13 +24,6 @@ from crikit.utils.datacheck import _rng_is_pix_vec
 from crikit.utils.general import find_nearest as _find_nearest
 from crikit.utils.general import mean_nd_to_1d as _mean_nd_to_1d
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
-__all__ = ['kk']
-
 class KramersKronig:
     """
     Retrieve the real and imaginary components of coherent Raman data via the \
