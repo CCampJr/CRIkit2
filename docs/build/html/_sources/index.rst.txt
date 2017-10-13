@@ -18,6 +18,18 @@
 Welcome to CRIKit2's documentation!
 ===================================
 
+CRIkit2 is a numerical and graphical package for processing hyperspectral 
+imagery (HSI). Originally developed for coherent Raman imaginery (CRI),
+CRIkit2 is appropriate for all HSI.
+
+The main components of CRIkit2:
+
+- **CRIkitUI_process** : the [graphical] user interface (UI) for (pre-)processing 
+  HSI.
+- **CRIkitUI_analyze** : *Coming soon*. A UI for analysis and visualization. Out-of-core 
+  computation enabled. Does not alter the original data.
+- Numerical packages that can be used from the command line.
+
 Contents:
 
 .. toctree::
