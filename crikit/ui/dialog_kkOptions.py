@@ -99,7 +99,7 @@ class DialogKKOptions(_QDialog):
         """
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 

@@ -156,7 +156,7 @@ class BCPre:
         """
         Adds a steps to the list
         
-        Inputs
+        Parameters
         ------
         process_desc : list
             List containing elements of new process with format: \
@@ -185,7 +185,7 @@ class BCPre:
         """
         Marks most recent process step as backed up in backed_flag list
         
-        Inputs
+        Parameters
         ------
         None : None
             

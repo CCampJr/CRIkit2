@@ -38,7 +38,7 @@ class DialogAnscombeOptions(_QDialog):
         """
         Retrieve Anscombe Transform dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 

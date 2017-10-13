@@ -60,7 +60,7 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         """
         Retrieve the filename and datasets selected by the user (via GUI)
 
-        Inputs
+        Parameters
         ----------
         start_path : str
             Home directory to start in

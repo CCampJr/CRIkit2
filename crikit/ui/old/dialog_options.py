@@ -105,7 +105,7 @@ class DialogDarkOptions(_QDialog):
         """
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         nrbloaded : (bool)
             Is there an NRB loaded?
@@ -261,7 +261,7 @@ class DialogKKOptions(_QDialog):
         """
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 
@@ -322,7 +322,7 @@ class DialogKKOptions(_QDialog):
 #        """
 #        Retrieve Anscombe Transform dialog results
 #
-#        Inputs
+#        Parameters
 #        ----------
 #        None : None
 #
