@@ -45,8 +45,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
     ---------
         fcn : Performs the KK
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
     """

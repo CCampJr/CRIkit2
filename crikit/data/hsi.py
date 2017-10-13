@@ -71,10 +71,6 @@ class Hsi(_Spectrum):
     data_real_over_imag : ndarray (3D)
         If data is complex, return the real portion
 
-    f_pix : int, read-only
-        Size of data's frequency axis. Note: this matches the size of data and \
-        does NOT check the size of freq.freq_vec.
-
     shape : tuple, read-only
         Shape of data
 

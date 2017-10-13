@@ -35,9 +35,8 @@ class widgetSG(_AbstractPlotEffectPlugin):
     ---------
     fcn : Performs the Savitky-Golay
 
-    Signals
-    -------
-    changed : a value in the UI has changed
+    Signals:
+        changed : a value in the UI has changed
 
     """
 

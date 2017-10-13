@@ -1,6 +1,6 @@
 """
-HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)
-==============================================================================
+Breadcrumb Module
+=================
 
     BCPre : Container describing pre-processing steps
 

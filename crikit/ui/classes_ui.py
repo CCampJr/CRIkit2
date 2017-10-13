@@ -1,6 +1,6 @@
 """
 User Interface and Visualization Classes (crikit.ui.classes_ui)
-=======================================================
+===============================================================
 
 BW : Grayscale images
 

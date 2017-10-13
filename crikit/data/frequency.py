@@ -62,11 +62,10 @@ class Frequency:
     Methods
     -------
     update
-        Updates data based on contents of calib (or calib_orig) and \
-        calib_fcn
+        Updates data based on contents of calib (or calib_orig) and calib_fcn
 
     get_index_of_closest_freq
-        Find the closest frequency in freq to a given freq value and RETURN \
+        Find the closest frequency in freq to a given freq value and RETURN
         the pixel value.
 
     get_closest_freq
@@ -74,21 +73,21 @@ class Frequency:
 
     Notes
     -----
-    Currently, this implementation does not check whether the \
+    Currently, this implementation does not check whether the 
     attributes/parameters are contradictory:
-        * calib
-        * calib_orig
-        * data
+    - calib
+    - calib_orig
+    - data
 
-    * The purpose of \*_list_\* is to limit the range over which operation \
+    - The purpose of _list_ is to limit the range over which operation \
     or plotting is performed. In some instances, for example, one may collect \
     a larger set of frequencies that of interest or there may be blank (i.e., \
     no signal) regions. Limiting these regions enables faster computation, may \
     minimize "edge effects", and may allow for zoomed-in plotting when there \
     are items of interest or a large dynamic range across a spectrum.
 
-    * For functions, methods, etc. that take into account \*_list_\* \
-    parameters, they should default to op_list_\* if plot_list_\* are set to \
+    - For functions, methods, etc. that take into account _list_ \
+    parameters, they should default to op_list_ if plot_list_ are set to \
     None.
 
     """

@@ -52,10 +52,6 @@ class Spectra(_Spectrum):
     meta : dict
         Meta-data dictionary
 
-    f_pix : int, read-only
-        Size of data's frequency axis. Note: this matches the size of data and \
-        does NOT check the size of freq.data.
-
     shape : tuple, read-only
         Shape of data
 

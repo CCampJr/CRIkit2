@@ -36,10 +36,8 @@ class widgetCalibrate(_AbstractPlotEffectPlugin):
     -------
     fcn : Perform arPLS detrending
     
-    Signals
-    -------
-    changed : a value in the UI has changed
-    
+    Signals:
+        changed : a value in the UI has changed
         
     """
     # Parameter dict that will be returned from PlotEffect

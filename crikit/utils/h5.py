@@ -183,9 +183,9 @@ def special_exclude_datasets(filename, str_excl = '_background', new_filename = 
 
         new_filename (str) : (Optional) Output filename
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename(-.h5) + '_excl_' + str_exclude + '.h5'
 
@@ -240,9 +240,9 @@ def special_repack(filename, repack_str = '_Movie_', new_filename = None):
 
         new_filename (str) : (Optional) Output filename
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
@@ -359,9 +359,9 @@ def special_shrink_datasets(filename, dset_path, dset_name, stepsize,
             Name of HDF attribute that describes step size in the \
             Y-direction
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
