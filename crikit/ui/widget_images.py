@@ -262,7 +262,8 @@ class widgetBWImg(_QWidget):
                                                       showcbar=True,
                                                       extent=self.data.winextent,
                                                       xunits=self.data.xunits,
-                                                      yunits=self.data.yunits))
+                                                      yunits=self.data.yunits,
+                                                      parent=parent))
     def initData(self):
         """
         (Re)-initialize self.data
@@ -271,12 +272,12 @@ class widgetBWImg(_QWidget):
 
     def createImg_Ext(self, img, xunits = None, yunits = None,
                   extent = None, showcbar = True, axison = True,
-                  cmap = _mpl.cm.gray):
+                  cmap = _mpl.cm.gray, parent=None):
         """
         Create new figure window and show image of img
         """
 
-        self.external_plots.append(_sciplot.main(parent=self))
+        self.external_plots.append(_sciplot.main(parent=parent))
         self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
                       cmap=cmap, cbar=showcbar, extent=extent)
 
@@ -451,7 +452,8 @@ class widgetSglColor(widgetBWImg):
                                                                                   showcbar=False,
                                                                                   extent=self.data.winextent, 
                                                                                   xunits=self.data.xunits,
-                                                                                  yunits=self.data.yunits))
+                                                                                  yunits=self.data.yunits,
+                                                                                  parent=parent))
         
         try:
             self.popimage.ui.pushButtonGSPop.pressed.disconnect()
@@ -461,7 +463,8 @@ class widgetSglColor(widgetBWImg):
                                                                                     showcbar=True,
                                                                                     extent=self.data.winextent,
                                                                                     xunits=self.data.xunits,
-                                                                                    yunits=self.data.yunits))
+                                                                                    yunits=self.data.yunits,
+                                                                                    parent=parent))
 
     def initData(self):
         """
@@ -567,8 +570,10 @@ class widgetCompositeColor(_QWidget):
                                                                                   showcbar=False,
                                                                                   extent=self.data.winextent, 
                                                                                   xunits=self.data.xunits,
-                                                                                  yunits=self.data.yunits))
-        
+                                                                                  yunits=self.data.yunits,
+                                                                                  parent=parent))
+        self.popimage.ui.pushButtonGSPop.setEnabled(False)
+        self.popimage.ui.pushButtonSpectrum.setEnabled(False)
         self.ui.comboBoxBGColor.setEnabled(False)
         self.ui.comboBoxBGColor.setVisible(False)  # Broken -- don't know if it will ever work
         self.ui.labelBGColor.setVisible(False)  # Broken
@@ -609,12 +614,12 @@ class widgetCompositeColor(_QWidget):
 
     def createImg_Ext(self, img, xunits = None, yunits = None,
                   extent = None, showcbar = True, axison = True,
-                  cmap = _mpl.cm.gray):
+                  cmap = _mpl.cm.gray, parent=None):
         """
         Create new figure window and show image of img
         """
 
-        self.external_plots.append(_sciplot.main(parent=self))
+        self.external_plots.append(_sciplot.main(parent=parent))
         self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
                       cmap=cmap, cbar=showcbar, extent=extent)
 

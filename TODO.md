@@ -14,4 +14,6 @@
 
 # Issues for this branch (dev-NewImageWidgets)
 * Pop and Grayscale plots for single-color plots always in front (likely parentage issue)
+    * Parentage is the main UI; thus, Qt makes it in front -- not ideal, but stuck with it
+    for now
 * ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~
