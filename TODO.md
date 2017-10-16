@@ -11,3 +11,7 @@
 * Carryover SVD auto-selection tools from SW package
 * Add rng functionality to all fcns
 * Move from ALS-only to ALS/ArPLS detrending
+
+# Issues for this branch (dev-NewImageWidgets)
+* Pop and Grayscale plots for single-color plots always in front (likely parentage issue)
+* ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~

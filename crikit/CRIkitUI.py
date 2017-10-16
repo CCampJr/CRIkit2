@@ -145,6 +145,8 @@ class CRIkitUI_process(_QMainWindow):
         # Generic load/init designer-based GUI
         super(CRIkitUI_process, self).__init__(parent) ### EDIT ###
 
+        self.parent = parent
+
         self.filename = None
         self.path = None
         self.dataset_name = None
@@ -167,7 +169,7 @@ class CRIkitUI_process(_QMainWindow):
         self._anscombe_params = None
 
 
-        self.plotter = _SciPlotUI(show=False, parent=parent)
+        self.plotter = _SciPlotUI(show=False, parent=self.parent)
         self._mpl_v2 = self.plotter._mpl_v2
 
         self.ui = Ui_MainWindow() ### EDIT ###
@@ -745,6 +747,11 @@ class CRIkitUI_process(_QMainWindow):
 
             rgb_img.popimage.ui.pushButtonSpectrum.setEnabled(True)
 
+            rgb_img.gsinfo.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
+            rgb_img.gsinfo.ui.spinBoxMin.setMaximum(1.1*val_extrema)
+            rgb_img.gsinfo.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
+            rgb_img.gsinfo.ui.spinBoxMax.setMaximum(1.1*val_extrema)
+            
         # Set X- and Y- scales, labels, etc for composite color images
         self.img_Composite.data.set_x(self.hsi.x, xlabel)
         self.img_Composite.data.set_y(self.hsi.y, ylabel)
