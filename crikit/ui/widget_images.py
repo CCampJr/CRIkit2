@@ -39,7 +39,7 @@ from crikit.ui.qt_ImageGainMath import Ui_Form as Ui_ImageGainMath
 
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
-import matplotlib.cm as _mpl_cm
+from matplotlib.pyplot import colormaps as _plt_colormaps
 import sciplot as _sciplot
 #import matplotlib.pyplot as _plt
 
@@ -173,7 +173,7 @@ class widgetColorMode(_QWidget):
         self.ui.comboBoxFGColor.addItems(color_list)
         self.ui.comboBoxBGColor.setCurrentIndex(color_list.index('black'))
         # Get all mpl colormaps and set combo box
-        list_of_colormaps = sorted(_mpl_cm.datad.keys())
+        list_of_colormaps = sorted(_plt_colormaps())
         self.ui.comboBoxColormap.addItems(list_of_colormaps)
 
         # Set default colormap to 'gray'
