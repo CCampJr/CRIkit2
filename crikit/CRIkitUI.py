@@ -45,18 +45,25 @@ from PyQt5.QtWidgets import QMessageBox as _QMessageBox
 from PyQt5.QtWidgets import QWidget as _QWidget
 from scipy.signal import savgol_filter as _sg
 
-import crikit.measurement.peakamps as _peakamps
 from crikit.cri.error_correction import \
     PhaseErrCorrectALS as _PhaseErrCorrectALS
 from crikit.cri.error_correction import ScaleErrCorrectSG as _ScaleErrCorrectSG
 from crikit.cri.kk import KramersKronig
 from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+
+from crikit.data.frequency import calib_pix_wn as _calib_pix_wn
 from crikit.data.hsi import Hsi
 from crikit.data.spectra import Spectra
 from crikit.data.spectrum import Spectrum
+
 from crikit.io.hdf5 import hdf_is_valid_dsets
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
 from crikit.io.macros import import_hdf_nist_special as io_nist
+
+import crikit.measurement.peakamps as _peakamps
+
+from crikit.datasets.model import Model as _Model
+
 from crikit.preprocess.crop import ZeroColumn as _ZeroColumn
 from crikit.preprocess.crop import ZeroRow as _ZeroRow
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
@@ -66,6 +73,7 @@ from crikit.preprocess.subtract_baseline import \
     SubtractBaselineALS as _SubtractBaselineALS
 from crikit.preprocess.subtract_dark import SubtractDark
 from crikit.preprocess.subtract_mean import SubtractMeanOverRange
+
 from crikit.ui.dialog_kkOptions import DialogKKOptions
 from crikit.ui.dialog_ploteffect import \
     DialogPlotEffectFuture as _DialogPlotEffect
@@ -84,6 +92,7 @@ from crikit.ui.widget_mergeNRBs import widgetMergeNRBs as _widgetMergeNRBs
 from crikit.ui.widget_SG import widgetSG as _widgetSG
 from crikit.utils.breadcrumb import BCPre as _BCPre
 from crikit.utils.general import find_nearest, mean_nd_to_1d
+
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
 _h5py.get_config().complex_names = ('Re', 'Im')
@@ -293,7 +302,7 @@ class CRIkitUI_process(_QMainWindow):
 
         # Perform KK
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
-#        self.ui.actionKKSpeedTest.triggered.connect(self.testKK)
+
         self.ui.actionKKSpeedTest.setEnabled(False)
 
         # Variance Stabilize
@@ -312,14 +321,13 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionSubtractROI.triggered.connect(self.subtractROIStart)
 
         # SAVE
-#        self.ui.actionSave.setEnabled(False)
+
         self.ui.actionSave.triggered.connect(self.save)
 
         # Plotting spectra-related
         self.ui.actionPointSpectrum.triggered.connect(self.pointSpectrum)
         self.ui.actionROISpectrum.triggered.connect(self.roiSpectrum)
-#        self.plotter.model.dataDeleted.connect(self.deleteSelection)
-#        self.plotter.model.colorChanged.connect(self.colorChange)
+
         self.ui.actionDarkSpectrum.triggered.connect(self.plotDarkSpectrum)
         self.ui.actionNRBSpectrum.triggered.connect(self.plotNRBSpectrum)
         self.ui.actionLeftSideNRBSpect.triggered.connect(self.plotLeftNRBSpectrum)
@@ -333,13 +341,13 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionShowOverlays.triggered.connect(self.checkShowOverlays)
         self.ui.actionShowOverlayLegend.triggered.connect(self.changeSlider)
 
-#        # Frequency-slider related
+       # Frequency-slider related
         self.ui.freqSlider.valueChanged.connect(self.changeSlider)
         self.ui.freqSlider.sliderPressed.connect(self.sliderPressed)
         self.ui.freqSlider.sliderReleased.connect(self.sliderReleased)
         self.ui.freqSlider.setTracking(True)
-#
-#        # Frequency-slider display boxes
+
+       # Frequency-slider display boxes
         self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChanged)
         self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChanged)
         self.ui.lineEditPix.setVisible(False)
@@ -350,6 +358,9 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionHelpManual.triggered.connect(lambda: _webbrowser.open('file:///' + help_index, new=1))
         else:
             self.ui.actionHelpManual.setEnabled(False)
+
+        self.ui.actionRamanPhantom.triggered.connect(self.makeRamanPhantom)
+        self.ui.actionBCARSPhantom.triggered.connect(self.makeBCARSPhantom)
 
         # Jupyter console
 
@@ -525,7 +536,7 @@ class CRIkitUI_process(_QMainWindow):
 
     def save(self):
         suffix = self.bcpre.dset_name_suffix
-#        print('Suffix: {}'.format(suffix))
+
         try:
             ret = DialogSave.dialogSave(parent=self,
                                         current_filename=self.filename,
@@ -538,14 +549,11 @@ class CRIkitUI_process(_QMainWindow):
                 self.save_filename = ret[0]
                 self.save_path = ret[1]
                 self.save_dataset_name = ret[2]
-#                print('Filename: {}'.format(self.save_filename))
-#                print('Dataset name: {}'.format(self.save_dataset_name))
-#                print('Path: {}'.format(self.save_path))
 
                 self.save_grp = self.save_dataset_name.rpartition('/')[0]
                 self.save_dataset_name_no_grp = self.save_dataset_name.rpartition('/')[-1]
 
-#                print('Group location: {}'.format(self.save_grp))
+
 
                 try:
                     f_out = _h5py.File(self.save_path + self.save_filename, 'a')
@@ -712,7 +720,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.menuVariance_Stabilize.setEnabled(True)
 
             # ANALYSIS
-#                    self.ui.actionAnalysisToolkit.setEnabled(True)
+
 
             is_complex = _np.iscomplexobj(self.hsi.data)
             if is_complex:
@@ -742,12 +750,9 @@ class CRIkitUI_process(_QMainWindow):
         pos = self.ui.freqSlider.sliderPosition()
         self.ui.lineEditPix.setText(str(self.ui.freqSlider.sliderPosition()))
         self.ui.lineEditFreq.setText(str(round(self.hsi.f[0], 2)))
-#
-#
         # Set BW Class Data
         self.img_BW.initData()
         self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-#                self.img_BW.data.grayscaleimage = retr_freq_plane(self.hsi, pos)
 
         xlabel = ''
         if isinstance(self.hsi.x_rep.label, str):
@@ -771,17 +776,12 @@ class CRIkitUI_process(_QMainWindow):
         # print('Ylabel: {}'.format(ylabel))
         self.img_BW.data.set_x(self.hsi.x, xlabel)
         self.img_BW.data.set_y(self.hsi.y, ylabel)
-#
         # Set min/max, fixed, compress, etc buttons to defaults
         self.img_BW.ui.checkBoxFixed.setChecked(False)
         self.img_BW.ui.checkBoxCompress.setChecked(False)
         self.img_BW.ui.checkBoxRemOutliers.setChecked(False)
-#
-#                # Plot Grayscale image
         self.createImgBW(self.img_BW.data.image)
         self.img_BW.mpl.draw()
-#
-#
         # RGB images
         temp = 0*self.img_BW.data.grayscaleimage
 
@@ -865,7 +865,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.dark = Spectrum()
                 success = io_nist_dlm(self.path, self.filename_header, filename,
                                       self.dark)
-#            print('Success: {}'.format(success))
+
 
             if success:
                 if self.dark.shape[-1] == self.hsi.freq.size:
@@ -894,7 +894,7 @@ class CRIkitUI_process(_QMainWindow):
         elif sender == self.ui.actionLoad_NRB_Right_Side:
             nrb = self.nrb_right
 
-#        print('Sender: {}'.format(sender))
+
         to_open = SubUiHDFLoad.getFileDataSets(self.path)
         if to_open is not None:
             pth, filename, datasets = to_open
@@ -975,8 +975,6 @@ class CRIkitUI_process(_QMainWindow):
         """
         if self.nrb_left is not None and self.nrb_right is not None:
             rng = self.hsi.freq.op_range_pix
-#            print('Range: {}'.format(rng))
-#            print('nrb_left shape'.format(self.nrb_left.shape))
 
 
             rand_spectra = self.hsi.get_rand_spectra(2, pt_sz=3, quads=True)
@@ -1177,8 +1175,6 @@ class CRIkitUI_process(_QMainWindow):
                 spectrum = _np.mean(spectra, axis=0)
             else:
                 spectrum = spectra
-#            print('spectrum.shape: {}'.format(spectrum.shape))
-#            print(spectrum)
             spectrum = spectrum.astype(self.hsi.data.dtype)
             self.hsi.data -= spectrum[..., :]
             self.changeSlider()
@@ -1224,9 +1220,6 @@ class CRIkitUI_process(_QMainWindow):
             self.x_loc_list = []
             self.y_loc_list = []
 
-#            print('Sender: {}'.format(sender))
-#            print('Sender is actionNRB_from_ROI: {}'.format(sender == self.ui.actionNRB_from_ROI))
-
             # Need to send sender as the text name as the actual object
             # will change
             if self.cid is None:
@@ -1247,10 +1240,6 @@ class CRIkitUI_process(_QMainWindow):
         # Sender was sent as a text reference to the actual sender
         # the pass of sender put it in a tuple; thus the [0]
         sender = sender[0]
-
-#        print('Sender: {}'.format(sender))
-#        print('Sender is actionNRB_from_ROI: {}'.format(sender == self.ui.actionNRB_from_ROI))
-#        print('Sender is \'actionNRB_from_ROI\': {}'.format(sender == 'actionNRB_from_ROI'))
 
         x_loc_list, y_loc_list = locs
 
@@ -1353,7 +1342,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.cid = None
             else:  # Clicked out-of-bounds
                 pass
-#                print('Clicked out-of-bounds')
+
         else: # Right-or-middle clicked; thus, cancel
             self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
@@ -1364,11 +1353,11 @@ class CRIkitUI_process(_QMainWindow):
         """
         Add a plot (in plotter) of a point spectrum
         """
-#        try:
+
         x_loc, y_loc = locs
         x_pix = find_nearest(self.hsi.x, x_loc)[1]
         y_pix = find_nearest(self.hsi.y, y_loc)[1]
-#        self.selectiondata.append_selection([x_pix],[y_pix],[x_loc],[y_loc])
+
         self.changeSlider()
 
         plot_num = self.plotter.n_lines
@@ -1387,7 +1376,6 @@ class CRIkitUI_process(_QMainWindow):
         self.plotter.show()
         self.plotter.raise_()
         self.updateOverlays()
-#        self.plotter.raise_()
 
     def _roiSpectrumPlot(self, locs):
         """
@@ -1398,8 +1386,6 @@ class CRIkitUI_process(_QMainWindow):
         x_pix = find_nearest(self.hsi.x, x_loc_list)[1]
         y_pix = find_nearest(self.hsi.y, y_loc_list)[1]
 
-#        self.selectiondata.append_selection(x_pix, y_pix, x_loc_list, y_loc_list)
-        #self.img_BW.mpl.mpl_disconnect(self.cid)
 
         mask, path = _roimask(self.hsi.x, self.hsi.y,
                               x_loc_list, y_loc_list)
@@ -1699,7 +1685,6 @@ class CRIkitUI_process(_QMainWindow):
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
-#
 
     def deNoiseNRB(self):
         """
@@ -1727,13 +1712,6 @@ class CRIkitUI_process(_QMainWindow):
                                  'Win_size', win_size,
                                  'Order', order])
 
-#            if self.ui.actionUndo_Backup_Enabled.isChecked():
-#                try:
-#                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-#                except:
-#                    print('Error in pickle backup (Undo functionality)')
-#                else:
-#                    self.bcpre.backed_up()
         self.changeSlider()
 
     def deNoiseDark(self):
@@ -1762,13 +1740,7 @@ class CRIkitUI_process(_QMainWindow):
                                  'Win_size', win_size,
                                  'Order', order])
 
-#            if self.ui.actionUndo_Backup_Enabled.isChecked():
-#                try:
-#                    _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-#                except:
-#                    print('Error in pickle backup (Undo functionality)')
-#                else:
-#                    self.bcpre.backed_up()
+
         self.changeSlider()
 
     def deNoise(self):
@@ -1777,7 +1749,6 @@ class CRIkitUI_process(_QMainWindow):
         """
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
-#        print('Range: {}'.format(rng))
         # SVD Decompose
         svd_decompose = SVDDecompose(rng=rng)
         UsVh = svd_decompose.calculate(self.hsi.data)
@@ -1814,7 +1785,6 @@ class CRIkitUI_process(_QMainWindow):
                 else:
                     self.bcpre.backed_up()
             self.changeSlider()
-
 
     def errorCorrectPhase(self):
         """
@@ -2025,7 +1995,6 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.freqSlider.setMaximum(self.hsi.freq.size-1)
 
         self.changeSlider()
-
 
     def subDark(self):
         """
@@ -2485,7 +2454,6 @@ class CRIkitUI_process(_QMainWindow):
             print('Error')
         self.doComposite()
 
-
     def setOpFreq2(self):
         """
         Set color math frequency #2 (e.g., freq #1 + freq #2)
@@ -2583,22 +2551,18 @@ class CRIkitUI_process(_QMainWindow):
             Mask = Mask.astype(_np.integer)
 
             mask_hits = Mask.sum()
-#            print('Mask hits: {}'.format(mask_hits))
+
 
             mloc, nloc = _np.where(Mask)
-#            print(mloc, nloc)
+
 
             if mask_hits > 1:
                 mean_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].mean(axis=0)
                 std_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].std(axis=0)
-#                print(mean_spect.shape)
-                # Plot mean spectrum
                 self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum ({})'.format(mask_hits))
             elif mask_hits == 1:
-#                print(mloc)
-#                print(nloc)
                 mean_spect = _np.squeeze(self.hsi.data_imag_over_real[mloc,nloc,:])[self.hsi.freq.op_range_pix]
-#                print(mean_spect.shape)
+
                 std_spect = 0
                 # Plot spectrum
 
@@ -2622,7 +2586,6 @@ class CRIkitUI_process(_QMainWindow):
 
             self.plotter.show()
             self.plotter.raise_()
-
 
     def createImgBW(self, img):
         """
@@ -2742,8 +2705,6 @@ class CRIkitUI_process(_QMainWindow):
         else:
             self.ui.actionUndo.setEnabled(False)
 
-
-
     def sliderPressed(self):
         """
         Respond to press of frequency slider (set tracking of location)
@@ -2806,7 +2767,6 @@ class CRIkitUI_process(_QMainWindow):
                                           extent=self.img_BW.data.winextent,
                                           showcbar=False, axison=True)
             self.img_Composite2.mpl.draw()
-#        self.img_Composite.mpl.draw()
         except:
             pass
 
@@ -2828,6 +2788,144 @@ class CRIkitUI_process(_QMainWindow):
         self.show_overlays = self.ui.actionShowOverlays.isChecked()
         self.changeSlider()
 
+    def makePhantom(self, cplx=True):
+        """
+        Generate a numerical phantom
+
+        Parameters
+        ----------
+        cplx : bool
+            Return a complex-valued phantom? (Else just imag. part, real-valued)
+        """
+        model = _Model(subsample=4)
+        
+        calib = {'a_vec': _np.array([-0.16774072130755699, 863.43764403610646]),
+                 'ctr_wl': 729.994,
+                 'ctr_wl0': 729.994,
+                 'n_pix': 1600,
+                 'probe': 771.461,
+                 'units': 'nm'}
+
+        wn_start = 500
+        wn_end = 4000
+
+        lam_start = 0.01 / (wn_start + 0.01/(calib['probe']*1e-9))  # meters
+        lam_start *= 1e9  # nm
+
+        lam_end = 0.01 / (wn_end + 0.01/(calib['probe']*1e-9))  # meters
+        lam_end *= 1e9  # nm
+
+        lam_ctr = (lam_start + lam_end) / 2  # nm
+        
+        n_pix = _np.ceil((lam_end-lam_start) / calib['a_vec'][0])
+
+        # Make a properly linear frequency-vector and polyfit
+        f = calib['a_vec'][0] * _np.arange(n_pix)  # Temporary frequency vec
+        f -= f.mean()
+        f += lam_ctr
+        a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
+
+        # Update calibration dict
+        calib.update({'a_vec' : a_vec, 'ctr_wl' : lam_ctr, 'ctr_wl0' : lam_ctr,
+                      'n_pix' : n_pix})
+
+        f = _calib_pix_wn(calib)[0]
+        
+        model.make_hsi(f=f)
+
+        if cplx:
+            self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
+        else:
+            self.hsi = Hsi(data=model.hsi.imag, x=model.x, y=model.y)
+
+        self.hsi.freq.calib_fcn = _calib_pix_wn
+        self.hsi.freq.calib = calib
+        self.hsi.freq.update()
+
+        self.filename = 'Phantom.h5'
+        self.path = '.'
+        self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
+
+        self.fileOpenSuccess(True)
+
+        meta = {'Calib.a_vec': a_vec,
+                'Calib.ctr_wl': lam_ctr,
+                'Calib.ctr_wl0': lam_ctr,
+                'Calib.n_pix': n_pix,
+                'Calib.probe': 771.461,
+                'Calib.units': 'nm',
+                'Memo': 'Numerical phantom from murine pancreas artery. See Camp et al, JRS (2016).',
+                'RasterScanParams.FastAxis': 'X',
+                'RasterScanParams.FastAxisStart': model.x[0],
+                'RasterScanParams.FastAxisStepSize': _np.diff(model.x).mean(),
+                'RasterScanParams.FastAxisSteps': model.x.size,
+                'RasterScanParams.FastAxisStop': model.x[-1],
+                'RasterScanParams.FixedAxis': 'Z',
+                'RasterScanParams.FixedAxisPosition': 0,
+                'RasterScanParams.SlowAxis': 'Y',
+                'RasterScanParams.SlowAxisStart': model.y[0],
+                'RasterScanParams.SlowAxisStepSize': _np.diff(model.y).mean(),
+                'RasterScanParams.SlowAxisSteps': model.y.size,
+                'RasterScanParams.SlowAxisStop': model.y[-1],
+                'Spectro.CenterWavelength': lam_ctr,
+                }
+        self.hsi._meta = meta
+
+    def makeRamanPhantom(self):
+        """
+        Generate a numerical phantom for Raman
+        """
+        self.makePhantom(cplx=False)
+        self.hsi._data *= 50e3
+        self.changeSlider()
+    
+    def makeBCARSPhantom(self):
+        """
+        Generate a numerical phantom for BCARS
+        """
+        add_gnoise = True  # Poisson noise
+        add_pnoise = True  # AWGN (Gaussian)
+        add_dark = True  # Dark background -- just a constant
+
+        # These values correspond to the defaults of the
+        # Anscombe UI
+        g_noise = 12.44  # Std Dev of Gaussian noise
+        p_amp = 1.4  # Multiplier of Poisson noise
+        
+        self.makePhantom(cplx=True)
+
+        # Simple Gaussian 0-centered source profile
+        f = self.hsi.f_full
+        source = 1e2*_np.exp(-f**2/(2*1500**2))
+        nrb = 10*_np.exp(-(f-20e3)**2/(2*10e3**2))
+
+        self.hsi.data = _np.abs((self.hsi.data+nrb)*source)**2
+        
+        if add_pnoise:  # Add Poisson noise
+            self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
+        if add_gnoise:  # Add AGWN
+            self.hsi._data += _np.random.randn(*self.hsi._data.shape)
+        if add_dark:  # Add a constant dark background
+            self.hsi._data += 1600
+            self.dark._data = 1600 + 0*f
+            self.dark.freq = self.hsi.freq
+
+        
+        self.nrb.data = _np.abs(source*nrb)**2
+        if add_dark:
+            self.nrb._data += 1600
+
+        self.nrb.freq = self.hsi.freq
+
+        self.ui.actionDarkSpectrum.setEnabled(True)
+        self.ui.actionNRBSpectrum.setEnabled(True)
+        self.ui.actionDarkSubtract.setEnabled(True)
+        self.ui.actionKramersKronig.setEnabled(True)
+        self.ui.actionPhaseErrorCorrection.setEnabled(True)
+        self.ui.actionScaleErrorCorrection.setEnabled(True)
+
+        self.changeSlider()
+                
 def crikit_launch(**kwargs):
     """
     Command line launching of CRIkitUI.

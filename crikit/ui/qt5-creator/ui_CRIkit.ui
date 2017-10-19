@@ -490,7 +490,8 @@ This will be saved to the processed file.</string>
     </property>
     <addaction name="actionHelpManual"/>
     <addaction name="separator"/>
-    <addaction name="actionPhantom"/>
+    <addaction name="actionRamanPhantom"/>
+    <addaction name="actionBCARSPhantom"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1138,13 +1139,22 @@ This will be saved to the processed file.</string>
     <string>F1</string>
    </property>
   </action>
-  <action name="actionPhantom">
+  <action name="actionRamanPhantom">
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/person-4x.png</normaloff>:/icons/open-iconic-master/png/person-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Generate Numerical Phantom</string>
+    <string>Raman Numerical Phantom</string>
+   </property>
+  </action>
+  <action name="actionBCARSPhantom">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/people-4x.png</normaloff>:/icons/open-iconic-master/png/people-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>BCARS Numerical Phantom</string>
    </property>
   </action>
  </widget>
