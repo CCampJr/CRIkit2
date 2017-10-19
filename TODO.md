@@ -13,6 +13,6 @@
 * Move from ALS-only to ALS/ArPLS detrending
 
 # Tweaks
-* Fix model to use way less memory
+* Fix model to use way less memory (and test 64 vs 128-bit complex)
 * Add label and units parameter to Frequency
 * Use Frequency label and units in GUI
