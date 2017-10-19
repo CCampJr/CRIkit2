@@ -192,6 +192,48 @@ class Hsi(_Spectrum):
             print('Assigning non-ndarray to data. Not shape checking')
             self._data = value
 
+    def check(self):
+        """
+        Check x, y, and freq to make sure the dimensions agree with data
+        """
+        if self._data is None:
+            print('Hsi check: data is None, not checking')
+        else:
+            if self._x_rep._data is None:
+                self._x_rep._data = _np.arange(self.shape[1])
+                self._x_rep._label = 'X'
+                self._x_rep._units = 'pix'
+                print('Hsi check: setting x to pixels')
+            elif self._x_rep._data.size != self._data.shape[1]:
+                self._x_rep = _Replicate()
+                self._x_rep._data = _np.arange(self.shape[1])
+                self._x_rep._label = 'X'
+                self._x_rep._units = 'pix'
+                print('Hsi check: setting x to pixels')
+
+            if self._y_rep._data is None:
+                self._y_rep._data = _np.arange(self.shape[0])
+                self._y_rep._label = 'Y'
+                self._y_rep._units = 'pix'
+                print('Hsi check: setting y to pixels')
+            elif self._y_rep._data.size != self._data.shape[0]:
+                self._y_rep = _Replicate()
+                self._y_rep._data = _np.arange(self.shape[0])
+                self._y_rep._label = 'Y'
+                self._y_rep._units = 'pix'
+                print('Hsi check: setting y to pixels')
+
+            if self.freq._data is None:
+                self.freq._data = _np.arange(self.shape[-1])
+                self.freq._label = 'Frequency'
+                self.freq._units = 'pix'
+                print('Hsi check: setting freq to pixels')
+            elif self.freq._data.size != self._data.shape[-1]:
+                self.freq = _Frequency()
+                self.freq._data = _np.arange(self.shape[-1])
+                print('Hsi check: setting freq to pixels')
+        return None
+
     def subtract(self, spectra, overwrite=True):
         """
         Subtract spectrum from data

@@ -77,6 +77,8 @@ class Replicate:
                 self._data = value
             else:
                 raise TypeError('data must be 1D ndarray')
+        elif value is None:
+            self._data = None
         else:
             raise TypeError('data must be 1D ndarray')
 
