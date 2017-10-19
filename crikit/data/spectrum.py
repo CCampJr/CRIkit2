@@ -83,7 +83,7 @@ class Spectrum:
         self._freq = _Frequency()
         self._label = None
         self._units = None
-        self._meta = None
+        self._meta = {}
 
         if data is not None:
             self.data = _copy.deepcopy(data)
