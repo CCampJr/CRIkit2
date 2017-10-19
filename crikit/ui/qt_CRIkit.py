@@ -452,6 +452,11 @@ class Ui_MainWindow(object):
         icon24.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/question-mark-2x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHelpManual.setIcon(icon24)
         self.actionHelpManual.setObjectName("actionHelpManual")
+        self.actionPhantom = QtWidgets.QAction(MainWindow)
+        icon25 = QtGui.QIcon()
+        icon25.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/person-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionPhantom.setIcon(icon25)
+        self.actionPhantom.setObjectName("actionPhantom")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -522,6 +527,8 @@ class Ui_MainWindow(object):
         self.menuView.addAction(self.actionRightSideNRBSpect)
         self.menuSettings.addAction(self.actionUndo_Backup_Enabled)
         self.menuHelp.addAction(self.actionHelpManual)
+        self.menuHelp.addSeparator()
+        self.menuHelp.addAction(self.actionPhantom)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -633,5 +640,6 @@ class Ui_MainWindow(object):
         self.actionShowOverlayLegend.setText(_translate("MainWindow", "Show Overlay Legend"))
         self.actionHelpManual.setText(_translate("MainWindow", "Manual"))
         self.actionHelpManual.setShortcut(_translate("MainWindow", "F1"))
+        self.actionPhantom.setText(_translate("MainWindow", "Generate Numerical Phantom"))
 
 from . import icons_all_rc

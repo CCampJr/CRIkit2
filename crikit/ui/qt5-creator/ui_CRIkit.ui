@@ -489,6 +489,8 @@ This will be saved to the processed file.</string>
      <string>Help</string>
     </property>
     <addaction name="actionHelpManual"/>
+    <addaction name="separator"/>
+    <addaction name="actionPhantom"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1134,6 +1136,15 @@ This will be saved to the processed file.</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionPhantom">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/person-4x.png</normaloff>:/icons/open-iconic-master/png/person-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Generate Numerical Phantom</string>
    </property>
   </action>
  </widget>
