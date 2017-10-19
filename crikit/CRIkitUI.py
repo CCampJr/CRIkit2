@@ -58,6 +58,7 @@ from crikit.data.hsi import Hsi
 from crikit.data.spectra import Spectra
 from crikit.data.spectrum import Spectrum
 
+from crikit.io.hdf5 import hdf_is_valid_dsets
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
 from crikit.io.macros import import_hdf_nist_special as io_nist
 
@@ -140,18 +141,24 @@ class CRIkitUI_process(_QMainWindow):
 
     NUMCOLORS = 4  # Number of single-color windows to auto-generate
 
-    def __init__(self, parent=None):
+    def __init__(self, **kwargs):
 
         # Generic load/init designer-based GUI
+        parent = kwargs.get('parent')
+
         super(CRIkitUI_process, self).__init__(parent) ### EDIT ###
+               
 
         self.parent = parent
 
-        self.filename = None
-        self.path = None
-        self.dataset_name = None
+        self.filename = kwargs.get('filename')
+        self.path = kwargs.get('path')
+        self.dataset_name = kwargs.get('dataset_name')
 
-        self.hsi = Hsi()
+        self.hsi = kwargs.get('hsi')
+        if not isinstance(self.hsi, Hsi):
+            self.hsi = Hsi()
+        
         self.bcpre = _BCPre()
 
         self.dark = Spectra()
@@ -347,18 +354,20 @@ class CRIkitUI_process(_QMainWindow):
         # Jupyter console
 
         if jupyter_flag == 1:
+            try:
+                self.jupyterConsole = QJupyterWidget(customBanner='Welcome to the '
+                                                    'embedded ipython console\n\n')
+            except:
+                print('Error loading embedded IPython Notebook')
+            else:
+                self.ui.tabMain.addTab(self.jupyterConsole, 'Jupyter/IPython Console')
 
-
-            self.jupyterConsole = QJupyterWidget(customBanner='Welcome to the '
-                                                 'embedded ipython console\n\n')
-            self.ui.tabMain.addTab(self.jupyterConsole, 'Jupyter/IPython Console')
-
-            self.jupyterConsole.pushVariables({'ui':self.ui,
-                                               'bcpre':self.bcpre,
-                                               'dark':self.dark,
-                                               'nrb':self.nrb,
-                                               'crikit_data':self})
-            self.ui.tabMain.currentChanged.connect(self.tabMainChange)
+                self.jupyterConsole.pushVariables({'ui':self.ui,
+                                                'bcpre':self.bcpre,
+                                                'dark':self.dark,
+                                                'nrb':self.nrb,
+                                                'crikit_data':self})
+                self.ui.tabMain.currentChanged.connect(self.tabMainChange)
 
 
         # Temporary toolbar setup
@@ -370,6 +379,64 @@ class CRIkitUI_process(_QMainWindow):
 
         # Default toolbar is NIST Workflow
         self.ui.actionToolBarNIST2.trigger()
+
+        # COMMAND LINE INTERPRETATION
+
+        # file and dset info provided
+        if hdf_is_valid_dsets(self.path, self.filename, self.dataset_name):
+            self.fileOpenHDFNIST(dialog=False)
+
+        # Hsi provided
+        temp = kwargs.get('hsi')
+        if temp is not None:
+            try:
+                self.fileOpenSuccess(True)
+            except:
+                print('Error in input hsi')
+                self.hsi = Hsi()
+
+        # x-array provided
+        temp = kwargs.get('x')
+        if temp is not None:
+            try:
+                self.hsi.x = temp
+                self.hsi._x_rep.units = kwargs.get('x_units')
+                self.hsi._x_rep.label = kwargs.get('x_label')
+            except:
+                print('Error in input x-array')
+                self.hsi.x = None
+            
+        # y-array provided
+        temp = kwargs.get('y')
+        if temp is not None:
+            try:
+                self.hsi.y = temp
+                self.hsi._y_rep.units = kwargs.get('y_units')
+                self.hsi._y_rep.label = kwargs.get('y_label')
+            except:
+                print('Error in input y-array')
+                self.hsi.y = None
+
+        # freq-array provided
+        temp = kwargs.get('f')
+        if temp is not None:
+            try:
+                self.hsi.freq._data = temp
+                self.hsi.freq._units = kwargs.get('f_units')
+                self.hsi.freq._label = kwargs.get('f_label')
+            except:
+                print('Error in input freq-array (f)')
+                self.hsi.freq._data = None
+
+        # data provided
+        if isinstance(kwargs.get('data'), _np.ndarray):
+            try:
+                self.hsi.data = kwargs.get('data')
+                self.hsi.check()
+                self.fileOpenSuccess(True)
+            except:
+                print('Error in input data')
+                self.hsi = Hsi()
 
     def plotter_show(self):
         self.plotter.show()
@@ -544,27 +611,36 @@ class CRIkitUI_process(_QMainWindow):
         else:
             print('Did not delete pickle file cut list... Something went wrong')
 
-    def fileOpenHDFNIST(self):
+    def fileOpenHDFNIST(self, *args, dialog=True):
         """
         Open and load HDF5 File
+
+        dialog : bool
+            Present a gui for file and dataset selection
         """
 
         # Get data and load into CRI_HSI class
         # This will need to change to accomodate multiple-file selection
-
-        try:
-            to_open = SubUiHDFLoad.getFileDataSets(self.path)
-            print('to_open: {}'.format(to_open))
-            if to_open is not None:
-                self.path, self.filename, self.dataset_name = to_open
-        except:
-            print('Could not open file. Corrupt or not appropriate file format.')
+        
+        if dialog:
+            try:
+                to_open = SubUiHDFLoad.getFileDataSets(self.path)
+                print('to_open: {}'.format(to_open))
+                if to_open is not None:
+                    self.path, self.filename, self.dataset_name = to_open
+            except:
+                print('Could not open file. Corrupt or not appropriate file format.')
+            else:
+                if to_open is not None:
+                    self.hsi = Hsi()
+                    success = io_nist(self.path, self.filename, self.dataset_name,
+                                    self.hsi)
+                    self.fileOpenSuccess(success)
         else:
-            if to_open is not None:
-                self.hsi = Hsi()
-                success = io_nist(self.path, self.filename, self.dataset_name,
-                                  self.hsi)
-                self.fileOpenSuccess(success)
+            self.hsi = Hsi()
+            success = io_nist(self.path, self.filename, self.dataset_name,
+                              self.hsi)
+            self.fileOpenSuccess(success)
 
     def fileOpenDLMNIST(self):
         """
@@ -1124,7 +1200,7 @@ class CRIkitUI_process(_QMainWindow):
             spectrum = spectrum.astype(self.hsi.data.dtype)
             self.hsi.data -= spectrum[..., :]
             self.changeSlider()
-#            print('Here')
+
 
             # Backup for Undo
             self.bcpre.add_step(['SubtractROI', 'Spectrum', spectrum])
@@ -2773,6 +2849,80 @@ class CRIkitUI_process(_QMainWindow):
     def checkShowOverlays(self):
         self.show_overlays = self.ui.actionShowOverlays.isChecked()
         self.changeSlider()
+
+def crikit_launch(**kwargs):
+    """
+    Command line launching of CRIkitUI.
+
+    Input kwargs (Optional)
+    ------------
+    hsi : crikit.data.Hsi
+        Hsi instance
+
+    data : ndarray (3D)
+        Numpy array (Y,X,Freq) hsi
+
+    x : ndarray (1D)
+        x-array
+
+    x_units : str
+        Units of x (e.g. r'$\mu$m')
+
+    x_label : str
+        Label of x (e.g. 'X')
+
+    y : ndarray (1D)
+        y-array
+
+    y_units : str
+        Units of y (e.g. r'$\mu$m')
+
+    y_label : str
+        Label of y (e.g. 'Y')
+
+    f : ndarray (1D)
+        frequency-array
+
+    f_units : str
+        Units of frequency (e.g. r'cm$^{-1}$')
+
+    f_label : str
+        Label of frequency (e.g. 'Wavenumber')
+
+    filename : str
+        Filename of HDF data to auto-load (requires path and dataset_name as well)
+
+    path : str
+        Path of HDF data to auto-load (requires filename and dataset_name as well)
+
+    dataset_name : str
+        Dataset name(s) of HDF data to auto-load (requires path and filename as well)
+
+    """
+
+    app = _QApplication(_sys.argv)
+    app.setStyle('Cleanlooks')
+    app.setQuitOnLastWindowClosed(False)
+
+    parent = kwargs.get('parent')
+
+    if parent is None:
+        obj = _QWidget()
+    else:
+        obj = parent
+        
+    kwargs['parent'] = obj
+    # print('Kwargs: {}'.format(kwargs))
+    win = CRIkitUI_process(**kwargs) ### EDIT ###
+
+    # Insert other stuff to do
+
+    # Final stuff
+    win.showMaximized()
+    #win.plotter.lower()
+    #win.raise_()
+    app.exec_()
+    return None
 
 if __name__ == '__main__':
 

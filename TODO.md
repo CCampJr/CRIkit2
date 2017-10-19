@@ -17,3 +17,7 @@
     * Parentage is the main UI; thus, Qt makes it in front -- not ideal, but stuck with it
     for now
 * ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~
+
+# Minor tweaks
+* Add label and units parameter to Frequency
+* Use Frequency label and units in GUI

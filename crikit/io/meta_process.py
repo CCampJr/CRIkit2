@@ -33,6 +33,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
                     if count == '!':
                         temp_key = key
                         temp_val = rosetta[key][num+1]
+                        print('Using default meta_configs value for: {}'.format(key))
                         break
                     else:
                         temp_key = count
@@ -78,7 +79,6 @@ def meta_process(rosetta, output_cls_instance):
         calib_dict['units'] = rosetta_query('ColorUnits',rosetta, output_cls_instance)[0]
 
         output_cls_instance.freq.calib = calib_dict
-        # print('Calibration meta data found')  # Not if it used a '!'
 
         use_wn = rosetta_query('ColorWnMode',rosetta, output_cls_instance)[0]
         print('Use wavenumber: {}'.format(use_wn))
