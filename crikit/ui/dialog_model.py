@@ -24,15 +24,22 @@ class DialogModel(_QDialog):
         super().__init__(parent)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        self.ui.pushButtonCancel.setDefault(False)
+        self.ui.pushButtonCancel.setAutoDefault(False)
+        self.ui.pushButtonOk.setDefault(False)
+        self.ui.pushButtonOk.setAutoDefault(False)
+        self.ui.spinBoxSubsample.setFocus()
 
-        self.ui.buttonBox.accepted.connect(self.accept)
-        self.ui.buttonBox.rejected.connect(self.reject)
+        self.ui.pushButtonOk.pressed.connect(self.accept)
+        self.ui.pushButtonCancel.pressed.connect(self.reject)
 
-        self.ui.spinBoxSubsample.editingFinished.connect(self.changeSize)
-        self.ui.spinBoxStart.editingFinished.connect(self.changeSize)
-        self.ui.spinBoxEnd.editingFinished.connect(self.changeSize)
-        self.ui.spinBoxSpectrographStep.editingFinished.connect(self.changeSize)
-        self.ui.spinBoxProbe.editingFinished.connect(self.changeSize)
+        self.ui.spinBoxSubsample.valueChanged.connect(self.changeSize)
+        self.ui.spinBoxStart.valueChanged.connect(self.changeSize)
+        self.ui.spinBoxEnd.valueChanged.connect(self.changeSize)
+        self.ui.spinBoxSpectrographStep.valueChanged.connect(self.changeSize)
+        self.ui.spinBoxProbe.valueChanged.connect(self.changeSize)
+
+        self.changeSize()
 
     def changeSize(self):
         subsample = self.ui.spinBoxSubsample.value()
@@ -41,7 +48,29 @@ class DialogModel(_QDialog):
         slope = self.ui.spinBoxSpectrographStep.value()
         probe = self.ui.spinBoxProbe.value()
 
+        m = Model._M
+        n = Model._N
 
+        x = _np.arange(n)
+        y = _np.arange(m)
+
+        rows = y[::subsample].size
+        cols = x[::subsample].size
+        
+        lam_start = 0.01 / (start + 0.01/(probe*1e-9))  # meters
+        lam_start *= 1e9  # nm
+
+        lam_end = 0.01 / (stop + 0.01/(probe*1e-9))  # meters
+        lam_end *= 1e9  # nm
+
+        lam_ctr = (lam_start + lam_end) / 2  # nm
+        
+        n_pix = _np.abs(_np.ceil((lam_end-lam_start) / slope)).astype(int)
+
+        self.ui.spinBoxOutputColors.setValue(n_pix)
+        self.ui.spinBoxOutputRows.setValue(rows)
+        self.ui.spinBoxOutputCols.setValue(cols)
+        
     @staticmethod
     def dialogModel(parent=None):
         """
