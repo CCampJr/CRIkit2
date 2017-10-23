@@ -16,3 +16,4 @@
 * Fix model to use way less memory (and test 64 vs 128-bit complex)
 * Add label and units parameter to Frequency
 * Use Frequency label and units in GUI
+* Move noise and other settings from CRIkitUI to Model class
