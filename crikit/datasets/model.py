@@ -16,12 +16,15 @@ class Model:
         Dtype to set final image
 
     """
+    _M = 300
+    _N = 300
+
     def __init__(self, subsample=1, dtype=_np.complex):
         self.n_layers = 7  # Number of components
         self.img_shape = [300, 300]  # Spaital imaging shape
 
-        self.x = _np.linspace(1,199,300)
-        self.y = _np.linspace(1,199,300)
+        self.x = _np.linspace(1,199,self._N)
+        self.y = _np.linspace(1,199,self._M)
 
         if subsample > 1:
             self.x = self.x[::subsample]
