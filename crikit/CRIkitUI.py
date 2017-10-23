@@ -75,6 +75,7 @@ from crikit.preprocess.subtract_dark import SubtractDark
 from crikit.preprocess.subtract_mean import SubtractMeanOverRange
 
 from crikit.ui.dialog_kkOptions import DialogKKOptions
+from crikit.ui.dialog_model import DialogModel
 from crikit.ui.dialog_ploteffect import \
     DialogPlotEffectFuture as _DialogPlotEffect
 from crikit.ui.dialog_save import DialogSave
@@ -2788,143 +2789,232 @@ class CRIkitUI_process(_QMainWindow):
         self.show_overlays = self.ui.actionShowOverlays.isChecked()
         self.changeSlider()
 
-    def makePhantom(self, cplx=True):
-        """
-        Generate a numerical phantom
-
-        Parameters
-        ----------
-        cplx : bool
-            Return a complex-valued phantom? (Else just imag. part, real-valued)
-        """
-        model = _Model(subsample=4)
-        
-        calib = {'a_vec': _np.array([-0.16774072130755699, 863.43764403610646]),
-                 'ctr_wl': 729.994,
-                 'ctr_wl0': 729.994,
-                 'n_pix': 1600,
-                 'probe': 771.461,
-                 'units': 'nm'}
-
-        wn_start = 500
-        wn_end = 4000
-
-        lam_start = 0.01 / (wn_start + 0.01/(calib['probe']*1e-9))  # meters
-        lam_start *= 1e9  # nm
-
-        lam_end = 0.01 / (wn_end + 0.01/(calib['probe']*1e-9))  # meters
-        lam_end *= 1e9  # nm
-
-        lam_ctr = (lam_start + lam_end) / 2  # nm
-        
-        n_pix = _np.ceil((lam_end-lam_start) / calib['a_vec'][0])
-
-        # Make a properly linear frequency-vector and polyfit
-        f = calib['a_vec'][0] * _np.arange(n_pix)  # Temporary frequency vec
-        f -= f.mean()
-        f += lam_ctr
-        a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
-
-        # Update calibration dict
-        calib.update({'a_vec' : a_vec, 'ctr_wl' : lam_ctr, 'ctr_wl0' : lam_ctr,
-                      'n_pix' : n_pix})
-
-        f = _calib_pix_wn(calib)[0]
-        
-        model.make_hsi(f=f)
-
-        if cplx:
-            self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
-        else:
-            self.hsi = Hsi(data=model.hsi.imag, x=model.x, y=model.y)
-
-        self.hsi.freq.calib_fcn = _calib_pix_wn
-        self.hsi.freq.calib = calib
-        self.hsi.freq.update()
-
-        self.filename = 'Phantom.h5'
-        self.path = '.'
-        self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
-
-        self.fileOpenSuccess(True)
-
-        meta = {'Calib.a_vec': a_vec,
-                'Calib.ctr_wl': lam_ctr,
-                'Calib.ctr_wl0': lam_ctr,
-                'Calib.n_pix': n_pix,
-                'Calib.probe': 771.461,
-                'Calib.units': 'nm',
-                'Memo': 'Numerical phantom from murine pancreas artery. See Camp et al, JRS (2016).',
-                'RasterScanParams.FastAxis': 'X',
-                'RasterScanParams.FastAxisStart': model.x[0],
-                'RasterScanParams.FastAxisStepSize': _np.diff(model.x).mean(),
-                'RasterScanParams.FastAxisSteps': model.x.size,
-                'RasterScanParams.FastAxisStop': model.x[-1],
-                'RasterScanParams.FixedAxis': 'Z',
-                'RasterScanParams.FixedAxisPosition': 0,
-                'RasterScanParams.SlowAxis': 'Y',
-                'RasterScanParams.SlowAxisStart': model.y[0],
-                'RasterScanParams.SlowAxisStepSize': _np.diff(model.y).mean(),
-                'RasterScanParams.SlowAxisSteps': model.y.size,
-                'RasterScanParams.SlowAxisStop': model.y[-1],
-                'Spectro.CenterWavelength': lam_ctr,
-                }
-        self.hsi._meta = meta
-
     def makeRamanPhantom(self):
         """
         Generate a numerical phantom for Raman
         """
-        self.makePhantom(cplx=False)
-        self.hsi._data *= 50e3
-        self.changeSlider()
+        cplx = False  # Is model complex-valued -- False for Raman
+
+        dialog = DialogModel.dialogModel(self)
+        if dialog is not None:
+            model = _Model(subsample=dialog['subsample'])
+        
+            wn_start = dialog['wn_start']
+            wn_end = dialog['wn_end']
+
+            lam_start = 0.01 / (wn_start + 0.01/(dialog['probe']*1e-9))  # meters
+            lam_start *= 1e9  # nm
+
+            lam_end = 0.01 / (wn_end + 0.01/(dialog['probe']*1e-9))  # meters
+            lam_end *= 1e9  # nm
+
+            lam_ctr = (lam_start + lam_end) / 2  # nm
+            
+            n_pix = _np.ceil((lam_end-lam_start) / dialog['wl_slope'])
+
+            # Make a properly linear frequency-vector and polyfit
+            f = dialog['wl_slope'] * _np.arange(n_pix)  # Temporary frequency vec
+            f -= f.mean()
+            f += lam_ctr
+        
+            a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
+        
+            calib = {'a_vec': a_vec,
+                     'ctr_wl': lam_ctr,
+                     'ctr_wl0': lam_ctr,
+                     'n_pix': n_pix,
+                     'probe': dialog['probe'],
+                     'units': 'nm'}
+        
+            f = _calib_pix_wn(calib)[0]
+            model.make_hsi(f=f)
+
+            if cplx:
+                model.hsi = model.hsi.astype(_np.complex64)
+                self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
+            else:
+                model.hsi = 1*model.hsi.imag
+                model.hsi = model.hsi.astype(_np.float32)
+                self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
+
+            # For Raman -- make the Hsi more intense
+            # This is ARBITRARY
+            self.hsi._data *= 50e3
+
+            self.hsi.freq.calib_fcn = _calib_pix_wn
+            self.hsi.freq.calib = calib
+            self.hsi.freq.update()
+
+            add_gnoise = dialog['gnoise_bool']  # AWGN (Gaussian)
+            add_pnoise = dialog['pnoise_bool']  # Poisson noise
+            add_dark = dialog['dark_bool']  # Dark background -- just a constant
+
+            # These values correspond to the defaults of the
+            # Anscombe UI
+            g_noise = dialog['gnoise_stddev']  # Std Dev of Gaussian noise
+            p_amp = dialog['pnoise_gain']  # Multiplier of Poisson noise
+            dark_amp = dialog['dark_level']
+
+            if add_pnoise:  # Add Poisson noise
+                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
+            if add_gnoise:  # Add AGWN
+                self.hsi._data += _np.random.randn(*self.hsi._data.shape)
+            if add_dark:  # Add a constant dark background
+                self.hsi._data += dark_amp
+                self.dark._data = dark_amp + 0*f
+                self.dark.freq = self.hsi.freq
+
+            self.filename = 'Phantom.h5'
+            self.path = './'
+            self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
+
+            meta = {'Calib.a_vec': a_vec,
+                    'Calib.ctr_wl': lam_ctr,
+                    'Calib.ctr_wl0': lam_ctr,
+                    'Calib.n_pix': n_pix,
+                    'Calib.probe': calib['probe'],
+                    'Calib.units': 'nm',
+                    'Memo': 'Numerical phantom from murine pancreas artery. See Camp et al, JRS (2016).',
+                    'RasterScanParams.FastAxis': 'X',
+                    'RasterScanParams.FastAxisStart': model.x[0],
+                    'RasterScanParams.FastAxisStepSize': _np.diff(model.x).mean(),
+                    'RasterScanParams.FastAxisSteps': model.x.size,
+                    'RasterScanParams.FastAxisStop': model.x[-1],
+                    'RasterScanParams.FixedAxis': 'Z',
+                    'RasterScanParams.FixedAxisPosition': 0,
+                    'RasterScanParams.SlowAxis': 'Y',
+                    'RasterScanParams.SlowAxisStart': model.y[0],
+                    'RasterScanParams.SlowAxisStepSize': _np.diff(model.y).mean(),
+                    'RasterScanParams.SlowAxisSteps': model.y.size,
+                    'RasterScanParams.SlowAxisStop': model.y[-1],
+                    'Spectro.CenterWavelength': lam_ctr,
+                    }
+            self.hsi._meta = meta
+            self.fileOpenSuccess(True)
+            self.changeSlider()
+        else:
+            pass
+        
     
     def makeBCARSPhantom(self):
         """
         Generate a numerical phantom for BCARS
         """
-        add_gnoise = True  # Poisson noise
-        add_pnoise = True  # AWGN (Gaussian)
-        add_dark = True  # Dark background -- just a constant
+        cplx = True  # Is model complex-valued -- True for BCARS
 
-        # These values correspond to the defaults of the
-        # Anscombe UI
-        g_noise = 12.44  # Std Dev of Gaussian noise
-        p_amp = 1.4  # Multiplier of Poisson noise
+        dialog = DialogModel.dialogModel(self)
+        if dialog is not None:
+            model = _Model(subsample=dialog['subsample'])
         
-        self.makePhantom(cplx=True)
+            wn_start = dialog['wn_start']
+            wn_end = dialog['wn_end']
 
-        # Simple Gaussian 0-centered source profile
-        f = self.hsi.f_full
-        source = 1e2*_np.exp(-f**2/(2*1500**2))
-        nrb = 10*_np.exp(-(f-20e3)**2/(2*10e3**2))
+            lam_start = 0.01 / (wn_start + 0.01/(dialog['probe']*1e-9))  # meters
+            lam_start *= 1e9  # nm
 
-        self.hsi.data = _np.abs((self.hsi.data+nrb)*source)**2
+            lam_end = 0.01 / (wn_end + 0.01/(dialog['probe']*1e-9))  # meters
+            lam_end *= 1e9  # nm
+
+            lam_ctr = (lam_start + lam_end) / 2  # nm
+            
+            n_pix = _np.ceil((lam_end-lam_start) / dialog['wl_slope'])
+
+            # Make a properly linear frequency-vector and polyfit
+            f = dialog['wl_slope'] * _np.arange(n_pix)  # Temporary frequency vec
+            f -= f.mean()
+            f += lam_ctr
         
-        if add_pnoise:  # Add Poisson noise
-            self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
-        if add_gnoise:  # Add AGWN
-            self.hsi._data += _np.random.randn(*self.hsi._data.shape)
-        if add_dark:  # Add a constant dark background
-            self.hsi._data += 1600
-            self.dark._data = 1600 + 0*f
-            self.dark.freq = self.hsi.freq
-
+            a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
         
-        self.nrb.data = _np.abs(source*nrb)**2
-        if add_dark:
-            self.nrb._data += 1600
+            calib = {'a_vec': a_vec,
+                     'ctr_wl': lam_ctr,
+                     'ctr_wl0': lam_ctr,
+                     'n_pix': n_pix,
+                     'probe': dialog['probe'],
+                     'units': 'nm'}
+        
+            f = _calib_pix_wn(calib)[0]
+            model.make_hsi(f=f)
 
-        self.nrb.freq = self.hsi.freq
+            if cplx:
+                model.hsi = model.hsi.astype(_np.complex64)
+                self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
+            else:
+                model.hsi = 1*model.hsi.imag
+                model.hsi = model.hsi.astype(_np.float32)
+                self.hsi = Hsi(data=model.hsi, x=model.x, y=model.y)
 
-        self.ui.actionDarkSpectrum.setEnabled(True)
-        self.ui.actionNRBSpectrum.setEnabled(True)
-        self.ui.actionDarkSubtract.setEnabled(True)
-        self.ui.actionKramersKronig.setEnabled(True)
-        self.ui.actionPhaseErrorCorrection.setEnabled(True)
-        self.ui.actionScaleErrorCorrection.setEnabled(True)
+            # Simple Gaussian 0-centered source profile
+            source = 1e2*_np.exp(-f**2/(2*1500**2))
+            nrb = 10*_np.exp(-(f-20e3)**2/(2*10e3**2))
 
-        self.changeSlider()
+            self.hsi.data = _np.abs((self.hsi.data+nrb)*source)**2
+            self.hsi.freq.calib_fcn = _calib_pix_wn
+            self.hsi.freq.calib = calib
+            self.hsi.freq.update()
+
+            self.nrb.data = _np.abs(source*nrb)**2
+            self.nrb.freq = self.hsi.freq
+            
+            add_gnoise = dialog['gnoise_bool']  # AWGN (Gaussian)
+            add_pnoise = dialog['pnoise_bool']  # Poisson noise
+            add_dark = dialog['dark_bool']  # Dark background -- just a constant
+
+            # These values correspond to the defaults of the
+            # Anscombe UI
+            g_noise = dialog['gnoise_stddev']  # Std Dev of Gaussian noise
+            p_amp = dialog['pnoise_gain']  # Multiplier of Poisson noise
+            dark_amp = dialog['dark_level']
+
+            # Only dark added to NRB
+            # Others only to Hsi data
+            if add_pnoise:  # Add Poisson noise
+                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
+            if add_gnoise:  # Add AGWN
+                self.hsi._data += _np.random.randn(*self.hsi._data.shape)
+            if add_dark:  # Add a constant dark background
+                self.hsi._data += dark_amp
+                self.nrb._data += dark_amp
+                self.dark._data = dark_amp + 0*f
+                self.dark.freq = self.hsi.freq
+
+            self.filename = 'Phantom.h5'
+            self.path = './'
+            self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
+
+            meta = {'Calib.a_vec': a_vec,
+                    'Calib.ctr_wl': lam_ctr,
+                    'Calib.ctr_wl0': lam_ctr,
+                    'Calib.n_pix': n_pix,
+                    'Calib.probe': calib['probe'],
+                    'Calib.units': 'nm',
+                    'Memo': 'Numerical phantom from murine pancreas artery. See Camp et al, JRS (2016).',
+                    'RasterScanParams.FastAxis': 'X',
+                    'RasterScanParams.FastAxisStart': model.x[0],
+                    'RasterScanParams.FastAxisStepSize': _np.diff(model.x).mean(),
+                    'RasterScanParams.FastAxisSteps': model.x.size,
+                    'RasterScanParams.FastAxisStop': model.x[-1],
+                    'RasterScanParams.FixedAxis': 'Z',
+                    'RasterScanParams.FixedAxisPosition': 0,
+                    'RasterScanParams.SlowAxis': 'Y',
+                    'RasterScanParams.SlowAxisStart': model.y[0],
+                    'RasterScanParams.SlowAxisStepSize': _np.diff(model.y).mean(),
+                    'RasterScanParams.SlowAxisSteps': model.y.size,
+                    'RasterScanParams.SlowAxisStop': model.y[-1],
+                    'Spectro.CenterWavelength': lam_ctr,
+                    }
+            self.hsi._meta = meta
+
+            self.ui.actionDarkSpectrum.setEnabled(True)
+            self.ui.actionNRBSpectrum.setEnabled(True)
+            self.ui.actionDarkSubtract.setEnabled(True)
+            self.ui.actionKramersKronig.setEnabled(True)
+            self.ui.actionPhaseErrorCorrection.setEnabled(True)
+            self.ui.actionScaleErrorCorrection.setEnabled(True)
+            self.fileOpenSuccess(True)
+            self.changeSlider()
+        else:
+            pass
                 
 def crikit_launch(**kwargs):
     """
