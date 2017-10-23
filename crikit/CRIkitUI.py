@@ -2795,7 +2795,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         cplx = False  # Is model complex-valued -- False for Raman
 
-        dialog = DialogModel.dialogModel(self)
+        dialog = DialogModel.dialogModel(cplx=cplx, parent=self)
         if dialog is not None:
             model = _Model(subsample=dialog['subsample'])
         
@@ -2902,7 +2902,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         cplx = True  # Is model complex-valued -- True for BCARS
 
-        dialog = DialogModel.dialogModel(self)
+        dialog = DialogModel.dialogModel(cplx=cplx, parent=self)
         if dialog is not None:
             model = _Model(subsample=dialog['subsample'])
         

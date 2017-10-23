@@ -20,8 +20,10 @@ class DialogModel(_QDialog):
     """
     Dialog for creating BCARS or Raman numerical phantom
     """
-    def __init__(self, parent=None):
+    def __init__(self, cplx=True, parent=None):
         super().__init__(parent)
+        self.cplx = cplx  # Is dataset complex-valued
+
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.ui.pushButtonCancel.setDefault(False)
@@ -67,16 +69,23 @@ class DialogModel(_QDialog):
         
         n_pix = _np.abs(_np.ceil((lam_end-lam_start) / slope)).astype(int)
 
+        datasize = rows * cols * n_pix
+        if self.cplx:
+            datasize *= (128/8)  # Assume complex128, for now
+        else:
+            datasize *= (64/8)  # Assume float64, for now
+        datasize *= 1e-9  # Gigbytes (Gb)
+
         self.ui.spinBoxOutputColors.setValue(n_pix)
         self.ui.spinBoxOutputRows.setValue(rows)
         self.ui.spinBoxOutputCols.setValue(cols)
-        
+        self.ui.spinBoxMemory.setValue(datasize)
     @staticmethod
-    def dialogModel(parent=None):
+    def dialogModel(cplx=True, parent=None):
         """
 
         """
-        dialog = DialogModel(parent=parent)
+        dialog = DialogModel(cplx=cplx, parent=parent)
         result = dialog.exec_()
         if result == 1:
             settings = {}
@@ -101,7 +110,7 @@ if __name__ == '__main__':
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
 
-    win = DialogModel.dialogModel()
+    win = DialogModel.dialogModel(cplx=False, parent=None)
     print(win)
     
     _sys.exit()
