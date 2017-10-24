@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\ui_AnscombeOptions.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.8.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -57,7 +57,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.labelGain.setText(_translate("Dialog", "Detector Gain"))
-        self.labelStdDev.setText(_translate("Dialog", "Standard Deviation (Gaussian)"))
+        Dialog.setWindowTitle(_translate("Dialog", "Anscombe Parameters"))
+        self.labelGain.setText(_translate("Dialog", "Poisson Noise Gain"))
+        self.labelStdDev.setText(_translate("Dialog", "Gaussian Noise Std. Dev."))
 
