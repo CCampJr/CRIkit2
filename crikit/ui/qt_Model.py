@@ -129,6 +129,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem2)
+        self.label_8 = QtWidgets.QLabel(self.frame)
+        self.label_8.setObjectName("label_8")
+        self.verticalLayout.addWidget(self.label_8)
+        self.spinBoxMemory = QtWidgets.QDoubleSpinBox(self.frame)
+        self.spinBoxMemory.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.spinBoxMemory.setDecimals(3)
+        self.spinBoxMemory.setMaximum(100.0)
+        self.spinBoxMemory.setObjectName("spinBoxMemory")
+        self.verticalLayout.addWidget(self.spinBoxMemory)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -264,7 +273,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Generate Phantom"))
         self.label_4.setText(_translate("Dialog", "Std Dev"))
         self.label_5.setText(_translate("Dialog", "Multiplier (alpha)"))
         self.checkBoxPNoise.setText(_translate("Dialog", "Poisson"))
@@ -276,6 +285,7 @@ class Ui_Dialog(object):
         self.labelOutputSpace.setText(_translate("Dialog", "Spatial Pixels (M x N)"))
         self.label_3.setText(_translate("Dialog", "x"))
         self.labelOutputColors.setText(_translate("Dialog", "Frequencies/Colors"))
+        self.label_8.setText(_translate("Dialog", "Dataset Size (Gb, Approx)"))
         self.labelInput.setText(_translate("Dialog", "Input"))
         self.labelSubsample.setText(_translate("Dialog", "Subsample (1x = Full Size)"))
         self.labelWNRange.setText(_translate("Dialog", "Wavenumber Range (cm-1)"))
