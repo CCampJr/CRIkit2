@@ -2865,7 +2865,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.dark.freq = self.hsi.freq
 
             self.filename = 'Phantom.h5'
-            self.path = './'
+            self.path = _os.path.abspath('./')
             self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
 
             meta = {'Calib.a_vec': a_vec,
@@ -2979,7 +2979,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.dark.freq = self.hsi.freq
 
             self.filename = 'Phantom.h5'
-            self.path = './'
+            self.path = _os.path.abspath('./')
             self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
 
             meta = {'Calib.a_vec': a_vec,
@@ -3012,7 +3012,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionPhaseErrorCorrection.setEnabled(True)
             self.ui.actionScaleErrorCorrection.setEnabled(True)
             self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
-            
+
             self.fileOpenSuccess(True)
             self.changeSlider()
         else:
