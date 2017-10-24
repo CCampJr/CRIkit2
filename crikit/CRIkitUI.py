@@ -3011,6 +3011,8 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionKramersKronig.setEnabled(True)
             self.ui.actionPhaseErrorCorrection.setEnabled(True)
             self.ui.actionScaleErrorCorrection.setEnabled(True)
+            self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
+            
             self.fileOpenSuccess(True)
             self.changeSlider()
         else:
