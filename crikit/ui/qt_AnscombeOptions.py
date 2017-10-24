@@ -57,7 +57,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Anscombe Parameters"))
+        Dialog.setWindowTitle(_translate("Dialog", "Anscombe Transform Parameters"))
         self.labelGain.setText(_translate("Dialog", "Poisson Noise Gain"))
         self.labelStdDev.setText(_translate("Dialog", "Gaussian Noise Std. Dev."))
 
