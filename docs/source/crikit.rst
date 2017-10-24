@@ -8,6 +8,7 @@ Subpackages
 
     crikit.cri
     crikit.data
+    crikit.datasets
     crikit.io
     crikit.measurement
     crikit.preprocess

@@ -51,6 +51,14 @@ crikit\.ui\.dialog\_kkOptions module
     :undoc-members:
     :show-inheritance:
 
+crikit\.ui\.dialog\_model module
+--------------------------------
+
+.. automodule:: crikit.ui.dialog_model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 crikit\.ui\.dialog\_ploteffect module
 -------------------------------------
 

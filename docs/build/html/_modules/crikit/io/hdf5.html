@@ -207,14 +207,13 @@
 <span class="sd">    Validate file and datasets exist. Return boolean as to whether valid</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Join path and filename in an os-independant way</span>
-    <span class="n">pfname</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
-
-
+    
     <span class="n">isvalid</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">fileexists</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Join path and filename in an os-independant way</span>
+        <span class="n">pfname</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">pfname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;File exists: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pfname</span><span class="p">))</span>
         <span class="n">fileexists</span> <span class="o">=</span> <span class="kc">True</span>
@@ -306,9 +305,16 @@
     <span class="c1"># String in HDF are treated as numpy bytes_ literals</span>
     <span class="c1"># We want out instance in memeory to have Python Strings</span>
     <span class="c1"># This does a simple conversion</span>
+    <span class="c1"># Also will check to see if a string is burried in an array</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">_np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">):</span>
             <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span>  <span class="c1"># String array</span>
+                <span class="c1"># This is a cute way of taking an array of charcters and merging</span>
+                <span class="c1"># them into a string. If just a single-element array,</span>
+                <span class="c1"># will also return a string</span>
+                <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">str</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output_dict</span></div>
 
 <div class="viewcode-block" id="hdf_import_data"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_import_data">[docs]</a><span class="k">def</span> <span class="nf">hdf_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

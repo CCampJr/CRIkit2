@@ -208,6 +208,12 @@
 <li class="toctree-l2"><a class="reference internal" href="crikit.data.html#module-crikit.data">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="crikit.datasets.html">crikit.datasets package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.datasets.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.datasets.html#module-crikit.datasets.model">crikit.datasets.model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.datasets.html#module-crikit.datasets">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="crikit.io.html">crikit.io package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="crikit.io.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.io.html#module-crikit.io.csv_nist">crikit.io.csv_nist module</a></li>
@@ -287,6 +293,7 @@
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_AbstractPlotEffect">crikit.ui.dialog_AbstractPlotEffect module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_SVD">crikit.ui.dialog_SVD module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_kkOptions">crikit.ui.dialog_kkOptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_model">crikit.ui.dialog_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_ploteffect">crikit.ui.dialog_ploteffect module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_save">crikit.ui.dialog_save module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="crikit.ui.html#crikit-save-dialog-crikit-ui-dialog-save">CRIkit Save Dialog (crikit.ui.dialog_save)</a></li>
@@ -380,7 +387,7 @@ python3 main.py</p>
 </ul>
 <dl class="class">
 <dt id="crikit.CRIkitUI.CRIkitUI_process">
-<em class="property">class </em><code class="descclassname">crikit.CRIkitUI.</code><code class="descname">CRIkitUI_process</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">crikit.CRIkitUI.</code><code class="descname">CRIkitUI_process</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QMainWindow</span></code></p>
 <p>CRIkitUI_process : CRIkitUI for image (pre-)processing</p>
 <p class="rubric">References</p>
@@ -561,8 +568,12 @@ the Kramers-Kronig phase retrieval algorithm.</p>
 
 <dl class="method">
 <dt id="crikit.CRIkitUI.CRIkitUI_process.fileOpenHDFNIST">
-<code class="descname">fileOpenHDFNIST</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.fileOpenHDFNIST"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.fileOpenHDFNIST" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fileOpenHDFNIST</code><span class="sig-paren">(</span><em>*args</em>, <em>dialog=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.fileOpenHDFNIST"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.fileOpenHDFNIST" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open and load HDF5 File</p>
+<dl class="docutils">
+<dt>dialog <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Present a gui for file and dataset selection</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -618,6 +629,18 @@ activates or deactivates action (buttons)</p>
 <dt id="crikit.CRIkitUI.CRIkitUI_process.loadNRBDLM">
 <code class="descname">loadNRBDLM</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.loadNRBDLM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.loadNRBDLM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open DLM file and load NRB spectrum(a)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.CRIkitUI.CRIkitUI_process.makeBCARSPhantom">
+<code class="descname">makeBCARSPhantom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.makeBCARSPhantom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.makeBCARSPhantom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a numerical phantom for BCARS</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.CRIkitUI.CRIkitUI_process.makeRamanPhantom">
+<code class="descname">makeRamanPhantom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.makeRamanPhantom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.makeRamanPhantom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a numerical phantom for Raman</p>
 </dd></dl>
 
 <dl class="method">
@@ -821,6 +844,42 @@ Right mouse-click : Close polygon</dd>
 <dd><p>Zero first non-all-zero row. (Rather than crop)</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.CRIkitUI.crikit_launch">
+<code class="descclassname">crikit.CRIkitUI.</code><code class="descname">crikit_launch</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#crikit_launch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.crikit_launch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command line launching of CRIkitUI.</p>
+<dl class="docutils">
+<dt>hsi <span class="classifier-delimiter">:</span> <span class="classifier">crikit.data.Hsi</span></dt>
+<dd>Hsi instance</dd>
+<dt>data <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (3D)</span></dt>
+<dd>Numpy array (Y,X,Freq) hsi</dd>
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (1D)</span></dt>
+<dd>x-array</dd>
+<dt>x_units <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Units of x (e.g. r’$mu$m’)</dd>
+<dt>x_label <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Label of x (e.g. ‘X’)</dd>
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (1D)</span></dt>
+<dd>y-array</dd>
+<dt>y_units <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Units of y (e.g. r’$mu$m’)</dd>
+<dt>y_label <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Label of y (e.g. ‘Y’)</dd>
+<dt>f <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (1D)</span></dt>
+<dd>frequency-array</dd>
+<dt>f_units <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Units of frequency (e.g. r’cm$^{-1}$’)</dd>
+<dt>f_label <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Label of frequency (e.g. ‘Wavenumber’)</dd>
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename of HDF data to auto-load (requires path and dataset_name as well)</dd>
+<dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path of HDF data to auto-load (requires filename and dataset_name as well)</dd>
+<dt>dataset_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Dataset name(s) of HDF data to auto-load (requires path and filename as well)</dd>
+</dl>
 </dd></dl>
 
 </div>

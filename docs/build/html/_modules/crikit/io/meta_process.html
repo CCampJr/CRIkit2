@@ -195,6 +195,7 @@
                     <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="s1">&#39;!&#39;</span><span class="p">:</span>
                         <span class="n">temp_key</span> <span class="o">=</span> <span class="n">key</span>
                         <span class="n">temp_val</span> <span class="o">=</span> <span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">num</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Using default meta_configs value for: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
                         <span class="k">break</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">temp_key</span> <span class="o">=</span> <span class="n">count</span>
@@ -240,7 +241,7 @@
         <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib</span> <span class="o">=</span> <span class="n">calib_dict</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calibration meta data found&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;Calibration meta data found&#39;)</span>
 
         <span class="n">use_wn</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorWnMode&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Use wavenumber: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">use_wn</span><span class="p">))</span>
