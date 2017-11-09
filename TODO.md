@@ -21,3 +21,4 @@
 # Minor tweaks
 * Add label and units parameter to Frequency
 * Use Frequency label and units in GUI
+* Undo also resets freq window (ie track frequency window settings)
