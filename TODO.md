@@ -12,8 +12,13 @@
 * Add rng functionality to all fcns
 * Move from ALS-only to ALS/ArPLS detrending
 
-# Tweaks
+# Minor updates
 * Fix model to use way less memory (and test 64 vs 128-bit complex)
 * Add label and units parameter to Frequency
 * Use Frequency label and units in GUI
 * Move noise and other settings from CRIkitUI to Model class
+* Pop and Grayscale plots for single-color plots always in front (likely parentage issue)
+    * Parentage is the main UI; thus, Qt makes it in front -- not ideal, but stuck with it
+    for now
+* ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~
+* Undo also resets freq window (ie track frequency window settings)
