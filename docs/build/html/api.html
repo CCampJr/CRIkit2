@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/>
+        <link rel="prev" title="Nonlicense" href="nonlicense.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.cri"><code class="docutils literal"><span class="pre">crikit.cri</span></code>: Coherent Raman Imagery (CRI) classes and functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.data"><code class="docutils literal"><span class="pre">crikit.data</span></code>: Data container classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.io"><code class="docutils literal"><span class="pre">crikit.io</span></code>: Input/Output (IO) functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.measurement"><code class="docutils literal"><span class="pre">crikit.measurement</span></code>: Measurement classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.preprocess"><code class="docutils literal"><span class="pre">crikit.preprocess</span></code>: Preprocessing classes and functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crikit.utils"><code class="docutils literal"><span class="pre">crikit.utils</span></code>: Utility functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="_images/CRIkit2_Logo.png" class="align-left" id="api" src="_images/CRIkit2_Logo.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is not an exhaustive list of classes and functions,
+but rather those most likely to be of interest to users and developer.
+See <a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a> and <a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a> for a full list.</p>
+<div class="section" id="module-crikit.cri">
+<span id="crikit-cri-coherent-raman-imagery-cri-classes-and-functions"></span><h2><a class="reference internal" href="crikit.cri.html#module-crikit.cri" title="crikit.cri"><code class="xref py py-mod docutils literal"><span class="pre">crikit.cri</span></code></a>: Coherent Raman Imagery (CRI) classes and functions<a class="headerlink" href="#module-crikit.cri" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.cri.html#crikit.cri.kk.KramersKronig" title="crikit.cri.kk.KramersKronig"><code class="xref py py-obj docutils literal"><span class="pre">cri.kk.KramersKronig</span></code></a>([cars_amp_offset,&nbsp;…])</td>
+<td>Retrieve the real and imaginary components of coherent Raman data via the     Kramers-Kronig (KK) relation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.cri.html#crikit.cri.error_correction.PhaseErrCorrectALS" title="crikit.cri.error_correction.PhaseErrCorrectALS"><code class="xref py py-obj docutils literal"><span class="pre">cri.error_correction.PhaseErrCorrectALS</span></code></a>([…])</td>
+<td>Phase error correction using alternating least squares (ALS)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.cri.html#crikit.cri.error_correction.ScaleErrCorrectSG" title="crikit.cri.error_correction.ScaleErrCorrectSG"><code class="xref py py-obj docutils literal"><span class="pre">cri.error_correction.ScaleErrCorrectSG</span></code></a>([…])</td>
+<td>Scale error correction using Savitky-Golay</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.cri.algorithms.html#crikit.cri.algorithms.kk.kkrelation" title="crikit.cri.algorithms.kk.kkrelation"><code class="xref py py-obj docutils literal"><span class="pre">cri.algorithms.kk.kkrelation</span></code></a>(bg,&nbsp;cri[,&nbsp;…])</td>
+<td>Retrieve the real and imaginary components of a CRI spectra(um) via the Kramers-Kronig (KK) relation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.cri.algorithms.html#crikit.cri.algorithms.kk.hilbertfft" title="crikit.cri.algorithms.kk.hilbertfft"><code class="xref py py-obj docutils literal"><span class="pre">cri.algorithms.kk.hilbertfft</span></code></a>(spectra[,&nbsp;…])</td>
+<td>Compute the one-dimensional Hilbert Transform.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-crikit.data">
+<span id="crikit-data-data-container-classes"></span><h2><a class="reference internal" href="crikit.data.html#module-crikit.data" title="crikit.data"><code class="xref py py-mod docutils literal"><span class="pre">crikit.data</span></code></a>: Data container classes<a class="headerlink" href="#module-crikit.data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.data.html#crikit.data.frequency.Frequency" title="crikit.data.frequency.Frequency"><code class="xref py py-obj docutils literal"><span class="pre">data.frequency.Frequency</span></code></a>([data,&nbsp;calib,&nbsp;…])</td>
+<td>Frequency [,wavelength, and waevnumber] class</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.data.html#crikit.data.replicate.Replicate" title="crikit.data.replicate.Replicate"><code class="xref py py-obj docutils literal"><span class="pre">data.replicate.Replicate</span></code></a>([data,&nbsp;calib,&nbsp;…])</td>
+<td>Replicate class</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.data.html#crikit.data.spectrum.Spectrum" title="crikit.data.spectrum.Spectrum"><code class="xref py py-obj docutils literal"><span class="pre">data.spectrum.Spectrum</span></code></a>([data,&nbsp;freq,&nbsp;label,&nbsp;…])</td>
+<td>Spectrum class</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.data.html#crikit.data.spectra.Spectra" title="crikit.data.spectra.Spectra"><code class="xref py py-obj docutils literal"><span class="pre">data.spectra.Spectra</span></code></a>([data,&nbsp;freq,&nbsp;label,&nbsp;…])</td>
+<td>Spectra class</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.data.html#crikit.data.hsi.Hsi" title="crikit.data.hsi.Hsi"><code class="xref py py-obj docutils literal"><span class="pre">data.hsi.Hsi</span></code></a>([data,&nbsp;freq,&nbsp;x,&nbsp;y,&nbsp;x_rep,&nbsp;…])</td>
+<td>Hyperspectral imagery class</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-crikit.io">
+<span id="crikit-io-input-output-io-functions"></span><h2><a class="reference internal" href="crikit.io.html#module-crikit.io" title="crikit.io"><code class="xref py py-mod docutils literal"><span class="pre">crikit.io</span></code></a>: Input/Output (IO) functions<a class="headerlink" href="#module-crikit.io" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.io.html#crikit.io.csv_nist.csv_nist_import_data" title="crikit.io.csv_nist.csv_nist_import_data"><code class="xref py py-obj docutils literal"><span class="pre">io.csv_nist.csv_nist_import_data</span></code></a>(pth,&nbsp;…[,&nbsp;…])</td>
+<td>Import dataset(s) from HDF file</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.io.html#crikit.io.hdf5.hdf_is_valid_dsets" title="crikit.io.hdf5.hdf_is_valid_dsets"><code class="xref py py-obj docutils literal"><span class="pre">io.hdf5.hdf_is_valid_dsets</span></code></a>(pth,&nbsp;filename,&nbsp;…)</td>
+<td>Validate file and datasets exist.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.io.html#crikit.io.hdf5.hdf_attr_to_dict" title="crikit.io.hdf5.hdf_attr_to_dict"><code class="xref py py-obj docutils literal"><span class="pre">io.hdf5.hdf_attr_to_dict</span></code></a>(attr)</td>
+<td>Convert from HDF attributes to valid dict</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.io.html#crikit.io.hdf5.hdf_import_data" title="crikit.io.hdf5.hdf_import_data"><code class="xref py py-obj docutils literal"><span class="pre">io.hdf5.hdf_import_data</span></code></a>(pth,&nbsp;filename,&nbsp;dset_list)</td>
+<td>Import dataset(s) from HDF file</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.io.html#crikit.io.meta_configs.special_nist_bcars1_sample_scan" title="crikit.io.meta_configs.special_nist_bcars1_sample_scan"><code class="xref py py-obj docutils literal"><span class="pre">io.meta_configs.special_nist_bcars1_sample_scan</span></code></a>()</td>
+<td>Return import attributes particular to the “BCARS 1” system at NIST</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.io.html#crikit.io.meta_configs.special_nist_bcars2" title="crikit.io.meta_configs.special_nist_bcars2"><code class="xref py py-obj docutils literal"><span class="pre">io.meta_configs.special_nist_bcars2</span></code></a>()</td>
+<td>Return import attributes particular to the “BCARS 2” system at NIST</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.io.html#crikit.io.meta_process.meta_process" title="crikit.io.meta_process.meta_process"><code class="xref py py-obj docutils literal"><span class="pre">io.meta_process.meta_process</span></code></a>(rosetta,&nbsp;…)</td>
+<td>Uses a conversion dict (rosetta) to process the meta data in     output_cls_instance</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.io.html#crikit.io.meta_process.rosetta_query" title="crikit.io.meta_process.rosetta_query"><code class="xref py py-obj docutils literal"><span class="pre">io.meta_process.rosetta_query</span></code></a>(key,&nbsp;rosetta,&nbsp;…)</td>
+<td>Return the highest-priority value</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-crikit.measurement">
+<span id="crikit-measurement-measurement-classes"></span><h2><a class="reference internal" href="crikit.measurement.html#module-crikit.measurement" title="crikit.measurement"><code class="xref py py-mod docutils literal"><span class="pre">crikit.measurement</span></code></a>: Measurement classes<a class="headerlink" href="#module-crikit.measurement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Classes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.fftspatialnoise.FFTSignalMetric" title="crikit.measurement.fftspatialnoise.FFTSignalMetric"><code class="xref py py-obj docutils literal"><span class="pre">measurement.fftspatialnoise.FFTSignalMetric</span></code></a>(img_shp)</td>
+<td>FFT Spatial Noise Metric (Ratio - 1)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak" title="crikit.measurement.peakamps.MeasurePeak"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeak</span></code></a>(pk)</td>
+<td>Meausure peak amplitude.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd" title="crikit.measurement.peakamps.MeasurePeakAdd"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakAdd</span></code></a>(pk1,&nbsp;pk2)</td>
+<td>Meausure the addition of two peaks (pk1 + pk2).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakBWTroughs" title="crikit.measurement.peakamps.MeasurePeakBWTroughs"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakBWTroughs</span></code></a>(pk,&nbsp;…)</td>
+<td>Meausure the amplitude of a peak between troughs.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinus" title="crikit.measurement.peakamps.MeasurePeakMinus"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakMinus</span></code></a>(pk1,&nbsp;pk2)</td>
+<td>Meausure the difference (subtraction) of two peaks (pk1 - pk2).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakDivide" title="crikit.measurement.peakamps.MeasurePeakDivide"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakDivide</span></code></a>(pk1,&nbsp;pk2)</td>
+<td>Meausure the ratio (division) of two peaks.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMultiply" title="crikit.measurement.peakamps.MeasurePeakMultiply"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakMultiply</span></code></a>(…)</td>
+<td>Meausure the multiplication of two peak.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSummation" title="crikit.measurement.peakamps.MeasurePeakSummation"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakamps.MeasurePeakSummation</span></code></a>(…)</td>
+<td>Meausure the summation of all amplitudes between (inclusive) two peak locations.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.measurement.html#crikit.measurement.peakfind.PeakFinder" title="crikit.measurement.peakfind.PeakFinder"><code class="xref py py-obj docutils literal"><span class="pre">measurement.peakfind.PeakFinder</span></code></a>(noise_sigma)</td>
+<td>Find peaks and shoulders of a signal.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-crikit.preprocess">
+<span id="crikit-preprocess-preprocessing-classes-and-functions"></span><h2><a class="reference internal" href="crikit.preprocess.html#module-crikit.preprocess" title="crikit.preprocess"><code class="xref py py-mod docutils literal"><span class="pre">crikit.preprocess</span></code></a>: Preprocessing classes and functions<a class="headerlink" href="#module-crikit.preprocess" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Classes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.als.AlsCvxopt" title="crikit.preprocess.algorithms.als.AlsCvxopt"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.als.AlsCvxopt</span></code></a>([…])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased" title="crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased</span></code></a>(fsignal)</td>
+<td>Applies an exact, unbiased inverse of the Anscombe</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.anscombe.gen_anscombe_forward" title="crikit.preprocess.algorithms.anscombe.gen_anscombe_forward"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.anscombe.gen_anscombe_forward</span></code></a>(…)</td>
+<td>Applies the generalized Anscombe variance-stabilization transform</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form" title="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form</span></code></a>(…)</td>
+<td>Applies a closed-form approximation of the exact unbiased inverse of the</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased" title="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased</span></code></a>(…)</td>
+<td>Applies an exact, unbiased inverse of the generalized Anscombe</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.arpls.ArPlsCvxopt" title="crikit.preprocess.algorithms.arpls.ArPlsCvxopt"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.algorithms.arpls.ArPlsCvxopt</span></code></a>([…])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.crop.ZeroColumn" title="crikit.preprocess.crop.ZeroColumn"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.crop.ZeroColumn</span></code></a>([first_or_last,&nbsp;…])</td>
+<td>Set first or last column that is not all 0’s to 0.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.crop.ZeroRow" title="crikit.preprocess.crop.ZeroRow"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.crop.ZeroRow</span></code></a>([first_or_last,&nbsp;…])</td>
+<td>Set first or last row that is not all 0’s to 0.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.denoise.SVDDecompose" title="crikit.preprocess.denoise.SVDDecompose"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.denoise.SVDDecompose</span></code></a>([rng])</td>
+<td>Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose     the input into components.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.denoise.SVDRecompose" title="crikit.preprocess.denoise.SVDRecompose"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.denoise.SVDRecompose</span></code></a>([rng])</td>
+<td>Reconstruct the original data using the SVD components.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.standardize.Anscombe" title="crikit.preprocess.standardize.Anscombe"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.standardize.Anscombe</span></code></a>(gauss_std[,&nbsp;…])</td>
+<td>Implement the generalized forward Anscombe transformation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.standardize.AnscombeInverse" title="crikit.preprocess.standardize.AnscombeInverse"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.standardize.AnscombeInverse</span></code></a>(gauss_std)</td>
+<td>Applies an exact, unbiased inverse of the generalized Anscombe     variance-stabilizing transformation assuming a mixed Poisson-Gaussian     noise model as:</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.subtract_baseline.SubtractBaselineALS" title="crikit.preprocess.subtract_baseline.SubtractBaselineALS"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.subtract_baseline.SubtractBaselineALS</span></code></a>([…])</td>
+<td>Subtract baseline using asymmetric least squares algorithm</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.subtract_dark.SubtractDark" title="crikit.preprocess.subtract_dark.SubtractDark"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.subtract_dark.SubtractDark</span></code></a>(dark)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.preprocess.html#crikit.preprocess.subtract_mean.SubtractMeanOverRange" title="crikit.preprocess.subtract_mean.SubtractMeanOverRange"><code class="xref py py-obj docutils literal"><span class="pre">preprocess.subtract_mean.SubtractMeanOverRange</span></code></a>([rng])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-crikit.utils">
+<span id="crikit-utils-utility-functions"></span><h2><a class="reference internal" href="crikit.utils.html#module-crikit.utils" title="crikit.utils"><code class="xref py py-mod docutils literal"><span class="pre">crikit.utils</span></code></a>: Utility functions<a class="headerlink" href="#module-crikit.utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Classes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.breadcrumb.BCPre" title="crikit.utils.breadcrumb.BCPre"><code class="xref py py-obj docutils literal"><span class="pre">utils.breadcrumb.BCPre</span></code></a>()</td>
+<td>Container that describes processing steps (ie it contains “breadcrumbs”)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id6">
+<h3>Functions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.arange_nonzero" title="crikit.utils.general.arange_nonzero"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.arange_nonzero</span></code></a>(start,&nbsp;stop[,&nbsp;…])</td>
+<td>Similar to numpy arange but only returns non-zero elements</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.expand_1d_to_ndim" title="crikit.utils.general.expand_1d_to_ndim"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.expand_1d_to_ndim</span></code></a>(data,&nbsp;ndim)</td>
+<td>Make 1D array into ndim dimensions</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.expand_1d_to_ndim_data" title="crikit.utils.general.expand_1d_to_ndim_data"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.expand_1d_to_ndim_data</span></code></a>(data,&nbsp;…)</td>
+<td>Make 1D data array equal in dimensions to data_to_match</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.find_nearest" title="crikit.utils.general.find_nearest"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.find_nearest</span></code></a>(np_vec[,&nbsp;to_find])</td>
+<td>Given a vector and a value (or list/vector of values), find the index and</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.lin_from_row_col" title="crikit.utils.general.lin_from_row_col"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.lin_from_row_col</span></code></a>(row,&nbsp;col,&nbsp;sh)</td>
+<td>Convert a col and row counter to 1D linear count</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.mean_nd_to_1d" title="crikit.utils.general.mean_nd_to_1d"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.mean_nd_to_1d</span></code></a>(data[,&nbsp;axis])</td>
+<td>Take the mean of an nd array, except axis, returning a 1D array</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.np_fcn_nd_to_1d" title="crikit.utils.general.np_fcn_nd_to_1d"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.np_fcn_nd_to_1d</span></code></a>(fcn,&nbsp;data[,&nbsp;axis])</td>
+<td>Take in an n-dimensional array and return a 1D version operated on by fcn.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.row_col_from_lin" title="crikit.utils.general.row_col_from_lin"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.row_col_from_lin</span></code></a>(ct,&nbsp;sh)</td>
+<td>Convert a 1D counter into a col and row counter</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="crikit.utils.html#crikit.utils.general.std_nd_to_1d" title="crikit.utils.general.std_nd_to_1d"><code class="xref py py-obj docutils literal"><span class="pre">utils.general.std_nd_to_1d</span></code></a>(data[,&nbsp;axis])</td>
+<td>Take the mean of an nd array, except axis, returning a 1D array</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="nonlicense.html" class="btn btn-neutral" title="Nonlicense" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

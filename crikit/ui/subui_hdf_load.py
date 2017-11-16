@@ -8,23 +8,12 @@ HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)
 
     Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015\n
-\n
-@author: ("Charles H Camp Jr")\n
-@email: ("charles.camp@nist.gov")\n
-@date: ("Jun 28 2015")\n
-@version: ("1.1")\n
 """
 
 
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication, \
@@ -69,7 +58,7 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
         """
         Retrieve the filename and datasets selected by the user (via GUI)
 
-        Inputs
+        Parameters
         ----------
         start_path : str
             Home directory to start in
@@ -180,7 +169,7 @@ class SubUiHDFLoad(_QDialog): ### EDIT ###
                 pass
 
     def filterlist(self):
-        """ Action : Filter available dataset list (*.ui.dataSetList) based on
+        """ Action : Filter available dataset list (.ui.dataSetList) based on
         include or exclude strings (or comma-separated strings)
         """
 

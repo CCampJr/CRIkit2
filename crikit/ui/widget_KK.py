@@ -41,12 +41,11 @@ class widgetKK(_AbstractPlotEffectPlugin):
         Padded with a constant value corresponding to the value at that end of \
         the spectrum.
 
-    Method
+    Methods
     ---------
         fcn : Performs the KK
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
     """

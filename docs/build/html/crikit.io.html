@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.io package &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>crikit.io package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crikit.io.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crikit-io-package">
+<h1>crikit.io package<a class="headerlink" href="#crikit-io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.io.csv_nist">
+<span id="crikit-io-csv-nist-module"></span><h2>crikit.io.csv_nist module<a class="headerlink" href="#module-crikit.io.csv_nist" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Sep  7 12:36:36 2016</p>
+<p>&#64;author: chc</p>
+<dl class="function">
+<dt id="crikit.io.csv_nist.csv_nist_import_data">
+<code class="descclassname">crikit.io.csv_nist.</code><code class="descname">csv_nist_import_data</code><span class="sig-paren">(</span><em>pth</em>, <em>filename_header</em>, <em>filename_data</em>, <em>output_cls_instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/csv_nist.html#csv_nist_import_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.csv_nist.csv_nist_import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import dataset(s) from HDF file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path</li>
+<li><strong>filename_header</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File name of header</li>
+<li><strong>filename_data</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File name of data</li>
+<li><strong>output_cls_instance</strong> (<a class="reference internal" href="crikit.data.html#crikit.data.spectrum.Spectrum" title="crikit.data.spectrum.Spectrum"><em>crikit.data.spectrum.Spectrum</em></a><em> (or </em><em>subclass</em><em>)</em>) – Spectrum class (or sub) object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>Success</strong> (<em>bool</em>) – Success of import</li>
+<li><strong>Data, Meta</strong> (<em>list (ndarray, dict)</em>) – If output_cls_instance is None and import is successful, will             return the data from dset_list and associated meta data.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.io.hdf5">
+<span id="crikit-io-hdf5-module"></span><h2>crikit.io.hdf5 module<a class="headerlink" href="#module-crikit.io.hdf5" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon May 23 10:17:16 2016</p>
+<p>&#64;author: chc</p>
+<dl class="function">
+<dt id="crikit.io.hdf5.hdf_dset_list_rep">
+<code class="descclassname">crikit.io.hdf5.</code><code class="descname">hdf_dset_list_rep</code><span class="sig-paren">(</span><em>prefix</em>, <em>suffixes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/hdf5.html#hdf_dset_list_rep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.hdf5.hdf_dset_list_rep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list of dataset names</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.io.hdf5.hdf_is_valid_dsets">
+<code class="descclassname">crikit.io.hdf5.</code><code class="descname">hdf_is_valid_dsets</code><span class="sig-paren">(</span><em>pth</em>, <em>filename</em>, <em>dset_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/hdf5.html#hdf_is_valid_dsets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.hdf5.hdf_is_valid_dsets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate file and datasets exist. Return boolean as to whether valid</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.io.hdf5.hdf_attr_to_dict">
+<code class="descclassname">crikit.io.hdf5.</code><code class="descname">hdf_attr_to_dict</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/hdf5.html#hdf_attr_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.hdf5.hdf_attr_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from HDF attributes to valid dict</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.io.hdf5.hdf_import_data">
+<code class="descclassname">crikit.io.hdf5.</code><code class="descname">hdf_import_data</code><span class="sig-paren">(</span><em>pth</em>, <em>filename</em>, <em>dset_list</em>, <em>output_cls_instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/hdf5.html#hdf_import_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.hdf5.hdf_import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import dataset(s) from HDF file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path</li>
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File name</li>
+<li><strong>dset_list</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of 1 or more datasets</li>
+<li><strong>output_cls_instance</strong> (<a class="reference internal" href="crikit.data.html#crikit.data.spectrum.Spectrum" title="crikit.data.spectrum.Spectrum"><em>crikit.data.spectrum.Spectrum</em></a><em> (or </em><em>subclass</em><em>)</em>) – Spectrum class (or sub) object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>Success</strong> (<em>bool</em>) – Success of import</li>
+<li><strong>Data, Meta</strong> (<em>list (ndarray, dict)</em>) – If output_cls_instance is None and import is successful, will             return the data from dset_list and associated meta data.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.io.macros">
+<span id="crikit-io-macros-module"></span><h2>crikit.io.macros module<a class="headerlink" href="#module-crikit.io.macros" title="Permalink to this headline">¶</a></h2>
+<p>Created on Thu May 26 13:16:12 2016</p>
+<p>&#64;author: chc</p>
+</div>
+<div class="section" id="module-crikit.io.meta_configs">
+<span id="crikit-io-meta-configs-module"></span><h2>crikit.io.meta_configs module<a class="headerlink" href="#module-crikit.io.meta_configs" title="Permalink to this headline">¶</a></h2>
+<p>Configuration settings for HDF imports</p>
+<p>Use ‘!’ as the first entry in a list to denote to use the value rather than querying for it</p>
+<p>Created on Mon May 23 10:35:19 2016</p>
+<p>&#64;author: chc</p>
+<dl class="function">
+<dt id="crikit.io.meta_configs.special_nist_bcars1_sample_scan">
+<code class="descclassname">crikit.io.meta_configs.</code><code class="descname">special_nist_bcars1_sample_scan</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/meta_configs.html#special_nist_bcars1_sample_scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.meta_configs.special_nist_bcars1_sample_scan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return import attributes particular to the “BCARS 1” system at NIST</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.io.meta_configs.special_nist_bcars2">
+<code class="descclassname">crikit.io.meta_configs.</code><code class="descname">special_nist_bcars2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/meta_configs.html#special_nist_bcars2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.meta_configs.special_nist_bcars2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return import attributes particular to the “BCARS 2” system at NIST</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.io.meta_process">
+<span id="crikit-io-meta-process-module"></span><h2>crikit.io.meta_process module<a class="headerlink" href="#module-crikit.io.meta_process" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon May 23 16:55:09 2016</p>
+<p>&#64;author: chc</p>
+<dl class="function">
+<dt id="crikit.io.meta_process.meta_process">
+<code class="descclassname">crikit.io.meta_process.</code><code class="descname">meta_process</code><span class="sig-paren">(</span><em>rosetta</em>, <em>output_cls_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/meta_process.html#meta_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.meta_process.meta_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a conversion dict (rosetta) to process the meta data in     output_cls_instance</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.io.meta_process.rosetta_query">
+<code class="descclassname">crikit.io.meta_process.</code><code class="descname">rosetta_query</code><span class="sig-paren">(</span><em>key</em>, <em>rosetta</em>, <em>output_cls_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/meta_process.html#rosetta_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.io.meta_process.rosetta_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the highest-priority value</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.io" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

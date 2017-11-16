@@ -4,8 +4,7 @@
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
+
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,

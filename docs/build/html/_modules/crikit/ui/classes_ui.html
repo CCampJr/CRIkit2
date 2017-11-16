@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.classes_ui &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.classes_ui</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.classes_ui</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">User Interface and Visualization Classes (crikit.ui.classes_ui)</span>
+<span class="sd">===============================================================</span>
+
+<span class="sd">BW : Grayscale images</span>
+
+<span class="sd">SingleColor : Single-color images</span>
+
+<span class="sd">_ColorMath : Container of math operations</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<div class="viewcode-block" id="BW"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.BW">[docs]</a><span class="k">class</span> <span class="nc">BW</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">XUNITS</span> <span class="o">=</span> <span class="s1">&#39;Pixels&#39;</span>
+    <span class="n">YUNITS</span> <span class="o">=</span> <span class="s1">&#39;Pixels&#39;</span>
+
+    <span class="n">_grayscaleimage</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># Spectral plane image to construct color from</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Title of IMG</span>
+    <span class="n">setflag</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">setmax</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">setmin</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">compress</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">setgain</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">setoutlierstds</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">#setnorm = None</span>
+
+    <span class="n">_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">_y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">_xunits</span> <span class="o">=</span> <span class="n">XUNITS</span>
+    <span class="n">_yunits</span> <span class="o">=</span> <span class="n">YUNITS</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Note: Outlier removal is BEFORE min/max and compression</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setoutlierstds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mask_pass</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setoutlierstds</span><span class="p">)</span><span class="o">*</span>\
+                        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setoutlierstds</span><span class="p">)</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">*</span><span class="n">mask_pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">img</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setgain</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">mask_pass</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">img</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="n">mask_low</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span>
+                <span class="n">mask_high</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">mask_pass</span><span class="o">*</span><span class="n">img</span> <span class="o">+</span> <span class="n">mask_low</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="o">+</span> <span class="n">mask_high</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">img</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">img</span><span class="o">*</span><span class="n">mask</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setgain</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">winextent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maxer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">minner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">temp</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">temp</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xunits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xunits</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">yunits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yunits</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ylen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grayscaleimage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grayscaleimage</span>
+
+    <span class="nd">@grayscaleimage</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">grayscaleimage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_grayscaleimage</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span>
+                    <span class="n">_np</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">XUNITS</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">YUNITS</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="nd">@grayscaleimage</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="k">def</span> <span class="nf">grayscaleimage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+
+    <span class="nd">@x</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xlen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xlen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">XUNITS</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span>
+
+    <span class="nd">@y</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ylen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ylen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">YUNITS</span>
+
+<div class="viewcode-block" id="BW.set_x"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.BW.set_x">[docs]</a>    <span class="k">def</span> <span class="nf">set_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xlen</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_xunits</span> <span class="o">=</span> <span class="n">units</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="BW.set_y"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.BW.set_y">[docs]</a>    <span class="k">def</span> <span class="nf">set_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ylen</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_yunits</span> <span class="o">=</span> <span class="n">units</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="_ColorMath"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui._ColorMath">[docs]</a><span class="k">class</span> <span class="nc">_ColorMath</span><span class="p">:</span>
+
+    <span class="n">opfreq1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">opfreq2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">opfreq3</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">operation</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">condfreq1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">condfreq2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">condfreq3</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">condoperation</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inequality</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inequalityval</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="CompositeColor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.CompositeColor">[docs]</a><span class="k">class</span> <span class="nc">CompositeColor</span><span class="p">(</span><span class="n">BW</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgl_color_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sgl_color_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span> <span class="o">=</span> <span class="n">sgl_color_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#print(self.sgl_color_list)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">image</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">[</span><span class="mi">1</span><span class="p">::]:</span>
+                    <span class="c1"># temp -= count.image</span>
+                    <span class="n">temp</span> <span class="o">+=</span> <span class="n">count</span><span class="o">.</span><span class="n">image</span>
+            <span class="c1"># temp = abs(temp)</span>
+            <span class="c1"># temp /= temp.max()</span>
+            <span class="c1"># if temp.min() &lt; 0:</span>
+            <span class="c1">#     temp -= temp.min()</span>
+            <span class="c1"># if temp.max() &gt; 1:</span>
+            <span class="c1">#     temp /= temp.max()</span>
+
+            <span class="n">temp</span><span class="p">[</span><span class="n">temp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">temp</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ylen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">#        return self.grayscaleimage.shape[0]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgl_color_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+<span class="c1">#        return self.grayscaleimage.shape[1]</span>
+
+<div class="viewcode-block" id="SingleColor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor">[docs]</a><span class="k">class</span> <span class="nc">SingleColor</span><span class="p">(</span><span class="n">BW</span><span class="p">,</span> <span class="n">_ColorMath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">COLORMAP</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">COLORMAP</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">image</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnorm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="p">)</span>
+            <span class="n">scaled_gain_gs</span> <span class="o">=</span> <span class="n">scaled_gs</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setgain</span>
+            <span class="n">final_scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnormcompress</span><span class="p">(</span><span class="n">scaled_gain_gs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_bwtocolor</span><span class="p">(</span><span class="n">final_scaled_gs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fudge_factor</span> <span class="o">=</span> <span class="o">.</span><span class="mi">001</span>
+            <span class="n">fudge_amt</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span><span class="o">*</span><span class="n">fudge_factor</span><span class="p">)</span>
+            <span class="n">fudged_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="o">-</span> <span class="n">fudge_amt</span>
+            <span class="n">fudged_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span> <span class="o">+</span> <span class="n">fudge_amt</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">mask_pass</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;=</span> <span class="n">fudged_min</span><span class="p">)</span> <span class="o">*</span> \
+                            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;=</span> <span class="n">fudged_max</span><span class="p">)</span>
+                <span class="n">mask_low</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;</span> <span class="n">fudged_min</span><span class="p">)</span>
+                <span class="n">mask_high</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;</span> <span class="n">fudged_max</span><span class="p">)</span>
+                <span class="n">masked_img</span> <span class="o">=</span> <span class="n">mask_pass</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">+</span> \
+                             <span class="n">mask_low</span><span class="o">*</span><span class="n">fudged_min</span> <span class="o">+</span> \
+                             <span class="n">mask_high</span><span class="o">*</span><span class="n">fudged_max</span>
+
+                <span class="n">scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnorm</span><span class="p">(</span><span class="n">masked_img</span><span class="p">)</span>
+                <span class="n">scaled_gain_gs</span> <span class="o">=</span> <span class="n">scaled_gs</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setgain</span>
+                <span class="n">final_scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnormcompress</span><span class="p">(</span><span class="n">scaled_gain_gs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_bwtocolor</span><span class="p">(</span><span class="n">final_scaled_gs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;=</span> <span class="n">fudged_min</span><span class="p">)</span> <span class="o">*</span> \
+                       <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;=</span> <span class="n">fudged_max</span><span class="p">)</span>
+                <span class="n">masked_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">*</span><span class="n">mask</span>
+
+                <span class="n">scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnorm</span><span class="p">(</span><span class="n">masked_img</span><span class="p">)</span>
+                <span class="n">scaled_gain_gs</span> <span class="o">=</span> <span class="n">scaled_gs</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setgain</span>
+                <span class="n">final_scaled_gs</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_imgnormcompress</span><span class="p">(</span><span class="n">scaled_gain_gs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">SingleColor</span><span class="o">.</span><span class="n">_bwtocolor</span><span class="p">(</span><span class="n">final_scaled_gs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">imageGS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self.grayscaleimage with limits applied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">mask_pass</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="n">mask_low</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span>
+                <span class="n">mask_high</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="n">masked_img</span> <span class="o">=</span> <span class="n">mask_pass</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">+</span> <span class="n">mask_low</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setmin</span> <span class="o">+</span> <span class="n">mask_high</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">setmax</span>
+
+                <span class="k">return</span> <span class="n">masked_img</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmin</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setmax</span><span class="p">)</span>
+                <span class="n">masked_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grayscaleimage</span><span class="o">*</span><span class="n">mask</span>
+
+                <span class="k">return</span> <span class="n">masked_img</span>
+
+<div class="viewcode-block" id="SingleColor._imgnorm"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnorm">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_imgnorm</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">low</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalize intensity (B&amp;W) image. Values at</span>
+<span class="sd">        low -&gt; 0</span>
+<span class="sd">        high -&gt; 1</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If now provided low or high values, set to min() and max()</span>
+        <span class="k">if</span> <span class="n">low</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">high</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+        <span class="c1"># Ensure high and low values are different</span>
+        <span class="k">if</span> <span class="n">high</span> <span class="o">==</span> <span class="n">low</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">*</span><span class="n">img</span>  <span class="c1"># Return 0&#39;s, if same</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">img</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleColor._imgnormcompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._imgnormcompress">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_imgnormcompress</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compress normalized image. Values:</span>
+<span class="sd">        &gt; 1 -&gt; 1</span>
+<span class="sd">        &lt; 0 -&gt; 0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask_pass</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">img</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">mask_high</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mask_pass</span><span class="o">*</span><span class="n">img</span> <span class="o">+</span> <span class="n">mask_high</span></div>
+
+<div class="viewcode-block" id="SingleColor._bwtocolor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.classes_ui.SingleColor._bwtocolor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_bwtocolor</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">colormap</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert normalized [0,1] B&amp;W image (gs) to color, applying a</span>
+<span class="sd">        3-value list colormap (colormap)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">gs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">gs_3d</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">gs</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">],</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">img</span><span class="o">*</span><span class="n">colormap</span><span class="p">)</span><span class="o">*</span><span class="n">gs_3d</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

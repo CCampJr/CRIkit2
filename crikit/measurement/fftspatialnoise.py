@@ -6,12 +6,6 @@ Created on Fri Jun 10 16:16:17 2016
 
 import numpy as _np
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
-
 class FFTSignalMetric:
     """
     FFT Spatial Noise Metric (Ratio - 1)

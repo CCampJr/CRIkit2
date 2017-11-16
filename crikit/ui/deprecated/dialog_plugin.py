@@ -44,26 +44,16 @@ class DialogDenoisePlugins(_QDialog):
     """
     DialogDenoisePlugins : Denoise plugin selector
     
-    Static Method
+    Methods
     -------------
     dialogDenoisePlugins : Used to call UI and retrieve results of dialog
     
     References
     ----------
     [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.02.16")
     """
 
     def __init__(self, parent = None):
@@ -113,19 +103,7 @@ class DialogDenoisePlugins(_QDialog):
     @staticmethod
     def dialogDenoisePlugins(parent = None):
         """
-        Static Method.
         
-        XXX
-
-        Inputs
-        ----------
-        None : None
-
-        Returns
-        ----------
-        out : (tuple)
-            XXX : (TYPE)
-
         """
         
         dialog = DialogDenoisePlugins(parent)
@@ -142,26 +120,16 @@ class DialogErrCorrPlugins(_QDialog):
     """
     DialogErrCorrPlugins : Error correction plugin selector
     
-    Static Method
+    Methods
     -------------
     dialogErrCorrPlugins : Used to call UI and retrieve results of dialog
     
     References
     ----------
     [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.03.01")
     """
     
     def __init__(self, parent = None):
@@ -219,19 +187,7 @@ class DialogErrCorrPlugins(_QDialog):
     @staticmethod
     def dialogErrCorrPlugins(parent = None):
         """
-        Static Method.
         
-        XXX
-
-        Inputs
-        ----------
-        None : None
-
-        Returns
-        ----------
-        out : (tuple)
-            XXX : (TYPE)
-
         """
         
         dialog = DialogErrCorrPlugins(parent)

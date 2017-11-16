@@ -1,6 +1,6 @@
 """
 Widgets for Plot-Effect Interface (crikit.ui.widget_ploteffect)
-=======================================================
+===============================================================
 
 widgetNothing : This demo widget does nothing
 
@@ -29,8 +29,6 @@ changed : QtCore.pyqtSignal
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -67,16 +65,6 @@ class widgetNothing(_QWidget):
     This plugin does nothing (i.e., it is a template and for demonstration \
     purposes).
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
     """
 
     changed = _pyqtSignal()
@@ -93,17 +81,6 @@ class widgetCalibrate(_QWidget):
     """
     This plugin widget provides calibration functionality.
 
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.15")
     """
     DEFAULT_N_PIX = 1600
     DEFAULT_CTR_WL = 730.0
@@ -259,25 +236,12 @@ class widgetKK(_QWidget):
             Global phase addition type: 'linear' or 'sigmoidal'
 
 
-    Functions
+    Methods
     ---------
         fcn : Performs the KK
 
-    Signals
-    -------
+    Signals :
         changed : a value in the UI has changed
-
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
 
     """
 
@@ -576,38 +540,29 @@ class widgetALS(_QWidget):
 
 
 
-    Functions
+    Methods
     ---------
         fcn : Performs the Asymmetric Least Squares
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
-    Citation Reference
-    ------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
-
+    Notes
+    -----
+    Please cite the C. H. Camp Jr., et al. reference (below) if you
+    use this software.
+    
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.02.29")
+    [3] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
     """
 
@@ -678,30 +633,18 @@ class widgetSG(_QWidget):
         order : int
             Order (polynomial)
 
-    Functions
+    Methods
     ---------
         fcn : Performs the Savitky-Golay
 
-    Signals
-    -------
+    Signals:
         changed : a value in the UI has changed
 
-    Citation Reference
-    ------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
-
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.02")
+    References
+    ----------
+    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
     """
 

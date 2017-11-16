@@ -1,7 +1,6 @@
-"""
-Variance Stabilization
-=======================================================
+"""Variance Stabilization
 
+Routines:
     gen_anscombe_forward
         Generalized forward Anscombe transformation
 
@@ -19,8 +18,8 @@ original MATLAB software created by Alessandro Foi and Markku Mäkitalo \
 (Tampere University of Technology - 2011-2012). Please cite the references \
 below if using this software. http://www.cs.tut.fi/~foi/
 
-Citation Refs
-------------------
+References
+----------
 [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
     transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
     doi:10.1109/TIP.2012.2202675
@@ -75,8 +74,8 @@ def gen_anscombe_forward(signal, gauss_std, gauss_mean = 0, poisson_multi = 1):
         "Anscombe-transformed" signal with an approximate unity standard \
         deviation/variance (~ 1)
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
@@ -135,30 +134,22 @@ def gen_anscombe_inverse_closed_form(fsignal, gauss_std, gauss_mean = 0,
         Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
         noise
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
-    transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
-    doi:10.1109/TIP.2012.2202675
+        transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
+        doi:10.1109/TIP.2012.2202675
 
     [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-    Analysis, Cambridge University Press, Cambridge, 1998)
+        Analysis, Cambridge University Press, Cambridge, 1998)
 
-    Software Info
-    --------------
-    Original Python branch: Feb 16 2015
-
-    @author: ("Charles H Camp Jr")\n
-    @email: ("charles.camp@nist.gov")\n
-    @date: ("Sep 2 2015")\n
-    @version: ("1.1")\n
     """
 
     SMALL_VAL = 0
@@ -223,30 +214,22 @@ def gen_anscombe_inverse_exact_unbiased(fsignal, gauss_std, gauss_mean = 0,
         Inverse Anscombe-transformed signal with mixed Gaussian-Poisson
         noise
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe
-    transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
-    doi:10.1109/TIP.2012.2202675
+        transformation for Poisson-Gaussian noise", IEEE Trans. Image Process.,
+        doi:10.1109/TIP.2012.2202675
 
     [2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data
-    Analysis, Cambridge University Press, Cambridge, 1998)
+        Analysis, Cambridge University Press, Cambridge, 1998)
 
-    Software Info
-    --------------
-    Original Python branch: Feb 16 2015
-
-    @author: ("Charles H Camp Jr")\n
-    @email: ("charles.camp@nist.gov")\n
-    @date: ("Sep 2 2015")\n
-    @version: ("1.1")\n
     """
     from scipy.io import loadmat
     from scipy.interpolate import InterpolatedUnivariateSpline, interp2d
@@ -324,37 +307,29 @@ def anscombe_inverse_exact_unbiased(fsignal):
     signal : ndarray (matched to signal shape)
         Inverse Anscombe-transformed signal
 
-    Note
-    ----
+    Notes
+    -----
     This software is a direct translation (with minor alterations) of the
     original MATLAB software created by Alessandro Foi and Markku Mäkitalo
     (Tampere University of Technology - 2011-2012). Please cite the references
     below if using this software. http://www.cs.tut.fi/~foi/
 
     References
-    ------------------
+    ----------
     [1] M. Mäkitalo and A. Foi, "On the inversion of the Anscombe
-    transformation in low-count Poisson image denoising", Proc. Int.
-    Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,
-    Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406
+        transformation in low-count Poisson image denoising", Proc. Int.
+        Workshop on Local and Non-Local Approx. in Image Process., LNLA 2009,
+        Tuusula, Finland, pp. 26-32, August 2009. doi:10.1109/LNLA.2009.5278406
 
     [2] M. Mäkitalo and A. Foi, "Optimal inversion of the Anscombe
-    transformation in low-count Poisson image denoising", IEEE Trans.
-    Image Process., vol. 20, no. 1, pp. 99-109, January 2011.
-    doi:10.1109/TIP.2010.2056693
+        transformation in low-count Poisson image denoising", IEEE Trans.
+        Image Process., vol. 20, no. 1, pp. 99-109, January 2011.
+        doi:10.1109/TIP.2010.2056693
 
     [3] Anscombe, F.J., "The transformation of Poisson, binomial and
-    negative-binomial data", Biometrika, vol. 35, no. 3/4, pp. 246-254,
-    Dec. 1948.
+        negative-binomial data", Biometrika, vol. 35, no. 3/4, pp. 246-254,
+        Dec. 1948.
 
-    Software Info
-    --------------
-    Original Python branch: Feb 16 2015
-
-    @author: ("Charles H Camp Jr")\n
-    @email: ("charles.camp@nist.gov")\n
-    @date: ("Jun 28 2015")\n
-    @version: ("1.1")\n
     """
     import time
 

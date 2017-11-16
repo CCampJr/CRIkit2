@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Anscombe Transform Parameters</string>
   </property>
   <property name="styleSheet">
    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
@@ -31,7 +31,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Detector Gain</string>
+        <string>Poisson Noise Gain</string>
        </property>
       </widget>
      </item>
@@ -52,7 +52,7 @@
      <item alignment="Qt::AlignHCenter">
       <widget class="QLabel" name="labelStdDev">
        <property name="text">
-        <string>Standard Deviation (Gaussian)</string>
+        <string>Gaussian Noise Std. Dev.</string>
        </property>
       </widget>
      </item>

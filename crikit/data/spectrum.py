@@ -69,8 +69,8 @@ class Spectrum:
     subtract : 1D ndarray or None
         Subtract spectrum or object
 
-    Note
-    ----
+    Notes
+    -----
     * freq object contains some useful parameters such as op_range_\* and \
     plot_range_\*, which define spectral regions-of-interest. (It's debatable \
     as to whether those parameters should be in Frequency or Spectrum classes)
@@ -83,7 +83,7 @@ class Spectrum:
         self._freq = _Frequency()
         self._label = None
         self._units = None
-        self._meta = None
+        self._meta = {}
 
         if data is not None:
             self.data = _copy.deepcopy(data)

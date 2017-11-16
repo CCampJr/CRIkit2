@@ -13,7 +13,10 @@ widgetCompositeColor : Composite-color imagery
 
 _mplWin : Matplotlib window container
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> dev
 """
 
 import sys as _sys

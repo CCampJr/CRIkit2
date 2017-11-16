@@ -12,26 +12,14 @@ DialogKKOptions : Phase retrieval options dialog. Note: this class only\
 References
 ----------
 [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.03.14")
 """
 
 # Append sys path
 import sys as _sys
 import os as _os
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -67,26 +55,16 @@ class DialogDarkOptions(_QDialog):
     """
     DialogDarkOptions : Dark subtraction options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogDarkOptions : Used to call UI and retrieve results of dialog
 
     References
     ----------
     [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.14")
     """
     SUB_DARK = True
     SUB_DARK_IMG = True
@@ -123,11 +101,9 @@ class DialogDarkOptions(_QDialog):
     @staticmethod
     def dialogDarkOptions(parent = None, darkloaded = False, nrbloaded = False):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         nrbloaded : (bool)
             Is there an NRB loaded?
@@ -216,30 +192,20 @@ class DialogKKOptions(_QDialog):
     DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently \
         supported) options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogKKOptions : Used to call UI and retrieve results of dialog
 
     References
     ----------
     [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
-    phase retrieval using a time-domain Kramers-Kronig transform," \
-    Opt. Lett. 34, 1363-1365 (2009).
+        phase retrieval using a time-domain Kramers-Kronig transform," \
+        Opt. Lett. 34, 1363-1365 (2009).
 
     [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.2.16")
     """
     NORM_TO_NRB = True
     NRB_AMP = 0.0
@@ -291,11 +257,9 @@ class DialogKKOptions(_QDialog):
     @staticmethod
     def dialogKKOptions(parent=None, data=None):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 
@@ -321,74 +285,6 @@ class DialogKKOptions(_QDialog):
                     dialog.ui.spinBoxPadFactor.value())
         else:
             return (None, None, None, None, None)
-#
-#class DialogAnscombeOptions(_QDialog):
-#    """
-#    DialogAnscombeOptions : Anscombe Transformation options dialog
-#
-#    Static Method
-#    -------------
-#    dialogAnscombeOptions : Used to call UI and retrieve results of dialog
-#
-#    References
-#    ----------
-#    [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-#    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-#    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
-#
-#    Software Info
-#    --------------
-#
-#    Original Python branch: Feb 16 2015
-#
-#    author: ("Charles H Camp Jr")
-#
-#    email: ("charles.camp@nist.gov")
-#
-#    version: ("16.2.22")
-#    """
-#    STDDEV = 12.44
-#    GAIN = 1.4
-#
-#    def __init__(self, parent = None):
-#        super(DialogAnscombeOptions, self).__init__(parent) ### EDIT ###
-#        self.ui = Ui_AnscombeOptions() ### EDIT ###
-#        self.ui.setupUi(self)     ### EDIT ###
-#
-#        self.ui.spinBoxGain.setValue(self.GAIN)
-#        self.ui.spinBoxStdDev.setValue(self.STDDEV)
-#
-#        #self.stddev = self.STDDEV
-#        #self.gain = self.GAIN
-#
-#    @staticmethod
-#    def dialogAnscombeOptions(parent = None, nrbloaded = False):
-#        """
-#        Static Method.
-#
-#        Retrieve Anscombe Transform dialog results
-#
-#        Inputs
-#        ----------
-#        None : None
-#
-#        Returns
-#        ----------
-#        out : (tuple)
-#            Standard deviation of Gaussian noise : (float)
-#            Detector gain of Poisson noise : (float)
-#        """
-#        dialog = DialogAnscombeOptions(parent)
-#
-#        result = dialog.exec_()
-#
-#        stddev = dialog.ui.spinBoxStdDev.value()
-#        gain = dialog.ui.spinBoxGain.value()
-#
-#        if result == 1:
-#            return (stddev, gain)
-#        else:
-#            return (None, None)
 
 if __name__ == '__main__':
 

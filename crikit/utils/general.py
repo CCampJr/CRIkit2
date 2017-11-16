@@ -9,15 +9,10 @@ General utilities
     find_nearest : Given a vector and a value, find the index and value
         of the closest match
 
-Note
-----
+Notes
+-----
 """
 import numpy as _np
-
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
 
 def np_fcn_nd_to_1d(fcn, data, axis=-1):
     """

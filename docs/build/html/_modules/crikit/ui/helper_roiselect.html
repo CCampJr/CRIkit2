@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.helper_roiselect &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.helper_roiselect</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.helper_roiselect</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Append sys path</span>
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+
+
+<span class="c1"># Generic imports for QT-based programs</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">,</span>
+                             <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">,</span>
+                             <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span><span class="p">,</span>
+                             <span class="n">QSizePolicy</span> <span class="k">as</span> <span class="n">_QSizePolicy</span><span class="p">,</span>
+                             <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span><span class="p">,</span>
+                             <span class="n">QTableView</span> <span class="k">as</span> <span class="n">_QTableView</span><span class="p">,</span>
+                             <span class="n">QColorDialog</span> <span class="k">as</span> <span class="n">_QColorDialog</span><span class="p">,</span>
+                             <span class="n">QDoubleSpinBox</span> <span class="k">as</span> <span class="n">_QDoubleSpinBox</span><span class="p">,</span>
+                             <span class="n">QComboBox</span> <span class="k">as</span> <span class="n">_QComboBox</span><span class="p">,</span>
+                             <span class="n">QPushButton</span> <span class="k">as</span> <span class="n">_QPushButton</span><span class="p">,</span>
+                             <span class="n">QLineEdit</span> <span class="k">as</span> <span class="n">_QLineEdit</span><span class="p">,</span>
+                             <span class="n">QStyle</span> <span class="k">as</span> <span class="n">_QStyle</span><span class="p">,</span>
+                             <span class="n">QStyledItemDelegate</span> <span class="k">as</span> <span class="n">_QStyledItemDelegate</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="k">import</span> <span class="p">(</span><span class="n">QAbstractItemModel</span> <span class="k">as</span> <span class="n">_QAbstractItemModel</span><span class="p">,</span>
+                          <span class="n">QAbstractTableModel</span> <span class="k">as</span> <span class="n">_QAbstractTableModel</span><span class="p">,</span>
+                          <span class="n">QModelIndex</span> <span class="k">as</span> <span class="n">_QModelIndex</span><span class="p">,</span>
+                          <span class="n">QVariant</span> <span class="k">as</span> <span class="n">_QVariant</span><span class="p">,</span>
+                          <span class="n">Qt</span> <span class="k">as</span> <span class="n">_Qt</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="k">import</span> <span class="p">(</span><span class="n">QPixmap</span> <span class="k">as</span> <span class="n">_QPixmap</span><span class="p">,</span>
+                         <span class="n">QIcon</span> <span class="k">as</span> <span class="n">_QIcon</span><span class="p">,</span>
+                         <span class="n">QColor</span> <span class="k">as</span> <span class="n">_QColor</span><span class="p">)</span>
+
+<span class="c1"># Other imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="c1"># Import from Designer-based GUI</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.helper_plotOptions</span> <span class="k">import</span> <span class="n">plotStyle</span>
+
+<span class="c1"># Generic imports for MPL-incorporation</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Qt5Agg&#39;</span><span class="p">)</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;savefig.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1">#_mpl.rcParams[&#39;figure.autolayout&#39;] = True</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_qt5agg</span> <span class="k">import</span> <span class="p">(</span><span class="n">FigureCanvasQTAgg</span> <span class="k">as</span> <span class="n">_FigureCanvas</span><span class="p">,</span> \
+    <span class="n">NavigationToolbar2QT</span> <span class="k">as</span> <span class="n">_NavigationToolbar</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="k">import</span> <span class="n">Figure</span> <span class="k">as</span> <span class="n">_Figure</span>
+
+<div class="viewcode-block" id="_PointsData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect._PointsData">[docs]</a><span class="k">class</span> <span class="nc">_PointsData</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_current_plots</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xpix</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ypix</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">plotStyle</span><span class="p">(</span><span class="n">num_current_plots</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImageSelection"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect.ImageSelection">[docs]</a><span class="k">class</span> <span class="nc">ImageSelection</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointdata_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_selections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointdata_list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImageSelection.clear_all"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect.ImageSelection.clear_all">[docs]</a>    <span class="k">def</span> <span class="nf">clear_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ImageSelection.append_selection"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect.ImageSelection.append_selection">[docs]</a>    <span class="k">def</span> <span class="nf">append_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpix</span><span class="p">,</span> <span class="n">ypix</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">_PointsData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_selections</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">xpix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">xpix</span> <span class="o">=</span> <span class="n">xpix</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">ypix</span> <span class="o">=</span> <span class="n">ypix</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">pt</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="n">pt</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pt</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">xpix</span>
+                <span class="n">pt</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">ypix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointdata_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+    <span class="k">class</span> <span class="nc">Ui_MainWindow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">)</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">984</span><span class="p">,</span> <span class="mi">658</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centralwidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centralwidget</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;centralwidget&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QGridLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centralwidget</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;gridLayout&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">verticalLayout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;verticalLayout&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pushbutton</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pushbutton</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gridLayout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">verticalLayout</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">setCentralWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centralwidget</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMenuBar</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">984</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;menubar&quot;</span><span class="p">)</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">setMenuBar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statusbar</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QStatusBar</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statusbar</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;statusbar&quot;</span><span class="p">)</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">setStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statusbar</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">retranslateUi</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+            <span class="n">QtCore</span><span class="o">.</span><span class="n">QMetaObject</span><span class="o">.</span><span class="n">connectSlotsByName</span><span class="p">(</span><span class="n">MainWindow</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">retranslateUi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MainWindow</span><span class="p">):</span>
+            <span class="n">_translate</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span>
+            <span class="n">MainWindow</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;MainWindow&quot;</span><span class="p">))</span>
+
+    <span class="k">class</span> <span class="nc">testWindow</span><span class="p">(</span><span class="n">_QMainWindow</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">testWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_MainWindow</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
+
+    <span class="k">def</span> <span class="nf">buttonPress</span><span class="p">():</span>
+        <span class="n">winTest</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;button_press_event&#39;</span><span class="p">,</span> <span class="n">pointClick</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pointClick</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">inaxes</span> <span class="o">==</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
+
+
+            <span class="n">selectiondata</span><span class="o">.</span><span class="n">append_selection</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">updatePlot</span><span class="p">()</span>
+            <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="n">winTest</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">updatePlot</span><span class="p">():</span>
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data_slice</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span> <span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+        <span class="n">getx</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">gety</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pts</span> <span class="ow">in</span> <span class="n">selectiondata</span><span class="o">.</span><span class="n">pointdata_list</span><span class="p">:</span>
+            <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pts</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                                   <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+                                   <span class="n">markersize</span><span class="o">=</span><span class="n">pts</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">markersize</span><span class="p">,</span>
+                                   <span class="n">markerfacecolor</span><span class="o">=</span><span class="n">pts</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+                                   <span class="n">markeredgecolor</span><span class="o">=</span><span class="n">pts</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+                                   <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
+
+        <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_winMpl</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+    <span class="n">winTest</span> <span class="o">=</span> <span class="n">testWindow</span><span class="p">()</span>
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span> <span class="o">=</span> <span class="n">_winMpl</span><span class="p">()</span>
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="n">_Figure</span><span class="p">()</span>
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">data_slice</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:,</span><span class="mi">25</span><span class="p">]</span>
+
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data_slice</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span> <span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">_FigureCanvas</span><span class="p">(</span><span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span><span class="p">)</span>
+
+    <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushbutton</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">buttonPress</span><span class="p">)</span>
+
+    <span class="n">winTest</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">selectiondata</span> <span class="o">=</span> <span class="n">ImageSelection</span><span class="p">()</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

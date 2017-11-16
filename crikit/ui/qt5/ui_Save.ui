@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>674</width>
-    <height>333</height>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Save</string>
   </property>
   <property name="styleSheet">
    <string notr="true">font: 10pt &quot;Arial&quot;;</string>

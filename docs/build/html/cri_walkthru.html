@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Walk-Thru: CRI Processing &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/>
+        <link rel="next" title="Command Line Tools &amp; Algorthms" href="algorithms.html"/>
+        <link rel="prev" title="Running the CRIkit2 Graphical User Interface" href="running.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Walk-Thru: CRI Processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-the-built-in-raman-bcars-numerical-phantom">Generating the built-in Raman/BCARS numerical phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewing-dark-nrb-and-dataset-spectra">Viewing dark, NRB, and dataset spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dark-subtraction">Dark subtraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variance-stabilization">Variance stabilization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#denoising-via-singular-value-decomposition-svd">Denoising via singular value decomposition (SVD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-inverse-anscombe-transformation">The inverse Anscombe transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-retrieval-via-kramers-kronig-relation">Phase retrieval via Kramers-Kronig relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-error-correction">Phase error correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scale-error-correction">Scale error correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calibration">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saving">Saving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pseudo-color-imagery">Pseudo-color imagery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#skipped-actions-in-a-normal-cri-workflow">Skipped actions in a normal CRI workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#loading-hdf-file-hsi-dataset">Loading HDF file Hsi dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-dark-dataset">Loading Dark dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#denoise-dark-optional">Denoise Dark (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-an-nrb-from-hdf-file">Loading an NRB from HDF file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-an-nrb-from-a-region-of-interest-roi">Load an NRB from a region-of-interest (ROI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merge-two-nrb-datasets">Merge two NRB datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#residual-dark-subtraction-optional">Residual dark subtraction (Optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Walk-Thru: CRI Processing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/cri_walkthru.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="_images/CRIkit2_Logo.png" class="align-left" id="cri-walkthru" src="_images/CRIkit2_Logo.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="walk-thru-cri-processing">
+<h1>Walk-Thru: CRI Processing<a class="headerlink" href="#walk-thru-cri-processing" title="Permalink to this headline">¶</a></h1>
+<p>This walk-thru will take you through several steps:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#generating-the-built-in-raman-bcars-numerical-phantom">Generating the built-in Raman/BCARS numerical phantom</a></li>
+<li><a class="reference internal" href="#viewing-dark-nrb-and-dataset-spectra">Viewing dark, NRB, and dataset spectra</a></li>
+<li><a class="reference internal" href="#dark-subtraction">Dark subtraction</a></li>
+<li><a class="reference internal" href="#residual-dark-subtraction-optional">Residual dark subtraction (Optional)</a></li>
+<li><a class="reference internal" href="#variance-stabilization">Variance stabilization</a></li>
+<li><a class="reference internal" href="#denoising-via-singular-value-decomposition-svd">Denoising via singular value decomposition (SVD)</a></li>
+<li><a class="reference internal" href="#the-inverse-anscombe-transformation">The inverse Anscombe transformation</a></li>
+<li><a class="reference internal" href="#phase-retrieval-via-kramers-kronig-relation">Phase retrieval via Kramers-Kronig relation</a></li>
+<li><a class="reference internal" href="#phase-error-correction">Phase error correction</a></li>
+<li><a class="reference internal" href="#scale-error-correction">Scale error correction</a></li>
+<li><a class="reference internal" href="#calibration">Calibration</a></li>
+<li><a class="reference internal" href="#saving">Saving</a></li>
+<li><a class="reference internal" href="#pseudo-color-imagery">Pseudo-color imagery</a></li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#skipped-actions-in-a-normal-cri-workflow">Skipped actions in a normal CRI workflow</a></dt>
+<dd><ul class="first last">
+<li><a class="reference internal" href="#loading-hdf-file-hsi-dataset">Loading HDF file Hsi dataset</a></li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#loading-dark-dataset">Loading Dark dataset</a></dt>
+<dd>-<a class="reference internal" href="#denoise-dark-optional">Denoise Dark (Optional)</a></dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a href="#id25"><span class="problematic" id="id26">`Loading an NRB dataset`_</span></a></dt>
+<dd><ul class="first last">
+<li>From HDF</li>
+<li>From an ROI within the <strong>Hsi</strong> dataset</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The screenshots within this manual may or may not reflect the exact look of the
+version of CRIkit2 UI that you are using.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/Overview.png" class="align-center" src="_images/Overview.png" />
+</div>
+<div class="section" id="generating-the-built-in-raman-bcars-numerical-phantom">
+<h2>Generating the built-in Raman/BCARS numerical phantom<a class="headerlink" href="#generating-the-built-in-raman-bcars-numerical-phantom" title="Permalink to this headline">¶</a></h2>
+<p>CRIkit2 comes with a built-in numerical phantom, which is dervived from an
+actual BCARS image collected from murine pancreas tissue <a class="reference internal" href="#camp16" id="id1">[Camp16]</a>. This
+numerical phantom may be used as a <strong>Raman</strong> or a <strong>BCARS</strong> model. The Raman
+model produces an HSI wherein each pixel contains a Raman spectrum. The BCARS
+model incorporates a nonresonant background (NRB) and excitation source profile;
+thus, generating raw BCARS spectra, similar to those generated here at NIST <a class="reference internal" href="#camp14" id="id2">[Camp14]</a>.</p>
+<ol class="arabic simple">
+<li><strong>Help</strong> &gt;&gt; <strong>BCARS Numerical Phantom</strong></li>
+<li><dl class="first docutils">
+<dt>Check Noise and Dark check boxes.</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><strong>Check</strong> Gaussian (AWGN)</dt>
+<dd><ul class="first last">
+<li><strong>Std Dev</strong>: 12.44</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Check</strong> Poisson</dt>
+<dd><ul class="first last">
+<li><strong>Multiplier (alpha)</strong>: 1.4</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Check</strong> Dark Constant</dt>
+<dd><ul class="first last">
+<li><strong>Level</strong>: 1600.0</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Select Subsampling</dt>
+<dd><ul class="first last">
+<li>Subsampling will reduce the memory and performance burden on your computer.</li>
+<li>This tutorial will demonstrate with 1x (no sub-sampling), but you can feel
+free to use up to 4x to make things speedier.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Press <strong>Ok</strong> pushbutton.</li>
+</ol>
+<img alt="_images/LoadModel.png" class="align-center" src="_images/LoadModel.png" />
+<p>There now is a fully loaded BCARS phantom. Additionally, the <strong>NRB</strong> reference
+is loaded (<strong>View</strong> &gt;&gt; <strong>NRB Spect</strong>) and the <strong>Dark</strong> spectrum is loaded
+(<strong>View</strong> &gt;&gt; <strong>Dark Spect</strong>).</p>
+<img alt="_images/Overview_post_gen_BCARS.png" class="align-center" src="_images/Overview_post_gen_BCARS.png" />
+</div>
+<div class="section" id="viewing-dark-nrb-and-dataset-spectra">
+<h2>Viewing dark, NRB, and dataset spectra<a class="headerlink" href="#viewing-dark-nrb-and-dataset-spectra" title="Permalink to this headline">¶</a></h2>
+<p>To view the loaded <strong>Dark</strong> spectrum(a):</p>
+<ul class="simple">
+<li><strong>View</strong> &gt;&gt; <strong>Dark Spect</strong></li>
+</ul>
+<p>To view the loaded <strong>NRB</strong> spectrum(a):</p>
+<ul class="simple">
+<li><strong>View</strong> &gt;&gt; <strong>NRB Spect</strong></li>
+</ul>
+<p>There are two primary methods to view spectra from within the dataset: point
+spectra and ROI spectra.</p>
+<p>To view the spectrum from a single point within the dataset (2 methods):</p>
+<ul class="simple">
+<li><strong>View</strong> &gt;&gt; <strong>Pt Spect</strong></li>
+<li>Click the <strong>Pt Spect</strong> button on the main ribbon</li>
+</ul>
+<p>Either method will change your cursor into a cross. Select a pixel within the
+<strong>single-frequency (SF) image</strong> and <strong>left-click</strong>. This will pop-up the plotter window with the
+spectrum.</p>
+<p>To view the mean spectrum from within an ROI (2 methods):</p>
+<ul class="simple">
+<li><strong>View</strong> &gt;&gt; <strong>ROI Spect</strong></li>
+<li>Click the <strong>ROI Spect</strong> button on the main ribbon</li>
+</ul>
+<p>Again, either method will change your cursor into a cross. The ROI is defined by
+a polyhedron within the <strong>single-frequency (SF) image</strong>. Select vertices with
+a <strong>left-click</strong> with your mouse. Close the polyhedrom with a single
+<strong>right-click</strong>. The location of the right-click does not matter as this only
+indicates to connect the last selected vertex and the first. This will pop-up
+the plotter window with 2 components: the mean spectrum (dark, solid line) and
+a patch (lighter, solid shading) that indicates plus-minus 1 standard deviation.</p>
+<img alt="_images/RoiRawSpectra.png" class="align-center" src="_images/RoiRawSpectra.png" />
+</div>
+<div class="section" id="dark-subtraction">
+<h2>Dark subtraction<a class="headerlink" href="#dark-subtraction" title="Permalink to this headline">¶</a></h2>
+<p>The dark signal is the intrinsic signal level generated by the detector, even
+when no photons are incident on the detector. Typically, a measurement is made
+with the detector (or incident) sources blocked.</p>
+<p>Under normal operation, you would load a dark spectrum(a) from an external
+file. During the generation of the BCARS numerical phantom, the dark signal
+is co-generated.</p>
+<p>To subtract the dark spectrum(a) from the HSI (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Dark Sub…</strong></li>
+<li>Click the <strong>Dark Sub</strong> button on the main ribbon</li>
+</ul>
+<p>Two pop-up dialog boxes will appear:</p>
+<ul class="simple">
+<li>Subtract Dark Spectrum from Image?: <strong>Click</strong>: OK</li>
+<li>Subtract Dark Spectrum from NRB Spectrum(a)?: <strong>Click</strong>: OK</li>
+</ul>
+<img alt="_images/Sub_dark_dialogs.png" class="align-center" src="_images/Sub_dark_dialogs.png" />
+</div>
+<div class="section" id="variance-stabilization">
+<h2>Variance stabilization<a class="headerlink" href="#variance-stabilization" title="Permalink to this headline">¶</a></h2>
+<p>CRIkit2 provides variance stabilitization through the forward Anscombe
+transformation that enables signals with mixed additive white Gaussian noise
+(AWGN) and shot-noise (Poisson) to be transformed into a signal with
+approximately uniform AWGN only <a class="reference internal" href="#foi13" id="id3">[Foi13]</a>. Conversely, CRIkit2 provides an
+exact, unbiased inverse of the generalized Anscombe variance-stabilizing
+transform <a class="reference internal" href="#foi13" id="id4">[Foi13]</a>.</p>
+<p>Many denoising and factorization methods, such as principle component analysis
+(PCA), singular value decomposition (SVD), nonnegative matrix factorization
+(NMF); explicitly or implicitly assume a normal (i.e., Gaussian) distribution
+of noise (and signals). Thus, variance stabilization may aid actions involving
+such tasks <a class="reference internal" href="#camp16" id="id5">[Camp16]</a>.</p>
+<p>In this tutorial, we will use the Anscombe transformation prior to
+<strong>SVD denoising</strong>. Additionally, we will apply the <strong>inverse Anscombe</strong>
+transform <strong>after</strong> SVD denoising.</p>
+<p>To perform the forward Anscombe transformation (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Standardize</strong> &gt;&gt; <strong>Anscombe</strong></li>
+<li>Click the <strong>Anscombe</strong> button on the main ribbon</li>
+</ul>
+<p>A pop-up dialog will appear asking for two necessary pieces of information:</p>
+<ul class="simple">
+<li>The standard deviation of the AWGN</li>
+<li>The shot-noise (Poisson) noise multiplier</li>
+</ul>
+<p>Normally, one would need to calculate/measure or estimate these parameters, but
+the <strong>numerical phantom, by default, applies</strong>:</p>
+<ul class="simple">
+<li>Gaussian noise standard deviation: 12.44</li>
+<li>Poisson noise gain: 1.4</li>
+</ul>
+<img alt="_images/Anscombe.png" class="align-center" src="_images/Anscombe.png" />
+</div>
+<div class="section" id="denoising-via-singular-value-decomposition-svd">
+<h2>Denoising via singular value decomposition (SVD)<a class="headerlink" href="#denoising-via-singular-value-decomposition-svd" title="Permalink to this headline">¶</a></h2>
+<p>SVD is a linear algebra method that transforms a matrix into the multiplication
+of three matrices: the left-singular vectors matrix, the singular value matrix,
+and the right-singular vector matrix. The use of SVD for denoising has been
+extensively explored for both traditional computer imagery
+<a class="reference internal" href="#narendra75" id="id6">[Narendra75]</a> <a class="reference internal" href="#patterson75" id="id7">[Patterson75]</a>, and CRI <a class="reference internal" href="#camp16" id="id8">[Camp16]</a> <a class="reference internal" href="#lee11" id="id9">[Lee11]</a>.</p>
+<p>In short, SVD will decompose the CRI image into a series of images and spectra.
+Ideally, the spectra/images that contain real (ie non-noise) signal
+contributions are totally separate from those containing noise. One can thus
+reconstruct a noiseless image from the noise-free images/spectra decompositions.</p>
+<p>CRIkit2 performs the SVD decomposition and raises a new user interface (UI)
+that displays the decomposed images and spectra, providing information to the
+user to interactively select those with minimal noise.</p>
+<img alt="_images/SVD_Ui.png" class="align-center" src="_images/SVD_Ui.png" />
+<p>Recommendations:</p>
+<ul class="simple">
+<li>Select all singular values with visible spatial <strong>or</strong> spectral components</li>
+<li>Remember to press <strong>Apply</strong> button after selections to-keep of current 6
+displayed.</li>
+<li>Press <strong>Next</strong> pushbutton to view next 6 components.</li>
+<li>Press <strong>Ok</strong> pushbutton to recompose the CRI image with only selected
+components.</li>
+</ul>
+<p>In this tutorial, selections [0,1,2,3,4,5,6] are kept (7 total).</p>
+<img alt="_images/Spectrum_Before_After_SVD.png" class="align-center" src="_images/Spectrum_Before_After_SVD.png" />
+<p><strong>Note</strong>: The example spectra are before Anscombe-SVD; and after
+Anscombe-SVD-inverse Anscombe.</p>
+</div>
+<div class="section" id="the-inverse-anscombe-transformation">
+<h2>The inverse Anscombe transformation<a class="headerlink" href="#the-inverse-anscombe-transformation" title="Permalink to this headline">¶</a></h2>
+<p>CRIkit2 provides an exact, unbiased inverse of the generalized Anscombe
+variance-stabilizing transform to convert the variance-stabilized image
+back into a mixed-noise version <a class="reference internal" href="#foi13" id="id10">[Foi13]</a>.</p>
+<p>To perform the inverse Anscombe transformation (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Standardize</strong> &gt;&gt; <strong>Inv Anscombe</strong></li>
+<li>Click the <strong>Inv Anscombe</strong> button on the main ribbon</li>
+</ul>
+<p>A pop-up dialog will appear asking for two necessary pieces of information:</p>
+<ul class="simple">
+<li>The standard deviation of the AWGN</li>
+<li>The shot-noise (Poisson) noise multiplier</li>
+</ul>
+<p><strong>Note</strong>: these values will be pre-filled with the values entered from the
+forward Anscombe transformation. It would be unusual to not use these values.</p>
+</div>
+<div class="section" id="phase-retrieval-via-kramers-kronig-relation">
+<h2>Phase retrieval via Kramers-Kronig relation<a class="headerlink" href="#phase-retrieval-via-kramers-kronig-relation" title="Permalink to this headline">¶</a></h2>
+<p>In CRI imagery acquired through CARS methods, phase retrieval methods are
+used to separate CARS and NRB signal contribution, i.e. to extract the Raman
+spectral signatures <a class="reference internal" href="#liu09" id="id11">[Liu09]</a> <a class="reference internal" href="#camp16" id="id12">[Camp16]</a>.</p>
+<p>CRIkit2 provides access to a Kramers-Kronig (KK) relation implemented using a
+Fourier transform-based Hilbert transform <a class="reference internal" href="#camp16" id="id13">[Camp16]</a>.</p>
+<p>This KK implementation requires an approximate NRB, which may be imported
+through several means:</p>
+<ul class="simple">
+<li>Selection of a ROI (e.g., selecting an ROI of water)</li>
+<li>Spectra imported from an external file</li>
+<li>Merging two NRB spectra from ROI’s or external files.</li>
+</ul>
+<p>During the generation of the BCARS numerical phantom, the NRB signal
+is co-generated and loaded.</p>
+<p>To perform the KK (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Coherent Raman Imaging</strong> &gt;&gt; <strong>KK</strong></li>
+<li>Click the <strong>KK</strong> button on the main ribbon</li>
+</ul>
+<img alt="_images/KKOptions.png" class="align-center" src="_images/KKOptions.png" />
+<p>This dialog enables fine-tuning of several parameters:</p>
+<ul class="simple">
+<li>NRB bias (constant to add/subract from NRB spectrum)</li>
+<li>CARS bias (constant to add/subract from all HSI spectra)</li>
+<li>Phase offset (constant phase to add/subtract to all KK’d spectra)</li>
+<li>Pad factor (window-padding multiple of spectral length <a class="reference internal" href="#liu09" id="id14">[Liu09]</a>)</li>
+</ul>
+<p>The <strong>Interative Setting Selection</strong> provides preview spectra of several spectra.
+These spectra are the mean of the 4 quandrants (i.e. fourths) of the total image
+and the center fourth.</p>
+<img alt="_images/KKInteractive.png" class="align-center" src="_images/KKInteractive.png" />
+<p>For this tutorial:</p>
+<ul class="simple">
+<li>CARS/NRB bias: 0</li>
+<li>Phase Offset: 0</li>
+<li>Pad Factor: 1</li>
+</ul>
+<p>When <strong>finished</strong> press <strong>Ok</strong> pushbutton.</p>
+</div>
+<div class="section" id="phase-error-correction">
+<h2>Phase error correction<a class="headerlink" href="#phase-error-correction" title="Permalink to this headline">¶</a></h2>
+<p>The KK relation will extract Raman signatures accurately under certain conditions,
+one being that the NRB can be separately measured and provided – <strong>at every
+pixel</strong>. This condition, however, can not readily be met; thus, reference NRB
+are typically utilized. An ideal reference NRB should not contain any Raman peaks
+within the spectral region of interest. Typical examples are glasses, salts, and
+water <a class="reference internal" href="#camp14" id="id15">[Camp14]</a> <a class="reference internal" href="#camp16" id="id16">[Camp16]</a> <a class="reference internal" href="#karuna16" id="id17">[Karuna16]</a>.</p>
+<p>Unfortunately, the use of a reference (i.e., non-exact) NRB results in amplitude
+and phase error. Phase error correction <strong>and</strong> scale error correction correct
+for these complex errors. Phase error correction is performed by finding the
+slowly varying baseline of the spectral phase at each pixel.</p>
+<p>CRIkit2 uses an asymmetric least-squares (ALS) method <a class="reference internal" href="#eilers05" id="id18">[Eilers05]</a>. The
+custom implementation 3 main parameters:</p>
+<ul class="simple">
+<li>P (asymmetry parameter)</li>
+<li>Lambda (smoothness parameter)</li>
+<li>Sub-sampling factor (sub-sample the spectra to improve speed)</li>
+</ul>
+<p><strong>Note</strong>: This is typically the <strong>slowest processing step</strong> in the workflow. A
+300 x 300 x 900 pixel image with no sub-sampling of the ALS may require 45
+<strong>minutes</strong> or longer to complete.</p>
+<p>Additionally, this dialog allows for a <strong>fixed P-value</strong> across the spectrum
+or a <strong>log-linear P-value</strong> that varies across the spectrum. For this tutorial
+we will use the <strong>Fixed-P</strong>.</p>
+<p>To perform phase error correction (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Coherent Raman Imaging</strong> &gt;&gt; <strong>Phase Err…</strong></li>
+<li>Click the <strong>Phase Err</strong> button on the main ribbon</li>
+</ul>
+<p>Recommendations:</p>
+<ul class="simple">
+<li>The sub-sampling parameter will increase the speed of the detrending
+(potentially quadratically), but at the expense of accuracy.</li>
+<li>Though P- and Lambda-values are independent, the most important factor
+is the ratio of the two.</li>
+<li>There may be window-edge errors at the extreme points of spectra. The
+<strong>Fix End-Points</strong> option may correct these distortions; though, for extremely
+minor baseline correction, this may cause more harm than help.</li>
+<li>The exact settings are a function of the particular optical system’s
+resolution, spectral sampling, and reference material used.</li>
+</ul>
+<p>This tutorial and the numerical phantom, <strong>unlike real experiments</strong>, provides
+the exact NRB; thus, phase-error is extremely small (numerical error).</p>
+<p>For this tutorial:</p>
+<ul class="simple">
+<li><strong>Fixed-P</strong>: 1e-6</li>
+<li><a href="#id19"><span class="problematic" id="id20">**</span></a>Lambda*: 1</li>
+<li><strong>Sub-Sampling Factor</strong>: 10</li>
+<li><strong>Max Iterations</strong>: 100</li>
+<li><strong>Min Difference</strong>: 1e-6</li>
+<li><strong>Fix End-Points</strong>: False (Unchecked)</li>
+</ul>
+<p>For typical experiments:</p>
+<ul class="simple">
+<li><strong>Fixed-P</strong>: 1e-4 to 1e-2 (increment by half order-of-magnitude)</li>
+<li><a href="#id21"><span class="problematic" id="id22">**</span></a>Lambda*: 1</li>
+<li><strong>Sub-Sampling Factor</strong>: 10</li>
+<li><strong>Max Iterations</strong>: 100</li>
+<li><strong>Min Difference</strong>: 1e-6</li>
+<li><strong>Fix End-Points</strong>: True (Checked)</li>
+</ul>
+<p>When <strong>finished</strong> press <strong>Ok</strong> pushbutton.</p>
+<img alt="_images/ALS.png" class="align-center" src="_images/ALS.png" />
+</div>
+<div class="section" id="scale-error-correction">
+<h2>Scale error correction<a class="headerlink" href="#scale-error-correction" title="Permalink to this headline">¶</a></h2>
+<p>The use of a reference (i.e., non-exact) NRB results in amplitude
+and phase error. Phase error correction <strong>and</strong> scale error correction correct
+for these complex errors. Scale error correction is performed by finding the
+median trend line that bisects the real portion of the complex spectra at each
+pixel <a class="reference internal" href="#camp16" id="id23">[Camp16]</a>.</p>
+<p>CRIkit2 uses a Savitky-Golay filter to find a smooth median line, which requires
+2 parameters:</p>
+<ul class="simple">
+<li>Window width (sliding-window width to polynomial fit). Must be odd-valued.</li>
+<li>Order (order of polynomial to fit)</li>
+</ul>
+<p>To perform phase error correction (2 methods):</p>
+<ul class="simple">
+<li><strong>Pre-Process</strong> &gt;&gt; <strong>Coherent Raman Imaging</strong> &gt;&gt; <strong>Scale Err…</strong></li>
+<li>Click the <strong>Scale Err</strong> button on the main ribbon</li>
+</ul>
+<p>Recommendations:</p>
+<ul class="simple">
+<li>Set the <strong>order</strong> to 1 or 2</li>
+<li>Expand the <strong>window width</strong> to a large enough value that the median line
+approximately bisects the shown spectra.</li>
+<li>The exact settings are a function of the particular optical system’s
+resolution, spectral sampling, and reference material used.</li>
+</ul>
+<p>Typical experimental values:</p>
+<ul class="simple">
+<li><strong>Window width</strong>: 601</li>
+<li><strong>Order</strong>: 2</li>
+</ul>
+<p>When <strong>finished</strong> press <strong>Ok</strong> pushbutton.</p>
+<img alt="_images/SG.png" class="align-center" src="_images/SG.png" />
+</div>
+<div class="section" id="calibration">
+<h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
+<p>CRIkit2 provides a UI for single-peak calibration that properly accounts
+for the nonlinear relationship between wavenumber and wavelength (i.e. what
+spectrometers measure across) in BCARS.</p>
+<p>In typical bio-experiments, we utilize the 1,004 cm-1 peak (phenylalanine) <a class="reference internal" href="#degelder07" id="id24">[DeGelder07]</a>.</p>
+<p>To use a different peak, change the <strong>Correct WN</strong> value to the new peak wavenumber
+and fill-in the <strong>Measured WN</strong> with what the average spectra show within the
+upper plot.</p>
+<p>To perform calibration (2 methods):</p>
+<ul class="simple">
+<li><strong>Edit</strong> &gt;&gt; <strong>Calibrate</strong></li>
+<li>Click the <strong>Calibrate</strong> button on the main ribbon</li>
+</ul>
+<p>Recommendations</p>
+<ul class="simple">
+<li>Click the <strong>Zoom</strong> button on the upper plot and select around the 1,004 cm-1
+region.</li>
+<li>Enter the actual peak location in the <strong>Measured WN</strong> box.</li>
+<li>If the spectra do not reveal a feature of interest, return (click <strong>Cancel</strong>)
+to the main UI and use the <strong>ROI Spect</strong> or <strong>Pt Spect</strong> to plot the spectrum
+from a pixel(s) of interest. Identify the location of the particular
+calibration peak. Re-open the <strong>calibration</strong> tool (ignore the plots) and enter
+the <strong>Correct WN</strong> and <strong>Measured WN</strong> values.</li>
+</ul>
+<p>For this tutorial there is no calibration necessary. Click <strong>Cancel</strong> pushbutton.</p>
+<img alt="_images/Calibration.png" class="align-center" src="_images/Calibration.png" />
+</div>
+<div class="section" id="saving">
+<h2>Saving<a class="headerlink" href="#saving" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/Save.png" class="align-center" src="_images/Save.png" />
+</div>
+<div class="section" id="pseudo-color-imagery">
+<h2>Pseudo-color imagery<a class="headerlink" href="#pseudo-color-imagery" title="Permalink to this headline">¶</a></h2>
+<p>Nuclei:</p>
+<ul class="simple">
+<li><strong>Color 0</strong> tab</li>
+<li><strong>Color</strong> drop-down box setting: Yellow</li>
+<li>Math function: “Peak b/w Troughs”</li>
+<li>Peak (Freq 1 button): 786 cm-1</li>
+<li>Trough 1 (Freq 2 button): 767 cm-1</li>
+<li>Trough 2 (Freq 3 button): 809 cm-1</li>
+<li><strong>Conditional</strong> math function: “SUM”</li>
+<li>Start freq (Freq 1 button): 2700 cm-1</li>
+<li>Stop freq (Freq 1 button): 3000 cm-1</li>
+<li><strong>Conditional</strong> comparitor: “&gt;”</li>
+<li><strong>Conditional</strong> value: 1.0</li>
+<li><strong>Minimum</strong> value setting: 0.002</li>
+</ul>
+<img alt="_images/SingleColorExample.png" class="align-center" src="_images/SingleColorExample.png" />
+<img alt="_images/Nuclei.png" class="align-center" src="_images/Nuclei.png" />
+<p>Phenylalanine:</p>
+<ul class="simple">
+<li><strong>Color 1</strong> tab</li>
+<li><strong>Color</strong> drop-down box setting: Magenta</li>
+<li>Math function: “Peak b/w Troughs”</li>
+<li>Peak (Freq 1 button): 1002 cm-1</li>
+<li>Trough 1 (Freq 2 button): 986 cm-1</li>
+<li>Trough 2 (Freq 3 button): 1019 cm-1</li>
+<li><strong>Conditional</strong> math function: “SUM”</li>
+<li>Start freq (Freq 1 button): 2700 cm-1</li>
+<li>Stop freq (Freq 1 button): 3000 cm-1</li>
+<li><strong>Conditional</strong> comparitor: “&gt;”</li>
+<li><strong>Conditional</strong> value: 1.0</li>
+<li><strong>Minimum</strong> value setting: 0.002</li>
+</ul>
+<img alt="_images/Phenylalanine.png" class="align-center" src="_images/Phenylalanine.png" />
+<p>Structural Proteins:</p>
+<ul class="simple">
+<li><strong>Color 2</strong> tab</li>
+<li><strong>Color</strong> drop-down box setting: Cyan</li>
+<li>Math function: “Peak b/w Troughs”</li>
+<li>Peak (Freq 1 button): 937 cm-1</li>
+<li>Trough 1 (Freq 2 button): 902 cm-1</li>
+<li>Trough 2 (Freq 3 button): 980 cm-1</li>
+<li><strong>Conditional</strong> math function: “SUM”</li>
+<li>Start freq (Freq 1 button): 2700 cm-1</li>
+<li>Stop freq (Freq 1 button): 3000 cm-1</li>
+<li><strong>Conditional</strong> comparitor: “&gt;”</li>
+<li><strong>Conditional</strong> value: 1.0</li>
+<li><strong>Minimum</strong> value setting: 0.002</li>
+</ul>
+<img alt="_images/StructuralProtein.png" class="align-center" src="_images/StructuralProtein.png" />
+<p>Elastin:</p>
+<ul class="simple">
+<li><strong>Color 3</strong> tab</li>
+<li><strong>Color</strong> drop-down box setting: B&amp;W (Black-and-white)</li>
+<li>Math function: “Peak b/w Troughs”</li>
+<li>Peak (Freq 1 button): 525 cm-1</li>
+<li>Trough 1 (Freq 2 button): 513 cm-1</li>
+<li>Trough 2 (Freq 3 button): 540 cm-1</li>
+<li><strong>Conditional</strong> math function: ” / “</li>
+<li>Start freq (Freq 1 button): 1003 cm-1</li>
+<li>Stop freq (Freq 1 button): 1029 cm-1</li>
+<li><strong>Conditional</strong> comparitor: “&gt;”</li>
+<li><strong>Conditional</strong> value: 1.4</li>
+<li><strong>Minimum</strong> value setting: 0.0006</li>
+</ul>
+<img alt="_images/Elastin.png" class="align-center" src="_images/Elastin.png" />
+<img alt="_images/CompositeColorExample.png" class="align-center" src="_images/CompositeColorExample.png" />
+</div>
+<div class="section" id="skipped-actions-in-a-normal-cri-workflow">
+<h2>Skipped actions in a normal CRI workflow<a class="headerlink" href="#skipped-actions-in-a-normal-cri-workflow" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="loading-hdf-file-hsi-dataset">
+<h3>Loading HDF file Hsi dataset<a class="headerlink" href="#loading-hdf-file-hsi-dataset" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/Open.png" class="align-center" src="_images/Open.png" />
+</div>
+<div class="section" id="loading-dark-dataset">
+<h3>Loading Dark dataset<a class="headerlink" href="#loading-dark-dataset" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/OpenDark.png" class="align-center" src="_images/OpenDark.png" />
+</div>
+<div class="section" id="denoise-dark-optional">
+<h3>Denoise Dark (Optional)<a class="headerlink" href="#denoise-dark-optional" title="Permalink to this headline">¶</a></h3>
+<img alt="_static/cri_wt/denoise_dark.jpg" class="align-center" src="_static/cri_wt/denoise_dark.jpg" />
+</div>
+<div class="section" id="loading-an-nrb-from-hdf-file">
+<h3>Loading an NRB from HDF file<a class="headerlink" href="#loading-an-nrb-from-hdf-file" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/OpenNRB.png" class="align-center" src="_images/OpenNRB.png" />
+</div>
+<div class="section" id="load-an-nrb-from-a-region-of-interest-roi">
+<h3>Load an NRB from a region-of-interest (ROI)<a class="headerlink" href="#load-an-nrb-from-a-region-of-interest-roi" title="Permalink to this headline">¶</a></h3>
+<img alt="_static/cri_wt/load_nrb_roi.jpg" class="align-center" src="_static/cri_wt/load_nrb_roi.jpg" />
+</div>
+<div class="section" id="merge-two-nrb-datasets">
+<h3>Merge two NRB datasets<a class="headerlink" href="#merge-two-nrb-datasets" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="residual-dark-subtraction-optional">
+<h3>Residual dark subtraction (Optional)<a class="headerlink" href="#residual-dark-subtraction-optional" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="camp14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Camp14]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id15">2</a>)</em> C. H. Camp Jr, Y. J. Lee, J. M. Heddleston, C. M. Hartshorn, A. R.
+Hight Walker, J. N. Rich, J. D. Lathia, and M. T. Cicerone, “High-Speed
+Coherent Raman Fingerprint Imaging of Biological Tissues,” Nat. Photonics 8,
+627–634 (2014).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="camp16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Camp16]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id8">3</a>, <a class="fn-backref" href="#id12">4</a>, <a class="fn-backref" href="#id13">5</a>, <a class="fn-backref" href="#id16">6</a>, <a class="fn-backref" href="#id23">7</a>)</em> C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,
+comparable coherent anti-Stokes Raman scattering (CARS) spectroscopy:
+correcting errors in phase retrieval,” J. Raman Spectrosc. 47, 408–415 (2016).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="degelder07" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[DeGelder07]</a></td><td>J. De Gelder, K. De Gussem, P. Vandenabeele, and L. Moens,
+“Reference database of Raman spectra of biological molecules,” J. Raman
+Spectrosc. 38, 1133–1147 (2007).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="eilers05" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id18">[Eilers05]</a></td><td>P. H. C. Eilers and H. F. M. Boelens, “Baseline Correction with
+Asymmetric Least Squares Smoothing,” (Unpublished, 2005).
+<a class="reference external" href="https://zanran_storage.s3.amazonaws.com/www.science.uva.nl/ContentPages/443199618.pdf">https://zanran_storage.s3.amazonaws.com/www.science.uva.nl/ContentPages/443199618.pdf</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="foi13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Foi13]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id4">2</a>, <a class="fn-backref" href="#id10">3</a>)</em> M. Mäkitalo and A. Foi, “Optimal inversion of the generalized
+anscombe transformation for Poisson-Gaussian noise,” IEEE Trans. Image
+Process. 22, 91–103 (2013).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="karuna16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[Karuna16]</a></td><td>A. Karuna, F. Masia, P. Borri, and W. Langbein, “Hyperspectral
+volumetric coherent anti-Stokes Raman scattering microscopy: quantitative
+volume determination and NaCl as non-resonant standard,” J. Raman Spectrosc.
+47, 1167–1173 (2016).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="lee11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[Lee11]</a></td><td>Y. J. Lee, D. Moon, K. B. Migler, and M. T. Cicerone, “Quantitative
+image analysis of broadband CARS hyperspectral images of polymer blends,”
+Anal. Chem. 83, 2733–2739 (2011).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="liu09" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Liu09]</td><td><em>(<a class="fn-backref" href="#id11">1</a>, <a class="fn-backref" href="#id14">2</a>)</em> Y. X. Liu, Y. J. Lee, and M. T. Cicerone, “Broadband CARS spectral
+phase retrieval using a time-domain Kramers-Kronig transform,” Opt. Lett. 34,
+1363–1365 (2009).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="narendra75" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[Narendra75]</a></td><td>T. S. Huang and P. M. Narendra, “Image restoration by singular
+value decomposition.,” Appl. Opt. 14, 2213–6 (1975).</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="patterson75" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[Patterson75]</a></td><td>H. C. Andrews and C. L. Patterson, “Outer Product Expansions
+and Their Uses in Digital Image Processing,” Am. Math. Mon. 82, 1–13 (1975).</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="algorithms.html" class="btn btn-neutral float-right" title="Command Line Tools &amp; Algorthms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="running.html" class="btn btn-neutral" title="Running the CRIkit2 Graphical User Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

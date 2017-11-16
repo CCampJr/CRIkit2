@@ -79,8 +79,8 @@ class AlsCvxopt(AbstractBaseline):
         Perform the ALS. Called from self.calculate (defined in 
         AbstractBaseline parent class)
         
-        Parameter
-        ---------
+        Parameters
+        ----------
         signal : ndarray (>= 1D)
             Input signal
             

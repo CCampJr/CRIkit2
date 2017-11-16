@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.utils.breadcrumb &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.utils.breadcrumb</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.utils.breadcrumb</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Breadcrumb Module</span>
+<span class="sd">=================</span>
+
+<span class="sd">    BCPre : Container describing pre-processing steps</span>
+
+<span class="sd">Class Methods</span>
+<span class="sd">--------------</span>
+<span class="sd">    HDFtoClass(filename [str], datasetname [str]) : Load dataset in HDF</span>
+<span class="sd">        file into the HSI Class</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">_time</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">_pickle</span>
+
+<div class="viewcode-block" id="BCPre"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre">[docs]</a><span class="k">class</span> <span class="nc">BCPre</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Container that describes processing steps (ie it contains &quot;breadcrumbs&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    process_list : list</span>
+<span class="sd">        A list-of-lists. Each contained list follows the format \</span>
+<span class="sd">        [&#39;Process Name&#39;, &#39;Var1 Name&#39;, Val1, &#39;Var2 Name&#39;, Val2, ...]. The \</span>
+<span class="sd">        variable names and values may be input values to the pre-processing \</span>
+<span class="sd">        step. Only the Process Name is mnadatory: the rest are optional.</span>
+<span class="sd">    </span>
+<span class="sd">    backed_flag : list</span>
+<span class="sd">        Flag identifying which steps were backed-up to disk (e.g., for undo)</span>
+<span class="sd">        </span>
+<span class="sd">    id_list : list (read-only)</span>
+<span class="sd">        Unique identifier for each step. Can be used to name back-up/undo files</span>
+
+<span class="sd">    cut_list : list (read-only)</span>
+<span class="sd">        Identifier of id&#39;s cut with pop_to_last method</span>
+<span class="sd">        </span>
+<span class="sd">    num_steps : int</span>
+<span class="sd">        Number of processing steps</span>
+<span class="sd">        </span>
+<span class="sd">    attr_dict : dict</span>
+<span class="sd">        Dictionary-version of process_list that can be written to HDF5 dataset</span>
+<span class="sd">        metadata (properties)</span>
+<span class="sd">    </span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    add_step : Add a new processing step</span>
+<span class="sd">    </span>
+<span class="sd">    backed_up : Mark most recent process step as backed up in backed_flag list</span>
+<span class="sd">    </span>
+<span class="sd">    pop_to_last : Remove entries until nearest backup point (excluding current \</span>
+<span class="sd">        step).</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">HDF_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;Processing.Steps&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backed_flag</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cut_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># PROPERTIES</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Use shallow-copy to prevent ability to append </span>
+        <span class="c1"># to _id_list via id_list</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cut_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Use shallow-copy to prevent ability to append </span>
+        <span class="c1"># to _cut_list via cut_list</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cut_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+    <span class="nd">@cut_list</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="k">def</span> <span class="nf">cut_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cut_list</span> <span class="o">=</span> <span class="p">[]</span>
+            
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">process_list</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">attr_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">process_list</span><span class="p">):</span>
+            <span class="n">temp_key_process_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">HDF_PREFIX</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">temp_val</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+            <span class="n">temp</span><span class="p">[</span><span class="n">temp_key_process_prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_val</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1">#print(&#39;ITEM: {}&#39;.format(item))</span>
+                <span class="k">for</span> <span class="n">num_var</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="c1">#print(&#39;KEY: {}, VAL: {}&#39;.format(var, item[2*num_var+2]))</span>
+                    <span class="n">temp_key</span> <span class="o">=</span> <span class="n">temp_key_process_prefix</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                    <span class="n">temp_val</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">num_var</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="n">temp_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_val</span>
+        <span class="n">temp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">HDF_PREFIX</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span>
+        <span class="k">return</span> <span class="n">temp</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dset_name_suffix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="c1">#print(&#39;QQQ: {}&#39;.format(self.process_list))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">process_list</span><span class="p">):</span>
+                <span class="c1">#print(&#39;Step: {}&#39;.format(step[0]))</span>
+                <span class="c1">#print(num)</span>
+                <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#print(step[0])</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">temp</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="c1"># METHODS</span>
+<div class="viewcode-block" id="BCPre.backup_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.backup_pickle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backup_pickle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">addl_attr</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dump current state of data (class of type crikit.data.spectrum or </span>
+<span class="sd">        subclass)to pickle file (filename= fname). </span>
+<span class="sd">        </span>
+<span class="sd">        Can append additional attributes (addl_attr) to \</span>
+<span class="sd">        attribute dictionary (self.attr)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.pickle&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">+=</span> <span class="s1">&#39;.pickle&#39;</span>
+
+        <span class="k">if</span> <span class="n">addl_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">addl_attr</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;xb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c1"># Pickle with highest protocol</span>
+            <span class="c1"># Surpasses the default protocol 3 4Gb limit</span>
+            <span class="n">_pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="BCPre.load_pickle"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.load_pickle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load_pickle</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Static method.</span>
+
+<span class="sd">        Return a loaded pickled version of this class (filename= fname).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.pickle&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">+=</span> <span class="s1">&#39;.pickle&#39;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="BCPre.add_step"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.add_step">[docs]</a>    <span class="k">def</span> <span class="nf">add_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a steps to the list</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ------</span>
+<span class="sd">        process_desc : list</span>
+<span class="sd">            List containing elements of new process with format: \</span>
+<span class="sd">            [&#39;Process Name&#39;, &#39;Var1 Name&#39;, Val1, &#39;Var2 Name&#39;, Val2, ...]. The \</span>
+<span class="sd">            variable names and values may be input values to the \</span>
+<span class="sd">            pre-processing step. Only the Process Name is mnadatory: the rest \</span>
+<span class="sd">            are optional.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None : None</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">process_desc</span><span class="p">,</span><span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;The input need be a list&#39;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">process_desc</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;The input needs to be an odd length (title, var name 1, var value 1, etc)&#39;</span>
+        
+        <span class="c1"># Ensures unique IDs based on time. Note some systems only report in </span>
+        <span class="c1"># seconds, not sub-seconds        </span>
+        <span class="n">_time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_desc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backed_flag</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="BCPre.backed_up"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.backed_up">[docs]</a>    <span class="k">def</span> <span class="nf">backed_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Marks most recent process step as backed up in backed_flag list</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ------</span>
+<span class="sd">        None : None</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None : None</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backed_flag</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+        
+<div class="viewcode-block" id="BCPre.pop_to_last"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.breadcrumb.BCPre.pop_to_last">[docs]</a>    <span class="k">def</span> <span class="nf">pop_to_last</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove entries until nearest backup point (excluding current step). </span>
+<span class="sd">        That is, if current step IS a backup point, moves to previous one. If \</span>
+<span class="sd">        current step is NOT a backup point, moves to nearest point.</span>
+<span class="sd">        </span>
+<span class="sd">        If all = True, will cut everything</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backed_flag</span><span class="p">)</span>
+        <span class="n">backup_locs</span> <span class="o">=</span> <span class="p">[]</span>        
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">temp</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">backup_locs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        
+        <span class="n">current_loc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        
+        <span class="k">if</span> <span class="nb">all</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># Current is backed-up, go to previous</span>
+                <span class="n">num_to_pop</span> <span class="o">=</span> <span class="n">backup_locs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">backup_locs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># Current is not backed-up, return to nearest</span>
+                <span class="n">num_to_pop</span> <span class="o">=</span> <span class="n">current_loc</span> <span class="o">-</span> <span class="n">backup_locs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">num_to_pop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_to_pop</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">process_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">is_backed_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backed_flag</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">is_backed_up</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cut_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id_list</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_id_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></div></div>
+              
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">BCPre</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="s1">&#39;Test1&#39;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Expected Error</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">([</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Expected Error</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">([</span><span class="s1">&#39;Raw&#39;</span><span class="p">])</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">([</span><span class="s1">&#39;SubDark&#39;</span><span class="p">,</span><span class="s1">&#39;RangeStart&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">1500</span><span class="p">,</span><span class="s1">&#39;RangeEnd&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">400</span><span class="p">])</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">([</span><span class="s1">&#39;NormKK&#39;</span><span class="p">,</span><span class="s1">&#39;Amp&#39;</span><span class="p">,</span><span class="mf">100.0</span><span class="p">,</span><span class="s1">&#39;Phase&#39;</span><span class="p">,</span><span class="mf">10.0</span><span class="p">])</span>
+    <span class="c1">#test.add_step([&#39;DeTrend&#39;,&#39;Lambda&#39;,1000.0,&#39;p&#39;,0.001,&#39;Method&#39;,&#39;ALS&#39;,&#39;Type&#39;,&#39;Phase&#39;])</span>
+    <span class="c1">#test.add_step([&#39;DeTrend&#39;,&#39;Order&#39;,2,&#39;win&#39;,601,&#39;Method&#39;,&#39;sg&#39;,&#39;Type&#39;,&#39;Scale&#39;])</span>
+    
+    <span class="c1">#print(&#39;Attempting to append \&#39;1\&#39; to the end of id_list (it should not work)&#39;)</span>
+    <span class="c1">#test.id_list.append(1)</span>
+    <span class="c1">#print(test.id_list)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Process list: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">process_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">ID list: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">id_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Number of process steps: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">num_steps</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Returned attribute dict: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">attr_dict</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Generated dataset name: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">dset_name_suffix</span><span class="p">))</span>
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    
+    <span class="c1">#[[&#39;Raw&#39;], [&#39;SubDark&#39;], [&#39;SubResidual&#39;, &#39;RangeStart&#39;, -1500, &#39;RangeEnd&#39;, -400]]</span>
+    
+    
+<span class="c1">#    print(&#39;\n\n\nWritten to backup file: {}&#39;.format(test.backed_flag))</span>
+<span class="c1">#    print(&#39;\n...Apply backed_up...&#39;)</span>
+<span class="c1">#    test.backed_up()</span>
+<span class="c1">#    print(&#39;\nWritten to backup file: {}&#39;.format(test.backed_flag))</span>
+<span class="c1">#    </span>
+<span class="c1">#    print(&#39;\nAdjust backup&#39;)</span>
+<span class="c1">#    test.backed_flag[0] = True</span>
+<span class="c1">#    print(&#39;Written to backup file: {}&#39;.format(test.backed_flag))</span>
+<span class="c1">#    </span>
+<span class="c1">#    print(&#39;\n Test Pop-to-last&#39;)</span>
+<span class="c1">#    print(&#39;Process List: {}&#39;.format(test.process_list))</span>
+<span class="c1">#    print(&#39;ID List: {}&#39;.format(test.id_list))</span>
+<span class="c1">#    print(&#39;Written to backup file: {}\n&#39;.format(test.backed_flag))</span>
+<span class="c1">#            </span>
+<span class="c1">#    test.pop_to_last()</span>
+<span class="c1">#    print(&#39;Process List: {}&#39;.format(test.process_list))</span>
+<span class="c1">#    print(&#39;ID List: {}&#39;.format(test.id_list))</span>
+<span class="c1">#    print(&#39;Written to backup file: {}&#39;.format(test.backed_flag))</span>
+<span class="c1">#    print(&#39;Cut List:{}&#39;.format(test.cut_list))</span>
+<span class="c1">#    del test.cut_list</span>
+<span class="c1">#    print(&#39;Cut List:{}&#39;.format(test.cut_list))</span>
+<span class="c1">#    </span>
+<span class="c1">#    print(&#39;\nCut all&#39;)</span>
+<span class="c1">#    test.pop_to_last(all=True)</span>
+<span class="c1">#    print(&#39;Process List: {}&#39;.format(test.process_list))</span>
+<span class="c1">#    print(&#39;ID List: {}&#39;.format(test.id_list))</span>
+<span class="c1">#    print(&#39;Written to backup file: {}&#39;.format(test.backed_flag))</span>
+<span class="c1">#    print(&#39;Cut List:{}&#39;.format(test.cut_list))</span>
+<span class="c1">#    del test.cut_list</span>
+<span class="c1">#    print(&#39;Cut List:{}&#39;.format(test.cut_list))</span>
+<span class="c1">#    </span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

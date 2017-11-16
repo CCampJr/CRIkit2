@@ -2,8 +2,8 @@
 Peak-finding utilities
 
 
-Note
-----
+Notes
+-----
 """
 import copy as _copy
 import numpy as _np

@@ -1,11 +1,11 @@
 """
 SVD Dialog
 
-Citation Reference
-------------------
+References
+-----------
 [1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
 """
 

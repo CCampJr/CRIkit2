@@ -1,6 +1,6 @@
 """
 Asymmetric Least Square methods (CRIKIT.utils.als_methods)
-=======================================================
+==========================================================
 
     als_baseline                    Compute the baseline_current of signal_input using
                                     an asymmetric least squares (ALS)
@@ -20,28 +20,25 @@ Asymmetric Least Square methods (CRIKIT.utils.als_methods)
     als_background_scipy            ALS implementation using the
                                     scipy.linalg (sub-)module.
 
-Note
-----
+Notes
+-----
     als_baseline_cvxopt and als_baseline_scikits_sparse use sparse
     Cholesky factorization matrix; thus, they may be significantly more
     efficient (fast). Read the __doc__ (string) information for more
     information.
 
-Citation Reference
-------------------
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    Please cite the C. H. Camp Jr., et al. reference (below) if you
+    use this software.
 
 References
-    ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+----------
+[1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
     3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+[2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
     asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+[3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
     Comparable Coherent Anti-Stokes Raman Scattering (CARS)
     Spectroscopy: Correcting Errors in Phase Retrieval"
 
@@ -58,11 +55,6 @@ import numpy as _np
 import scipy as _scipy
 from scipy.interpolate import UnivariateSpline as _USpline
 import timeit as _timeit
-
-if __name__ == '__main__':
-    import os as _os
-    import sys as _sys
-    _sys.path.append(_os.path.abspath('../../../'))
 
 from crikit.utils.general import row_col_from_lin as _row_col_from_lin
 
@@ -141,8 +133,8 @@ cholesky_type=_cholesky_type,print_iteration=True, **kwargs):
     out : [ndarray, string]
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     The optimal implementation of Cholesky factorization for your
     particular application may not be that selected by the order-of-
     presedence. CHOLMOD was selected as the top presendence method
@@ -158,26 +150,16 @@ cholesky_type=_cholesky_type,print_iteration=True, **kwargs):
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.06.19")
     """
 
     if cholesky_type == 'cvxopt':
@@ -231,8 +213,8 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
     out : [ndarray, string]
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     The optimal implementation of Cholesky factorization for your
     particular application may not be that selected by the order-of-
     presedence. CHOLMOD was selected as the top presendence method
@@ -248,26 +230,16 @@ def als_baseline_redux(signal_input, redux_factor=10, redux_full=True,
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.03.02")
     """
 
     signal_shape_orig = signal_input.shape
@@ -358,8 +330,8 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -367,26 +339,16 @@ def als_baseline_scikits_sparse(signal_input, smoothness_param=1e3, asym_param=1
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.06.19")
     """
 
     signal_shape_orig = signal_input.shape
@@ -495,8 +457,8 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -504,26 +466,16 @@ def als_baseline_cvxopt(signal_input, smoothness_param=1e3, asym_param=1e-4, pri
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.06.19")
     """
 #    print('Print iteration: {}'.format(print_iteration))
     signal_shape_orig = signal_input.shape
@@ -630,8 +582,8 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
     out : ndarray
         Baseline vector
 
-    Note
-    ----
+    Notes
+    -----
     This is the first attempt at converting MATLAB (Mathworks, Inc)
     scripts into Python code; thus, there will be bugs, the efficiency
     will be low(-ish), and I appreciate any useful suggestions or
@@ -639,26 +591,16 @@ def als_baseline_scipy(signal_input, smoothness_param=1e3, asym_param=1e-4, prin
 
     References
     ----------
-    P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
-    3631-3636 (2003).
+    [1] P. H. C. Eilers, "A perfect smoother," Anal. Chem. 75,
+        3631-3636 (2003).
 
-    P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
-    asymmetric least squares smoothing," Report. October 21, 2005.
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline correction with
+        asymmetric least squares smoothing," Report. October 21, 2005.
 
-    C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
-    Comparable Coherent Anti-Stokes Raman Scattering (CARS)
-    Spectroscopy: Correcting Errors in Phase Retrieval"
+    [3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative,
+        Comparable Coherent Anti-Stokes Raman Scattering (CARS)
+        Spectroscopy: Correcting Errors in Phase Retrieval"
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("15.06.19")
     """
 
     signal_shape_orig = signal_input.shape

@@ -1,18 +1,20 @@
 """
 Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)
-=======================================================
+=================================================================
 
     kkrelation : Retrieve real and imaginary components from a
     spectrum that is the modulus of a function
 
     hilbertfft : Fourier-domain Hilbert transform
 
-Citation ref
-------------------
-C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent 
-Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase 
-Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+References
+----------
+[1] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent 
+    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase 
+    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+
 """
+
 import numpy as _np
 from scipy import fftpack as _fftpack
 
@@ -72,8 +74,8 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     out : complex ndarray
         The real and imaginary components of KK.
 
-    Note
-    ----
+    Notes
+    -----
     (1) The imaginary components provides the sponatenous Raman-like \
     spectra(um).
 

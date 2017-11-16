@@ -1,3 +1,5 @@
+![CRIkit2 Logo](./docs/source/_static/CRIkit2_Logo.png)
+
 # CRIKit2: Hyperspectral imaging toolkit #
 
 CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
@@ -31,6 +33,7 @@ packages may work.
 * matplotlib (1.5.0rc3, 2.0.0) (see below for MPL2)
 * cvxopt (1.1.7)
 * h5py (2.5)
+* Sphinx (1.5.2) (Only for building documentation)
 
 ### IMPORTANT: For Matplotlib 2 ###
 You will need to use SciPlot-PyQT v0.1.4
@@ -53,7 +56,8 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 * Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
 
 ## SciPlot-PyQt ##
-Currently, SciPlot 0.1.3 is not available through pip. You can however clone the repository from github.
+Currently, SciPlot >= 0.1.3 is not available through pip. You can however clone the repository from github.
+(see https://github.com/CCampJr/SciPlot-PyQt)
 
 ## Installation ##
 ### Option 1: Easily updatable through git (dynamic copy)###
@@ -83,6 +87,24 @@ pip3 install .
 # You can now delete the source files you downloaded
 ```
 
+## (Re-) Building Documentation ##
+The documentation was built using Sphinx. A pre-built version of the html
+files is included with this module, but you may wish to rebuild on your own
+system.
+```
+# Build all APIs
+# From within the docs/ directory
+sphinx-apidoc -o ./source/ ../crikit/
+
+# Build API w/o pyuic5-generated files
+sphinx-apidoc -f -o .\source\ ..\crikit\ ..\crikit\ui\qt_* ..\crikit\ui\*_rc* ..\crikit\ui\old\**
+
+make html  
+# On Windows
+make.bat html
+
+
+```
 ## Starting the CRIkit2 UI ##
 ```
 python3 -m crikit 

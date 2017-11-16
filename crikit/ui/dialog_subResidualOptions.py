@@ -43,8 +43,6 @@ class DialogSubResidualOptions(_QDialog):
                                  imgloaded = False,
                                  nrbloaded = False):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
         Parameters

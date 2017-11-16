@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.widget_images &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.widget_images</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.widget_images</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Visualization Widgets (crikit.ui.widget_images)</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">widgetColorMath : Mathematical operations on raw data leading to color \</span>
+<span class="sd">    images</span>
+
+<span class="sd">widgetBWImg : Grayscale imagery</span>
+
+<span class="sd">widgetSglColor : Single-color imagery</span>
+
+<span class="sd">widgetCompositeColor : Composite-color imagery</span>
+
+<span class="sd">_mplWin : Matplotlib window container</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="c1"># Generic imports for QT-based programs</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">,</span>
+                             <span class="n">QSizePolicy</span> <span class="k">as</span> <span class="n">_QSizePolicy</span><span class="p">,</span>
+                             <span class="n">QColorDialog</span> <span class="k">as</span> <span class="n">_QColorDialog</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">PyQt5.QtCore</span> <span class="k">as</span> <span class="nn">_QtCore</span>
+
+<span class="c1"># Import from Designer-based GUI</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_SglColorImage</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_SglColorImage_Form</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_ColorMath</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_ColorMath_Form</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_BWImage</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_BWImage_Form</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_CompositeColor</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">Ui_CompositeColor_Form</span>
+<span class="c1">#from crikit.ui.widget_mpl import MplCanvas as _MplCanvas</span>
+<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="k">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
+
+<span class="c1"># Generic imports for MPL-incorporation</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
+<span class="kn">import</span> <span class="nn">sciplot</span> <span class="k">as</span> <span class="nn">_sciplot</span>
+<span class="c1">#import matplotlib.pyplot as _plt</span>
+
+<span class="n">_mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Qt5Agg&#39;</span><span class="p">)</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1">#import matplotlib.pyplot as plt</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_qt5agg</span> <span class="k">import</span> <span class="p">(</span><span class="n">NavigationToolbar2QT</span> <span class="k">as</span> <span class="n">_NavigationToolbar</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.classes_ui</span> <span class="k">import</span> <span class="n">BW</span><span class="p">,</span> <span class="n">SingleColor</span><span class="p">,</span> <span class="n">CompositeColor</span>
+
+<div class="viewcode-block" id="widgetColorMath"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetColorMath">[docs]</a><span class="k">class</span> <span class="nc">widgetColorMath</span><span class="p">(</span><span class="n">_QWidget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains information about what mathematical operations are possible for \</span>
+<span class="sd">    taking raw HSI data and converting it to grayscale/color.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">OPERATION_STRINGS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;Peak b/w troughs&#39;</span><span class="p">,</span><span class="s1">&#39;SUM&#39;</span><span class="p">]</span>
+    <span class="n">OPERATION_FREQ_COUNT</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">COND_TYPE_STRINGS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetColorMath</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_ColorMath_Form</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondOps</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s1">&#39;OFF&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">widgetColorMath</span><span class="o">.</span><span class="n">OPERATION_STRINGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxOperations</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondOps</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">widgetColorMath</span><span class="o">.</span><span class="n">COND_TYPE_STRINGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondInEquality</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxOperations</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operationchange</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondOps</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">condOpsChange</span><span class="p">)</span>
+
+<div class="viewcode-block" id="widgetColorMath.condOpsChange"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetColorMath.condOpsChange">[docs]</a>    <span class="k">def</span> <span class="nf">condOpsChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondOps</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">num_freq</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">num_freq</span> <span class="o">=</span> <span class="n">widgetColorMath</span><span class="o">.</span><span class="n">OPERATION_FREQ_COUNT</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq1</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq2</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq3</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondInEquality</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxInEquality</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq1</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxCondInEquality</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxInEquality</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq2</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCondFreq3</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="widgetColorMath.operationchange"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetColorMath.operationchange">[docs]</a>    <span class="k">def</span> <span class="nf">operationchange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxOperations</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+
+        <span class="n">num_freq</span> <span class="o">=</span> <span class="n">widgetColorMath</span><span class="o">.</span><span class="n">OPERATION_FREQ_COUNT</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq1</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq2</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq3</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq1</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq2</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_freq</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOpFreq3</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="widgetBWImg"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg">[docs]</a><span class="k">class</span> <span class="nc">widgetBWImg</span><span class="p">(</span><span class="n">_QWidget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grayscale image widget</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetBWImg</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_BWImage_Form</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Initialize underlying data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initData</span><span class="p">()</span>
+
+        <span class="c1"># Stand-in image data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_x</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xlen</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ylen</span><span class="p">))</span>
+        
+        <span class="c1"># Calculate extent of image</span>
+        <span class="n">winextent</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+        <span class="c1"># MPL canvas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Monkey patch on a cbar object</span>
+        
+        <span class="c1"># Create stand-image plot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        
+        <span class="c1"># Insert canvas widget into this widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="p">,</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span><span class="p">)</span>
+
+        <span class="c1"># SIGNAL &amp; SLOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStdDevs</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxOutliersChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textEditMinMaxSet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textEditMinMaxSet</span><span class="p">)</span>
+
+<div class="viewcode-block" id="widgetBWImg.initData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.initData">[docs]</a>    <span class="k">def</span> <span class="nf">initData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (Re)-initialize self.data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">BW</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetBWImg.createImg"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.createImg">[docs]</a>    <span class="k">def</span> <span class="nf">createImg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">extent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                      <span class="n">extent</span> <span class="o">=</span> <span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">xunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">xunits</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">yunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">yunits</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">axison</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">showcbar</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">maxer</span><span class="p">,</span><span class="mi">4</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">minner</span><span class="p">,</span><span class="mi">4</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="widgetBWImg.textEditMinMaxSet"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.textEditMinMaxSet">[docs]</a>    <span class="k">def</span> <span class="nf">textEditMinMaxSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1">#len_min = len(self.ui.lineEditMin.text())</span>
+        <span class="c1">#len_max = len(self.ui.lineEditMax.text())</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="widgetBWImg.spinBoxOutliersChanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.spinBoxOutliersChanged">[docs]</a>    <span class="k">def</span> <span class="nf">spinBoxOutliersChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetBWImg.checkBoxRemOutliers"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.checkBoxRemOutliers">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxRemOutliers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setoutlierstds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setoutlierstds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStdDevs</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetBWImg.checkBoxFixed"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.checkBoxFixed">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if the min and max are identified as being fixed by</span>
+<span class="sd">        checkbox</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># See if there is a min and max in the textBrowsers</span>
+
+        <span class="n">len_min</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="n">len_max</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># Checked</span>
+            <span class="k">if</span> <span class="n">len_min</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">len_max</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetBWImg.checkBoxCompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetBWImg.checkBoxCompress">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxCompress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if compression is activated via the checkbox_4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="widgetSglColor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor">[docs]</a><span class="k">class</span> <span class="nc">widgetSglColor</span><span class="p">(</span><span class="n">_QWidget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Single-color widget</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">COLORMAPS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Blue&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Red&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Green&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="s1">&#39;Cyan&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Magenta&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Yellow&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="s1">&#39;B&amp;W&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+
+    <span class="n">COLORMAP_ORDER</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="s1">&#39;B&amp;W&#39;</span><span class="p">,</span> <span class="s1">&#39;Magenta&#39;</span><span class="p">,</span> <span class="s1">&#39;Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Cyan&#39;</span><span class="p">,</span> <span class="s1">&#39;Other&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetSglColor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_SglColorImage_Form</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">widgetColorMath</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">color</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">COLORMAP_ORDER</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+
+        <span class="c1"># Initialize data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">COLORMAPS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">external_plots</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Create stand-in imahe                                    </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_x</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xlen</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ylen</span><span class="p">))</span>
+
+        <span class="c1"># Instantiate MPL widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Monkey patch on a cbar object</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        
+       
+        <span class="c1"># Embed MPL widget into this widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">horizontalLayoutGainImg</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayoutMain</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayoutMain</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">)</span>
+
+        <span class="c1"># SIGNALS &amp; SLOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">changeColor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textEditMinMaxSet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textEditMinMaxSet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">gainSlider</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gainSliderChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonGain1</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gain1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonPop</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">createImg_Ext</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                                                                         <span class="n">showcbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                                         <span class="n">extent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span>
+                                                                         <span class="n">xunits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                                                                         <span class="n">yunits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonGSPop</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">createImg_Ext</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">imageGS</span><span class="p">,</span>
+                                                                           <span class="n">showcbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                           <span class="n">extent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span>
+                                                                           <span class="n">xunits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                                                                           <span class="n">yunits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">))</span>
+
+<div class="viewcode-block" id="widgetSglColor.gain1"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.gain1">[docs]</a>    <span class="k">def</span> <span class="nf">gain1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setgain</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">gainSlider</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditGainSlider</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.gainSliderChanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.gainSliderChanged">[docs]</a>    <span class="k">def</span> <span class="nf">gainSliderChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sliderval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">gainSlider</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">/</span><span class="mi">10</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setgain</span> <span class="o">=</span> <span class="n">sliderval</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditGainSlider</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sliderval</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">changeColor</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.initData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.initData">[docs]</a>    <span class="k">def</span> <span class="nf">initData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (Re)-initialize self.data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">SingleColor</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.textEditMinMaxSet"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.textEditMinMaxSet">[docs]</a>    <span class="k">def</span> <span class="nf">textEditMinMaxSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1">#len_min = len(self.ui.lineEditMin.text())</span>
+        <span class="c1">#len_max = len(self.ui.lineEditMax.text())</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+<span class="c1">#            self.createImg(img = self.data.image, xunits = self.data.xunits,</span>
+<span class="c1">#                              yunits = self.data.yunits,</span>
+<span class="c1">#                              extent = self.data.winextent, showcbar = True,</span>
+<span class="c1">#                              axison = True)</span>
+<span class="c1">#            self.mpl.draw()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">changeColor</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+<div class="viewcode-block" id="widgetSglColor.changeColor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.changeColor">[docs]</a>    <span class="k">def</span> <span class="nf">changeColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">color_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">color_str</span> <span class="o">==</span> <span class="s1">&#39;Other&#39;</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">_QColorDialog</span><span class="o">.</span><span class="n">getColor</span><span class="p">()</span><span class="o">.</span><span class="n">getRgb</span><span class="p">()</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="n">color</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">COLORMAPS</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">color</span><span class="p">)]</span> <span class="o">=</span> <span class="n">color</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">findText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">COLORMAPS</span><span class="p">[</span><span class="n">color_str</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                                  <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                                  <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">axison</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.createImg"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.createImg">[docs]</a>    <span class="k">def</span> <span class="nf">createImg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">extent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">axison</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                      <span class="n">extent</span> <span class="o">=</span> <span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">xunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">xunits</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">yunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">yunits</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">axison</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">showcbar</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">maxer</span><span class="p">,</span><span class="mi">4</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">minner</span><span class="p">,</span><span class="mi">4</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.createImg_Ext"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.createImg_Ext">[docs]</a>    <span class="k">def</span> <span class="nf">createImg_Ext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">extent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create new figure window and show image of img</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">external_plots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sciplot</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">external_plots</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">x_label</span><span class="o">=</span><span class="n">xunits</span><span class="p">,</span> <span class="n">y_label</span><span class="o">=</span><span class="n">yunits</span><span class="p">,</span> 
+                      <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="n">showcbar</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">)</span></div>
+        
+<span class="c1">#</span>
+        <span class="c1">#new_win = _mplWin()</span>
+        <span class="c1">#new_win.fig = _Figure(facecolor = [1,1,1])</span>
+        <span class="c1">#new_win.fig = _plt.figure(figsize=(10,6))</span>
+        <span class="c1">#plot_font = {&#39;fontname&#39;:&#39;Arial&#39;, &#39;size&#39;:&#39;14&#39;}</span>
+        <span class="c1">#new_win.ax = new_win.fig.add_subplot(111)</span>
+
+
+        <span class="c1">#new_win.img = new_win.ax.imshow(img, interpolation = &#39;none&#39;,</span>
+        <span class="c1">#                              extent = extent, cmap = cmap, origin=&#39;lower&#39;)</span>
+<span class="c1">#        if xunits is not None:</span>
+<span class="c1">#            _plt.xlabel(xunits, **plot_font)</span>
+<span class="c1">#        if yunits is not None:</span>
+<span class="c1">#            _plt.ylabel(yunits, **plot_font)</span>
+<span class="c1">#</span>
+<span class="c1">#        if axison == False:</span>
+<span class="c1">#            new_win.ax.set_axis_off()</span>
+<span class="c1">#        else:</span>
+<span class="c1">#            for label in (new_win.ax.get_xticklabels() + new_win.ax.get_yticklabels()):</span>
+<span class="c1">#                label.set_fontname(plot_font[&#39;fontname&#39;])</span>
+<span class="c1">#                label.set_fontsize(plot_font[&#39;size&#39;])</span>
+<span class="c1">#        _plt.title(&quot;Color Image (Change Title)&quot;, **plot_font)</span>
+<span class="c1">#        if showcbar == True:</span>
+<span class="c1">#            if new_win.cbar is not None:</span>
+<span class="c1">#                new_win.cbar.remove()</span>
+<span class="c1">#</span>
+<span class="c1">#            new_win.cbar = new_win.fig.colorbar(new_win.img)</span>
+<span class="c1">#            new_win.cbar.ax.tick_params(labelsize=plot_font[&#39;size&#39;])</span>
+<span class="c1">#</span>
+<span class="c1">#        if self.math.ui.checkBoxFixed.isChecked() == False:</span>
+<span class="c1">#            self.math.ui.lineEditMax.setText(str(round(self.data.maxer,4)))</span>
+<span class="c1">#            self.math.ui.lineEditMin.setText(str(round(self.data.minner,4)))</span>
+<span class="c1">#</span>
+<span class="c1">#        new_win.fig.show()</span>
+
+<div class="viewcode-block" id="widgetSglColor.checkBoxFixed"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.checkBoxFixed">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if the min and max are identified as being fixed by</span>
+<span class="sd">        checkbox</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># See if there is a min and max in the textBrowsers</span>
+
+        <span class="n">len_min</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="n">len_max</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># Checked</span>
+            <span class="k">if</span> <span class="n">len_min</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">len_max</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changeColor</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetSglColor.checkBoxCompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetSglColor.checkBoxCompress">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxCompress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if compression is activated via the checkbox_4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changeColor</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="widgetCompositeColor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor">[docs]</a><span class="k">class</span> <span class="nc">widgetCompositeColor</span><span class="p">(</span><span class="n">_QWidget</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgl_color_widget_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetCompositeColor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_CompositeColor_Form</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Initialize underlying data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initData</span><span class="p">(</span><span class="n">sgl_color_widget_list</span><span class="p">)</span>
+
+        <span class="c1"># Create stand-in image data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">grayscaleimage</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_x</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xlen</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ylen</span><span class="p">))</span>
+        <span class="n">winextent</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+        <span class="c1"># Instantiate mpl widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Monkey patch on a cbar object</span>
+
+        <span class="c1"># Create stand-in image data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="c1"># Insert mpl widget into this widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="p">,</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span><span class="p">)</span>
+
+        <span class="c1"># SIGNALS &amp; SLOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStdDevs</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxOutliersChanged</span><span class="p">)</span>
+
+        <span class="c1">#self.ui.lineEditMin.editingFinished.connect(self.textEditMinMaxSet)</span>
+        <span class="c1">#self.ui.lineEditMax.editingFinished.connect(self.textEditMinMaxSet)</span>
+
+<div class="viewcode-block" id="widgetCompositeColor.initData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.initData">[docs]</a>    <span class="k">def</span> <span class="nf">initData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgl_color_widget_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (Re)-initialize self.data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">sgl_color_widget_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">CompositeColor</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">sgl_color_widget_list</span><span class="p">:</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">CompositeColor</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="widgetCompositeColor.createImg"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.createImg">[docs]</a>    <span class="k">def</span> <span class="nf">createImg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yunits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">extent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="n">cmap</span> <span class="o">=</span> <span class="n">_mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                      <span class="n">extent</span> <span class="o">=</span> <span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">xunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">xunits</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">yunits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="n">yunits</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">axison</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">showcbar</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">img</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="widgetCompositeColor.spinBoxOutliersChanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.spinBoxOutliersChanged">[docs]</a>    <span class="k">def</span> <span class="nf">spinBoxOutliersChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetCompositeColor.checkBoxRemOutliers"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.checkBoxRemOutliers">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxRemOutliers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxRemOutliers</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setoutlierstds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setoutlierstds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStdDevs</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetCompositeColor.checkBoxFixed"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.checkBoxFixed">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxFixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if the min and max are identified as being fixed by</span>
+<span class="sd">        checkbox</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># See if there is a min and max in the textBrowsers</span>
+
+        <span class="n">len_min</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="n">len_max</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFixed</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># Checked</span>
+            <span class="k">if</span> <span class="n">len_min</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">len_max</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMin</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditMax</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmin</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setmax</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetCompositeColor.checkBoxCompress"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images.widgetCompositeColor.checkBoxCompress">[docs]</a>    <span class="k">def</span> <span class="nf">checkBoxCompress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See if compression is activated via the checkbox_4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createImg</span><span class="p">(</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">xunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">xunits</span><span class="p">,</span>
+                              <span class="n">yunits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">yunits</span><span class="p">,</span>
+                              <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">winextent</span><span class="p">,</span> <span class="n">showcbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                              <span class="n">axison</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="_mplWin"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images._mplWin">[docs]</a><span class="k">class</span> <span class="nc">_mplWin</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="_mplWin.useToolBar"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_images._mplWin.useToolBar">[docs]</a>    <span class="k">def</span> <span class="nf">useToolBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">use</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="n">_NavigationToolbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                                                  <span class="n">coordinates</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+
+    <span class="n">winSglColor</span> <span class="o">=</span> <span class="n">widgetSglColor</span><span class="p">()</span>
+    <span class="n">winSglColor</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Single Color&#39;</span><span class="p">)</span>
+    <span class="n">winColorMath</span> <span class="o">=</span> <span class="n">widgetColorMath</span><span class="p">()</span>
+    <span class="n">winColorMath</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Color Math&#39;</span><span class="p">)</span>
+    <span class="n">winBWImg</span> <span class="o">=</span> <span class="n">widgetBWImg</span><span class="p">()</span>
+    <span class="n">winBWImg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;BW Image&#39;</span><span class="p">)</span>
+    <span class="n">winCompositeColor</span> <span class="o">=</span> <span class="n">widgetCompositeColor</span><span class="p">(</span><span class="n">sgl_color_widget_list</span><span class="o">=</span><span class="p">[</span><span class="n">winSglColor</span><span class="p">])</span>
+
+    <span class="n">winCompositeColor</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Composite Color&#39;</span><span class="p">)</span>
+    <span class="c1"># Final stuff</span>
+    <span class="n">winSglColor</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">winColorMath</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">winBWImg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">winCompositeColor</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

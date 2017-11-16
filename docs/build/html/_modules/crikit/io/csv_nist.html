@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.io.csv_nist &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.io.csv_nist</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.io.csv_nist</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Sep  7 12:36:36 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+<span class="kn">import</span> <span class="nn">csv</span> <span class="k">as</span> <span class="nn">_csv</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+
+<span class="kn">from</span> <span class="nn">configparser</span> <span class="k">import</span> <span class="n">ConfigParser</span> <span class="k">as</span> <span class="n">_ConfigParser</span>
+<span class="c1">#</span>
+<span class="c1">#__all__ = [&#39;hdf_dset_list_rep&#39;,&#39;hdf_is_valid_dsets&#39;,</span>
+<span class="c1">#           &#39;hdf_attr_to_dict&#39;,&#39;hdf_import_data&#39;]</span>
+<span class="c1">#</span>
+
+<div class="viewcode-block" id="csv_nist_import_data"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.csv_nist.csv_nist_import_data">[docs]</a><span class="k">def</span> <span class="nf">csv_nist_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename_header</span><span class="p">,</span> <span class="n">filename_data</span><span class="p">,</span>
+                    <span class="n">output_cls_instance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import dataset(s) from HDF file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pth : str</span>
+<span class="sd">        Path</span>
+
+<span class="sd">    filename_header : str</span>
+<span class="sd">        File name of header</span>
+<span class="sd">        </span>
+<span class="sd">    filename_data : str</span>
+<span class="sd">        File name of data</span>
+
+<span class="sd">    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)</span>
+<span class="sd">        Spectrum class (or sub) object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        Success : bool</span>
+<span class="sd">            Success of import</span>
+<span class="sd">        Data, Meta : list (ndarray, dict)</span>
+<span class="sd">            If output_cls_instance is None and import is successful, will \</span>
+<span class="sd">            return the data from dset_list and associated meta data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Join path and filename in an os-independant way</span>
+    <span class="n">pfname_header</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename_header</span><span class="p">))</span>
+    <span class="n">pfname_data</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename_data</span><span class="p">))</span>
+
+    <span class="n">valid_import_locs</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pfname_header</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid header filename&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">valid_import_locs</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pfname_data</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid data filename&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">valid_import_locs</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">if</span> <span class="n">valid_import_locs</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">_ConfigParser</span><span class="p">()</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">pfname_header</span><span class="p">)</span>
+            
+            <span class="c1"># Frequency calibration</span>
+            <span class="n">probe</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;probe(nm)&#39;</span><span class="p">)</span>
+            <span class="n">wl1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;wavelength1(nm)&#39;</span><span class="p">)</span>
+            <span class="n">wl2</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;wavelength2(nm)&#39;</span><span class="p">)</span>
+            <span class="n">pixel1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;pixel1&#39;</span><span class="p">)</span>
+            <span class="n">pixel2</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;pixel2&#39;</span><span class="p">)</span>
+            <span class="n">f_begin</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;freq index begin&#39;</span><span class="p">)</span>
+            <span class="n">f_size</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;freq index length&#39;</span><span class="p">)</span>
+            <span class="n">f_min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;freq Min&#39;</span><span class="p">)</span>
+            <span class="n">f_max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Frequency Calibration&#39;</span><span class="p">,</span><span class="s1">&#39;freq Max&#39;</span><span class="p">)</span>
+            
+            <span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pixel1</span><span class="p">,</span><span class="n">pixel2</span><span class="p">,</span><span class="n">f_size</span><span class="p">)</span>
+            <span class="n">wl</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">wl1</span><span class="p">,</span><span class="n">wl2</span><span class="p">,</span><span class="n">f_size</span><span class="p">)</span>
+            <span class="n">wn</span> <span class="o">=</span> <span class="mf">1e7</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">wl</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">probe</span><span class="p">)</span>
+            
+            <span class="c1"># Config is apparently backwards so flip order</span>
+            <span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">pix</span><span class="p">)</span>
+            <span class="n">wl</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">wl</span><span class="p">)</span>
+            <span class="n">wn</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">wn</span><span class="p">)</span>
+            
+            <span class="c1"># Frequency calibration stuff</span>
+            <span class="n">wl_center</span> <span class="o">=</span> <span class="n">wl</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">wl_slope</span><span class="p">,</span> <span class="n">wl_intercept</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">pix</span><span class="p">,</span> <span class="n">wl</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            
+                
+            <span class="c1"># Get data</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pfname_data</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+                <span class="n">reader</span> <span class="o">=</span> <span class="n">_csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>  <span class="c1"># Spectra</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spectra&#39;</span><span class="p">)</span>
+                <span class="n">wn</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">wl</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">temp</span>
+                
+                <span class="c1"># Meta data</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">each_section</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">sections</span><span class="p">():</span>
+                    <span class="c1">#print(&#39;Section: {}&#39;.format(each_section))</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">each_key</span><span class="p">,</span> <span class="n">each_val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">each_section</span><span class="p">):</span>
+                        <span class="n">k</span> <span class="o">=</span> <span class="n">each_section</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">each_key</span>
+                        <span class="k">try</span><span class="p">:</span>  <span class="c1"># int</span>
+                            <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">each_val</span><span class="p">)</span>
+                            <span class="c1">#print(&#39;Integer&#39;)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>  <span class="c1"># float</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">each_val</span><span class="p">)</span>
+                            <span class="k">except</span><span class="p">:</span>  <span class="c1"># string</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">each_val</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                        <span class="c1">#print(&#39;{}.{}: {}&#39;.format(each_section,each_key, v))</span>
+                        <span class="n">attr</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">})</span>
+                    
+                <span class="c1"># Add in frequency calibration info</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.Slope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_slope</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.Intercept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_intercept</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.CenterWavelength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_center</span>
+    
+                <span class="c1"># Convert meta keys to match those of HDF5 version</span>
+                <span class="c1"># Note: will not overwrite, just add-to</span>
+                <span class="c1"># Note: Subject to change</span>
+                
+                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">attr</span>
+                <span class="k">return</span> <span class="kc">True</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">f_size</span><span class="p">))</span>
+                <span class="c1"># Spatial Info</span>
+                <span class="n">x_start</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;X scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;X start (um)&#39;</span><span class="p">)</span>
+                <span class="n">x_steps</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;X scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;X steps&#39;</span><span class="p">)</span>
+                <span class="n">x_step_size</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;X scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;X step size (um)&#39;</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_start</span><span class="p">,</span> <span class="n">x_start</span> <span class="o">+</span> <span class="n">x_step_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_steps</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">x_steps</span><span class="p">)</span>
+    
+                <span class="k">try</span><span class="p">:</span>  <span class="c1"># Exists a typo in header info in LabView program</span>
+                    <span class="n">y_start</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Y scan Paramters&#39;</span><span class="p">,</span><span class="s1">&#39;Y start (um)&#39;</span><span class="p">)</span>
+                    <span class="n">y_steps</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Y scan Paramters&#39;</span><span class="p">,</span><span class="s1">&#39;Y steps&#39;</span><span class="p">)</span>
+                    <span class="n">y_step_size</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Y scan Paramters&#39;</span><span class="p">,</span><span class="s1">&#39;Y step size (um)&#39;</span><span class="p">)</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_start</span><span class="p">,</span> <span class="n">y_start</span> <span class="o">+</span> <span class="n">y_step_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_steps</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_steps</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>  <span class="c1"># In case typo is corrected in the future</span>
+                    <span class="n">y_start</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Y scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;Y start (um)&#39;</span><span class="p">)</span>
+                    <span class="n">y_steps</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Y scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;Y steps&#39;</span><span class="p">)</span>
+                    <span class="n">y_step_size</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;Y scan Parameters&#39;</span><span class="p">,</span><span class="s1">&#39;Y step size (um)&#39;</span><span class="p">)</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_start</span><span class="p">,</span> <span class="n">y_start</span> <span class="o">+</span> <span class="n">y_step_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_steps</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_steps</span><span class="p">)</span>
+                
+                <span class="c1"># Meta data</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">each_section</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">sections</span><span class="p">():</span>
+                    <span class="c1">#print(&#39;Section: {}&#39;.format(each_section))</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">each_key</span><span class="p">,</span> <span class="n">each_val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">each_section</span><span class="p">):</span>
+                        <span class="n">k</span> <span class="o">=</span> <span class="n">each_section</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">each_key</span>
+                        <span class="k">try</span><span class="p">:</span>  <span class="c1"># int</span>
+                            <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">each_val</span><span class="p">)</span>
+                            <span class="c1">#print(&#39;Integer&#39;)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>  <span class="c1"># float</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">each_val</span><span class="p">)</span>
+                            <span class="k">except</span><span class="p">:</span>  <span class="c1"># string</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">each_val</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                        <span class="c1">#print(&#39;{}.{}: {}&#39;.format(each_section,each_key, v))</span>
+                        <span class="n">attr</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">})</span>
+                    
+                <span class="c1"># Add in frequency calibration info</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.Slope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_slope</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.Intercept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_intercept</span>
+                <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Frequency Calibration.CenterWavelength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl_center</span>
+    
+                <span class="c1"># Convert meta keys to match those of HDF5 version</span>
+                <span class="c1"># Note: will not overwrite, just add-to</span>
+                <span class="c1"># Note: Subject to change</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ax1</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Image data.1st axis&#39;</span><span class="p">]</span>
+    
+                    <span class="k">if</span> <span class="n">ax1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax1</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span>
+                        
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_start</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStepSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_step_size</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisSteps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_steps</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+                    <span class="n">ax2</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Image data.2nd axis&#39;</span><span class="p">]</span>
+                    
+                    <span class="k">if</span> <span class="n">ax2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax2</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span>
+                        
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_start</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStepSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_step_size</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisSteps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_steps</span>
+                    <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+                    <span class="n">ax3</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;Image data.3rd axis&#39;</span><span class="p">]</span>
+    
+                    <span class="k">if</span> <span class="n">ax3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax3</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+                    <span class="k">elif</span> <span class="n">ax3</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span>
+                        
+                    <span class="c1"># Figure out fixed positions later</span>
+                    
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">attr</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something failed in import&#39;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1">#from crikit.data.spectra import Spectra as _Spectra</span>
+    
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">_Spectra</span><span class="p">()</span>
+    <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;../../../Young_150617/&#39;</span>
+    <span class="n">filename_header</span> <span class="o">=</span> <span class="s1">&#39;SH-03.h&#39;</span>
+    <span class="n">filename_data</span> <span class="o">=</span> <span class="s1">&#39;base061715_152213_60ms.txt&#39;</span>
+    
+    <span class="n">csv_nist_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename_header</span><span class="p">,</span> <span class="n">filename_data</span><span class="p">,</span>
+                    <span class="n">output_cls_instance</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

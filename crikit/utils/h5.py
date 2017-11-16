@@ -16,16 +16,6 @@ Methods
     attributes that contain data [key] and the datasets [value]. \
     {group : [dataset(s)]}
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("15.6.28")
 """
 
 import h5py as _h5py
@@ -46,21 +36,11 @@ def convert_to_np_dtype(dset):
     -------
     out : numpy.ndarray (dtype = numpy built-in)
 
-    Note
-    ----
+    Notes
+    -----
     The software accounts for big-/little-endianness, and the inability of \
     hdf5 to natively store complex numbers.
 
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.02.18")
     """
     assert isinstance(dset, _h5py.Dataset), 'Input is not of type h5py.Dataset'
     # Single datatype
@@ -100,19 +80,9 @@ def retrieve_group_dataset_dict(filename):
     out : dict
         {group path : [dataset list]}
 
-    Note
-    ----
+    Notes
+    -----
 
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("15.6.28")
     """
     try:
         f = _h5py.File(filename,'r')
@@ -176,19 +146,9 @@ def retrieve_dataset_attribute_dict(filename,datasetfullname):
     out : dict
         {parameter : value}
 
-    Note
-    ----
+    Notes
+    -----
 
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("15.6.28")
     """
     try:
         f = _h5py.File(filename,'r')
@@ -223,26 +183,16 @@ def special_exclude_datasets(filename, str_excl = '_background', new_filename = 
 
         new_filename (str) : (Optional) Output filename
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename(-.h5) + '_excl_' + str_exclude + '.h5'
 
-    Note
-    ----
+    Notes
+    -----
     SPECIAL : Only likely useful for the NIST developers
 
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("15.6.28")
     """
 
     if new_filename == None:
@@ -290,28 +240,18 @@ def special_repack(filename, repack_str = '_Movie_', new_filename = None):
 
         new_filename (str) : (Optional) Output filename
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
-    Note
-    ----
+    Notes
+    -----
     The output file cannot already exist
 
     SPECIAL : Only likely useful for the NIST developers
 
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("15.6.28")
     """
 
     if new_filename == None:
@@ -419,14 +359,14 @@ def special_shrink_datasets(filename, dset_path, dset_name, stepsize,
             Name of HDF attribute that describes step size in the \
             Y-direction
 
-    Output
-    ------
-        Return (str) : filename of new HDF5 file
+    Returns
+    -------
+        str : filename of new HDF5 file
 
         Writes a new file filename + '_repack_' + repack_str(-'_') + .h5'
 
-    Note
-    ----
+    Notes
+    -----
     The output file cannot already exist
 
     SPECIAL : Only likely useful for the NIST developers
@@ -435,17 +375,6 @@ def special_shrink_datasets(filename, dset_path, dset_name, stepsize,
     -------
     _shrink('../mP2_w_small.h5','/BCARSImage/mP2_3_5ms_Pos_2_0/','mP2_3_5ms_Pos_2_0',10)
     
-
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("15.6.28")
     """
     
     f = _h5py.File(filename,'r')

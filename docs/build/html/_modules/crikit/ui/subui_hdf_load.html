@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.subui_hdf_load &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.subui_hdf_load</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.subui_hdf_load</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">    H5LoadGUI : A graphical user interface (GUI) to select HDF5 dataset(s)</span>
+
+<span class="sd">    Method : H5LoadGUI.getFileDataSets()</span>
+
+<span class="sd">    Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># Append sys path</span>
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+
+<span class="c1"># Generic imports for QT-based programs</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span> \
+<span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">,</span> <span class="n">QFileDialog</span> <span class="k">as</span> <span class="n">_QFileDialog</span><span class="p">,</span> \
+<span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span><span class="p">)</span>
+
+<span class="c1"># Other imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">crikit.utils.h5</span> <span class="k">as</span> <span class="nn">_h5utils</span>
+
+<span class="c1"># Import from Designer-based GUI</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_HDFLoad</span> <span class="k">import</span> <span class="n">Ui_Dialog</span> <span class="c1">### EDIT ###</span>
+
+<div class="viewcode-block" id="SubUiHDFLoad"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad">[docs]</a><span class="k">class</span> <span class="nc">SubUiHDFLoad</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span> <span class="c1">### EDIT ###</span>
+    <span class="sd">&quot;&quot;&quot; GUI Loader Class for H5 Files &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># Generic load/init designer-based GUI</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SubUiHDFLoad</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_Dialog</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
+
+        <span class="c1"># Set static GUI  parameters</span>
+
+        <span class="c1"># Set signal(s)-slot(s) connection/actions</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOk</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCancel</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reject</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">currentTextChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datagroupchange</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">itemClicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetselected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filterlist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">resetFilter</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datagroupchange</span><span class="p">)</span>
+        <span class="c1"># Setup GUI variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allselect</span><span class="o">=</span><span class="kc">None</span>
+        <span class="c1"># Initial Actions</span>
+
+<div class="viewcode-block" id="SubUiHDFLoad.getFileDataSets"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.getFileDataSets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">getFileDataSets</span><span class="p">(</span><span class="n">start_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the filename and datasets selected by the user (via GUI)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_path : str</span>
+<span class="sd">            Home directory to start in</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        out : (tuple)</span>
+<span class="sd">            path : str</span>
+<span class="sd">            filename : (str)</span>
+<span class="sd">            dataset(s) : (list[str])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">start_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">start_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+            
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">SubUiHDFLoad</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="n">ret_fileopen</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">fileopen</span><span class="p">(</span><span class="n">start_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ret_fileopen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Execute dialog, which defined by QDialog class returns</span>
+        <span class="c1"># QDialog.Accepted or QDialog.Rejected</span>
+        <span class="n">ret_dset_select</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret_dset_select</span> <span class="o">==</span> <span class="n">_QDialog</span><span class="o">.</span><span class="n">Rejected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">dialog</span><span class="o">.</span><span class="n">allselect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dialog</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dialog</span><span class="o">.</span><span class="n">allselect</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SubUiHDFLoad.fileopen"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.fileopen">[docs]</a>    <span class="k">def</span> <span class="nf">fileopen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Select HDF5 File &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">start_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">start_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+            
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">_QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Open H5 File&quot;</span><span class="p">,</span> 
+                                                <span class="n">start_path</span><span class="p">,</span>\
+            <span class="s2">&quot;HDF5 Files (*.h5 *.hdf);;All Files (*.*)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">filename</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">::]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span> <span class="o">=</span> <span class="n">_h5utils</span><span class="o">.</span><span class="n">retrieve_group_dataset_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="SubUiHDFLoad.datagroupchange"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.datagroupchange">[docs]</a>    <span class="k">def</span> <span class="nf">datagroupchange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Action : ComboBox containing Groups with DataSets has changed&quot;&quot;&quot;</span>
+
+        <span class="c1">#self.dsetlist = QListWidget(self.verticalLayoutWidget)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">addItems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()])</span></div>
+        <span class="c1">#print(&#39;Changed&#39;)</span>
+
+<div class="viewcode-block" id="SubUiHDFLoad.datasetselected"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.datasetselected">[docs]</a>    <span class="k">def</span> <span class="nf">datasetselected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Action : One or more DataSets were selected from the list &quot;&quot;&quot;</span>
+
+        <span class="c1">#print(&#39;Selection changed&#39;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentdset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+<span class="c1">#        print(&#39;Current Selection : {}&#39;.format(self.currentdset))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allselect</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span> <span class="o">+</span>\
+            <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">i</span><span class="o">.</span><span class="n">text</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()]</span>
+
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allselect</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allselect</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">currentDatasetText</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetMemo</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allselect</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">currentDatasetText</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentdset</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">currentDatasetText</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentdset</span> <span class="o">+</span> <span class="s1">&#39; ( + &#39;</span> <span class="o">+</span>\
+                    <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allselect</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; others)&#39;</span> <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setColumnCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">_h5utils</span><span class="o">.</span><span class="n">retrieve_dataset_attribute_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">currentdset</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">insertRow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">rowCount</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">_QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)))</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="n">_np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">_QTableWidgetItem</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">decode</span><span class="p">()))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">_QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">)))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetAttribs</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetMemo</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Memo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="SubUiHDFLoad.filterlist"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.subui_hdf_load.SubUiHDFLoad.filterlist">[docs]</a>    <span class="k">def</span> <span class="nf">filterlist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Action : Filter available dataset list (.ui.dataSetList) based on</span>
+<span class="sd">        include or exclude strings (or comma-separated strings)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">temp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="n">temp_list_filt</span> <span class="o">=</span> <span class="n">temp_list</span>
+
+        <span class="c1"># Has strings to Exclude</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterExcludeString</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># Convert comma-separated string to list-of-strings</span>
+            <span class="n">strexclude</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterExcludeString</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Strip white-space</span>
+            <span class="n">strexclude</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">strexclude</span><span class="p">)</span> <span class="k">for</span> <span class="n">strexclude</span> <span class="ow">in</span> <span class="n">strexclude</span><span class="p">]</span>
+
+            <span class="c1"># Exclude Filter</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">strexclude</span><span class="p">[</span><span class="mi">0</span><span class="p">::]:</span>
+                <span class="n">temp_list_filt</span> <span class="o">=</span> <span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">temp_list_filt</span> <span class="k">if</span> <span class="nb">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">count</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1">#print(count)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Has strings to Include</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterIncludeString</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># Convert comma-separated string to list-of-strings</span>
+            <span class="n">strinclude</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterIncludeString</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Strip white-space</span>
+            <span class="n">strinclude</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">strinclude</span><span class="p">)</span> <span class="k">for</span> <span class="n">strinclude</span> <span class="ow">in</span> <span class="n">strinclude</span><span class="p">]</span>
+
+            <span class="c1"># Include Filter</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">strinclude</span><span class="p">:</span>
+                <span class="n">temp_list_filt</span> <span class="o">=</span> <span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">temp_list_filt</span> <span class="k">if</span> <span class="nb">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">count</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Update GUI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">dataSetList</span><span class="o">.</span><span class="n">addItems</span><span class="p">(</span><span class="n">temp_list_filt</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="c1">#win = H5LoadGUI() ### EDIT ###</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">SubUiHDFLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Result: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

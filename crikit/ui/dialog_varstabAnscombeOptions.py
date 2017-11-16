@@ -12,8 +12,8 @@ class DialogAnscombeOptions(_QDialog):
     """
     DialogAnscombeOptions : Anscombe Transformation options dialog
 
-    Static Method
-    -------------
+    Methods
+    -------
     dialogAnscombeOptions : Used to call UI and retrieve results of dialog
 
     References
@@ -36,11 +36,9 @@ class DialogAnscombeOptions(_QDialog):
     @staticmethod
     def dialogAnscombeOptions(stddev=12.44, gain=1.4, parent=None):
         """
-        Static Method.
-
         Retrieve Anscombe Transform dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 
