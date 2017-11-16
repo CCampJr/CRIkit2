@@ -2886,7 +2886,9 @@ class CRIkitUI_process(_QMainWindow):
             dark_amp = dialog['dark_level']
 
             if add_pnoise:  # Add Poisson noise
-                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
+                # NOTE: CORRECT is p_amp*poisson(signal)
+                # DEFINITELY NOT p_amp*(poisson(signal)-signal) + signal
+                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data)) - self.hsi._data
             if add_gnoise:  # Add AGWN
                 self.hsi._data += _np.random.randn(*self.hsi._data.shape)
             if add_dark:  # Add a constant dark background
@@ -2999,7 +3001,9 @@ class CRIkitUI_process(_QMainWindow):
             # Only dark added to NRB
             # Others only to Hsi data
             if add_pnoise:  # Add Poisson noise
-                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data) - self.hsi._data)
+                # NOTE: CORRECT is p_amp*poisson(signal)
+                # DEFINITELY NOT p_amp*(poisson(signal)-signal) + signal
+                self.hsi._data += p_amp*(_np.random.poisson(self.hsi._data)) - self.hsi._data
             if add_gnoise:  # Add AGWN
                 self.hsi._data += _np.random.randn(*self.hsi._data.shape)
             if add_dark:  # Add a constant dark background
