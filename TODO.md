@@ -22,3 +22,4 @@
     for now
 * ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~
 * Undo also resets freq window (ie track frequency window settings)
+* When re-select CUSTOM color option, should enable picking of a new color
