@@ -520,11 +520,6 @@ attributes/parameters are contradictory:
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>data</strong> (<em>3D ndarray</em><em> [</em><em>y_pix</em><em>, </em><em>x_pix</em><em>, </em><a class="reference internal" href="#crikit.data.spectrum.Spectrum.f_pix" title="crikit.data.spectrum.Spectrum.f_pix"><em>f_pix</em></a><em>]</em>) – HSI image</li>
-<li><strong>_data_idx_freq</strong> (<em>3D ndarray</em><em> [</em><em>y_pix</em><em>, </em><em>x_pix</em><em>, </em><a class="reference internal" href="#crikit.data.spectrum.Spectrum.f_pix" title="crikit.data.spectrum.Spectrum.f_pix"><em>f_pix</em></a><em>]</em>) – EXPERIMENTAL: Retrieve data via indexing over frequency space</li>
-<li><strong>_data_imag_over_real_idx_freq</strong> (<em>3D ndarray</em><em> [</em><em>y_pix</em><em>, </em><em>x_pix</em><em>, </em><a class="reference internal" href="#crikit.data.spectrum.Spectrum.f_pix" title="crikit.data.spectrum.Spectrum.f_pix"><em>f_pix</em></a><em>]</em>) – EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
-space</li>
-<li><strong>_data_real_over_imag_idx_freq</strong> (<em>3D ndarray</em><em> [</em><em>y_pix</em><em>, </em><em>x_pix</em><em>, </em><a class="reference internal" href="#crikit.data.spectrum.Spectrum.f_pix" title="crikit.data.spectrum.Spectrum.f_pix"><em>f_pix</em></a><em>]</em>) – EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
-space</li>
 <li><strong>mask</strong> (<em>3D ndarray</em><em> (</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>) </em><em>[</em><em>y_pix</em><em>, </em><em>x_pix</em><em>, </em><a class="reference internal" href="#crikit.data.spectrum.Spectrum.f_pix" title="crikit.data.spectrum.Spectrum.f_pix"><em>f_pix</em></a><em>]</em>) – 0,1 mask with 1 is a usable pixel and 0 is not</li>
 <li><strong>freq</strong> (<em>crikit.data.frequency.Frequency instance</em>) – Frequency [wavelength, wavenumber] object (i.e., the independent         variable)</li>
 <li><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Image label (i.e., a string describing what the image is)</li>
@@ -761,26 +756,6 @@ multiple entries)</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.data.spectra.Spectra._data_idx_freq">
-<code class="descname">_data_idx_freq</code><a class="headerlink" href="#crikit.data.spectra.Spectra._data_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>2D ndarray [n_pix, f_pix]</em> – EXPERIMENTAL: Retrieve data via indexing over frequency space</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="crikit.data.spectra.Spectra._data_imag_over_real_idx_freq">
-<code class="descname">_data_imag_over_real_idx_freq</code><a class="headerlink" href="#crikit.data.spectra.Spectra._data_imag_over_real_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>2D ndarray [n_pix, f_pix]</em> – EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
-space</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="crikit.data.spectra.Spectra._data_real_over_imag_idx_freq">
-<code class="descname">_data_real_over_imag_idx_freq</code><a class="headerlink" href="#crikit.data.spectra.Spectra._data_real_over_imag_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>2D ndarray [n_pix, f_pix]</em> – EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
-space</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="crikit.data.spectra.Spectra.freq">
 <code class="descname">freq</code><a class="headerlink" href="#crikit.data.spectra.Spectra.freq" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>crikit.data.frequency.Frequency instance</em> – Frequency [wavelength, wavenumber] object (i.e., the independent         variable)</p>
@@ -883,26 +858,6 @@ space</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="crikit.data.spectrum.Spectrum._data_idx_freq">
-<code class="descname">_data_idx_freq</code><a class="headerlink" href="#crikit.data.spectrum.Spectrum._data_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>1D ndarray [f_pix]</em> – EXPERIMENTAL: Retrieve data via indexing over frequency space</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="crikit.data.spectrum.Spectrum._data_imag_over_real_idx_freq">
-<code class="descname">_data_imag_over_real_idx_freq</code><a class="headerlink" href="#crikit.data.spectrum.Spectrum._data_imag_over_real_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>1D ndarray [f_pix]</em> – EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
-space</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="crikit.data.spectrum.Spectrum._data_real_over_imag_idx_freq">
-<code class="descname">_data_real_over_imag_idx_freq</code><a class="headerlink" href="#crikit.data.spectrum.Spectrum._data_real_over_imag_idx_freq" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>1D ndarray [f_pix]</em> – EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
-space</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="crikit.data.spectrum.Spectrum.freq">
 <code class="descname">freq</code><a class="headerlink" href="#crikit.data.spectrum.Spectrum.freq" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>crikit.data.Frequency instance</em> – Frequency [wavelength, wavenumber] object (i.e., the independent         variable)</p>
@@ -972,15 +927,6 @@ space</p>
 <ul class="simple">
 <li>freq object contains some useful parameters such as <a href="#id13"><span class="problematic" id="id14">op_range_</span></a>* and     <a href="#id15"><span class="problematic" id="id16">plot_range_</span></a>*, which define spectral regions-of-interest. (It’s debatable     as to whether those parameters should be in Frequency or Spectrum classes)</li>
 </ul>
-<dl class="class">
-<dt id="crikit.data.spectrum.Spectrum._IndexDataByFreq">
-<em class="property">class </em><code class="descname">_IndexDataByFreq</code><span class="sig-paren">(</span><em>parent</em>, <em>to_return</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/data/spectrum.html#Spectrum._IndexDataByFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.data.spectrum.Spectrum._IndexDataByFreq" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class that allows indexing of Spectrum.data by frequency instead of
-just pixel number.</p>
-<p>Note: this is INCLUSIVE indexing by frequency</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt>
 <code class="descname">data</code></dt>

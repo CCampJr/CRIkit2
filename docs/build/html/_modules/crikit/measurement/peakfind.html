@@ -293,8 +293,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">deriv</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
-            <span class="n">deriv</span> <span class="o">=</span> <span class="n">_convolve</span><span class="p">(</span><span class="n">deriv</span><span class="p">,</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">haar</span><span class="p">(</span><span class="n">wv_width</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> 
-                            <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">deriv</span> <span class="o">=</span> <span class="n">_convolve</span><span class="p">(</span><span class="n">deriv</span><span class="p">,</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">haar</span><span class="p">(</span><span class="n">wv_width</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> 
+                                  <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;peakfind.py | cwt_diff: Likely using an old version of SciPy (no convolve method parameter)&#39;</span><span class="p">)</span>
+                <span class="n">deriv</span> <span class="o">=</span> <span class="n">_convolve</span><span class="p">(</span><span class="n">deriv</span><span class="p">,</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">haar</span><span class="p">(</span><span class="n">wv_width</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">deriv</span></div>
 
     <span class="c1"># @staticmethod</span>
