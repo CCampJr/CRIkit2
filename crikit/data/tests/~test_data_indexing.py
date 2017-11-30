@@ -27,6 +27,9 @@ def test_spectrum():
                                spectrum._data[0:11])
     np_testing.assert_allclose(spectrum._data_idx_freq[0.0:10.1],
                                spectrum._data[0:11])
+    np_testing.assert_equal(spectrum._data_idx_freq[10], spectrum._data[10])
+    np_testing.assert_allclose(spectrum._data_idx_freq[[10,11]], spectrum._data[[10,11]])
+    
     
 def test_spectra():
     N = 101
@@ -43,6 +46,8 @@ def test_spectra():
                                spectra._data[...,0:11])
     np_testing.assert_allclose(spectra._data_idx_freq[0.0:10.1],
                                spectra._data[...,0:11])
+    np_testing.assert_allclose(spectra._data_idx_freq[10], spectra._data[...,10])
+    np_testing.assert_allclose(spectra._data_idx_freq[[10,11]], spectra._data[...,[10,11]])
     
     # Slice the spatial dimension as well:
     np_testing.assert_allclose(spectra._data_idx_freq[:,0:10],
@@ -51,6 +56,9 @@ def test_spectra():
                                spectra._data[...,0:11])
     np_testing.assert_allclose(spectra._data_idx_freq[:,0.0:10.1],
                                spectra._data[...,0:11])
+    np_testing.assert_allclose(spectra._data_idx_freq[10,11], spectra._data[...,[10,11]])
+    np_testing.assert_allclose(spectra._data_idx_freq[:,10], spectra._data[...,10])
+    # np_testing.assert_allclose(spectra._data_idx_freq[:,[10,11]], spectrum._data[...,[10,11]])
 
 def test_hsi():
     N = 101
@@ -67,6 +75,8 @@ def test_hsi():
                                hsi._data[...,0:11])
     np_testing.assert_allclose(hsi._data_idx_freq[0.0:10.1],
                                hsi._data[...,0:11])
+    np_testing.assert_allclose(hsi._data_idx_freq[...,10], hsi._data[...,10])
+    np_testing.assert_allclose(hsi._data_idx_freq[...,[10,11]], hsi._data[...,[10,11]])
     
     # Slice the spatial dimension as well:
     np_testing.assert_allclose(hsi._data_idx_freq[:,:,0:10],
@@ -75,3 +85,8 @@ def test_hsi():
                                hsi._data[...,0:11])
     np_testing.assert_allclose(hsi._data_idx_freq[:,:,0.0:10.1],
                                hsi._data[...,0:11])
+    
+
+if __name__ == '__main__':
+    print('Here')
+    test_spectra()

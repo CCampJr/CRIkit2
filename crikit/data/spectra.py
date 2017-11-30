@@ -24,16 +24,17 @@ class Spectra(_Spectrum):
         CONVERTED to [n_pix, f_pix] shape, assuming that shape[-1] is the f_pix \
         long.
 
-    _data_idx_freq : 2D ndarray [n_pix, f_pix]
-        EXPERIMENTAL: Retrieve data via indexing over frequency space
+    # DISABLED CURRENTLY
+    # _data_idx_freq : 2D ndarray [n_pix, f_pix]
+    #     EXPERIMENTAL: Retrieve data via indexing over frequency space
         
-    _data_imag_over_real_idx_freq : 2D ndarray [n_pix, f_pix]
-        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
-        space
+    # _data_imag_over_real_idx_freq : 2D ndarray [n_pix, f_pix]
+    #     EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency 
+    #     space
         
-    _data_real_over_imag_idx_freq : 2D ndarray [n_pix, f_pix]
-        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
-        space
+    # _data_real_over_imag_idx_freq : 2D ndarray [n_pix, f_pix]
+    #     EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency 
+    #     space
 
     freq : crikit.data.frequency.Frequency instance
         Frequency [wavelength, wavenumber] object (i.e., the independent \

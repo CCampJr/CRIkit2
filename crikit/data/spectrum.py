@@ -19,16 +19,17 @@ class Spectrum:
     data : 1D ndarray [f_pix]
         Spectrum
 
-    _data_idx_freq : 1D ndarray [f_pix]
-        EXPERIMENTAL: Retrieve data via indexing over frequency space
+    # DISABLED CURRENTLY
+    # _data_idx_freq : 1D ndarray [f_pix]
+    #     EXPERIMENTAL: Retrieve data via indexing over frequency space
 
-    _data_imag_over_real_idx_freq : 1D ndarray [f_pix]
-        EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
-        space
+    # _data_imag_over_real_idx_freq : 1D ndarray [f_pix]
+    #     EXPERIMENTAL: Retrieve data (imag priority) via indexing over frequency
+    #     space
 
-    _data_real_over_imag_idx_freq : 1D ndarray [f_pix]
-        EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
-        space
+    # _data_real_over_imag_idx_freq : 1D ndarray [f_pix]
+    #     EXPERIMENTAL: Retrieve data (real priority) via indexing over frequency
+    #     space
 
     freq : crikit.data.Frequency instance
         Frequency [wavelength, wavenumber] object (i.e., the independent \
@@ -98,11 +99,11 @@ class Spectrum:
         if meta is not None:
             self._meta = _copy.deepcopy(meta)
 
-        self._data_idx_freq = self._IndexDataByFreq(self, self._data)
-        self._data_imag_over_real_idx_freq = \
-            self._IndexDataByFreq(self, self.data_imag_over_real)
-        self._data_real_over_imag_idx_freq = \
-            self._IndexDataByFreq(self, self.data_real_over_imag)
+        # self._data_idx_freq = self._IndexDataByFreq(self, self._data)
+        # self._data_imag_over_real_idx_freq = \
+        #     self._IndexDataByFreq(self, self.data_imag_over_real)
+        # self._data_real_over_imag_idx_freq = \
+        #     self._IndexDataByFreq(self, self.data_real_over_imag)
 
     def __getitem__(self, idx):
         """
@@ -161,45 +162,50 @@ class Spectrum:
         else:
             return self._data
 
-    class _IndexDataByFreq:
-        """
-        Class that allows indexing of Spectrum.data by frequency instead of
-        just pixel number.
+    # class _IndexDataByFreq:
+    #     """
+    #     Class that allows indexing of Spectrum.data by frequency instead of
+    #     just pixel number.
 
-        Note: this is INCLUSIVE indexing by frequency
-        """
+    #     Note: this is INCLUSIVE indexing by frequency
+    #     """
 
-        def __init__(self, parent, to_return):
-            self._parent = parent
-            self._to_return = to_return
+    #     def __init__(self, parent, to_return):
+    #         self._parent = parent
+    #         self._to_return = to_return
 
-        def __getitem__(self, idx):
-            def _extract(self, idx):
-                if idx.step is None:
-                    starter = self._parent.freq.get_index_of_closest_freq(idx.start)
-                    ender = self._parent.freq.get_index_of_closest_freq(idx.stop)
-                    stepper = 1
-                    locs = _np.arange(starter, ender+1, stepper)
-                    return locs
-                else:
-                    starter = self._parent.freq.get_closest_freq(idx.start)
-                    ender = self._parent.freq.get_closest_freq(idx.stop)
-                    stepper = idx.step
-                    to_find = _np.arange(starter,ender,stepper)
-                    locs = _np.unique(self._parent.freq.get_index_of_closest_freq(to_find))
-                    # locs = _np.append(locs, locs[-1]+1)
-                    return locs
+    #     def __getitem__(self, idx):
+    #         def _extract(self, idx):
+    #             if idx.step is None:
+    #                 starter = self._parent.freq.get_index_of_closest_freq(idx.start)
+    #                 ender = self._parent.freq.get_index_of_closest_freq(idx.stop)
+    #                 stepper = 1
+    #                 locs = _np.arange(starter, ender+1, stepper)
+    #                 return locs
+    #             else:
+    #                 starter = self._parent.freq.get_closest_freq(idx.start)
+    #                 ender = self._parent.freq.get_closest_freq(idx.stop)
+    #                 stepper = idx.step
+    #                 to_find = _np.arange(starter,ender,stepper)
+    #                 locs = _np.unique(self._parent.freq.get_index_of_closest_freq(to_find))
+    #                 # locs = _np.append(locs, locs[-1]+1)
+    #                 return locs
 
-            if isinstance(idx, (int,float)):
-                loc = self._parent.freq.get_index_of_closest_freq(idx)
-                return self._to_return[...,loc]
-            elif isinstance(idx, slice):
-                locs = _extract(self, idx)
-                return self._to_return[...,locs]
-            elif isinstance(idx, (list,tuple)):
-                idx_space = idx[:-1]
-                locs = _extract(self, idx[-1])
-                return self._to_return[[*idx_space,locs]]
+    #         if isinstance(idx, (int,float)):
+    #             loc = self._parent.freq.get_index_of_closest_freq(idx)
+    #             return self._to_return[...,loc]
+    #         elif isinstance(idx, slice):
+    #             locs = _extract(self, idx)
+    #             return self._to_return[...,locs]
+    #         elif isinstance(idx, (list,tuple)):
+    #             print('Index: {}'.format(idx))
+    #             if all([isinstance(x,(float, int)) for x in idx]):
+    #                 loc = self._parent.freq.get_index_of_closest_freq(idx)
+    #                 return self._to_return[...,loc]
+    #             else:
+    #                 idx_space = idx[:-1]
+    #                 locs = _extract(self, idx[-1])
+    #                 return self._to_return[[*idx_space,locs]]
 
     @property
     def freq(self):
@@ -442,15 +448,15 @@ if __name__ == '__main__':  # pragma: no cover
     tmr -= _timeit.default_timer()
     print(-tmr)
 
-    tmr = _timeit.default_timer()
-    sp._data_idx_freq[500:600]
-    tmr -= _timeit.default_timer()
-    print(-tmr)
+    # tmr = _timeit.default_timer()
+    # sp._data_idx_freq[500:600]
+    # tmr -= _timeit.default_timer()
+    # print(-tmr)
 
-    tmr = _timeit.default_timer()
-    sp._data_imag_over_real_idx_freq[500:600]
-    tmr -= _timeit.default_timer()
-    print(-tmr)
+    # tmr = _timeit.default_timer()
+    # sp._data_imag_over_real_idx_freq[500:600]
+    # tmr -= _timeit.default_timer()
+    # print(-tmr)
 
     tmr = _timeit.default_timer()
     locs = _np.arange(sp.freq.get_index_of_closest_freq(500),
