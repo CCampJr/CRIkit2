@@ -222,7 +222,10 @@ class CRIkitUI_process(_QMainWindow):
         # Split from previous for-loop for compactness of code
         for count, rgb_img in enumerate(self.img_RGB_list):
             color_str = rgb_img.colormode.ui.comboBoxFGColor.itemText(count)
-            rgb_img.data.colormap = _mpl.colors.to_rgb(_mpl.colors.cnames[color_str])
+
+            # Note: colors.to_rgb exists in MPL 2*, but is under colorConverter
+            # in MPL < 2.
+            rgb_img.data.colormap = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[color_str])
             rgb_img.colormode.ui.comboBoxFGColor.setCurrentIndex(count)
 
             rgb_img.popimage.ui.pushButtonSpectrum.setEnabled(False)
@@ -812,7 +815,7 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.data.set_y(self.hsi.y, ylabel)
             
             color_str = rgb_img.colormode.ui.comboBoxFGColor.itemText(num)
-            rgb_img.data.colormap = _mpl.colors.to_rgb(_mpl.colors.cnames[color_str])
+            rgb_img.data.colormap = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[color_str])
             rgb_img.colormode.ui.comboBoxFGColor.setCurrentIndex(num)
 
             # Cute way of setting the colormap to last setting and replotting
