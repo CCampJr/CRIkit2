@@ -26,14 +26,22 @@ Coming Soon:
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
-* python >= 3.4 (Currently, testing with 3.6)
+* python >= 3.4
+    * Tested with 3.4.4, 3.5.2, 3.6.1
 * SciPlot-PyQt >= 0.1.3 (>=0.1.4 for MPL2)
+    * https://github.com/CCampJr/SciPlot-PyQt/releases
 * numpy (1.9.3)
+    * Tested with 1.11.3+mkl
 * PyQT5 (5.5.* or 5.6.*)
+    * Tested with 5.6, 5.8.1
 * matplotlib (1.5.0rc3, 2.0.0) (see below for MPL2)
+    * Tested with 1.5.2, 2.0.0
 * cvxopt (1.1.7)
+    * Tested with 1.1.7, 1.1.9
 * h5py (2.5)
+    * Tested with 2.6, 2.7
 * Sphinx (1.5.2) (Only for building documentation)
+    * Tested with 1.4.5, 1.6.4
 
 ### IMPORTANT: For Matplotlib 2 ###
 You will need to use SciPlot-PyQT v0.1.4
