@@ -488,7 +488,7 @@ class widgetSglColor(widgetBWImg):
                 self.data.colormap = color
 
             else:
-                self.data.colormap = _mpl.colors.to_rgb(_mpl.colors.cnames[color_str])
+                self.data.colormap = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[color_str])
 
         elif self.sender() == self.colormode.ui.comboBoxBGColor:
             bgcolor_str = self.colormode.ui.comboBoxBGColor.currentText()
@@ -499,7 +499,7 @@ class widgetSglColor(widgetBWImg):
                 self.data.bgcolor = bgcolor
 
             else:
-                self.data.bgcolor = _mpl.colors.to_rgb(_mpl.colors.cnames[bgcolor_str])
+                self.data.bgcolor = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[bgcolor_str])
         
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                                 yunits = self.data.yunits,
