@@ -23,4 +23,3 @@
 * ~~Minimum in qt_GrayScaleImgInfoBar is set to 0 -- needs to allow negative~~
 * Undo also resets freq window (ie track frequency window settings)
 * Re-evaluate how poisson noise is added to model inline. Very math-operation-order dependent.
-* Move model noise into Model class (currently in CRIKitUI)
