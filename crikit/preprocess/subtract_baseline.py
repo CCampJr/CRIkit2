@@ -40,17 +40,21 @@ class SubtractBaselineALS:
     """
     def __init__(self, smoothness_param=1, asym_param=1e-2,
                  redux=10, order=2, rng=None, fix_end_points=False, 
+                 fix_rng=None, fix_const=1,
                  max_iter=100, min_diff=1e-5, use_imag=True, 
                  **kwargs):
 
         self.rng = _rng_is_pix_vec(rng)
         self._k = kwargs
         
-        self._k.update({'smoothness_param' : smoothness_param, 
+        self._k.update({'smoothness_param' : smoothness_param,
                         'asym_param' : asym_param,
                         'redux' : redux,
                         'order' : order,
+                        'rng' : rng,
                         'fix_end_points' : fix_end_points,
+                        'fix_rng' : fix_rng,
+                        'fix_const' : fix_const,
                         'max_iter' : max_iter,
                         'min_diff' : min_diff})
         
@@ -70,15 +74,15 @@ class SubtractBaselineALS:
                 print('Detrended iteration {} / {}'.format(num+1, total_num))
                 # Imaginary portion set
                 if self.use_imag and _np.iscomplexobj(data):
-                    if self.rng is None:
-                        ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
-                    else:
-                        ret_obj[idx][..., self.rng] -= 1j*self._inst_als.calculate(data[idx][..., self.rng].imag)
+                    # if self.rng is None:
+                    #     ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
+                    # else:
+                    ret_obj[idx] -= 1j*self._inst_als.calculate(data[idx].imag)
                 else:  # Real portion set or real object
-                    if self.rng is None:
-                        ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
-                    else:
-                        ret_obj[idx][..., self.rng] -= self._inst_als.calculate(data[idx][..., self.rng].real)
+                    # if self.rng is None:
+                    #     ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
+                    # else:
+                    ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
         except:
             return False
         else:
@@ -86,14 +90,30 @@ class SubtractBaselineALS:
             return True
 
     def transform(self, data, **kwargs):
+        if self.rng is None:
+            self.rng = _np.arange(data.shape[-1])
+
+        total_rng = _np.arange(data.shape[-1])
+
+        not_in_rng = list(set(total_rng).difference(self.rng))
+        not_in_rng.sort()
+        not_in_rng = _np.array(not_in_rng)
+
+        if not_in_rng.size != 0:
+            data[..., not_in_rng] *= 0
+            
         self._k.update(kwargs)
         
         success = self._calc(data, ret_obj=data, **self._k)
         return success
 
     def calculate(self, data, **kwargs):
+        if self.rng is None:
+            self.rng = _np.arange(data.shape[-1])
+            
+        data_copy = _np.zeros(data.shape, dtype=data.dtype)
+        data_copy[..., self.rng] = 1*data[..., self.rng]
 
-        data_copy = _copy.deepcopy(data)
         self._k.update(kwargs)
         
         success = self._calc(data, ret_obj=data_copy, **self._k)
@@ -103,52 +123,14 @@ class SubtractBaselineALS:
             return None
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
 
-    from crikit.data.spectrum import Spectrum as _Spectrum
-    from crikit.data.spectra import Spectra as _Spectra
-    from crikit.data.hsi import Hsi as _Hsi
+    x = _np.linspace(-100, 100, 1000)
+    y = 10*_np.exp(-(x**2/(2*20**2)))
 
-    import matplotlib.pyplot as _plt
-    sp = _Spectrum()
-    sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
+    rng = _np.arange(200,800)
+    als = SubtractBaselineALS(smoothness_param=1, asym_param=1e-3, rng=rng,
+                                redux=1, fix_end_points=False, fix_rng=None, 
+                                verbose=True)
 
-    sub_baseline_als = SubtractBaselineALS(smoothness_param=1, asym_param=1e-1)
-
-    _plt.plot(sp.data, label='Original')
-    out = sub_baseline_als.transform(sp.data)
-    _plt.plot(sp.data, label='Detrended')
-    _plt.title('Spectrum')
-    _plt.legend(loc='best')
-    _plt.show()
-
-    sp.data = _np.exp(-(_np.arange(1000)-500)**2/100**2)
-    _plt.plot(sp.data, label='Original')
-    sub_baseline_als.redux_factor = 10
-    out = sub_baseline_als.transform(sp.data)
-    _plt.plot(sp.data, label='Detrended (Redux)')
-    _plt.title('Spectrum')
-    _plt.legend(loc='best')
-    _plt.show()
-#
-    spa = _Spectra()
-    sub_baseline_als = SubtractBaselineALS(smoothness_param=1e2, asym_param=1e-4)
-    spa.data = _np.dot(_np.ones((2,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
-    _plt.plot(spa.data.T, label='Original')
-    out = sub_baseline_als.transform(spa.data)
-    _plt.plot(spa.data.T, label='Detrended')
-    _plt.title('Spectra')
-    _plt.legend(loc='upper right')
-    _plt.show()
-
-    hsi = _Hsi()
-    sub_baseline_als.redux_factor = 10
-    hsi.data = _np.dot(_np.ones((1,1,1)),_np.exp(-(_np.arange(1000)-500)**2/100**2)[None,:])
-
-    _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original')
-    out = sub_baseline_als.calculate(hsi.data)
-    _plt.plot(out.reshape((-1,1000)).T, label='Detrended (Redux)')
-    _plt.plot(hsi.data.reshape((-1,1000)).T, label='Original (No Overwrite)')
-    _plt.title('HSI')
-    _plt.legend(loc='upper right')
-    _plt.show()
+    y_als = als.calculate(y)
