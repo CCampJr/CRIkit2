@@ -138,6 +138,22 @@ def test_2Dbasic_redux_rng():
     np.testing.assert_allclose(y_als[..., 800:],0)
     np.testing.assert_almost_equal(y_als[...,rng], 0, decimal=3)
 
+def test_2Dbasic_transform_redux_rng():
+    x = np.linspace(-100, 100, 1000)
+    y = 10*np.exp(-(x**2/(2*20**2)))
+    y = np.dot(np.ones((10,1)), y[None,:])
+
+    rng = np.arange(200,800)
+    als = SubtractBaselineALS(smoothness_param=1e-2, asym_param=1e-1, rng=rng,
+                              redux=10, fix_end_points=False, fix_rng=None, 
+                              verbose=True)
+
+    als.transform(y)
+
+    np.testing.assert_allclose(y[..., :200],0)
+    np.testing.assert_allclose(y[..., 800:],0)
+    np.testing.assert_almost_equal(y[...,rng], 0, decimal=3)
+
 
 def test_vec_asym_param_rng_redux():
     x = np.linspace(-100, 100, 1000)
