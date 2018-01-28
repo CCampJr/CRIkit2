@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'crikit2\crikit\ui\qt5-creator\ui_CRIkit.ui'
+# Form implementation generated from reading ui file '.\ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.8.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -195,6 +195,8 @@ class Ui_MainWindow(object):
         self.menuToolbar.setObjectName("menuToolbar")
         self.menuSettings = QtWidgets.QMenu(self.menubar)
         self.menuSettings.setObjectName("menuSettings")
+        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -445,6 +447,21 @@ class Ui_MainWindow(object):
         self.actionShowOverlayLegend = QtWidgets.QAction(MainWindow)
         self.actionShowOverlayLegend.setCheckable(True)
         self.actionShowOverlayLegend.setObjectName("actionShowOverlayLegend")
+        self.actionHelpManual = QtWidgets.QAction(MainWindow)
+        icon24 = QtGui.QIcon()
+        icon24.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/question-mark-2x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionHelpManual.setIcon(icon24)
+        self.actionHelpManual.setObjectName("actionHelpManual")
+        self.actionRamanPhantom = QtWidgets.QAction(MainWindow)
+        icon25 = QtGui.QIcon()
+        icon25.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/person-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRamanPhantom.setIcon(icon25)
+        self.actionRamanPhantom.setObjectName("actionRamanPhantom")
+        self.actionBCARSPhantom = QtWidgets.QAction(MainWindow)
+        icon26 = QtGui.QIcon()
+        icon26.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/people-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionBCARSPhantom.setIcon(icon26)
+        self.actionBCARSPhantom.setObjectName("actionBCARSPhantom")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -514,6 +531,10 @@ class Ui_MainWindow(object):
         self.menuView.addAction(self.actionLeftSideNRBSpect)
         self.menuView.addAction(self.actionRightSideNRBSpect)
         self.menuSettings.addAction(self.actionUndo_Backup_Enabled)
+        self.menuHelp.addAction(self.actionHelpManual)
+        self.menuHelp.addSeparator()
+        self.menuHelp.addAction(self.actionRamanPhantom)
+        self.menuHelp.addAction(self.actionBCARSPhantom)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -521,6 +542,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuPre_Process.menuAction())
         self.menubar.addAction(self.menuAnalysis.menuAction())
         self.menubar.addAction(self.menuSettings.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabColors.setCurrentIndex(-1)
@@ -550,6 +572,7 @@ class Ui_MainWindow(object):
         self.menuView.setTitle(_translate("MainWindow", "View"))
         self.menuToolbar.setTitle(_translate("MainWindow", "Toolbar"))
         self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionOpenHDFNIST.setText(_translate("MainWindow", "Open HDF (NIST)..."))
         self.actionOpenHDFNIST.setShortcut(_translate("MainWindow", "Ctrl+O"))
@@ -621,5 +644,9 @@ class Ui_MainWindow(object):
         self.actionDeNoiseDark.setText(_translate("MainWindow", "De-Noise Dark"))
         self.actionShowOverlays.setText(_translate("MainWindow", "Show ROI Overlays"))
         self.actionShowOverlayLegend.setText(_translate("MainWindow", "Show Overlay Legend"))
+        self.actionHelpManual.setText(_translate("MainWindow", "Manual"))
+        self.actionHelpManual.setShortcut(_translate("MainWindow", "F1"))
+        self.actionRamanPhantom.setText(_translate("MainWindow", "Raman Numerical Phantom"))
+        self.actionBCARSPhantom.setText(_translate("MainWindow", "BCARS Numerical Phantom"))
 
 from . import icons_all_rc

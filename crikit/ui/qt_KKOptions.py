@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_KKOptions.ui'
+# Form implementation generated from reading ui file '.\ui_KKOptions.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.8.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(375, 239)
+        Dialog.resize(386, 306)
         Dialog.setStyleSheet("font: 10pt \"Arial\";")
         self.gridLayout_2 = QtWidgets.QGridLayout(Dialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -80,13 +80,13 @@ class Ui_Dialog(object):
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
         self.pushButtonInteractive = QtWidgets.QPushButton(Dialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButtonInteractive.sizePolicy().hasHeightForWidth())
         self.pushButtonInteractive.setSizePolicy(sizePolicy)
         self.pushButtonInteractive.setMinimumSize(QtCore.QSize(200, 0))
-        self.pushButtonInteractive.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.pushButtonInteractive.setMaximumSize(QtCore.QSize(220, 16777215))
         self.pushButtonInteractive.setObjectName("pushButtonInteractive")
         self.verticalLayout.addWidget(self.pushButtonInteractive)
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 1, 1)

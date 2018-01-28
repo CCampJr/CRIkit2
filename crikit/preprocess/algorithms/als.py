@@ -5,6 +5,8 @@ Created on Mon Dec  5 12:12:51 2016
 """
 import numpy as _np
 
+from scipy.interpolate import UnivariateSpline as _USpline
+
 import cvxopt as _cvxopt
 import cvxopt.cholmod as _cholmod
 _cvxopt.cholmod.options['supernodal'] = 1
@@ -14,8 +16,8 @@ from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
     
 class AlsCvxopt(AbstractBaseline):   
     def __init__(self, smoothness_param=1e3, asym_param=1e-4, redux=1,
-                 order=2, fix_end_points=False, fix_rng=None, max_iter=100, min_diff=1e-5, 
-                 verbose=False):
+                 order=2, rng=None, fix_end_points=False, fix_rng=None, 
+                 fix_const=1, max_iter=100, min_diff=1e-5, verbose=False):
         """
         Parameters
         ----------
@@ -31,6 +33,10 @@ class AlsCvxopt(AbstractBaseline):
         order : int, optional (default, 2)
             Derivative regularization term. Order=2 for Whittaker-smoother
         
+        rng : ndarray (1D), optional (default, None)
+            Pixels to compute ALS over, rest are set to 0. If none, use
+            all pixels.
+
         fix_end_points : bool, optional (default, False)
             Weight the baseline endpoints to approach equally the end-points
             of the data.
@@ -53,22 +59,22 @@ class AlsCvxopt(AbstractBaseline):
         self.smoothness_param=smoothness_param
         self._asym_param=asym_param
         
-        self.setup(redux=redux, verbose=verbose, order=order, 
+        self.setup(redux=redux, verbose=verbose, order=order, rng=rng,
                    fix_end_points=fix_end_points, fix_rng=fix_rng, 
-                   max_iter=max_iter, min_diff=min_diff)
+                   fix_const=fix_const, max_iter=max_iter, min_diff=min_diff)
 
     @property
     def asym_param(self):
         if _np.size(self._asym_param) == 1:
             return self._asym_param
         elif self.redux == 1:
-            return self._asym_param
+            return self._asym_param[self.rng]
         elif self.redux > 1:
-            x = _np.arange(0, self._asym_param.size, self.redux, 
-                           dtype=_np.integer)
-            
-            
-            return self._asym_param[x]
+            x = _np.arange(self.rng.size)
+            x_sub = _np.linspace(x[0], x[-1], _np.round(x.size / 
+                        self.redux).astype(_np.integer))
+            spl = _USpline(x,self._asym_param[self.rng],s=0)
+            return spl(x_sub)
             
     @asym_param.setter
     def asym_param(self, value):
@@ -79,8 +85,8 @@ class AlsCvxopt(AbstractBaseline):
         Perform the ALS. Called from self.calculate (defined in 
         AbstractBaseline parent class)
         
-        Parameter
-        ---------
+        Parameters
+        ----------
         signal : ndarray (>= 1D)
             Input signal
             
@@ -89,17 +95,23 @@ class AlsCvxopt(AbstractBaseline):
         baseline : ndarray
             Baseline of input signal
         """
-        sig_shape = signal.shape  # Shape of input signal
-#        sig_ndim = signal.ndim  # N Signal dimensions
-        sig_size = signal.shape[-1]  # Length of spectral axis
-        
+
+        # If asym_param is not a constant, it needs to be the same length as
+        # the FULL spectral axis, regardless of rng
+        if isinstance(self._asym_param, _np.ndarray):
+            if self._asym_param.size > 1:
+                assert self._asym_param.size == self.full_sig_spectral_size, \
+                    'Asym parameter must be constant or same size as the full spectral axis'
+            
+        asym_to_use = self.asym_param
+
         # N signals to detrend
         sig_n_to_detrend = int(signal.size/signal.shape[-1])
         
-        baseline_output = _np.zeros(sig_shape) 
+        baseline_output = _np.zeros(self.redux_sig_shape) 
         
         # Cute linalg trick to create 2nd-order derivative transform matrix
-        difference_matrix = _np.diff(_np.eye(sig_size), 
+        difference_matrix = _np.diff(_np.eye(self.redux_sig_spectral_size), 
                                      n=self.order, axis=0)
         
         # Convert into sparse matrix
@@ -108,9 +120,9 @@ class AlsCvxopt(AbstractBaseline):
         for ct, coords in enumerate(_np.ndindex(signal.shape[0:-1])):
             signal_current = signal[coords]
     
-            penalty_vector = _np.ones([sig_size])
-            baseline_current = _np.zeros([sig_size])
-            baseline_last = _np.zeros([sig_size])
+            penalty_vector = _np.ones([self.redux_sig_spectral_size])
+            baseline_current = _np.zeros([self.redux_sig_spectral_size])
+            baseline_last = _np.zeros([self.redux_sig_spectral_size])
     
             # Iterative asymmetric least squares smoothing
             for ct_iter in range(self.max_iter):
@@ -145,10 +157,10 @@ class AlsCvxopt(AbstractBaseline):
                             break
                     
                     # Apply asymmetric penalization
-                    penalty_vector = _np.squeeze(self.asym_param * 
+                    penalty_vector = _np.squeeze(asym_to_use * 
                                                  (signal_current >= 
                                                   baseline_current) + 
-                                                 (1-self.asym_param) * 
+                                                 (1-asym_to_use) * 
                                                  (signal_current < 
                                                   baseline_current))
                     if self.fix_end_points:
@@ -156,7 +168,7 @@ class AlsCvxopt(AbstractBaseline):
                         penalty_vector[-1] = 1
 
                     if self.fix_rng is not None:
-                        penalty_vector[self.fix_rng] = 1
+                        penalty_vector[self.fix_rng] = self.fix_const
             
             baseline_output[coords] = baseline_current
             
@@ -167,7 +179,7 @@ class AlsCvxopt(AbstractBaseline):
     
         return baseline_output
     
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     import matplotlib.pyplot as _plt
 
     x = _np.linspace(0,1000,800)

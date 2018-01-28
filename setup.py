@@ -7,10 +7,10 @@ Created on Thu Jul 21 01:11:04 2016
 from setuptools import setup, find_packages
 
 setup(name='crikit2',
-      version = '0.2',
+      version = '17.10b1',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
       platform (user interface, UI)',
-      url = 'https://github.com/CCampJr/crikit2',
+      url = 'https://github.com/CoherentRamanNIST/crikit2',
       author = 'Charles H. Camp Jr.',
       author_email = 'charles.camp@nist.gov',
       license = 'NONLICENSE',
@@ -29,4 +29,6 @@ setup(name='crikit2',
                    'Environment :: X11 Applications :: Qt',
                    'Programming Language :: Python :: 3 :: Only',
                    'Programming Language :: Python :: 3.4',
+                   'Programming Language :: Python :: 3.5',
+                   'Programming Language :: Python :: 3.6',
                    'Topic :: Scientific/Engineering :: Visualization'])

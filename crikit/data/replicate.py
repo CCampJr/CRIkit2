@@ -28,8 +28,8 @@ class Replicate:
 
     size : int, read-only
 
-    Method
-    ------
+    Methods
+    -------
     update_calib_from_data
         Calculate and set calib parameter from data
 
@@ -39,8 +39,8 @@ class Replicate:
     calib_data_agree
         Return bool as to whether data and that derived from calib agree
 
-    Note
-    ----
+    Notes
+    -----
     * input to calib can be a list or tuple or 1D ndarray or int or float
 
     Setting calib can take up to 3 entries :
@@ -77,6 +77,8 @@ class Replicate:
                 self._data = value
             else:
                 raise TypeError('data must be 1D ndarray')
+        elif value is None:
+            self._data = None
         else:
             raise TypeError('data must be 1D ndarray')
 

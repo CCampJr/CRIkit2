@@ -5,10 +5,6 @@ Created on Thu May 26 14:31:39 2016
 
 @author: chc
 """
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
 
 import numpy as _np
 import copy as _copy

@@ -6,7 +6,7 @@ Created on Thu Apr 14 08:53:08 2016
 @author: chc
 """
 
-__all__ = ['anscombe', 'anscombe_inverse']
+__all__ = ['Anscombe', 'AnscombeInverse']
 
 import copy as _copy
 import numpy as _np
@@ -64,8 +64,8 @@ class Anscombe:
     -----
     * See the docstring of ./algorithms/anscombe for more information.
 
-    Citation Refs
-    ------------------
+    References
+    -----------
     [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe \
         transformation for Poisson-Gaussian noise", IEEE Trans. Image Process., \
         doi:10.1109/TIP.2012.2202675
@@ -190,8 +190,8 @@ class AnscombeInverse:
     -----
     * See the docstring of ./algorithms/anscombe for more information.
 
-    Citation Refs
-    ------------------
+    References
+    ----------
     [1] M. Mäkitalo and A. Foi, "Optimal inversion of the generalized Anscombe \
         transformation for Poisson-Gaussian noise", IEEE Trans. Image Process., \
         doi:10.1109/TIP.2012.2202675

@@ -9,10 +9,6 @@ Created on Tue Apr 12 13:06:30 2016
 import numpy as _np
 import copy as _copy
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
 from crikit.data.frequency import Frequency as _Frequency
 from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.replicate import Replicate as _Replicate
@@ -27,8 +23,8 @@ class Hsi(_Spectrum):
     ----------
     data : 3D ndarray [y_pix, x_pix, f_pix]
         HSI image
-        
-    data : 3D ndarray (int) [y_pix, x_pix, f_pix]
+
+    mask : 3D ndarray (int) [y_pix, x_pix, f_pix]
         0,1 mask with 1 is a usable pixel and 0 is not
 
     freq : crikit.data.frequency.Frequency instance
@@ -60,13 +56,9 @@ class Hsi(_Spectrum):
     ----------
     data_imag_over_real : ndarray (3D)
         If data is complex, return the imaginary portion
-        
+
     data_real_over_imag : ndarray (3D)
         If data is complex, return the real portion
-        
-    f_pix : int, read-only
-        Size of data's frequency axis. Note: this matches the size of data and \
-        does NOT check the size of freq.freq_vec.
 
     shape : tuple, read-only
         Shape of data
@@ -98,21 +90,10 @@ class Hsi(_Spectrum):
     def __init__(self, data=None, freq=None, x=None, y=None, x_rep=None,
                  y_rep=None, label=None, units=None, meta=None):
 
-        self._data = None
-        self._freq = _Frequency()
-        self._label = None
-        self._units = None
-        self._meta = None
+        super().__init__(data, freq, label, units, meta)
         self._x_rep = _Replicate()
         self._y_rep = _Replicate()
         self._mask = None
-
-        if data is not None:
-            self.data = _copy.deepcopy(data)
-        if freq is not None:
-            self.freq = _copy.deepcopy(freq)
-        else:
-            self.freq = _Frequency()
 
         self._x_rep = _Replicate(data=x)
         self._y_rep = _Replicate(data=y)
@@ -122,17 +103,10 @@ class Hsi(_Spectrum):
         if y is None and y_rep is not None:
             self.y_rep = _copy.deepcopy(y_rep)
 
-        if label is not None:
-            self.label = _copy.deepcopy(label)
-        if units is not None:
-            self.units = _copy.deepcopy(units)
-        if meta is not None:
-            self._meta = _copy.deepcopy(meta)
-
     @property
     def mask(self):
         return self._mask
-        
+
     @property
     def x_rep(self):
         return self._x_rep
@@ -183,7 +157,7 @@ class Hsi(_Spectrum):
                 if self.freq is None or self.freq.op_list_pix is None:
                     self._data = value
                     self._mask = _np.ones((self._data.shape[0],
-                                           self._data.shape[1]), 
+                                           self._data.shape[1]),
                                           dtype=_np.int)
                 else:
                     if value.shape[-1] == self.freq.op_range_pix.size:
@@ -191,12 +165,12 @@ class Hsi(_Spectrum):
                         temp[:,:,self.freq.op_range_pix] = value
                         self._data = temp
                         self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]), 
+                                               self._data.shape[1]),
                                               dtype=_np.int)
                     elif value.shape[-1] == self._data.shape[-1]:
                         self._data = value
                         self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]), 
+                                               self._data.shape[1]),
                                               dtype=_np.int)
                     else:
                         #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
@@ -206,6 +180,48 @@ class Hsi(_Spectrum):
         else:
             print('Assigning non-ndarray to data. Not shape checking')
             self._data = value
+
+    def check(self):
+        """
+        Check x, y, and freq to make sure the dimensions agree with data
+        """
+        if self._data is None:
+            print('Hsi check: data is None, not checking')
+        else:
+            if self._x_rep._data is None:
+                self._x_rep._data = _np.arange(self.shape[1])
+                self._x_rep._label = 'X'
+                self._x_rep._units = 'pix'
+                print('Hsi check: setting x to pixels')
+            elif self._x_rep._data.size != self._data.shape[1]:
+                self._x_rep = _Replicate()
+                self._x_rep._data = _np.arange(self.shape[1])
+                self._x_rep._label = 'X'
+                self._x_rep._units = 'pix'
+                print('Hsi check: setting x to pixels')
+
+            if self._y_rep._data is None:
+                self._y_rep._data = _np.arange(self.shape[0])
+                self._y_rep._label = 'Y'
+                self._y_rep._units = 'pix'
+                print('Hsi check: setting y to pixels')
+            elif self._y_rep._data.size != self._data.shape[0]:
+                self._y_rep = _Replicate()
+                self._y_rep._data = _np.arange(self.shape[0])
+                self._y_rep._label = 'Y'
+                self._y_rep._units = 'pix'
+                print('Hsi check: setting y to pixels')
+
+            if self.freq._data is None:
+                self.freq._data = _np.arange(self.shape[-1])
+                self.freq._label = 'Frequency'
+                self.freq._units = 'pix'
+                print('Hsi check: setting freq to pixels')
+            elif self.freq._data.size != self._data.shape[-1]:
+                self.freq = _Frequency()
+                self.freq._data = _np.arange(self.shape[-1])
+                print('Hsi check: setting freq to pixels')
+        return None
 
     def subtract(self, spectra, overwrite=True):
         """
@@ -246,12 +262,12 @@ class Hsi(_Spectrum):
             num_spectra = num + 5
         else:
             num_spectra = num
-        
+
         if _np.iscomplexobj(self.data):
             dtype = _np.complex
         else:
             dtype = _np.float
-            
+
         temp = _np.zeros((num_spectra, self.data.shape[-1]), dtype=dtype)
 
         quad_mid_row = int(_np.round(mlen/2))

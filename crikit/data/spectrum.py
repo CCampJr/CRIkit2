@@ -6,11 +6,6 @@ Spectrum class and function
 import numpy as _np
 import copy as _copy
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
-#    _sys.path.append(_os.path.abspath('./utils'))
 from crikit.data.frequency import Frequency as _Frequency
 
 __all__ = ['Spectrum']
@@ -63,8 +58,8 @@ class Spectrum:
     subtract : 1D ndarray or None
         Subtract spectrum or object
 
-    Note
-    ----
+    Notes
+    -----
     * freq object contains some useful parameters such as op_range_\* and \
     plot_range_\*, which define spectral regions-of-interest. (It's debatable \
     as to whether those parameters should be in Frequency or Spectrum classes)
@@ -77,7 +72,7 @@ class Spectrum:
         self._freq = _Frequency()
         self._label = None
         self._units = None
-        self._meta = None
+        self._meta = {}
 
         if data is not None:
             self.data = _copy.deepcopy(data)
@@ -123,7 +118,7 @@ class Spectrum:
                 return _np.imag(self._data)
         else:
             return self._data
-    
+
     @property
     def data_real_over_imag(self):
         if _np.iscomplexobj(self._data):
@@ -133,7 +128,7 @@ class Spectrum:
                 return _np.real(self._data)
         else:
             return self._data
-            
+
     @property
     def freq(self):
         return self._freq
@@ -229,7 +224,7 @@ class Spectrum:
                 print('Could not get calibration information')
             else:
                 temp_dict.update(calib_dict)
- 
+
         # return self._meta
         return temp_dict
 
@@ -275,21 +270,21 @@ class Spectrum:
         """
         if self._data is None:
             return None
-        
+
         ndim = len(self._data.shape)
-        
+
         if ndim == 1:
             if isinstance(self._data, _np.ndarray):
                 return self._data.mean()
             else:
                 return _np.mean(self._data)
-                
+
         if ndim > 1:
             if over_space == True:
                 axes = tuple(_np.arange(ndim-1))
             else:
                 axes = -1
-            
+
         if isinstance(self._data, _np.ndarray):
             if extent is None:
                 return self._data.mean(axis=axes)
@@ -299,32 +294,32 @@ class Spectrum:
             if extent is None:
                 return _np.mean(self._data, axis=axes)
             else:
-                return _np.mean(self._data[:,extent[0]:extent[1]+1], 
+                return _np.mean(self._data[:,extent[0]:extent[1]+1],
                                 axis=axes)
 
     def std(self, extent=None, over_space=True):
         """
-        Return standard deviation (std) spectrum (or std over extent 
+        Return standard deviation (std) spectrum (or std over extent
         [list with 2 elements]). If over_space is False, reps (or reps x reps)
         number of std's.
         """
         if self._data is None:
             return None
-        
+
         ndim = len(self._data.shape)
-        
+
         if ndim == 1:
             if isinstance(self._data, _np.ndarray):
                 return self._data.std()
             else:
                 return _np.std(self._data)
-                
+
         if ndim > 1:
             if over_space == True:
                 axes = tuple(_np.arange(ndim-1))
             else:
                 axes = -1
-            
+
         if isinstance(self._data, _np.ndarray):
             if extent is None:
                 return self._data.std(axis=axes)
@@ -334,7 +329,7 @@ class Spectrum:
             if extent is None:
                 return _np.std(self._data, axis=axes)
             else:
-                return _np.std(self._data[:,extent[0]:extent[1]+1], 
+                return _np.std(self._data[:,extent[0]:extent[1]+1],
                                 axis=axes)
 
     def subtract(self, spectrum, overwrite=True):
@@ -361,15 +356,18 @@ class Spectrum:
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
 
-    a = Spectrum(data=_np.random.rand(300,300,1000))
+    N = 10001
+    wn = _np.linspace(500,3000,N)
+    sp = Spectrum(data=_np.random.rand(N) + 1j*_np.random.rand(N), freq=wn)
 
-    start = _timeit.default_timer()
-    q = a.data[:,:,100:900]
-    stop = _timeit.default_timer()
-    print(stop-start)
-    del q
+    tmr = _timeit.default_timer()
+    sp.data[200:500]
+    tmr -= _timeit.default_timer()
+    print(-tmr)
 
-    start = _timeit.default_timer()
-    q = a.set_data[:,:,100:900]
-    stop = _timeit.default_timer()
-    print(stop-start)
+    tmr = _timeit.default_timer()
+    locs = _np.arange(sp.freq.get_index_of_closest_freq(500),
+                     sp.freq.get_index_of_closest_freq(600))
+    sp.data_imag_over_real[locs]
+    tmr -= _timeit.default_timer()
+    print(-tmr)

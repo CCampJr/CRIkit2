@@ -1,0 +1,1165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1691</width>
+    <height>905</height>
+   </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>240</red>
+        <green>240</green>
+        <blue>240</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>240</red>
+        <green>240</green>
+        <blue>240</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>8</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>CRIkit2</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: 8pt &quot;Arial&quot;;</string>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_7">
+    <item row="0" column="1">
+     <widget class="QTabWidget" name="tabColors">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QTabWidget" name="tabMain">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Single Frequency</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="sweeperVL">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabCompositeLarge">
+         <attribute name="title">
+          <string>Composite</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="sweeperVL_2">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabSettings">
+         <attribute name="title">
+          <string>Settings</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_5"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_3">
+         <attribute name="title">
+          <string>Notes</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QPlainTextEdit" name="plainTextEdit">
+              <property name="plainText">
+               <string>This is where you enter notes....
+
+This will be saved to the processed file.</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QScrollBar" name="freqSlider">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetNoConstraint</enum>
+          </property>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLineEdit" name="lineEditPix">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLabel" name="labelFreqPixel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>10</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Freq Pixel</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::AutoText</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+           <widget class="QLineEdit" name="lineEditFreq">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLabel" name="labelWavenumber">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>1000</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wavenumber (cm-1)</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::AutoText</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1691</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpenHDFNIST"/>
+    <addaction name="actionOpenDLMNIST"/>
+    <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+   </widget>
+   <widget class="QMenu" name="menuImport">
+    <property name="title">
+     <string>Import/Load</string>
+    </property>
+    <widget class="QMenu" name="menuPiece_wise_NRB">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Piecewise NRB</string>
+     </property>
+     <addaction name="actionMergeNRBs"/>
+     <addaction name="separator"/>
+     <addaction name="actionLoad_NRB_Left_Side"/>
+     <addaction name="actionNRB_from_ROI_Left_Side"/>
+     <addaction name="separator"/>
+     <addaction name="actionLoad_NRB_Right_Side"/>
+     <addaction name="actionNRB_from_ROI_Right_Side"/>
+    </widget>
+    <addaction name="actionLoadDark"/>
+    <addaction name="actionLoadNRB"/>
+    <addaction name="separator"/>
+    <addaction name="actionLoadDarkDLM"/>
+    <addaction name="actionLoadNRBDLM"/>
+    <addaction name="separator"/>
+    <addaction name="actionNRB_from_ROI"/>
+    <addaction name="actionAppend_NRB_from_ROI"/>
+    <addaction name="separator"/>
+    <addaction name="menuPiece_wise_NRB"/>
+   </widget>
+   <widget class="QMenu" name="menuPre_Process">
+    <property name="title">
+     <string>Pre-Process</string>
+    </property>
+    <widget class="QMenu" name="menuVariance_Stabilize">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Standardize</string>
+     </property>
+     <addaction name="actionAnscombe"/>
+     <addaction name="separator"/>
+     <addaction name="actionInverseAnscombe"/>
+    </widget>
+    <widget class="QMenu" name="menuCoherent_Raman_Imaging">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Coherent Raman Imaging</string>
+     </property>
+     <addaction name="actionDeNoiseNRB"/>
+     <addaction name="actionKramersKronig"/>
+     <addaction name="actionKKSpeedTest"/>
+     <addaction name="actionPhaseErrorCorrection"/>
+     <addaction name="actionScaleErrorCorrection"/>
+    </widget>
+    <addaction name="actionDeNoiseDark"/>
+    <addaction name="actionDarkSubtract"/>
+    <addaction name="actionResidualSubtract"/>
+    <addaction name="menuVariance_Stabilize"/>
+    <addaction name="actionDeNoise"/>
+    <addaction name="actionAmpErrorCorrection"/>
+    <addaction name="separator"/>
+    <addaction name="actionSimpleOutlierRemoval"/>
+    <addaction name="separator"/>
+    <addaction name="actionSubtractROI"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="menuCoherent_Raman_Imaging"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionZeroFirstColumn"/>
+    <addaction name="actionZeroFirstRow"/>
+    <addaction name="actionZeroLastColumn"/>
+    <addaction name="actionZeroLastRow"/>
+    <addaction name="actionFreqWindow"/>
+    <addaction name="actionCalibrate"/>
+    <addaction name="actionResetCalibration"/>
+   </widget>
+   <widget class="QMenu" name="menuAnalysis">
+    <property name="title">
+     <string>Analysis</string>
+    </property>
+    <addaction name="actionAnalysisToolkit"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuToolbar">
+     <property name="title">
+      <string>Toolbar</string>
+     </property>
+     <addaction name="actionToolBarNone"/>
+     <addaction name="actionToolBarNIST2"/>
+     <addaction name="actionToolBarNIST1"/>
+    </widget>
+    <addaction name="menuToolbar"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowPlotter"/>
+    <addaction name="actionShowOverlays"/>
+    <addaction name="actionShowOverlayLegend"/>
+    <addaction name="separator"/>
+    <addaction name="actionPointSpectrum"/>
+    <addaction name="actionROISpectrum"/>
+    <addaction name="separator"/>
+    <addaction name="actionDarkSpectrum"/>
+    <addaction name="actionNRBSpectrum"/>
+    <addaction name="actionLeftSideNRBSpect"/>
+    <addaction name="actionRightSideNRBSpect"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionUndo_Backup_Enabled"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelpManual"/>
+    <addaction name="separator"/>
+    <addaction name="actionRamanPhantom"/>
+    <addaction name="actionBCARSPhantom"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuImport"/>
+   <addaction name="menuPre_Process"/>
+   <addaction name="menuAnalysis"/>
+   <addaction name="menuSettings"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>49</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>8</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <action name="actionOpenHDFNIST">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open HDF (NIST)...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionLoadDark">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Dark (HDF)</string>
+   </property>
+  </action>
+  <action name="actionLoadNRB">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load NRB (HDF)</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-closed-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-closed-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/cog-4x.png</normaloff>:/icons/open-iconic-master/png/cog-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings...</string>
+   </property>
+  </action>
+  <action name="actionDarkSubtract">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/arrow-thick-bottom-4x.png</normaloff>:/icons/open-iconic-master/png/arrow-thick-bottom-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Dark Sub...</string>
+   </property>
+   <property name="toolTip">
+    <string>Dark Subtraction</string>
+   </property>
+  </action>
+  <action name="actionKramersKronig">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/audio-spectrum-4x.png</normaloff>:/icons/open-iconic-master/png/audio-spectrum-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>KK</string>
+   </property>
+   <property name="toolTip">
+    <string>Kramers-Kronig Relation</string>
+   </property>
+  </action>
+  <action name="actionPhaseErrorCorrection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/bug-4x.png</normaloff>:/icons/open-iconic-master/png/bug-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Phase Err...</string>
+   </property>
+   <property name="toolTip">
+    <string>Phase Error Correction</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/action-undo-4x.png</normaloff>:/icons/open-iconic-master/png/action-undo-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionDeNoise">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/dial-4x.png</normaloff>:/icons/open-iconic-master/png/dial-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>De-Noise</string>
+   </property>
+  </action>
+  <action name="actionAnalysisToolkit">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/bar-chart-4x.png</normaloff>:/icons/open-iconic-master/png/bar-chart-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Analysis Toolkit</string>
+   </property>
+  </action>
+  <action name="actionZeroFirstColumn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero 1st Column</string>
+   </property>
+  </action>
+  <action name="actionPointSpectrum">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/map-marker-4x.png</normaloff>:/icons/open-iconic-master/png/map-marker-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pt Spect</string>
+   </property>
+   <property name="toolTip">
+    <string>Single Point Spectrum</string>
+   </property>
+  </action>
+  <action name="actionROISpectrum">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/map-4x.png</normaloff>:/icons/open-iconic-master/png/map-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>ROI Spect</string>
+   </property>
+   <property name="toolTip">
+    <string>ROI Spectrum</string>
+   </property>
+  </action>
+  <action name="actionDarkSpectrum">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Dark Spect</string>
+   </property>
+   <property name="toolTip">
+    <string>Dark Spectrum</string>
+   </property>
+  </action>
+  <action name="actionNRBSpectrum">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>NRB Spect</string>
+   </property>
+   <property name="toolTip">
+    <string>NRB Spectrum</string>
+   </property>
+  </action>
+  <action name="actionFreqWindow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/resize-width-4x.png</normaloff>:/icons/open-iconic-master/png/resize-width-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Freq Window</string>
+   </property>
+   <property name="toolTip">
+    <string>Set Frequency Window</string>
+   </property>
+  </action>
+  <action name="actionCalibrate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/open-iconic-master/png/check-4x.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Calibrate</string>
+   </property>
+  </action>
+  <action name="actionNRB_from_ROI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>NRB from ROI</string>
+   </property>
+  </action>
+  <action name="actionAppend_NRB_from_ROI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/paperclip-4x.png</normaloff>:/icons/open-iconic-master/png/paperclip-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Append NRB from ROI</string>
+   </property>
+  </action>
+  <action name="actionSubtractROI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/collapse-down-4x.png</normaloff>:/icons/open-iconic-master/png/collapse-down-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sub ROI</string>
+   </property>
+   <property name="toolTip">
+    <string>Subtract ROI Spectrum</string>
+   </property>
+  </action>
+  <action name="actionShowPlotter">
+   <property name="text">
+    <string>Show Plotter</string>
+   </property>
+  </action>
+  <action name="actionKKSpeedTest">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Kramers-Kronig Speed Test</string>
+   </property>
+  </action>
+  <action name="actionSimpleOutlierRemoval">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Simple Outlier Removal</string>
+   </property>
+  </action>
+  <action name="actionResetCalibration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/x-2x.png</normaloff>:/icons/open-iconic-master/png/x-2x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset Calibration</string>
+   </property>
+  </action>
+  <action name="actionZeroFirstRow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero 1st Row</string>
+   </property>
+  </action>
+  <action name="actionZeroLastColumn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero Last Column</string>
+   </property>
+  </action>
+  <action name="actionZeroLastRow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/crop-4x.png</normaloff>:/icons/open-iconic-master/png/crop-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zero Last Row</string>
+   </property>
+  </action>
+  <action name="actionAnscombe">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/vertical-align-center-4x.png</normaloff>:/icons/open-iconic-master/png/vertical-align-center-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Anscombe</string>
+   </property>
+  </action>
+  <action name="actionInverseAnscombe">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/vertical-align-bottom-4x.png</normaloff>:/icons/open-iconic-master/png/vertical-align-bottom-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Inv Anscombe</string>
+   </property>
+   <property name="toolTip">
+    <string>Inverse Anscombe</string>
+   </property>
+  </action>
+  <action name="actionScaleErrorCorrection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/bug-3x.png</normaloff>:/icons/open-iconic-master/png/bug-3x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scale Err...</string>
+   </property>
+   <property name="toolTip">
+    <string>Scale Error Correction</string>
+   </property>
+  </action>
+  <action name="actionResidualSubtract">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/data-transfer-download-4x.png</normaloff>:/icons/open-iconic-master/png/data-transfer-download-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Residual Sub</string>
+   </property>
+   <property name="toolTip">
+    <string>Residual Background Subtraction</string>
+   </property>
+  </action>
+  <action name="actionAmpErrorCorrection">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/graph-3x.png</normaloff>:/icons/open-iconic-master/png/graph-3x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Baseline Sub</string>
+   </property>
+   <property name="toolTip">
+    <string>Baseline Detrending</string>
+   </property>
+  </action>
+  <action name="actionToolBarNIST2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>NIST CRI Workflow</string>
+   </property>
+  </action>
+  <action name="actionToolBarNone">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </action>
+  <action name="actionOpenDLMNIST">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open DLM (NIST)</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Deliminated File (NIST)</string>
+   </property>
+  </action>
+  <action name="actionLoadDarkDLM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Dark (DLM)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load Dark (DLM)</string>
+   </property>
+  </action>
+  <action name="actionLoadNRBDLM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load NRB (DLM)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (DLM)</string>
+   </property>
+  </action>
+  <action name="actionToolBarNIST1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>NIST CRI Workflow (BCARS1)</string>
+   </property>
+  </action>
+  <action name="actionUndo_Backup_Enabled">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Undo/Backup Enabled</string>
+   </property>
+  </action>
+  <action name="actionLoad_NRB_Left_Side">
+   <property name="text">
+    <string>Load NRB (HDF; Left-Side)</string>
+   </property>
+  </action>
+  <action name="actionLoad_NRB_Right_Side">
+   <property name="text">
+    <string>Load NRB (HDF; Right-Side)</string>
+   </property>
+  </action>
+  <action name="actionNRB_from_ROI_Left_Side">
+   <property name="text">
+    <string>NRB from ROI (Left-Side)</string>
+   </property>
+  </action>
+  <action name="actionNRB_from_ROI_Right_Side">
+   <property name="text">
+    <string>NRB from ROI (Right-Side)</string>
+   </property>
+  </action>
+  <action name="actionMergeNRBs">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Merge NRBs</string>
+   </property>
+  </action>
+  <action name="actionMerge_NRBs_KK_Preview">
+   <property name="text">
+    <string>Merge NRBs (KK Preview)</string>
+   </property>
+  </action>
+  <action name="actionLeftSideNRBSpect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Left-Side NRB Spect</string>
+   </property>
+  </action>
+  <action name="actionRightSideNRBSpect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Right-Side NRB Spec</string>
+   </property>
+  </action>
+  <action name="actionDeNoiseNRB">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>De-Noise NRB</string>
+   </property>
+  </action>
+  <action name="actionDeNoiseDark">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>De-Noise Dark</string>
+   </property>
+  </action>
+  <action name="actionShowOverlays">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show ROI Overlays</string>
+   </property>
+  </action>
+  <action name="actionShowOverlayLegend">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Overlay Legend</string>
+   </property>
+  </action>
+  <action name="actionHelpManual">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/question-mark-2x.png</normaloff>:/icons/open-iconic-master/png/question-mark-2x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Manual</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionRamanPhantom">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/person-4x.png</normaloff>:/icons/open-iconic-master/png/person-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Raman Numerical Phantom</string>
+   </property>
+  </action>
+  <action name="actionBCARSPhantom">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/people-4x.png</normaloff>:/icons/open-iconic-master/png/people-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>BCARS Numerical Phantom</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../icons_all.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_Save.ui'
+# Form implementation generated from reading ui file '.\ui_Save.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.8.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(674, 333)
+        Dialog.resize(674, 410)
         Dialog.setStyleSheet("font: 10pt \"Arial\";")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -119,7 +119,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Save"))
         self.label.setText(_translate("Dialog", "Filename"))
         self.buttonGetFilename.setText(_translate("Dialog", "..."))
         self.buttonGenerateFilename.setText(_translate("Dialog", "Generate"))

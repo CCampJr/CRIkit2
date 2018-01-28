@@ -4,11 +4,6 @@ Created on Mon May 23 16:55:09 2016
 @author: chc
 """
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('../../'))
-
 from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn,
                                    calib_pix_wl as _calib_pix_wl)
 
@@ -33,6 +28,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
                     if count == '!':
                         temp_key = key
                         temp_val = rosetta[key][num+1]
+                        print('Using default meta_configs value for: {}'.format(key))
                         break
                     else:
                         temp_key = count

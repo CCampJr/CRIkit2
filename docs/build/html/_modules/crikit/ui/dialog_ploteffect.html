@@ -1,0 +1,608 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.dialog_ploteffect &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.dialog_ploteffect</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.dialog_ploteffect</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Extensible Dialog that shows the effect of a plugin on input data.</span>
+
+<span class="sd">Created on Wed Dec 21 21:36:00 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect</span> <span class="k">import</span> <span class="n">Ui_Dialog</span> <span class="k">as</span> <span class="n">Ui_DialogPlotEffect</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="k">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span> 
+                                                     <span class="k">as</span>
+                                                     <span class="n">_AbstractPlotEffectPlugin</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="k">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
+
+<div class="viewcode-block" id="DialogPlotEffectFuture"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture">[docs]</a><span class="k">class</span> <span class="nc">DialogPlotEffectFuture</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extensible Dialog that shows the effect of a plugin on input data.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    data : ndarray (ND)</span>
+<span class="sd">        Input data</span>
+<span class="sd">    </span>
+<span class="sd">    x : ndarray (1D)</span>
+<span class="sd">        Independent variable</span>
+<span class="sd">        </span>
+<span class="sd">    plugin : sub-class of AbstractPlotEffectPlugin</span>
+<span class="sd">        Plugin class instance</span>
+<span class="sd">        </span>
+<span class="sd">    parent : QObject</span>
+<span class="sd">        Parent</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DialogPlotEffectFuture</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_DialogPlotEffect</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        
+        <span class="c1"># Setup MPL containers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="n">subplot</span><span class="o">=</span><span class="mi">111</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="n">subplot</span><span class="o">=</span><span class="mi">111</span><span class="p">)</span>
+        
+        <span class="c1"># Show(), although not needed, enables mpl-tight_layout </span>
+        <span class="c1"># to work later on</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">toolbar</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">toolbar</span><span class="p">)</span>
+
+        <span class="c1"># Plugin that brings functionality to PlotEffect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin</span>
+        
+        
+        <span class="c1"># Signal emited when something changes in the plugin widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widget_changed</span><span class="p">)</span>
+            
+        <span class="c1"># Setup indep. variable</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        
+        <span class="c1"># If data is a list (assumed to be a list of ndarrays),</span>
+        <span class="c1"># plot each item in list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">d</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_labels</span><span class="p">()</span>
+                
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">plugin</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget_changed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOk</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCancel</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reject</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="DialogPlotEffectFuture.dialogPlotEffect"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.dialogPlotEffect">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dialogPlotEffect</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Static method that is actually called</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogPlotEffectFuture</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">,</span> 
+                                  <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+        
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>  <span class="c1"># 1 = Accepted, 0 = Rejected/Canceled</span>
+        
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dialog</span><span class="o">.</span><span class="n">plugin</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+            
+<div class="viewcode-block" id="DialogPlotEffectFuture.widget_changed"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.widget_changed">[docs]</a>    <span class="k">def</span> <span class="nf">widget_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plugin widget has changed. Re-submit data to plugin function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">affected_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">fcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in plugin.fcn&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If affected_data is a list, [0] is added to the original data</span>
+            <span class="c1"># plots and is bolded</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">affected_data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="c1"># Split affected data into the addon and te affected axis</span>
+                <span class="c1"># data</span>
+                <span class="n">orig_data_addon</span> <span class="o">=</span> <span class="n">affected_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">affected_data</span> <span class="o">=</span> <span class="n">affected_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">orig_data_addon</span> <span class="o">=</span> <span class="kc">None</span>
+            
+            <span class="c1"># If there already exists an original plot, keep those</span>
+            <span class="c1"># axis limits upon re-plotting</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lim_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lim_orig</span> <span class="o">=</span> <span class="kc">None</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            
+            
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                    
+            <span class="c1"># If data is a list (assumed to be a list of ndarrays),</span>
+            <span class="c1"># plot each item in list</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">d</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="n">orig_data_addon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">orig_data_addon</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">orig_data_addon</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                    
+            <span class="c1"># If there already exists an affected plot, keep those</span>
+            <span class="c1"># axis limits upon re-plotting</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lim_affected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lim_affected</span> <span class="o">=</span> <span class="kc">None</span>
+                
+            <span class="c1"># If affected data return is None, hide the affected axis</span>
+            <span class="k">if</span> <span class="n">affected_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">affected_data</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">affected_data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_labels</span><span class="p">()</span>  <span class="c1"># Update x-,y-, and title-labels on plots</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            
+            <span class="c1"># Reset axis limits to previous setting before re-plotting</span>
+            <span class="k">if</span> <span class="n">lim_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">lim_orig</span><span class="p">)</span>
+                
+            <span class="c1"># Reset axis limits to previous setting before re-plotting</span>
+            <span class="k">if</span> <span class="n">lim_affected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">lim_affected</span><span class="p">)</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="DialogPlotEffectFuture.plot_labels"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.plot_labels">[docs]</a>    <span class="k">def</span> <span class="nf">plot_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add axis labels and titles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">labels_orig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">labels_affected</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DialogPlotEffectFuture._plot_labels_ax"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture._plot_labels_ax">[docs]</a>    <span class="k">def</span> <span class="nf">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">k_lower</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k_lower</span> <span class="o">==</span> <span class="s1">&#39;x_label&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">k_lower</span> <span class="o">==</span> <span class="s1">&#39;y_label&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">k_lower</span> <span class="o">==</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div></div>
+                
+        
+<div class="viewcode-block" id="widgetDemoPlotEffectPlugin"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin">[docs]</a><span class="k">class</span> <span class="nc">widgetDemoPlotEffectPlugin</span><span class="p">(</span><span class="n">_AbstractPlotEffectPlugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Very simple demo of a plugin</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="s1">&#39;DEMO&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;long_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;Demo of PlotEffectPlugins&#39;</span><span class="p">}</span>
+    
+    <span class="n">labels_orig</span> <span class="o">=</span> <span class="p">{</span>
+                   <span class="s1">&#39;x_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;y_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Input Int (au)&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Original&#39;</span>
+                   <span class="p">}</span>
+                   
+    <span class="n">labels_affected</span> <span class="o">=</span> <span class="p">{</span>
+                       <span class="s1">&#39;x_label&#39;</span> <span class="p">:</span> <span class="n">labels_orig</span><span class="p">[</span><span class="s1">&#39;x_label&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;y_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Output Int (au)&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Affected&#39;</span>
+                      <span class="p">}</span>
+                    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetDemoPlotEffectPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span> 
+    
+<div class="viewcode-block" id="widgetDemoPlotEffectPlugin.fcn"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.fcn">[docs]</a>    <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If return list, [0] goes to original, [1] goes to affected</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="o">*</span><span class="n">data_in</span> <span class="o">+</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">data_in</span> <span class="o">+</span> <span class="o">.</span><span class="mi">1</span><span class="p">]</span></div></div>
+        
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    
+    <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    
+<span class="c1">#    WN = _np.linspace(500,4000,800)</span>
+
+    <span class="n">calib_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_pix&#39;</span> <span class="p">:</span> <span class="mi">1600</span><span class="p">,</span>
+                  <span class="s1">&#39;ctr_wl&#39;</span> <span class="p">:</span> <span class="mi">730</span><span class="p">,</span>
+                  <span class="s1">&#39;ctr_wl0&#39;</span> <span class="p">:</span> <span class="mi">730</span><span class="p">,</span>
+                  <span class="s1">&#39;a_vec&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.167740721307557</span><span class="p">,</span> <span class="mf">863.8736708961577</span><span class="p">],</span>
+                  <span class="s1">&#39;probe&#39;</span><span class="p">:</span> <span class="mf">771.461</span><span class="p">}</span>
+                  
+    <span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">])</span>
+    <span class="n">wl</span> <span class="o">=</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">pix</span> <span class="o">+</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">WN</span> <span class="o">=</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">wl</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span> <span class="o">-</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span>
+    
+    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span><span class="p">)</span>
+    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span>
+    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="n">CARS</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    
+    
+    
+    <span class="n">NRB_LEFT</span> <span class="o">=</span> <span class="mf">20e3</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">WN</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="mi">500</span>
+    <span class="n">NRB_RIGHT</span> <span class="o">=</span> <span class="mf">6e3</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">WN</span><span class="o">-</span><span class="mi">2500</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">400</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="mi">500</span>
+    
+    <span class="n">NRB_LEFT</span><span class="p">[</span><span class="n">WN</span><span class="o">&lt;</span><span class="mi">500</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">0</span>
+    <span class="n">NRB_LEFT</span><span class="p">[</span><span class="n">WN</span><span class="o">&lt;</span><span class="mi">500</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1e-6</span>
+    <span class="n">NRB_RIGHT</span><span class="p">[</span><span class="n">WN</span><span class="o">&lt;</span><span class="mi">500</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">0</span>
+    <span class="n">NRB_RIGHT</span><span class="p">[</span><span class="n">WN</span><span class="o">&lt;</span><span class="mi">500</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1e-6</span>
+    
+    <span class="kn">from</span> <span class="nn">crikit.cri.merge_nrbs</span> <span class="k">import</span> <span class="n">MergeNRBs</span> <span class="k">as</span> <span class="n">_MergeNRBs</span>
+    <span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="k">import</span> <span class="n">find_nearest</span> <span class="k">as</span> <span class="n">_find_nearest</span>
+    <span class="n">NRB2</span> <span class="o">=</span> <span class="n">_MergeNRBs</span><span class="p">(</span><span class="n">nrb_left</span><span class="o">=</span><span class="n">NRB_LEFT</span><span class="p">,</span> <span class="n">nrb_right</span><span class="o">=</span><span class="n">NRB_RIGHT</span><span class="p">,</span> 
+                     <span class="n">pix</span><span class="o">=</span><span class="n">_find_nearest</span><span class="p">(</span><span class="n">WN</span><span class="p">,</span> <span class="mf">1885.0</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                     <span class="n">left_side_scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">calculate</span><span class="p">()</span>
+    
+    <span class="n">CARS2</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">500</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2700</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">))</span> <span class="o">+</span> <span class="n">NRB2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">CARS2</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span><span class="n">CARS2</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    
+<span class="c1">#    # Demo</span>
+<span class="c1">#    plugin = widgetDemoPlotEffectPlugin()</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+<span class="c1">#</span>
+<span class="c1">##    # ALS</span>
+<span class="c1">##    from crikit.ui.widget_ALS import widgetALS as _widgetALS</span>
+<span class="c1">##    </span>
+<span class="c1">##    plugin = _widgetALS()</span>
+<span class="c1">##    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">##                                                            plugin=plugin)</span>
+<span class="c1">##    if winPlotEffect is not None:</span>
+<span class="c1">##        print(winPlotEffect.parameters)</span>
+<span class="c1">#</span>
+<span class="c1">#    # ArPLS</span>
+<span class="c1">#    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS</span>
+<span class="c1">#    plugin = _widgetArPLS()</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+<span class="c1">#    </span>
+<span class="c1">#    # Detrending</span>
+<span class="c1">#    from crikit.ui.widget_DeTrending import (widgetDeTrending as </span>
+<span class="c1">#                                                  _widgetDeTrending)</span>
+<span class="c1">#    plugin = _widgetDeTrending()</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+<span class="c1">#    </span>
+<span class="c1">#    # SG</span>
+<span class="c1">#    from crikit.ui.widget_SG import (widgetSG as _widgetSG)</span>
+<span class="c1">#    plugin = _widgetSG()</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+<span class="c1">#    </span>
+<span class="c1">#    # KK</span>
+<span class="c1">#    from crikit.ui.widget_KK import (widgetKK as _widgetKK)</span>
+<span class="c1">#    plugin = _widgetKK()</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect([NRB,CARS], x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+<span class="c1">#        </span>
+<span class="c1">#    # Calibrate</span>
+<span class="c1">#    from crikit.ui.widget_Calibrate import (widgetCalibrate as </span>
+<span class="c1">#                                                _widgetCalibrate)</span>
+<span class="c1">#    plugin = _widgetCalibrate(calib_dict)</span>
+<span class="c1">#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,</span>
+<span class="c1">#                                                            plugin=plugin)</span>
+<span class="c1">#    if winPlotEffect is not None:</span>
+<span class="c1">#        print(winPlotEffect.parameters)</span>
+    
+    <span class="c1"># Merge NRBs</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.widget_mergeNRBs</span> <span class="k">import</span> <span class="p">(</span><span class="n">widgetMergeNRBs</span> <span class="k">as</span> 
+                                            <span class="n">_widgetMergeNRBs</span><span class="p">)</span>
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetMergeNRBs</span><span class="p">(</span><span class="n">WN</span><span class="p">,</span> <span class="n">NRB_LEFT</span><span class="p">,</span> <span class="n">NRB_RIGHT</span><span class="p">)</span>
+    <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">DialogPlotEffectFuture</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">(</span><span class="n">CARS2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">WN</span><span class="p">,</span>
+                                                            <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">winPlotEffect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+        
+    
+    
+    
+    
+    
+    
+<span class="c1">#        print(&#39;P-Value: {}&#39;.format(winPlotEffect.p))</span>
+<span class="c1">#        print(&#39;Lambda-Value: {}&#39;.format(winPlotEffect.lam))</span>
+<span class="c1">#        print(&#39;Redux: {}&#39;.format(winPlotEffect.redux))</span>
+<span class="c1">#        </span>
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

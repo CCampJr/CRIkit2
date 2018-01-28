@@ -7,10 +7,6 @@ multiple entries)
 import numpy as _np
 import copy as _copy
 
-if __name__ == '__main__':  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _sys.path.append(_os.path.abspath('.'))
 from crikit.data.frequency import Frequency as _Frequency
 from crikit.data.spectrum import Spectrum as _Spectrum
 from crikit.data.replicate import Replicate as _Replicate
@@ -45,10 +41,6 @@ class Spectra(_Spectrum):
     meta : dict
         Meta-data dictionary
 
-    f_pix : int, read-only
-        Size of data's frequency axis. Note: this matches the size of data and \
-        does NOT check the size of freq.data.
-
     shape : tuple, read-only
         Shape of data
 
@@ -77,26 +69,8 @@ class Spectra(_Spectrum):
     """
 
     def __init__(self, data=None, freq=None, label=None, units=None, meta=None):
-
-        self._data = None
-        self._freq = _Frequency()
-        self._label = None
-        self._units = None
-        self._meta = None
+        super().__init__(data, freq, label, units, meta)
         self._reps = _Replicate()
-
-        if data is not None:
-            self.data = _copy.deepcopy(data)
-        if freq is not None:
-            self.freq = _copy.deepcopy(freq)
-        else:
-            self.freq = _Frequency()
-        if label is not None:
-            self.label = _copy.deepcopy(label)
-        if units is not None:
-            self.units = _copy.deepcopy(units)
-        if meta is not None:
-            self._meta = _copy.deepcopy(meta)
 
     @property
     def data(self):

@@ -4,16 +4,6 @@ Visualization General Utilities (crikit.ui.visgentuils)
 
     roimask : Create a region-of-interest binary mask
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("15.10.04")
 """
 
 from matplotlib.path import Path as _Path

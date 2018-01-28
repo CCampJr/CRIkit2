@@ -50,13 +50,12 @@ class widgetALS(_AbstractPlotEffectPlugin):
     parent: QObject
         Parent
         
-    Method
-    ------
+    Methods
+    -------
     fcn : Perform ALS detrending
     
-    Signals
-    -------
-    changed : a value in the UI has changed
+    Signals:
+        changed : a value in the UI has changed
     """
     
     # Parameter dict that will be returned from PlotEffect

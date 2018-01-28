@@ -1,0 +1,1958 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui package &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>crikit.ui package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crikit.ui.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crikit-ui-package">
+<h1>crikit.ui package<a class="headerlink" href="#crikit-ui-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crikit.ui.utils.html">crikit.ui.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.ui.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.ui.utils.html#module-crikit.ui.utils.roi">crikit.ui.utils.roi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="crikit.ui.utils.html#visualization-general-utilities-crikit-ui-visgentuils">Visualization General Utilities (crikit.ui.visgentuils)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.ui.utils.html#module-crikit.ui.utils">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="crikit.ui.utils.html#cri-spectral-processing-tools-crikit">CRI Spectral Processing Tools (CRIkit)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crikit.ui.classes_ui">
+<span id="crikit-ui-classes-ui-module"></span><h2>crikit.ui.classes_ui module<a class="headerlink" href="#module-crikit.ui.classes_ui" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="user-interface-and-visualization-classes-crikit-ui-classes-ui">
+<h3>User Interface and Visualization Classes (crikit.ui.classes_ui)<a class="headerlink" href="#user-interface-and-visualization-classes-crikit-ui-classes-ui" title="Permalink to this headline">¶</a></h3>
+<p>BW : Grayscale images</p>
+<p>SingleColor : Single-color images</p>
+<p>_ColorMath : Container of math operations</p>
+<dl class="class">
+<dt id="crikit.ui.classes_ui.BW">
+<em class="property">class </em><code class="descclassname">crikit.ui.classes_ui.</code><code class="descname">BW</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#BW"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.BW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.grayscaleimage">
+<code class="descname">grayscaleimage</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.grayscaleimage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.image">
+<code class="descname">image</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.image" title="Permalink to this definition">¶</a></dt>
+<dd><p>For image from property settings (limits, compression, etc)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.maxer">
+<code class="descname">maxer</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.maxer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.mean">
+<code class="descname">mean</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.minner">
+<code class="descname">minner</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.minner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.classes_ui.BW.set_x">
+<code class="descname">set_x</code><span class="sig-paren">(</span><em>value</em>, <em>units=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#BW.set_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.BW.set_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.classes_ui.BW.set_y">
+<code class="descname">set_y</code><span class="sig-paren">(</span><em>value</em>, <em>units=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#BW.set_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.BW.set_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.std">
+<code class="descname">std</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.std" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.winextent">
+<code class="descname">winextent</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.winextent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.x">
+<code class="descname">x</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.xlen">
+<code class="descname">xlen</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.xlen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.y">
+<code class="descname">y</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.BW.ylen">
+<code class="descname">ylen</code><a class="headerlink" href="#crikit.ui.classes_ui.BW.ylen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.classes_ui.CompositeColor">
+<em class="property">class </em><code class="descclassname">crikit.ui.classes_ui.</code><code class="descname">CompositeColor</code><span class="sig-paren">(</span><em>sgl_color_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#CompositeColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.CompositeColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.classes_ui.BW" title="crikit.ui.classes_ui.BW"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.classes_ui.BW</span></code></a></p>
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.CompositeColor.image">
+<code class="descname">image</code><a class="headerlink" href="#crikit.ui.classes_ui.CompositeColor.image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.CompositeColor.mode_txt">
+<code class="descname">mode_txt</code><a class="headerlink" href="#crikit.ui.classes_ui.CompositeColor.mode_txt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.CompositeColor.xlen">
+<code class="descname">xlen</code><a class="headerlink" href="#crikit.ui.classes_ui.CompositeColor.xlen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.CompositeColor.ylen">
+<code class="descname">ylen</code><a class="headerlink" href="#crikit.ui.classes_ui.CompositeColor.ylen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.classes_ui.SingleColor">
+<em class="property">class </em><code class="descclassname">crikit.ui.classes_ui.</code><code class="descname">SingleColor</code><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#SingleColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.classes_ui.BW" title="crikit.ui.classes_ui.BW"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.classes_ui.BW</span></code></a>, <a class="reference internal" href="#crikit.ui.classes_ui._ColorMath" title="crikit.ui.classes_ui._ColorMath"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.classes_ui._ColorMath</span></code></a></p>
+<dl class="staticmethod">
+<dt id="crikit.ui.classes_ui.SingleColor._bwtocolor">
+<em class="property">static </em><code class="descname">_bwtocolor</code><span class="sig-paren">(</span><em>gs, colormap, bgcolor=[0, 0, 0]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#SingleColor._bwtocolor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor._bwtocolor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert normalized [0,1] B&amp;W image (gs) to color, applying a
+3-value list colormap (colormap)</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.classes_ui.SingleColor._imgnorm">
+<em class="property">static </em><code class="descname">_imgnorm</code><span class="sig-paren">(</span><em>img</em>, <em>low=None</em>, <em>high=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#SingleColor._imgnorm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor._imgnorm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize intensity (B&amp;W) image. Values at
+low -&gt; 0
+high -&gt; 1</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.classes_ui.SingleColor._imgnormcompress">
+<em class="property">static </em><code class="descname">_imgnormcompress</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#SingleColor._imgnormcompress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor._imgnormcompress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compress normalized image. Values:
+&gt; 1 -&gt; 1
+&lt; 0 -&gt; 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.SingleColor.image">
+<code class="descname">image</code><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor.image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui.SingleColor.imageGS">
+<code class="descname">imageGS</code><a class="headerlink" href="#crikit.ui.classes_ui.SingleColor.imageGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.grayscaleimage with limits applied</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.classes_ui._ColorMath">
+<em class="property">class </em><code class="descclassname">crikit.ui.classes_ui.</code><code class="descname">_ColorMath</code><a class="reference internal" href="_modules/crikit/ui/classes_ui.html#_ColorMath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.condfreq1">
+<code class="descname">condfreq1</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.condfreq1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.condfreq2">
+<code class="descname">condfreq2</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.condfreq2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.condfreq3">
+<code class="descname">condfreq3</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.condfreq3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.condoperation">
+<code class="descname">condoperation</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.condoperation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.inequality">
+<code class="descname">inequality</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.inequality" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.inequalityval">
+<code class="descname">inequalityval</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.inequalityval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.operation">
+<code class="descname">operation</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.operation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.opfreq1">
+<code class="descname">opfreq1</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.opfreq1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.opfreq2">
+<code class="descname">opfreq2</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.opfreq2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.classes_ui._ColorMath.opfreq3">
+<code class="descname">opfreq3</code><em class="property"> = None</em><a class="headerlink" href="#crikit.ui.classes_ui._ColorMath.opfreq3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-crikit.ui.dialog_AbstractFactorization">
+<span id="crikit-ui-dialog-abstractfactorization-module"></span><h2>crikit.ui.dialog_AbstractFactorization module<a class="headerlink" href="#module-crikit.ui.dialog_AbstractFactorization" title="Permalink to this headline">¶</a></h2>
+<p>Abstract Factorization Class</p>
+<p>Created on Mon Jul 25 10:44:03 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_AbstractFactorization.</code><code class="descname">DialogAbstractFactorization</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>SubUiSVD : SVD SubUI</p>
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.advance">
+<code class="descname">advance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>View next set of SVs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.applyCheckBoxes">
+<code class="descname">applyCheckBoxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.applyCheckBoxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.applyCheckBoxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add checked singular values (and remove un-checked SVs)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear selected singular values (i.e., none will be selected)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.combiner">
+<code class="descname">combiner</code><span class="sig-paren">(</span><em>factors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.combiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.combiner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.get_spatial_slice">
+<code class="descname">get_spatial_slice</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.get_spatial_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.get_spatial_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.get_spectral_slice">
+<code class="descname">get_spectral_slice</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.get_spectral_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.get_spectral_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.max_factors">
+<code class="descname">max_factors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.max_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.max_factors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.mean_spatial">
+<code class="descname">mean_spatial</code><span class="sig-paren">(</span><em>cube</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.mean_spatial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.mean_spatial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.mean_spectral">
+<code class="descname">mean_spectral</code><span class="sig-paren">(</span><em>cube</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.mean_spectral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.mean_spectral" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.runScript">
+<code class="descname">runScript</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.runScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.runScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run “script” of singular value selection</p>
+<p class="rubric">Example</p>
+<p>[1,2,3,5:7] = 1,2,3,5,6,7</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.setupData">
+<code class="descname">setupData</code><span class="sig-paren">(</span><em>img_shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.setupData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.setupData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.ui_changes">
+<code class="descname">ui_changes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.ui_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.ui_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any changes to ui labels or otherwise for particular implementation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.unselected_factors">
+<code class="descname">unselected_factors</code><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.unselected_factors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.updateCurrentRemainder">
+<code class="descname">updateCurrentRemainder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.updateCurrentRemainder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.updateCurrentRemainder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update image reconstructed (mean over spectral vector) using remaining         (unselected) singular values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.updatePlots">
+<code class="descname">updatePlots</code><span class="sig-paren">(</span><em>startnum=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractFactorization.html#DialogAbstractFactorization.updatePlots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.updatePlots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update images and spectra of set of singular values starting at SV         number startnum</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_AbstractPlotEffect">
+<span id="crikit-ui-dialog-abstractploteffect-module"></span><h2>crikit.ui.dialog_AbstractPlotEffect module<a class="headerlink" href="#module-crikit.ui.dialog_AbstractPlotEffect" title="Permalink to this headline">¶</a></h2>
+<p>Created on Thu Dec 22 10:04:39 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_AbstractPlotEffect.</code><code class="descname">AbstractPlotEffectPlugin</code><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractPlotEffect.html#AbstractPlotEffectPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<dl class="attribute">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.changed">
+<code class="descname">changed</code><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_AbstractPlotEffect.html#AbstractPlotEffectPlugin.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.fcn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'x', 'y_label': 'y', 'title': 'Affected'}</em><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'x', 'y_label': 'y', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'Name', 'long_name': 'Longer Name'}</em><a class="headerlink" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_SVD">
+<span id="crikit-ui-dialog-svd-module"></span><h2>crikit.ui.dialog_SVD module<a class="headerlink" href="#module-crikit.ui.dialog_SVD" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon Jul 25 13:57:24 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_SVD.DialogSVD">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_SVD.</code><code class="descname">DialogSVD</code><span class="sig-paren">(</span><em>data</em>, <em>img_shape</em>, <em>mask=None</em>, <em>use_imag=True</em>, <em>img_all=None</em>, <em>spect_all=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization" title="crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization</span></code></a></p>
+<p>SVD Class</p>
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.combiner">
+<code class="descname">combiner</code><span class="sig-paren">(</span><em>selections=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.combiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.combiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs U*S*Vh</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.dialogSVD">
+<em class="property">static </em><code class="descname">dialogSVD</code><span class="sig-paren">(</span><em>data</em>, <em>img_shape</em>, <em>mask=None</em>, <em>use_imag=True</em>, <em>img_all=None</em>, <em>spect_all=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.dialogSVD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.dialogSVD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.get_spatial_slice">
+<code class="descname">get_spatial_slice</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.get_spatial_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.get_spatial_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.get_spectral_slice">
+<code class="descname">get_spectral_slice</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.get_spectral_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.get_spectral_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.max_factors">
+<code class="descname">max_factors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.max_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.max_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return maximum number of factors. Since DialogAbstractFactorization
+(parent) is initialized first (before self.s), need to return None
+at first.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.mean_spatial">
+<code class="descname">mean_spatial</code><span class="sig-paren">(</span><em>cube</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.mean_spatial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.mean_spatial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.mean_spectral">
+<code class="descname">mean_spectral</code><span class="sig-paren">(</span><em>cube</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.mean_spectral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.mean_spectral" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_SVD.DialogSVD.s_from_selected">
+<code class="descname">s_from_selected</code><span class="sig-paren">(</span><em>selections=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_SVD.html#DialogSVD.s_from_selected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_SVD.DialogSVD.s_from_selected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return SVD S-matrix of SELECTED singular values</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_kkOptions">
+<span id="crikit-ui-dialog-kkoptions-module"></span><h2>crikit.ui.dialog_kkOptions module<a class="headerlink" href="#module-crikit.ui.dialog_kkOptions" title="Permalink to this headline">¶</a></h2>
+<p>Kramers-Kronig phase retrieval</p>
+<p class="rubric">References</p>
+<p>[1] C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_kkOptions.</code><code class="descname">DialogKKOptions</code><span class="sig-paren">(</span><em>parent=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently         supported) options dialog</p>
+<dl class="method">
+<dt>
+<code class="descname">dialogKKOptions : Used to call UI and retrieve results of dialog</code></dt>
+<dd></dd></dl>
+
+<p class="rubric">References</p>
+<p>[1] Y. Liu, Y. J. Lee, and M. T. Cicerone, “Broadband CARS spectral         phase retrieval using a time-domain Kramers-Kronig transform,”         Opt. Lett. 34, 1363-1365 (2009).</p>
+<p>[2] C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable Coherent         Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase         Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
+<dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.CARS_AMP">
+<code class="descname">CARS_AMP</code><em class="property"> = 0.0</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.CARS_AMP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.NORM_TO_NRB">
+<code class="descname">NORM_TO_NRB</code><em class="property"> = True</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.NORM_TO_NRB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.NRB_AMP">
+<code class="descname">NRB_AMP</code><em class="property"> = 0.0</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.NRB_AMP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.PAD_FACTOR">
+<code class="descname">PAD_FACTOR</code><em class="property"> = 1</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.PAD_FACTOR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.PHASE_OFFSET">
+<code class="descname">PHASE_OFFSET</code><em class="property"> = 0.0</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.PHASE_OFFSET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions">
+<em class="property">static </em><code class="descname">dialogKKOptions</code><span class="sig-paren">(</span><em>parent=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions.dialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve dark subtraction dialog results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt><strong>out</strong> –        ‘phase_offset’ <span class="classifier-delimiter">:</span> <span class="classifier">float, ‘norm_to_nrb’</span> <span class="classifier-delimiter">:</span> <span class="classifier">bool,</span></dt>
+<dd>’pad_factor’ : int}</dd>
+<dt>In order: CARS amp offset, NRB amp offset, phase offset, normalize</dt>
+<dd>by NRB, pad factor</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict{‘cars_amp’ : float, ‘nrb_amp’ : float,</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.goInteractive">
+<code class="descname">goInteractive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions.goInteractive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.goInteractive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_model">
+<span id="crikit-ui-dialog-model-module"></span><h2>crikit.ui.dialog_model module<a class="headerlink" href="#module-crikit.ui.dialog_model" title="Permalink to this headline">¶</a></h2>
+<p>Dialog for creating BCARS or Raman numerical phantom</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_model.DialogModel">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_model.</code><code class="descname">DialogModel</code><span class="sig-paren">(</span><em>cplx=True</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_model.html#DialogModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_model.DialogModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>Dialog for creating BCARS or Raman numerical phantom</p>
+<dl class="method">
+<dt id="crikit.ui.dialog_model.DialogModel.changeSize">
+<code class="descname">changeSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_model.html#DialogModel.changeSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_model.DialogModel.changeSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_model.DialogModel.dialogModel">
+<em class="property">static </em><code class="descname">dialogModel</code><span class="sig-paren">(</span><em>cplx=True</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_model.html#DialogModel.dialogModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_model.DialogModel.dialogModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_ploteffect">
+<span id="crikit-ui-dialog-ploteffect-module"></span><h2>crikit.ui.dialog_ploteffect module<a class="headerlink" href="#module-crikit.ui.dialog_ploteffect" title="Permalink to this headline">¶</a></h2>
+<p>Extensible Dialog that shows the effect of a plugin on input data.</p>
+<p>Created on Wed Dec 21 21:36:00 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_ploteffect.DialogPlotEffectFuture">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_ploteffect.</code><code class="descname">DialogPlotEffectFuture</code><span class="sig-paren">(</span><em>data</em>, <em>x=None</em>, <em>plugin=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#DialogPlotEffectFuture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>Extensible Dialog that shows the effect of a plugin on input data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>ndarray</em><em> (</em><em>ND</em><em>)</em>) – Input data</li>
+<li><strong>x</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Independent variable</li>
+<li><strong>plugin</strong> (<em>sub-class of AbstractPlotEffectPlugin</em>) – Plugin class instance</li>
+<li><strong>parent</strong> (<em>QObject</em>) – Parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="crikit.ui.dialog_ploteffect.DialogPlotEffectFuture._plot_labels_ax">
+<code class="descname">_plot_labels_ax</code><span class="sig-paren">(</span><em>ax</em>, <em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#DialogPlotEffectFuture._plot_labels_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture._plot_labels_ax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.dialogPlotEffect">
+<em class="property">static </em><code class="descname">dialogPlotEffect</code><span class="sig-paren">(</span><em>data</em>, <em>x=None</em>, <em>plugin=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#DialogPlotEffectFuture.dialogPlotEffect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.dialogPlotEffect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static method that is actually called</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.plot_labels">
+<code class="descname">plot_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#DialogPlotEffectFuture.plot_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.plot_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add axis labels and titles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.widget_changed">
+<code class="descname">widget_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#DialogPlotEffectFuture.widget_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.DialogPlotEffectFuture.widget_changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plugin widget has changed. Re-submit data to plugin function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_ploteffect.</code><code class="descname">widgetDemoPlotEffectPlugin</code><span class="sig-paren">(</span><em>offset=0.1</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#widgetDemoPlotEffectPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Very simple demo of a plugin</p>
+<dl class="method">
+<dt id="crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_ploteffect.html#widgetDemoPlotEffectPlugin.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Output Int (au)', 'title': 'Affected'}</em><a class="headerlink" href="#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'DEMO', 'long_name': 'Demo of PlotEffectPlugins'}</em><a class="headerlink" href="#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_save">
+<span id="crikit-ui-dialog-save-module"></span><h2>crikit.ui.dialog_save module<a class="headerlink" href="#module-crikit.ui.dialog_save" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="crikit-save-dialog-crikit-ui-dialog-save">
+<h3>CRIkit Save Dialog (crikit.ui.dialog_save)<a class="headerlink" href="#crikit-save-dialog-crikit-ui-dialog-save" title="Permalink to this headline">¶</a></h3>
+<p>Classes that present dialog boxes that retrieve options</p>
+<p>DialogSave : Save Dialog</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_save.DialogSave">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_save.</code><code class="descname">DialogSave</code><span class="sig-paren">(</span><em>current_filename=None</em>, <em>current_path=None</em>, <em>current_dataset_name=None</em>, <em>save_filename=None</em>, <em>save_path=None</em>, <em>save_dataset_name=None</em>, <em>suffix=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>DialogDarkOptions : Dark subtraction options dialog</p>
+<dl class="method">
+<dt>
+<code class="descname">dialogSave : Used to call UI and retrieve results of dialog</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.changeDataset">
+<code class="descname">changeDataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.changeDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.changeDataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.changeFilename">
+<code class="descname">changeFilename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.changeFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.changeFilename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.changePath">
+<code class="descname">changePath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.changePath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.changePath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_save.DialogSave.dialogSave">
+<em class="property">static </em><code class="descname">dialogSave</code><span class="sig-paren">(</span><em>current_filename=None</em>, <em>current_path=None</em>, <em>current_dataset_name=None</em>, <em>save_filename=None</em>, <em>save_path=None</em>, <em>save_dataset_name=None</em>, <em>suffix=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.dialogSave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.dialogSave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve save dialog results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>current_filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of HDF5 file from where current data resided</li>
+<li><strong>current_path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to HDF5 file from where current data resided</li>
+<li><strong>current_dataset_name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Dataset path and name where current data resided</li>
+<li><strong>save_filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filename of HDF5 file where previously saved (if so)</li>
+<li><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path of HDF5 file where previously saved (if so)</li>
+<li><strong>save_dataset_name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Dataset path and name where previously saved (if so)</li>
+<li><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Suffix to append to _dataset_name based on processing steps</li>
+<li><strong>NOTE</strong> (<a href="#id1"><span class="problematic" id="id2">save_</span></a> parameters supercede <a href="#id3"><span class="problematic" id="id4">current_</span></a> parameters) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> – Filename : str
+Path : str
+Dataset_name_path : str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.generateDatasetName">
+<code class="descname">generateDatasetName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.generateDatasetName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.generateDatasetName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.generateFilename">
+<code class="descname">generateFilename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.generateFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.generateFilename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.getFilename">
+<code class="descname">getFilename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.getFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.getFilename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.dialog_save.DialogSave.getPath">
+<code class="descname">getPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_save.html#DialogSave.getPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_save.DialogSave.getPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-crikit.ui.dialog_subResidualOptions">
+<span id="crikit-ui-dialog-subresidualoptions-module"></span><h2>crikit.ui.dialog_subResidualOptions module<a class="headerlink" href="#module-crikit.ui.dialog_subResidualOptions" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">References</p>
+<p>[1] C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_subResidualOptions.</code><code class="descname">DialogSubResidualOptions</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_subResidualOptions.html#DialogSubResidualOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<dl class="attribute">
+<dt id="crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions.RESIDUAL_FREQ">
+<code class="descname">RESIDUAL_FREQ</code><em class="property"> = [-1500, -400]</em><a class="headerlink" href="#crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions.RESIDUAL_FREQ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions.dialogSubResidualOptions">
+<em class="property">static </em><code class="descname">dialogSubResidualOptions</code><span class="sig-paren">(</span><em>parent=None</em>, <em>imgloaded=False</em>, <em>nrbloaded=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_subResidualOptions.html#DialogSubResidualOptions.dialogSubResidualOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_subResidualOptions.DialogSubResidualOptions.dialogSubResidualOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve dark subtraction dialog results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>imgloaded</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>)</em>) – Is there an HSI image loaded?</li>
+<li><strong>nrbloaded</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>)</em>) – Is there an NRB loaded?</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> – In order: subtract residual from image, subtract residual from NRB,
+range to subtract from.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict{‘submain’ : bool, ‘subnrb’ : bool, ‘subrange’ : list}</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.dialog_varstabAnscombeOptions">
+<span id="crikit-ui-dialog-varstabanscombeoptions-module"></span><h2>crikit.ui.dialog_varstabAnscombeOptions module<a class="headerlink" href="#module-crikit.ui.dialog_varstabAnscombeOptions" title="Permalink to this headline">¶</a></h2>
+<p>Created on Sat Jul 23 21:38:08 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions">
+<em class="property">class </em><code class="descclassname">crikit.ui.dialog_varstabAnscombeOptions.</code><code class="descname">DialogAnscombeOptions</code><span class="sig-paren">(</span><em>stddev=12.44</em>, <em>gain=1.4</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_varstabAnscombeOptions.html#DialogAnscombeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>DialogAnscombeOptions : Anscombe Transformation options dialog</p>
+<dl class="method">
+<dt>
+<code class="descname">dialogAnscombeOptions : Used to call UI and retrieve results of dialog</code></dt>
+<dd></dd></dl>
+
+<p class="rubric">References</p>
+<p>[1] C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable Coherent     Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase     Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
+<dl class="staticmethod">
+<dt id="crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions.dialogAnscombeOptions">
+<em class="property">static </em><code class="descname">dialogAnscombeOptions</code><span class="sig-paren">(</span><em>stddev=12.44</em>, <em>gain=1.4</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_varstabAnscombeOptions.html#DialogAnscombeOptions.dialogAnscombeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions.dialogAnscombeOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve Anscombe Transform dialog results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>out</strong> – Standard deviation of Gaussian noise : (float)
+Detector gain of Poisson noise : (float)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict{‘gain’ : float, ‘stddev’ : float}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.helper_plotOptions">
+<span id="crikit-ui-helper-plotoptions-module"></span><h2>crikit.ui.helper_plotOptions module<a class="headerlink" href="#module-crikit.ui.helper_plotOptions" title="Permalink to this headline">¶</a></h2>
+<p>Created on Sun Oct  4 00:28:16 2015</p>
+<p>&#64;author: camp</p>
+<dl class="class">
+<dt id="crikit.ui.helper_plotOptions.plotStyle">
+<em class="property">class </em><code class="descclassname">crikit.ui.helper_plotOptions.</code><code class="descname">plotStyle</code><span class="sig-paren">(</span><em>num_current_plots=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_plotOptions.html#plotStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.COLOR_DICT">
+<code class="descname">COLOR_DICT</code><em class="property"> = {'Blue': [0, 0, 1], 'Red': [1, 0, 0], 'Green': [0, 0.5, 0], 'Cyan': [0, 0.8, 0.8], 'Magenta': [1, 0, 1], 'Yellow': [0.8, 0.8, 0]}</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.COLOR_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.COLOR_VEC">
+<code class="descname">COLOR_VEC</code><em class="property"> = ['Blue', 'Green', 'Red', 'Magenta', 'Yellow', 'Cyan']</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.COLOR_VEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.LINESTYLE_VEC">
+<code class="descname">LINESTYLE_VEC</code><em class="property"> = ['-', '--', '-.', ':', 'None']</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.LINESTYLE_VEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.LINESTYLE_VEC_STR">
+<code class="descname">LINESTYLE_VEC_STR</code><em class="property"> = ['Solid', 'Dashed', 'Dash-Dot', 'Dotted', 'None']</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.LINESTYLE_VEC_STR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.LINEWIDTH">
+<code class="descname">LINEWIDTH</code><em class="property"> = 1.0</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.LINEWIDTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.MARKERSIZE">
+<code class="descname">MARKERSIZE</code><em class="property"> = 5.0</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.MARKERSIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.MARKER_VEC">
+<code class="descname">MARKER_VEC</code><em class="property"> = ['None', '.', ',', 'o', 'v', '^', '&lt;', '&gt;', '8', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd', '|', '_']</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.MARKER_VEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.MARKER_VEC_STR">
+<code class="descname">MARKER_VEC_STR</code><em class="property"> = ['None', 'Point', 'Pixel', 'Circle', 'Triangle Down', 'Triangle Up', 'Triangle Left', 'Triangle Right', 'Octagon', 'Square', 'Pentagon', 'Star', 'Hexagon 1', 'Hexagon 2', 'Plus', 'X', 'Diamond', 'Thin Diamondd', 'Vert Line', 'Horiz Line']</em><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.MARKER_VEC_STR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.getLineStyle">
+<code class="descname">getLineStyle</code><span class="sig-paren">(</span><em>num_current_plots=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_plotOptions.html#plotStyle.getLineStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.getLineStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.linestyle_str">
+<code class="descname">linestyle_str</code><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.linestyle_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.marker_str">
+<code class="descname">marker_str</code><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.marker_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_plotOptions.plotStyle.qcolor">
+<code class="descname">qcolor</code><a class="headerlink" href="#crikit.ui.helper_plotOptions.plotStyle.qcolor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.helper_roiselect">
+<span id="crikit-ui-helper-roiselect-module"></span><h2>crikit.ui.helper_roiselect module<a class="headerlink" href="#module-crikit.ui.helper_roiselect" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="crikit.ui.helper_roiselect.ImageSelection">
+<em class="property">class </em><code class="descclassname">crikit.ui.helper_roiselect.</code><code class="descname">ImageSelection</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_roiselect.html#ImageSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_roiselect.ImageSelection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="crikit.ui.helper_roiselect.ImageSelection.append_selection">
+<code class="descname">append_selection</code><span class="sig-paren">(</span><em>xpix</em>, <em>ypix</em>, <em>x=None</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_roiselect.html#ImageSelection.append_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_roiselect.ImageSelection.append_selection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.helper_roiselect.ImageSelection.clear_all">
+<code class="descname">clear_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_roiselect.html#ImageSelection.clear_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_roiselect.ImageSelection.clear_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.helper_roiselect.ImageSelection.num_selections">
+<code class="descname">num_selections</code><a class="headerlink" href="#crikit.ui.helper_roiselect.ImageSelection.num_selections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.helper_roiselect._PointsData">
+<em class="property">class </em><code class="descclassname">crikit.ui.helper_roiselect.</code><code class="descname">_PointsData</code><span class="sig-paren">(</span><em>num_current_plots=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/helper_roiselect.html#_PointsData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.helper_roiselect._PointsData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.subui_hdf_load">
+<span id="crikit-ui-subui-hdf-load-module"></span><h2>crikit.ui.subui_hdf_load module<a class="headerlink" href="#module-crikit.ui.subui_hdf_load" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui">
+<h3>HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)<a class="headerlink" href="#hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>H5LoadGUI : A graphical user interface (GUI) to select HDF5 dataset(s)</p>
+<p>Method : H5LoadGUI.getFileDataSets()</p>
+<p>Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])</p>
+</div></blockquote>
+<dl class="class">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad">
+<em class="property">class </em><code class="descclassname">crikit.ui.subui_hdf_load.</code><code class="descname">SubUiHDFLoad</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>GUI Loader Class for H5 Files</p>
+<dl class="method">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad.datagroupchange">
+<code class="descname">datagroupchange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad.datagroupchange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad.datagroupchange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action : ComboBox containing Groups with DataSets has changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad.datasetselected">
+<code class="descname">datasetselected</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad.datasetselected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad.datasetselected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action : One or more DataSets were selected from the list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad.fileopen">
+<code class="descname">fileopen</code><span class="sig-paren">(</span><em>start_path='./'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad.fileopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad.fileopen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select HDF5 File</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad.filterlist">
+<code class="descname">filterlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad.filterlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad.filterlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action : Filter available dataset list (.ui.dataSetList) based on
+include or exclude strings (or comma-separated strings)</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="crikit.ui.subui_hdf_load.SubUiHDFLoad.getFileDataSets">
+<em class="property">static </em><code class="descname">getFileDataSets</code><span class="sig-paren">(</span><em>start_path='./'</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/subui_hdf_load.html#SubUiHDFLoad.getFileDataSets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.subui_hdf_load.SubUiHDFLoad.getFileDataSets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the filename and datasets selected by the user (via GUI)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>start_path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Home directory to start in</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>out</strong> – path : str
+filename : (str)
+dataset(s) : (list[str])</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-crikit.ui.widget_ALS">
+<span id="crikit-ui-widget-als-module"></span><h2>crikit.ui.widget_ALS module<a class="headerlink" href="#module-crikit.ui.widget_ALS" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+asymmetric least squares (ALS)</p>
+<p>Created on Thu Dec 22 01:16:01 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_ALS.widgetALS">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_ALS.</code><code class="descname">widgetALS</code><span class="sig-paren">(</span><em>asym_param=0.01</em>, <em>smoothness_param=1</em>, <em>redux=10</em>, <em>pstart=0.01</em>, <em>pend=0.001</em>, <em>fixed_p=False</em>, <em>fix_end_points=True</em>, <em>max_iter=100</em>, <em>min_diff=1e-06</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+asymmetric least squares (ALS)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>smoothness_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1e3</em><em>)</em>) – Smoothness parameter</li>
+<li><strong>asym_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1e-4</em><em>)</em>) – Assymetry parameter</li>
+<li><strong>redux</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1</em><em>)</em>) – Reduction parameter to sub-sample input signal</li>
+<li><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>2</em><em>)</em>) – Derivative regularization term. Order=2 for Whittaker-smoother</li>
+<li><strong>fix_end_points</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#False" title="(in Python v3.6)"><em>False</em></a><em>)</em>) – Weight the baseline endpoints to approach equally the end-points
+of the data.</li>
+<li><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>100</em><em>)</em>) – Maximum number of least-squares iterations to perform</li>
+<li><strong>min_diff</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1e-5</em><em>)</em>) – Break iterative calculations if difference is less than min_diff</li>
+<li><strong>parent</strong> (<em>QObject</em>) – Parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">fcn : Perform ALS detrending</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Signals:</code></dt>
+<dd><p>changed : a value in the UI has changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ALS.widgetALS.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Output Int (au)', 'title': 'Detrended'}</em><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ALS.widgetALS.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ALS.widgetALS.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'ALS', 'long_name': 'Asymmetric least squares'}</em><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.selectFixedEnds">
+<code class="descname">selectFixedEnds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.selectFixedEnds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.selectFixedEnds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check selection of fixed end-points</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.selectFixedOrLog">
+<code class="descname">selectFixedOrLog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.selectFixedOrLog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.selectFixedOrLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check fixed or log-linear asymmetry parameter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.setup_asym">
+<code class="descname">setup_asym</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.setup_asym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.setup_asym" title="Permalink to this definition">¶</a></dt>
+<dd><p>P/asymmetry parameter related</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.setup_smoothness">
+<code class="descname">setup_smoothness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.setup_smoothness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.setup_smoothness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lambda/smoothness parameter rlated</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ALS.widgetALS.spinBoxChanged">
+<code class="descname">spinBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ALS.html#widgetALS.spinBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ALS.widgetALS.spinBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for all spinBoxes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_ArPLS">
+<span id="crikit-ui-widget-arpls-module"></span><h2>crikit.ui.widget_ArPLS module<a class="headerlink" href="#module-crikit.ui.widget_ArPLS" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+asymmetrically reweights penalized least squares (arPLS)</p>
+<p>Created on Thu Dec 22 01:16:01 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_ArPLS.</code><code class="descname">widgetArPLS</code><span class="sig-paren">(</span><em>smoothness_param=1</em>, <em>redux=1</em>, <em>fix_end_points=True</em>, <em>max_iter=100</em>, <em>min_diff=1e-06</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ArPLS.html#widgetArPLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+asymmetrically reweights penalized least squares (arPLS)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>smoothness_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1e3</em><em>)</em>) – Smoothness parameter</li>
+<li><strong>redux</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1</em><em>)</em>) – Reduction parameter to sub-sample input signal</li>
+<li><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>2</em><em>)</em>) – Derivative regularization term. Order=2 for Whittaker-smoother</li>
+<li><strong>fix_end_points</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#False" title="(in Python v3.6)"><em>False</em></a><em>)</em>) – Weight the baseline endpoints to approach equally the end-points
+of the data.</li>
+<li><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>100</em><em>)</em>) – Maximum number of least-squares iterations to perform</li>
+<li><strong>min_diff</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default</em><em>, </em><em>1e-5</em><em>)</em>) – Break iterative calculations if difference is less than min_diff</li>
+<li><strong>parent</strong> (<em>QObject</em>) – Parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">fcn : Perform arPLS detrending</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Signals:</code></dt>
+<dd><p>changed : a value in the UI has changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ArPLS.html#widgetArPLS.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Output Int (au)', 'title': 'Detrended'}</em><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'arPLS', 'long_name': 'Asymmetrically reweighted penalized least                   squares'}</em><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.selectFixedEnds">
+<code class="descname">selectFixedEnds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ArPLS.html#widgetArPLS.selectFixedEnds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.selectFixedEnds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check selection of fixed end-points</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_ArPLS.widgetArPLS.spinBoxChanged">
+<code class="descname">spinBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_ArPLS.html#widgetArPLS.spinBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_ArPLS.widgetArPLS.spinBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for all spinBoxes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_Calibrate">
+<span id="crikit-ui-widget-calibrate-module"></span><h2>crikit.ui.widget_Calibrate module<a class="headerlink" href="#module-crikit.ui.widget_Calibrate" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+calibration</p>
+<p>Created on Thu Dec 22 14:27:46 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_Calibrate.</code><code class="descname">widgetCalibrate</code><span class="sig-paren">(</span><em>calib_dict</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Calibrate.html#widgetCalibrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+calibration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calib_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Calibration dictionary</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">fcn : Perform arPLS detrending</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Signals:</code></dt>
+<dd><p>changed : a value in the UI has changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Calibrate.html#widgetCalibrate.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a shifted version of the input spectrum to mimic the effect
+of calibration. (Real calibration doesn’t shift the spectrum, but
+rather the independent variable)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Output Int (au)', 'title': 'Calibrated'}</em><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Uncalibrated'}</em><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.meas_vs_ideal">
+<code class="descname">meas_vs_ideal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Calibrate.html#widgetCalibrate.meas_vs_ideal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.meas_vs_ideal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'Calibrate', 'long_name': 'Spectral Calibration'}</em><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.setup_calib">
+<code class="descname">setup_calib</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Calibrate.html#widgetCalibrate.setup_calib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.setup_calib" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Calibrate.widgetCalibrate.spinBoxChanged">
+<code class="descname">spinBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Calibrate.html#widgetCalibrate.spinBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Calibrate.widgetCalibrate.spinBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for all spinBoxes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_DeTrending">
+<span id="crikit-ui-widget-detrending-module"></span><h2>crikit.ui.widget_DeTrending module<a class="headerlink" href="#module-crikit.ui.widget_DeTrending" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that contains and presents different detrending
+algorithms. Whichever algorithm is plugged in effectively acts as the
+widget as far as PlotEffect is concerned.</p>
+<p>Created on Wed Dec  7 13:36:48 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_DeTrending.widgetDeTrending">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_DeTrending.</code><code class="descname">widgetDeTrending</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_DeTrending.html#widgetDeTrending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_DeTrending.widgetDeTrending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that contains and presents different detrending
+algorithms. Whichever algorithm is plugged in effectively acts as the
+widget as far as PlotEffect is concerned.</p>
+<dl class="method">
+<dt id="crikit.ui.widget_DeTrending.widgetDeTrending.changeWidget">
+<code class="descname">changeWidget</code><span class="sig-paren">(</span><em>buttonId</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_DeTrending.html#widgetDeTrending.changeWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_DeTrending.widgetDeTrending.changeWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change active widget</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_DeTrending.widgetDeTrending.widgetOptionsChanged">
+<code class="descname">widgetOptionsChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_DeTrending.html#widgetDeTrending.widgetOptionsChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_DeTrending.widgetDeTrending.widgetOptionsChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Options within the active widget were changed</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_Jupyter">
+<span id="crikit-ui-widget-jupyter-module"></span><h2>crikit.ui.widget_Jupyter module<a class="headerlink" href="#module-crikit.ui.widget_Jupyter" title="Permalink to this headline">¶</a></h2>
+<p>Created on Wed Mar  2 17:12:54 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_Jupyter.</code><code class="descname">QJupyterWidget</code><span class="sig-paren">(</span><em>customBanner=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Jupyter.html#QJupyterWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">qtconsole.rich_jupyter_widget.RichJupyterWidget</span></code></p>
+<p>Convenience class for a live IPython console widget. We can replace the standard banner using the customBanner argument</p>
+<dl class="attribute">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget._trait_default_generators">
+<code class="descname">_trait_default_generators</code><em class="property"> = {}</em><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget._trait_default_generators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget.clearTerminal">
+<code class="descname">clearTerminal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Jupyter.html#QJupyterWidget.clearTerminal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget.clearTerminal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the terminal</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget.executeCommand">
+<code class="descname">executeCommand</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Jupyter.html#QJupyterWidget.executeCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget.executeCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a command in the frame of the console widget</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget.printText">
+<code class="descname">printText</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Jupyter.html#QJupyterWidget.printText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget.printText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints some plain text to the console</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Jupyter.QJupyterWidget.pushVariables">
+<code class="descname">pushVariables</code><span class="sig-paren">(</span><em>variableDict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Jupyter.html#QJupyterWidget.pushVariables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Jupyter.QJupyterWidget.pushVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a dictionary containing name / value pairs, push those variables to the IPython console widget</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_KK">
+<span id="crikit-ui-widget-kk-module"></span><h2>crikit.ui.widget_KK module<a class="headerlink" href="#module-crikit.ui.widget_KK" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+the Kramers-Kronig relation</p>
+<p>Created on Thu Dec 22 11:43:42 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_KK.widgetKK">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_KK.</code><code class="descname">widgetKK</code><span class="sig-paren">(</span><em>cars_amp_offset=0.0</em>, <em>nrb_amp_offset=0.0</em>, <em>phase_offset=0.0</em>, <em>norm_to_nrb=True</em>, <em>pad_factor=1</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+the Kramers-Kronig (KK) relation phase retrieval.</p>
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.cars_amp_offset">
+<code class="descname">cars_amp_offset</code><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.cars_amp_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float, optional (default=0.0)</em> – DC offset applied to CARS spectrum(a) prior to KK relation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.nrb_amp_offset">
+<code class="descname">nrb_amp_offset</code><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.nrb_amp_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float, optional (default=0.0)</em> – DC offset applied to NRB spectrum(a) prior to KK relation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.phase_offset">
+<code class="descname">phase_offset</code><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.phase_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float or ndarray, optional (default=0.0)</em> – Phase constant or ndarray applied to retrieved phase prior to
+separating the real and imaginary components.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.norm_to_nrb">
+<code class="descname">norm_to_nrb</code><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.norm_to_nrb" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional (default=True)</em> – Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.pad_factor">
+<code class="descname">pad_factor</code><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.pad_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int, optional (default=1)</em> – Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">fcn : Performs the KK</code></dt>
+<dd></dd></dl>
+
+<dl class="docutils">
+<dt>Signals:</dt>
+<dd>changed : a value in the UI has changed</dd>
+</dl>
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.changeCheckBoxLockBias">
+<code class="descname">changeCheckBoxLockBias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeCheckBoxLockBias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeCheckBoxLockBias" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.changeCheckBoxNRBNorm">
+<code class="descname">changeCheckBoxNRBNorm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeCheckBoxNRBNorm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeCheckBoxNRBNorm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.changeSpinBoxPadFactor">
+<code class="descname">changeSpinBoxPadFactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeSpinBoxPadFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeSpinBoxPadFactor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Raman-Like Int (au)', 'title': 'KK-Raman'}</em><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_KK.widgetKK.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'KK', 'long_name': 'Kramers-Kronig Relation'}</em><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.setupKK">
+<code class="descname">setupKK</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.setupKK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.setupKK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.spinBoxChanged">
+<code class="descname">spinBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.spinBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.spinBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for all spinBoxes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_SG">
+<span id="crikit-ui-widget-sg-module"></span><h2>crikit.ui.widget_SG module<a class="headerlink" href="#module-crikit.ui.widget_SG" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+Savitky-Golay filtering</p>
+<p>Created on Thu Dec 22 11:18:36 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_SG.widgetSG">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_SG.</code><code class="descname">widgetSG</code><span class="sig-paren">(</span><em>window_length=601</em>, <em>polyorder=2</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_SG.html#widgetSG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+Savitky-Golay filtering</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>window_length</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Window length</li>
+<li><strong>polyorder</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Polynomial order</li>
+<li><strong>parent</strong> (<em>QObject</em>) – Parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<code class="descname">fcn : Performs the Savitky-Golay</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Signals:</code></dt>
+<dd><p>changed : a value in the UI has changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_SG.widgetSG.changeOrder">
+<code class="descname">changeOrder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_SG.html#widgetSG.changeOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.changeOrder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_SG.widgetSG.changeWinSize">
+<code class="descname">changeWinSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_SG.html#widgetSG.changeWinSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.changeWinSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_SG.widgetSG.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_SG.html#widgetSG.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_SG.widgetSG.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Difference (au)', 'title': 'Difference'}</em><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_SG.widgetSG.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_SG.widgetSG.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'SG', 'long_name': 'Savitky-Golay filtering'}</em><a class="headerlink" href="#crikit.ui.widget_SG.widgetSG.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_images">
+<span id="crikit-ui-widget-images-module"></span><h2>crikit.ui.widget_images module<a class="headerlink" href="#module-crikit.ui.widget_images" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="visualization-widgets-crikit-ui-widget-images">
+<h3>Visualization Widgets (crikit.ui.widget_images)<a class="headerlink" href="#visualization-widgets-crikit-ui-widget-images" title="Permalink to this headline">¶</a></h3>
+<p>widgetColorMath : Mathematical operations on raw data leading to color     images</p>
+<p>widgetBWImg : Grayscale imagery</p>
+<p>widgetSglColor : Single-color imagery</p>
+<p>widgetCompositeColor : Composite-color imagery</p>
+<p>_mplWin : Matplotlib window container</p>
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetBWImg">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetBWImg</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<p>Grayscale image widget</p>
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.checkBoxFixed">
+<code class="descname">checkBoxFixed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.checkBoxFixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.checkBoxFixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>See if the min and max are identified as being fixed by
+checkbox</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.checkBoxRemOutliers">
+<code class="descname">checkBoxRemOutliers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.checkBoxRemOutliers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.checkBoxRemOutliers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.comboBoxCompress">
+<code class="descname">comboBoxCompress</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.comboBoxCompress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.comboBoxCompress" title="Permalink to this definition">¶</a></dt>
+<dd><p>See if compression is activated via the comboBoxAboveMax</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.createImg">
+<code class="descname">createImg</code><span class="sig-paren">(</span><em>img</em>, <em>xunits=None</em>, <em>yunits=None</em>, <em>extent=None</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.createImg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.createImg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.createImg_Ext">
+<code class="descname">createImg_Ext</code><span class="sig-paren">(</span><em>img</em>, <em>xunits=None</em>, <em>yunits=None</em>, <em>extent=None</em>, <em>showcbar=True</em>, <em>axison=True</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.createImg_Ext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.createImg_Ext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new figure window and show image of img</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.initData">
+<code class="descname">initData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.initData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.initData" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Re)-initialize self.data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetBWImg.spinBoxMinMaxSet">
+<code class="descname">spinBoxMinMaxSet</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetBWImg.spinBoxMinMaxSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetBWImg.spinBoxMinMaxSet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetColorMode">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetColorMode</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetColorMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetColorMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<p>Color mode selector</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetCompositeColor">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetCompositeColor</code><span class="sig-paren">(</span><em>sgl_color_widget_list=None</em>, <em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetCompositeColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetCompositeColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetCompositeColor.changeMode">
+<code class="descname">changeMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetCompositeColor.changeMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetCompositeColor.changeMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetCompositeColor.createImg">
+<code class="descname">createImg</code><span class="sig-paren">(</span><em>img</em>, <em>xunits=None</em>, <em>yunits=None</em>, <em>extent=None</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetCompositeColor.createImg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetCompositeColor.createImg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetCompositeColor.createImg_Ext">
+<code class="descname">createImg_Ext</code><span class="sig-paren">(</span><em>img</em>, <em>xunits=None</em>, <em>yunits=None</em>, <em>extent=None</em>, <em>showcbar=True</em>, <em>axison=True</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetCompositeColor.createImg_Ext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetCompositeColor.createImg_Ext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new figure window and show image of img</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetCompositeColor.initData">
+<code class="descname">initData</code><span class="sig-paren">(</span><em>sgl_color_widget_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetCompositeColor.initData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetCompositeColor.initData" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Re)-initialize self.data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetGrayScaleInfoBar">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetGrayScaleInfoBar</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetGrayScaleInfoBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetGrayScaleInfoBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<p>Grayscale image info bar</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetImageGainMath">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetImageGainMath</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetImageGainMath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<p>Panel that controle image gain and applies math</p>
+<dl class="attribute">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.COND_TYPE_STRINGS">
+<code class="descname">COND_TYPE_STRINGS</code><em class="property"> = ['&gt;', '&lt;', '=', '&lt;=', '&gt;=']</em><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.COND_TYPE_STRINGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.OPERATION_FREQ_COUNT">
+<code class="descname">OPERATION_FREQ_COUNT</code><em class="property"> = [1, 2, 2, 2, 2, 3, 2]</em><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.OPERATION_FREQ_COUNT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.OPERATION_STRINGS">
+<code class="descname">OPERATION_STRINGS</code><em class="property"> = ['', '+', '-', '*', '/', 'Peak b/w troughs', 'SUM']</em><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.OPERATION_STRINGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetImageGainMath.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the ui to it’s initial state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.condOpsChange">
+<code class="descname">condOpsChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetImageGainMath.condOpsChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.condOpsChange" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetImageGainMath.operationchange">
+<code class="descname">operationchange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetImageGainMath.operationchange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetImageGainMath.operationchange" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetPopSpectrumGS">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetPopSpectrumGS</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetPopSpectrumGS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetPopSpectrumGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QWidget</span></code></p>
+<p>Panel that let’s user pop the current image, an average spectrum,
+or a grayscale image to SciPlot</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_images.widgetSglColor">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_images.</code><code class="descname">widgetSglColor</code><span class="sig-paren">(</span><em>parent=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.widget_images.widgetBWImg" title="crikit.ui.widget_images.widgetBWImg"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.widget_images.widgetBWImg</span></code></a></p>
+<p>Single-color widget</p>
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetSglColor.applyGain">
+<code class="descname">applyGain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor.applyGain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor.applyGain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetSglColor.changeColor">
+<code class="descname">changeColor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor.changeColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor.changeColor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetSglColor.disabled">
+<code class="descname">disabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor.disabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor.disabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetSglColor.gain1">
+<code class="descname">gain1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor.gain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor.gain1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_images.widgetSglColor.initData">
+<code class="descname">initData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_images.html#widgetSglColor.initData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_images.widgetSglColor.initData" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Re)-initialize self.data</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-crikit.ui.widget_mergeNRBs">
+<span id="crikit-ui-widget-mergenrbs-module"></span><h2>crikit.ui.widget_mergeNRBs module<a class="headerlink" href="#module-crikit.ui.widget_mergeNRBs" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+merging 2 NRBs</p>
+<p>Created on Thu Dec 22 22:20:06 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_mergeNRBs.</code><code class="descname">widgetMergeNRBs</code><span class="sig-paren">(</span><em>wn_vec</em>, <em>nrb_left</em>, <em>nrb_right</em>, <em>scale_left=False</em>, <em>wn_switchpt=2800.0</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+merging 2 NRBs</p>
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.fcn">
+<code class="descname">fcn</code><span class="sig-paren">(</span><em>data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If return list, [0] goes to original, [1] goes to affected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.fullRange">
+<code class="descname">fullRange</code><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.fullRange" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.kkChanged">
+<code class="descname">kkChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.kkChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.kkChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.labels_affected">
+<code class="descname">labels_affected</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Raman-Like Int (au)', 'title': 'KK-Raman'}</em><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.labels_orig">
+<code class="descname">labels_orig</code><em class="property"> = {'x_label': 'Wavenumber (cm$^{-1}$)', 'y_label': 'Input Int (au)', 'title': 'Original'}</em><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.parameters">
+<code class="descname">parameters</code><em class="property"> = {'name': 'mergeNRBs', 'long_name': 'Merge 2 NRBs'}</em><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.pixChanged">
+<code class="descname">pixChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.pixChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.pixChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.rangeChanged">
+<code class="descname">rangeChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.rangeChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.rangeChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.scaleChanged">
+<code class="descname">scaleChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.scaleChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.scaleChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_mergeNRBs.widgetMergeNRBs.wnChanged">
+<code class="descname">wnChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_mergeNRBs.html#widgetMergeNRBs.wnChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_mergeNRBs.widgetMergeNRBs.wnChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui.widget_scientificspin">
+<span id="crikit-ui-widget-scientificspin-module"></span><h2>crikit.ui.widget_scientificspin module<a class="headerlink" href="#module-crikit.ui.widget_scientificspin" title="Permalink to this headline">¶</a></h2>
+<p>From <a class="reference external" href="https://gist.github.com/jdreaver">https://gist.github.com/jdreaver</a> – scientificspin.py</p>
+<p>Created on Wed Dec  7 10:39:26 2016</p>
+<p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.ui.widget_scientificspin.FloatValidator">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_scientificspin.</code><code class="descname">FloatValidator</code><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#FloatValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.FloatValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtGui.QValidator</span></code></p>
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.FloatValidator.fixup">
+<code class="descname">fixup</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#FloatValidator.fixup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.FloatValidator.fixup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.FloatValidator.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em>string</em>, <em>position</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#FloatValidator.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.FloatValidator.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox">
+<em class="property">class </em><code class="descclassname">crikit.ui.widget_scientificspin.</code><code class="descname">ScientificDoubleSpinBox</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDoubleSpinBox</span></code></p>
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.fixup">
+<code class="descname">fixup</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox.fixup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.fixup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.stepBy">
+<code class="descname">stepBy</code><span class="sig-paren">(</span><em>steps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox.stepBy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.stepBy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.textFromValue">
+<code class="descname">textFromValue</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox.textFromValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.textFromValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em>text</em>, <em>position</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.valueFromText">
+<code class="descname">valueFromText</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#ScientificDoubleSpinBox.valueFromText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.ScientificDoubleSpinBox.valueFromText" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.ui.widget_scientificspin.format_float">
+<code class="descclassname">crikit.ui.widget_scientificspin.</code><code class="descname">format_float</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#format_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.format_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modified form of the ‘g’ format specifier.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.ui.widget_scientificspin.valid_float_string">
+<code class="descclassname">crikit.ui.widget_scientificspin.</code><code class="descname">valid_float_string</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_scientificspin.html#valid_float_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_scientificspin.valid_float_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-crikit.ui">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.ui" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

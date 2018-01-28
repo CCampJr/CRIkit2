@@ -6,25 +6,12 @@ Classes that present dialog boxes that retrieve options
 
 DialogSave : Save Dialog
 
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.03.03")
 """
 
 # Append sys path
 import sys as _sys
 import os as _os
 import datetime as _datetime
-
-if __name__ == '__main__':
-    _sys.path.append(_os.path.abspath('../../'))
 
 # Generic imports for QT-based programs
 from PyQt5.QtWidgets import (QApplication as _QApplication,
@@ -44,20 +31,10 @@ class DialogSave(_QDialog):
     """
     DialogDarkOptions : Dark subtraction options dialog
     
-    Static Method
-    -------------
+    Methods
+    --------
     dialogSave : Used to call UI and retrieve results of dialog
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.03.03")
     """
 
     def __init__(self, current_filename=None, current_path=None,
@@ -215,8 +192,6 @@ class DialogSave(_QDialog):
                  save_path=None, save_dataset_name=None, suffix=None,
                  parent=None):
         """
-        Static Method.
-        
         Retrieve save dialog results
 
         Parameters
@@ -240,9 +215,9 @@ class DialogSave(_QDialog):
             Dataset path and name where previously saved (if so)
         
         suffix : str
-            Suffix to append to *_dataset_name based on processing steps
+            Suffix to append to _dataset_name based on processing steps
             
-        NOTE : save_* parameters supercede current_* parameters
+        NOTE : save_ parameters supercede current_ parameters
 
         Returns
         ----------

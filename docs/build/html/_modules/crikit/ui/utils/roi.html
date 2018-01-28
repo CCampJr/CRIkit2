@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.utils.roi &mdash; CRIKit2 17.10b1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="CRIKit2 17.10b1 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../io.html">Input/Output (IO) File Types and Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.utils.roi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.utils.roi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Visualization General Utilities (crikit.ui.visgentuils)</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">    roimask : Create a region-of-interest binary mask</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="k">import</span> <span class="n">Path</span> <span class="k">as</span> <span class="n">_Path</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+
+<div class="viewcode-block" id="roimask"><a class="viewcode-back" href="../../../../crikit.ui.utils.html#crikit.ui.utils.roi.roimask">[docs]</a><span class="k">def</span> <span class="nf">roimask</span><span class="p">(</span><span class="n">imgx</span><span class="p">,</span> <span class="n">imgy</span><span class="p">,</span> <span class="n">xvec</span><span class="p">,</span> <span class="n">yvec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a region-of-interest binary mask from vertices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    imgx : ndarray</span>
+<span class="sd">        X-axis vector in physical units</span>
+
+<span class="sd">    imgy : ndarray</span>
+<span class="sd">        Y-axis vector in physical units</span>
+
+<span class="sd">    xvec : ndarray</span>
+<span class="sd">        Vector of x-locations of selected points</span>
+
+<span class="sd">    yvec : ndarray</span>
+<span class="sd">        Vector of y-locations of selected points</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mask : ndarray</span>
+<span class="sd">        Binary mask</span>
+
+<span class="sd">    path : MPL path object</span>
+<span class="sd">        Matplotlib path object describing ROI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">verts</span> <span class="o">=</span> <span class="n">_pts_to_verts</span><span class="p">(</span><span class="n">xvec</span><span class="p">,</span> <span class="n">yvec</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">_verts_to_path</span><span class="p">(</span><span class="n">verts</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">_mask_from_path</span><span class="p">(</span><span class="n">imgx</span><span class="p">,</span> <span class="n">imgy</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_pts_to_verts"><a class="viewcode-back" href="../../../../crikit.ui.utils.html#crikit.ui.utils.roi._pts_to_verts">[docs]</a><span class="k">def</span> <span class="nf">_pts_to_verts</span><span class="p">(</span><span class="n">xvec</span><span class="p">,</span> <span class="n">yvec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert points to vertices, i.e., convert from 2 1D arrays (or list) of \</span>
+<span class="sd">    x- and y-coordinates to a list-of-lists of [x,y] pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">verts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xvec</span><span class="p">)):</span>
+        <span class="n">verts</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xvec</span><span class="p">[</span><span class="n">count</span><span class="p">],</span><span class="n">yvec</span><span class="p">[</span><span class="n">count</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">verts</span></div>
+
+
+<div class="viewcode-block" id="_verts_to_path"><a class="viewcode-back" href="../../../../crikit.ui.utils.html#crikit.ui.utils.roi._verts_to_path">[docs]</a><span class="k">def</span> <span class="nf">_verts_to_path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">isclose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert vertices to paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isclose</span><span class="p">:</span>
+        <span class="n">verts</span> <span class="o">+=</span> <span class="n">verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">_Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">_Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">verts</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">_Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_Path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_mask_from_path"><a class="viewcode-back" href="../../../../crikit.ui.utils.html#crikit.ui.utils.roi._mask_from_path">[docs]</a><span class="k">def</span> <span class="nf">_mask_from_path</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create mask from path</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">allpts</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span> <span class="kc">None</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">allpts</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">),[</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">])</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'17.10b1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

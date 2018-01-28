@@ -2,8 +2,8 @@
 Peak-finding utilities
 
 
-Note
-----
+Notes
+-----
 """
 import copy as _copy
 import numpy as _np
@@ -126,8 +126,12 @@ class PeakFinder:
         """
         deriv = _copy.deepcopy(signal)
         for count in range(order):
-            deriv = _convolve(deriv, PeakFinder.haar(wv_width), mode='same', 
-                            method=method)
+            try:
+                deriv = _convolve(deriv, PeakFinder.haar(wv_width), mode='same', 
+                                  method=method)
+            except:
+                print('peakfind.py | cwt_diff: Likely using an old version of SciPy (no convolve method parameter)')
+                deriv = _convolve(deriv, PeakFinder.haar(wv_width), mode='same')
         return deriv
 
     # @staticmethod

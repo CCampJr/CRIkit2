@@ -37,30 +37,20 @@ class DialogKKOptions(_QDialog):
     DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently \
         supported) options dialog
 
-    Static Method
-    -------------
+    Methods
+    --------
     dialogKKOptions : Used to call UI and retrieve results of dialog
 
     References
     ----------
     [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral \
-    phase retrieval using a time-domain Kramers-Kronig transform," \
-    Opt. Lett. 34, 1363-1365 (2009).
+        phase retrieval using a time-domain Kramers-Kronig transform," \
+        Opt. Lett. 34, 1363-1365 (2009).
 
     [2] C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable Coherent \
-    Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
-    Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
+        Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase \
+        Retrieval," Journal of Raman Spectroscopy (2016). arXiv:1507.06543.
 
-    Software Info
-    --------------
-
-    Original Python branch: Feb 16 2015
-
-    author: ("Charles H Camp Jr")
-
-    email: ("charles.camp@nist.gov")
-
-    version: ("16.2.16")
     """
     NORM_TO_NRB = True
     NRB_AMP = 0.0
@@ -107,11 +97,9 @@ class DialogKKOptions(_QDialog):
     @staticmethod
     def dialogKKOptions(parent=None, data=None):
         """
-        Static Method.
-
         Retrieve dark subtraction dialog results
 
-        Inputs
+        Parameters
         ----------
         None : None
 

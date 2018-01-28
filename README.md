@@ -1,3 +1,5 @@
+![CRIkit2 Logo](./docs/source/_static/CRIkit2_Logo.png)
+
 # CRIKit2: Hyperspectral imaging toolkit #
 
 CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
@@ -24,13 +26,27 @@ Coming Soon:
 Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
-* python >= 3.4 (Currently, transitioning to python 3.5)
-* SciPlot-PyQt >= 0.1.3
+* python >= 3.4
+    * Tested with 3.4.4, 3.5.2, 3.6.1
+* SciPlot-PyQt >= 0.1.3 (>=0.1.4 for MPL2)
+    * https://github.com/CCampJr/SciPlot-PyQt/releases
 * numpy (1.9.3)
+    * Tested with 1.11.3+mkl
 * PyQT5 (5.5.* or 5.6.*)
-* matplotlib (1.5.0rc3)
+    * Tested with 5.6, 5.8.1
+* matplotlib (1.5.0rc3, 2.0.0) (see below for MPL2)
+    * Tested with 1.5.2, 2.0.0
 * cvxopt (1.1.7)
+    * Tested with 1.1.7, 1.1.9
 * h5py (2.5)
+    * Tested with 2.6, 2.7
+* Sphinx (1.5.2) (Only for building documentation)
+    * Tested with 1.4.5, 1.6.4
+
+### IMPORTANT: For Matplotlib 2 ###
+You will need to use SciPlot-PyQT v0.1.4
+* Matplotlib 2 made numerous changes and deprecations that are being resolved
+* See the installation instruction in the README.md file at https://github.com/CCampJr/SciPlot-PyQt
 
 ### IMPORTANT: For Python 3.4 ###
 You will need to manually install PyQt5 and Qt5 or get it through a distribution
@@ -48,14 +64,15 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 * Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
 
 ## SciPlot-PyQt ##
-Currently, SciPlot 0.1.3 is not available through pip. You can however clone the repository from github.
+Currently, SciPlot >= 0.1.3 is not available through pip. You can however clone the repository from github.
+(see https://github.com/CCampJr/SciPlot-PyQt)
 
 ## Installation ##
 ### Option 1: Easily updatable through git (dynamic copy)###
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
-git clone https://github.com/CCampJr/crikit2.git
+git clone https://github.com/CoherentRamanNIST/crikit2.git
 
 # Within install directory
 pip3 install -e .
@@ -68,9 +85,9 @@ git pull
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
-git clone https://github.com/CCampJr/crikit2.git
+git clone https://github.com/CoherentRamanNIST/crikit2.git
 
-# or download a copy from https://github.com/CCampJr/crikit2
+# or download a copy from https://github.com/CoherentRamanNIST/crikit2
 
 # Within install directory
 pip3 install .
@@ -78,6 +95,24 @@ pip3 install .
 # You can now delete the source files you downloaded
 ```
 
+## (Re-) Building Documentation ##
+The documentation was built using Sphinx. A pre-built version of the html
+files is included with this module, but you may wish to rebuild on your own
+system.
+```
+# Build all APIs
+# From within the docs/ directory
+sphinx-apidoc -o ./source/ ../crikit/
+
+# Build API w/o pyuic5-generated files
+sphinx-apidoc -f -o .\source\ ..\crikit\ ..\crikit\ui\qt_* ..\crikit\ui\*_rc* ..\crikit\ui\old\**
+
+make html  
+# On Windows
+make.bat html
+
+
+```
 ## Starting the CRIkit2 UI ##
 ```
 python3 -m crikit 

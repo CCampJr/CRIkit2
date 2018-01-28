@@ -1,6 +1,6 @@
 """
-HyperSpectral Imaging Process Description Container Class (crikit.data.breadcrumb)
-==============================================================================
+Breadcrumb Module
+=================
 
     BCPre : Container describing pre-processing steps
 
@@ -9,17 +9,6 @@ Class Methods
     HDFtoClass(filename [str], datasetname [str]) : Load dataset in HDF
         file into the HSI Class
 
-
-Software Info
---------------
-
-Original Python branch: Feb 16 2015
-
-author: ("Charles H Camp Jr")
-
-email: ("charles.camp@nist.gov")
-
-version: ("16.02.13")
 """
 
 import time as _time
@@ -63,16 +52,6 @@ class BCPre:
     pop_to_last : Remove entries until nearest backup point (excluding current \
         step).
     
-    Software Info
-    --------------
-    
-    Original Python branch: Feb 16 2015
-    
-    author: ("Charles H Camp Jr")
-    
-    email: ("charles.camp@nist.gov")
-    
-    version: ("16.02.17")
     """
     
     HDF_PREFIX = 'Processing.Steps'
@@ -177,7 +156,7 @@ class BCPre:
         """
         Adds a steps to the list
         
-        Inputs
+        Parameters
         ------
         process_desc : list
             List containing elements of new process with format: \
@@ -206,7 +185,7 @@ class BCPre:
         """
         Marks most recent process step as backed up in backed_flag list
         
-        Inputs
+        Parameters
         ------
         None : None
             
