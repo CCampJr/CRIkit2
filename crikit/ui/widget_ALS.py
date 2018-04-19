@@ -78,8 +78,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
                        'title' : 'Detrended'
                       }
                       
-    def __init__(self, asym_param=1e-2, smoothness_param=1, redux=10,
-                 pstart=1e-2, pend=1e-3, fixed_p=False, fix_end_points=True, 
+    def __init__(self, asym_param=1e-3, smoothness_param=1, redux=10,
+                 pstart=1e-2, pend=1e-3, fixed_p=True, fix_end_points=True, 
                  max_iter=100, min_diff=1e-6, parent = None):
                       
         super(widgetALS, self).__init__(parent) ### EDIT ###
