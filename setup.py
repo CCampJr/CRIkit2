@@ -1,19 +1,21 @@
 """
-Created on Thu Jul 21 01:11:04 2016
-
-@author: chc
+Setup for CRIkit2
 """
 
 from setuptools import setup, find_packages
 
+with open('README.rst') as f:
+    long_description = f.read()
+
 setup(name='crikit2',
-      version = '17.10b1',
+      version = '18.05a0',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
       platform (user interface, UI)',
+      long_description = long_description,
       url = 'https://github.com/CoherentRamanNIST/crikit2',
       author = 'Charles H. Camp Jr.',
       author_email = 'charles.camp@nist.gov',
-      license = 'NONLICENSE',
+      license = 'Public Domain',
       packages = find_packages(),
       entry_points={
           'gui_scripts': (
