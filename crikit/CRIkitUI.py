@@ -32,7 +32,6 @@ import os as _os
 import sys as _sys
 import webbrowser as _webbrowser
 
-import h5py as _h5py
 import matplotlib as _mpl
 import numpy as _np
 
@@ -48,8 +47,7 @@ from PyQt5.QtWidgets import QWidget as _QWidget
 from scipy.signal import savgol_filter as _sg
 
 
-from crikit.cri.error_correction import \
-    PhaseErrCorrectALS as _PhaseErrCorrectALS
+from crikit.cri.error_correction import (PhaseErrCorrectALS as _PhaseErrCorrectALS)
 from crikit.cri.error_correction import ScaleErrCorrectSG as _ScaleErrCorrectSG
 from crikit.cri.kk import KramersKronig
 from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
@@ -61,7 +59,6 @@ from crikit.data.spectrum import Spectrum
 
 from crikit.datasets.model import Model as _Model
 
-from crikit.io.hdf5 import hdf_is_valid_dsets
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
 from crikit.io.macros import import_hdf_nist_special as io_nist
 
@@ -84,7 +81,7 @@ from crikit.ui.dialog_ploteffect import \
 from crikit.ui.dialog_save import DialogSave
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 from crikit.ui.qt_CRIkit import Ui_MainWindow
-from crikit.ui.subui_hdf_load import SubUiHDFLoad
+
 from crikit.ui.utils.roi import roimask as _roimask
 from crikit.ui.widget_Calibrate import widgetCalibrate as _widgetCalibrate
 from crikit.ui.widget_DeTrending import widgetALS as _widgetALS
@@ -100,7 +97,8 @@ from crikit.utils.general import find_nearest, mean_nd_to_1d
 
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
-_h5py.get_config().complex_names = ('Re', 'Im')
+import lazy5
+from lazy5.ui.QtHdfLoad import HdfLoad
 
 force_not_sw = False
 
@@ -133,7 +131,7 @@ except:
     print('No appropriate Jupyter/IPython installation found. Console will not be available')
     jupyter_flag = -1
 
-help_index = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), 
+help_index = _os.path.abspath(_os.path.join(_os.path.dirname(__file__),
                               '../docs/build/html/index.html'))
 
 if _os.path.exists(help_index):
@@ -160,7 +158,7 @@ class CRIkitUI_process(_QMainWindow):
         parent = kwargs.get('parent')
 
         super(CRIkitUI_process, self).__init__(parent) ### EDIT ###
-               
+
 
         self.parent = parent
 
@@ -171,7 +169,7 @@ class CRIkitUI_process(_QMainWindow):
         self.hsi = kwargs.get('hsi')
         if not isinstance(self.hsi, Hsi):
             self.hsi = Hsi()
-        
+
         self.bcpre = _BCPre()
 
         self.dark = Spectra()
@@ -231,7 +229,7 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.popimage.ui.pushButtonSpectrum.setEnabled(False)
             self.ui.tabColors.addTab(rgb_img, 'Color ' + str(count))
 
-            
+
             rgb_img.math.ui.pushButtonBasicMath.setEnabled(False)
             rgb_img.math.ui.pushButtonScripting.setEnabled(False)
 
@@ -406,8 +404,10 @@ class CRIkitUI_process(_QMainWindow):
         # COMMAND LINE INTERPRETATION
 
         # file and dset info provided
-        if hdf_is_valid_dsets(self.path, self.filename, self.dataset_name):
-            self.fileOpenHDFNIST(dialog=False)
+        if (self.filename is not None) & (self.dataset_name is not None):
+            if lazy5.inspect.valid_dsets(filename=self.filename,
+                                        dset_list=self.dataset_name, pth=self.path):
+                self.fileOpenHDFNIST(dialog=False)
 
         # Hsi provided
         temp = kwargs.get('hsi')
@@ -428,7 +428,7 @@ class CRIkitUI_process(_QMainWindow):
             except:
                 print('Error in input x-array')
                 self.hsi.x = None
-            
+
         # y-array provided
         temp = kwargs.get('y')
         if temp is not None:
@@ -549,62 +549,40 @@ class CRIkitUI_process(_QMainWindow):
     def save(self):
         suffix = self.bcpre.dset_name_suffix
 
-        try:
-            ret = DialogSave.dialogSave(parent=self,
-                                        current_filename=self.filename,
-                                        current_path=self.path,
-                                        current_dataset_name=self.dataset_name[0],
-                                        suffix=suffix)
-            if ret is None:
-                pass # Save canceled
+        ret = DialogSave.dialogSave(parent=self,
+                                    current_filename=self.filename,
+                                    current_path=self.path,
+                                    current_dataset_name=self.dataset_name[0],
+                                    suffix=suffix)
+        if ret is None:
+            pass # Save canceled
+        else:
+            self.save_filename = ret[0]
+            self.save_path = ret[1]
+            self.save_dataset_name = ret[2]
+
+            self.save_grp = self.save_dataset_name.rpartition('/')[0]
+            self.save_dataset_name_no_grp = self.save_dataset_name.rpartition('/')[-1]
+
+            if isinstance(self.hsi.meta, dict):
+                attr_dict = _copy.deepcopy(self.hsi.meta)
             else:
-                self.save_filename = ret[0]
-                self.save_path = ret[1]
-                self.save_dataset_name = ret[2]
+                print('Meta data (hsi.meta) is not a dictionary')
+                attr_dict = {}
 
-                self.save_grp = self.save_dataset_name.rpartition('/')[0]
-                self.save_dataset_name_no_grp = self.save_dataset_name.rpartition('/')[-1]
+            attr_dict.update(self.bcpre.attr_dict)
 
-
-
-                try:
-                    f_out = _h5py.File(self.save_path + self.save_filename, 'a')
-                    loc = f_out.require_group(self.save_grp)
-                    dset = loc.create_dataset(self.save_dataset_name_no_grp, data=self.hsi.data)
-
-                    meta = self.hsi.meta
-                    for attr_key in meta:
-                        val = meta[attr_key]
-                        if isinstance(val, str):
-                            dset.attrs[attr_key] = val
-                        else:
-                            try:
-                                dset.attrs.create(attr_key, self.hsi.meta[attr_key])
-                            except:
-                                print('Error in HSI attributes: {}'.format(attr_key))
-
-                    bc_attr_dict = self.bcpre.attr_dict
-
-                    for attr_key in bc_attr_dict:
-                        val = bc_attr_dict[attr_key]
-                        if isinstance(val, str):
-                            dset.attrs[attr_key] = val
-                        else:
-                            try:
-                                dset.attrs.create(attr_key, bc_attr_dict[attr_key])
-                            except:
-                                print('Could not create attribute')
-
-                except:
-                    print('Something went wrong while saving')
-                else:
-                    print('Saved without issues')
-                finally:
-                    f_out.close()
+            try:
+                ret_save = lazy5.create.save(self.save_filename, self.save_dataset_name,
+                                            self.hsi._data, pth=self.save_path,
+                                            attr_dict= attr_dict, sort_attrs=True,
+                                            chunks=True, verbose=True)
+            except:
+                print('Something went wrong saving...')
+            else:
+                print('Save succeeded with no errors.')
+                if ret_save:
                     self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
-
-        except:
-            print('Couldn\'t open save dialog')
 
     def tabMainChange(self):
         if self.ui.tabMain.currentIndex() == 4:  # Jupyter console
@@ -641,10 +619,11 @@ class CRIkitUI_process(_QMainWindow):
 
         # Get data and load into CRI_HSI class
         # This will need to change to accomodate multiple-file selection
-        
+
         if dialog:
             try:
-                to_open = SubUiHDFLoad.getFileDataSets(self.path)
+                to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+                # to_open = SubUiHDFLoad.getFileDataSets(self.path)
                 print('to_open: {}'.format(to_open))
                 if to_open is not None:
                     self.path, self.filename, self.dataset_name = to_open
@@ -765,7 +744,7 @@ class CRIkitUI_process(_QMainWindow):
         # Set BW Class Data
         self.img_BW.initData()
         self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
-        
+
         val_extrema = _np.max([_np.abs(self.hsi.data_imag_over_real.max()),
                                 _np.abs(self.hsi.data_imag_over_real.min())])
         self.img_BW.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
@@ -813,7 +792,7 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.data.grayscaleimage = temp
             rgb_img.data.set_x(self.hsi.x, xlabel)
             rgb_img.data.set_y(self.hsi.y, ylabel)
-            
+
             color_str = rgb_img.colormode.ui.comboBoxFGColor.itemText(num)
             rgb_img.data.colormap = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[color_str])
             rgb_img.colormode.ui.comboBoxFGColor.setCurrentIndex(num)
@@ -841,7 +820,7 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.gsinfo.ui.spinBoxMin.setMaximum(1.1*val_extrema)
             rgb_img.gsinfo.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
             rgb_img.gsinfo.ui.spinBoxMax.setMaximum(1.1*val_extrema)
-            
+
         # Set X- and Y- scales, labels, etc for composite color images
         self.img_Composite.data.set_x(self.hsi.x, xlabel)
         self.img_Composite.data.set_y(self.hsi.y, ylabel)
@@ -853,7 +832,7 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load dark spectrum(a)
         """
 
-        to_open = SubUiHDFLoad.getFileDataSets(self.path)
+        to_open = HdfLoad.getFileDataSets(self.path, parent=self)
         print('To_open: {}'.format(to_open))
 
         if to_open is not None:
@@ -926,7 +905,7 @@ class CRIkitUI_process(_QMainWindow):
             nrb = self.nrb_right
 
 
-        to_open = SubUiHDFLoad.getFileDataSets(self.path)
+        to_open = HdfLoad.getFileDataSets(self.path, parent=self)
         if to_open is not None:
             pth, filename, datasets = to_open
 
@@ -1175,7 +1154,7 @@ class CRIkitUI_process(_QMainWindow):
             self.y_loc_list = []
 
 
-            self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event',
                                                    lambda event: self._roiClick(event, self._roiSubtract))
 
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
@@ -1254,7 +1233,7 @@ class CRIkitUI_process(_QMainWindow):
             # Need to send sender as the text name as the actual object
             # will change
             if self.cid is None:
-                self.cid = self.img_BW.mpl.mpl_connect('button_press_event', 
+                self.cid = self.img_BW.mpl.mpl_connect('button_press_event',
                                                        lambda event: self._roiClick(event, self._roiNRB, sender))
 
                 self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
@@ -2629,7 +2608,7 @@ class CRIkitUI_process(_QMainWindow):
 
         self.img_BW.createImg(img=img, xunits=xunits,
                               yunits=yunits,
-                              extent=extent, 
+                              extent=extent,
                               cmap=self.img_BW.colormode.ui.comboBoxColormap.currentText())
 
         if self.img_BW.ui.checkBoxFixed.checkState()==0:
@@ -2685,7 +2664,7 @@ class CRIkitUI_process(_QMainWindow):
             # if self.img_BW.ui.checkBoxFixed.checkState() == 0:
             #     self.img_BW.data.setmax = None
             #     self.img_BW.data.setmin = None
-            
+
             # Set axis to original limits
             self.img_BW.mpl.ax.axis(orig_axis_lims)
 
@@ -2793,7 +2772,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.img_Composite2.initData(self.img_RGB_list)
             self.img_Composite2.changeMode()
-            
+
             self.img_Composite2.data.set_x(self.hsi.x, xlabel)
             self.img_Composite2.data.set_y(self.hsi.y, ylabel)
             self.img_Composite2.createImg(img=self.img_Composite2.data.image,
@@ -2831,7 +2810,7 @@ class CRIkitUI_process(_QMainWindow):
         dialog = DialogModel.dialogModel(cplx=cplx, parent=self)
         if dialog is not None:
             model = _Model(subsample=dialog['subsample'])
-        
+
             wn_start = dialog['wn_start']
             wn_end = dialog['wn_end']
 
@@ -2842,23 +2821,23 @@ class CRIkitUI_process(_QMainWindow):
             lam_end *= 1e9  # nm
 
             lam_ctr = (lam_start + lam_end) / 2  # nm
-            
+
             n_pix = _np.ceil((lam_end-lam_start) / dialog['wl_slope'])
 
             # Make a properly linear frequency-vector and polyfit
             f = dialog['wl_slope'] * _np.arange(n_pix)  # Temporary frequency vec
             f -= f.mean()
             f += lam_ctr
-        
+
             a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
-        
+
             calib = {'a_vec': a_vec,
                      'ctr_wl': lam_ctr,
                      'ctr_wl0': lam_ctr,
                      'n_pix': n_pix,
                      'probe': dialog['probe'],
                      'units': 'nm'}
-        
+
             f = _calib_pix_wn(calib)[0]
             model.make_hsi(f=f)
 
@@ -2929,8 +2908,8 @@ class CRIkitUI_process(_QMainWindow):
             self.changeSlider()
         else:
             pass
-        
-    
+
+
     def makeBCARSPhantom(self):
         """
         Generate a numerical phantom for BCARS
@@ -2940,7 +2919,7 @@ class CRIkitUI_process(_QMainWindow):
         dialog = DialogModel.dialogModel(cplx=cplx, parent=self)
         if dialog is not None:
             model = _Model(subsample=dialog['subsample'])
-        
+
             wn_start = dialog['wn_start']
             wn_end = dialog['wn_end']
 
@@ -2951,23 +2930,23 @@ class CRIkitUI_process(_QMainWindow):
             lam_end *= 1e9  # nm
 
             lam_ctr = (lam_start + lam_end) / 2  # nm
-            
+
             n_pix = _np.ceil((lam_end-lam_start) / dialog['wl_slope'])
 
             # Make a properly linear frequency-vector and polyfit
             f = dialog['wl_slope'] * _np.arange(n_pix)  # Temporary frequency vec
             f -= f.mean()
             f += lam_ctr
-        
+
             a_vec = _np.polyfit(_np.arange(n_pix), f, 1)
-        
+
             calib = {'a_vec': a_vec,
                      'ctr_wl': lam_ctr,
                      'ctr_wl0': lam_ctr,
                      'n_pix': n_pix,
                      'probe': dialog['probe'],
                      'units': 'nm'}
-        
+
             f = _calib_pix_wn(calib)[0]
             model.make_hsi(f=f)
 
@@ -2990,7 +2969,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.nrb.data = _np.abs(source*nrb)**2
             self.nrb.freq = self.hsi.freq
-            
+
             add_gnoise = dialog['gnoise_bool']  # AWGN (Gaussian)
             add_pnoise = dialog['pnoise_bool']  # Poisson noise
             add_dark = dialog['dark_bool']  # Dark background -- just a constant
@@ -3054,7 +3033,7 @@ class CRIkitUI_process(_QMainWindow):
             self.changeSlider()
         else:
             pass
-                
+
 def crikit_launch(**kwargs):
     """
     Command line launching of CRIkitUI.
@@ -3115,7 +3094,7 @@ def crikit_launch(**kwargs):
         obj = _QWidget()
     else:
         obj = parent
-        
+
     kwargs['parent'] = obj
     # print('Kwargs: {}'.format(kwargs))
     win = CRIkitUI_process(**kwargs) ### EDIT ###
