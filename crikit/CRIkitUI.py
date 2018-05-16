@@ -131,8 +131,8 @@ except:
     print('No appropriate Jupyter/IPython installation found. Console will not be available')
     jupyter_flag = -1
 
-help_index = _os.path.abspath(_os.path.join(_os.path.dirname(__file__),
-                              '../docs/build/html/index.html'))
+str_doc = '../docs/build/html/index.html'
+help_index = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), str_doc))
 
 if _os.path.exists(help_index):
     pass
@@ -376,8 +376,8 @@ class CRIkitUI_process(_QMainWindow):
 
         if jupyter_flag == 1:
             try:
-                self.jupyterConsole = QJupyterWidget(customBanner='Welcome to the '
-                                                    'embedded ipython console\n\n')
+                str_banner = 'Welcome to the embedded ipython console\n\n'
+                self.jupyterConsole = QJupyterWidget(customBanner=str_banner)
             except:
                 print('Error loading embedded IPython Notebook')
             else:
