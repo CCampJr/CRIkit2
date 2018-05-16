@@ -61,61 +61,112 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
             if type(output_cls_instance) == _Hsi:
                 print('Type Hsi')
                 if isinstance(dset_list, str):
-                    output_cls_instance.data = fid[dset_list].value
+                    # Convert to hardware-oriented dtype (endianess)
+                    dset_dtype_import = fid[dset_list].dtype.newbyteorder('=')
+                    dset_shp = fid[dset_list].shape
+                    output_cls_instance.data = _np.zeros(dset_shp, dtype=dset_dtype_import)
+                    fid[dset_list].read_direct(output_cls_instance.data)
+
+                    # output_cls_instance.data = fid[dset_list].value
                     output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dset_list)
                 elif isinstance(dset_list, list):
                     if len(dset_list) > 1:
                         print('Cannot accept more than 1 HSI image at this time')
                     else:
                         for num, dname in enumerate(dset_list):
+                            # Convert to hardware-oriented dtype (endianess)
+                            dset_dtype_import = fid[dname].dtype.newbyteorder('=')
+                            dset_shp = fid[dname].shape
                             if num == 0:
-                                output_cls_instance.data = fid[dname].value
+                                output_cls_instance.data = _np.zeros(dset_shp, 
+                                                                     dtype=dset_dtype_import)
+                                fid[dname].read_direct(output_cls_instance.data)
+
+                                # output_cls_instance.data = fid[dname].value
                                 output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                             else:
-                                output_cls_instance.data = _np.vstack((output_cls_instance.data, fid[dname].value))
+                                output_cls_instance.data = _np.vstack((output_cls_instance.data, 
+                                                                       fid[dname].value.astype(dset_dtype_import)))
                 ret = True
             elif type(output_cls_instance) == _Spectra:
                 print('Type Spectra')
                 if isinstance(dset_list, str):
-                    output_cls_instance.data = fid[dset_list].value
+                    # Convert to hardware-oriented dtype (endianess)
+                    dset_dtype_import = fid[dset_list].dtype.newbyteorder('=')
+                    dset_shp = fid[dset_list].shape
+                    output_cls_instance.data = _np.zeros(dset_shp, dtype=dset_dtype_import)
+                    fid[dset_list].read_direct(output_cls_instance.data)
+
+                    # output_cls_instance.data = fid[dset_list].value
                     output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dset_list)
 
                 elif isinstance(dset_list, list):
                     for num, dname in enumerate(dset_list):
-                        if num == 0:
-                            output_cls_instance.data = fid[dname].value
+                        # Convert to hardware-oriented dtype (endianess)
+                        dset_dtype_import = fid[dname].dtype.newbyteorder('=')
+                        dset_shp = fid[dname].shape
+                        if num == 0:   
+                            output_cls_instance.data = _np.zeros(dset_shp, 
+                                                                    dtype=dset_dtype_import)
+                            fid[dname].read_direct(output_cls_instance.data)
+                            # output_cls_instance.data = fid[dname].value
                             output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                         else:
-                            output_cls_instance.data = _np.vstack((output_cls_instance.data, fid[dname].value))
+                            output_cls_instance.data = _np.vstack((output_cls_instance.data, 
+                                                                   fid[dname].value.astype(dset_dtype_import)))
                 ret = True
             elif type(output_cls_instance) == _Spectrum:
                 print('Type Spectrum')
                 if isinstance(dset_list, str):
-                    output_cls_instance.data = fid[dset_list].value
+                    # Convert to hardware-oriented dtype (endianess)
+                    dset_dtype_import = fid[dset_list].dtype.newbyteorder('=')
+                    dset_shp = fid[dset_list].shape
+                    output_cls_instance.data = _np.zeros(dset_shp, dtype=dset_dtype_import)
+                    fid[dset_list].read_direct(output_cls_instance.data)
+
+                    # output_cls_instance.data = fid[dset_list].value
                     output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dset_list)
                 elif isinstance(dset_list, list):
                     if len > 1:
                         print('Will average spectra into a single spectrum')
                     else:
                         for num, dname in enumerate(dset_list):
+                            # Convert to hardware-oriented dtype (endianess)
+                            dset_dtype_import = fid[dname].dtype.newbyteorder('=')
+                            dset_shp = fid[dname].shape
                             if num == 0:
-                                output_cls_instance.data = fid[dname].value
+                                output_cls_instance.data = _np.zeros(dset_shp, 
+                                                                        dtype=dset_dtype_import)
+                                fid[dname].read_direct(output_cls_instance.data)
+                                # output_cls_instance.data = fid[dname].value
                                 output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                             else:
-                                output_cls_instance.data += fid[dname].value
+                                output_cls_instance.data += fid[dname].value.astype(dset_dtype_import)
                         output_cls_instance.data /= num+1
                 ret = True
             elif output_cls_instance is None:
                 if isinstance(dset_list, str):
-                    data = fid[dset_list].value
+                    # Convert to hardware-oriented dtype (endianess)
+                    dset_dtype_import = fid[dset_list].dtype.newbyteorder('=')
+                    dset_shp = fid[dset_list].shape
+                    data = _np.zeros(dset_shp, dtype=dset_dtype_import)
+                    fid[dset_list].read_direct(data)
+
+                    # data = fid[dset_list].value
                     meta = _lazy5.inspect.get_attrs_dset(fid, dset_list)
                 elif isinstance(dset_list, list):
                     for num, dname in enumerate(dset_list):
+                        # Convert to hardware-oriented dtype (endianess)
+                        dset_dtype_import = fid[dname].dtype.newbyteorder('=')
+                        dset_shp = fid[dname].shape
                         if num == 0:
-                            data = fid[dname].value
+                            data = _np.zeros(dset_shp, 
+                                                                    dtype=dset_dtype_import)
+                            fid[dname].read_direct(data)
+                            # data = fid[dname].value
                             meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                         else:
-                            data = _np.vstack((data, fid[dname].value))
+                            data = _np.vstack((data, fid[dname].value.astype(dset_dtype_import)))
                 ret = [data, meta]
             else:
                 raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
@@ -161,9 +212,11 @@ if __name__ == '__main__':  # pragma: no cover
 
     print('Shape of dark spectra: {}'.format(spect_dark.shape))
     print('Shape of dark spectra.mean(): {}'.format(spect_dark.mean().shape))
-
+    print('Dtype of dark spectra: {}'.format(spect_dark._data.dtype))
     print('')
     img = _Hsi()
     hdf_import_data(pth, filename, '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small', img)
     print('Shape of img: {}'.format(img.shape))
     print('Shape of img.mean(): {}'.format(img.mean().shape))
+    print('Dtype of img: {}'.format(img._data.dtype))
+    print('Dtype of img.mean(): {}'.format(img.mean().dtype))
