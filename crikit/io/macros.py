@@ -3,9 +3,7 @@ Created on Thu May 26 13:16:12 2016
 
 @author: chc
 """
-
-import h5py as _h5py
-_h5py.get_config().complex_names = ('Re','Im')
+import os as _os
 
 from crikit.io.meta_configs import (special_nist_bcars2 as _snb,
                                     special_nist_bcars1_sample_scan as _snb1ss)
@@ -13,7 +11,7 @@ from crikit.io.meta_process import meta_process as _meta_process
 from crikit.io.hdf5 import hdf_import_data as _hdf_import_data
 from crikit.io.csv_nist import csv_nist_import_data as _csv_nist_import_data
 
-__all__ = []
+__all__ = ['import_hdf_nist_special', 'import_csv_nist_special1']
 
 
 def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
