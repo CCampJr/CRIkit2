@@ -4,7 +4,8 @@ Setup for CRIkit2
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as f:
+# ! Need to change to rst in the future
+with open('README.md') as f:
     long_description = f.read()
 
 setup(name='crikit2',
@@ -23,7 +24,7 @@ setup(name='crikit2',
       zip_safe = False,
       include_package_data = True,
       install_requires=['numpy','matplotlib','scipy','sciplot-pyqt>=0.1.3', 
-                        'cvxopt','LazyHDF5>=0.2.0'],
+                        'cvxopt','LazyHDF5>=0.2.0a0'],
       classifiers=['Development Status :: 2 - Pre-Alpha',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',
