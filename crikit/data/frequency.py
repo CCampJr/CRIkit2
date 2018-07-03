@@ -227,6 +227,7 @@ class Frequency:
                 value = list(value)
                 value.sort()
                 self._op_list_pix = value
+                # if self.data is not None:  # ! Allow setting without freq or not?
                 self._op_list_freq = self.get_closest_freq(value)
                 self._op_list_freq.sort()
             elif len(value) != 2 and _np.mod(len(value),2) == 0 and len(value) != 0:
