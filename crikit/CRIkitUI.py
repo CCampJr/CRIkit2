@@ -634,6 +634,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.hsi = Hsi()
                     success = io_nist(self.path, self.filename, self.dataset_name,
                                     self.hsi)
+                    print('Was successful: {}'.format(success))
+                    print('HSI shape: {}'.format(self.hsi.shape))
                     self.fileOpenSuccess(success)
         else:
             self.hsi = Hsi()
@@ -674,6 +676,18 @@ class CRIkitUI_process(_QMainWindow):
         activates or deactivates action (buttons)
         """
         if success:
+            if self.hsi.data.dtype.kind == 'i':
+                msg = _QMessageBox(self)
+                msg.setIcon(_QMessageBox.Question)
+                msg.setText('HSI is of type integer. Would you like to convert to float?')
+                msg.setWindowTitle('Confirm conversion of integer Hsi to float type')
+                msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+                msg.setDefaultButton(_QMessageBox.Ok)
+                out = msg.exec()
+
+                if out == _QMessageBox.Ok:
+                    self.hsi.data = 1.0*self.hsi.data
+
             self.setWindowTitle('{}: {}'.format(self.windowTitle(), self.filename))
             # FILE
             self.ui.actionSave.setEnabled(True)
