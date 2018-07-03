@@ -25,17 +25,12 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
     """
     
     print('\n')
-    try:
-        import_success = _hdf_import_data(pth, filename, dset, output_cls_instance)
-        if import_success is None or import_success is False:
-            raise ValueError('hdf_import_data returned None')
-        _meta_process(_snb(), output_cls_instance)
-    except:
-        print('Something failed in import_hdf_nist_special')
+    import_success = _hdf_import_data(pth, filename, dset, output_cls_instance)
+    if import_success is False:
+        raise ValueError('hdf_import_data failed')
         return False
-    else:
-        print('\n')
-        return True
+    _meta_process(_snb(), output_cls_instance)
+    return True
         
 def import_csv_nist_special1(pth, filename_header, filename_data,
                              output_cls_instance):
@@ -64,7 +59,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     from crikit.data.hsi import Hsi as _Hsi
 
-    pth = _os.path.abspath('../../../') + '/'
+    pth = '../'
     filename = 'mP2_w_small.h5'
     img = _Hsi()
     import_hdf_nist_special(pth, filename,'/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
@@ -72,13 +67,13 @@ if __name__ == '__main__':  # pragma: no cover
     print('Shape of img.mean(): {}'.format(img.mean().shape))
     print(img.y_rep.data)
     
-    from crikit.data.spectrum import Spectrum as _Spectrum
+    # from crikit.data.spectrum import Spectrum as _Spectrum
     
-    sp = _Spectrum()
-    pth = '../../../Young_150617/'
-    filename_header = 'SH-03.h'
-    filename_data = 'base061715_152213_60ms.txt'
+    # sp = _Spectrum()
+    # pth = '../../../Young_150617/'
+    # filename_header = 'SH-03.h'
+    # filename_data = 'base061715_152213_60ms.txt'
     
-    import_csv_nist_special1(pth, filename_header, filename_data,
-                    output_cls_instance=sp)
+    # import_csv_nist_special1(pth, filename_header, filename_data,
+    #                 output_cls_instance=sp)
     
