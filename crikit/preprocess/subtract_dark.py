@@ -36,6 +36,7 @@ class SubtractDark:
             Returns the success state (True=success)
 
         """
+        
         success = self._calc(data, ret_obj=data)
         return success
 
@@ -69,12 +70,9 @@ class SubtractDark:
         # Expand dark dimensionality to match data.ndim
         self.dark = _expand_1d_to_ndim(self.dark, data.ndim)
 
-        try:
-            ret_obj -= self.dark
-        except:
-            return False
-        else:
-            return True
+        ret_obj -= self.dark
+        return True
+
 
 if __name__ == '__main__': # pragma: no cover
 
