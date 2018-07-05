@@ -172,7 +172,7 @@ if __name__ == '__main__':
     x = _np.random.rand(10,11)
 
     for ct in range(x.size):
-        row, col = lin_count_row_col(ct, x.shape)
+        row, col = row_col_from_lin(ct, x.shape)
         print('R: {} C: {}'.format(row,col))
     print('Total number iterated through: {}'.format(ct+1))
 
@@ -202,7 +202,7 @@ if __name__ == '__main__':
     space_shp = _np.array(x.shape)[0:-1]
     num_sp = space_shp.prod()
     for num in range(num_sp):
-        rc, cc = lin_count_row_col(num, space_shp)
+        rc, cc = row_col_from_lin(num, space_shp)
         y[rc, cc, :] = _np.fft.fft(x[rc, cc, :])
     tmr -= _timeit.default_timer()
     print('Time with 1 for-loops: {:.3g} sec'.format(-tmr))
