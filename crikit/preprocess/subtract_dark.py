@@ -35,6 +35,11 @@ class SubtractDark:
 
         """
 
+        if not _np.can_cast(self.dark.dtype, data.dtype):
+            err_str1 = 'Cannot transform input data type {}'.format(data.dtype)
+            err_str2 = ' with dark type {}'.format(self.dark.dtype)
+            raise TypeError(err_str1 + err_str2)
+
         success = self._calc(data, ret_obj=data)
         return success
 
