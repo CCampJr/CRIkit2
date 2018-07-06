@@ -574,15 +574,15 @@ class CRIkitUI_process(_QMainWindow):
 
             try:
                 ret_save = lazy5.create.save(self.save_filename, self.save_dataset_name,
-                                            self.hsi._data, pth=self.save_path,
-                                            attr_dict= attr_dict, sort_attrs=True,
-                                            chunks=True, verbose=True)
+                                             self.hsi._data, pth=self.save_path,
+                                             attr_dict= attr_dict, sort_attrs=True,
+                                             chunks=True, verbose=True)
             except:
                 print('Something went wrong saving...')
             else:
                 print('Save succeeded with no errors.')
-                if ret_save:
-                    self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
+            if ret_save:
+                self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
 
     def tabMainChange(self):
         if self.ui.tabMain.currentIndex() == 4:  # Jupyter console
@@ -676,17 +676,10 @@ class CRIkitUI_process(_QMainWindow):
         activates or deactivates action (buttons)
         """
         if success:
+            # * If HSI is integer dtype, convert to float
             if self.hsi.data.dtype.kind == 'i':
-                msg = _QMessageBox(self)
-                msg.setIcon(_QMessageBox.Question)
-                msg.setText('HSI is of type integer. Would you like to convert to float?')
-                msg.setWindowTitle('Confirm conversion of integer Hsi to float type')
-                msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
-                msg.setDefaultButton(_QMessageBox.Ok)
-                out = msg.exec()
-
-                if out == _QMessageBox.Ok:
-                    self.hsi.data = 1.0*self.hsi.data
+                print('Converting HSI from int to float')
+                self.hsi.data = 1.0*self.hsi.data
 
             self.setWindowTitle('{}: {}'.format(self.windowTitle(), self.filename))
             # FILE
@@ -854,6 +847,11 @@ class CRIkitUI_process(_QMainWindow):
             success = io_nist(pth, filename, datasets, self.dark)
 
             if success:
+                # If Dark is integer dtype, convert to float
+                if self.dark.data.dtype.kind == 'i':
+                    print('Converting Dark from int to float')
+                    self.dark.data = 1.0*self.dark.data
+
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
@@ -892,6 +890,11 @@ class CRIkitUI_process(_QMainWindow):
 
 
             if success:
+                # If Dark is integer dtype, convert to float
+                if self.dark.data.dtype.kind == 'i':
+                    print('Converting Dark from int to float')
+                    self.dark.data = 1.0*self.dark.data
+
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
@@ -925,6 +928,11 @@ class CRIkitUI_process(_QMainWindow):
 
             success = io_nist(pth, filename, datasets, nrb)
             if success:
+                # If NRB is integer dtype, convert to float
+                if nrb.data.dtype.kind == 'i':
+                    print('Converting NRB from int to float')
+                    nrb.data = 1.0*nrb.data
+
                 if nrb.shape[-1] == self.hsi.freq.size:
                     if sender == self.ui.actionLoadNRB:
                         self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
