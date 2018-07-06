@@ -32,6 +32,11 @@
 * Loading spectra/hsi into a spectrum averages
     * Move from io.hdf5 to data.spectrum
 * Testing of spectrum, spectra, hsi when op_range defined
+* Calculate Anscombe parameters
+* Check bugs in SVD script text
+* When loading Dark or NRB, auto-open same HDF file as HSI. Cancel reverts to fileview
+* Rename load file GUI title to whatever is being loaded (NRB, Dark, etc)
+* Tab to view already performed tasks
 
 # REFACTORS
 * io.hdf5
@@ -39,4 +44,4 @@
 # Known bugs
 * spectrum, spectra, and hsi may only work properly when the spectral axis is -1
     * Test files only check axis = -1 case
-* subtract dark doesn't work when dark is multiple spectra
+* ~~subtract dark doesn't work when dark is multiple spectra~~
