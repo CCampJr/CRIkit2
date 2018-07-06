@@ -214,7 +214,7 @@ class Frequency:
             else:
                 self.calib = self._calib_orig
 
-        self.data, self.units = self.calib_fcn(self.calib)
+        self.data, self.units = self.calib_fcn(self.calib)  # pylint: disable=not-callable
 
     @property
     def op_list_pix(self):
@@ -428,13 +428,17 @@ def calib_pix_wn(calib_obj):
 
     if 'units' not in calib:
         calib['units'] = 'nm'
-        factor = 1e7
-    elif calib['units'] == 'nm':
+    elif isinstance(calib['units'], bytes):
+        calib['units'] = calib['units'].decode()
+
+    if calib['units'] == 'nm':
         factor = 1e7
     elif calib['units'] == 'um':
         factor = 1e4
     else:
-        raise ValueError('Only nanometer (\'nm\') and micrometer (\'um\') units accepted')
+        errstr1 = 'Only nanometer (\'nm\') and micrometer (\'um\') units accepted. '
+        errstr2 = '{} provided of type {}.'.format(calib['units'], type(calib['units']))
+        raise ValueError(errstr1 + errstr2)
     wl_vec, _ = calib_pix_wl(calib_obj)
     wn_vec = factor/wl_vec - factor/calib['probe']
     return (wn_vec, 'cm$^{-1}$')
