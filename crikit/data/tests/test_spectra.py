@@ -3,7 +3,6 @@ import numpy as np
 import numpy.testing
 
 import pytest
-import h5py
 import lazy5
 
 from crikit.io.hdf5 import hdf_import_data
