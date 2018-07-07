@@ -68,9 +68,43 @@ class Spectra(_Spectrum):
 
     """
 
+    # Configurations
+    config = {}
+    config['nd_axis'] = -1
+
     def __init__(self, data=None, freq=None, label=None, units=None, meta=None):
         super().__init__(data, freq, label, units, meta)
         self._reps = _Replicate()
+
+    @staticmethod
+    def _mean_axes(*args, **kwargs):
+        """ Inhereted from Spectrum """
+        raise NotImplementedError('Only applicable to Spectrum class.')
+
+    @staticmethod
+    def _reshape_axes(shape, spectral_axis):
+        """
+        Parameters
+        ----------
+        shape : tuple
+            Input data shape
+
+        spectral_axis : int
+            Spectral axis
+
+        Returns
+        -------
+            Reshape vector
+        """
+        ndim = len(shape)
+
+        if ndim >= 2:
+            out = [-1, -1]
+        else:
+            out = [1, 1]
+
+        out[spectral_axis] = shape[spectral_axis]
+        return tuple(out)
 
     @property
     def data(self):
@@ -78,27 +112,27 @@ class Spectra(_Spectrum):
 
     @data.setter
     def data(self, value):
-        if isinstance(value, _np.ndarray):
-            if self.freq.data is None or self.freq.op_list_pix is None:
-                if value.ndim == 1:
-                    print('Spectra: converting data input from 1D to 2D ndarray')
-                    self._data = value[None,:]
-                elif value.ndim == 2:
-                    self._data = value
-                else:
-                    print('Spectra: converting data input from {}D to 2D ndarray'.format(value.ndim))
-                    f_sh = value.shape[-1]
-                    self._data = value.reshape((-1, f_sh))
-            else:
-                if value.shape[-1] == self.freq.op_range_pix.size:
-                    temp = _np.zeros((self._data.shape),dtype=value.dtype)
-                    temp[:,self.freq.op_range_pix] = value
-                    self._data = temp
-                else:
-                    raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
+        if not isinstance(value, _np.ndarray):
+            raise TypeError('data must be of type ndarray')
+
+        if self.freq.data is None or self.freq.op_list_pix is None:
+            if value.ndim != 2:
+                print('Spectra: converting data input from {}D to 2D ndarray'.format(value.ndim))
+            ax_rs = self._reshape_axes(value.shape, spectral_axis=self.config['nd_axis'])
+            self._data = value.reshape(ax_rs)
         else:
-            print('Assigning non-ndarray to data. Not shape checking')
-            self._data = value
+            if value.ndim != 2:
+                print('Spectra: converting data input from {}D to 2D ndarray'.format(value.ndim))
+            if value.shape[-1] == self.freq.op_range_pix.size:
+                temp = _np.zeros((self._data.shape), dtype=value.dtype)
+                temp[:,self.freq.op_range_pix] = value
+                self._data = temp
+            elif value.shape[-1] == self.freq.size:
+                temp = _np.zeros((self._data.shape), dtype=value.dtype)
+                temp[..., self.freq.op_range_pix] = value[..., self.freq.op_range_pix].reshape((-1, len(self.freq.op_range_pix)))
+                self._data = temp
+            else:
+                raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
 
     @property
     def n_pix(self):

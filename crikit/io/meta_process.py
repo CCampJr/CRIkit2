@@ -63,29 +63,26 @@ def meta_process(rosetta, output_cls_instance):
     """
 
     # Frequency-calibration
-    try:
-        calib_dict = {}
+    calib_dict = {}
 
-        calib_dict['a_vec'] = rosetta_query('ColorPolyVals',rosetta, output_cls_instance)[0]
-        calib_dict['n_pix'] = rosetta_query('ColorChannels',rosetta, output_cls_instance)[0]
-        calib_dict['ctr_wl'] = rosetta_query('ColorCenterWL',rosetta, output_cls_instance)[0]
-        calib_dict['ctr_wl0'] = rosetta_query('ColorCalibWL',rosetta, output_cls_instance)[0]
-        calib_dict['probe'] = rosetta_query('ColorProbe',rosetta, output_cls_instance)[0]
-        calib_dict['units'] = rosetta_query('ColorUnits',rosetta, output_cls_instance)[0]
+    calib_dict['a_vec'] = rosetta_query('ColorPolyVals',rosetta, output_cls_instance)[0]
+    calib_dict['n_pix'] = rosetta_query('ColorChannels',rosetta, output_cls_instance)[0]
+    calib_dict['ctr_wl'] = rosetta_query('ColorCenterWL',rosetta, output_cls_instance)[0]
+    calib_dict['ctr_wl0'] = rosetta_query('ColorCalibWL',rosetta, output_cls_instance)[0]
+    calib_dict['probe'] = rosetta_query('ColorProbe',rosetta, output_cls_instance)[0]
+    calib_dict['units'] = rosetta_query('ColorUnits',rosetta, output_cls_instance)[0]
 
-        output_cls_instance.freq.calib = calib_dict
+    output_cls_instance.freq.calib = calib_dict
 
-        use_wn = rosetta_query('ColorWnMode',rosetta, output_cls_instance)[0]
-        print('Use wavenumber: {}'.format(use_wn))
-        if use_wn:  # Use wavenumber?
-            output_cls_instance.freq.calib_fcn = _calib_pix_wn
-        else:  # Use wavelength
-            output_cls_instance.freq.calib_fcn = _calib_pix_wl
+    use_wn = rosetta_query('ColorWnMode',rosetta, output_cls_instance)[0]
+    print('Use wavenumber: {}'.format(use_wn))
+    if use_wn:  # Use wavenumber?
+        output_cls_instance.freq.calib_fcn = _calib_pix_wn
+    else:  # Use wavelength
+        output_cls_instance.freq.calib_fcn = _calib_pix_wl
 
-        output_cls_instance.freq.update()
-    except:
-        print('Something failed in meta_process: freq-calib')
-
+    output_cls_instance.freq.update()
+    
     # See if an original calibration is found
     try:
         calib_orig_dict = {}
