@@ -25,12 +25,13 @@
 * Re-evaluate how poisson noise is added to model inline. Very math-operation-order dependent.
 
 # TODO
+* ~~Tab describing history of processing steps~~
 * Create a set of feature-finding/selecting classes to take a lot of the computation out of the dialogSVD UI
 * Dark mean and fill-between
 * NRB, L/R-NRB mean and fill-between
 * Delete linked plots (Delete all in-family)
-* Loading spectra/hsi into a spectrum averages
-    * Move from io.hdf5 to data.spectrum
+* ~~Loading spectra/hsi into a spectrum averages~~
+    * ~~Move from io.hdf5 to data.spectrum~~
 * Testing of spectrum, spectra, hsi when op_range defined
 * Calculate Anscombe parameters
 * Check bugs in SVD script text
@@ -39,7 +40,7 @@
 * Tab to view already performed tasks
 
 # REFACTORS
-* io.hdf5
+* ~~io.hdf5~~
 
 # Known bugs
 * spectrum, spectra, and hsi may only work properly when the spectral axis is -1
