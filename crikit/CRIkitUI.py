@@ -44,6 +44,8 @@ from PyQt5.QtWidgets import QInputDialog as _QInputDialog
 from PyQt5.QtWidgets import QMainWindow as _QMainWindow
 from PyQt5.QtWidgets import QMessageBox as _QMessageBox
 from PyQt5.QtWidgets import QWidget as _QWidget
+from PyQt5.QtWidgets import QTableWidgetItem as _QTableWidgetItem
+
 from scipy.signal import savgol_filter as _sg
 
 
@@ -461,6 +463,14 @@ class CRIkitUI_process(_QMainWindow):
                 print('Error in input data')
                 self.hsi = Hsi()
 
+    def updateHistory(self):
+        self.ui.tableWidgetHistory.clearContents()
+        self.ui.tableWidgetHistory.setRowCount(len(self.bcpre.attr_dict))
+        for num, q in enumerate(self.bcpre.attr_dict):
+            self.ui.tableWidgetHistory.setItem(num, 0, _QTableWidgetItem(q))
+            self.ui.tableWidgetHistory.setItem(num, 1,
+                                               _QTableWidgetItem(str(self.bcpre.attr_dict[q])))
+
     def plotter_show(self):
         self.plotter.show()
         self.plotter.raise_()
@@ -734,12 +744,14 @@ class CRIkitUI_process(_QMainWindow):
 
         # Backup for Undo
         self.bcpre.add_step(['Raw'])
+        self.updateHistory()
         try:
             _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
         except:
             print('Error in pickle backup (Undo functionality)')
         else:
             self.bcpre.backed_up()
+
 
         # Set frequency slider and associated displays
         self.ui.freqSlider.setMinimum(self.hsi.freq.op_range_pix[0])
@@ -1051,6 +1063,7 @@ class CRIkitUI_process(_QMainWindow):
                                      winPlotEffect.parameters['wn_switchpt'],
                                      'scale_left',
                                      winPlotEffect.parameters['scale_left']])
+                self.updateHistory()
 
         else:
             pass
@@ -1214,6 +1227,7 @@ class CRIkitUI_process(_QMainWindow):
 
             # Backup for Undo
             self.bcpre.add_step(['SubtractROI', 'Spectrum', spectrum])
+            self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -1710,6 +1724,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['KK', 'CARSAmp', cars_amp_offset, 'NRBAmp',
                                  nrb_amp_offset, 'Phase', phase_offset,
                                  'Norm', norm_to_nrb])
+            self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -1743,6 +1758,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['DenoiseNrbSG',
                                  'Win_size', win_size,
                                  'Order', order])
+            self.updateHistory()
 
         self.changeSlider()
 
@@ -1771,7 +1787,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['DenoiseDarkSG',
                                  'Win_size', win_size,
                                  'Order', order])
-
+            self.updateHistory()
 
         self.changeSlider()
 
@@ -1808,6 +1824,7 @@ class CRIkitUI_process(_QMainWindow):
 
             # Backup for Undo
             self.bcpre.add_step(['SVD', 'SVs', svs])
+            self.updateHistory()
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1865,6 +1882,7 @@ class CRIkitUI_process(_QMainWindow):
                                      'fix_end_points', fix_end_points,
                                      'max_iter', max_iter,
                                      'min_diff', min_diff])
+
             else:
                 self.bcpre.add_step(['PhaseErrorCorrectALS',
                                      'smoothness_param', smoothness_param,
@@ -1877,7 +1895,7 @@ class CRIkitUI_process(_QMainWindow):
                                      'fix_end_points', fix_end_points,
                                      'max_iter', max_iter,
                                      'min_diff', min_diff])
-
+            self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -1917,6 +1935,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['ScaleErrorCorrectSG',
                                  'win_size', win_size,
                                  'order', order])
+            self.updateHistory()
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -1990,7 +2009,7 @@ class CRIkitUI_process(_QMainWindow):
                                      'fix_end_points', fix_end_points,
                                      'max_iter', max_iter,
                                      'min_diff', min_diff])
-
+            self.updateHistory()
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -2008,6 +2027,8 @@ class CRIkitUI_process(_QMainWindow):
         """
         self.bcpre.pop_to_last()
         self.hsi = _BCPre.load_pickle(self.bcpre.id_list[-1])
+        self.updateHistory()
+
         del_flag = 0
 
         for count in self.bcpre.cut_list:
@@ -2094,6 +2115,7 @@ class CRIkitUI_process(_QMainWindow):
                 # Backup for Undo
                 if darkloaded or nrbloaded:
                     self.bcpre.add_step(['SubDark'])
+                    self.updateHistory()
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
                             _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -2192,6 +2214,7 @@ class CRIkitUI_process(_QMainWindow):
                     self.bcpre.add_step(['SubResidual','RangeStart',
                                          freqwin[0], 'RangeEnd',
                                          freqwin[1]])
+                    self.updateHistory()
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
                             _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -2227,6 +2250,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['Anscombe','Gauss_mean', 0.0,
                                  'Gauss_std', out['stddev'],
                                  'Poisson_multi', out['gain']])
+            self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -2258,6 +2282,7 @@ class CRIkitUI_process(_QMainWindow):
             self.bcpre.add_step(['InvAnscombe','Gauss_mean', 0.0,
                                  'Gauss_std', out['stddev'],
                                  'Poisson_multi', out['gain']])
+            self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
