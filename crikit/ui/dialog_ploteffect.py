@@ -303,13 +303,13 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 ##    # ALS
-##    from crikit.ui.widget_ALS import widgetALS as _widgetALS
-##    
-##    plugin = _widgetALS()
-##    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
-##                                                            plugin=plugin)
-##    if winPlotEffect is not None:
-##        print(winPlotEffect.parameters)
+    from crikit.ui.widget_ALS import widgetALS as _widgetALS
+
+    plugin = _widgetALS()
+    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+                                                            plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
 #
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
