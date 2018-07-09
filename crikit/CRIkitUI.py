@@ -632,8 +632,11 @@ class CRIkitUI_process(_QMainWindow):
 
         if dialog:
             try:
-                to_open = HdfLoad.getFileDataSets(self.path, parent=self)
-                # to_open = SubUiHDFLoad.getFileDataSets(self.path)
+                if (self.filename is not None) & (self.path is not None):
+                    to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+                else:
+                    to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+
                 print('to_open: {}'.format(to_open))
                 if to_open is not None:
                     self.path, self.filename, self.dataset_name = to_open
@@ -851,7 +854,10 @@ class CRIkitUI_process(_QMainWindow):
         Open HDF file and load dark spectrum(a)
         """
 
-        to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+        if (self.filename is not None) & (self.path is not None):
+            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+        else:
+            to_open = HdfLoad.getFileDataSets(self.path, parent=self)
         print('To_open: {}'.format(to_open))
 
         if to_open is not None:
@@ -934,7 +940,11 @@ class CRIkitUI_process(_QMainWindow):
             nrb = self.nrb_right
 
 
-        to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+        if (self.filename is not None) & (self.path is not None):
+            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+        else:
+            to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+
         if to_open is not None:
             pth, filename, datasets = to_open
 
