@@ -165,18 +165,21 @@ def test_rng_redux_fix_rng():
     x = np.linspace(-100, 100, 1000)
     y = 10*np.exp(-(x**2/(2*20**2)))
 
-    als = AlsCvxopt(smoothness_param=1, asym_param=1e-7, 
+    rng = np.arange(200,800)
+
+    als = AlsCvxopt(smoothness_param=1, asym_param=1e-7, rng=rng,
                     redux=10, fix_end_points=False, fix_rng=None, 
                     verbose=True)
     y_als = als.calculate(y)
 
     assert np.max(y[250:750] - y_als[250:750]) > 9
 
-    fix_rng = np.arange(200,800)
-    
-    als = AlsCvxopt(smoothness_param=1, asym_param=1e-7, 
+    fix_rng = np.arange(600)
+    # fix_rng = np.hstack((np.arange(100), np.arange(500,600)))
+
+    als = AlsCvxopt(smoothness_param=1, asym_param=1e-7, rng=rng,
                     redux=10, fix_end_points=False, fix_rng=fix_rng, 
                     verbose=True)
     y_als = als.calculate(y)
     assert np.max(y[250:750] - y_als[250:750]) < 0.004
-    
+        
