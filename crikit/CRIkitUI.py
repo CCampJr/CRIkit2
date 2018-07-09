@@ -95,7 +95,7 @@ from crikit.ui.widget_mergeNRBs import widgetMergeNRBs as _widgetMergeNRBs
 from crikit.ui.widget_SG import widgetSG as _widgetSG
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
-from crikit.utils.general import find_nearest, mean_nd_to_1d
+from crikit.utils.general import find_nearest, mean_nd_to_1d, std_nd_to_1d
 
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
@@ -1122,8 +1122,18 @@ class CRIkitUI_process(_QMainWindow):
         if self.dark.data is None:
             pass
         else:
-            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.dark.data),
-                              label='Mean Dark Spectrum')
+            meaner = mean_nd_to_1d(self.dark.data)
+            self.plotter.plot(self.hsi.f_full, meaner, 
+                              label='Mean Dark Spectrum ({})'.format(self.dark.n_pix))
+            
+            if self.dark.n_pix > 1:
+                stder = std_nd_to_1d(self.dark.data)
+                color = self.plotter.list_all[-1].style_dict['color']
+                std_label = r'Dark Spectrum $\pm$1 Std. Dev. ({})'.format(self.dark.n_pix)
+                self.plotter.fill_between(self.hsi.f_full, meaner - stder,
+                                          meaner + stder, color=color,
+                                          alpha=0.25,
+                                          label=std_label)
 
             self.plotter.show()
             self.plotter.raise_()
@@ -1135,8 +1145,21 @@ class CRIkitUI_process(_QMainWindow):
         if self.nrb.data is None:
             pass
         else:
-            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb.data),
-                              label='Mean NRB Spectrum')
+            meaner = mean_nd_to_1d(self.nrb.data)
+            self.plotter.plot(self.hsi.f_full, meaner, 
+                              label='Mean NRB Spectrum ({})'.format(self.nrb.n_pix))
+            
+            if self.nrb.n_pix > 1:
+                stder = std_nd_to_1d(self.nrb.data)
+                color = self.plotter.list_all[-1].style_dict['color']
+                std_label = r'NRB Spectrum $\pm$1 Std. Dev. ({})'.format(self.nrb.n_pix)
+                self.plotter.fill_between(self.hsi.f_full, meaner - stder,
+                                          meaner + stder, color=color,
+                                          alpha=0.25,
+                                          label=std_label)
+
+            # self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb.data),
+            #                   label='Mean NRB Spectrum')
 
             self.plotter.show()
             self.plotter.raise_()
@@ -1148,8 +1171,21 @@ class CRIkitUI_process(_QMainWindow):
         if self.nrb_left.data is None:
             pass
         else:
-            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb_left.data),
-                              label='Mean Left-Side NRB Spectrum')
+            meaner = mean_nd_to_1d(self.nrb_left.data)
+            self.plotter.plot(self.hsi.f_full, meaner, 
+                              label='Mean Left-Side NRB Spectrum ({})'.format(self.nrb_left.n_pix))
+            
+            if self.nrb_left.n_pix > 1:
+                stder = std_nd_to_1d(self.nrb_left.data)
+                color = self.plotter.list_all[-1].style_dict['color']
+                std_label = r'Left-Side NRB Spectrum $\pm$1 Std. Dev. ({})'.format(self.nrb_left.n_pix)
+                self.plotter.fill_between(self.hsi.f_full, meaner - stder,
+                                          meaner + stder, color=color,
+                                          alpha=0.25,
+                                          label=std_label)
+
+            # self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb_left.data),
+            #                   label='Mean Left-Side NRB Spectrum')
 
             self.plotter.show()
             self.plotter.raise_()
@@ -1161,8 +1197,18 @@ class CRIkitUI_process(_QMainWindow):
         if self.nrb_right.data is None:
             pass
         else:
-            self.plotter.plot(self.hsi.f_full, mean_nd_to_1d(self.nrb_right.data),
-                              label='Mean Right-Side NRB Spectrum')
+            meaner = mean_nd_to_1d(self.nrb_right.data)
+            self.plotter.plot(self.hsi.f_full, meaner,
+                              label='Mean Right-Side NRB Spectrum ({})'.format(self.nrb_right.n_pix))
+            
+            if self.nrb_right.n_pix > 1:
+                stder = std_nd_to_1d(self.nrb_right.data)
+                color = self.plotter.list_all[-1].style_dict['color']
+                std_label = r'Right-Side NRB Spectrum $\pm$1 Std. Dev. ({})'.format(self.nrb_right.n_pix)
+                self.plotter.fill_between(self.hsi.f_full, meaner - stder,
+                                          meaner + stder, color=color,
+                                          alpha=0.25,
+                                          label=std_label)
 
             self.plotter.show()
             self.plotter.raise_()
@@ -1317,7 +1363,7 @@ class CRIkitUI_process(_QMainWindow):
 
             spectrum = spectrum.astype(self.hsi.data.dtype)
             if sender == 'actionNRB_from_ROI':
-                self.nrb.data = spectrum
+                self.nrb.data = spectra
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
@@ -1325,13 +1371,13 @@ class CRIkitUI_process(_QMainWindow):
 
             elif sender == 'actionAppend_NRB_from_ROI':
                 if self.nrb.size == 0:
-                    self.nrb.data = spectrum
+                    self.nrb.data = spectra
                 else:
                     self.nrb.data = (self.nrb.data + spectrum)/2
                 self.ui.actionKramersKronig.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
             elif sender == 'actionNRB_from_ROI_Left_Side':
-                self.nrb_left.data = spectrum
+                self.nrb_left.data = spectra
                 self.ui.actionLeftSideNRBSpect.setEnabled(True)
                 if ((self.nrb_left.data is not None) and
                         (self.nrb_right.data is not None)):
@@ -1339,7 +1385,7 @@ class CRIkitUI_process(_QMainWindow):
                         self.ui.actionMergeNRBs.setEnabled(True)
 
             elif sender == 'actionNRB_from_ROI_Right_Side':
-                self.nrb_right.data = spectrum
+                self.nrb_right.data = spectra
                 self.ui.actionRightSideNRBSpect.setEnabled(True)
                 if ((self.nrb_left.data is not None) and
                         (self.nrb_right.data is not None)):
