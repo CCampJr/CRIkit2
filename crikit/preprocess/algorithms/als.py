@@ -43,7 +43,7 @@ class AlsCvxopt(AbstractBaseline):
 
         fix_rng : ndarray (1D), optional (default, None)
             Pixels to weight so that the baseline strongly approaches the data
-            at these pixels.
+            at these pixels. Note: pixel number relative to rng
         
         max_iter : int, optional (default, 100)
             Maximum number of least-squares iterations to perform
