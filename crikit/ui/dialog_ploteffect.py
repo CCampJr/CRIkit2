@@ -18,7 +18,7 @@ from crikit.ui.dialog_AbstractPlotEffect import (AbstractPlotEffectPlugin
 
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
-class DialogPlotEffectFuture(_QDialog):
+class DialogPlotEffect(_QDialog):
     """
     Extensible Dialog that shows the effect of a plugin on input data.
     
@@ -39,7 +39,7 @@ class DialogPlotEffectFuture(_QDialog):
     """
     
     def __init__(self, data, x=None, plugin=None, parent=None):
-        super(DialogPlotEffectFuture, self).__init__(parent)
+        super(DialogPlotEffect, self).__init__(parent)
         self.ui = Ui_DialogPlotEffect()
         self.ui.setupUi(self)
 
@@ -105,7 +105,7 @@ class DialogPlotEffectFuture(_QDialog):
         """
         Static method that is actually called
         """        
-        dialog = DialogPlotEffectFuture(data, x=x, plugin=plugin, 
+        dialog = DialogPlotEffect(data, x=x, plugin=plugin, 
                                   parent=parent)
         
         result = dialog.exec_()  # 1 = Accepted, 0 = Rejected/Canceled
@@ -297,7 +297,7 @@ if __name__ == '__main__':
     
 #    # Demo
 #    plugin = widgetDemoPlotEffectPlugin()
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -306,7 +306,7 @@ if __name__ == '__main__':
 ##    from crikit.ui.widget_ALS import widgetALS as _widgetALS
 ##    
 ##    plugin = _widgetALS()
-##    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+##    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 ##                                                            plugin=plugin)
 ##    if winPlotEffect is not None:
 ##        print(winPlotEffect.parameters)
@@ -314,7 +314,7 @@ if __name__ == '__main__':
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
 #    plugin = _widgetArPLS()
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -323,7 +323,7 @@ if __name__ == '__main__':
 #    from crikit.ui.widget_DeTrending import (widgetDeTrending as 
 #                                                  _widgetDeTrending)
 #    plugin = _widgetDeTrending()
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -331,7 +331,7 @@ if __name__ == '__main__':
 #    # SG
 #    from crikit.ui.widget_SG import (widgetSG as _widgetSG)
 #    plugin = _widgetSG()
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -339,7 +339,7 @@ if __name__ == '__main__':
 #    # KK
 #    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
 #    plugin = _widgetKK()
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect([NRB,CARS], x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -348,7 +348,7 @@ if __name__ == '__main__':
 #    from crikit.ui.widget_Calibrate import (widgetCalibrate as 
 #                                                _widgetCalibrate)
 #    plugin = _widgetCalibrate(calib_dict)
-#    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+#    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
 #                                                            plugin=plugin)
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
@@ -357,7 +357,7 @@ if __name__ == '__main__':
     from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
                                             _widgetMergeNRBs)
     plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
-    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS2, x=WN,
                                                             plugin=plugin)
     if winPlotEffect is not None:
         print(winPlotEffect.parameters)
