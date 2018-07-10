@@ -1,9 +1,0 @@
-[Core]
-Name = Amp Error: ALS
-Module = errcorrect_amp_ALS
-
-[Documentation]
-Author = Charles H. Camp Jr.
-Version = 16.03.02
-Description = Amplitude error correction with alternating least squares. If complex, performed on imag component.
-

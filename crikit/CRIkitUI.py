@@ -79,7 +79,7 @@ from crikit.preprocess.subtract_mean import SubtractMeanOverRange
 from crikit.ui.dialog_kkOptions import DialogKKOptions
 from crikit.ui.dialog_model import DialogModel
 from crikit.ui.dialog_ploteffect import \
-    DialogPlotEffectFuture as _DialogPlotEffect
+    DialogPlotEffect as _DialogPlotEffect
 from crikit.ui.dialog_save import DialogSave
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 from crikit.ui.qt_CRIkit import Ui_MainWindow

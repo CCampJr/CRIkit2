@@ -1,9 +1,0 @@
-[Core]
-Name = Scaling: SG
-Module = errcorrect_scale_SG
-
-[Documentation]
-Author = Charles H. Camp Jr.
-Version = 16.03.02
-Description = Scaling determined and applied by a Savitky-Golay filter.
-
