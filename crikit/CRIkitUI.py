@@ -1604,7 +1604,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         text, ok = _QInputDialog.getText(None, 'Frequency Window',
                                          'Range Tuple (cm-1): ',
-                                         text='(500, 3400)')
+                                         text='(500, 3800)')
         if ok:
             text_str_list = text.strip('(').strip(')').strip().split(',')
             freqwin = [float(q) for q in text_str_list]
