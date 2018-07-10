@@ -178,16 +178,16 @@ class widgetALS(_AbstractPlotEffectPlugin):
 
                 # Start X
                 scispin = _SciSpin()
-                scispin.setMinimum(min_x)
-                scispin.setMaximum(max_x)
+                scispin.setMinimum(self._x.min())
+                scispin.setMaximum(self._x.max())
                 scispin.setValue(min_x)
                 scispin.editingFinished.connect(self.weightspinboxchanged)
                 self.ui.tableWidgetWeights.setCellWidget(nr, 0, scispin)
 
                 # Stop X
                 scispin = _SciSpin()
-                scispin.setMinimum(min_x)
-                scispin.setMaximum(max_x)
+                scispin.setMinimum(self._x.min())
+                scispin.setMaximum(self._x.max())
                 scispin.setValue(max_x)
                 scispin.editingFinished.connect(self.weightspinboxchanged)
                 self.ui.tableWidgetWeights.setCellWidget(nr, 1, scispin)
@@ -226,16 +226,16 @@ class widgetALS(_AbstractPlotEffectPlugin):
 
                 # Start X
                 scispin = _SciSpin()
-                scispin.setMinimum(min_x)
-                scispin.setMaximum(max_x)
+                scispin.setMinimum(self._x.min())
+                scispin.setMaximum(self._x.max())
                 scispin.setValue(min_x)
                 scispin.editingFinished.connect(self.asymspinboxchanged)
                 self.ui.tableWidgetAsym.setCellWidget(nr, 0, scispin)
 
                 # Stop X
                 scispin = _SciSpin()
-                scispin.setMinimum(min_x)
-                scispin.setMaximum(max_x)
+                scispin.setMinimum(self._x.min())
+                scispin.setMaximum(self._x.max())
                 scispin.setValue(max_x)
                 scispin.editingFinished.connect(self.asymspinboxchanged)
                 self.ui.tableWidgetAsym.setCellWidget(nr, 1, scispin)
