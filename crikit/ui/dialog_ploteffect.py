@@ -303,7 +303,7 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 ##    # ALS
-    from crikit.ui.widget_ALS2 import widgetALS as _widgetALS
+    from crikit.ui.widget_ALS import widgetALS as _widgetALS
 
     rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
     plugin = _widgetALS(x=WN, rng=rng)
