@@ -107,7 +107,10 @@ class DialogPlotEffectFuture(_QDialog):
         """        
         dialog = DialogPlotEffectFuture(data, x=x, plugin=plugin, 
                                   parent=parent)
-        
+        # Resize to fit plugin
+        if dialog.width() < dialog.plugin.width():
+            dialog.resize(int(dialog.plugin.width()*1.1), dialog.height())
+
         result = dialog.exec_()  # 1 = Accepted, 0 = Rejected/Canceled
         
         if result == 1:
