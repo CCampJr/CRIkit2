@@ -181,6 +181,11 @@ class CRIkitUI_process(_QMainWindow):
         self.overlays = []
         self.show_overlays = True
 
+        # ROI's to plot instead of random spectra
+        # Primarily affects dialogPlotEffect activities
+        # Also affected by setting actionUseSet
+        self.preview_rois = None
+
         # Piecewise NRB's (not always used)
         self.nrb_left = Spectra()
         self.nrb_right = Spectra()
@@ -331,6 +336,10 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionScaleErrorCorrection.triggered.connect(self.errorCorrectScale)
         self.ui.actionAmpErrorCorrection.triggered.connect(self.errorCorrectAmp)
         self.ui.actionSubtractROI.triggered.connect(self.subtractROIStart)
+
+        # Preview ROIs
+        self.ui.actionSetPreviewROI.triggered.connect(self.set_preview_rois)
+        self.ui.actionDeletePreviewROI.triggered.connect(self.delete_preview_rois)
 
         # SAVE
 
@@ -710,6 +719,8 @@ class CRIkitUI_process(_QMainWindow):
             # VIEW
             self.ui.actionPointSpectrum.setEnabled(True)
             self.ui.actionROISpectrum.setEnabled(True)
+            self.ui.actionSetPreviewROI.setEnabled(True)
+            self.ui.actionDeletePreviewROI.setEnabled(True)
 
             # IMPORT/LOAD
             self.ui.actionLoadDark.setEnabled(True)
@@ -1023,6 +1034,119 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionNRBSpectrum.setEnabled(False)
                 self.ui.actionDeNoiseNRB.setEnabled(False)
 
+    def get_preview_spectra(self, full=False):
+        """ If self.preview_rois is set, output the mean spectra from thos regions """
+        if full:
+            rng = self.hsi.freq.pix_vec
+        else:
+            rng = self.hsi.freq.op_range_pix
+
+        if self.preview_rois:
+            prev_spectra = []
+
+            for prx, pry in self.preview_rois:
+
+                mask, path = _roimask(self.hsi.x, self.hsi.y, prx, pry)
+
+                mask_hits = _np.sum(mask)
+                if mask_hits > 0:  # Len(mask) > 0
+                    temp = self.hsi.data_imag_over_real[..., rng][mask == 1]
+                    
+
+                    if mask_hits > 1:
+                        prev_spectra.append(_np.mean(temp, axis=0))
+                    else:
+                        prev_spectra.append(temp[self.hsi.freq.op_range_pix])
+            return _np.array(prev_spectra)
+
+        else:
+            return self.hsi.get_rand_spectra(2, pt_sz=3, quads=True)
+
+    def set_preview_rois(self):
+        """ Set the preview ROIs. NOTE: this function just sets the signal for the MPL window """
+        if self.cid is None:
+            # Updated by _roiClick
+            self.preview_rois = []
+            self.x_loc_list = []
+            self.y_loc_list = []
+
+            self.cid = self.img_BW.mpl.mpl_connect('button_press_event',
+                                                   lambda event: self._roiPreviewClick(event))
+
+            self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+            self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
+        pass
+
+    def _roiPreviewClick(self, event, *args):
+        """
+        Capture region-of-interest mouse click locations in MPL window.
+        """
+
+        getx = self.img_BW.mpl.ax.get_xlim()
+        gety = self.img_BW.mpl.ax.get_ylim()
+
+        if event.button == 1:
+            if event.inaxes == self.img_BW.mpl.ax:
+
+                self.x_loc_list.append(event.xdata)
+                self.y_loc_list.append(event.ydata)
+
+                if len(self.x_loc_list) == 1:
+                    self.img_BW.mpl.ax.plot(self.x_loc_list, self.y_loc_list,
+                                            markerfacecolor=[.9, .9, 0],
+                                            markeredgecolor=[.9, .9, 0],
+                                            marker='+',
+                                            markersize=10,
+                                            linestyle='None')
+                    self.img_BW.mpl.ax.set_xlim(getx)
+                    self.img_BW.mpl.ax.set_ylim(gety)
+                    self.img_BW.mpl.draw()
+                else:
+                    self.img_BW.mpl.ax.plot(self.x_loc_list[-2:],
+                                            self.y_loc_list[-2:],
+                                            linewidth=2,
+                                            marker='+',
+                                            markersize=10,
+                                            color=[.9, .9, 0],
+                                            markerfacecolor=[.9, .9, 0],
+                                            markeredgecolor=[.9, .9, 0])
+                    self.img_BW.mpl.ax.set_xlim(getx)
+                    self.img_BW.mpl.ax.set_ylim(gety)
+
+                    self.img_BW.mpl.draw()
+        else:
+            if len(self.x_loc_list) > 0: # Insure at least 1 vertex
+                self.x_loc_list.append(self.x_loc_list[0])
+                self.y_loc_list.append(self.y_loc_list[0])
+
+                self.img_BW.mpl.ax.plot(self.x_loc_list[-2:],
+                                        self.y_loc_list[-2:],
+                                        linewidth=2,
+                                        marker='+',
+                                        markersize=10,
+                                        color=[.9, .9, 0],
+                                        markerfacecolor=[.9, .9, 0],
+                                        markeredgecolor=[.9, .9, 0])
+                self.img_BW.mpl.ax.set_xlim(getx)
+                self.img_BW.mpl.ax.set_ylim(gety)
+
+                self.preview_rois.append([self.x_loc_list, self.y_loc_list])
+
+                self.x_loc_list = []
+                self.y_loc_list = []
+            else:
+                del self.x_loc_list
+                del self.y_loc_list
+            
+                self.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+                self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.ArrowCursor))
+                self.img_BW.mpl.mpl_disconnect(self.cid)
+                self.cid = None
+                self.changeSlider()
+
+    def delete_preview_rois(self):
+        self.preview_rois = None
+
     def mergeNRBs(self):
         """
         Interactive merge of the left- and right-side NRB
@@ -1030,13 +1154,15 @@ class CRIkitUI_process(_QMainWindow):
         if self.nrb_left is not None and self.nrb_right is not None:
             rng = self.hsi.freq.op_range_pix
 
-
-            rand_spectra = self.hsi.get_rand_spectra(2, pt_sz=3, quads=True)
+            if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+                preview_spectra = self.hsi.get_rand_spectra(2, pt_sz=3, quads=True)
+            else:
+                preview_spectra = self.get_preview_spectra(full=False)
 
             plugin = _widgetMergeNRBs(wn_vec=self.hsi.f,
                                       nrb_left=self.nrb_left.mean()[rng],
                                       nrb_right=self.nrb_right.mean()[rng])
-            winPlotEffect = _DialogPlotEffect.dialogPlotEffect(data=rand_spectra,
+            winPlotEffect = _DialogPlotEffect.dialogPlotEffect(data=preview_spectra,
                                                                x=self.hsi.f,
                                                                plugin=plugin)
 
@@ -1090,12 +1216,15 @@ class CRIkitUI_process(_QMainWindow):
         Calibrate spectra
         """
 
-        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True, full=True)
-        if _np.iscomplexobj(rand_spectra):
-            rand_spectra = rand_spectra.imag
+        if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+            preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True, full=True)
+            if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.imag
+        else:
+            preview_spectra = self.get_preview_spectra(full=True)
 
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
                                                            x=self.hsi.f_full,
                                                            plugin=plugin,
                                                            parent=self)
@@ -1746,8 +1875,13 @@ class CRIkitUI_process(_QMainWindow):
         the Kramers-Kronig phase retrieval algorithm.
         """
 
-        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=False)
+        if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+            preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                    full=False)
+
+        else:
+            preview_spectra = self.get_preview_spectra(full=False)
+
         nrb = self.nrb.mean()
 
         # Range of pixels to perform-over
@@ -1755,7 +1889,7 @@ class CRIkitUI_process(_QMainWindow):
 
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
                                                     nrb[..., rng],
-                                                    rand_spectra], parent=self)
+                                                    preview_spectra], parent=self)
 
         if out is not None:
             cars_amp_offset = out['cars_amp']
@@ -1895,15 +2029,20 @@ class CRIkitUI_process(_QMainWindow):
         """
         Error Correction: Phase
         """
-        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=True)
-        if _np.iscomplexobj(rand_spectra):
-            rand_spectra = _np.angle(rand_spectra)
+
+        if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+            preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                    full=True)
+        else:
+            preview_spectra = self.get_preview_spectra(full=True)
+
+        if _np.iscomplexobj(preview_spectra):
+            preview_spectra = _np.angle(preview_spectra)
 
         rng = self.hsi.freq.op_range_pix
 
         plugin = _widgetALS(x=self.hsi.f_full, rng=rng)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
                                                            x=self.hsi.f_full,
                                                            plugin=plugin,
                                                            parent=self)
@@ -1960,15 +2099,19 @@ class CRIkitUI_process(_QMainWindow):
         """
         Error Correction: Scale
         """
-        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=False)
-        if _np.iscomplexobj(rand_spectra):
-            rand_spectra = rand_spectra.real
+
+        if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+            preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                    full=False)
+            if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.real
+        else:
+            preview_spectra = self.get_preview_spectra(full=False)
 
         rng = self.hsi.freq.op_range_pix
 
         plugin = _widgetSG(window_length=601, polyorder=2)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
                                                            x=self.hsi.f,
                                                            plugin=plugin,
                                                            parent=self)
@@ -2005,15 +2148,19 @@ class CRIkitUI_process(_QMainWindow):
         If data is complex, amplitude detrending occurs on and only on the \
         imaginary portion
         """
-        rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=True)
-        if _np.iscomplexobj(rand_spectra):
-            rand_spectra = rand_spectra.imag
+
+        if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
+            preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
+                                                    full=True)
+            if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.imag
+        else:
+            preview_spectra = self.get_preview_spectra(full=True)
 
         rng = self.hsi.freq.op_range_pix
 
         plugin = _widgetALS(x=self.hsi.f_full, rng=rng)
-        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
                                                            x=self.hsi.f_full,
                                                            plugin=plugin,
                                                            parent=self)
@@ -2797,7 +2944,9 @@ class CRIkitUI_process(_QMainWindow):
 
                     if self.ui.actionShowOverlayLegend.isChecked():
                         try:
-                            self.img_BW.mpl.ax.legend(loc='best')
+                            # self.img_BW.mpl.ax.legend(loc='best')
+                            self.img_BW.mpl.ax.legend(bbox_to_anchor=(0.01, 0.8, 1., 0.4), ncol=2)
+                            self.img_BW.mpl.fig.tight_layout()
                         except:
                             pass
         except:

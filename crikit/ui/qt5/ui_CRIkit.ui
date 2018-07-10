@@ -521,6 +521,9 @@ This will be saved to the processed file.</string>
     <addaction name="actionPointSpectrum"/>
     <addaction name="actionROISpectrum"/>
     <addaction name="separator"/>
+    <addaction name="actionSetPreviewROI"/>
+    <addaction name="actionDeletePreviewROI"/>
+    <addaction name="separator"/>
     <addaction name="actionDarkSpectrum"/>
     <addaction name="actionNRBSpectrum"/>
     <addaction name="actionLeftSideNRBSpect"/>
@@ -531,6 +534,7 @@ This will be saved to the processed file.</string>
      <string>Settings</string>
     </property>
     <addaction name="actionUndo_Backup_Enabled"/>
+    <addaction name="actionUsePreviewROI"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1203,6 +1207,36 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>BCARS Numerical Phantom</string>
+   </property>
+  </action>
+  <action name="actionUsePreviewROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionSetPreviewROI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Set Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionDeletePreviewROI">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Delete Preview ROI(s)</string>
    </property>
   </action>
  </widget>
