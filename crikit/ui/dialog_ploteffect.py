@@ -101,7 +101,7 @@ class DialogPlotEffectFuture(_QDialog):
         self.ui.pushButtonCancel.clicked.connect(self.reject)
         
     @staticmethod
-    def dialogPlotEffect(data, x = None, plugin=None, parent = None):
+    def dialogPlotEffect(data, x=None, plugin=None, parent=None):
         """
         Static method that is actually called
         """        
@@ -303,9 +303,10 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 ##    # ALS
-    from crikit.ui.widget_ALS import widgetALS as _widgetALS
+    from crikit.ui.widget_ALS2 import widgetALS as _widgetALS
 
-    plugin = _widgetALS()
+    rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
+    plugin = _widgetALS(x=WN, rng=rng)
     winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
                                                             plugin=plugin)
     if winPlotEffect is not None:
@@ -354,13 +355,13 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
     
     # Merge NRBs
-    from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
-                                            _widgetMergeNRBs)
-    plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
-    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
-                                                            plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
+    # from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
+    #                                         _widgetMergeNRBs)
+    # plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
+    # winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
+    #                                                         plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
         
     
     
