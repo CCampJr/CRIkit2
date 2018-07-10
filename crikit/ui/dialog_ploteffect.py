@@ -101,13 +101,16 @@ class DialogPlotEffect(_QDialog):
         self.ui.pushButtonCancel.clicked.connect(self.reject)
         
     @staticmethod
-    def dialogPlotEffect(data, x = None, plugin=None, parent = None):
+    def dialogPlotEffect(data, x=None, plugin=None, parent=None):
         """
         Static method that is actually called
         """        
         dialog = DialogPlotEffect(data, x=x, plugin=plugin, 
                                   parent=parent)
-        
+        # Resize to fit plugin
+        if dialog.width() < dialog.plugin.width():
+            dialog.resize(int(dialog.plugin.width()*1.1), dialog.height())
+
         result = dialog.exec_()  # 1 = Accepted, 0 = Rejected/Canceled
         
         if result == 1:
@@ -303,13 +306,14 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 ##    # ALS
-##    from crikit.ui.widget_ALS import widgetALS as _widgetALS
-##    
-##    plugin = _widgetALS()
-##    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
-##                                                            plugin=plugin)
-##    if winPlotEffect is not None:
-##        print(winPlotEffect.parameters)
+    from crikit.ui.widget_ALS import widgetALS as _widgetALS
+
+    rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
+    plugin = _widgetALS(x=WN, rng=rng)
+    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+                                                            plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
 #
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
@@ -354,13 +358,13 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
     
     # Merge NRBs
-    from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
-                                            _widgetMergeNRBs)
-    plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
-    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS2, x=WN,
-                                                            plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
+    # from crikit.ui.widget_mergeNRBs import (widgetMergeNRBs as 
+    #                                         _widgetMergeNRBs)
+    # plugin = _widgetMergeNRBs(WN, NRB_LEFT, NRB_RIGHT)
+    # winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS2, x=WN,
+    #                                                         plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
         
     
     

@@ -17,15 +17,17 @@ from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
 class AlsCvxopt(AbstractBaseline):   
     def __init__(self, smoothness_param=1e3, asym_param=1e-4, redux=1,
                  order=2, rng=None, fix_end_points=False, fix_rng=None, 
-                 fix_const=1, max_iter=100, min_diff=1e-5, verbose=False):
+                 fix_const=1, max_iter=100, min_diff=1e-5, verbose=False,
+                 **kwargs):
         """
         Parameters
         ----------
         smoothness_param : float, optional (default, 1e3)
             Smoothness parameter
     
-        asym_param : float, optional (default, 1e-4)
-            Assymetry parameter
+        asym_param : float, ndarray, optional (default, 1e-4)
+            Assymetry parameter. Note: if vector, length of signal/frequency
+            vector (i.e., not relative to rng)
             
         redux : int, optional (default, 1)
             Reduction parameter to sub-sample input signal
@@ -43,7 +45,7 @@ class AlsCvxopt(AbstractBaseline):
 
         fix_rng : ndarray (1D), optional (default, None)
             Pixels to weight so that the baseline strongly approaches the data
-            at these pixels.
+            at these pixels. Note: pixel number relative to rng
         
         max_iter : int, optional (default, 100)
             Maximum number of least-squares iterations to perform
@@ -54,6 +56,13 @@ class AlsCvxopt(AbstractBaseline):
         verbose : bool, optional (default, False)
             Display progress of detrending
     
+        Notes
+        -----
+        Vector spaces:
+
+        - asym_param, x
+        - fix_rng, x[rng]
+
         """
         
         self.smoothness_param=smoothness_param
@@ -168,7 +177,11 @@ class AlsCvxopt(AbstractBaseline):
                         penalty_vector[-1] = 1
 
                     if self.fix_rng is not None:
-                        penalty_vector[self.fix_rng] = self.fix_const
+                        # ! Dirty fix to the problem of @property fix_rng being
+                        # ! equal to the size of penalty_vector
+                        fix_rng = 1*self.fix_rng
+                        fix_rng = fix_rng[fix_rng < penalty_vector.size]
+                        penalty_vector[fix_rng] = self.fix_const
             
             baseline_output[coords] = baseline_current
             
@@ -180,53 +193,14 @@ class AlsCvxopt(AbstractBaseline):
         return baseline_output
     
 if __name__ == '__main__':  # pragma: no cover
-    import matplotlib.pyplot as _plt
+    x = _np.linspace(-100, 100, 1000)
+    y = 10*_np.exp(-(x**2/(2*20**2)))
 
-    x = _np.linspace(0,1000,800)
-    data = _np.exp(-(x-500)**2/300**2) + _np.abs(5/(300 - x -1j*10) + .005)
+    rng = _np.arange(200,800)
+    asym_vec = 0*x + 1e-7
+    fix_rng = _np.arange(600)
     
-    N = 1
-    D = 2
-    
-    if D == 3:
-        data = _np.dot((_np.random.rand(N,N)*_np.ones((N,N)))[...,None], data[None,:])
-    else:
-        data = _np.dot((_np.random.rand(N)*_np.ones((N)))[...,None], data[None,:])
-    
-#    print('Data.shape: {}\n'.format(data.shape))
-    
-#    asym_param = _np.logspace(-4, -7, x.size)
-    
-    _plt.plot(x,data.T)
-    
-    sp_vec = _np.logspace(0,6,7)
-    for num, sp in enumerate(sp_vec):
-#        for ap in _np.logspace(-6,0,10):
-        ap = sp/1e6
-        als = AlsCvxopt(smoothness_param=sp, asym_param=ap, redux=1,
-                        max_iter=1000,
-                        verbose=False)
-
-        baseline = als.calculate(data)
-        
-        scaled_num = (num)/(sp_vec.size)
-        color = _plt.cm.jet(scaled_num)
-        
-        _plt.plot(x, baseline.T, c=color, label='{:.1e}'.format(sp))
-    _plt.legend()
-    _plt.show()
-#    print('Internal Timer: {:.4f} sec ({:.4f} per)'.format(als.t, 
-#                                                           als.t_per_iter))
-    
-#    als = AlsCvxopt(smoothness_param=1, asym_param=1e-3, redux=10, 
-#                    max_iter=1000,
-#                    verbose=False)
-#    
-#    baseline = als.calculate(data)
-#    print('Internal Timer: {:.4f} sec ({:.4f} per)'.format(als.t, 
-#                                                           als.t_per_iter))
-#    
-#    if (D <= 2) & (N<21):
-#        _plt.plot(data.T,'k')
-#        _plt.plot(baseline.T,'r')
-#        _plt.show()
+    als = AlsCvxopt(smoothness_param=1, asym_param=asym_vec, rng=rng,
+                    redux=10, fix_end_points=False, fix_rng=fix_rng, 
+                    verbose=True)
+    y_als = als.calculate(y)

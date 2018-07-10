@@ -1604,7 +1604,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         text, ok = _QInputDialog.getText(None, 'Frequency Window',
                                          'Range Tuple (cm-1): ',
-                                         text='(500, 3400)')
+                                         text='(500, 3800)')
         if ok:
             text_str_list = text.strip('(').strip(')').strip().split(',')
             freqwin = [float(q) for q in text_str_list]
@@ -1896,61 +1896,55 @@ class CRIkitUI_process(_QMainWindow):
         Error Correction: Phase
         """
         rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=False)
+                                                 full=True)
         if _np.iscomplexobj(rand_spectra):
             rand_spectra = _np.angle(rand_spectra)
 
         rng = self.hsi.freq.op_range_pix
 
-        plugin = _widgetALS()
+        plugin = _widgetALS(x=self.hsi.f_full, rng=rng)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
-                                                           x=self.hsi.f,
+                                                           x=self.hsi.f_full,
                                                            plugin=plugin,
                                                            parent=self)
         if winPlotEffect is not None:
-            asym_param = winPlotEffect.parameters['asym_param']
-            smoothness_param = winPlotEffect.parameters['smoothness_param']
-            redux_factor = winPlotEffect.parameters['redux']
-            fix_end_points = winPlotEffect.parameters['fix_end_points']
-            max_iter = winPlotEffect.parameters['max_iter']
-            min_diff = winPlotEffect.parameters['min_diff']
+            # asym_param = winPlotEffect.parameters['asym_param']
+            # smoothness_param = winPlotEffect.parameters['smoothness_param']
+            # redux_factor = winPlotEffect.parameters['redux']
+            # fix_end_points = winPlotEffect.parameters['fix_end_points']
+            # max_iter = winPlotEffect.parameters['max_iter']
+            # min_diff = winPlotEffect.parameters['min_diff']
 
-            phase_err_correct_als = _PhaseErrCorrectALS(smoothness_param=smoothness_param,
-                                                        asym_param=asym_param,
-                                                        redux=redux_factor,
-                                                        order=2,
-                                                        rng=rng,
-                                                        fix_end_points=fix_end_points,
-                                                        max_iter=max_iter,
-                                                        min_diff=min_diff,
-                                                        verbose=False)
+            phase_err_correct_als = _PhaseErrCorrectALS(**winPlotEffect.parameters)
 
             phase_err_correct_als.transform(self.hsi.data)
 
+            temp = ['PhaseErrorCorrectALS']
+            [temp.extend(q) for q in winPlotEffect.parameters.items()]
+            self.bcpre.add_step(temp)
             # Backup for Undo
+            # if _np.size(asym_param) == 1:
+            #     self.bcpre.add_step(['PhaseErrorCorrectALS',
+            #                          'smoothness_param', smoothness_param,
+            #                          'asym_param', asym_param,
+            #                          'redux', redux_factor,
+            #                          'order', 2,
+            #                          'fix_end_points', fix_end_points,
+            #                          'max_iter', max_iter,
+            #                          'min_diff', min_diff])
 
-            if _np.size(asym_param) == 1:
-                self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                     'smoothness_param', smoothness_param,
-                                     'asym_param', asym_param,
-                                     'redux', redux_factor,
-                                     'order', 2,
-                                     'fix_end_points', fix_end_points,
-                                     'max_iter', max_iter,
-                                     'min_diff', min_diff])
-
-            else:
-                self.bcpre.add_step(['PhaseErrorCorrectALS',
-                                     'smoothness_param', smoothness_param,
-                                     'asym_param_start',
-                                     winPlotEffect.parameters['asym_param_start'],
-                                     'asym_param_end',
-                                     winPlotEffect.parameters['asym_param_end'],
-                                     'redux', redux_factor,
-                                     'order', 2,
-                                     'fix_end_points', fix_end_points,
-                                     'max_iter', max_iter,
-                                     'min_diff', min_diff])
+            # else:
+            #     self.bcpre.add_step(['PhaseErrorCorrectALS',
+            #                          'smoothness_param', smoothness_param,
+            #                          'asym_param_start',
+            #                          winPlotEffect.parameters['asym_param_start'],
+            #                          'asym_param_end',
+            #                          winPlotEffect.parameters['asym_param_end'],
+            #                          'redux', redux_factor,
+            #                          'order', 2,
+            #                          'fix_end_points', fix_end_points,
+            #                          'max_iter', max_iter,
+            #                          'min_diff', min_diff])
             self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -2012,59 +2006,55 @@ class CRIkitUI_process(_QMainWindow):
         imaginary portion
         """
         rand_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
-                                                 full=False)
+                                                 full=True)
         if _np.iscomplexobj(rand_spectra):
             rand_spectra = rand_spectra.imag
 
         rng = self.hsi.freq.op_range_pix
 
-        plugin = _widgetALS()
+        plugin = _widgetALS(x=self.hsi.f_full, rng=rng)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(rand_spectra,
-                                                           x=self.hsi.f,
+                                                           x=self.hsi.f_full,
                                                            plugin=plugin,
                                                            parent=self)
         if winPlotEffect is not None:
-            asym_param = winPlotEffect.parameters['asym_param']
-            smoothness_param = winPlotEffect.parameters['smoothness_param']
-            redux_factor = winPlotEffect.parameters['redux']
-            fix_end_points = winPlotEffect.parameters['fix_end_points']
-            max_iter = winPlotEffect.parameters['max_iter']
-            min_diff = winPlotEffect.parameters['min_diff']
+            # asym_param = winPlotEffect.parameters['asym_param']
+            # smoothness_param = winPlotEffect.parameters['smoothness_param']
+            # redux_factor = winPlotEffect.parameters['redux']
+            # fix_end_points = winPlotEffect.parameters['fix_end_points']
+            # max_iter = winPlotEffect.parameters['max_iter']
+            # min_diff = winPlotEffect.parameters['min_diff']
 
+            temp = ['AmpErrorCorrectALS']
+            [temp.extend(q) for q in winPlotEffect.parameters.items()]
+            self.bcpre.add_step(temp)
 
-            baseline_detrend = _SubtractBaselineALS(smoothness_param=smoothness_param,
-                                                    asym_param=asym_param,
-                                                    redux=redux_factor,
-                                                    order=2,
-                                                    rng=rng,
-                                                    fix_end_points=fix_end_points,
-                                                    max_iter=max_iter,
-                                                    min_diff=min_diff,
-                                                    verbose=False)
+            baseline_detrend = _SubtractBaselineALS(**winPlotEffect.parameters)
+
             baseline_detrend.transform(self.hsi.data)
 
             # Backup for Undo
-            if _np.size(asym_param) == 1:
-                self.bcpre.add_step(['AmpErrorCorrectALS',
-                                     'smoothness_param', smoothness_param,
-                                     'asym_param', asym_param,
-                                     'redux', redux_factor,
-                                     'order', 2,
-                                     'fix_end_points', fix_end_points,
-                                     'max_iter', max_iter,
-                                     'min_diff', min_diff])
-            else:
-                self.bcpre.add_step(['AmpErrorCorrectALS',
-                                     'smoothness_param', smoothness_param,
-                                     'asym_param_start',
-                                     winPlotEffect.parameters['asym_param_start'],
-                                     'asym_param_end',
-                                     winPlotEffect.parameters['asym_param_end'],
-                                     'redux', redux_factor,
-                                     'order', 2,
-                                     'fix_end_points', fix_end_points,
-                                     'max_iter', max_iter,
-                                     'min_diff', min_diff])
+            # if _np.size(asym_param) == 1:
+            #     self.bcpre.add_step(['AmpErrorCorrectALS',
+            #                          'smoothness_param', smoothness_param,
+            #                          'asym_param', asym_param,
+            #                          'redux', redux_factor,
+            #                          'order', 2,
+            #                          'fix_end_points', fix_end_points,
+            #                          'max_iter', max_iter,
+            #                          'min_diff', min_diff])
+            # else:
+            #     self.bcpre.add_step(['AmpErrorCorrectALS',
+            #                          'smoothness_param', smoothness_param,
+            #                          'asym_param_start',
+            #                          winPlotEffect.parameters['asym_param_start'],
+            #                          'asym_param_end',
+            #                          winPlotEffect.parameters['asym_param_end'],
+            #                          'redux', redux_factor,
+            #                          'order', 2,
+            #                          'fix_end_points', fix_end_points,
+            #                          'max_iter', max_iter,
+            #                          'min_diff', min_diff])
             self.updateHistory()
 
             if self.ui.actionUndo_Backup_Enabled.isChecked():
