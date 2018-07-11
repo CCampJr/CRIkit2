@@ -1826,7 +1826,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zc.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[:, self.zc.zero_col] *= 0
+        # self.hsi._mask[:, self.zc.zero_col] *= 0
 
         self.changeSlider()
 
@@ -1839,7 +1839,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zr.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[self.zr.zero_row, :] *= 0
+        # self.hsi._mask[self.zr.zero_row, :] *= 0
 
         self.changeSlider()
 
@@ -1852,7 +1852,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zc.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[:, self.zc.zero_col] *= 0
+        # self.hsi._mask[:, self.zc.zero_col] *= 0
 
         self.changeSlider()
 
@@ -1865,7 +1865,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zr.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[self.zr.zero_row, :] *= 0
+        # self.hsi._mask[self.zr.zero_row, :] *= 0
 
         self.changeSlider()
 
