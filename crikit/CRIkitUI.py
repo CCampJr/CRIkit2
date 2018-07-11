@@ -340,6 +340,8 @@ class CRIkitUI_process(_QMainWindow):
         # Preview ROIs
         self.ui.actionSetPreviewROI.triggered.connect(self.set_preview_rois)
         self.ui.actionDeletePreviewROI.triggered.connect(self.delete_preview_rois)
+        self.ui.actionShowPreviewROI.triggered.connect(self.changeSlider)
+        self.ui.actionShowPreviewROILegend.triggered.connect(self.changeSlider)
 
         # SAVE
 
@@ -1050,7 +1052,7 @@ class CRIkitUI_process(_QMainWindow):
 
                 mask_hits = _np.sum(mask)
                 if mask_hits > 0:  # Len(mask) > 0
-                    temp = self.hsi.data_imag_over_real[..., rng][mask == 1]
+                    temp = self.hsi.data[..., rng][mask == 1]
                     
 
                     if mask_hits > 1:
@@ -1076,6 +1078,24 @@ class CRIkitUI_process(_QMainWindow):
             self.img_BW.mpl.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
             self.setCursor(_QCursor(_QtCore.Qt.CrossCursor))
         pass
+
+    def showPreviewRois(self):
+        lines = []
+        if self.preview_rois:
+            for num, (prx, pry) in enumerate(self.preview_rois):
+                temp, = self.img_BW.mpl.ax.plot(prx, pry, label='Preview ROI {}'.format(num),
+                                            linestyle=':', color='C{}'.format(num % 10))
+                lines.append(temp)
+            
+            if self.ui.actionShowPreviewROILegend.isChecked():
+                # lg = self.img_BW.mpl.ax.legend(handles=lines, loc='lower left', mode='expand', 
+                #                                bbox_to_anchor=(0.01, 1.02, 1., 0.2),
+                #                                ncol=2, fontsize=9)
+                lg = self.img_BW.mpl.ax.legend(handles=lines, loc='best', 
+                                            ncol=2, fontsize=9)
+                self.img_BW.mpl.ax.add_artist(lg)
+            self.img_BW.mpl.fig.tight_layout(pad=1)
+            self.img_BW.mpl.draw()
 
     def _roiPreviewClick(self, event, *args):
         """
@@ -1129,6 +1149,7 @@ class CRIkitUI_process(_QMainWindow):
                                         markeredgecolor=[.9, .9, 0])
                 self.img_BW.mpl.ax.set_xlim(getx)
                 self.img_BW.mpl.ax.set_ylim(gety)
+                self.img_BW.mpl.draw()
 
                 self.preview_rois.append([self.x_loc_list, self.y_loc_list])
 
@@ -1146,6 +1167,7 @@ class CRIkitUI_process(_QMainWindow):
 
     def delete_preview_rois(self):
         self.preview_rois = None
+        self.changeSlider()
 
     def mergeNRBs(self):
         """
@@ -1158,6 +1180,9 @@ class CRIkitUI_process(_QMainWindow):
                 preview_spectra = self.hsi.get_rand_spectra(2, pt_sz=3, quads=True)
             else:
                 preview_spectra = self.get_preview_spectra(full=False)
+
+            if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.imag
 
             plugin = _widgetMergeNRBs(wn_vec=self.hsi.f,
                                       nrb_left=self.nrb_left.mean()[rng],
@@ -1218,10 +1243,11 @@ class CRIkitUI_process(_QMainWindow):
 
         if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
             preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True, full=True)
-            if _np.iscomplexobj(preview_spectra):
-                preview_spectra = preview_spectra.imag
         else:
             preview_spectra = self.get_preview_spectra(full=True)
+
+        if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.imag
 
         plugin = _widgetCalibrate(calib_dict=self.hsi.freq.calib)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
@@ -2103,10 +2129,11 @@ class CRIkitUI_process(_QMainWindow):
         if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
             preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
                                                     full=False)
-            if _np.iscomplexobj(preview_spectra):
-                preview_spectra = preview_spectra.real
         else:
             preview_spectra = self.get_preview_spectra(full=False)
+
+        if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.real
 
         rng = self.hsi.freq.op_range_pix
 
@@ -2152,10 +2179,11 @@ class CRIkitUI_process(_QMainWindow):
         if (self.preview_rois is None) | (not self.ui.actionUsePreviewROI.isChecked()):
             preview_spectra = self.hsi.get_rand_spectra(5, pt_sz=3, quads=True,
                                                     full=True)
-            if _np.iscomplexobj(preview_spectra):
-                preview_spectra = preview_spectra.imag
         else:
             preview_spectra = self.get_preview_spectra(full=True)
+
+        if _np.iscomplexobj(preview_spectra):
+                preview_spectra = preview_spectra.imag
 
         rng = self.hsi.freq.op_range_pix
 
@@ -2942,17 +2970,25 @@ class CRIkitUI_process(_QMainWindow):
                                             ls=ls, ms=ms, alpha=a,
                                             label=label)
 
-                    if self.ui.actionShowOverlayLegend.isChecked():
+                if self.ui.actionShowOverlayLegend.isChecked():
+                    if self.overlays:
                         try:
                             # self.img_BW.mpl.ax.legend(loc='best')
-                            self.img_BW.mpl.ax.legend(bbox_to_anchor=(0.01, 0.8, 1., 0.4), ncol=2)
-                            self.img_BW.mpl.fig.tight_layout()
+                            lg = self.img_BW.mpl.ax.legend(loc='lower left', 
+                                                            mode='expand', 
+                                                            bbox_to_anchor=(0.01, 1.02, 1., 0.2),
+                                                            ncol=2, fontsize=9)
+                            self.img_BW.mpl.ax.add_artist(lg)
+                            self.img_BW.mpl.fig.tight_layout(pad=1)
                         except:
-                            pass
+                            print('Error in showing overlay legend')
         except:
             print('Error in changeSlider: display overlays')
 
         self.img_BW.mpl.draw()
+
+        if self.ui.actionShowPreviewROI.isChecked():
+            self.showPreviewRois()
 
         if self.bcpre.backed_flag.count(True) > 1:
             self.ui.actionUndo.setEnabled(True)

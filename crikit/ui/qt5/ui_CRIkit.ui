@@ -523,6 +523,8 @@ This will be saved to the processed file.</string>
     <addaction name="separator"/>
     <addaction name="actionSetPreviewROI"/>
     <addaction name="actionDeletePreviewROI"/>
+    <addaction name="actionShowPreviewROI"/>
+    <addaction name="actionShowPreviewROILegend"/>
     <addaction name="separator"/>
     <addaction name="actionDarkSpectrum"/>
     <addaction name="actionNRBSpectrum"/>
@@ -1237,6 +1239,22 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Delete Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionShowPreviewROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionShowPreviewROILegend">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Preview ROI Legend</string>
    </property>
   </action>
  </widget>
