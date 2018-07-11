@@ -547,6 +547,12 @@ This will be saved to the processed file.</string>
     <addaction name="actionRamanPhantom"/>
     <addaction name="actionBCARSPhantom"/>
    </widget>
+   <widget class="QMenu" name="menuNIST_Special">
+    <property name="title">
+     <string>NIST Special</string>
+    </property>
+    <addaction name="actionEstCalibration"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
@@ -554,6 +560,7 @@ This will be saved to the processed file.</string>
    <addaction name="menuPre_Process"/>
    <addaction name="menuAnalysis"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuNIST_Special"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1255,6 +1262,14 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Show Preview ROI Legend</string>
+   </property>
+  </action>
+  <action name="actionEstCalibration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Estimate Calibration</string>
    </property>
   </action>
  </widget>

@@ -54,7 +54,8 @@ from crikit.cri.error_correction import ScaleErrCorrectSG as _ScaleErrCorrectSG
 from crikit.cri.kk import KramersKronig
 from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
 
-from crikit.data.frequency import calib_pix_wn as _calib_pix_wn
+from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn,
+                                   calib_pix_wl as _calib_pix_wl)
 from crikit.data.hsi import Hsi
 from crikit.data.spectra import Spectra
 from crikit.data.spectrum import Spectrum
@@ -316,6 +317,7 @@ class CRIkitUI_process(_QMainWindow):
         # Calibrate Wavenumber
         self.ui.actionCalibrate.triggered.connect(self.calibrate)
         self.ui.actionResetCalibration.triggered.connect(self.calibrationReset)
+        self.ui.actionEstCalibration.triggered.connect(self.specialEstCalibration1)
 
         # Perform KK
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
@@ -743,8 +745,8 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionNRB_from_ROI.setEnabled(True)
             self.ui.menuVariance_Stabilize.setEnabled(True)
 
-            # ANALYSIS
-
+            # NIST SPECIAL
+            self.ui.actionEstCalibration.setEnabled(True)
 
             is_complex = _np.iscomplexobj(self.hsi.data)
             if is_complex:
@@ -1269,6 +1271,26 @@ class CRIkitUI_process(_QMainWindow):
         self.hsi.freq.calib = None
         self.hsi.freq.update()
         self.changeSlider()
+
+    def specialEstCalibration1(self):
+        """
+        For NIST BCARS 2, maximum raw spectrum occurs at approximately
+        745.8 nm (18/07/11)
+        """
+        msg = _QMessageBox(self)
+        msg.setIcon(_QMessageBox.Warning)
+        msg.setText('Estimate calibration for NIST BCARS2?')
+        msg.setWindowTitle('Confirm estimation of calibration')
+        msg.setInformativeText('This should only be applied to RAW BCARS2 data from NIST.')
+        msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+        msg.setDefaultButton(_QMessageBox.Ok)
+        out = msg.exec()
+
+        if out == _QMessageBox.Ok:
+            nm_diff = 745.8 - _calib_pix_wl(self.hsi.freq.calib)[0][self.hsi.mean().argmax()]
+            self.hsi.freq.calib['a_vec'][-1] = self.hsi.freq.calib['a_vec'][-1] - nm_diff
+            self.hsi.freq.update()
+            self.changeSlider()
 
     def plotDarkSpectrum(self):
         """
@@ -1804,7 +1826,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zc.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[:, self.zc.zero_col] *= 0
+        # self.hsi._mask[:, self.zc.zero_col] *= 0
 
         self.changeSlider()
 
@@ -1817,7 +1839,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zr.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[self.zr.zero_row, :] *= 0
+        # self.hsi._mask[self.zr.zero_row, :] *= 0
 
         self.changeSlider()
 
@@ -1830,7 +1852,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zc.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[:, self.zc.zero_col] *= 0
+        # self.hsi._mask[:, self.zc.zero_col] *= 0
 
         self.changeSlider()
 
@@ -1843,7 +1865,7 @@ class CRIkitUI_process(_QMainWindow):
         self.zr.transform(self.hsi.data)
 
         # Adjust mask
-        self.hsi._mask[self.zr.zero_row, :] *= 0
+        # self.hsi._mask[self.zr.zero_row, :] *= 0
 
         self.changeSlider()
 

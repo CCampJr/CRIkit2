@@ -197,8 +197,8 @@ class Hsi(_Spectrum):
 
         ax_rs = self._reshape_axes(value.shape, self.config['nd_axis'])
 
-        self._mask = _np.ones(tuple([n for n in range(3) if n != self.config['nd_axis']]), 
-                              dtype=_np.int)
+        # self._mask = _np.ones(tuple([n for n in range(3) if n != self.config['nd_axis']]), 
+        #                       dtype=_np.int)
 
         if self.freq is None or self.freq.op_list_pix is None:
             self._data = value.reshape(ax_rs)
