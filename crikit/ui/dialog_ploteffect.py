@@ -37,6 +37,8 @@ class DialogPlotEffect(_QDialog):
     parent : QObject
         Parent
     """
+
+    TRANSPOSE_ARR = True
     
     def __init__(self, data, x=None, plugin=None, parent=None):
         super(DialogPlotEffect, self).__init__(parent)
@@ -71,23 +73,8 @@ class DialogPlotEffect(_QDialog):
             self.x = _np.linspace(0,data.shape[0],self.data.shape[0])
         else:
             self.x = x
-        
-        # If data is a list (assumed to be a list of ndarrays),
-        # plot each item in list
-        if isinstance(data, _np.ndarray):
-            try:
-                self.mpl_orig.ax.plot(self.x,data)
-            except:
-                self.mpl_orig.ax.plot(self.x,data.T)
-        elif isinstance(data, list):
-            for d in data:
-                try:
-                    self.mpl_orig.ax.plot(self.x,d)
-                except:
-                    self.mpl_orig.ax.plot(self.x,d.T)
-                
-            
-        self.plot_labels()
+
+        self.make_orig_plots(self.data)
                 
         if self.plugin is not None:
             self.ui.verticalLayout.insertWidget(8, plugin)
@@ -99,6 +86,55 @@ class DialogPlotEffect(_QDialog):
 
         self.ui.pushButtonOk.clicked.connect(self.accept)
         self.ui.pushButtonCancel.clicked.connect(self.reject)
+        
+    def make_orig_plots(self, data, lw=1, ls='-'):
+        """
+
+        """
+        self.make_plots(self.mpl_orig, data, lw=lw, ls=ls)
+
+    def make_affected_plots(self, data, lw=1, ls='-'):
+        """
+
+        """
+        self.make_plots(self.mpl_affected, data, lw=lw, ls=ls)
+        
+    def make_plots(self, canvas, data, lw=1, ls='-'):
+        """
+
+        """
+        # If data is a list (assumed to be a list of ndarrays),
+        # plot each item in list
+        if isinstance(data, _np.ndarray):
+            # TRANSPOSE ARRAY in case of plt.plot(data) -- in a for-loop, this is opposite
+            if self.TRANSPOSE_ARR:
+                if data.ndim > 1:
+                    for num, d in enumerate(data):
+                        canvas.ax.plot(self.x,d, lw=lw, ls=ls, color='C{}'.format(num % 10))
+                else:
+                    canvas.ax.plot(self.x,data, lw=lw, ls=ls, color='C0')
+            else:
+                if data.ndim > 1:
+                    for num, d in enumerate(data.T):
+                        canvas.ax.plot(self.x,d, lw=lw, color='C{}'.format(num % 10))
+                else:
+                    canvas.ax.plot(self.x,data, lw=lw, color='C0')
+
+        elif isinstance(data, list):
+            for d in data:
+                if d.ndim > 1:
+                    if self.TRANSPOSE_ARR:
+                        for num, d2 in enumerate(d):
+                            canvas.ax.plot(self.x, d2, lw=lw, ls=ls, color='C{}'.format(num % 10))
+                    else:
+                        for num, d2 in enumerate(d.T):
+                            canvas.ax.plot(self.x, d2, lw=lw, ls=ls, color='C{}'.format(num % 10))
+                else:
+                    canvas.ax.plot(self.x, d, lw=lw, ls=ls, color='C0')                
+            
+        self.plot_labels()
+        canvas.fig.tight_layout()
+        
         
     @staticmethod
     def dialogPlotEffect(data, x=None, plugin=None, parent=None):
@@ -147,28 +183,11 @@ class DialogPlotEffect(_QDialog):
                 
             self.mpl_orig.ax.clear()
             
+            self.make_orig_plots(self.data)
             
-            if isinstance(self.data, _np.ndarray):
-                try:
-                    self.mpl_orig.ax.plot(self.x,self.data)
-                except:
-                    self.mpl_orig.ax.plot(self.x,self.data.T)
-                    
-            # If data is a list (assumed to be a list of ndarrays),
-            # plot each item in list
-            elif isinstance(self.data, list):
-                for d in self.data:
-                    try:
-                        self.mpl_orig.ax.plot(self.x,d)
-                    except:
-                        self.mpl_orig.ax.plot(self.x,d.T)
-                
             if orig_data_addon is not None:
-                try:
-                    self.mpl_orig.ax.plot(self.x,orig_data_addon, lw=2)
-                except:
-                    self.mpl_orig.ax.plot(self.x,orig_data_addon.T, lw=2)
-                    
+                self.make_orig_plots(orig_data_addon, lw=0.75, ls=':')
+
             # If there already exists an affected plot, keep those
             # axis limits upon re-plotting
             if len(self.mpl_affected.ax.lines) > 0:
@@ -185,15 +204,7 @@ class DialogPlotEffect(_QDialog):
                 self.mpl_affected.toolbar.setVisible(True)
                 
                 self.mpl_affected.ax.clear()
-                try:
-                    self.mpl_affected.ax.plot(self.x,affected_data)
-                except:
-                    self.mpl_affected.ax.plot(self.x,affected_data.T)
-            
-            self.plot_labels()  # Update x-,y-, and title-labels on plots
-            
-            self.mpl_orig.fig.tight_layout()
-            self.mpl_affected.fig.tight_layout()
+                self.make_affected_plots(affected_data)
             
             # Reset axis limits to previous setting before re-plotting
             if lim_orig is not None:
@@ -277,26 +288,26 @@ if __name__ == '__main__':
     
     CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
     NRB = 0*WN + .055
-    CARS = _np.dot(_np.ones((5,1)),CARS[None,:])
+    CARS = _np.dot(_np.arange(1,4)[:,None],CARS[None,:])
     
     
     
-    NRB_LEFT = 20e3*_np.exp(-(WN)**2/(1000**2)) + 500
-    NRB_RIGHT = 6e3*_np.exp(-(WN-2500)**2/(400**2)) + 500
+    # NRB_LEFT = 20e3*_np.exp(-(WN)**2/(1000**2)) + 500
+    # NRB_RIGHT = 6e3*_np.exp(-(WN-2500)**2/(400**2)) + 500
     
-    NRB_LEFT[WN<500] *= 0
-    NRB_LEFT[WN<500] += 1e-6
-    NRB_RIGHT[WN<500] *= 0
-    NRB_RIGHT[WN<500] += 1e-6
+    # NRB_LEFT[WN<500] *= 0
+    # NRB_LEFT[WN<500] += 1e-6
+    # NRB_RIGHT[WN<500] *= 0
+    # NRB_RIGHT[WN<500] += 1e-6
     
-    from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
+    # from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
     from crikit.utils.general import find_nearest as _find_nearest
-    NRB2 = _MergeNRBs(nrb_left=NRB_LEFT, nrb_right=NRB_RIGHT, 
-                     pix=_find_nearest(WN, 1885.0)[1],
-                     left_side_scale=False).calculate()
+    # NRB2 = _MergeNRBs(nrb_left=NRB_LEFT, nrb_right=NRB_RIGHT, 
+    #                  pix=_find_nearest(WN, 1885.0)[1],
+    #                  left_side_scale=False).calculate()
     
-    CARS2 = _np.abs(500*(1/(1000-WN-1j*20) + 1/(2700-WN-1j*20)) + NRB2**0.5)**2
-    CARS2 = _np.dot(_np.ones((10,1), dtype=_np.double),CARS2[None,:])
+    # CARS2 = _np.abs(500*(1/(1000-WN-1j*20) + 1/(2700-WN-1j*20)) + NRB2**0.5)**2
+    # CARS2 = _np.dot(_np.ones((3,1), dtype=_np.double),CARS2[None,:])
     
 #    # Demo
 #    plugin = widgetDemoPlotEffectPlugin()
@@ -310,7 +321,7 @@ if __name__ == '__main__':
 
     rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
     plugin = _widgetALS(x=WN, rng=rng)
-    winPlotEffect = DialogPlotEffectFuture.dialogPlotEffect(CARS, x=WN,
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
                                                             plugin=plugin)
     if winPlotEffect is not None:
         print(winPlotEffect.parameters)
