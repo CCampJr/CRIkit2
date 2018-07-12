@@ -136,7 +136,7 @@ class DialogPlotEffect(_QDialog):
         try:
             canvas.fig.tight_layout()
         except:
-            print('Tight layout failed')
+            print('Tight layout failed (dialog_ploteffect')
         
         
     @staticmethod
