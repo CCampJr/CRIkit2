@@ -133,7 +133,10 @@ class DialogPlotEffect(_QDialog):
                     canvas.ax.plot(self.x, d, lw=lw, ls=ls, color='C0')                
             
         self.plot_labels()
-        canvas.fig.tight_layout()
+        try:
+            canvas.fig.tight_layout()
+        except:
+            print('Tight layout failed')
         
         
     @staticmethod
