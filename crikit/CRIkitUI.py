@@ -214,7 +214,11 @@ class CRIkitUI_process(_QMainWindow):
             self.img_BW.ui.spinBoxMin.setValue(self.img_BW.data.minner)
 
         self.ui.sweeperVL.insertWidget(0, self.img_BW)
-        self.img_BW.mpl.fig.tight_layout(pad=2)
+        try:
+            self.img_BW.mpl.fig.tight_layout(pad=2)
+        except:
+            print('tight_layout failed (CrikitUI: 1')
+
         # ID used for matplotlib to connect to a figure
         self.cid = None
 
@@ -1096,7 +1100,10 @@ class CRIkitUI_process(_QMainWindow):
                 lg = self.img_BW.mpl.ax.legend(handles=lines, loc='best', 
                                             ncol=2, fontsize=9)
                 self.img_BW.mpl.ax.add_artist(lg)
-            self.img_BW.mpl.fig.tight_layout(pad=1)
+            try:
+                self.img_BW.mpl.fig.tight_layout(pad=1)
+            except:
+                print('tight_layout failed (CrikitUI: 2')
             self.img_BW.mpl.draw()
 
     def _roiPreviewClick(self, event, *args):
@@ -1288,7 +1295,7 @@ class CRIkitUI_process(_QMainWindow):
 
         if out == _QMessageBox.Ok:
             nm_diff = 745.8 - _calib_pix_wl(self.hsi.freq.calib)[0][self.hsi.mean().argmax()]
-            self.hsi.freq.calib['a_vec'][-1] = self.hsi.freq.calib['a_vec'][-1] - nm_diff
+            self.hsi.freq.calib['a_vec'][-1] = self.hsi.freq.calib['a_vec'][-1] + nm_diff
             self.hsi.freq.update()
             self.changeSlider()
 
@@ -3001,7 +3008,10 @@ class CRIkitUI_process(_QMainWindow):
                                                             bbox_to_anchor=(0.01, 1.02, 1., 0.2),
                                                             ncol=2, fontsize=9)
                             self.img_BW.mpl.ax.add_artist(lg)
-                            self.img_BW.mpl.fig.tight_layout(pad=1)
+                            try:
+                                self.img_BW.mpl.fig.tight_layout(pad=1)
+                            except:
+                                print('tight_layout failed (CrikitUI: 3')
                         except:
                             print('Error in showing overlay legend')
         except:

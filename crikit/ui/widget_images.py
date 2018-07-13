@@ -238,7 +238,10 @@ class widgetBWImg(_QWidget):
                        yunits=self.data.yunits,
                        extent=winextent,
                        cmap=self.colormode.ui.comboBoxColormap.currentText())
-        self.mpl.fig.tight_layout()
+        try:
+            self.mpl.fig.tight_layout()
+        except:
+            print('tight_layout failed (widget_images 1')
         
         # Insert canvas widget into this widget
         self.win.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignCenter)
@@ -557,7 +560,10 @@ class widgetCompositeColor(_QWidget):
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = winextent)
-        self.mpl.fig.tight_layout()
+        try:
+            self.mpl.fig.tight_layout()
+        except:
+            print('tight_layout failed (widget_image: 3')
 
         # Insert mpl widget into this widget
         self.ui.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignHCenter)
@@ -643,7 +649,10 @@ class widgetCompositeColor(_QWidget):
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                               yunits = self.data.yunits,
                               extent = self.data.winextent)
-        self.mpl.fig.tight_layout()
+        try:
+            self.mpl.fig.tight_layout()
+        except:
+            print('tight_layout failed (widget_image: 3')
         self.mpl.draw()
 
 
