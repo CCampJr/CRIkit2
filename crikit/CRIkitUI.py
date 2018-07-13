@@ -1295,7 +1295,7 @@ class CRIkitUI_process(_QMainWindow):
 
         if out == _QMessageBox.Ok:
             nm_diff = 745.8 - _calib_pix_wl(self.hsi.freq.calib)[0][self.hsi.mean().argmax()]
-            self.hsi.freq.calib['a_vec'][-1] = self.hsi.freq.calib['a_vec'][-1] - nm_diff
+            self.hsi.freq.calib['a_vec'][-1] = self.hsi.freq.calib['a_vec'][-1] + nm_diff
             self.hsi.freq.update()
             self.changeSlider()
 
