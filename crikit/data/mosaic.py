@@ -188,7 +188,7 @@ class Mosaic:
                 sh_inner = shape[1]
             else:  # Order == 'R'
                 sh_outter = shape[1]
-                sh_inner = shape[1]
+                sh_inner = shape[0]
 
             for num_outter in range(sh_outter):
                 for num_inner in range(sh_inner):
@@ -229,3 +229,19 @@ class Mosaic:
 
         if self._data:
             return self._mosaic(shape=shape, idx=None, out=out, order=order)
+
+if __name__ == '__main__':
+    orig_data = _np.random.randn(40,5)
+    
+    mos = Mosaic()
+
+    m_unit_size = 10
+    n_unit_size = 5
+
+    m_ct = orig_data.shape[0]//m_unit_size
+    n_ct = orig_data.shape[1]//n_unit_size
+
+    for ct in range(m_ct):
+        mos.append(orig_data[ct*m_unit_size:(ct+1)*m_unit_size,:])
+
+    assert _np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R'), orig_data)
