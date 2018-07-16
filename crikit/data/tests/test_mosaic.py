@@ -10,6 +10,7 @@ def test_blank():
     assert mos.issamedim is None
     assert mos.issamedim is None
     assert mos.dtype is None
+    assert mos.mosaic_shape((2,2)) is None
     assert mos.mosaic2d((2,2)) is None
     assert mos.mosaicfull((2,2)) is None
 
@@ -35,10 +36,13 @@ def test_2D_uniform_obj():
     assert mos.unitshape == (m_obj, n_obj)
     assert mos.unitshape_orig == (m_obj, n_obj)
     assert mos.mosaic2d((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
     assert mos.mosaic2d((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
-
+    assert mos.mosaic2d((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
     assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
     assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
 
 def test_3D_uniform_obj():
     mos = Mosaic()
@@ -63,10 +67,22 @@ def test_3D_uniform_obj():
     assert mos.dtype == np.float
     with pytest.raises(ValueError):
         mos.mosaic2d((m_side, n_side)).shape
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj, p_obj)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj, p_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == (m_side * m_obj, 
+                                                                      n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side, 
+                                                                                       n_side),
+                                                                                      idx=0)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == (m_side * m_obj, 
+                                                                      n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side, 
+                                                                                       n_side),
+                                                                                      idx=0)
+    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, 
+                                                                 n_side * n_obj, p_obj)
+    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, 
+                                                                 n_side * n_obj, p_obj)
+    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
 
 def test_err_wrong_dim():
     mos = Mosaic()

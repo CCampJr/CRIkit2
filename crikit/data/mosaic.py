@@ -119,6 +119,35 @@ class Mosaic:
                 return _np.int
 
 
+    def mosaic_shape(self, shape, idx=None):
+        """ Return the shape of a would-be mosaic """
+        if self._data:
+            if not len(shape) == 2:
+                raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
+
+            if _np.prod(shape) < self.size:
+                raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
+
+            us = list(self.unitshape)
+
+            if self.parameters['Transpose']:
+                temp = 1*us[0]
+                us[0] = us[1]
+                us[1] = temp
+
+            if (len(us) == 3):
+                if idx is None:
+                    out_is2d = False
+                else:
+                    out_is2d = True
+            else:
+                out_is2d = True
+
+            if out_is2d:
+                return (shape[0]*us[0], shape[1]*us[1])
+            else:
+                return (shape[0]*us[0], shape[1]*us[1], us[2])
+
     def _mosaic(self, shape, idx=None, out=None, order='R'):
         """ Mosaic super method """
 
