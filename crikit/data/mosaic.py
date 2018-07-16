@@ -1,4 +1,5 @@
 import numpy as _np
+import h5py as _h5py
 
 class Mosaic:
     """
@@ -42,7 +43,7 @@ class Mosaic:
 
     def append(self, obj):
         """ Append new object to data. Check dimensions """
-        if not isinstance(obj, _np.ndarray):
+        if not (isinstance(obj, _np.ndarray) | isinstance(obj, _h5py.Dataset)):
             raise TypeError('Appended object must be a numpy array')
         if not ((obj.ndim > 1) & (obj.ndim <= 3)):
             raise TypeError('Appended object must be a numpy array with ndim 2 or 3')
@@ -118,150 +119,113 @@ class Mosaic:
                 return _np.int
 
 
-    def mosaic2d(self, shape, idx=None, order='R'):
+    def _mosaic(self, shape, idx=None, out=None, order='R'):
+        """ Mosaic super method """
+
+        if self._data:
+            if not len(shape) == 2:
+                raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
+
+            if _np.prod(shape) < self.size:
+                raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
+
+            sr = 1*self.parameters['StartR']
+            sc = 1*self.parameters['StartC']
+            er = 1*self.parameters['EndR']
+            ec = 1*self.parameters['EndC']
+            if sr == 0:
+                sr = None
+            if sc == 0:
+                sc = None
+            if er == 0:
+                er = None
+            if ec == 0:
+                ec = None
+
+            # Slice to take on each sub-image
+            slice_sub_r = slice(sr, er, 1)
+            slice_sub_c = slice(sc, ec, 1)
+
+            if self.parameters['FlipVertical']:
+                slice_sub_r = slice(slice_sub_r.stop, slice_sub_r.start, -1*slice_sub_r.step)
+
+            if self.parameters['FlipHorizontally']:
+                slice_sub_c = slice(slice_sub_c.stop, slice_sub_c.start, -1*slice_sub_c.step)
+
+            us = list(self.unitshape)
+
+            if self.parameters['Transpose']:
+                temp = 1*us[0]
+                us[0] = us[1]
+                us[1] = temp
+
+
+            in_is2d = self.is2d
+            if (len(us) == 3):
+                if idx is None:
+                    out_is2d = False
+                else:
+                    out_is2d = True
+            else:
+                out_is2d = True
+
+
+            out_provided = None
+            if out is None:
+                if out_is2d:
+                    out = _np.zeros((shape[0]*us[0], shape[1]*us[1]), dtype=self.dtype)
+                else:
+                    out = _np.zeros((shape[0]*us[0], shape[1]*us[1], us[2]), dtype=self.dtype)
+                out_provided = False
+            else:
+                out_provided = True
+
+            sub_img_counter = 0
+            num_components = self.size
+
+            if order == 'C':
+                sh_outter = shape[0]
+                sh_inner = shape[1]
+            else:  # Order == 'R'
+                sh_outter = shape[1]
+                sh_inner = shape[1]
+
+            for num_outter in range(sh_outter):
+                for num_inner in range(sh_inner):
+                    if order == 'C':
+                        numR = num_outter
+                        numC = num_inner
+                    else:  # Order == 'R'
+                        numC = num_outter
+                        numR = num_inner
+
+                    if sub_img_counter < num_components:
+                        data = self._data[sub_img_counter]
+                        if idx is not None:
+                            data = data[..., idx]
+                        if self.parameters['Transpose']:
+                            if in_is2d:
+                                data = data.T
+                            else:
+                                data = _np.transpose(data, axes=(1,0,2))
+                        out[(numR*us[0]):(numR+1)*us[0],
+                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
+                        sub_img_counter += 1
+
+            if not out_provided:
+                return out
+
+    def mosaic2d(self, shape, idx=None, out=None, order='R'):
         """ Return 2D mosaic image"""
 
         if self._data:
-            if not len(shape) == 2:
-                raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
-
-            if _np.prod(shape) < self.size:
-                raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
-
-
             if (self.is3d & (idx is None)):
                 raise ValueError('With 3D components, idx must be provided')
 
-            sr = 1*self.parameters['StartR']
-            sc = 1*self.parameters['StartC']
-            er = 1*self.parameters['EndR']
-            ec = 1*self.parameters['EndC']
-            if sr == 0:
-                sr = None
-            if sc == 0:
-                sc = None
-            if er == 0:
-                er = None
-            if ec == 0:
-                ec = None
+            return self._mosaic(shape=shape, idx=idx, out=out, order=order)
 
-            # Slice to take on each sub-image
-            slice_sub_r = slice(sr, er, 1)
-            slice_sub_c = slice(sc, ec, 1)
-
-            if self.parameters['FlipVertical']:
-                slice_sub_r = slice(slice_sub_r.stop, slice_sub_r.start, -1*slice_sub_r.step)
-
-            if self.parameters['FlipHorizontally']:
-                slice_sub_c = slice(slice_sub_c.stop, slice_sub_c.start, -1*slice_sub_c.step)
-
-            us = list(self.unitshape)
-
-            if self.parameters['Transpose']:
-                temp = 1*us[0]
-                us[0] = us[1]
-                us[1] = temp
-
-            out = _np.zeros((shape[0]*us[0], shape[1]*us[1]), dtype=self.dtype)
-
-            sub_img_counter = 0
-            num_components = self.size
-
-
-            if order == 'C':
-                for numR in range(shape[0]):
-                    for numC in range(shape[1]):
-                        if sub_img_counter < num_components:
-                            data = self._data[sub_img_counter]
-                            if data.ndim == 3:
-                                data = data[..., idx]
-                            if self.parameters['Transpose']:
-                                data = data.T
-                            out[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
-                            sub_img_counter += 1
-            elif order == 'R':
-                for numC in range(shape[1]):
-                    for numR in range(shape[0]):
-                        if sub_img_counter < num_components:
-                            data = self._data[sub_img_counter]
-                            if data.ndim == 3:
-                                data = data[..., idx]
-                            if self.parameters['Transpose']:
-                                data = data.T
-                            out[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
-                            sub_img_counter += 1
-
-            return out
-
-    def mosaicfull(self, shape, order='R'):
-        """ Return 3D mosaic image"""
-        if self.is2d:
-            return self.mosaic2d(shape=shape, order=order)
+    def mosaicfull(self, shape, out=None, order='R'):
+        """ Return full mosaic """
 
         if self._data:
-            if not len(shape) == 2:
-                raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
-
-            if _np.prod(shape) < self.size:
-                raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
-
-            sr = 1*self.parameters['StartR']
-            sc = 1*self.parameters['StartC']
-            er = 1*self.parameters['EndR']
-            ec = 1*self.parameters['EndC']
-            if sr == 0:
-                sr = None
-            if sc == 0:
-                sc = None
-            if er == 0:
-                er = None
-            if ec == 0:
-                ec = None
-
-            # Slice to take on each sub-image
-            slice_sub_r = slice(sr, er, 1)
-            slice_sub_c = slice(sc, ec, 1)
-
-            if self.parameters['FlipVertical']:
-                slice_sub_r = slice(slice_sub_r.stop, slice_sub_r.start, -1*slice_sub_r.step)
-
-            if self.parameters['FlipHorizontally']:
-                slice_sub_c = slice(slice_sub_c.stop, slice_sub_c.start, -1*slice_sub_c.step)
-
-            us = list(self.unitshape)
-
-            if self.parameters['Transpose']:
-                temp = 1*us[0]
-                us[0] = us[1]
-                us[1] = temp
-
-            out = _np.zeros((shape[0]*us[0], shape[1]*us[1], us[2]), dtype=self.dtype)
-
-            sub_img_counter = 0
-            num_components = self.size
-
-
-            if order == 'C':
-                for numR in range(shape[0]):
-                    for numC in range(shape[1]):
-                        if sub_img_counter < num_components:
-                            data = self._data[sub_img_counter]
-                            if self.parameters['Transpose']:
-                                data = _np.transpose(data, axes=(1,0,2))
-                            out[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
-                            sub_img_counter += 1
-            elif order == 'R':
-                for numC in range(shape[1]):
-                    for numR in range(shape[0]):
-                        if sub_img_counter < num_components:
-                            data = self._data[sub_img_counter]
-                            if self.parameters['Transpose']:
-                                data = _np.transpose(data, axes=(1,0,2))
-                            out[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
-                            sub_img_counter += 1
-
-            return out
+            return self._mosaic(shape=shape, idx=None, out=out, order=order)
