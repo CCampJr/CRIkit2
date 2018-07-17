@@ -237,7 +237,11 @@ class Mosaic:
                                 data = data.T
                             else:
                                 data = _np.transpose(data, axes=(1,0,2))
-                        out[(numR*us[0]):(numR+1)*us[0],
+                        if isinstance(out, _h5py.Dataset):
+                            out.write_direct(source=data[slice_sub_r, slice_sub_c], dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
+                                (numC*us[1]):(numC+1)*us[1]])
+                        else:
+                            out[(numR*us[0]):(numR+1)*us[0],
                                 (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
                         sub_img_counter += 1
 
