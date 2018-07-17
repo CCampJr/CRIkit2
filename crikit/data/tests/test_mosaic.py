@@ -47,18 +47,18 @@ def test_crop_2D():
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop)
     assert mos.unitshape_orig == (m_obj, n_obj)
-    assert mos.mosaic2d((m_side, n_side), order='R').shape == (m_side * m_obj_crop,
-                                                               n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaic2d((m_side, n_side), order='C').shape == (m_side * m_obj_crop,
-                                                               n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
 def test_crop_3D():
     """ Test a 2D dataset with cropped rows and columns """
@@ -95,20 +95,20 @@ def test_crop_3D():
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
     assert mos.unitshape_orig == (m_obj, n_obj, p_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == (m_side * m_obj_crop,
-                                                                      n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side))[:-1]
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == (m_side * m_obj_crop,
-                                                                      n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side))[:-1]
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop,
+                                                      p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == (m_side * m_obj_crop, n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj_crop, n_side * n_obj_crop,
+                                                      p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
 def test_3D_crop_transpose_flips():
     """ Test a 2D dataset with cropped rows and columns """
@@ -148,20 +148,24 @@ def test_3D_crop_transpose_flips():
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
     assert mos.unitshape_orig == (m_obj, n_obj, p_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').T.shape == (m_side * m_obj_crop,
-                                                                      n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side))[:-1]
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').T.shape == (m_side * m_obj_crop,
-                                                                      n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side))[:-1]
-    assert mos.mosaicfull((m_side, n_side), order='R').transpose(1,0,2).shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').transpose(1,0,2).shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
+                                                             n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                       n_side * n_obj_crop,
+                                                                       p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
+                                                             n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                       n_side * n_obj_crop,
+                                                                       p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
 def test_2D_uniform_obj():
     mos = Mosaic()
@@ -184,14 +188,18 @@ def test_2D_uniform_obj():
     assert mos.dtype == np.float
     assert mos.unitshape == (m_obj, n_obj)
     assert mos.unitshape_orig == (m_obj, n_obj)
-    assert mos.mosaic2d((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaic2d((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaic2d((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaic2d((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
 def test_3D_uniform_obj():
     mos = Mosaic()
@@ -216,22 +224,18 @@ def test_3D_uniform_obj():
     assert mos.dtype == np.float
     with pytest.raises(ValueError):
         mos.mosaic2d((m_side, n_side)).shape
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == (m_side * m_obj,
-                                                                      n_side * n_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side),
-                                                                                      idx=0)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == (m_side * m_obj,
-                                                                      n_side * n_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side),
-                                                                                      idx=0)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj,
-                                                                 n_side * n_obj, p_obj)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj,
-                                                                 n_side * n_obj, p_obj)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side), idx=0)
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj, p_obj)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == (m_side * m_obj, n_side * n_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side), idx=0)
+    assert mos.mosaicfull((m_side, n_side)).shape == (m_side * m_obj, n_side * n_obj, p_obj)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
 def test_err_wrong_dim():
     mos = Mosaic()
@@ -278,10 +282,13 @@ def test_big_to_small_2d():
     for ct in range(m_ct):
         mos.append(orig_data[ct*m_unit_size:(ct+1)*m_unit_size,:])
 
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='C'), orig_data)
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='C'), orig_data)
+    mos.parameters['Order'] = 'R'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct)), orig_data)
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
+
+    mos.parameters['Order'] = 'C'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct)), orig_data)
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
 
 def test_big_to_small_2d_2():
     orig_data = np.random.randn(40,10)
@@ -299,10 +306,13 @@ def test_big_to_small_2d_2():
             mos.append(orig_data[mi*m_unit_size:(mi+1)*m_unit_size,
                                  ni*n_unit_size:(ni+1)*n_unit_size])
 
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='C'), orig_data)
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert not np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='C'), orig_data)
+    mos.parameters['Order'] = 'R'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct)), orig_data)
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
+
+    mos.parameters['Order'] = 'C'
+    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct)), orig_data)
+    assert not np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
 
 def test_big_to_small_3d():
     orig_data = np.random.randn(40,5,3)
@@ -318,14 +328,17 @@ def test_big_to_small_3d():
     for ct in range(m_ct):
         mos.append(orig_data[ct*m_unit_size:(ct+1)*m_unit_size, ...])
 
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R', idx=0), orig_data[...,0])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='C', idx=0), orig_data[...,0])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R', idx=1), orig_data[...,1])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='C', idx=1), orig_data[...,1])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R', idx=2), orig_data[...,2])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='C', idx=2), orig_data[...,2])
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='C'), orig_data)
+    mos.parameters['Order'] = 'R'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0), orig_data[...,0])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1), orig_data[...,1])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2), orig_data[...,2])
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
+
+    mos.parameters['Order'] = 'C'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0), orig_data[...,0])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1), orig_data[...,1])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2), orig_data[...,2])
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
 
 def test_big_to_small_3d_2():
     orig_data = np.random.randn(40,10, 3)
@@ -343,14 +356,17 @@ def test_big_to_small_3d_2():
             mos.append(orig_data[mi*m_unit_size:(mi+1)*m_unit_size,
                                  ni*n_unit_size:(ni+1)*n_unit_size, :])
 
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0, order='R'), orig_data[..., 0])
-    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0, order='C'), orig_data[..., 0])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1, order='R'), orig_data[..., 1])
-    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1, order='C'), orig_data[..., 1])
-    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2, order='R'), orig_data[..., 2])
-    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2, order='C'), orig_data[..., 2])
-    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='R'), orig_data)
-    assert not np.allclose(mos.mosaicfull(shape=(m_ct, n_ct), order='C'), orig_data)
+    mos.parameters['Order'] = 'R'
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0), orig_data[..., 0])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1), orig_data[..., 1])
+    assert np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2), orig_data[..., 2])
+    assert np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
+
+    mos.parameters['Order'] = 'C'
+    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=0), orig_data[..., 0])
+    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=1), orig_data[..., 1])
+    assert not np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), idx=2), orig_data[..., 2])
+    assert not np.allclose(mos.mosaicfull(shape=(m_ct, n_ct)), orig_data)
 
 
 def test_big_to_small_3d_output_given():
@@ -371,23 +387,26 @@ def test_big_to_small_3d_output_given():
 
     output_data = np.zeros(orig_data.shape[:-1], dtype=orig_data.dtype)
     id_in = id(output_data)
-    mos.mosaic2d(shape=(m_ct, n_ct), idx=0, order='R', out=output_data)
+
+    mos.parameters['Order'] = 'R'
+    mos.mosaic2d(shape=(m_ct, n_ct), idx=0, out=output_data)
     id_out = id(output_data)
     assert np.allclose(output_data, orig_data[..., 0])
     assert id_in == id_out
 
     output_data = np.zeros(orig_data.shape[:-1], dtype=orig_data.dtype)
-    mos.mosaic2d(shape=(m_ct, n_ct), idx=1, order='R', out=output_data)
+    mos.mosaic2d(shape=(m_ct, n_ct), idx=1, out=output_data)
     assert np.allclose(output_data, orig_data[..., 1])
 
     output_data = np.zeros(orig_data.shape[:-1], dtype=orig_data.dtype)
-    mos.mosaic2d(shape=(m_ct, n_ct), idx=2, order='R', out=output_data)
+    mos.mosaic2d(shape=(m_ct, n_ct), idx=2, out=output_data)
     assert np.allclose(output_data, orig_data[..., 2])
 
     output_data = np.zeros(orig_data.shape, dtype=orig_data.dtype)
-    mos.mosaicfull(shape=(m_ct, n_ct), order='R', out=output_data)
+    mos.mosaicfull(shape=(m_ct, n_ct), out=output_data)
     assert np.allclose(output_data, orig_data)
 
+    mos.parameters['Order'] = 'C'
     output_data = np.zeros(orig_data.shape, dtype=orig_data.dtype)
-    mos.mosaicfull(shape=(m_ct, n_ct), order='C', out=output_data)
+    mos.mosaicfull(shape=(m_ct, n_ct), out=output_data)
     assert not np.allclose(output_data, orig_data)

@@ -45,8 +45,12 @@ def test_hdf2(hdf_dataset2):
     # assert mos.shape is None
     assert mos.size == 10
     assert mos.issamedim
-    assert mos.mosaic2d((5, 2), order='R').shape == (5*3, 2*4)
-    assert mos.mosaic2d((5, 2), order='C').shape == (5*3, 2*4)
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((5, 2)).shape == (5*3, 2*4)
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((5, 2)).shape == (5*3, 2*4)
 
 def test_big_to_small_3d_output_given():
     orig_data_np = np.random.randn(40, 10, 3)
@@ -86,7 +90,8 @@ def test_big_to_small_3d_output_given():
     fid_out = h5py.File(filename_out, 'w')
     fid_out.create_dataset(dset_out_name, shape=orig_data_np.shape, data=np.zeros(orig_data_np.shape))
 
-    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name], order='R')
+    mos.parameters['Order'] = 'R'
+    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name])
 
     assert np.allclose(fid_out[dset_out_name], orig_data_np)
 
@@ -150,7 +155,8 @@ def test_big_to_small_3d_output_given_crop():
     fid_out.create_dataset(dset_out_name, shape=mos.mosaic_shape((m_ct, n_ct)),
                            dtype=orig_data_np.dtype)
 
-    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name], order='R')
+    mos.parameters['Order'] = 'R'
+    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name])
 
     assert np.allclose(fid_out[dset_out_name][0:3,0:3,:],
                        orig_data_np[1:4, 1:4, :])
@@ -229,7 +235,8 @@ def test_big_to_small_3d_output_given_crop_transpose_flips():
     fid_out.create_dataset(dset_out_name, shape=mos.mosaic_shape((m_ct, n_ct)),
                            dtype=orig_data_np.dtype)
 
-    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name], order='R')
+    mos.parameters['Order'] = 'R'
+    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name])
 
     fid_in.close()
     fid_out.close()
