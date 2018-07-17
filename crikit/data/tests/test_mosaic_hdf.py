@@ -27,7 +27,7 @@ def hdf_dataset2():
     # Tear-down
     if lazy5.utils.hdf_is_open(fid):
         fid.close()
-    
+
     time.sleep(1)
     try:
         os.remove(filename)
@@ -48,88 +48,59 @@ def test_hdf2(hdf_dataset2):
     assert mos.mosaic2d((5, 2), order='R').shape == (5*3, 2*4)
     assert mos.mosaic2d((5, 2), order='C').shape == (5*3, 2*4)
 
-# def test_2D_uniform_obj():
-#     mos = Mosaic()
-    
-#     m_obj = 3
-#     n_obj = 4
-    
-#     new_obj = np.ones((m_obj, n_obj))
-#     m_side = 2
-#     n_side = 2
-    
-#     n = m_side * n_side
-    
-#     for ct in range(n):
-#         mos.append(new_obj)
-    
-#     assert mos.shape == tuple(n*[new_obj.shape])
-#     assert mos.size == n
-#     assert mos.issamedim
-#     assert mos.dtype == np.float
-#     assert mos.unitshape == (m_obj, n_obj)
-#     assert mos.unitshape_orig == (m_obj, n_obj)
-#     assert mos.mosaic2d((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
-#     assert mos.mosaic2d((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
+def test_big_to_small_3d_output_given():
+    orig_data_np = np.random.randn(40, 10, 3)
 
-#     assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj)
-#     assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj)
+    filename_in = 'test_h5mosaic_in.h5'
+    dset_in_prefix = 'dset_'
+    fid_in = h5py.File(filename_in, 'w')
 
-# def test_3D_uniform_obj():
-#     mos = Mosaic()
-    
-#     m_obj = 3
-#     n_obj = 4
-#     p_obj = 2
+    m_unit_size = 10
+    n_unit_size = 5
 
-#     new_obj = np.ones((m_obj, n_obj, p_obj))
+    m_ct = orig_data_np.shape[0]//m_unit_size
+    n_ct = orig_data_np.shape[1]//n_unit_size
 
-#     m_side = 2
-#     n_side = 2
-    
-#     n = m_side * n_side
-    
-#     for ct in range(n):
-#         mos.append(new_obj)
-    
-#     assert mos.shape == tuple(n*[new_obj.shape])
-#     assert mos.size == n
-#     assert mos.issamedim
-#     assert mos.dtype == np.float
-#     with pytest.raises(ValueError):
-#         mos.mosaic2d((m_side, n_side)).shape
-#     assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == (m_side * m_obj, n_side * n_obj)
-#     assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == (m_side * m_obj, n_side * n_obj)
-#     assert mos.mosaicfull((m_side, n_side), order='R').shape == (m_side * m_obj, n_side * n_obj, p_obj)
-#     assert mos.mosaicfull((m_side, n_side), order='C').shape == (m_side * m_obj, n_side * n_obj, p_obj)
+    ct = 0
+    for ni in range(n_ct):
+        for mi in range(m_ct):
+            temp = orig_data_np[mi*m_unit_size:(mi+1)*m_unit_size,
+                                ni*n_unit_size:(ni+1)*n_unit_size, :]
+            fid_in.create_dataset(dset_in_prefix+'{}'.format(ct), shape=temp.shape, data=temp)
+            ct += 1
 
-# def test_err_wrong_dim():
-#     mos = Mosaic()
+    fid_in.close()
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(5))
+    fid_in = h5py.File(filename_in, 'r')
+    mos = Mosaic()
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(2,2,2,2))
+    ct = 0
+    for ni in range(n_ct):
+        for mi in range(m_ct):
+            mos.append(fid_in[dset_in_prefix+'{}'.format(ct)])
+            ct += 1
 
-# def test_err_wrong_dim_append():
+    filename_out = 'test_h5mosaic_out.h5'
+    dset_out_name = 'dset'
 
-#     # Start with 2D
-#     mos = Mosaic()
-#     mos.append(np.random.randn(3,4))
+    fid_out = h5py.File(filename_out, 'w')
+    fid_out.create_dataset(dset_out_name, shape=orig_data_np.shape, data=np.zeros(orig_data_np.shape))
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(5))
+    mos.mosaicfull((m_ct, n_ct), out=fid_out[dset_out_name], order='R')
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(3,4,5))
+    assert np.allclose(fid_out[dset_out_name], orig_data_np)
 
-#     # Start with 3D
-#     mos = Mosaic()
-#     mos.append(np.random.randn(3,4,2))
+    fid_in.close()
+    fid_out.close()
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(5))
+    time.sleep(1)
+    try:
+        os.remove(filename_in)
+    except:
+        print('Could not delete {}'.format(filename_in))
 
-#     with pytest.raises(TypeError):
-#         mos.append(np.random.randn(3,5))
+    time.sleep(1)
+    try:
+        os.remove(filename_out)
+    except:
+        print('Could not delete {}'.format(filename_out))
