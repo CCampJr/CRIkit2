@@ -24,6 +24,7 @@ class Mosaic:
         self.parameters['Transpose'] = False
         self.parameters['FlipVertical'] = False
         self.parameters['FlipHorizontally'] = False
+        self.parameters['Order'] = 'R'
 
     def __repr__(self):  # pragma: no cover
         if self._data:
@@ -148,7 +149,7 @@ class Mosaic:
             else:
                 return (shape[0]*us[0], shape[1]*us[1], us[2])
 
-    def _mosaic(self, shape, idx=None, out=None, order='R'):
+    def _mosaic(self, shape, idx=None, out=None):
         """ Mosaic super method """
 
         if self._data:
@@ -212,6 +213,8 @@ class Mosaic:
             sub_img_counter = 0
             num_components = self.size
 
+            order = self.parameters['Order']
+
             if order == 'C':
                 sh_outter = shape[0]
                 sh_inner = shape[1]
@@ -246,27 +249,31 @@ class Mosaic:
                             out.write_direct(source=data[slice_sub_r, slice_sub_c], dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
                                 (numC*us[1]):(numC+1)*us[1]])
                         else:
-                            out[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]] = 1*data[slice_sub_r, slice_sub_c]
+                            # * Using this in case m/ndata is smaller than u[0/1]
+                            temp = 1*data[slice_sub_r, slice_sub_c]
+                            mdata, ndata = temp.shape[0], temp.shape[1]
+                            
+                            out[(numR*us[0]):(numR*us[0] + mdata),
+                                (numC*us[1]):(numC*us[1] + ndata)] = temp
                         sub_img_counter += 1
 
             if not out_provided:
                 return out
 
-    def mosaic2d(self, shape, idx=None, out=None, order='R'):
+    def mosaic2d(self, shape, idx=None, out=None):
         """ Return 2D mosaic image"""
 
         if self._data:
             if (self.is3d & (idx is None)):
                 raise ValueError('With 3D components, idx must be provided')
 
-            return self._mosaic(shape=shape, idx=idx, out=out, order=order)
+            return self._mosaic(shape=shape, idx=idx, out=out)
 
-    def mosaicfull(self, shape, out=None, order='R'):
+    def mosaicfull(self, shape, out=None):
         """ Return full mosaic """
 
         if self._data:
-            return self._mosaic(shape=shape, idx=None, out=out, order=order)
+            return self._mosaic(shape=shape, idx=None, out=out)
 
 if __name__ == '__main__':
     mos = Mosaic()
@@ -305,17 +312,24 @@ if __name__ == '__main__':
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
     assert mos.unitshape_orig == (m_obj, n_obj, p_obj)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').T.shape == (m_side * m_obj_crop,
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
                                                                       n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side,
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side,
                                                                                        n_side))[:-1]
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').T.shape == (m_side * m_obj_crop,
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
                                                                       n_side * n_obj_crop)
-    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side,
-                                                                                       n_side))[:-1]
-    assert mos.mosaicfull((m_side, n_side), order='R').transpose(1,0,2).shape == (m_side * m_obj_crop,
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
                                                                  n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
-    assert mos.mosaicfull((m_side, n_side), order='C').transpose(1,0,2).shape == (m_side * m_obj_crop,
-                                                                 n_side * n_obj_crop, p_obj_crop)
-    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                       n_side * n_obj_crop,
+                                                                       p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
