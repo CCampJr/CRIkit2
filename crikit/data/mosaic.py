@@ -219,6 +219,11 @@ class Mosaic:
                 sh_outter = shape[1]
                 sh_inner = shape[0]
 
+            # * h5 write_direct has strict limitations
+            cannot_write_direct = (self.parameters['Transpose'] | 
+                                   self.parameters['FlipVertical'] | 
+                                   self.parameters['FlipHorizontally'])
+
             for num_outter in range(sh_outter):
                 for num_inner in range(sh_inner):
                     if order == 'C':
@@ -233,11 +238,11 @@ class Mosaic:
                         if idx is not None:
                             data = data[..., idx]
                         if self.parameters['Transpose']:
-                            if in_is2d:
+                            if data.ndim == 2:
                                 data = data.T
                             else:
                                 data = _np.transpose(data, axes=(1,0,2))
-                        if isinstance(out, _h5py.Dataset):
+                        if isinstance(out, _h5py.Dataset) & (not cannot_write_direct):
                             out.write_direct(source=data[slice_sub_r, slice_sub_c], dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
                                 (numC*us[1]):(numC+1)*us[1]])
                         else:
@@ -264,17 +269,53 @@ class Mosaic:
             return self._mosaic(shape=shape, idx=None, out=out, order=order)
 
 if __name__ == '__main__':
-    orig_data = _np.random.randn(40,5)
-    
     mos = Mosaic()
+    mos.parameters['StartR'] = 1
+    mos.parameters['EndR'] = -1
+    mos.parameters['StartC'] = 1
+    mos.parameters['EndC'] = -1
+    mos.parameters['Transpose'] = True
+    mos.parameters['FlipVertical'] = True
+    mos.parameters['FlipHorizontally'] = True
 
-    m_unit_size = 10
-    n_unit_size = 5
+    m_obj = 3
+    n_obj = 4
+    p_obj = 5
 
-    m_ct = orig_data.shape[0]//m_unit_size
-    n_ct = orig_data.shape[1]//n_unit_size
+    # MANUALLY SET BASED ON PARAMS ABOVE
+    m_obj_crop = m_obj - 2
+    n_obj_crop = n_obj - 2
+    p_obj_crop = p_obj
 
-    for ct in range(m_ct):
-        mos.append(orig_data[ct*m_unit_size:(ct+1)*m_unit_size,:])
+    new_obj = _np.ones((m_obj, n_obj, p_obj))
+    m_side = 2
+    n_side = 2
 
-    assert _np.allclose(mos.mosaic2d(shape=(m_ct, n_ct), order='R'), orig_data)
+    n = m_side * n_side
+
+    for ct in range(n):
+        mos.append(new_obj)
+
+    # NOT AFFECTED BY START* END*
+    assert mos.shape == tuple(n*[new_obj.shape])
+    assert mos.size == n
+    assert mos.issamedim
+    assert mos.dtype == _np.float
+
+    # AFFECTED BY START* END*
+    assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
+    assert mos.unitshape_orig == (m_obj, n_obj, p_obj)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').T.shape == (m_side * m_obj_crop,
+                                                                      n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='R').shape == mos.mosaic_shape((m_side,
+                                                                                       n_side))[:-1]
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').T.shape == (m_side * m_obj_crop,
+                                                                      n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0, order='C').shape == mos.mosaic_shape((m_side,
+                                                                                       n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side), order='R').transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                 n_side * n_obj_crop, p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side), order='R').shape == mos.mosaic_shape((m_side, n_side))
+    assert mos.mosaicfull((m_side, n_side), order='C').transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                 n_side * n_obj_crop, p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side), order='C').shape == mos.mosaic_shape((m_side, n_side))
