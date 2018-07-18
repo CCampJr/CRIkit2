@@ -40,13 +40,13 @@ class MainWindowMosaic(_QMainWindow):
         self.mpl = _MplCanvas(parent=self)
         self.ui.verticalLayoutMPL.insertWidget(0, self.mpl, _QtCore.Qt.AlignCenter)
         self.ui.verticalLayoutMPL.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
-        
+
         # SIGNALS AND SLOTS
         self.ui.actionAddFromHDF.triggered.connect(self.addDataset)
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
         self.ui.spinBoxMRows.valueChanged.connect(self.updateMosaicImage)
         self.ui.spinBoxNCols.valueChanged.connect(self.updateMosaicImage)
-        
+
         self.ui.comboBoxRowCol.currentIndexChanged.connect(self.updateParams)
         self.ui.checkBoxFlipH.stateChanged.connect(self.updateParams)
         self.ui.checkBoxFlipV.stateChanged.connect(self.updateParams)
@@ -75,9 +75,9 @@ class MainWindowMosaic(_QMainWindow):
         if (self.last_path is None) | (self.last_fname is None) | (self.last_dsetname is None):
             to_open = HdfLoad.getFileDataSets(parent=self)
         else:
-            to_open = HdfLoad.getFileDataSets(pth=_os.path.join(self.last_path, self.last_fname), 
+            to_open = HdfLoad.getFileDataSets(pth=_os.path.join(self.last_path, self.last_fname),
                                               parent=self)
-            
+
         if to_open is not None:
             self.last_path, self.last_fname, self.last_dsetname = to_open
             self.last_dsetname = self.last_dsetname[-1]
@@ -125,7 +125,7 @@ class MainWindowMosaic(_QMainWindow):
 
             self.ui.spinBoxMRows.setValue(mrows)
             self.ui.spinBoxNCols.setValue(ncols)
-        
+
     def closeEvent(self, event):
         print('Closing')
         app = _QApplication.instance()
@@ -136,7 +136,7 @@ class MainWindowMosaic(_QMainWindow):
             for q in self.h5dlist:
                 print('Closing: {}'.format(q))
                 q.file.close()
-        
+
     def updateParams(self):
 
         self.data.parameters['StartC'] = self.ui.spinBoxStartCol.value()
@@ -146,7 +146,7 @@ class MainWindowMosaic(_QMainWindow):
         self.data.parameters['Transpose'] = self.ui.checkBoxTranspose.isChecked()
         self.data.parameters['FlipVertical'] = self.ui.checkBoxFlipV.isChecked()
         self.data.parameters['FlipHorizontally'] = self.ui.checkBoxFlipH.isChecked()
-        
+
         idx = self.ui.comboBoxRowCol.currentIndex()
         if idx == 0:
             self.data.parameters['Order'] = 'R'
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     win = MainWindowMosaic(parent=None)
     win.show()
     app.exec_()
-    
+
 
 
     print(win)

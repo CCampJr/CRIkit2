@@ -167,6 +167,63 @@ def test_3D_crop_transpose_flips():
                                                                        p_obj_crop)
     assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
 
+def test_3D_crop_transpose_flips_2():
+    """ Test a 2D dataset with cropped rows and columns (asymmetrically) """
+    mos = Mosaic()
+    mos.parameters['StartR'] = 2
+    mos.parameters['EndR'] = -1
+    mos.parameters['StartC'] = 1
+    mos.parameters['EndC'] = -1
+    mos.parameters['Transpose'] = True
+    mos.parameters['FlipVertical'] = True
+    mos.parameters['FlipHorizontally'] = True
+
+    m_obj = 5
+    n_obj = 6
+    p_obj = 7
+
+    # MANUALLY SET BASED ON PARAMS ABOVE
+    m_obj_crop = m_obj - 3
+    n_obj_crop = n_obj - 2
+    p_obj_crop = p_obj
+
+    new_obj = np.ones((m_obj, n_obj, p_obj))
+    m_side = 2
+    n_side = 2
+
+    n = m_side * n_side
+
+    for ct in range(n):
+        mos.append(new_obj)
+
+    # NOT AFFECTED BY START* END*
+    assert mos.shape == tuple(n*[new_obj.shape])
+    assert mos.size == n
+    assert mos.issamedim
+    assert mos.dtype == np.float
+
+    # AFFECTED BY START* END*
+    assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
+    assert mos.unitshape_orig == (m_obj, n_obj, p_obj)
+
+    mos.parameters['Order'] = 'R'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
+                                                             n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                       n_side * n_obj_crop,
+                                                                       p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
+    mos.parameters['Order'] = 'C'
+    assert mos.mosaic2d((m_side, n_side), idx=0).T.shape == (m_side * m_obj_crop,
+                                                             n_side * n_obj_crop)
+    assert mos.mosaic2d((m_side, n_side), idx=0).shape == mos.mosaic_shape((m_side, n_side))[:-1]
+    assert mos.mosaicfull((m_side, n_side)).transpose(1,0,2).shape == (m_side * m_obj_crop,
+                                                                       n_side * n_obj_crop,
+                                                                       p_obj_crop)
+    assert mos.mosaicfull((m_side, n_side)).shape == mos.mosaic_shape((m_side, n_side))
+
 def test_2D_uniform_obj():
     mos = Mosaic()
 

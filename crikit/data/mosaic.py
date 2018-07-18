@@ -159,6 +159,12 @@ class Mosaic:
             if _np.prod(shape) < self.size:
                 raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
 
+            if out is None:
+                out = _np.zeros(self.mosaic_shape(shape=shape, idx=idx), dtype=self.dtype)
+                out_provided = False
+            else:
+                out_provided = True
+
             sr = 1*self.parameters['StartR']
             sc = 1*self.parameters['StartC']
             er = 1*self.parameters['EndR']
@@ -176,40 +182,6 @@ class Mosaic:
             slice_sub_r = slice(sr, er, 1)
             slice_sub_c = slice(sc, ec, 1)
 
-            if self.parameters['FlipVertical']:
-                slice_sub_r = slice(slice_sub_r.stop, slice_sub_r.start, -1*slice_sub_r.step)
-
-            if self.parameters['FlipHorizontally']:
-                slice_sub_c = slice(slice_sub_c.stop, slice_sub_c.start, -1*slice_sub_c.step)
-
-            us = list(self.unitshape)
-
-            if self.parameters['Transpose']:
-                temp = 1*us[0]
-                us[0] = us[1]
-                us[1] = temp
-
-
-            in_is2d = self.is2d
-            if (len(us) == 3):
-                if idx is None:
-                    out_is2d = False
-                else:
-                    out_is2d = True
-            else:
-                out_is2d = True
-
-
-            out_provided = None
-            if out is None:
-                if out_is2d:
-                    out = _np.zeros((shape[0]*us[0], shape[1]*us[1]), dtype=self.dtype)
-                else:
-                    out = _np.zeros((shape[0]*us[0], shape[1]*us[1], us[2]), dtype=self.dtype)
-                out_provided = False
-            else:
-                out_provided = True
-
             sub_img_counter = 0
             num_components = self.size
 
@@ -223,9 +195,16 @@ class Mosaic:
                 sh_inner = shape[0]
 
             # * h5 write_direct has strict limitations
-            cannot_write_direct = (self.parameters['Transpose'] | 
-                                   self.parameters['FlipVertical'] | 
+            cannot_write_direct = (self.parameters['Transpose'] |
+                                   self.parameters['FlipVertical'] |
                                    self.parameters['FlipHorizontally'])
+
+            # * Only used by out matrix
+            us = list(self.unitshape)
+            if self.parameters['Transpose']:
+                temp = 1*us[0]
+                us[0] = us[1]
+                us[1] = temp
 
             for num_outter in range(sh_outter):
                 for num_inner in range(sh_inner):
@@ -237,22 +216,31 @@ class Mosaic:
                         numR = num_inner
 
                     if sub_img_counter < num_components:
-                        data = self._data[sub_img_counter]
-                        if idx is not None:
-                            data = data[..., idx]
+                        if idx is None:
+                            data = self._data[sub_img_counter][slice_sub_r, slice_sub_c]
+                        else:
+                            data = self._data[sub_img_counter][slice_sub_r, slice_sub_c, idx]
+
+                        data_is2d = (data.ndim == 2)
+
+                        if self.parameters['FlipHorizontally']:
+                            data = _np.flip(data, axis=1)
+                        if self.parameters['FlipVertical']:
+                            data = _np.flip(data, axis=0)
                         if self.parameters['Transpose']:
-                            if data.ndim == 2:
+                            if data_is2d:
                                 data = data.T
                             else:
                                 data = _np.transpose(data, axes=(1,0,2))
+
                         if isinstance(out, _h5py.Dataset) & (not cannot_write_direct):
-                            out.write_direct(source=data[slice_sub_r, slice_sub_c], dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
+                            out.write_direct(source=data, dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
                                 (numC*us[1]):(numC+1)*us[1]])
                         else:
                             # * Using this in case m/ndata is smaller than u[0/1]
-                            temp = 1*data[slice_sub_r, slice_sub_c]
+                            temp = data
                             mdata, ndata = temp.shape[0], temp.shape[1]
-                            
+
                             out[(numR*us[0]):(numR*us[0] + mdata),
                                 (numC*us[1]):(numC*us[1] + ndata)] = temp
                         sub_img_counter += 1
