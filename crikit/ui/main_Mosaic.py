@@ -46,7 +46,13 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
         self.ui.spinBoxMRows.valueChanged.connect(self.updateMosaicImage)
         self.ui.spinBoxNCols.valueChanged.connect(self.updateMosaicImage)
+        
+        # self.ui.sliderFreq.sliderPressed.connect(updateSlider)
+        self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
+        self.ui.sliderFreq.sliderReleased.connect(self.updateMosaicImage)
 
+        self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChange)
+        
         self.ui.comboBoxRowCol.currentIndexChanged.connect(self.updateParams)
         self.ui.checkBoxFlipH.stateChanged.connect(self.updateParams)
         self.ui.checkBoxFlipV.stateChanged.connect(self.updateParams)
@@ -55,6 +61,7 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxStartCol.valueChanged.connect(self.updateParams)
         self.ui.spinBoxEndRow.valueChanged.connect(self.updateParams)
         self.ui.spinBoxEndCol.valueChanged.connect(self.updateParams)
+        
 
         # Close event
         self.ui.closeEvent = self.closeEvent
@@ -71,10 +78,51 @@ class MainWindowMosaic(_QMainWindow):
         self.last_fname = None
         self.last_dsetname = None
 
+    def lineEditFreqChange(self):
+        """
+        Frequency manually entered in frequency-slider-display
+        """
+
+        freq_in = int(float(self.ui.lineEditFreq.text()))
+        
+        max_freq = self.ui.sliderFreq.maximum()
+        min_freq = self.ui.sliderFreq.minimum()
+
+        if freq_in > max_freq:
+            freq_in = max_freq
+        elif freq_in < min_freq:
+            freq_in = min_freq
+        else:
+            pass
+
+        self.ui.sliderFreq.setValue(freq_in)
+
+    def updateSlider(self):
+        idx = self.ui.sliderFreq.value()
+        self.ui.lineEditFreq.setText(str(idx))
+
+        # In case incremented by the arrow buttons
+        if not self.ui.sliderFreq.isSliderDown():
+            self.updateMosaicImage()
+
+    # def sliderPressed(self):
+    #     """
+    #     Respond to press of frequency slider (set tracking of location)
+    #     """
+    #     self.ui.sliderFreq.setTracking(False)
+
+    # def sliderReleased(self):
+    #     """
+    #     Respond to release of frequency slider (end tracking of location)
+    #     """
+    #     self.ui.sliderFreq.setTracking(True)
+
     def addDataset(self):
         if (self.last_path is None) | (self.last_fname is None) | (self.last_dsetname is None):
+            first_dset = True
             to_open = HdfLoad.getFileDataSets(parent=self)
         else:
+            first_dset = False
             to_open = HdfLoad.getFileDataSets(pth=_os.path.join(self.last_path, self.last_fname),
                                               parent=self)
 
@@ -87,6 +135,13 @@ class MainWindowMosaic(_QMainWindow):
                 fof = FidOrFile(fullpath(pth=ti[0], filename=ti[1]))
                 self.h5dlist.append(fof.fid[ti[-1]])
                 self.data.append(fof.fid[ti[-1]])
+
+            if first_dset:
+                if self.data.is3d:
+                    flen = self.data.unitshape_orig[-1]
+                    self.ui.sliderFreq.setMinimum(0)
+                    self.ui.sliderFreq.setMaximum(flen-1)
+                    self.ui.sliderFreq.setValue(0)
 
             self.data_list.extend(to_import)
             self.updateDatasets()
@@ -107,8 +162,10 @@ class MainWindowMosaic(_QMainWindow):
             mrows = self.ui.spinBoxMRows.value()
             ncols = self.ui.spinBoxNCols.value()
 
-            # self.mpl.ax.clear()
-            self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=100))
+            idx = self.ui.sliderFreq.value()
+            self.ui.lineEditFreq.setText(str(idx))
+
+            self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx))
             self.mpl.draw()
 
     def updateRowsCols(self, optimize=False):
