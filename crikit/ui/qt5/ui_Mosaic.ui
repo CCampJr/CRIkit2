@@ -578,7 +578,7 @@
        </widget>
       </item>
       <item row="0" column="0" alignment="Qt::AlignHCenter">
-       <widget class="QLineEdit" name="lineEditFreq">
+       <widget class="QLineEdit" name="lineEditPix">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -612,7 +612,7 @@
        </widget>
       </item>
       <item row="0" column="1" alignment="Qt::AlignHCenter">
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="lineEditFreq">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -766,7 +766,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="spinBoxIntercept">
          <property name="decimals">
-          <number>5</number>
+          <number>10</number>
          </property>
          <property name="minimum">
           <double>-100000000.000000000000000</double>
@@ -774,7 +774,23 @@
          <property name="maximum">
           <double>100000000.000000000000000</double>
          </property>
+         <property name="value">
+          <double>832.551012000000014</double>
+         </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QLabel" name="label_11">
@@ -786,7 +802,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="spinBoxSlope">
          <property name="decimals">
-          <number>5</number>
+          <number>10</number>
          </property>
          <property name="minimum">
           <double>-100000000.000000000000000</double>
@@ -794,7 +810,23 @@
          <property name="maximum">
           <double>100000000.000000000000000</double>
          </property>
+         <property name="value">
+          <double>-0.165956000000000</double>
+         </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QLabel" name="label_12">
@@ -818,6 +850,78 @@
           <double>771.461000000000013</double>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Calibration Wavelength (nm)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="spinBoxCalibWL">
+         <property name="decimals">
+          <number>10</number>
+         </property>
+         <property name="minimum">
+          <double>-100000000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>10000000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>700.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_10">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Current Center Wavelength (nm)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="spinBoxCenterWL">
+         <property name="decimals">
+          <number>10</number>
+         </property>
+         <property name="minimum">
+          <double>-100000000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>10000000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>700.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_11">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

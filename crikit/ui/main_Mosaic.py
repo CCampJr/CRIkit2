@@ -29,10 +29,20 @@ class MainWindowMosaic(_QMainWindow):
     """
 
     """
+
+    frequency_calib = {'Slope':-0.165955456, 'Intercept':832.5510120093941,
+                       'Probe': 771.461, 'Calib_WL': 700.0, 'Center_WL': 700.0}
+
     def __init__(self, parent=None):
         super(MainWindowMosaic, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        self.ui.spinBoxIntercept.setValue(self.frequency_calib['Intercept'])
+        self.ui.spinBoxSlope.setValue(self.frequency_calib['Slope'])
+        self.ui.spinBoxProbe.setValue(self.frequency_calib['Probe'])
+        self.ui.spinBoxCalibWL.setValue(self.frequency_calib['Calib_WL'])
+        self.ui.spinBoxCenterWL.setValue(self.frequency_calib['Center_WL'])
 
         # Internal data
         self.init_internals()
@@ -46,13 +56,12 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
         self.ui.spinBoxMRows.valueChanged.connect(self.updateMosaicImage)
         self.ui.spinBoxNCols.valueChanged.connect(self.updateMosaicImage)
-        
-        # self.ui.sliderFreq.sliderPressed.connect(updateSlider)
+
         self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
         self.ui.sliderFreq.sliderReleased.connect(self.updateMosaicImage)
 
-        self.ui.lineEditFreq.editingFinished.connect(self.lineEditFreqChange)
-        
+        self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChange)
+
         self.ui.comboBoxRowCol.currentIndexChanged.connect(self.updateParams)
         self.ui.checkBoxFlipH.stateChanged.connect(self.updateParams)
         self.ui.checkBoxFlipV.stateChanged.connect(self.updateParams)
@@ -61,7 +70,12 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxStartCol.valueChanged.connect(self.updateParams)
         self.ui.spinBoxEndRow.valueChanged.connect(self.updateParams)
         self.ui.spinBoxEndCol.valueChanged.connect(self.updateParams)
-        
+
+        self.ui.spinBoxSlope.valueChanged.connect(self.updateFrequency)
+        self.ui.spinBoxIntercept.valueChanged.connect(self.updateFrequency)
+        self.ui.spinBoxProbe.valueChanged.connect(self.updateFrequency)
+        self.ui.spinBoxCalibWL.valueChanged.connect(self.updateFrequency)
+        self.ui.spinBoxCenterWL.valueChanged.connect(self.updateFrequency)
 
         # Close event
         self.ui.closeEvent = self.closeEvent
@@ -72,19 +86,21 @@ class MainWindowMosaic(_QMainWindow):
         self.data_list = []  # List of list [pth, fname, dsetname]
         self.h5dlist = []  # List of dataset pointers
 
+        self.pix = None
+        self.wl = None
         self.freq = None
 
         self.last_path = None
         self.last_fname = None
         self.last_dsetname = None
 
-    def lineEditFreqChange(self):
+    def lineEditPixChange(self):
         """
         Frequency manually entered in frequency-slider-display
         """
 
-        freq_in = int(float(self.ui.lineEditFreq.text()))
-        
+        freq_in = int(float(self.ui.lineEditPix.text()))
+
         max_freq = self.ui.sliderFreq.maximum()
         min_freq = self.ui.sliderFreq.minimum()
 
@@ -99,23 +115,14 @@ class MainWindowMosaic(_QMainWindow):
 
     def updateSlider(self):
         idx = self.ui.sliderFreq.value()
-        self.ui.lineEditFreq.setText(str(idx))
+        self.ui.lineEditPix.setText(str(idx))
+
+        if self.freq is not None:
+            self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
         # In case incremented by the arrow buttons
         if not self.ui.sliderFreq.isSliderDown():
             self.updateMosaicImage()
-
-    # def sliderPressed(self):
-    #     """
-    #     Respond to press of frequency slider (set tracking of location)
-    #     """
-    #     self.ui.sliderFreq.setTracking(False)
-
-    # def sliderReleased(self):
-    #     """
-    #     Respond to release of frequency slider (end tracking of location)
-    #     """
-    #     self.ui.sliderFreq.setTracking(True)
 
     def addDataset(self):
         if (self.last_path is None) | (self.last_fname is None) | (self.last_dsetname is None):
@@ -143,8 +150,36 @@ class MainWindowMosaic(_QMainWindow):
                     self.ui.sliderFreq.setMaximum(flen-1)
                     self.ui.sliderFreq.setValue(0)
 
+                    self.pix = _np.arange(flen)
+
+                    self.updateFrequency()
+
             self.data_list.extend(to_import)
             self.updateDatasets()
+
+    def updateFrequency(self):
+
+        if self.pix is not None:
+            probe = self.ui.spinBoxProbe.value() * 1e-9
+            intercept = self.ui.spinBoxIntercept.value() * 1e-9
+            slope = self.ui.spinBoxSlope.value() * 1e-9
+            ctr_wl = self.ui.spinBoxCenterWL.value() * 1e-9
+            calib_wl = self.ui.spinBoxCalibWL.value() * 1e-9
+
+            self.frequency_calib['Probe'] = probe
+            self.frequency_calib['Intercept'] = intercept
+            self.frequency_calib['Slope'] = slope
+            self.frequency_calib['Center_WL'] = ctr_wl
+            self.frequency_calib['Calib_WL'] = calib_wl
+
+            self.wl = slope*self.pix + intercept + (ctr_wl - calib_wl)
+
+            if probe != 0.0:
+                self.freq = 0.01 /  self.wl - 0.01 / probe
+            else:
+                self.freq = 0.01 /  self.wl
+
+            self.updateSlider()
 
     def updateDatasets(self):
         """ Update the listWidget of datasets """
@@ -163,7 +198,9 @@ class MainWindowMosaic(_QMainWindow):
             ncols = self.ui.spinBoxNCols.value()
 
             idx = self.ui.sliderFreq.value()
-            self.ui.lineEditFreq.setText(str(idx))
+            self.ui.lineEditPix.setText(str(idx))
+            if self.freq is not None:
+                self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
             self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx))
             self.mpl.draw()
