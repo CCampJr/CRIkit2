@@ -54,8 +54,8 @@ class MainWindowMosaic(_QMainWindow):
         # SIGNALS AND SLOTS
         self.ui.actionAddFromHDF.triggered.connect(self.addDataset)
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
-        self.ui.spinBoxMRows.valueChanged.connect(self.updateMosaicImage)
-        self.ui.spinBoxNCols.valueChanged.connect(self.updateMosaicImage)
+        self.ui.spinBoxMRows.editingFinished.connect(self.updateMosaicImage)
+        self.ui.spinBoxNCols.editingFinished.connect(self.updateMosaicImage)
 
         self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
         self.ui.sliderFreq.sliderReleased.connect(self.updateMosaicImage)
@@ -66,16 +66,16 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.checkBoxFlipH.stateChanged.connect(self.updateParams)
         self.ui.checkBoxFlipV.stateChanged.connect(self.updateParams)
         self.ui.checkBoxTranspose.stateChanged.connect(self.updateParams)
-        self.ui.spinBoxStartRow.valueChanged.connect(self.updateParams)
-        self.ui.spinBoxStartCol.valueChanged.connect(self.updateParams)
-        self.ui.spinBoxEndRow.valueChanged.connect(self.updateParams)
-        self.ui.spinBoxEndCol.valueChanged.connect(self.updateParams)
+        self.ui.spinBoxStartRow.editingFinished.connect(self.updateParams)
+        self.ui.spinBoxStartCol.editingFinished.connect(self.updateParams)
+        self.ui.spinBoxEndRow.editingFinished.connect(self.updateParams)
+        self.ui.spinBoxEndCol.editingFinished.connect(self.updateParams)
 
-        self.ui.spinBoxSlope.valueChanged.connect(self.updateFrequency)
-        self.ui.spinBoxIntercept.valueChanged.connect(self.updateFrequency)
-        self.ui.spinBoxProbe.valueChanged.connect(self.updateFrequency)
-        self.ui.spinBoxCalibWL.valueChanged.connect(self.updateFrequency)
-        self.ui.spinBoxCenterWL.valueChanged.connect(self.updateFrequency)
+        self.ui.spinBoxSlope.editingFinished.connect(self.updateFrequency)
+        self.ui.spinBoxIntercept.editingFinished.connect(self.updateFrequency)
+        self.ui.spinBoxProbe.editingFinished.connect(self.updateFrequency)
+        self.ui.spinBoxCalibWL.editingFinished.connect(self.updateFrequency)
+        self.ui.spinBoxCenterWL.editingFinished.connect(self.updateFrequency)
 
         # Close event
         self.ui.closeEvent = self.closeEvent
@@ -223,6 +223,7 @@ class MainWindowMosaic(_QMainWindow):
 
     def closeEvent(self, event):
         print('Closing')
+        self._data = None
         app = _QApplication.instance()
         app.closeAllWindows()
         app.quit()
