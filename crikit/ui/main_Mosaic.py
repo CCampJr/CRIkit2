@@ -202,6 +202,7 @@ class MainWindowMosaic(_QMainWindow):
             if self.freq is not None:
                 self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
+            self.mpl.ax.clear()
             self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx))
             self.mpl.draw()
 
