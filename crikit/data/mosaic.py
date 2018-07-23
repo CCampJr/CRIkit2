@@ -39,7 +39,7 @@ class Mosaic:
 
     @property
     def size(self):
-        if self._data:
+        if isinstance(self._data, list):
             return len(self._data)
 
     def append(self, obj):
