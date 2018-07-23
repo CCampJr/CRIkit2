@@ -222,8 +222,8 @@ class Mosaic:
                     if sub_img_counter < num_components:
                         if mask:
                             data = sub_img_counter * \
-                                   np.ones(self._data[sub_img_counter][slice_sub_r,
-                                                                       slice_sub_c].shape[0:2],
+                                   _np.ones(self._data[sub_img_counter][slice_sub_r,
+                                                                        slice_sub_c].shape[0:2],
                                            dtype=_np.int)
                         elif idx is None:
                             data = self._data[sub_img_counter][slice_sub_r, slice_sub_c]
