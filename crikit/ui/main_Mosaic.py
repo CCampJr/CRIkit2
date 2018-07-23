@@ -8,10 +8,15 @@ import os as _os
 
 import numpy as _np
 
+from PyQt5 import QtWidgets as _QtWidgets
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QMainWindow as _QMainWindow,
-                             QWidget as _QWidget)
+                             QWidget as _QWidget,
+                             QListWidget as _QListWidget,
+                             QMessageBox as _QMessageBox)
+
 import PyQt5.QtCore as _QtCore
+from PyQt5.QtCore import (pyqtSignal as _pyqtSignal)
 
 from crikit.ui.qt_Mosaic import Ui_MainWindow
 
@@ -25,6 +30,38 @@ from lazy5.utils import FidOrFile, fullpath
 from lazy5.ui.QtHdfLoad import HdfLoad
 
 
+class DnDReorderListWidget(_QListWidget):
+    """ List widget with drag-n-drop reordering """
+
+    reordered = _pyqtSignal()
+
+    def __init__(self, parent):
+        super(DnDReorderListWidget, self).__init__(parent)
+
+        self.setAcceptDrops(True)
+        self.setEditTriggers(_QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.setDragEnabled(True)
+        self.setDragDropMode(_QtWidgets.QAbstractItemView.InternalMove)
+        self.setDefaultDropAction(_QtCore.Qt.MoveAction)
+        self.setAlternatingRowColors(False)
+        self.setSelectionMode(_QtWidgets.QAbstractItemView.SingleSelection)
+        self.setObjectName("listWidgetDatasets")
+
+        item = _QtWidgets.QListWidgetItem()
+        self.addItem(item)
+        item = _QtWidgets.QListWidgetItem()
+        self.addItem(item)
+
+        self.setSortingEnabled(False)
+        item = self.item(0)
+        item.setText('A')
+        item = self.item(1)
+        item.setText('B')
+
+    def dropEvent(self, e):
+        super().dropEvent(e)
+        self.reordered.emit()
+
 class MainWindowMosaic(_QMainWindow):
     """
 
@@ -33,10 +70,13 @@ class MainWindowMosaic(_QMainWindow):
     frequency_calib = {'Slope':-0.165955456, 'Intercept':832.5510120093941,
                        'Probe': 771.461, 'Calib_WL': 700.0, 'Center_WL': 700.0}
 
+    config = {'allow_duplicates':False}
+
     def __init__(self, parent=None):
         super(MainWindowMosaic, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setupListWidget()
 
         self.ui.spinBoxIntercept.setValue(self.frequency_calib['Intercept'])
         self.ui.spinBoxSlope.setValue(self.frequency_calib['Slope'])
@@ -77,8 +117,26 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxCalibWL.editingFinished.connect(self.updateFrequency)
         self.ui.spinBoxCenterWL.editingFinished.connect(self.updateFrequency)
 
+        self.ui.listWidgetDatasets.reordered.connect(self.list_reordered)
+
         # Close event
         self.ui.closeEvent = self.closeEvent
+
+    def setupListWidget(self):
+
+        self.ui.listWidgetDatasets = DnDReorderListWidget(parent=self.ui.frame)
+        self.ui.verticalLayout_4.insertWidget(2, self.ui.listWidgetDatasets)
+
+    def list_reordered(self):
+        if self.data._data:
+            if self.data.size > 1:
+                print('Images')
+                dset_list = []
+                for num in range(self.ui.listWidgetDatasets.count()):
+                    dset_list.append(self.ui.listWidgetDatasets.item(num).text())
+                pass
+        else:
+            pass
 
     def init_internals(self):
         """ Initialize internal variables """
@@ -134,31 +192,72 @@ class MainWindowMosaic(_QMainWindow):
                                               parent=self)
 
         if to_open is not None:
-            self.last_path, self.last_fname, self.last_dsetname = to_open
-            self.last_dsetname = self.last_dsetname[-1]
+            temp_last_path, temp_last_fname, _ = to_open
 
-            to_import = [[self.last_path, self.last_fname, q] for q in to_open[-1]]
-            for ti in to_import:
-                fof = FidOrFile(fullpath(pth=ti[0], filename=ti[1]))
-                self.h5dlist.append(fof.fid[ti[-1]])
-                self.data.append(fof.fid[ti[-1]])
+            # Since to_open's dsets will be lists, this is an unraveled version
+            to_import = [[temp_last_path, temp_last_fname, q] for q in to_open[-1]]
+            to_import2 = []  # Duplicates removed if NOT allowing duplicates
 
-            if first_dset:
-                if self.data.is3d:
-                    flen = self.data.unitshape_orig[-1]
-                    self.ui.sliderFreq.setMinimum(0)
-                    self.ui.sliderFreq.setMaximum(flen-1)
-                    self.ui.sliderFreq.setValue(0)
+            for q in to_import:
+                if not self.config['allow_duplicates']:
+                    if self.is_duplicate_import([q[0], q[1], q[2]]):
+                        msg = _QMessageBox(self)
+                        msg.setIcon(_QMessageBox.Critical)
+                        str1 = 'Cannot import duplicate image:\n\n'
+                        str2 = '{} : {} : {}\n\n'.format(*q)
+                        str3 = '\n\nNot importing this dataset'
+                        msg.setText(str1 + str2 + str3)
+                        msg.setWindowTitle('Duplicate Image Found.')
+                        msg.setStandardButtons(_QMessageBox.Ok)
+                        msg.setDefaultButton(_QMessageBox.Ok)
+                        out = msg.exec()
+                    else:
+                        to_import2.append(q)
 
-                    self.pix = _np.arange(flen)
+                else:
+                    to_import2.append(q)
 
-                    self.updateFrequency()
+            for q in to_import2:
+                fof = FidOrFile(fullpath(pth=q[0], filename=q[1]))
+                if fof.fid[q[-1]].ndim != 3:
+                    msg = _QMessageBox(self)
+                    msg.setIcon(_QMessageBox.Critical)
+                    str1 = 'Dataset is not 3D:\n\n'
+                    str2 = '{} : {} : {}'.format(*q)
+                    str3 = '\n\nNot importing this dataset'
+                    msg.setText(str1 + str2 + str3)
+                    msg.setWindowTitle('Cannot Load Non-3D Datasets.')
+                    msg.setStandardButtons(_QMessageBox.Ok)
+                    msg.setDefaultButton(_QMessageBox.Ok)
+                    out = msg.exec()
+                    fof.fid.close()
+                else:
+                    self.h5dlist.append(fof.fid[q[-1]])
+                    self.data.append(fof.fid[q[-1]])
+                    self.last_path = q[0]
+                    self.last_fname = q[1]
+                    self.last_dsetname = q[2]
+                    self.data_list.append(q)
 
-            self.data_list.extend(to_import)
+                    if first_dset:
+                        flen = self.data.unitshape_orig[-1]
+                        self.ui.sliderFreq.setMinimum(0)
+                        self.ui.sliderFreq.setMaximum(flen-1)
+                        self.ui.sliderFreq.setValue(0)
+
+                        self.pix = _np.arange(flen)
+                        self.updateFrequency()
+                        first_dset = False
+
             self.updateDatasets()
 
-    def updateFrequency(self):
+    def is_duplicate_import(self, to_open):
+        if self.data._data:
+            return self.data_list.count(to_open) > 0
+        else:
+            return False
 
+    def updateFrequency(self):
         if self.pix is not None:
             probe = self.ui.spinBoxProbe.value() * 1e-9
             intercept = self.ui.spinBoxIntercept.value() * 1e-9
@@ -181,12 +280,21 @@ class MainWindowMosaic(_QMainWindow):
 
             self.updateSlider()
 
+    @staticmethod
+    def _create_list_names(item_list):
+        temp = []
+        for q in item_list:
+            temp.append(q[0] + ' : ' + q[1] + ' : ' + q[-1])
+        return temp
+
     def updateDatasets(self):
         """ Update the listWidget of datasets """
         self.ui.listWidgetDatasets.clear()
-        for q in self.data_list:
-            print(q)
-            self.ui.listWidgetDatasets.addItem(q[-1])
+
+        temp = self._create_list_names(self.data_list)
+
+        for q in temp:
+            self.ui.listWidgetDatasets.addItem(q)
 
         self.updateRowsCols(optimize=False)
         self.updateMosaicImage()
