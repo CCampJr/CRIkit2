@@ -149,10 +149,13 @@ class Mosaic:
             else:
                 return (shape[0]*us[0], shape[1]*us[1], us[2])
 
-    def _mosaic(self, shape, idx=None, out=None):
+    def _mosaic(self, shape, idx=None, out=None, mask=False):
         """ Mosaic super method """
 
         if self._data:
+            if mask:
+                idx = 0
+
             if not len(shape) == 2:
                 raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
 
@@ -160,7 +163,8 @@ class Mosaic:
                 raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
 
             if out is None:
-                out = _np.zeros(self.mosaic_shape(shape=shape, idx=idx), dtype=self.dtype)
+                out = _np.zeros(self.mosaic_shape(shape=shape, idx=idx),
+                                dtype=self.dtype)
                 out_provided = False
             else:
                 out_provided = True
@@ -216,7 +220,12 @@ class Mosaic:
                         numR = num_inner
 
                     if sub_img_counter < num_components:
-                        if idx is None:
+                        if mask:
+                            data = sub_img_counter * \
+                                   np.ones(self._data[sub_img_counter][slice_sub_r,
+                                                                       slice_sub_c].shape[0:2],
+                                           dtype=_np.int)
+                        elif idx is None:
                             data = self._data[sub_img_counter][slice_sub_r, slice_sub_c]
                         else:
                             data = self._data[sub_img_counter][slice_sub_r, slice_sub_c, idx]
@@ -256,6 +265,10 @@ class Mosaic:
                 raise ValueError('With 3D components, idx must be provided')
 
             return self._mosaic(shape=shape, idx=idx, out=out)
+
+    def mosaic_mask(self, shape, out=None):
+        """ Returns a 2D mosaic image with integer values for which img is where """
+        return self._mosaic(shape=shape, out=out, mask=True)
 
     def mosaicfull(self, shape, out=None):
         """ Return full mosaic """
