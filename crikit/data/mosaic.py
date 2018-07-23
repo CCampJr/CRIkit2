@@ -163,8 +163,13 @@ class Mosaic:
                 raise ValueError('The total number of subimages (shape) need be >= number of components ({})'.format(self.size))
 
             if out is None:
-                out = _np.zeros(self.mosaic_shape(shape=shape, idx=idx),
-                                dtype=self.dtype)
+                if not mask:
+                    out = _np.zeros(self.mosaic_shape(shape=shape, idx=idx),
+                                    dtype=self.dtype)
+                else:
+                    # For mask, start at -1
+                    out = -1 + _np.zeros(self.mosaic_shape(shape=shape, idx=idx),
+                                    dtype=self.dtype)
                 out_provided = False
             else:
                 out_provided = True
