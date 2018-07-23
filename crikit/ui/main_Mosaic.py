@@ -130,11 +130,22 @@ class MainWindowMosaic(_QMainWindow):
     def list_reordered(self):
         if self.data._data:
             if self.data.size > 1:
-                print('Images')
                 dset_list = []
                 for num in range(self.ui.listWidgetDatasets.count()):
-                    dset_list.append(self.ui.listWidgetDatasets.item(num).text())
-                pass
+                    dset_list.append(self.ui.listWidgetDatasets.item(num).text().split(' : '))
+
+                new_order = []
+                for q in self.data_list:
+                    new_order.append(dset_list.index(q))
+
+                assert len(new_order) == self.data.size
+                assert len(new_order) == _np.unique(new_order).size
+
+                self.data_list = [self.data_list[idx] for idx in new_order]
+                self.data._data = [self.data._data[idx] for idx in new_order]
+                self.h5dlist = [self.h5dlist[idx] for idx in new_order]
+                self.updateMosaicImage()
+
         else:
             pass
 
