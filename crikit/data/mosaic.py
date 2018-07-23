@@ -149,7 +149,7 @@ class Mosaic:
             else:
                 return (shape[0]*us[0], shape[1]*us[1], us[2])
 
-    def _mosaic(self, shape, idx=None, out=None, mask=False):
+    def _mosaic(self, shape, idx=None, out=None, mask=False, compress=False):
         """ Mosaic super method """
 
         if self._data:
@@ -260,26 +260,36 @@ class Mosaic:
                         sub_img_counter += 1
 
             if not out_provided:
-                return out
+                if not compress:
+                    return out
+                else:
+                    if out.ndim == 3:
+                        out = out[:, (out.sum(axis=0)[:, 0] != 0), :]
+                        out = out[(out.sum(axis=1)[:, 0] != 0), :, :]
 
-    def mosaic2d(self, shape, idx=None, out=None):
+                    else:  # 2D
+                        out = out[:, (out.sum(axis=0) != 0)]
+                        out = out[(out.sum(axis=1) != 0), :]
+                    return out
+
+    def mosaic2d(self, shape, idx=None, out=None, compress=False):
         """ Return 2D mosaic image"""
 
         if self._data:
             if (self.is3d & (idx is None)):
                 raise ValueError('With 3D components, idx must be provided')
 
-            return self._mosaic(shape=shape, idx=idx, out=out)
+            return self._mosaic(shape=shape, idx=idx, out=out, compress=compress)
 
-    def mosaic_mask(self, shape, out=None):
+    def mosaic_mask(self, shape, out=None, compress=False):
         """ Returns a 2D mosaic image with integer values for which img is where """
-        return self._mosaic(shape=shape, out=out, mask=True)
+        return self._mosaic(shape=shape, out=out, mask=True, compress=compress)
 
-    def mosaicfull(self, shape, out=None):
+    def mosaicfull(self, shape, out=None, compress=False):
         """ Return full mosaic """
 
         if self._data:
-            return self._mosaic(shape=shape, idx=None, out=out)
+            return self._mosaic(shape=shape, idx=None, out=out, compress=compress)
 
 if __name__ == '__main__':
     mos = Mosaic()
