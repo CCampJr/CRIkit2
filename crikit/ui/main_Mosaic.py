@@ -117,6 +117,9 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxCalibWL.editingFinished.connect(self.updateFrequency)
         self.ui.spinBoxCenterWL.editingFinished.connect(self.updateFrequency)
 
+        self.ui.pushButtonMoveUp.pressed.connect(self.promote_demote_list_item)
+        self.ui.pushButtonMoveDown.pressed.connect(self.promote_demote_list_item)
+
         self.ui.listWidgetDatasets.reordered.connect(self.list_reordered)
 
         # Close event
@@ -126,6 +129,46 @@ class MainWindowMosaic(_QMainWindow):
 
         self.ui.listWidgetDatasets = DnDReorderListWidget(parent=self.ui.frame)
         self.ui.verticalLayout_4.insertWidget(2, self.ui.listWidgetDatasets)
+
+    def promote_demote_list_item(self):
+        if self.data._data:
+            sndr = self.sender()
+            row = self.ui.listWidgetDatasets.currentRow()
+            isup = None
+
+            vec_orig = _np.arange(self.ui.listWidgetDatasets.count())
+            vec_new = _np.arange(self.ui.listWidgetDatasets.count())
+
+            if sndr == self.ui.pushButtonMoveUp:
+                print('Up Arrow')
+                isup = True
+
+            elif sndr == self.ui.pushButtonMoveDown:
+                print('Down Arrow')
+                isup = False
+
+            if row < 0:
+                print('No selection')
+            else:
+                print('Current row: {}'.format(row))
+
+            if isup & (row == 0):
+                print('Can\'t promote first')
+            elif (isup == False) & (row + 1 == self.ui.listWidgetDatasets.count()):
+                print('Can\'t demote last')
+            elif row < 0:
+                print('Can\'t promote/demote no selection')
+            elif isup:
+                print('Promoting')
+                it = self.ui.listWidgetDatasets.takeItem(row)
+                self.ui.listWidgetDatasets.insertItem(row - 1, it)
+                self.list_reordered()
+            elif not isup:
+                print('Demoting')
+                it = self.ui.listWidgetDatasets.takeItem(row)
+                self.ui.listWidgetDatasets.insertItem(row + 1, it)
+                self.list_reordered()
+
 
     def list_reordered(self):
         if self.data._data:
