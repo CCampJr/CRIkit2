@@ -119,6 +119,7 @@ class MainWindowMosaic(_QMainWindow):
 
         self.ui.pushButtonMoveUp.pressed.connect(self.promote_demote_list_item)
         self.ui.pushButtonMoveDown.pressed.connect(self.promote_demote_list_item)
+        self.ui.pushButtonDeleteDataset.pressed.connect(self.deleteDataset)
 
         self.ui.listWidgetDatasets.reordered.connect(self.list_reordered)
 
@@ -130,14 +131,34 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.listWidgetDatasets = DnDReorderListWidget(parent=self.ui.frame)
         self.ui.verticalLayout_4.insertWidget(2, self.ui.listWidgetDatasets)
 
+    def deleteDataset(self):
+        if self.data._data:
+            row = self.ui.listWidgetDatasets.currentRow()
+
+            if row < 0:
+                print('No selection')
+            else:
+                print('Current row: {}'.format(row))
+
+                it = self.ui.listWidgetDatasets.takeItem(row)
+                out = self.data_list.pop(row)
+                out = self.data._data.pop(row)
+                out = self.h5dlist.pop(row)
+                out.file.close()
+                
+                if self.data.size > 0:
+                    self.list_reordered()
+                else:
+                    self.init_internals()
+                    self.mpl.ax.clear()
+                    self.mpl.draw()
+
+            
     def promote_demote_list_item(self):
         if self.data._data:
             sndr = self.sender()
             row = self.ui.listWidgetDatasets.currentRow()
             isup = None
-
-            vec_orig = _np.arange(self.ui.listWidgetDatasets.count())
-            vec_new = _np.arange(self.ui.listWidgetDatasets.count())
 
             if sndr == self.ui.pushButtonMoveUp:
                 print('Up Arrow')
@@ -172,7 +193,7 @@ class MainWindowMosaic(_QMainWindow):
 
     def list_reordered(self):
         if self.data._data:
-            if self.data.size > 1:
+            if self.data.size >= 1:
                 dset_list = []
                 for num in range(self.ui.listWidgetDatasets.count()):
                     dset_list.append(self.ui.listWidgetDatasets.item(num).text().split(' : '))
@@ -385,15 +406,18 @@ class MainWindowMosaic(_QMainWindow):
 
     def closeEvent(self, event):
         print('Closing')
-        self._data = None
-        app = _QApplication.instance()
-        app.closeAllWindows()
-        app.quit()
 
         if self.h5dlist:
             for q in self.h5dlist:
                 print('Closing: {}'.format(q))
                 q.file.close()
+                
+        self.data._data = None
+        app = _QApplication.instance()
+        app.closeAllWindows()
+        app.quit()
+
+        
 
     def updateParams(self):
 
