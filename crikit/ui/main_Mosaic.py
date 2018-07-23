@@ -96,6 +96,7 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
         self.ui.spinBoxMRows.editingFinished.connect(self.updateMosaicImage)
         self.ui.spinBoxNCols.editingFinished.connect(self.updateMosaicImage)
+        self.ui.checkBoxCompress.stateChanged.connect(self.updateMosaicImage)
 
         self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
         self.ui.sliderFreq.sliderReleased.connect(self.updateMosaicImage)
@@ -386,7 +387,8 @@ class MainWindowMosaic(_QMainWindow):
                 self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
             self.mpl.ax.clear()
-            self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx))
+            self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx,
+                                                  compress=self.ui.checkBoxCompress.isChecked()))
             self.mpl.draw()
 
     def updateRowsCols(self, optimize=False):
