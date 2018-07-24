@@ -25,12 +25,20 @@ class Mosaic:
         self.parameters['FlipVertical'] = False
         self.parameters['FlipHorizontally'] = False
         self.parameters['Order'] = 'R'
+        self.parameters['Compress'] = False
+        self.parameters['Shape'] = [1, 1]
 
     def __repr__(self):  # pragma: no cover
         if self._data:
             return 'Mosaic contains {} component(s)'.format(self.size)
         else:
             return 'Empty Collection'
+
+    def attr_dict(self, prefix='Mosaic.'):
+        temp = {}
+        for k in self.parameters:
+            temp.update({prefix+k:self.parameters[k]})
+        return temp
 
     @property
     def shape(self):
@@ -120,8 +128,13 @@ class Mosaic:
                 return _np.int
 
 
-    def mosaic_shape(self, shape, idx=None):
+    def mosaic_shape(self, shape=None, idx=None):
         """ Return the shape of a would-be mosaic """
+        if shape is None:
+            shape = self.parameters['Shape']
+        else:
+            self.parameters['Shape'] = shape
+
         if self._data:
             if not len(shape) == 2:
                 raise ValueError('Shape must be a tuple/list with 2 entries (Y, X)')
@@ -149,8 +162,14 @@ class Mosaic:
             else:
                 return (shape[0]*us[0], shape[1]*us[1], us[2])
 
-    def _mosaic(self, shape, idx=None, out=None, mask=False, compress=False):
+    def _mosaic(self, shape=None, idx=None, out=None, mask=False):
         """ Mosaic super method """
+        if shape is None:
+            shape = self.parameters['Shape']
+        else:
+            self.parameters['Shape'] = shape
+
+        compress = self.parameters['Compress']
 
         if self._data:
             if mask:
@@ -263,6 +282,9 @@ class Mosaic:
                 if not compress:
                     return out
                 else:
+                    if mask:  # Cute trick since first ROI is +0 and blank is -1
+                        out += 1
+
                     if out.ndim == 3:
                         out = out[:, (out.sum(axis=0)[:, 0] != 0), :]
                         out = out[(out.sum(axis=1)[:, 0] != 0), :, :]
@@ -270,26 +292,29 @@ class Mosaic:
                     else:  # 2D
                         out = out[:, (out.sum(axis=0) != 0)]
                         out = out[(out.sum(axis=1) != 0), :]
+                    if mask:  # Cute trick since first ROI is +0 and blank is -1
+                        out -= 1
                     return out
 
-    def mosaic2d(self, shape, idx=None, out=None, compress=False):
+    def mosaic2d(self, shape=None, idx=None, out=None):
         """ Return 2D mosaic image"""
 
         if self._data:
             if (self.is3d & (idx is None)):
                 raise ValueError('With 3D components, idx must be provided')
 
-            return self._mosaic(shape=shape, idx=idx, out=out, compress=compress)
+            return self._mosaic(shape=shape, idx=idx, out=out)
 
-    def mosaic_mask(self, shape, out=None, compress=False):
+    def mosaic_mask(self, shape=None, out=None):
         """ Returns a 2D mosaic image with integer values for which img is where """
-        return self._mosaic(shape=shape, out=out, mask=True, compress=compress)
 
-    def mosaicfull(self, shape, out=None, compress=False):
+        return self._mosaic(shape=shape, out=out, mask=True)
+
+    def mosaicfull(self, shape=None, out=None):
         """ Return full mosaic """
 
         if self._data:
-            return self._mosaic(shape=shape, idx=None, out=out, compress=compress)
+            return self._mosaic(shape=shape, idx=None, out=out)
 
 if __name__ == '__main__':
     mos = Mosaic()
