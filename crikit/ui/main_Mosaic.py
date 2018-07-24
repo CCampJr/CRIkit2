@@ -116,7 +116,10 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxStartCol.editingFinished.connect(self.updateParams)
         self.ui.spinBoxEndRow.editingFinished.connect(self.updateParams)
         self.ui.spinBoxEndCol.editingFinished.connect(self.updateParams)
-        self.ui.checkBoxCompress.stateChanged.connect(self.updateParams)
+
+        # ! Currently, cannot save compress in HDF5
+        self.ui.checkBoxCompress.setEnabled(False)
+        # self.ui.checkBoxCompress.stateChanged.connect(self.updateParams)
 
         self.ui.spinBoxSlope.editingFinished.connect(self.updateFrequency)
         self.ui.spinBoxIntercept.editingFinished.connect(self.updateFrequency)
@@ -443,6 +446,16 @@ class MainWindowMosaic(_QMainWindow):
 
     def save(self):
         
+        if self.data.parameters['Compress']:
+            msg = _QMessageBox(self)
+            msg.setIcon(_QMessageBox.Information)
+            str1 = 'Currently, HDF5-saving with compression is not supported. Saving full data.'
+            msg.setText(str1)
+            msg.setWindowTitle('Compression not supported.')
+            msg.setStandardButtons(_QMessageBox.Ok)
+            msg.setDefaultButton(_QMessageBox.Ok)
+            msg.exec()
+
         ret = DialogSave.dialogSave(parent=self,
                                     current_filename='MOSAIC_' + self.last_fname,
                                     current_path=self.last_path,
@@ -482,10 +495,12 @@ class MainWindowMosaic(_QMainWindow):
             self.data.mosaicfull(out=fid[save_dataset_name])
             lazy5.alter.write_attr_dict(fid[save_dataset_name], new_attrs)
             fid.close()
-            # except:
-            #     print('Something went wrong saving...')
-            # else:
-            #     print('Save succeeded with no errors.')
+
+            lazy5.create.save(save_filename, save_dataset_mask, self.data.mosaic_mask(),
+                              pth=save_path, attr_dict=new_attrs)
+
+            pass
+            
 
 if __name__ == '__main__':
     app = _QApplication(_sys.argv)
