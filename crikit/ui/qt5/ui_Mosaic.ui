@@ -1003,8 +1003,20 @@
            </item>
            <item>
             <widget class="QDoubleSpinBox" name="spinBoxXStepSize">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>false</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
              <property name="decimals">
               <number>10</number>
+             </property>
+             <property name="minimum">
+              <double>-1.000000000000000</double>
              </property>
              <property name="maximum">
               <double>1000000.000000000000000</double>
@@ -1013,7 +1025,7 @@
               <double>0.100000000000000</double>
              </property>
              <property name="value">
-              <double>0.663000000000000</double>
+              <double>-1.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -1026,8 +1038,20 @@
            </item>
            <item>
             <widget class="QDoubleSpinBox" name="spinBoxYStepSize">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>false</bool>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
              <property name="decimals">
               <number>10</number>
+             </property>
+             <property name="minimum">
+              <double>-1.000000000000000</double>
              </property>
              <property name="maximum">
               <double>1000000.000000000000000</double>
@@ -1036,7 +1060,7 @@
               <double>0.100000000000000</double>
              </property>
              <property name="value">
-              <double>0.663000000000000</double>
+              <double>-1.000000000000000</double>
              </property>
             </widget>
            </item>
