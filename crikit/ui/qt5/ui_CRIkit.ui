@@ -407,6 +407,8 @@ This will be saved to the processed file.</string>
     <addaction name="actionOpenDLMNIST"/>
     <addaction name="actionSave"/>
     <addaction name="separator"/>
+    <addaction name="actionCreateMosaic"/>
+    <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuImport">
@@ -1270,6 +1272,16 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Estimate Calibration</string>
+   </property>
+  </action>
+  <action name="actionCreateMosaic">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/open-iconic-master/png/grid-three-up-4x.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Create Mosaic</string>
    </property>
   </action>
  </widget>
