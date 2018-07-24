@@ -98,7 +98,7 @@ class MainWindowMosaic(_QMainWindow):
         # SIGNALS AND SLOTS
         self.ui.actionAddFromHDF.triggered.connect(self.addDataset)
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
-        
+
         self.ui.actionSaveToHDF5.triggered.connect(self.save)
 
         self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
@@ -135,6 +135,7 @@ class MainWindowMosaic(_QMainWindow):
 
         # Close event
         self.ui.closeEvent = self.closeEvent
+        self.ui.actionExit.triggered.connect(self.closeEvent)
 
     def setupListWidget(self):
 
@@ -146,16 +147,17 @@ class MainWindowMosaic(_QMainWindow):
             row = self.ui.listWidgetDatasets.currentRow()
 
             if row < 0:
-                print('No selection')
+                # print('No selection')
+                pass
             else:
-                print('Current row: {}'.format(row))
+                # print('Current row: {}'.format(row))
 
                 it = self.ui.listWidgetDatasets.takeItem(row)
                 out = self.data_list.pop(row)
                 out = self.data._data.pop(row)
                 out = self.h5dlist.pop(row)
                 out.file.close()
-                
+
                 if self.data.size > 0:
                     self.list_reordered()
                 else:
@@ -163,7 +165,7 @@ class MainWindowMosaic(_QMainWindow):
                     self.mpl.ax.clear()
                     self.mpl.draw()
 
-            
+
     def promote_demote_list_item(self):
         if self.data._data:
             sndr = self.sender()
@@ -171,35 +173,35 @@ class MainWindowMosaic(_QMainWindow):
             isup = None
 
             if sndr == self.ui.pushButtonMoveUp:
-                print('Up Arrow')
                 isup = True
-
             elif sndr == self.ui.pushButtonMoveDown:
-                print('Down Arrow')
                 isup = False
 
             if row < 0:
-                print('No selection')
+                # print('No selection')
+                pass
             else:
-                print('Current row: {}'.format(row))
-
+                # print('Current row: {}'.format(row))
+                pass
             if isup & (row == 0):
-                print('Can\'t promote first')
+                # print('Can\'t promote first')
+                pass
             elif (isup == False) & (row + 1 == self.ui.listWidgetDatasets.count()):
-                print('Can\'t demote last')
+                # print('Can\'t demote last')
+                pass
             elif row < 0:
-                print('Can\'t promote/demote no selection')
+                # print('Can\'t promote/demote no selection')
+                pass
             elif isup:
-                print('Promoting')
+                # print('Promoting')
                 it = self.ui.listWidgetDatasets.takeItem(row)
                 self.ui.listWidgetDatasets.insertItem(row - 1, it)
                 self.list_reordered()
             elif not isup:
-                print('Demoting')
+                # print('Demoting')
                 it = self.ui.listWidgetDatasets.takeItem(row)
                 self.ui.listWidgetDatasets.insertItem(row + 1, it)
                 self.list_reordered()
-
 
     def list_reordered(self):
         if self.data._data:
@@ -403,13 +405,13 @@ class MainWindowMosaic(_QMainWindow):
             for q in self.h5dlist:
                 print('Closing: {}'.format(q))
                 q.file.close()
-                
-        self.data._data = None
+            self.init_internals()
+
         app = _QApplication.instance()
         app.closeAllWindows()
         app.quit()
 
-        
+
 
     def updateParams(self):
         """ Update Mosaic object parameters """
@@ -445,7 +447,7 @@ class MainWindowMosaic(_QMainWindow):
             self.updateMosaicImage()
 
     def save(self):
-        
+
         if self.data.parameters['Compress']:
             msg = _QMessageBox(self)
             msg.setIcon(_QMessageBox.Information)
@@ -467,15 +469,15 @@ class MainWindowMosaic(_QMainWindow):
             save_filename = ret[0]
             save_path = ret[1]
             save_dataset_name = ret[2]
-            save_dataset_mask = 'MASK_' + ret[2]
+
             save_grp = save_dataset_name.rpartition('/')[0]
             save_dataset_name_no_grp = save_dataset_name.rpartition('/')[-1]
-
+            save_dataset_mask = save_grp + '/' + 'MASK_' + save_dataset_name_no_grp
             mask = self.data.mosaic_mask()
 
             new_attrs = OrderedDict()
             new_attrs.update(self.data.attr_dict())
-            
+
             for num, q in enumerate(self.data._data):
                 curr_shape = [(mask == num).sum(axis=0).max(), (mask == num).sum(axis=1).max()]
                 new_attrs.update({'Mosaic.shape.{}'.format(num):curr_shape})
@@ -486,7 +488,7 @@ class MainWindowMosaic(_QMainWindow):
                     orig_attrs = lazy5.inspect.get_attrs_dset(q.file, q.name)
                     for k in orig_attrs:
                         new_attrs.update({'Mosaic.{}.{}'.format(num, k):orig_attrs[k]})
-            
+
             # try:
             fid = h5py.File(_os.path.join(save_path, save_filename), 'a')
             fid.require_group(save_grp)
@@ -498,9 +500,6 @@ class MainWindowMosaic(_QMainWindow):
 
             lazy5.create.save(save_filename, save_dataset_mask, self.data.mosaic_mask(),
                               pth=save_path, attr_dict=new_attrs)
-
-            pass
-            
 
 if __name__ == '__main__':
     app = _QApplication(_sys.argv)
