@@ -266,16 +266,16 @@ class Mosaic:
                             else:
                                 data = _np.transpose(data, axes=(1,0,2))
 
-                        if isinstance(out, _h5py.Dataset) & (not cannot_write_direct):
-                            out.write_direct(source=data, dest_sel=_np.s_[(numR*us[0]):(numR+1)*us[0],
-                                (numC*us[1]):(numC+1)*us[1]])
-                        else:
-                            # * Using this in case m/ndata is smaller than u[0/1]
-                            temp = data
-                            mdata, ndata = temp.shape[0], temp.shape[1]
+                        # * Using this in case m/ndata is smaller than u[0/1]
+                        mdata, ndata = data.shape[0], data.shape[1]
 
+                        if isinstance(out, _h5py.Dataset) & (not cannot_write_direct):
+                            out.write_direct(source=data,
+                                             dest_sel=_np.s_[(numR*us[0]):(numR*us[0] + mdata),
+                                                             (numC*us[1]):(numC*us[1] + ndata)])
+                        else:   
                             out[(numR*us[0]):(numR*us[0] + mdata),
-                                (numC*us[1]):(numC*us[1] + ndata)] = temp
+                                (numC*us[1]):(numC*us[1] + ndata)] = 1*data
                         sub_img_counter += 1
 
             if not out_provided:

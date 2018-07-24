@@ -463,10 +463,12 @@ class MainWindowMosaic(_QMainWindow):
             new_attrs = OrderedDict()
             new_attrs.update(self.data.attr_dict())
             
-            # ! Need to add in source fname, pth, dsetname etc as more metadata
             for num, q in enumerate(self.data._data):
                 curr_shape = [(mask == num).sum(axis=0).max(), (mask == num).sum(axis=1).max()]
                 new_attrs.update({'Mosaic.shape.{}'.format(num):curr_shape})
+                new_attrs.update({'Mosaic.path.{}'.format(num):self.data_list[num][0]})
+                new_attrs.update({'Mosaic.filename.{}'.format(num):self.data_list[num][1]})
+                new_attrs.update({'Mosaic.datasetname.{}'.format(num):self.data_list[num][2]})
                 if hasattr(q, 'attrs'):
                     orig_attrs = lazy5.inspect.get_attrs_dset(q.file, q.name)
                     for k in orig_attrs:
