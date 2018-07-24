@@ -114,46 +114,80 @@ def meta_process(rosetta, output_cls_instance):
     # Spatial for HSI
     if type(output_cls_instance) == _Hsi:
         print('Type Hsi')
-        try:
-            start = rosetta_query('XStart',rosetta, output_cls_instance)[0]
-            stop = rosetta_query('XStop',rosetta, output_cls_instance)[0]
-            steps = rosetta_query('XLength',rosetta, output_cls_instance)[0]
-            units = rosetta_query('XUnits',rosetta, output_cls_instance)[0]
-            label = rosetta_query('XLabel',rosetta, output_cls_instance)[0]
+        # ! try:
+        units = rosetta_query('XUnits',rosetta, output_cls_instance)
+        label = rosetta_query('XLabel',rosetta, output_cls_instance)
+        if units is not None:
+            units = units[0]
+        if label is not None:
+            label = label[0]
 
-            # HDF files store strings in np.bytes format
-            if isinstance(units, bytes):
-                units = units.decode()
-            if isinstance(label, bytes):
-                label = label.decode()
+        start = rosetta_query('XStart',rosetta, output_cls_instance)
+        stop = rosetta_query('XStop',rosetta, output_cls_instance)
+        steps = rosetta_query('XLength',rosetta, output_cls_instance)
+        if (start is not None) & (stop is not None) & (steps is not None):
+            start = start[0]
+            stop = stop[0]
+            steps = steps[0]
+        else:
+            temp = output_cls_instance.shape
+            start = 0
+            stop = temp[1] - 1
+            steps = temp[1]
+            units = 'pix'
+            label = 'X'
 
-            output_cls_instance.x_rep.data = _np.linspace(start, stop, steps)
-            output_cls_instance.x_rep.units = units
-            output_cls_instance.x_rep.label = label
-            output_cls_instance.x_rep.update_calib_from_data()
+        
 
-            del start, stop, steps, units, label
+        # HDF files store strings in np.bytes format
+        if isinstance(units, bytes):
+            units = units.decode()
+        if isinstance(label, bytes):
+            label = label.decode()
 
-            start = rosetta_query('YStart',rosetta, output_cls_instance)[0]
-            stop = rosetta_query('YStop',rosetta, output_cls_instance)[0]
-            steps = rosetta_query('YLength',rosetta, output_cls_instance)[0]
-            units = rosetta_query('YUnits',rosetta, output_cls_instance)[0]
-            label = rosetta_query('YLabel',rosetta, output_cls_instance)[0]
+        output_cls_instance.x_rep.data = _np.linspace(start, stop, steps)
+        output_cls_instance.x_rep.units = units
+        output_cls_instance.x_rep.label = label
+        output_cls_instance.x_rep.update_calib_from_data()
 
-            # HDF files store strings in np.bytes format
-            if isinstance(units, bytes):
-                units = units.decode()
-            if isinstance(label, bytes):
-                label = label.decode()
+        del start, stop, steps, units, label
 
-            output_cls_instance.y_rep.data = _np.linspace(start, stop, steps)
-            output_cls_instance.y_rep.units = units
-            output_cls_instance.y_rep.label = label
-            output_cls_instance.y_rep.update_calib_from_data()
+        units = rosetta_query('YUnits',rosetta, output_cls_instance)
+        label = rosetta_query('YLabel',rosetta, output_cls_instance)
+        if units is not None:
+            units = units[0]
+        if label is not None:
+            label = label[0]
 
-            del start, stop, steps, units
-        except:
-            print('Something failed in meta_process: HSI-spatial calib')
+        start = rosetta_query('YStart',rosetta, output_cls_instance)
+        stop = rosetta_query('YStop',rosetta, output_cls_instance)
+        steps = rosetta_query('YLength',rosetta, output_cls_instance)
+        if (start is not None) & (stop is not None) & (steps is not None):
+            start = start[0]
+            stop = stop[0]
+            steps = steps[0]
+        else:
+            temp = output_cls_instance.shape
+            start = 0
+            stop = temp[0] - 1
+            steps = temp[0]
+            units = 'pix'
+            label = 'Y'
+
+        # HDF files store strings in np.bytes format
+        if isinstance(units, bytes):
+            units = units.decode()
+        if isinstance(label, bytes):
+            label = label.decode()
+
+        output_cls_instance.y_rep.data = _np.linspace(start, stop, steps)
+        output_cls_instance.y_rep.units = units
+        output_cls_instance.y_rep.label = label
+        output_cls_instance.y_rep.update_calib_from_data()
+
+        # !    del start, stop, steps, units
+        # ! except:
+        # !    print('Something failed in meta_process: HSI-spatial calib')
 
     elif type(output_cls_instance) == _Spectra:
         try:
