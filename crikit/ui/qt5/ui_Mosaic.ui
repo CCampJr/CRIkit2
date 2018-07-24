@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>782</height>
+    <height>803</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -924,6 +924,7 @@
      <string>File</string>
     </property>
     <addaction name="actionAddFromHDF"/>
+    <addaction name="actionSaveToHDF5"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -935,6 +936,21 @@
    </property>
    <property name="text">
     <string>Add from HDF5</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSaveToHDF5">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-closed-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-closed-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save to HDF5</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

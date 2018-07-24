@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1200, 782)
+        MainWindow.resize(1200, 803)
         MainWindow.setMaximumSize(QtCore.QSize(1200, 16777215))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -342,7 +342,13 @@ class Ui_MainWindow(object):
         icon4.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/envelope-open-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionAddFromHDF.setIcon(icon4)
         self.actionAddFromHDF.setObjectName("actionAddFromHDF")
+        self.actionSaveToHDF5 = QtWidgets.QAction(MainWindow)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/envelope-closed-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSaveToHDF5.setIcon(icon5)
+        self.actionSaveToHDF5.setObjectName("actionSaveToHDF5")
         self.menuFile.addAction(self.actionAddFromHDF)
+        self.menuFile.addAction(self.actionSaveToHDF5)
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -374,5 +380,8 @@ class Ui_MainWindow(object):
         self.label_14.setText(_translate("MainWindow", "Current Center Wavelength (nm)"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionAddFromHDF.setText(_translate("MainWindow", "Add from HDF5"))
+        self.actionAddFromHDF.setShortcut(_translate("MainWindow", "Ctrl+O"))
+        self.actionSaveToHDF5.setText(_translate("MainWindow", "Save to HDF5"))
+        self.actionSaveToHDF5.setShortcut(_translate("MainWindow", "Ctrl+S"))
 
 from . import icons_all_rc
