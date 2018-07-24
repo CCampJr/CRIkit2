@@ -959,6 +959,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxSpectFromData">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -974,7 +977,7 @@
            </size>
           </property>
           <property name="checkable">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -1082,6 +1085,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxSpaceFromData">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -1091,7 +1097,7 @@
            <string>Loaded from Data</string>
           </property>
           <property name="checkable">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>

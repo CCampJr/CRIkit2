@@ -5,6 +5,7 @@ multiple dataset
 
 import sys as _sys
 import os as _os
+import copy as _copy
 
 from collections import OrderedDict
 
@@ -127,6 +128,9 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxCalibWL.editingFinished.connect(self.updateFrequency)
         self.ui.spinBoxCenterWL.editingFinished.connect(self.updateFrequency)
 
+        # self.ui.spinBoxXStepSize.editingFinished.connect(self.updateSpace)
+        # self.ui.spinBoxYStepSize.editingFinished.connect(self.updateSpace)
+
         self.ui.pushButtonMoveUp.pressed.connect(self.promote_demote_list_item)
         self.ui.pushButtonMoveDown.pressed.connect(self.promote_demote_list_item)
         self.ui.pushButtonDeleteDataset.pressed.connect(self.deleteDataset)
@@ -164,7 +168,6 @@ class MainWindowMosaic(_QMainWindow):
                     self.init_internals()
                     self.mpl.ax.clear()
                     self.mpl.draw()
-
 
     def promote_demote_list_item(self):
         if self.data._data:
@@ -238,6 +241,9 @@ class MainWindowMosaic(_QMainWindow):
         self.last_path = None
         self.last_fname = None
         self.last_dsetname = None
+
+        self.imported_calib_vec = None
+        self.imported_spatial_vec = None
 
     def lineEditPixChange(self):
         """
@@ -333,10 +339,122 @@ class MainWindowMosaic(_QMainWindow):
                         self.ui.sliderFreq.setValue(0)
 
                         self.pix = _np.arange(flen)
-                        self.updateFrequency()
+                        calib_vec = self.check_for_spectral_calib(fof.fid[q[-1]])
+                        self.check_for_spatial_calib(fof.fid[q[-1]])
+
+                        self.updateFrequency(calib_vec)
                         first_dset = False
 
             self.updateDatasets()
+
+    def check_for_spatial_calib(self, dset):
+        """ See if dataset has spatial calibration meta data """
+        if not isinstance(dset, h5py.Dataset):
+            return None
+        if not hasattr(dset, 'attrs'):
+            return None
+
+        spatial_vec = []  # X, Y
+        
+        attrs_dict = lazy5.inspect.get_attrs_dset(dset.file, dset.name)
+        list_of_keys = list(attrs_dict)
+
+        ct = 0
+        temp = []
+        to_check = ['Raster.Fast.StepSize', 'Raster.Slow.StepSize']  # X, Y
+        for num, tc in enumerate(to_check):
+            if list_of_keys.count(tc) > 0:
+                ct += 1
+                temp.append(attrs_dict[tc])
+        if ct == len(to_check):
+            print('Has StepSize info (New)')
+            spatial_vec = temp
+        else:
+            ct = 0
+            temp = []
+            to_check = ['RasterScanParams.FastAxisStepSize', 'RasterScanParams.SlowAxisStepSize']  # X, Y
+            for num, tc in enumerate(to_check):
+                if list_of_keys.count(tc) > 0:
+                    ct += 1
+                    temp.append(attrs_dict[tc])
+            if ct == len(to_check):
+                print('Has StepSize info (Old)')
+                spatial_vec = temp
+            else:
+                ct = 0
+                temp = []
+                to_check = ['Raster.Fast.Start', 'Raster.Fast.Stop', 'Raster.Fast.Steps', 
+                            'Raster.Slow.Start', 'Raster.Slow.Stop', 'Raster.Slow.Steps']
+                for num, tc in enumerate(to_check):
+                    if list_of_keys.count(tc) > 0:
+                        ct += 1
+                        temp.append(attrs_dict[tc])
+                if ct == len(to_check):
+                    print('Has Start-Stop-Steps info (New)')
+                    x_stepsize = (temp[1] - temp[0])/(temp[2]-1)
+                    y_stepsize = (temp[4] - temp[3])/(temp[5]-1)
+                    spatial_vec = [x_stepsize, y_stepsize]
+                else:
+                    ct = 0
+                    temp = []
+                    to_check = ['RasterScanParams.FastAxisStart', 'RasterScanParams.FastAxisStop', 
+                                'RasterScanParams.FastAxisSteps', 
+                                'RasterScanParams.SlowAxisStart', 'RasterScanParams.SlowAxisStop', 
+                                'RasterScanParams.SlowAxisSteps']
+                    for num, tc in enumerate(to_check):
+                        if list_of_keys.count(tc) > 0:
+                            ct += 1
+                            temp.append(attrs_dict[tc])
+                    if ct == len(to_check):
+                        print('Has Start-Stop-Steps info (Old)')
+                        x_stepsize = (temp[1] - temp[0])/(temp[2]-1)
+                        y_stepsize = (temp[4] - temp[3])/(temp[5]-1)
+                        spatial_vec = [x_stepsize, y_stepsize]
+
+        if spatial_vec:
+            self.imported_spatial_vec = spatial_vec
+            self.ui.checkBoxSpaceFromData.setChecked(True)
+            self.ui.spinBoxXStepSize.setValue(spatial_vec[0])
+            self.ui.spinBoxYStepSize.setValue(spatial_vec[1])
+
+    def check_for_spectral_calib(self, dset):
+        """ See if dataset has spectral calibration meta data """
+        if not isinstance(dset, h5py.Dataset):
+            return None
+        if not hasattr(dset, 'attrs'):
+            return None
+
+        calib_vec = []
+        
+        attrs_dict = lazy5.inspect.get_attrs_dset(dset.file, dset.name)
+        list_of_keys = list(attrs_dict)
+
+        ct = 0
+        temp = []
+        to_check = ['Calib.a_vec', 'Calib.ctr_wl', 'Calib.ctr_wl0', 'Calib.n_pix',
+                    'Calib.probe']
+        for num, tc in enumerate(to_check):
+            if list_of_keys.count(tc) > 0:
+                ct += 1
+                temp.append(attrs_dict[tc])
+        if ct == len(to_check):
+            print('Has Calib series')
+            calib_vec = temp
+        else: 
+            ct = 0
+            temp = []
+            to_check = ['Spectro.Avec', 'Spectro.CurrentWavelength', 'Spectro.CalibWavelength',
+                        'Spectro.SpectralPixels', 'Spectro.ProbeWavelength']
+            for num, tc in enumerate(to_check):
+                if list_of_keys.count(tc) > 0:
+                    ct += 1
+                    temp.append(attrs_dict[tc])
+            if ct == len(to_check):
+                print('Has Spectro series')
+                calib_vec = temp
+        if calib_vec:
+            self.ui.checkBoxSpectFromData.setChecked(True)
+            return calib_vec
 
     def is_duplicate_import(self, to_open):
         if self.data._data:
@@ -344,26 +462,55 @@ class MainWindowMosaic(_QMainWindow):
         else:
             return False
 
-    def updateFrequency(self):
+    def updateFrequency(self, calib_vec=None):
         if self.pix is not None:
-            probe = self.ui.spinBoxProbe.value() * 1e-9
-            intercept = self.ui.spinBoxIntercept.value() * 1e-9
-            slope = self.ui.spinBoxSlope.value() * 1e-9
-            ctr_wl = self.ui.spinBoxCenterWL.value() * 1e-9
-            calib_wl = self.ui.spinBoxCalibWL.value() * 1e-9
+            if calib_vec is None:
+                probe = self.ui.spinBoxProbe.value() * 1e-9
+                intercept = self.ui.spinBoxIntercept.value() * 1e-9
+                slope = self.ui.spinBoxSlope.value() * 1e-9
+                ctr_wl = self.ui.spinBoxCenterWL.value() * 1e-9
+                calib_wl = self.ui.spinBoxCalibWL.value() * 1e-9
 
-            self.frequency_calib['Probe'] = probe
-            self.frequency_calib['Intercept'] = intercept
-            self.frequency_calib['Slope'] = slope
-            self.frequency_calib['Center_WL'] = ctr_wl
-            self.frequency_calib['Calib_WL'] = calib_wl
+                self.frequency_calib['Probe'] = probe
+                self.frequency_calib['Intercept'] = intercept
+                self.frequency_calib['Slope'] = slope
+                self.frequency_calib['Center_WL'] = ctr_wl
+                self.frequency_calib['Calib_WL'] = calib_wl
 
-            self.wl = slope*self.pix + intercept + (ctr_wl - calib_wl)
+                self.wl = slope*self.pix + intercept + (ctr_wl - calib_wl)
 
-            if probe != 0.0:
-                self.freq = 0.01 /  self.wl - 0.01 / probe
+                if probe != 0.0:
+                    self.freq = 0.01 /  self.wl - 0.01 / probe
+                else:
+                    self.freq = 0.01 /  self.wl
             else:
-                self.freq = 0.01 /  self.wl
+                a_vec = calib_vec[0]
+                if len(a_vec) == 2:
+                    slope = a_vec[0] * 1e-9
+                    intercept = a_vec[1] * 1e-9
+                else:  # Linearizes higher order polynomial
+                    a_vec = _np.polyfit(self.pix, _np.polyval(a_vec, self.pix), 1)
+                    slope = a_vec[0] * 1e-9
+                    intercept = a_vec[1] * 1e-9
+
+                ctr_wl = calib_vec[1] * 1e-9
+                calib_wl = calib_vec[2] * 1e-9
+                local_pix = calib_vec[3]
+                probe = calib_vec[4] * 1e-9
+                
+                self.ui.spinBoxProbe.setValue(probe * 1e9)
+                self.ui.spinBoxIntercept.setValue(intercept * 1e9)
+                self.ui.spinBoxSlope.setValue(slope * 1e9)
+                self.ui.spinBoxCenterWL.setValue(ctr_wl * 1e9)
+                self.ui.spinBoxCalibWL.setValue(calib_wl * 1e9)
+                
+                self.wl = slope*self.pix + intercept + (ctr_wl - calib_wl)
+                if probe != 0.0:
+                    self.freq = 0.01 /  self.wl - 0.01 / probe
+                else:
+                    self.freq = 0.01 /  self.wl
+
+                self.imported_calib_vec = _copy.deepcopy(calib_vec)
 
             self.updateSlider()
 
@@ -395,7 +542,12 @@ class MainWindowMosaic(_QMainWindow):
                 self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
             self.mpl.ax.clear()
-            self.mpl.ax.imshow(self.data.mosaic2d(idx=idx))
+            temp = self.data.mosaic2d(idx=idx)
+            if _np.iscomplexobj(temp):
+                self.mpl.ax.imshow(temp.imag)
+            else:
+                self.mpl.ax.imshow(temp)
+
             self.mpl.draw()
 
     def closeEvent(self, event):
@@ -477,6 +629,32 @@ class MainWindowMosaic(_QMainWindow):
 
             new_attrs = OrderedDict()
             new_attrs.update(self.data.attr_dict())
+
+            if self.imported_calib_vec:
+                new_attrs.update({'Calib.a_vec':self.imported_calib_vec[0],
+                                  'Calib.ctr_wl':self.imported_calib_vec[1],
+                                  'Calib.ctr_wl0':self.imported_calib_vec[2],
+                                  'Calib.n_pix':self.imported_calib_vec[3],
+                                  'Calib.probe':self.imported_calib_vec[4],
+                                  'Calib.units':'nm'})
+
+            if self.imported_spatial_vec:
+                temp = self.data.mosaic_shape()
+                x_stepsize = self.imported_spatial_vec[0]
+                y_stepsize = self.imported_spatial_vec[0]
+                x_start = 0
+                y_start = 0
+                x_stop = (temp[1]-1)*x_stepsize
+                y_stop = (temp[0]-1)*y_stepsize
+                x_steps = temp[1]
+                y_steps = temp[0]
+
+                # ['Raster.Fast.Start', 'Raster.Fast.Stop', 'Raster.Fast.Steps', 
+                #         'Raster.Slow.Start', 'Raster.Slow.Stop', 'Raster.Slow.Steps']
+                new_attrs.update({'Raster.Fast.StepSize':x_stepsize, 'Raster.Fast.Steps':x_steps,
+                                  'Raster.Fast.Start':x_start, 'Raster.Fast.Stop':x_stop,
+                                  'Raster.Slow.StepSize':y_stepsize, 'Raster.Slow.Steps':y_steps,
+                                  'Raster.Slow.Start':y_start, 'Raster.Slow.Stop':y_stop})
 
             for num, q in enumerate(self.data._data):
                 curr_shape = [(mask == num).sum(axis=0).max(), (mask == num).sum(axis=1).max()]
