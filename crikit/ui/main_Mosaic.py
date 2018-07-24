@@ -6,6 +6,9 @@ multiple dataset
 import sys as _sys
 import os as _os
 
+from collections import OrderedDict
+
+import h5py
 import numpy as _np
 
 from PyQt5 import QtWidgets as _QtWidgets
@@ -22,6 +25,7 @@ from crikit.ui.qt_Mosaic import Ui_MainWindow
 
 from crikit.data.frequency import calib_pix_wl, calib_pix_wn
 from crikit.data.mosaic import Mosaic
+from crikit.ui.dialog_save import DialogSave
 
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
@@ -94,15 +98,16 @@ class MainWindowMosaic(_QMainWindow):
         # SIGNALS AND SLOTS
         self.ui.actionAddFromHDF.triggered.connect(self.addDataset)
         self.ui.pushButtonAddDataset.pressed.connect(self.addDataset)
-        self.ui.spinBoxMRows.editingFinished.connect(self.updateMosaicImage)
-        self.ui.spinBoxNCols.editingFinished.connect(self.updateMosaicImage)
-        self.ui.checkBoxCompress.stateChanged.connect(self.updateMosaicImage)
+        
+        self.ui.actionSaveToHDF5.triggered.connect(self.save)
 
         self.ui.sliderFreq.valueChanged.connect(self.updateSlider)
         self.ui.sliderFreq.sliderReleased.connect(self.updateMosaicImage)
 
         self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChange)
 
+        self.ui.spinBoxMRows.editingFinished.connect(self.updateParams)
+        self.ui.spinBoxNCols.editingFinished.connect(self.updateParams)
         self.ui.comboBoxRowCol.currentIndexChanged.connect(self.updateParams)
         self.ui.checkBoxFlipH.stateChanged.connect(self.updateParams)
         self.ui.checkBoxFlipV.stateChanged.connect(self.updateParams)
@@ -111,6 +116,7 @@ class MainWindowMosaic(_QMainWindow):
         self.ui.spinBoxStartCol.editingFinished.connect(self.updateParams)
         self.ui.spinBoxEndRow.editingFinished.connect(self.updateParams)
         self.ui.spinBoxEndCol.editingFinished.connect(self.updateParams)
+        self.ui.checkBoxCompress.stateChanged.connect(self.updateParams)
 
         self.ui.spinBoxSlope.editingFinished.connect(self.updateFrequency)
         self.ui.spinBoxIntercept.editingFinished.connect(self.updateFrequency)
@@ -372,14 +378,11 @@ class MainWindowMosaic(_QMainWindow):
         for q in temp:
             self.ui.listWidgetDatasets.addItem(q)
 
-        self.updateRowsCols(optimize=False)
-        self.updateMosaicImage()
+        self.updateParams()
+        # self.updateMosaicImage()
 
     def updateMosaicImage(self):
         if self.data._data:
-            self.updateRowsCols()
-            mrows = self.ui.spinBoxMRows.value()
-            ncols = self.ui.spinBoxNCols.value()
 
             idx = self.ui.sliderFreq.value()
             self.ui.lineEditPix.setText(str(idx))
@@ -387,24 +390,8 @@ class MainWindowMosaic(_QMainWindow):
                 self.ui.lineEditFreq.setText(str(self.freq[idx]))
 
             self.mpl.ax.clear()
-            self.mpl.ax.imshow(self.data.mosaic2d(shape=(mrows, ncols), idx=idx,
-                                                  compress=self.ui.checkBoxCompress.isChecked()))
+            self.mpl.ax.imshow(self.data.mosaic2d(idx=idx))
             self.mpl.draw()
-
-    def updateRowsCols(self, optimize=False):
-        """ Update the values of MRows and NCols """
-        mrows = self.ui.spinBoxMRows.value()
-        ncols = self.ui.spinBoxNCols.value()
-        n_dsets = len(self.data_list)
-
-        if (mrows * ncols) < n_dsets:
-            if optimize:
-                pass
-            else:
-                mrows = int(_np.ceil(n_dsets / ncols))
-
-            self.ui.spinBoxMRows.setValue(mrows)
-            self.ui.spinBoxNCols.setValue(ncols)
 
     def closeEvent(self, event):
         print('Closing')
@@ -422,7 +409,7 @@ class MainWindowMosaic(_QMainWindow):
         
 
     def updateParams(self):
-
+        """ Update Mosaic object parameters """
         self.data.parameters['StartC'] = self.ui.spinBoxStartCol.value()
         self.data.parameters['StartR'] = self.ui.spinBoxStartRow.value()
         self.data.parameters['EndC'] = -1*self.ui.spinBoxEndCol.value()
@@ -430,6 +417,8 @@ class MainWindowMosaic(_QMainWindow):
         self.data.parameters['Transpose'] = self.ui.checkBoxTranspose.isChecked()
         self.data.parameters['FlipVertical'] = self.ui.checkBoxFlipV.isChecked()
         self.data.parameters['FlipHorizontally'] = self.ui.checkBoxFlipH.isChecked()
+        self.data.parameters['Compress'] = self.ui.checkBoxCompress.isChecked()
+        self.data.parameters['Shape'] = [self.ui.spinBoxMRows.value(), self.ui.spinBoxNCols.value()]
 
         idx = self.ui.comboBoxRowCol.currentIndex()
         if idx == 0:
@@ -437,9 +426,64 @@ class MainWindowMosaic(_QMainWindow):
         else:
             self.data.parameters['Order'] = 'C'
 
+        mrows = self.ui.spinBoxMRows.value()
+        ncols = self.ui.spinBoxNCols.value()
+        n_dsets = len(self.data_list)
+
+        if (mrows * ncols) < n_dsets:
+            mrows = int(_np.ceil(n_dsets / ncols))
+
+            self.ui.spinBoxMRows.setValue(mrows)
+            self.ui.spinBoxNCols.setValue(ncols)
+
+        self.data.parameters['Shape'] = [mrows, ncols]
+
         if self.data._data:
             self.updateMosaicImage()
 
+    def save(self):
+        
+        ret = DialogSave.dialogSave(parent=self,
+                                    current_filename='MOSAIC_' + self.last_fname,
+                                    current_path=self.last_path,
+                                    current_dataset_name=self.last_dsetname,
+                                    suffix='')
+        if ret is None:
+            pass # Save canceled
+        else:
+            save_filename = ret[0]
+            save_path = ret[1]
+            save_dataset_name = ret[2]
+            save_dataset_mask = 'MASK_' + ret[2]
+            save_grp = save_dataset_name.rpartition('/')[0]
+            save_dataset_name_no_grp = save_dataset_name.rpartition('/')[-1]
+
+            mask = self.data.mosaic_mask()
+
+            new_attrs = OrderedDict()
+            new_attrs.update(self.data.attr_dict())
+            
+            # ! Need to add in source fname, pth, dsetname etc as more metadata
+            for num, q in enumerate(self.data._data):
+                curr_shape = [(mask == num).sum(axis=0).max(), (mask == num).sum(axis=1).max()]
+                new_attrs.update({'Mosaic.shape.{}'.format(num):curr_shape})
+                if hasattr(q, 'attrs'):
+                    orig_attrs = lazy5.inspect.get_attrs_dset(q.file, q.name)
+                    for k in orig_attrs:
+                        new_attrs.update({'Mosaic.{}.{}'.format(num, k):orig_attrs[k]})
+            
+            # try:
+            fid = h5py.File(_os.path.join(save_path, save_filename), 'a')
+            fid.require_group(save_grp)
+            fid.create_dataset(save_dataset_name, shape=self.data.mosaic_shape(),
+                               dtype=self.data.dtype, chunks=True)
+            self.data.mosaicfull(out=fid[save_dataset_name])
+            lazy5.alter.write_attr_dict(fid[save_dataset_name], new_attrs)
+            fid.close()
+            # except:
+            #     print('Something went wrong saving...')
+            # else:
+            #     print('Save succeeded with no errors.')
 
 if __name__ == '__main__':
     app = _QApplication(_sys.argv)
