@@ -84,6 +84,7 @@ from crikit.ui.dialog_ploteffect import \
 from crikit.ui.dialog_save import DialogSave
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
 from crikit.ui.qt_CRIkit import Ui_MainWindow
+from crikit.ui.main_Mosaic import MainWindowMosaic
 
 from crikit.ui.utils.roi import roimask as _roimask
 from crikit.ui.widget_Calibrate import widgetCalibrate as _widgetCalibrate
@@ -295,6 +296,8 @@ class CRIkitUI_process(_QMainWindow):
 
         self.ui.actionMergeNRBs.triggered.connect(self.mergeNRBs)
 
+        self.ui.actionCreateMosaic.triggered.connect(self.mosaicTool)
+
         # Settings
         self.ui.actionSettings.triggered.connect(self.settings)
 
@@ -479,6 +482,10 @@ class CRIkitUI_process(_QMainWindow):
             except:
                 print('Error in input data')
                 self.hsi = Hsi()
+
+    def mosaicTool(self):
+        win = MainWindowMosaic(parent=self)
+        win.show()
 
     def updateHistory(self):
         self.ui.tableWidgetHistory.clearContents()

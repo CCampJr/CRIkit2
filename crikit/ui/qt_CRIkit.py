@@ -501,9 +501,16 @@ class Ui_MainWindow(object):
         self.actionEstCalibration = QtWidgets.QAction(MainWindow)
         self.actionEstCalibration.setEnabled(False)
         self.actionEstCalibration.setObjectName("actionEstCalibration")
+        self.actionCreateMosaic = QtWidgets.QAction(MainWindow)
+        icon27 = QtGui.QIcon()
+        icon27.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/grid-three-up-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.actionCreateMosaic.setIcon(icon27)
+        self.actionCreateMosaic.setObjectName("actionCreateMosaic")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionCreateMosaic)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSettings)
         self.menuPiece_wise_NRB.addAction(self.actionMergeNRBs)
@@ -707,5 +714,6 @@ class Ui_MainWindow(object):
         self.actionShowPreviewROI.setText(_translate("MainWindow", "Show Preview ROI(s)"))
         self.actionShowPreviewROILegend.setText(_translate("MainWindow", "Show Preview ROI Legend"))
         self.actionEstCalibration.setText(_translate("MainWindow", "Estimate Calibration"))
+        self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
 
 from . import icons_all_rc

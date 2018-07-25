@@ -16,7 +16,7 @@ def special_nist_bcars2():
     rosetta = {}
 
     rosetta['XPixelSize'] = ['RasterScanParams.FastAxisStepSize', 
-                             'Raster.Fast.StepSize']
+                             'Raster.Fast.StepSize','!',1]
     rosetta['XStart'] = ['RasterScanParams.FastAxisStart', 'Raster.Fast.Start']
     rosetta['XStop'] = ['RasterScanParams.FastAxisStop', 'Raster.Fast.Stop']
     rosetta['XLength'] = ['RasterScanParams.FastAxisSteps', 'Raster.Fast.Steps']
@@ -24,7 +24,7 @@ def special_nist_bcars2():
     rosetta['XUnits'] = ['RasterScanParams.FastAxisUnits','!','$\\mu$m']
 
     rosetta['YPixelSize'] = ['RasterScanParams.SlowAxisStepSize', 
-                            'Raster.Slow.StepSize']
+                            'Raster.Slow.StepSize','!',1]
     rosetta['YStart'] = ['RasterScanParams.SlowAxisStart', 'Raster.Slow.Start']
     rosetta['YStop'] = ['RasterScanParams.SlowAxisStop', 'Raster.Slow.Stop']
     rosetta['YLength'] = ['RasterScanParams.SlowAxisSteps', 'Raster.Slow.Steps']

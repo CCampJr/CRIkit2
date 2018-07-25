@@ -115,11 +115,29 @@ def meta_process(rosetta, output_cls_instance):
     if type(output_cls_instance) == _Hsi:
         print('Type Hsi')
         try:
-            start = rosetta_query('XStart',rosetta, output_cls_instance)[0]
-            stop = rosetta_query('XStop',rosetta, output_cls_instance)[0]
-            steps = rosetta_query('XLength',rosetta, output_cls_instance)[0]
-            units = rosetta_query('XUnits',rosetta, output_cls_instance)[0]
-            label = rosetta_query('XLabel',rosetta, output_cls_instance)[0]
+            units = rosetta_query('XUnits',rosetta, output_cls_instance)
+            label = rosetta_query('XLabel',rosetta, output_cls_instance)
+            if units is not None:
+                units = units[0]
+            if label is not None:
+                label = label[0]
+
+            start = rosetta_query('XStart',rosetta, output_cls_instance)
+            stop = rosetta_query('XStop',rosetta, output_cls_instance)
+            steps = rosetta_query('XLength',rosetta, output_cls_instance)
+            if (start is not None) & (stop is not None) & (steps is not None):
+                start = start[0]
+                stop = stop[0]
+                steps = steps[0]
+            else:
+                temp = output_cls_instance.shape
+                start = 0
+                stop = temp[1] - 1
+                steps = temp[1]
+                units = 'pix'
+                label = 'X'
+
+            
 
             # HDF files store strings in np.bytes format
             if isinstance(units, bytes):
@@ -134,11 +152,27 @@ def meta_process(rosetta, output_cls_instance):
 
             del start, stop, steps, units, label
 
-            start = rosetta_query('YStart',rosetta, output_cls_instance)[0]
-            stop = rosetta_query('YStop',rosetta, output_cls_instance)[0]
-            steps = rosetta_query('YLength',rosetta, output_cls_instance)[0]
-            units = rosetta_query('YUnits',rosetta, output_cls_instance)[0]
-            label = rosetta_query('YLabel',rosetta, output_cls_instance)[0]
+            units = rosetta_query('YUnits',rosetta, output_cls_instance)
+            label = rosetta_query('YLabel',rosetta, output_cls_instance)
+            if units is not None:
+                units = units[0]
+            if label is not None:
+                label = label[0]
+
+            start = rosetta_query('YStart',rosetta, output_cls_instance)
+            stop = rosetta_query('YStop',rosetta, output_cls_instance)
+            steps = rosetta_query('YLength',rosetta, output_cls_instance)
+            if (start is not None) & (stop is not None) & (steps is not None):
+                start = start[0]
+                stop = stop[0]
+                steps = steps[0]
+            else:
+                temp = output_cls_instance.shape
+                start = 0
+                stop = temp[0] - 1
+                steps = temp[0]
+                units = 'pix'
+                label = 'Y'
 
             # HDF files store strings in np.bytes format
             if isinstance(units, bytes):
