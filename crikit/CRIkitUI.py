@@ -2332,6 +2332,17 @@ class CRIkitUI_process(_QMainWindow):
                 if out == _QMessageBox.Ok:
                     sub_dark.transform(self.hsi.data)
 
+                    # Backup for Undo
+                    self.bcpre.add_step(['SubDark'])
+                    self.updateHistory()
+                    if self.ui.actionUndo_Backup_Enabled.isChecked():
+                        try:
+                            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+                        except:
+                            print('Error in pickle backup (Undo functionality)')
+                        else:
+                            self.bcpre.backed_up()
+
                 if nrbloaded:
                     msg = _QMessageBox(self)
                     msg.setIcon(_QMessageBox.Question)
@@ -2367,19 +2378,6 @@ class CRIkitUI_process(_QMainWindow):
 
                     if out == _QMessageBox.Ok:
                         sub_dark.transform(self.nrb_right.data)
-
-
-                # Backup for Undo
-                if darkloaded or nrbloaded:
-                    self.bcpre.add_step(['SubDark'])
-                    self.updateHistory()
-                    if self.ui.actionUndo_Backup_Enabled.isChecked():
-                        try:
-                            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                        except:
-                            print('Error in pickle backup (Undo functionality)')
-                        else:
-                            self.bcpre.backed_up()
 
                 self.changeSlider()
             else:
