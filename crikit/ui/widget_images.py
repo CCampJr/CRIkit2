@@ -441,7 +441,7 @@ class widgetSglColor(widgetBWImg):
 
         self.colormode.ui.comboBoxFGColor.currentIndexChanged.connect(self.changeColor)
         self.colormode.ui.comboBoxBGColor.currentIndexChanged.connect(self.changeColor)
-        self.math.ui.spinBoxGain.valueChanged.connect(self.applyGain)
+        self.math.ui.spinBoxGain.editingFinished.connect(self.applyGain)
         self.math.ui.pushButtonGain1.pressed.connect(self.gain1)
         self.math.ui.checkBoxDisable.stateChanged.connect(self.disabled)
 
