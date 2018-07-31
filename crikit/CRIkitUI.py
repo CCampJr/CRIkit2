@@ -259,7 +259,7 @@ class CRIkitUI_process(_QMainWindow):
             rgb_img.math.ui.pushButtonBasicMath.pressed.connect(self.doMath)
             rgb_img.ui.spinBoxMax.editingFinished.connect(self.doComposite)
             rgb_img.ui.spinBoxMin.editingFinished.connect(self.doComposite)
-            rgb_img.math.ui.spinBoxGain.valueChanged.connect(self.doComposite)
+            rgb_img.math.ui.spinBoxGain.editingFinished.connect(self.doComposite)
 
 
         self.img_Composite = widgetCompositeColor(self.img_RGB_list,
