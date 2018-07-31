@@ -1112,7 +1112,10 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Load NRB (HDF; Left-Side)</string>
+    <string>Load NRB (HDF; Left)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (HDF; Left)</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Right_Side">
@@ -1121,7 +1124,10 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Load NRB (HDF; Right-Side)</string>
+    <string>Load NRB (HDF; Right)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (HDF; Right)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Left_Side">
@@ -1130,7 +1136,10 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
    </property>
    <property name="text">
-    <string>NRB from ROI (Left-Side)</string>
+    <string>NRB from ROI (Left)</string>
+   </property>
+   <property name="toolTip">
+    <string>NRB from ROI (Left)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Right_Side">
@@ -1139,7 +1148,10 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
    </property>
    <property name="text">
-    <string>NRB from ROI (Right-Side)</string>
+    <string>NRB from ROI (Right)</string>
+   </property>
+   <property name="toolTip">
+    <string>NRB from ROI (Right)</string>
    </property>
   </action>
   <action name="actionMergeNRBs">
@@ -1295,7 +1307,7 @@ This will be saved to the processed file.</string>
      <normaloff>:/icons/open-iconic-master/png/compass-4x.png</normaloff>:/icons/open-iconic-master/png/compass-4x.png</iconset>
    </property>
    <property name="text">
-    <string>Estimate Calibration</string>
+    <string>Est. Calibration</string>
    </property>
   </action>
   <action name="actionCreateMosaic">
