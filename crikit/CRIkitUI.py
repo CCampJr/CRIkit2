@@ -534,22 +534,24 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.toolBar.addAction(self.ui.actionUndo)
 
             self.ui.toolBar.addSeparator()
+            # self.ui.toolBar.addActions([self.ui.actionLoadDark,
+            #                             self.ui.actionLoadNRB])
             self.ui.toolBar.addActions([self.ui.actionLoadDark,
-                                        self.ui.actionLoadNRB])
+                                        self.ui.actionLoad_NRB_Right_Side])
 
             self.ui.toolBar.addSeparator()
             self.ui.toolBar.addActions([self.ui.actionDarkSubtract,
-                                        self.ui.actionResidualSubtract,
+                                        self.ui.actionEstCalibration,
                                         self.ui.actionFreqWindow,
                                         self.ui.actionAnscombe,
                                         self.ui.actionDeNoise,
                                         self.ui.actionInverseAnscombe,
+                                        self.ui.actionNRB_from_ROI_Left_Side,
+                                        self.ui.actionMergeNRBs,
                                         self.ui.actionKramersKronig,
                                         self.ui.actionPhaseErrorCorrection,
                                         self.ui.actionScaleErrorCorrection,
-                                        self.ui.actionSubtractROI,
-                                        self.ui.actionCalibrate,
-                                        self.ui.actionAmpErrorCorrection])
+                                        self.ui.actionCalibrate])
 
         elif sndr == self.ui.actionToolBarNIST1:
             self.ui.actionToolBarNIST2.setChecked(True)

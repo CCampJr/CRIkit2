@@ -1107,21 +1107,37 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Left_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
    <property name="text">
     <string>Load NRB (HDF; Left-Side)</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Right_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
    <property name="text">
     <string>Load NRB (HDF; Right-Side)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Left_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
+   </property>
    <property name="text">
     <string>NRB from ROI (Left-Side)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Right_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
+   </property>
    <property name="text">
     <string>NRB from ROI (Right-Side)</string>
    </property>
@@ -1129,6 +1145,10 @@ This will be saved to the processed file.</string>
   <action name="actionMergeNRBs">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/wrench-4x.png</normaloff>:/icons/open-iconic-master/png/wrench-4x.png</iconset>
    </property>
    <property name="text">
     <string>Merge NRBs</string>
@@ -1269,6 +1289,10 @@ This will be saved to the processed file.</string>
   <action name="actionEstCalibration">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/compass-4x.png</normaloff>:/icons/open-iconic-master/png/compass-4x.png</iconset>
    </property>
    <property name="text">
     <string>Estimate Calibration</string>
