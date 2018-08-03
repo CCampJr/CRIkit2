@@ -516,6 +516,10 @@ class Ui_MainWindow(object):
         icon29.addPixmap(QtGui.QPixmap(":/icons/open-iconic-master/png/grid-three-up-4x.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.actionCreateMosaic.setIcon(icon29)
         self.actionCreateMosaic.setObjectName("actionCreateMosaic")
+        self.actionUseImagData = QtWidgets.QAction(MainWindow)
+        self.actionUseImagData.setCheckable(True)
+        self.actionUseImagData.setChecked(True)
+        self.actionUseImagData.setObjectName("actionUseImagData")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -593,6 +597,7 @@ class Ui_MainWindow(object):
         self.menuView.addAction(self.actionRightSideNRBSpect)
         self.menuSettings.addAction(self.actionUndo_Backup_Enabled)
         self.menuSettings.addAction(self.actionUsePreviewROI)
+        self.menuSettings.addAction(self.actionUseImagData)
         self.menuHelp.addAction(self.actionHelpManual)
         self.menuHelp.addSeparator()
         self.menuHelp.addAction(self.actionRamanPhantom)
@@ -729,5 +734,6 @@ class Ui_MainWindow(object):
         self.actionShowPreviewROILegend.setText(_translate("MainWindow", "Show Preview ROI Legend"))
         self.actionEstCalibration.setText(_translate("MainWindow", "Est. Calibration"))
         self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
+        self.actionUseImagData.setText(_translate("MainWindow", "Use Imaginary if Exists"))
 
 from . import icons_all_rc

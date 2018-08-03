@@ -539,6 +539,7 @@ This will be saved to the processed file.</string>
     </property>
     <addaction name="actionUndo_Backup_Enabled"/>
     <addaction name="actionUsePreviewROI"/>
+    <addaction name="actionUseImagData"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1318,6 +1319,17 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Create Mosaic</string>
+   </property>
+  </action>
+  <action name="actionUseImagData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use Imaginary if Exists</string>
    </property>
   </action>
  </widget>
