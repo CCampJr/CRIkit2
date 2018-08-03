@@ -154,25 +154,6 @@ class Spectrum:
                 nd_ax = self._mean_axes(value.ndim, axis=self.config['nd_axis'])
                 self._data = self.config['nd_fcn'](value, axis=nd_ax)
 
-    @property
-    def data_imag_over_real(self):
-        if _np.iscomplexobj(self._data):
-            if isinstance(self._data, _np.ndarray):
-                return self._data.imag
-            else:
-                return _np.imag(self._data)
-        else:
-            return self._data
-
-    @property
-    def data_real_over_imag(self):
-        if _np.iscomplexobj(self._data):
-            if isinstance(self._data, _np.ndarray):
-                return self._data.real
-            else:
-                return _np.real(self._data)
-        else:
-            return self._data
 
     @property
     def freq(self):
@@ -407,12 +388,5 @@ if __name__ == '__main__':  # pragma: no cover
 
     tmr = _timeit.default_timer()
     sp.data[200:500]
-    tmr -= _timeit.default_timer()
-    print(-tmr)
-
-    tmr = _timeit.default_timer()
-    locs = _np.arange(sp.freq.get_index_of_closest_freq(500),
-                     sp.freq.get_index_of_closest_freq(600))
-    sp.data_imag_over_real[locs]
     tmr -= _timeit.default_timer()
     print(-tmr)

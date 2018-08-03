@@ -54,12 +54,6 @@ class Hsi(_Spectrum):
 
     Attributes
     ----------
-    data_imag_over_real : ndarray (3D)
-        If data is complex, return the imaginary portion
-
-    data_real_over_imag : ndarray (3D)
-        If data is complex, return the real portion
-
     shape : tuple, read-only
         Shape of data
 
