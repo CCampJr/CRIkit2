@@ -5,6 +5,8 @@ Created on Thu May 26 13:16:12 2016
 """
 import os as _os
 
+import lazy5 
+
 from crikit.io.meta_configs import (special_nist_bcars2 as _snb,
                                     special_nist_bcars1_sample_scan as _snb1ss)
 from crikit.io.meta_process import meta_process as _meta_process
@@ -31,6 +33,29 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
         return False
     _meta_process(_snb(), output_cls_instance)
     return True
+
+def import_hdf_nist_special_ooc(pth, filename, dset, output_cls_instance):
+    """
+    Import data from HDF File (OUT-OF-CORE) as specified by NIST-specific settings
+
+    Returns
+    -------
+    Success : bool
+        Whether import was successful
+    """
+    
+    print('\n')
+
+    try:
+        fid = lazy5.utils.FidOrFile(lazy5.utils.fullpath(filename, pth=pth)).fid
+        output_cls_instance._data = fid[dset]
+        output_cls_instance.meta = lazy5.inspect.get_attrs_dset(fid, dset)
+        _meta_process(_snb(), output_cls_instance)
+    except:
+        raise ValueError('hdf_import_data failed')
+        return False
+    else:
+        return fid    
         
 def import_csv_nist_special1(pth, filename_header, filename_data,
                              output_cls_instance):
