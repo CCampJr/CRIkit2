@@ -776,12 +776,14 @@ class CRIkitUI_process(_QMainWindow):
         # Backup for Undo
         self.bcpre.add_step(['Raw'])
         self.updateHistory()
-        try:
-            _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-        except:
-            print('Error in pickle backup (Undo functionality)')
-        else:
-            self.bcpre.backed_up()
+        
+        if self.ui.actionUndo_Backup_Enabled.isChecked():
+            try:
+                _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
+            except:
+                print('Error in pickle backup (Undo functionality)')
+            else:
+                self.bcpre.backed_up()
 
 
         # Set frequency slider and associated displays
