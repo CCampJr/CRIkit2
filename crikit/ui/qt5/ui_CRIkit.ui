@@ -407,6 +407,8 @@ This will be saved to the processed file.</string>
     <addaction name="actionOpenDLMNIST"/>
     <addaction name="actionSave"/>
     <addaction name="separator"/>
+    <addaction name="actionOpenHDFNISTOOC"/>
+    <addaction name="separator"/>
     <addaction name="actionCreateMosaic"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
@@ -1330,6 +1332,11 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Use Imaginary if Exists</string>
+   </property>
+  </action>
+  <action name="actionOpenHDFNISTOOC">
+   <property name="text">
+    <string>Open HDF OOC (NIST)</string>
    </property>
   </action>
  </widget>

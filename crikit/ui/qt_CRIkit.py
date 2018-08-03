@@ -520,9 +520,13 @@ class Ui_MainWindow(object):
         self.actionUseImagData.setCheckable(True)
         self.actionUseImagData.setChecked(True)
         self.actionUseImagData.setObjectName("actionUseImagData")
+        self.actionOpenHDFNISTOOC = QtWidgets.QAction(MainWindow)
+        self.actionOpenHDFNISTOOC.setObjectName("actionOpenHDFNISTOOC")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionOpenHDFNISTOOC)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionCreateMosaic)
         self.menuFile.addSeparator()
@@ -735,5 +739,6 @@ class Ui_MainWindow(object):
         self.actionEstCalibration.setText(_translate("MainWindow", "Est. Calibration"))
         self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
         self.actionUseImagData.setText(_translate("MainWindow", "Use Imaginary if Exists"))
+        self.actionOpenHDFNISTOOC.setText(_translate("MainWindow", "Open HDF OOC (NIST)"))
 
 from . import icons_all_rc
