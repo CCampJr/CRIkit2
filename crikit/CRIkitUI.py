@@ -34,6 +34,7 @@ import webbrowser as _webbrowser
 
 import matplotlib as _mpl
 import numpy as _np
+import h5py as _h5py
 
 import PyQt5.QtCore as _QtCore
 
@@ -64,6 +65,10 @@ from crikit.datasets.model import Model as _Model
 
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
 from crikit.io.macros import import_hdf_nist_special as io_nist
+from crikit.io.macros import import_hdf_nist_special_ooc as io_nist_ooc
+
+# from crikit.io.meta_configs import special_nist_bcars2 as _snb2
+# from crikit.io.meta_process import meta_process as _meta_process
 
 import crikit.measurement.peakamps as _peakamps
 
@@ -169,6 +174,7 @@ class CRIkitUI_process(_QMainWindow):
         self.filename = kwargs.get('filename')
         self.path = kwargs.get('path')
         self.dataset_name = kwargs.get('dataset_name')
+        self.fid = None
 
         self.hsi = kwargs.get('hsi')
         if not isinstance(self.hsi, Hsi):
@@ -278,6 +284,8 @@ class CRIkitUI_process(_QMainWindow):
 
         # Load Data
         self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
+        self.ui.actionOpenHDFNISTOOC.triggered.connect(self.fileOpenHDFNISTOOC)
+
         self.ui.actionLoadNRB.triggered.connect(self.loadNRB)
         self.ui.actionLoadDark.triggered.connect(self.loadDark)
 
@@ -384,6 +392,9 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.lineEditPix.editingFinished.connect(self.lineEditPixChanged)
         self.ui.lineEditPix.setVisible(False)
         self.ui.labelFreqPixel.setVisible(False)
+
+        # Settings
+        self.ui.actionUseImagData.triggered.connect(self.changeSlider)
 
         # Help
         if help_index is not None:
@@ -645,6 +656,15 @@ class CRIkitUI_process(_QMainWindow):
         else:
             print('Did not delete pickle file cut list... Something went wrong')
 
+        if self.fid:
+            print('Closing HDF File')
+            try:
+                self.fid.close()
+            except:
+                print('Something failed in closing the file')
+            else:
+                print('Successfully closed HDF File')
+
     def fileOpenHDFNIST(self, *args, dialog=True):
         """
         Open and load HDF5 File
@@ -682,6 +702,42 @@ class CRIkitUI_process(_QMainWindow):
                               self.hsi)
             self.fileOpenSuccess(success)
 
+    def fileOpenHDFNISTOOC(self, *args):
+        """
+        Open and load HDF5 File OUT-OF-CORE
+
+        dialog : bool
+            Present a gui for file and dataset selection
+        """
+
+        # Get data and load into CRI_HSI class
+        # This will need to change to accomodate multiple-file selection
+
+        try:
+            if (self.filename is not None) & (self.path is not None):
+                to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+            else:
+                to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+
+            print('to_open: {}'.format(to_open))
+            if to_open is not None:
+                self.path, self.filename, self.dataset_name = to_open
+                self.dataset_name = self.dataset_name[0]
+        except:
+            print('Could not open file. Corrupt or not appropriate file format.')
+        else:
+            if to_open is not None:
+                self.hsi = Hsi()
+                success_fid = io_nist_ooc(self.path, self.filename, self.dataset_name,
+                                   self.hsi)
+                if success_fid:
+                    self.fid = success_fid
+                    print('HSI shape: {}'.format(self.hsi.shape))
+                    self.ui.actionUndo_Backup_Enabled.setChecked(False)
+                    self.ui.actionUndo_Backup_Enabled.setEnabled(False)
+
+                    self.fileOpenSuccess(True)
+
     def fileOpenDLMNIST(self):
         """
         Open and load DLM File
@@ -716,7 +772,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         if success:
             # * If HSI is integer dtype, convert to float
-            if self.hsi.data.dtype.kind == 'i':
+            if (self.hsi.data.dtype.kind == 'i') & isinstance(self.hsi.data, _np.ndarray):
                 print('Converting HSI from int to float')
                 self.hsi.data = 1.0*self.hsi.data
 
@@ -776,7 +832,7 @@ class CRIkitUI_process(_QMainWindow):
         # Backup for Undo
         self.bcpre.add_step(['Raw'])
         self.updateHistory()
-        
+
         if self.ui.actionUndo_Backup_Enabled.isChecked():
             try:
                 _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
@@ -795,10 +851,18 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.lineEditFreq.setText(str(round(self.hsi.f[0], 2)))
         # Set BW Class Data
         self.img_BW.initData()
-        self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos]
 
-        val_extrema = _np.max([_np.abs(self.hsi.data_imag_over_real.max()),
-                                _np.abs(self.hsi.data_imag_over_real.min())])
+        if _np.iscomplexobj(self.hsi.data):
+            if self.ui.actionUseImagData.isChecked():
+                self.img_BW.data.grayscaleimage = _np.imag(self.hsi.data[:, :, pos])
+                val_extrema = _np.max(_np.abs(self.img_BW.data.grayscaleimage))
+            else:
+                self.img_BW.data.grayscaleimage = _np.real(self.hsi.data[:, :, pos])
+                val_extrema = _np.max(_np.abs(self.img_BW.data.grayscaleimage))
+        else:
+            self.img_BW.data.grayscaleimage = self.hsi.data[:, :, pos]
+            val_extrema = _np.max(_np.abs(self.img_BW.data.grayscaleimage))
+        
         self.img_BW.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
         self.img_BW.ui.spinBoxMin.setMaximum(1.1*val_extrema)
         self.img_BW.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
@@ -1470,7 +1534,7 @@ class CRIkitUI_process(_QMainWindow):
             if mask_hits > 1:
                 spectrum = _np.mean(spectra, axis=0)
             else:
-                spectrum = spectra
+                spectrum = _np.squeeze(spectra)
             spectrum = spectrum.astype(self.hsi.data.dtype)
             self.hsi.data -= spectrum[..., :]
             self.changeSlider()
@@ -1549,12 +1613,21 @@ class CRIkitUI_process(_QMainWindow):
 
         mask_hits = _np.sum(mask)
         if mask_hits > 0:  # Len(mask) > 0
-            spectra = self.hsi.data_imag_over_real[mask == 1]
+            if isinstance(self.hsi.data, _h5py.Dataset):
+                spectra = self.hsi.data[_np.repeat(mask[...,None], 
+                                                   self.hsi.data.shape[-1], axis=-1) == 1]
+            else:
+                spectra = self.hsi.data[mask == 1]
+
+            if _np.iscomplexobj(spectra) & self.ui.actionUseImagData.isChecked():
+                spectra = spectra.imag
+            else:
+                spectra = spectra.real
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra, axis=0)
             else:
-                spectrum = spectra
+                spectrum = _np.squeeze(spectra)
 
             spectrum = spectrum.astype(self.hsi.data.dtype)
             if sender == 'actionNRB_from_ROI':
@@ -1665,9 +1738,14 @@ class CRIkitUI_process(_QMainWindow):
         meta = {'x': x_loc, 'y': y_loc, 'x_pix': x_pix, 'y_pix': y_pix,
                 'overlay': True}
 
-        self.plotter.plot(self.hsi.f,
-                          self.hsi.data_imag_over_real[y_pix, x_pix, rng],
-                          label=label, meta=meta)
+        if _np.iscomplexobj(self.hsi.data) & self.ui.actionUseImagData.isChecked():
+            self.plotter.plot(self.hsi.f,
+                              self.hsi.data[y_pix, x_pix, rng].imag,
+                              label=label, meta=meta)
+        else:
+            self.plotter.plot(self.hsi.f,
+                              self.hsi.data[y_pix, x_pix, rng].real,
+                              label=label, meta=meta)
 
 
         self.plotter.show()
@@ -1692,13 +1770,31 @@ class CRIkitUI_process(_QMainWindow):
         if mask_hits > 0:  # Len(mask) > 0
             rng = self.hsi.freq.op_range_pix
 
-            spectra = self.hsi.data_imag_over_real[mask == 1]
+            if isinstance(self.hsi.data, _h5py.Dataset):
+
+                # * Can't do fancy boolean indexing with HDF
+                # * Make a square bounding box
+                m,n = _np.where(mask == 1)
+                rmin = m.min()
+                rmax = m.max()+1
+                cmin = n.min()
+                cmax = n.max()+1
+
+                spectra = self.hsi.data[rmin:rmax, cmin:cmax,:][mask[rmin:rmax, cmin:cmax]==1]
+
+            else:
+                spectra = self.hsi.data[mask == 1]
+
+            if _np.iscomplexobj(spectra) & self.ui.actionUseImagData.isChecked():
+                spectra = spectra.imag
+            else:
+                spectra = spectra.real
 
             if mask_hits > 1:
                 spectrum = _np.mean(spectra[..., rng], axis=0)
                 stddev = _np.std(spectra[..., rng], axis=0)
             else:
-                spectrum = spectra[..., rng]
+                spectrum = _np.squeeze(spectra[..., rng])
 
             plot_num = self.plotter.n_lines
 
@@ -2610,35 +2706,42 @@ class CRIkitUI_process(_QMainWindow):
             Mask = 1
         else:
             if (operation_text == '') or (operation_text == ' '):  # Return just a plane
-                Mask = _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeak.measure(self.hsi.data,
                                                      condloc1)
 
 
             elif operation_text == '+':  # Addition
-                Mask = _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakAdd.measure(self.hsi.data,
                                                         condloc1, condloc2)
 
             elif operation_text == '-':  # Subtraction
-                Mask = _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakMinus.measure(self.hsi.data,
                                                           condloc1, condloc2)
 
             elif operation_text == '*':  # Multiplication
-                Mask = _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakMultiply.measure(self.hsi.data,
                                                              condloc1, condloc2)
 
             elif operation_text == '/':  # Division
-                Mask = _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakDivide.measure(self.hsi.data,
                                                            condloc1, condloc2)
 
             elif operation_text == 'SUM':  # Summation over range
-                Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data,
                                                               condloc1, condloc2)
 
             elif operation_text == 'Peak b/w troughs':  # Peak between troughs
-                Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
+                Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data,
                                                               condloc1, condloc2, condloc3)
             else:
                 pass
+
+            if Mask:
+                if _np.iscomplexobj(self.hsi.data) & self.ui.actionUseImagData.isChecked():
+                    Mask = Mask.imag
+                else:
+                    Mask = Mask.real
+
 
         if cond_set is True:
             inequality_text = self.img_RGB_list[rgbnum].math.ui.comboBoxCondInEquality.currentText()
@@ -2703,50 +2806,58 @@ class CRIkitUI_process(_QMainWindow):
         if freq_set == True:
             if (operation_text == '') or (operation_text == ' '):  # Return just a plane
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeak.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeak.measure(self.hsi.data,
                                                   oploc1)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == '+':  # Addition
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakAdd.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakAdd.measure(self.hsi.data,
                                                      oploc1, oploc2)
 
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == '-':  # Subtraction
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakMinus.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakMinus.measure(self.hsi.data,
                                                        oploc1, oploc2)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == '*':  # Multiplication
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakMultiply.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakMultiply.measure(self.hsi.data,
                                                           oploc1, oploc2)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == '/':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakDivide.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakDivide.measure(self.hsi.data,
                                                         oploc1, oploc2)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == 'SUM':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakSummation.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakSummation.measure(self.hsi.data,
                                                            oploc1, oploc2)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
             elif operation_text == 'Peak b/w troughs':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
-                    _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data_imag_over_real,
+                    _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data,
                                                            oploc1, oploc2,
-                                                           oploc3)
-                self.img_RGB_list[rgbnum].changeColor()
-                #self.updateImgColorMinMax()
+                                                           oploc3)                
             else:
                 pass
+
+            if (_np.iscomplexobj(self.img_RGB_list[rgbnum].data.grayscaleimage) & 
+                self.ui.actionUseImagData.isChecked()):
+
+                self.img_RGB_list[rgbnum].data.grayscaleimage = self.img_RGB_list[rgbnum].data.grayscaleimage.imag
+            else:
+                self.img_RGB_list[rgbnum].data.grayscaleimage = self.img_RGB_list[rgbnum].data.grayscaleimage.real
+            
+            
+            minner = self.img_RGB_list[rgbnum].data.grayscaleimage.min()
+            minner = _np.sign(minner)*(1.1*_np.abs(minner))
+
+            maxer = self.img_RGB_list[rgbnum].data.grayscaleimage.max()
+            maxer = _np.sign(maxer)*(1.1*_np.abs(maxer))
+
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMin.setMinimum(minner)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMin.setMaximum(maxer)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMax.setMinimum(minner)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMax.setMaximum(maxer)
+
+            self.img_RGB_list[rgbnum].changeColor()
+
         else:
             pass
         self.doComposite()
@@ -2763,6 +2874,18 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].data.opfreq1 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq1.setText(str(round(currentfreq, 1)))
             self.img_RGB_list[rgbnum].data.grayscaleimage = self.img_BW.data.grayscaleimage
+
+            minner = self.img_RGB_list[rgbnum].data.grayscaleimage.min()
+            minner = _np.sign(minner)*(1.1*_np.abs(minner))
+
+            maxer = self.img_RGB_list[rgbnum].data.grayscaleimage.max()
+            maxer = _np.sign(maxer)*(1.1*_np.abs(maxer))
+
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMin.setMinimum(minner)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMin.setMaximum(maxer)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMax.setMinimum(minner)
+            self.img_RGB_list[rgbnum].gsinfo.ui.spinBoxMax.setMaximum(maxer)
+            
             self.img_RGB_list[rgbnum].changeColor()
 
             self.img_RGB_list[rgbnum].mpl.draw()
@@ -2873,32 +2996,51 @@ class CRIkitUI_process(_QMainWindow):
             mloc, nloc = _np.where(Mask)
 
 
-            if mask_hits > 1:
-                mean_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].mean(axis=0)
-                std_spect = self.hsi.data_imag_over_real[mloc, nloc, :][:, self.hsi.freq.op_range_pix].std(axis=0)
-                self.plotter.plot(self.hsi.f, mean_spect, label='Mean spectrum ({})'.format(mask_hits))
-            elif mask_hits == 1:
-                mean_spect = _np.squeeze(self.hsi.data_imag_over_real[mloc,nloc,:])[self.hsi.freq.op_range_pix]
+            if mask_hits > 0:
+                rng = self.hsi.freq.op_range_pix
 
-                std_spect = 0
-                # Plot spectrum
+                if isinstance(self.hsi.data, _h5py.Dataset):
 
-                self.plotter.plot(self.hsi.f, mean_spect, label='Spectrum ({})'.format(mask_hits))
+                    # * Can't do fancy boolean indexing with HDF
+                    # * Make a square bounding box
 
+                    rmin = mloc.min()
+                    rmax = mloc.max()+1
+                    cmin = nloc.min()
+                    cmax = nloc.max()+1
 
-            # Check color of line b/c uses color cycler-- for fill_b/w
-            color = self.plotter.list_all[-1].style_dict['color']
+                    spectra = self.hsi.data[rmin:rmax, cmin:cmax,:][Mask[rmin:rmax, cmin:cmax]==1]
+                    
+                else:
+                    spectra = self.hsi.data[Mask == 1]
+                
+                if _np.iscomplexobj(spectra) & self.ui.actionUseImagData.isChecked():
+                    spectra = spectra.imag
+                else:
+                    spectra = spectra.real
 
-            # Alternative
-            #color = self.plotter.modelLine._model_data[-1]['color']
+                if mask_hits > 1:
+                    spectrum = _np.mean(spectra[..., rng], axis=0)
+                    stddev = _np.std(spectra[..., rng], axis=0)
+                else:
+                    spectrum = _np.squeeze(spectra[..., rng])
+                    stddev = 0
+                    
+                self.plotter.plot(self.hsi.f, spectrum, label='Mean spectrum ({})'.format(mask_hits))
+                
+                # Check color of line b/c uses color cycler-- for fill_b/w
+                color = self.plotter.list_all[-1].style_dict['color']
 
-            # Plot +-1 std. dev.
-            if mask_hits > 1:
-                self.plotter.fill_between(self.hsi.f, mean_spect - std_spect,
-                                          mean_spect + std_spect,
-                                          color=color,
-                                          alpha=0.25,
-                                          label=r'$\pm$1 Std. Dev. ({})'.format(mask_hits))
+                # Alternative
+                #color = self.plotter.modelLine._model_data[-1]['color']
+
+                # Plot +-1 std. dev.
+                if mask_hits > 1:
+                    self.plotter.fill_between(self.hsi.f, spectrum - stddev,
+                                              spectrum + stddev,
+                                              color=color,
+                                              alpha=0.25,
+                                              label=r'$\pm$1 Std. Dev. ({})'.format(mask_hits))
 
 
             self.plotter.show()
@@ -2944,7 +3086,18 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.lineEditFreq.setText(str(round(self.hsi.f[pos],2)))
             # Set BW Class Data
 
-            self.img_BW.data.grayscaleimage = self.hsi.data_imag_over_real[:, :, pos+offset]
+            self.img_BW.data.grayscaleimage = self.hsi.data[:, :, pos+offset]
+            if _np.iscomplexobj(self.img_BW.data.grayscaleimage) & self.ui.actionUseImagData.isChecked():
+                self.img_BW.data.grayscaleimage = self.img_BW.data.grayscaleimage.imag
+            else:
+                self.img_BW.data.grayscaleimage = self.img_BW.data.grayscaleimage.real
+
+            val_extrema = _np.max(_np.abs(self.img_BW.data.grayscaleimage))
+        
+            self.img_BW.ui.spinBoxMin.setMinimum(-1.1*val_extrema)
+            self.img_BW.ui.spinBoxMin.setMaximum(1.1*val_extrema)
+            self.img_BW.ui.spinBoxMax.setMinimum(-1.1*val_extrema)
+            self.img_BW.ui.spinBoxMax.setMaximum(1.1*val_extrema)
 
             xlabel = ''
             if isinstance(self.hsi.x_rep.label, str):
