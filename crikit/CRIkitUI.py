@@ -2736,7 +2736,7 @@ class CRIkitUI_process(_QMainWindow):
             else:
                 pass
 
-            if Mask:
+            if Mask is not None:
                 if _np.iscomplexobj(self.hsi.data) & self.ui.actionUseImagData.isChecked():
                     Mask = Mask.imag
                 else:
