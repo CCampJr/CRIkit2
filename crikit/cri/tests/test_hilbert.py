@@ -16,6 +16,7 @@ def test_pyfftw_hilbert_no_pad():
     y = 2/(2**2 + x**2)
     hilb_y = hilbertfft(y, pad_factor=0, use_pyfftw=True)
     hilb_y_analytical = x/(2**2 + x**2)
+    print(hilb_y.shape)
     assert_array_almost_equal(hilb_y_analytical, hilb_y, decimal=2)
 
 def test_pyfftw_hilbert_pad():
