@@ -39,22 +39,25 @@ def pad(y, pad_width, mode):
     y_pad, window
         Padded array and window. Window defines the region of the original signal
     """
-    shaper = list(y.shape)
-    shaper_out = list(y.shape)
-    shaper_out[-1] += 2*pad_width
-    y_pad = _np.zeros(shaper_out, dtype=y.dtype)
-    window = _np.zeros(shaper_out[-1], dtype=_np.integer)
-    
-    y_pad[...,pad_width:shaper[-1]+pad_width] = 1*y
-    window[pad_width:shaper[-1]+pad_width] = 1
+    if pad_width <= 0:
+        return y, 1 + 0*y
+    else:
+        shaper = list(y.shape)
+        shaper_out = list(y.shape)
+        shaper_out[-1] += 2*pad_width
+        y_pad = _np.zeros(shaper_out, dtype=y.dtype)
+        window = _np.zeros(shaper_out[-1], dtype=_np.integer)
+        
+        y_pad[...,pad_width:shaper[-1]+pad_width] = 1*y
+        window[pad_width:shaper[-1]+pad_width] = 1
 
-    if (mode == 'zeros') | (mode == 'constant') | (mode == 'zero'):
-        pass
-    elif mode == 'edge':
-        y_pad[...,:pad_width] = _np.dot(y[...,0:1], _np.ones((1, pad_width)))
-        y_pad[..., -pad_width:] = _np.dot(y[...,-1:-2:-1], _np.ones((1, pad_width)))
+        if (mode == 'zeros') | (mode == 'constant') | (mode == 'zero'):
+            pass
+        elif mode == 'edge':
+            y_pad[...,:pad_width] = _np.dot(y[...,0:1], _np.ones((1, pad_width)))
+            y_pad[..., -pad_width:] = _np.dot(y[...,-1:-2:-1], _np.ones((1, pad_width)))
 
-    return y_pad, window
+        return y_pad, window
 
 def pad_dual(y, edge_pad_width, constant_pad_width):
     """

@@ -30,6 +30,18 @@ def test_pad_1d():
 
     assert np.allclose(y_pad_constant[..., window_constant==1], y)
 
+def test_pad_1d_0_width():
+    x = np.arange(-1000,1001)
+    y = np.real(1/(-500 - x - 1j*100))
+
+    y_pad_edge, window_edge = pad(y, 0, 'edge')
+    assert np.allclose(y_pad_edge, y)
+    assert np.allclose(y_pad_edge[..., window_edge==1], y)
+
+    y_pad_constant, window_constant = pad(y, 0, 'constant')
+    assert np.allclose(y_pad_constant, y)
+    assert np.allclose(y_pad_constant[..., window_constant==1], y)
+
 def test_pad_2d():
     x = np.arange(-1000,1001)
     y = np.real(1/(-500 - x - 1j*100))
