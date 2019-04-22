@@ -1,11 +1,11 @@
-crikit\.datasets package
-========================
+crikit.datasets package
+=======================
 
 Submodules
 ----------
 
-crikit\.datasets\.model module
-------------------------------
+crikit.datasets.model module
+----------------------------
 
 .. automodule:: crikit.datasets.model
     :members:

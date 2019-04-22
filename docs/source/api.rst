@@ -74,8 +74,6 @@ Functions
 .. autosummary::
     
     io.csv_nist.csv_nist_import_data
-    io.hdf5.hdf_is_valid_dsets
-    io.hdf5.hdf_attr_to_dict
     io.hdf5.hdf_import_data
     io.meta_configs.special_nist_bcars1_sample_scan
     io.meta_configs.special_nist_bcars2

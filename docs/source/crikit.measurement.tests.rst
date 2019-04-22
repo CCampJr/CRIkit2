@@ -1,11 +1,11 @@
-crikit\.measurement\.tests package
-==================================
+crikit.measurement.tests package
+================================
 
 Submodules
 ----------
 
-crikit\.measurement\.tests\.test\_peakfind module
--------------------------------------------------
+crikit.measurement.tests.test\_peakfind module
+----------------------------------------------
 
 .. automodule:: crikit.measurement.tests.test_peakfind
     :members:
