@@ -5,7 +5,7 @@ Setup for CRIkit2
 from setuptools import setup, find_packages
 
 # ! Need to change to rst in the future
-with open('README.md') as f:
+with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='crikit2',
