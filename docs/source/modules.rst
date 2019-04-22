@@ -1,7 +1,16 @@
-crikit
-======
+
+
 
 .. toctree::
    :maxdepth: 4
 
-   crikit
+   
+   cri
+   data
+   datasets
+   io
+   measurement
+   preprocess
+   transform
+   ui
+   utils

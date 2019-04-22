@@ -1,17 +1,54 @@
-.. _io:
+io package
+==========
 
-.. image:: _static/CRIkit2_Logo.png
-    :align: left
+Submodules
+----------
 
-|
-|
-|
-|
-|
-|
-|
+io.csv\_nist module
+-------------------
 
-Input/Output (IO) File Types and Specs
-======================================
+.. automodule:: io.csv_nist
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-Coming Soon
+io.hdf5 module
+--------------
+
+.. automodule:: io.hdf5
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+io.macros module
+----------------
+
+.. automodule:: io.macros
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+io.meta\_configs module
+-----------------------
+
+.. automodule:: io.meta_configs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+io.meta\_process module
+-----------------------
+
+.. automodule:: io.meta_process
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: io
+    :members:
+    :undoc-members:
+    :show-inheritance:
