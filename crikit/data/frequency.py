@@ -87,7 +87,7 @@ class Frequency:
     are items of interest or a large dynamic range across a spectrum.
 
     - For functions, methods, etc. that take into account _list_ \
-    parameters, they should default to op_list_ if plot_list_ are set to \
+    parameters, they should default to op_list_* if plot_list_* are set to \
     None.
 
     """

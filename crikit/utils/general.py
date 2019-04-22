@@ -40,7 +40,7 @@ def pad(y, pad_width, mode):
         Padded array and window. Window defines the region of the original signal
     """
     if pad_width <= 0:
-        return y, 1 + 0*y
+        return y, _np.ones(y.shape[-1])
     else:
         shaper = list(y.shape)
         shaper_out = list(y.shape)

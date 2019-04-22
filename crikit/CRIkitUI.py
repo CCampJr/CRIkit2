@@ -1,6 +1,6 @@
 """
 CRIKit2: Hyperspectral imaging toolkit
-==============================================================
+======================================
 
 CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
 imaging (HSI) platform (user interface, UI).
@@ -3511,7 +3511,7 @@ def crikit_launch(**kwargs):
     Command line launching of CRIkitUI.
 
     Input kwargs (Optional)
-    ------------
+    ------------------------
     hsi : crikit.data.Hsi
         Hsi instance
 

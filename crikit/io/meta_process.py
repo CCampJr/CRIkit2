@@ -34,7 +34,6 @@ def rosetta_query(key, rosetta, output_cls_instance):
                         temp_key = count
                         temp_val = output_cls_instance._meta[temp_key]
                         break
-#                        print('{}:{}'.format(count, temp_val))
                 else:
                     pass
             except:

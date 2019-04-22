@@ -60,8 +60,8 @@ class Spectrum:
 
     Notes
     -----
-    * freq object contains some useful parameters such as op_range_\* and \
-    plot_range_\*, which define spectral regions-of-interest. (It's debatable \
+    * freq object contains some useful parameters such as op_range* and \
+    plot_range*, which define spectral regions-of-interest. (It's debatable \
     as to whether those parameters should be in Frequency or Spectrum classes)
 
     """
