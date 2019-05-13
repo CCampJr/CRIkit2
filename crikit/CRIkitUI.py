@@ -203,7 +203,7 @@ class CRIkitUI_process(_QMainWindow):
 
 
         self.plotter = _SciPlotUI(show=False, parent=self.parent)
-        self._mpl_v2 = self.plotter._mpl_v2
+        self._mpl_v1 = self.plotter._mpl_v1
 
         self.ui = Ui_MainWindow() ### EDIT ###
 
@@ -3127,7 +3127,7 @@ class CRIkitUI_process(_QMainWindow):
             # Set axis to original limits
             self.img_BW.mpl.ax.axis(orig_axis_lims)
 
-            if not self._mpl_v2:
+            if self._mpl_v1:
                 self.img_BW.mpl.ax.hold(True)
 
         except:
