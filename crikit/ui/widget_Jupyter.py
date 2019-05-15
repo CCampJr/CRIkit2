@@ -23,9 +23,14 @@ class QJupyterWidget(RichJupyterWidget):
     """ Convenience class for a live IPython console widget. We can replace the standard banner using the customBanner argument"""
     def __init__(self,customBanner=None,*args,**kwargs):
         super(QJupyterWidget, self).__init__(*args,**kwargs)
-        if customBanner!=None: self.banner=customBanner
+        if customBanner!=None: 
+            self.banner=customBanner
         self.kernel_manager = kernel_manager = QtInProcessKernelManager()
         kernel_manager.start_kernel()
+        def _abort_queues(kernel):
+            # ! See IPython Issue: https://github.com/ipython/ipykernel/issues/370
+            pass
+        kernel_manager.kernel._abort_queues = _abort_queues
         kernel_manager.kernel.gui = 'qt'
         
         self.kernel_client = kernel_client = self._kernel_manager.client()
