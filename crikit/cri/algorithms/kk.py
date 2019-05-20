@@ -18,6 +18,8 @@ References
 import numpy as _np
 from scipy import fftpack as _fftpack
 
+from crikit.utils.general import pad as _pad
+
 __all__ = ['kkrelation', 'hilbertfft']
 
 _DEFAULT_THREADS = 1
@@ -119,7 +121,6 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
         return out
         # return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
 
-
 def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
     """
     Compute the one-dimensional Hilbert Transform.
@@ -158,18 +159,16 @@ def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
 
     freq_len = spectra.shape[-1]
     freq_pad_len = freq_len*(2*pad_factor+1)
-    pad_len = freq_len*(pad_factor)
     time_vec = _np.fft.fftfreq(freq_pad_len)
 
     if pad_factor > 0:
-        pad_left = _np.dot(spectra[..., 0][..., None], _np.ones((1, pad_len)))
-        pad_right = _np.dot(spectra[..., -1][..., None], _np.ones((1, pad_len)))
-        padded = _np.concatenate((pad_left, spectra, pad_right), axis=-1)
+        padded, window = _pad(spectra, pad_factor*spectra.shape[-1], 'edge')
     else:
         padded = spectra
+        window = None
 
     padded = padded.astype(_np.complex)
-
+    
     # Use pyFFTW (supposed optimal) library or Scipy
     # Note (although not obvious with pyFFTW) these functions overwrite
     # the input variable-- saves memory and increases speed
@@ -197,7 +196,10 @@ def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
     padded[_np.isnan(padded)] = 1e-8
     padded[_np.isinf(padded)] = 1e-8
 
-    return _np.real(padded[..., pad_len:pad_len + freq_len])
+    if window is not None:
+        return padded[..., window == 1].real
+    else:
+        return padded.real
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit

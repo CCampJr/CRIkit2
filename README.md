@@ -27,26 +27,17 @@ Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
 * python >= 3.4
-    * Tested with 3.4.4, 3.5.2, 3.6.1
-* SciPlot-PyQt >= 0.1.3 (>=0.1.4 for MPL2)
-    * https://github.com/CCampJr/SciPlot-PyQt/releases
-* numpy (1.9.3)
-    * Tested with 1.11.3+mkl
-* PyQT5 (5.5.* or 5.6.*)
-    * Tested with 5.6, 5.8.1
-* matplotlib (1.5.0rc3, 2.0.0) (see below for MPL2)
-    * Tested with 1.5.2, 2.0.0
-* cvxopt (1.1.7)
-    * Tested with 1.1.7, 1.1.9
-* h5py (2.5)
-    * Tested with 2.6, 2.7
-* Sphinx (1.5.2) (Only for building documentation)
-    * Tested with 1.4.5, 1.6.4
+    * Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2
+* NumPy
+* PyQT5
 
-### IMPORTANT: For Matplotlib 2 ###
-You will need to use SciPlot-PyQT v0.1.4
-* Matplotlib 2 made numerous changes and deprecations that are being resolved
-* See the installation instruction in the README.md file at https://github.com/CCampJr/SciPlot-PyQt
+* CVXOPT
+* LazyHDF5 >= 0.2.1
+    * Requires H5Py (>= 2.6)
+* SciPlot-PyQt >= 0.2.2
+    * https://github.com/CCampJr/SciPlot-PyQt/releases
+    * Requires Matplotlib (v1.*, 2.*, or 3.*)
+* Sphinx (only to build docs locally)
 
 ### IMPORTANT: For Python 3.4 ###
 You will need to manually install PyQt5 and Qt5 or get it through a distribution
@@ -63,9 +54,6 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 * As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.
 * Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
 
-## SciPlot-PyQt ##
-Currently, SciPlot >= 0.1.3 is not available through pip. You can however clone the repository from github.
-(see https://github.com/CCampJr/SciPlot-PyQt)
 
 ## Installation ##
 ### Option 1: Easily updatable through git (dynamic copy)###

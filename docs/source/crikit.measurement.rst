@@ -1,5 +1,5 @@
-crikit\.measurement package
-===========================
+crikit.measurement package
+==========================
 
 Subpackages
 -----------
@@ -11,24 +11,24 @@ Subpackages
 Submodules
 ----------
 
-crikit\.measurement\.fftspatialnoise module
--------------------------------------------
+crikit.measurement.fftspatialnoise module
+-----------------------------------------
 
 .. automodule:: crikit.measurement.fftspatialnoise
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.measurement\.peakamps module
-------------------------------------
+crikit.measurement.peakamps module
+----------------------------------
 
 .. automodule:: crikit.measurement.peakamps
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.measurement\.peakfind module
-------------------------------------
+crikit.measurement.peakfind module
+----------------------------------
 
 .. automodule:: crikit.measurement.peakfind
     :members:

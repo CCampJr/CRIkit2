@@ -1,8 +1,0 @@
-[Core]
-Name = Anscombe SVD
-Module = denoise_Anscombe_SVD
-
-[Documentation]
-Author = Charles H. Camp Jr.
-Version = 16.02.22
-Description = Anscombe-Transformed Singular Value Decomposition

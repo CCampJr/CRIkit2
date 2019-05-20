@@ -217,7 +217,7 @@ class DialogSave(_QDialog):
         suffix : str
             Suffix to append to _dataset_name based on processing steps
             
-        NOTE : save_ parameters supercede current_ parameters
+        NOTE : save* parameters supercede current* parameters
 
         Returns
         ----------

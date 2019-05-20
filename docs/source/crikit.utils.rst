@@ -1,51 +1,43 @@
-crikit\.utils package
-=====================
+crikit.utils package
+====================
 
 Submodules
 ----------
 
-crikit\.utils\.breadcrumb module
---------------------------------
+crikit.utils.breadcrumb module
+------------------------------
 
 .. automodule:: crikit.utils.breadcrumb
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.utils\.datacheck module
--------------------------------
+crikit.utils.datacheck module
+-----------------------------
 
 .. automodule:: crikit.utils.datacheck
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.utils\.general module
------------------------------
+crikit.utils.general module
+---------------------------
 
 .. automodule:: crikit.utils.general
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.utils\.h5 module
-------------------------
-
-.. automodule:: crikit.utils.h5
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-crikit\.utils\.mplstyle module
-------------------------------
+crikit.utils.mplstyle module
+----------------------------
 
 .. automodule:: crikit.utils.mplstyle
     :members:
     :undoc-members:
     :show-inheritance:
 
-crikit\.utils\.roi module
--------------------------
+crikit.utils.roi module
+-----------------------
 
 .. automodule:: crikit.utils.roi
     :members:

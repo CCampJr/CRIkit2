@@ -34,9 +34,9 @@ This walk-thru will take you through several steps:
     - `Loading HDF file Hsi dataset`_
     - `Loading Dark dataset`_
         -`Denoise Dark (Optional)`_
-    - `Loading an NRB dataset`_
-        - From HDF
-        - From an ROI within the **Hsi** dataset
+    - Loading an NRB dataset
+        - `Loading an NRB from HDF file`_
+        - `Load an NRB from a region-of-interest (ROI)`_
 
 The screenshots within this manual may or may not reflect the exact look of the
 version of CRIkit2 UI that you are using.
@@ -337,7 +337,7 @@ the exact NRB; thus, phase-error is extremely small (numerical error).
 For this tutorial:
 
 - **Fixed-P**: 1e-6
-- **Lambda*: 1
+- **Lambda**: 1
 - **Sub-Sampling Factor**: 10
 - **Max Iterations**: 100
 - **Min Difference**: 1e-6
@@ -346,7 +346,7 @@ For this tutorial:
 For typical experiments:
 
 - **Fixed-P**: 1e-4 to 1e-2 (increment by half order-of-magnitude)
-- **Lambda*: 1
+- **Lambda**: 1
 - **Sub-Sampling Factor**: 10
 - **Max Iterations**: 100
 - **Min Difference**: 1e-6

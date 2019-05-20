@@ -33,7 +33,7 @@ class DialogAbstractFactorization(_QDialog):
     """
     def __init__(self, parent=None):
         super(DialogAbstractFactorization, self).__init__(parent=parent)
-
+        self._mpl_v1 = _mpl.__version__.split('.')[0] == 1
 ##    def __init__(self, parent=None):
 #        raise NotImplementedError('This is an abstract class.')
 ##        super(DialogAbstractFactorization, self).__init__(parent=parent) ### EDIT ###
@@ -99,7 +99,8 @@ class DialogAbstractFactorization(_QDialog):
         for count in range(self._num_factor_visible):
             self.factorWins.append(_MplCanvas(subplot=211))
             self.factorWins[count].ax[0].axis('Off')
-            self.factorWins[count].ax[1].hold('Off')
+            if self._mpl_v1:
+                self.factorWins[count].ax[1].hold('Off')
 
         self.ui.gridLayout.addWidget(self.factorWins[0],1,0)
         self.ui.gridLayout.addWidget(self.factorWins[1],1,1)
@@ -111,11 +112,13 @@ class DialogAbstractFactorization(_QDialog):
 
         self.reconCurrent = _MplCanvas(subplot=211)
         self.reconCurrent.ax[0].axis('Off')
-        self.reconCurrent.ax[1].hold('Off')
+        if self._mpl_v1:
+            self.reconCurrent.ax[1].hold('Off')
 
         self.reconRemainder = _MplCanvas(subplot=211)
         self.reconRemainder.ax[0].axis('Off')
-        self.reconRemainder.ax[1].hold('Off')
+        if self._mpl_v1:
+            self.reconRemainder.ax[1].hold('Off')
 
 
         self.ui.verticalLayout_3.insertWidget(1,self.reconCurrent)

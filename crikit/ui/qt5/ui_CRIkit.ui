@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1691</width>
-    <height>905</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="palette">
@@ -152,7 +152,55 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tab_3">
+        <widget class="QWidget" name="tabHistory">
+         <attribute name="title">
+          <string>History</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QTableWidget" name="tableWidgetHistory">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="rowCount">
+             <number>0</number>
+            </property>
+            <property name="columnCount">
+             <number>2</number>
+            </property>
+            <attribute name="horizontalHeaderCascadingSectionResizes">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>200</number>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderCascadingSectionResizes">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderDefaultSectionSize">
+             <number>37</number>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Process Attributes</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Value</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabNotes">
          <attribute name="title">
           <string>Notes</string>
          </attribute>
@@ -347,8 +395,8 @@ This will be saved to the processed file.</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1691</width>
-     <height>22</height>
+     <width>1200</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -358,6 +406,10 @@ This will be saved to the processed file.</string>
     <addaction name="actionOpenHDFNIST"/>
     <addaction name="actionOpenDLMNIST"/>
     <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpenHDFNISTOOC"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreateMosaic"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
@@ -473,6 +525,11 @@ This will be saved to the processed file.</string>
     <addaction name="actionPointSpectrum"/>
     <addaction name="actionROISpectrum"/>
     <addaction name="separator"/>
+    <addaction name="actionSetPreviewROI"/>
+    <addaction name="actionDeletePreviewROI"/>
+    <addaction name="actionShowPreviewROI"/>
+    <addaction name="actionShowPreviewROILegend"/>
+    <addaction name="separator"/>
     <addaction name="actionDarkSpectrum"/>
     <addaction name="actionNRBSpectrum"/>
     <addaction name="actionLeftSideNRBSpect"/>
@@ -483,6 +540,8 @@ This will be saved to the processed file.</string>
      <string>Settings</string>
     </property>
     <addaction name="actionUndo_Backup_Enabled"/>
+    <addaction name="actionUsePreviewROI"/>
+    <addaction name="actionUseImagData"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -493,6 +552,12 @@ This will be saved to the processed file.</string>
     <addaction name="actionRamanPhantom"/>
     <addaction name="actionBCARSPhantom"/>
    </widget>
+   <widget class="QMenu" name="menuNIST_Special">
+    <property name="title">
+     <string>NIST Special</string>
+    </property>
+    <addaction name="actionEstCalibration"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
@@ -500,6 +565,7 @@ This will be saved to the processed file.</string>
    <addaction name="menuPre_Process"/>
    <addaction name="menuAnalysis"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuNIST_Special"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1044,28 +1110,60 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Left_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
    <property name="text">
-    <string>Load NRB (HDF; Left-Side)</string>
+    <string>Load NRB (HDF; Left)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (HDF; Left)</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Right_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
+   </property>
    <property name="text">
-    <string>Load NRB (HDF; Right-Side)</string>
+    <string>Load NRB (HDF; Right)</string>
+   </property>
+   <property name="toolTip">
+    <string>Load NRB (HDF; Right)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Left_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
+   </property>
    <property name="text">
-    <string>NRB from ROI (Left-Side)</string>
+    <string>NRB from ROI (Left)</string>
+   </property>
+   <property name="toolTip">
+    <string>NRB from ROI (Left)</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Right_Side">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
+   </property>
    <property name="text">
-    <string>NRB from ROI (Right-Side)</string>
+    <string>NRB from ROI (Right)</string>
+   </property>
+   <property name="toolTip">
+    <string>NRB from ROI (Right)</string>
    </property>
   </action>
   <action name="actionMergeNRBs">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/wrench-4x.png</normaloff>:/icons/open-iconic-master/png/wrench-4x.png</iconset>
    </property>
    <property name="text">
     <string>Merge NRBs</string>
@@ -1155,6 +1253,90 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>BCARS Numerical Phantom</string>
+   </property>
+  </action>
+  <action name="actionUsePreviewROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionSetPreviewROI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Set Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionDeletePreviewROI">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Delete Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionShowPreviewROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Preview ROI(s)</string>
+   </property>
+  </action>
+  <action name="actionShowPreviewROILegend">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Preview ROI Legend</string>
+   </property>
+  </action>
+  <action name="actionEstCalibration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/compass-4x.png</normaloff>:/icons/open-iconic-master/png/compass-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Est. Calibration</string>
+   </property>
+  </action>
+  <action name="actionCreateMosaic">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/open-iconic-master/png/grid-three-up-4x.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Create Mosaic</string>
+   </property>
+  </action>
+  <action name="actionUseImagData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use Imaginary if Exists</string>
+   </property>
+  </action>
+  <action name="actionOpenHDFNISTOOC">
+   <property name="text">
+    <string>Open HDF OOC (NIST)</string>
    </property>
   </action>
  </widget>

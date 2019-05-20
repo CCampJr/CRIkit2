@@ -54,12 +54,6 @@ class Hsi(_Spectrum):
 
     Attributes
     ----------
-    data_imag_over_real : ndarray (3D)
-        If data is complex, return the imaginary portion
-
-    data_real_over_imag : ndarray (3D)
-        If data is complex, return the real portion
-
     shape : tuple, read-only
         Shape of data
 
@@ -81,11 +75,15 @@ class Hsi(_Spectrum):
 
     Notes
     -----
-    * freq object contains some useful parameters such as op_range_\* and \
-    plot_range_\*, which define spectral regions-of-interest. (It's debatable \
+    * freq object contains some useful parameters such as op_range_* and \
+    plot_range_*, which define spectral regions-of-interest. (It's debatable \
     as to whether those parameters should be in Frequency or Spectrum classes)
 
     """
+
+    # Configurations
+    config = {}
+    config['nd_axis'] = -1
 
     def __init__(self, data=None, freq=None, x=None, y=None, x_rep=None,
                  y_rep=None, label=None, units=None, meta=None):
@@ -102,6 +100,42 @@ class Hsi(_Spectrum):
             self.x_rep = _copy.deepcopy(x_rep)
         if y is None and y_rep is not None:
             self.y_rep = _copy.deepcopy(y_rep)
+
+    @staticmethod
+    def _mean_axes(*args, **kwargs):
+        """ Inhereted from Spectrum """
+        raise NotImplementedError('Only applicable to Spectrum class.')
+
+    @staticmethod
+    def _reshape_axes(shape, spectral_axis):
+        """
+        Parameters
+        ----------
+        shape : tuple
+            Input data shape
+
+        spectral_axis : int
+            Spectral axis
+
+        Returns
+        -------
+            Reshape vector
+        """
+        ndim = len(shape)
+
+        if ndim == 1:
+            out = [1, 1, 1]
+            out[spectral_axis] = shape[0]
+        elif ndim == 2:  # ! Super-wonky
+            out = [1, shape[0], shape[1]]
+        elif ndim == 3:
+            out = shape
+        elif ndim > 3:
+            out = [-1, shape[-2], shape[-1]]
+        else:
+            raise ValueError('Shape error')
+
+        return tuple(out)
 
     @property
     def mask(self):
@@ -152,35 +186,28 @@ class Hsi(_Spectrum):
 
     @data.setter
     def data(self, value):
-        if isinstance(value, _np.ndarray):
-            if value.ndim == 3:
-                if self.freq is None or self.freq.op_list_pix is None:
-                    self._data = value
-                    self._mask = _np.ones((self._data.shape[0],
-                                           self._data.shape[1]),
-                                          dtype=_np.int)
-                else:
-                    if value.shape[-1] == self.freq.op_range_pix.size:
-                        temp = _np.zeros((self._data.shape),dtype=value.dtype)
-                        temp[:,:,self.freq.op_range_pix] = value
-                        self._data = temp
-                        self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]),
-                                              dtype=_np.int)
-                    elif value.shape[-1] == self._data.shape[-1]:
-                        self._data = value
-                        self._mask = _np.ones((self._data.shape[0],
-                                               self._data.shape[1]),
-                                              dtype=_np.int)
-                    else:
-                        #raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
-                        raise TypeError('pre-data: {}, value: {}'.format(self._data.shape,value.shape))
-            else:
-                raise TypeError('data must be 3D')
-        else:
-            print('Assigning non-ndarray to data. Not shape checking')
-            self._data = value
+        if not isinstance(value, _np.ndarray):
+            raise TypeError('data must be of type ndarray')
 
+        ax_rs = self._reshape_axes(value.shape, self.config['nd_axis'])
+
+        # self._mask = _np.ones(tuple([n for n in range(3) if n != self.config['nd_axis']]), 
+        #                       dtype=_np.int)
+
+        if self.freq is None or self.freq.op_list_pix is None:
+            self._data = value.reshape(ax_rs)
+        else:
+            if value.shape[self.config['nd_axis']] == self.freq.op_range_pix.size:
+                temp = _np.zeros((self._data.shape),dtype=value.dtype)
+                temp[:,:,self.freq.op_range_pix] = value.reshape(ax_rs)
+                self._data = 1*temp
+                del temp
+            elif value.shape[self.config['nd_axis']] == self._data.shape[self.config['nd_axis']]:
+                temp = _np.zeros((self._data.shape),dtype=value.dtype)
+                temp[..., self.freq.op_range_pix] = value.reshape(ax_rs)[..., self.freq.op_range_pix]
+                self._data = 1*temp
+                del temp
+                
     def check(self):
         """
         Check x, y, and freq to make sure the dimensions agree with data

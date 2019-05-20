@@ -3,9 +3,9 @@ Created on Thu May 26 13:16:12 2016
 
 @author: chc
 """
+import os as _os
 
-import h5py as _h5py
-_h5py.get_config().complex_names = ('Re','Im')
+import lazy5 
 
 from crikit.io.meta_configs import (special_nist_bcars2 as _snb,
                                     special_nist_bcars1_sample_scan as _snb1ss)
@@ -13,7 +13,7 @@ from crikit.io.meta_process import meta_process as _meta_process
 from crikit.io.hdf5 import hdf_import_data as _hdf_import_data
 from crikit.io.csv_nist import csv_nist_import_data as _csv_nist_import_data
 
-__all__ = []
+__all__ = ['import_hdf_nist_special', 'import_csv_nist_special1']
 
 
 def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
@@ -27,17 +27,35 @@ def import_hdf_nist_special(pth, filename, dset, output_cls_instance):
     """
     
     print('\n')
+    import_success = _hdf_import_data(pth, filename, dset, output_cls_instance)
+    if import_success is False:
+        raise ValueError('hdf_import_data failed')
+        return False
+    _meta_process(_snb(), output_cls_instance)
+    return True
+
+def import_hdf_nist_special_ooc(pth, filename, dset, output_cls_instance):
+    """
+    Import data from HDF File (OUT-OF-CORE) as specified by NIST-specific settings
+
+    Returns
+    -------
+    Success : bool
+        Whether import was successful
+    """
+    
+    print('\n')
+
     try:
-        import_success = _hdf_import_data(pth, filename, dset, output_cls_instance)
-        if import_success is None or import_success is False:
-            raise ValueError('hdf_import_data returned None')
+        fid = lazy5.utils.FidOrFile(lazy5.utils.fullpath(filename, pth=pth)).fid
+        output_cls_instance._data = fid[dset]
+        output_cls_instance.meta = lazy5.inspect.get_attrs_dset(fid, dset)
         _meta_process(_snb(), output_cls_instance)
     except:
-        print('Something failed in import_hdf_nist_special')
+        raise ValueError('hdf_import_data failed')
         return False
     else:
-        print('\n')
-        return True
+        return fid    
         
 def import_csv_nist_special1(pth, filename_header, filename_data,
                              output_cls_instance):
@@ -66,7 +84,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     from crikit.data.hsi import Hsi as _Hsi
 
-    pth = _os.path.abspath('../../../') + '/'
+    pth = '../'
     filename = 'mP2_w_small.h5'
     img = _Hsi()
     import_hdf_nist_special(pth, filename,'/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
@@ -74,13 +92,13 @@ if __name__ == '__main__':  # pragma: no cover
     print('Shape of img.mean(): {}'.format(img.mean().shape))
     print(img.y_rep.data)
     
-    from crikit.data.spectrum import Spectrum as _Spectrum
+    # from crikit.data.spectrum import Spectrum as _Spectrum
     
-    sp = _Spectrum()
-    pth = '../../../Young_150617/'
-    filename_header = 'SH-03.h'
-    filename_data = 'base061715_152213_60ms.txt'
+    # sp = _Spectrum()
+    # pth = '../../../Young_150617/'
+    # filename_header = 'SH-03.h'
+    # filename_data = 'base061715_152213_60ms.txt'
     
-    import_csv_nist_special1(pth, filename_header, filename_data,
-                    output_cls_instance=sp)
+    # import_csv_nist_special1(pth, filename_header, filename_data,
+    #                 output_cls_instance=sp)
     

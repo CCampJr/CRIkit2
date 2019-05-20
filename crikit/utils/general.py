@@ -9,10 +9,85 @@ General utilities
     find_nearest : Given a vector and a value, find the index and value
         of the closest match
 
+    pad : Wrapper around numpy.pad that also returns a window defining the
+        original signal
+
 Notes
 -----
 """
 import numpy as _np
+
+def pad(y, pad_width, mode):
+    """
+    Pad array with either constants or edge values.
+
+    Note: For N-D arrays, pads the -1 axis
+
+    Parameters
+    ----------
+    y : ndarray
+        Input array
+
+    pad_width : int
+        Size of padding on each side of y
+
+    mode : str
+        'constant' (0), 'edge' currently accepted
+
+    Returns
+    -------
+    y_pad, window
+        Padded array and window. Window defines the region of the original signal
+    """
+    if pad_width <= 0:
+        return y, _np.ones(y.shape[-1])
+    else:
+        shaper = list(y.shape)
+        shaper_out = list(y.shape)
+        shaper_out[-1] += 2*pad_width
+        y_pad = _np.zeros(shaper_out, dtype=y.dtype)
+        window = _np.zeros(shaper_out[-1], dtype=_np.integer)
+        
+        y_pad[...,pad_width:shaper[-1]+pad_width] = 1*y
+        window[pad_width:shaper[-1]+pad_width] = 1
+
+        if (mode == 'zeros') | (mode == 'constant') | (mode == 'zero'):
+            pass
+        elif mode == 'edge':
+            y_pad[...,:pad_width] = _np.dot(y[...,0:1], _np.ones((1, pad_width)))
+            y_pad[..., -pad_width:] = _np.dot(y[...,-1:-2:-1], _np.ones((1, pad_width)))
+
+        return y_pad, window
+
+def pad_dual(y, edge_pad_width, constant_pad_width):
+    """
+    Pad array with edge values followed by constant 0's.
+
+    Note: For N-D arrays, pads the -1 axis
+
+    Parameters
+    ----------
+    y : ndarray
+        Input array
+
+    edge_pad_width : int
+        Size of edge-value padding on each side of y
+
+    constant_pad_width : int
+        Size of 0-padding on each side of y after edge-value padding
+
+    Returns
+    -------
+    y_pad, window
+        Padded array and window. Window defines the region of the original signal
+    """
+    y_pad_edge, win_edge = pad(y, edge_pad_width, 'edge')
+    y_pad, win_constant = pad(y_pad_edge, constant_pad_width, 'constant')
+    
+    window = 0*win_constant
+    window[_np.where(win_constant == 1)[0][win_edge == 1]] = 1
+
+    return y_pad, window
 
 def np_fcn_nd_to_1d(fcn, data, axis=-1):
     """
@@ -172,7 +247,7 @@ if __name__ == '__main__':
     x = _np.random.rand(10,11)
 
     for ct in range(x.size):
-        row, col = lin_count_row_col(ct, x.shape)
+        row, col = row_col_from_lin(ct, x.shape)
         print('R: {} C: {}'.format(row,col))
     print('Total number iterated through: {}'.format(ct+1))
 
@@ -202,7 +277,7 @@ if __name__ == '__main__':
     space_shp = _np.array(x.shape)[0:-1]
     num_sp = space_shp.prod()
     for num in range(num_sp):
-        rc, cc = lin_count_row_col(num, space_shp)
+        rc, cc = row_col_from_lin(num, space_shp)
         y[rc, cc, :] = _np.fft.fft(x[rc, cc, :])
     tmr -= _timeit.default_timer()
     print('Time with 1 for-loops: {:.3g} sec'.format(-tmr))

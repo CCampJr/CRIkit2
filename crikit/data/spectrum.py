@@ -60,11 +60,16 @@ class Spectrum:
 
     Notes
     -----
-    * freq object contains some useful parameters such as op_range_\* and \
-    plot_range_\*, which define spectral regions-of-interest. (It's debatable \
+    * freq object contains some useful parameters such as op_range* and \
+    plot_range*, which define spectral regions-of-interest. (It's debatable \
     as to whether those parameters should be in Frequency or Spectrum classes)
 
     """
+
+    # Configurations
+    config = {}
+    config['nd_axis'] = -1
+    config['nd_fcn'] = _np.mean
 
     def __init__(self, data=None, freq=None, label=None, units=None, meta=None):
 
@@ -87,47 +92,68 @@ class Spectrum:
         if meta is not None:
             self._meta = _copy.deepcopy(meta)
 
+    @staticmethod
+    def _mean_axes(ndim, axis):
+        """
+        Parameters
+        ----------
+        ndim : int
+            Number of dimensions of input data (target is 1D spectrum)
+
+        axis : int
+            For ND data, axis is remaining axis
+
+        Returns
+        -------
+            Vector that describes what axes to operate (using a mean or similar method) with
+            axis parameter
+        """
+        if axis < 0:
+            axis2 = ndim + axis
+        else:
+            axis2 = axis
+        return tuple([n for n in range(ndim) if n != axis2])
+
     @property
     def data(self):
         return self._data
 
     @data.setter
     def data(self, value):
-        if isinstance(value, _np.ndarray):
-            if value.ndim == 1:
-                if self.freq is not None and self.freq.op_list_pix is not None:
-                    if value.shape[-1] == self.freq.op_range_pix.size:
-                        temp = _np.zeros((self.freq.size),dtype=value.dtype)
-                        temp[self.freq.op_range_pix] = value
-                        self._data = temp
-                    else:
-                        raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
+        if not isinstance(value, _np.ndarray):
+            raise TypeError('data must be of type ndarray')
+        
+        # If sub-range of operation is defined. Only perform action over op_range_pix
+        if self.freq is not None and self.freq.op_list_pix is not None:
+            if value.shape[self.config['nd_axis']] == self.freq.op_range_pix.size:
+                temp = _np.zeros((self.freq.size), dtype=value.dtype)
+                if value.ndim == 1:
+                    temp[self.freq.op_range_pix] = value
                 else:
-                    self._data = value
-            else:
-                raise TypeError('data must be a 1D ndarray')
-        else:
-               raise TypeError('data must be a 1D ndarray')
+                    print('Input data is {}-dim. Performing {}'.format(value.ndim, self.config['nd_fcn'].__name__))
+                    nd_ax = self._mean_axes(value.ndim, axis=self.config['nd_axis'])
+                    temp[self.freq.op_range_pix] = self.config['nd_fcn'](value, axis=nd_ax)
+            elif value.shape[self.config['nd_axis']] == self.freq.size:
+                temp = _np.zeros((self.freq.size), dtype=value.dtype)
+                if value.ndim == 1:
+                    temp[self.freq.op_range_pix] = value[self.freq.op_range_pix]
+                else:
+                    print('Input data is {}-dim. Performing {}'.format(value.ndim, self.config['nd_fcn'].__name__))
+                    nd_ax = self._mean_axes(value.ndim, axis=self.config['nd_axis'])
+                    temp[self.freq.op_range_pix] = self.config['nd_fcn'](value, axis=nd_ax)[self.freq.op_range_pix]
 
-    @property
-    def data_imag_over_real(self):
-        if _np.iscomplexobj(self._data):
-            if isinstance(self._data, _np.ndarray):
-                return self._data.imag
             else:
-                return _np.imag(self._data)
+                raise TypeError('data is of an unrecognized shape: {}'.format(value.shape))
+            self._data = 1*temp
+            del temp
         else:
-            return self._data
+            if value.ndim == 1:
+                self._data = value
+            else:
+                print('Input data is {}-dim. Performing {}'.format(value.ndim, self.config['nd_fcn'].__name__))
+                nd_ax = self._mean_axes(value.ndim, axis=self.config['nd_axis'])
+                self._data = self.config['nd_fcn'](value, axis=nd_ax)
 
-    @property
-    def data_real_over_imag(self):
-        if _np.iscomplexobj(self._data):
-            if isinstance(self._data, _np.ndarray):
-                return self._data.real
-            else:
-                return _np.real(self._data)
-        else:
-            return self._data
 
     @property
     def freq(self):
@@ -362,12 +388,5 @@ if __name__ == '__main__':  # pragma: no cover
 
     tmr = _timeit.default_timer()
     sp.data[200:500]
-    tmr -= _timeit.default_timer()
-    print(-tmr)
-
-    tmr = _timeit.default_timer()
-    locs = _np.arange(sp.freq.get_index_of_closest_freq(500),
-                     sp.freq.get_index_of_closest_freq(600))
-    sp.data_imag_over_real[locs]
     tmr -= _timeit.default_timer()
     print(-tmr)

@@ -27,7 +27,7 @@ class PhaseErrCorrectALS:
     def __init__(self, smoothness_param=1, asym_param=1e-2,
                  redux=10, order=2, rng=None, fix_end_points=False,
                  fix_rng=None, fix_const=1, max_iter=100, min_diff=1e-5,
-                 **kwargs):
+                 verbose=True, **kwargs):
 
 
         self.rng = _rng_is_pix_vec(rng)
@@ -42,7 +42,8 @@ class PhaseErrCorrectALS:
                         'fix_rng' : fix_rng,
                         'fix_const' : fix_const,
                         'max_iter' : max_iter,
-                        'min_diff' : min_diff})
+                        'min_diff' : min_diff,
+                        'verbose' : verbose})
 
 
     def _calc(self, data, ret_obj, **kwargs):
@@ -59,7 +60,8 @@ class PhaseErrCorrectALS:
             
             counter = 1
             for idx in _np.ndindex(shp):
-                print('Detrended iteration {} / {}'.format(counter, total_num))
+                if self._k['verbose']:
+                    print('Detrended iteration {} / {}'.format(counter, total_num))
                 ph = _np.unwrap(_np.angle(data[idx]))
                 # if self.rng is None:
                 err_phase = self._inst_als.calculate(ph)

@@ -1,9 +1,7 @@
 """
 Subtract mean value (optionally, over a range from all spectrum/spectra/hsi)
 
-Created on Thu May 26 14:31:39 2016
-
-@author: chc
+Note: If dark > 1D, averaged -- even if data has same shape.
 """
 
 import numpy as _np
@@ -36,6 +34,12 @@ class SubtractDark:
             Returns the success state (True=success)
 
         """
+
+        if not _np.can_cast(self.dark.dtype, data.dtype):
+            err_str1 = 'Cannot transform input data type {}'.format(data.dtype)
+            err_str2 = ' with dark type {}'.format(self.dark.dtype)
+            raise TypeError(err_str1 + err_str2)
+
         success = self._calc(data, ret_obj=data)
         return success
 
@@ -69,12 +73,9 @@ class SubtractDark:
         # Expand dark dimensionality to match data.ndim
         self.dark = _expand_1d_to_ndim(self.dark, data.ndim)
 
-        try:
-            ret_obj -= self.dark
-        except:
-            return False
-        else:
-            return True
+        ret_obj -= self.dark
+        return True
+
 
 if __name__ == '__main__': # pragma: no cover
 

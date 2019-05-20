@@ -1,5 +1,5 @@
-crikit\.transform package
-=========================
+crikit.transform package
+========================
 
 Module contents
 ---------------

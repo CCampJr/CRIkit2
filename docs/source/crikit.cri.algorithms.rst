@@ -1,11 +1,11 @@
-crikit\.cri\.algorithms package
-===============================
+crikit.cri.algorithms package
+=============================
 
 Submodules
 ----------
 
-crikit\.cri\.algorithms\.kk module
-----------------------------------
+crikit.cri.algorithms.kk module
+-------------------------------
 
 .. automodule:: crikit.cri.algorithms.kk
     :members:
