@@ -3,14 +3,16 @@
 * Implement logging
 * Continue development of out-of-core analysis package
 * Carryover database package from SW into standalone and integrate
+* GUI adjusts to screen resolution appropriately
 
 # Adjustment for External Package Updates
-* Enhance ~~Implement~~ MPL2 testing and API (such as ax.hold deprecation)
+* ~~Enhance ~~Implement~~ MPL2 testing and API (such as ax.hold deprecation)~~
 
 # Enhancements
 * Carryover SVD auto-selection tools from SW package
 * Add rng functionality to all fcns
 * Move from ALS-only to ALS/ArPLS detrending
+* Select sub-set of dark and NRB spectra
 
 # Minor updates
 * Fix model to use way less memory (and test 64 vs 128-bit complex)
@@ -27,17 +29,18 @@
 # TODO
 * ~~Tab describing history of processing steps~~
 * Create a set of feature-finding/selecting classes to take a lot of the computation out of the dialogSVD UI
-* Dark mean and fill-between
-* NRB, L/R-NRB mean and fill-between
+* ~~Dark mean and fill-between~~
+* ~~NRB, L/R-NRB mean and fill-between~~
 * Delete linked plots (Delete all in-family)
 * ~~Loading spectra/hsi into a spectrum averages~~
     * ~~Move from io.hdf5 to data.spectrum~~
 * Testing of spectrum, spectra, hsi when op_range defined
 * Calculate Anscombe parameters
 * Check bugs in SVD script text
-* When loading Dark or NRB, auto-open same HDF file as HSI. Cancel reverts to fileview
-* Rename load file GUI title to whatever is being loaded (NRB, Dark, etc)
-* Tab to view already performed tasks
+* ~~When loading Dark or NRB, auto-open same HDF file as HSI. Cancel reverts to fileview~~
+* ~~Rename load file GUI title to whatever is being loaded (NRB, Dark, etc)~~
+* ~~Tab to view already performed tasks~~
+
 
 # REFACTORS
 * ~~io.hdf5~~
@@ -46,3 +49,4 @@
 * spectrum, spectra, and hsi may only work properly when the spectral axis is -1
     * Test files only check axis = -1 case
 * ~~subtract dark doesn't work when dark is multiple spectra~~
+* Calibration not correctly loaded from files that were later calibrated
