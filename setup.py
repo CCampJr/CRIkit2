@@ -9,7 +9,7 @@ with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='crikit2',
-      version = '0.2a0',
+      version = '0.2.0a0',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
       platform (user interface, UI)',
       long_description = long_description,
