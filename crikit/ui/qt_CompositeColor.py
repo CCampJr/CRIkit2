@@ -2,16 +2,17 @@
 
 # Form implementation generated from reading ui file '.\ui_CompositeColor.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.1
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(767, 594)
+        Form.resize(600, 100)
         Form.setStyleSheet("font: 10pt \"Arial\";")
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -56,6 +57,8 @@ class Ui_Form(object):
         self.verticalLayoutBGColor.addWidget(self.comboBoxBGColor)
         self.horizontalLayout.addLayout(self.verticalLayoutBGColor)
         self.verticalLayout.addWidget(self.frame)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -68,4 +71,5 @@ class Ui_Form(object):
         self.comboBoxColorMode.setItemText(1, _translate("Form", "Absorption Mode"))
         self.comboBoxColorMode.setItemText(2, _translate("Form", "Absorption v2"))
         self.labelBGColor.setText(_translate("Form", "Background Color"))
+
 

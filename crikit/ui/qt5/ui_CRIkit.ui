@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1691</width>
-    <height>905</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="palette">
@@ -395,8 +395,8 @@ This will be saved to the processed file.</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1691</width>
-     <height>22</height>
+     <width>1200</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

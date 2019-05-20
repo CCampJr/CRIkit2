@@ -2,16 +2,17 @@
 
 # Form implementation generated from reading ui file '.\ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1691, 905)
+        MainWindow.resize(1200, 800)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -185,7 +186,7 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1691, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 19))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -740,5 +741,6 @@ class Ui_MainWindow(object):
         self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
         self.actionUseImagData.setText(_translate("MainWindow", "Use Imaginary if Exists"))
         self.actionOpenHDFNISTOOC.setText(_translate("MainWindow", "Open HDF OOC (NIST)"))
+
 
 from . import icons_all_rc

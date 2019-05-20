@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>1128</height>
+    <width>600</width>
+    <height>54</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,24 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
-      <number>2</number>
+      <number>10</number>
      </property>
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <property name="topMargin">
+      <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
      <property name="leftMargin">
       <number>2</number>
      </property>
@@ -34,7 +50,17 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout"/>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
