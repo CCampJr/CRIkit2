@@ -220,7 +220,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_BW.ui.spinBoxMax.setValue(self.img_BW.data.maxer)
             self.img_BW.ui.spinBoxMin.setValue(self.img_BW.data.minner)
 
-        self.ui.sweeperVL.insertWidget(0, self.img_BW)
+        self.ui.sweeperVL.insertWidget(0, self.img_BW, stretch=1, alignment=_QtCore.Qt.AlignHCenter)
         try:
             self.img_BW.mpl.fig.tight_layout(pad=2)
         except:
@@ -275,7 +275,7 @@ class CRIkitUI_process(_QMainWindow):
 
         self.ui.tabColors.addTab(self.img_Composite, 'Composite Image')
 
-        self.ui.sweeperVL_2.insertWidget(0, self.img_Composite2)
+        self.ui.sweeperVL_2.insertWidget(0, self.img_Composite2, stretch=1, alignment=_QtCore.Qt.AlignHCenter)
 
         self.ui.tabColors.currentChanged.connect(self.checkCompositeUpdate)
 

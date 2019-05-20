@@ -216,8 +216,8 @@ class widgetBWImg(_QWidget):
 
         self.win.verticalLayout.insertLayout(0, self.win.horizLayout)
 
-        self.win.horizLayout.insertWidget(0, self.gsinfo, _QtCore.Qt.AlignHCenter)
-        self.win.horizLayout.insertWidget(0, self.colormode, _QtCore.Qt.AlignBottom)
+        self.win.horizLayout.insertWidget(0, self.gsinfo, alignment=_QtCore.Qt.AlignHCenter)
+        self.win.horizLayout.insertWidget(0, self.colormode, alignment=_QtCore.Qt.AlignBottom)
 
         # Initialize underlying data
         self.initData()
@@ -246,9 +246,9 @@ class widgetBWImg(_QWidget):
             print('tight_layout failed (widget_images 1')
 
         # Insert canvas widget into this widget
-        self.win.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignCenter)
-        self.win.verticalLayout.insertWidget(0,self.popimage,_QtCore.Qt.AlignCenter)
-        self.win.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
+        self.win.verticalLayout.insertWidget(0,self.mpl, alignment=_QtCore.Qt.AlignCenter)
+        self.win.verticalLayout.insertWidget(0,self.popimage, alignment=_QtCore.Qt.AlignCenter)
+        self.win.verticalLayout.insertWidget(0,self.mpl.toolbar, alignment=_QtCore.Qt.AlignHCenter)
 
         # # SIGNAL & SLOTS
         self.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
@@ -417,6 +417,8 @@ class widgetSglColor(widgetBWImg):
     """
     def __init__(self, parent=None, **kwargs):
         super().__init__(parent)
+        self.win.gridLayout.setEnabled(False)
+
         self._img_defaults = {'showcbar': False, 'axison': True}
         self.initData()
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
@@ -568,11 +570,11 @@ class widgetCompositeColor(_QWidget):
             print('tight_layout failed (widget_image: 3')
 
         # Insert mpl widget into this widget
-        self.ui.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignHCenter)
-        self.ui.verticalLayout.insertWidget(0,self.mpl.toolbar, _QtCore.Qt.AlignHCenter)
+        self.ui.verticalLayout.insertWidget(0,self.mpl, alignment=_QtCore.Qt.AlignHCenter)
+        self.ui.verticalLayout.insertWidget(0,self.mpl.toolbar, alignment=_QtCore.Qt.AlignHCenter)
 
         self.popimage = widgetPopSpectrumGS(self)
-        self.ui.verticalLayout.insertWidget(1, self.popimage, _QtCore.Qt.AlignLeft)
+        self.ui.verticalLayout.insertWidget(1, self.popimage, alignment=_QtCore.Qt.AlignHCenter)
         self.popimage.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                                   showcbar=False,
                                                                                   extent=self.data.winextent,
