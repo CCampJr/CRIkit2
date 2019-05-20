@@ -2,16 +2,17 @@
 
 # Form implementation generated from reading ui file '.\ui_PlotEffect_ALS.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(738, 180)
+        Form.resize(800, 180)
         Form.setStyleSheet("font: 10pt \"Arial\";")
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
@@ -177,4 +178,5 @@ class Ui_Form(object):
         self.radioButtonLogLinearP.setText(_translate("Form", "Log-Linear P"))
         self.label_2.setText(_translate("Form", "Lambda (smoothness)"))
         self.label_4.setText(_translate("Form", "Fix End-Points"))
+
 

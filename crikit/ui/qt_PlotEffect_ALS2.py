@@ -2,20 +2,29 @@
 
 # Form implementation generated from reading ui file '.\ui_PlotEffect_ALS2.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(854, 465)
+        Form.resize(800, 282)
         Form.setStyleSheet("font: 10pt \"Arial\";")
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
         self.tableWidgetAsym = QtWidgets.QTableWidget(Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableWidgetAsym.sizePolicy().hasHeightForWidth())
+        self.tableWidgetAsym.setSizePolicy(sizePolicy)
+        self.tableWidgetAsym.setMinimumSize(QtCore.QSize(0, 10))
+        self.tableWidgetAsym.setBaseSize(QtCore.QSize(0, 140))
+        self.tableWidgetAsym.setFrameShadow(QtWidgets.QFrame.Plain)
         self.tableWidgetAsym.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.tableWidgetAsym.setRowCount(0)
         self.tableWidgetAsym.setObjectName("tableWidgetAsym")
@@ -143,6 +152,7 @@ class Ui_Form(object):
         self.verticalLayout_8.addItem(spacerItem5)
         self.gridLayout.addWidget(self.frame_4, 1, 3, 1, 1)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_5.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setContentsMargins(-1, 0, 0, -1)
@@ -170,13 +180,18 @@ class Ui_Form(object):
         self.horizontalLayout.addLayout(self.verticalLayout_7)
         self.verticalLayout_5.addLayout(self.horizontalLayout)
         self.tableWidgetWeights = QtWidgets.QTableWidget(Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableWidgetWeights.sizePolicy().hasHeightForWidth())
+        self.tableWidgetWeights.setSizePolicy(sizePolicy)
+        self.tableWidgetWeights.setMinimumSize(QtCore.QSize(0, 70))
+        self.tableWidgetWeights.setBaseSize(QtCore.QSize(0, 65))
         self.tableWidgetWeights.setObjectName("tableWidgetWeights")
         self.tableWidgetWeights.setColumnCount(2)
         self.tableWidgetWeights.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidgetWeights.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidgetWeights.setHorizontalHeaderItem(1, item)
         self.tableWidgetWeights.horizontalHeader().setDefaultSectionSize(80)
         self.tableWidgetWeights.horizontalHeader().setStretchLastSection(True)
         self.verticalLayout_5.addWidget(self.tableWidgetWeights)
@@ -206,6 +221,5 @@ class Ui_Form(object):
         self.label_8.setText(_translate("Form", "Weight Value"))
         item = self.tableWidgetWeights.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Start X"))
-        item = self.tableWidgetWeights.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "End X"))
+
 

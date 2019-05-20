@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>854</width>
-    <height>465</height>
+    <width>800</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,27 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="0">
     <widget class="QTableWidget" name="tableWidgetAsym">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>0</width>
+       <height>140</height>
+      </size>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAsNeeded</enum>
      </property>
@@ -352,6 +373,9 @@
    </item>
    <item row="3" column="1" colspan="2">
     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetNoConstraint</enum>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="topMargin">
@@ -422,6 +446,24 @@
      </item>
      <item>
       <widget class="QTableWidget" name="tableWidgetWeights">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>70</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>65</height>
+        </size>
+       </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>80</number>
        </attribute>
@@ -433,11 +475,7 @@
          <string>Start X</string>
         </property>
        </column>
-       <column>
-        <property name="text">
-         <string>End X</string>
-        </property>
-       </column>
+       <column/>
       </widget>
      </item>
     </layout>
@@ -446,7 +484,4 @@
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

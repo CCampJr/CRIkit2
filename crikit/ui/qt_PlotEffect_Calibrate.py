@@ -2,16 +2,17 @@
 
 # Form implementation generated from reading ui file '.\ui_PlotEffect_Calibrate.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(643, 415)
+        Form.resize(800, 300)
         Form.setStyleSheet("font: 10pt \"Arial\";")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -262,4 +263,5 @@ class Ui_Form(object):
         self.label_12.setText(_translate("Form", "Probe Wavelength (nm)"))
         self.label_15.setText(_translate("Form", "Measured WN"))
         self.label_16.setText(_translate("Form", "Correct WN"))
+
 

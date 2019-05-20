@@ -9,6 +9,7 @@ import numpy as _np
 
 from PyQt5.QtWidgets import (QApplication as _QApplication,
                              QDialog as _QDialog)
+from PyQt5 import QtWidgets as _QtWidgets
 
 from crikit.ui.qt_PlotEffect import Ui_Dialog as Ui_DialogPlotEffect
 
@@ -40,7 +41,7 @@ class DialogPlotEffect(_QDialog):
 
     TRANSPOSE_ARR = True
     
-    def __init__(self, data, x=None, plugin=None, parent=None):
+    def __init__(self, data, x=None, plugin=None, mpl_kwargs={'width':8, 'height':2}, parent=None):
         super(DialogPlotEffect, self).__init__(parent)
         self.ui = Ui_DialogPlotEffect()
         self.ui.setupUi(self)
@@ -48,14 +49,19 @@ class DialogPlotEffect(_QDialog):
         self.data = data
         
         # Setup MPL containers
-        self.mpl_orig = _MplCanvas(subplot=111)        
-        self.mpl_affected = _MplCanvas(subplot=111)
-        
+        self.mpl_orig = _MplCanvas(subplot=111, **mpl_kwargs)
+        self.mpl_orig.fig.canvas.setMinimumSize(100,200)
+        self.mpl_orig.fig.canvas.setSizePolicy(_QtWidgets.QSizePolicy.Expanding, _QtWidgets.QSizePolicy.Minimum)
+
+        self.mpl_affected = _MplCanvas(subplot=111, **mpl_kwargs)
+        self.mpl_affected.fig.canvas.setMinimumSize(100,200)
+        self.mpl_affected.fig.canvas.setSizePolicy(_QtWidgets.QSizePolicy.Expanding, _QtWidgets.QSizePolicy.Minimum)
+
         # Show(), although not needed, enables mpl-tight_layout 
         # to work later on
         self.show()
         
-        self.ui.verticalLayout.insertWidget(1, self.mpl_orig)
+        self.ui.verticalLayout.insertWidget(1, self.mpl_orig, stretch=1)
         self.ui.verticalLayout.insertWidget(1, self.mpl_orig.toolbar)
         
         self.ui.verticalLayout.insertWidget(3, self.mpl_affected)
