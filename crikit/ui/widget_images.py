@@ -39,7 +39,9 @@ from crikit.ui.qt_ImageGainMath import Ui_Form as Ui_ImageGainMath
 # Generic imports for MPL-incorporation
 import matplotlib as _mpl
 from matplotlib.pyplot import colormaps as _plt_colormaps
-import sciplot as _sciplot
+
+from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
+
 #import matplotlib.pyplot as _plt
 
 _mpl.use('Qt5Agg')
@@ -81,7 +83,7 @@ class widgetImageGainMath(_QWidget):
         Resets the ui to it's initial state
         """
         self.ui.checkBoxDisable.setChecked(False)
-        
+
         self.ui.spinBoxGain.setValue(1.0)
         self.ui.tabWidgetMath.setCurrentIndex(0)
 
@@ -96,7 +98,7 @@ class widgetImageGainMath(_QWidget):
         self.ui.comboBoxCondOps.setCurrentIndex(0)
         self.ui.comboBoxCondInEquality.setCurrentIndex(0)
         self.ui.spinBoxInEquality.setValue(0.0)
-        
+
     def condOpsChange(self):
         index = self.ui.comboBoxCondOps.currentIndex()
 
@@ -137,7 +139,7 @@ class widgetImageGainMath(_QWidget):
             self.ui.pushButtonOpFreq3.setEnabled(True)
 
 class widgetPopSpectrumGS(_QWidget):
-    """ 
+    """
     Panel that let's user pop the current image, an average spectrum,
     or a grayscale image to SciPlot
     """
@@ -165,7 +167,7 @@ class widgetColorMode(_QWidget):
         self.ui.setupUi(self)
 
         # Get all MPL named colors
-        color_list = ['red', 'green', 'blue', 'magenta', 'cyan', 'yellow', 
+        color_list = ['red', 'green', 'blue', 'magenta', 'cyan', 'yellow',
                       'black', 'white', 'CUSTOM']
         color_list.extend(sorted(set(_mpl.colors.cnames.keys()) - set(color_list)))
         self.ui.comboBoxBGColor.addItems(color_list)
@@ -188,11 +190,11 @@ class widgetBWImg(_QWidget):
         self.win = Ui_Blank()
         self.win.setupUi(self)
         self.win.gridLayout.setEnabled(False)
-        
+
         self._img_defaults = {'showcbar': True, 'axison': True}
 
         self.gsinfo = widgetGrayScaleInfoBar(parent=self)
-        
+
         self.colormode = widgetColorMode(parent=self)
         self.colormode.ui.comboBoxColorMode.setCurrentIndex(1)
         self.colormode.ui.comboBoxColormap.setVisible(True)
@@ -213,7 +215,7 @@ class widgetBWImg(_QWidget):
         self.win.horizLayout.setContentsMargins(2,2,2,2)
 
         self.win.verticalLayout.insertLayout(0, self.win.horizLayout)
-        
+
         self.win.horizLayout.insertWidget(0, self.gsinfo, _QtCore.Qt.AlignHCenter)
         self.win.horizLayout.insertWidget(0, self.colormode, _QtCore.Qt.AlignBottom)
 
@@ -225,14 +227,14 @@ class widgetBWImg(_QWidget):
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
         self.data.set_x(_np.linspace(1,400,self.data.xlen))
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
-        
+
         # Calculate extent of image
         winextent = (self.data.x.min(), self.data.x.max(), self.data.y.min(), self.data.y.max())
 
         # MPL canvas
         self.mpl = _MplCanvas(**kwargs)
         self.mpl.cbar = None  # Monkey patch on a cbar object
-        
+
         # Create stand-image plot
         self.createImg(img=self.data.image, xunits=self.data.xunits,
                        yunits=self.data.yunits,
@@ -242,7 +244,7 @@ class widgetBWImg(_QWidget):
             self.mpl.fig.tight_layout()
         except:
             print('tight_layout failed (widget_images 1')
-        
+
         # Insert canvas widget into this widget
         self.win.verticalLayout.insertWidget(0,self.mpl,_QtCore.Qt.AlignCenter)
         self.win.verticalLayout.insertWidget(0,self.popimage,_QtCore.Qt.AlignCenter)
@@ -252,7 +254,7 @@ class widgetBWImg(_QWidget):
         self.ui.checkBoxFixed.stateChanged.connect(self.checkBoxFixed)
         self.ui.checkBoxRemOutliers.stateChanged.connect(self.checkBoxRemOutliers)
         self.ui.spinBoxStdDevs.editingFinished.connect(self.checkBoxRemOutliers)
-        
+
         # New
         self.ui.comboBoxAboveMax.currentIndexChanged.connect(self.comboBoxCompress)
         self.ui.comboBoxBelowMin.currentIndexChanged.connect(self.comboBoxCompress)
@@ -279,15 +281,15 @@ class widgetBWImg(_QWidget):
         Create new figure window and show image of img
         """
 
-        self.external_plots.append(_sciplot.main(parent=parent))
-        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
+        self.external_plots.append(_SciPlotUI(parent=parent))
+        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits,
                       cmap=cmap, cbar=showcbar, extent=extent)
 
     def createImg(self, img, xunits = None, yunits = None,
                   extent = None, cmap = _mpl.cm.gray):
         self.mpl.ax.clear()
         self.mpl.img = self.mpl.ax.imshow(img, interpolation = 'none',
-                                          extent = extent, cmap = cmap, 
+                                          extent = extent, cmap = cmap,
                                           origin='lower')
         if xunits is not None:
             self.mpl.ax.xaxis.set_label_text(xunits)
@@ -307,13 +309,13 @@ class widgetBWImg(_QWidget):
         if self.ui.checkBoxFixed.isChecked() == False:
             self.ui.spinBoxMax.setValue(self.data.maxer)
             self.ui.spinBoxMin.setValue(self.data.minner)
-           
+
     def spinBoxMinMaxSet(self):
         try:
             self.data.setmin = self.ui.spinBoxMin.value()
             self.data.setmax = self.ui.spinBoxMax.value()
             self.ui.checkBoxFixed.setChecked(True)
-            
+
             # Spin-Box call from Outlier-related widgets?
             sent_by = self.sender()
             if ((sent_by == self.ui.checkBoxRemOutliers) |
@@ -347,10 +349,10 @@ class widgetBWImg(_QWidget):
             self.ui.spinBoxMax.setValue(new_max)
             self.ui.spinBoxMin.setValue(new_min)
             self.spinBoxMinMaxSet()
-           
+
         self.createImg(img=self.data.image, xunits=self.data.xunits,
                        yunits=self.data.yunits,
-                       extent=self.data.winextent, 
+                       extent=self.data.winextent,
                        cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
@@ -385,7 +387,7 @@ class widgetBWImg(_QWidget):
 
         self.createImg(img=self.data.image, xunits=self.data.xunits,
                        yunits=self.data.yunits,
-                       extent=self.data.winextent, 
+                       extent=self.data.winextent,
                        cmap=self.colormode.ui.comboBoxColormap.currentText())
         self.mpl.draw()
 
@@ -422,13 +424,13 @@ class widgetSglColor(widgetBWImg):
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
         self.changeColor()
         self.colormode.setMaximumHeight(130)
-        
+
         self.math = widgetImageGainMath(parent=self)
         self.win.verticalLayout.insertWidget(3, self.math)
 
         # Disconnect colormap-related (from BW parent)
         self.colormode.ui.comboBoxColormap.currentIndexChanged.disconnect()
-        
+
         self.colormode.ui.comboBoxColorMode.setCurrentIndex(0)
         self.colormode.ui.comboBoxColormap.setVisible(False)
         self.colormode.ui.labelColormap.setVisible(False)
@@ -452,11 +454,11 @@ class widgetSglColor(widgetBWImg):
             pass
         self.popimage.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                                   showcbar=False,
-                                                                                  extent=self.data.winextent, 
+                                                                                  extent=self.data.winextent,
                                                                                   xunits=self.data.xunits,
                                                                                   yunits=self.data.yunits,
                                                                                   parent=parent))
-        
+
         try:
             self.popimage.ui.pushButtonGSPop.pressed.disconnect()
         except TypeError:
@@ -473,11 +475,11 @@ class widgetSglColor(widgetBWImg):
         (Re)-initialize self.data
         """
         self.data = SingleColor()
-        
-        
+
+
     def changeColor(self):
         # try:
-        
+
         if self.sender() == self.colormode.ui.comboBoxFGColor:
             color_str = self.colormode.ui.comboBoxFGColor.currentText()
             if color_str == 'CUSTOM':
@@ -499,12 +501,12 @@ class widgetSglColor(widgetBWImg):
 
             else:
                 self.data.bgcolor = _mpl.colors.colorConverter.to_rgb(_mpl.colors.cnames[bgcolor_str])
-        
+
         self.createImg(img = self.data.image, xunits = self.data.xunits,
                                 yunits = self.data.yunits,
                                 extent = self.data.winextent)
         self.mpl.draw()
-        
+
     def applyGain(self):
         self.data.setgain = self.math.ui.spinBoxGain.value()
         self.changeColor()
@@ -538,7 +540,7 @@ class widgetCompositeColor(_QWidget):
         self.data.grayscaleimage = _np.dot(_np.ones([100,1]),_np.linspace(1,100,100)[None,:])
         self.data.set_x(_np.linspace(1,400,self.data.xlen))
         self.data.set_y(_np.linspace(1,400,self.data.ylen))
-        
+
         winextent = (self.data.x.min(), self.data.x.max(), self.data.y.min(), self.data.y.max())
 
         # Instantiate mpl widget
@@ -552,7 +554,7 @@ class widgetCompositeColor(_QWidget):
         color_list.extend(sorted(set(_mpl.colors.cnames.keys()) - set(color_list)))
         self.ui.comboBoxBGColor.addItems(color_list)
         self.ui.comboBoxBGColor.setCurrentIndex(color_list.index('black'))
-        
+
         # Emission/Absorption mode settings
         self.ui.comboBoxColorMode.setCurrentIndex(0)  # Emission mode is default
 
@@ -573,7 +575,7 @@ class widgetCompositeColor(_QWidget):
         self.ui.verticalLayout.insertWidget(1, self.popimage, _QtCore.Qt.AlignLeft)
         self.popimage.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                                   showcbar=False,
-                                                                                  extent=self.data.winextent, 
+                                                                                  extent=self.data.winextent,
                                                                                   xunits=self.data.xunits,
                                                                                   yunits=self.data.yunits,
                                                                                   parent=parent))
@@ -588,7 +590,7 @@ class widgetCompositeColor(_QWidget):
         """
         (Re)-initialize self.data
         """
-        
+
         if sgl_color_widget_list is None:
             self.data = CompositeColor()
         else:
@@ -624,8 +626,8 @@ class widgetCompositeColor(_QWidget):
         Create new figure window and show image of img
         """
 
-        self.external_plots.append(_sciplot.main(parent=parent))
-        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits, 
+        self.external_plots.append(_SciPlotUI(parent=parent))
+        self.external_plots[-1].imshow(img, x_label=xunits, y_label=yunits,
                       cmap=cmap, cbar=showcbar, extent=extent)
 
     # BROKEN -- May never work
@@ -641,7 +643,7 @@ class widgetCompositeColor(_QWidget):
     #                           extent = self.data.winextent)
     #     self.mpl.fig.tight_layout()
     #     self.mpl.draw()
-    
+
     def changeMode(self):
         self.data.mode = self.ui.comboBoxColorMode.currentIndex()
         # self.data.mode = _np.abs(self.data.mode - 1).astype(int)
@@ -664,7 +666,7 @@ if __name__ == '__main__':
     winBWImg = widgetBWImg()
     winBWImg.setWindowTitle('BW Image')
     winBWImg.show()
-    
+
     winSglColor = widgetSglColor()
     winSglColor.setWindowTitle('Single Color')
     winSglColor.colormode.ui.comboBoxBGColor.setCurrentIndex(7)
@@ -675,8 +677,8 @@ if __name__ == '__main__':
     winSglColor2.colormode.ui.comboBoxBGColor.setCurrentIndex(7)
     winSglColor2.setWindowTitle('Single Color')
     winSglColor2.show()
-    
-    
+
+
     winColorMath = widgetImageGainMath()
     winColorMath.setWindowTitle('Color Math')
     winColorMath.show()
