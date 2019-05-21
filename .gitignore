@@ -49,11 +49,7 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
-<<<<<<< HEAD
 .pytest_cache/
-=======
-.pytest_cache/*
->>>>>>> master
 
 # Translations
 *.mo
