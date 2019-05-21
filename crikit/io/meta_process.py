@@ -64,12 +64,36 @@ def meta_process(rosetta, output_cls_instance):
     # Frequency-calibration
     calib_dict = {}
 
-    calib_dict['a_vec'] = rosetta_query('ColorPolyVals',rosetta, output_cls_instance)[0]
-    calib_dict['n_pix'] = rosetta_query('ColorChannels',rosetta, output_cls_instance)[0]
-    calib_dict['ctr_wl'] = rosetta_query('ColorCenterWL',rosetta, output_cls_instance)[0]
-    calib_dict['ctr_wl0'] = rosetta_query('ColorCalibWL',rosetta, output_cls_instance)[0]
-    calib_dict['probe'] = rosetta_query('ColorProbe',rosetta, output_cls_instance)[0]
-    calib_dict['units'] = rosetta_query('ColorUnits',rosetta, output_cls_instance)[0]
+    print('Processing Meta Data\n------------------------------')
+    temp = rosetta_query('ColorPolyVals',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['a_vec'] = temp[0]
+    del temp
+
+    temp = rosetta_query('ColorChannels',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['n_pix'] = temp[0]
+    del temp
+
+    temp = rosetta_query('ColorCenterWL',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['ctr_wl'] = temp[0]
+    del temp
+
+    temp = rosetta_query('ColorCalibWL',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['ctr_wl0'] = temp[0]
+    del temp
+
+    temp = rosetta_query('ColorProbe',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['probe'] = temp[0]
+    del temp
+
+    temp = rosetta_query('ColorUnits',rosetta, output_cls_instance)
+    print('{} from {}'.format(temp[0], temp[1]))
+    calib_dict['units'] = temp[0]
+    del temp
 
     output_cls_instance.freq.calib = calib_dict
 
