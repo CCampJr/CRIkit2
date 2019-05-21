@@ -1638,6 +1638,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.actionNRBSpectrum.setEnabled(True)
                 self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
+                self.ui.actionDeNoiseNRB.setEnabled(True)
 
             elif sender == 'actionAppend_NRB_from_ROI':
                 if self.nrb.size == 0:
