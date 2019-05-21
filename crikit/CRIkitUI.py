@@ -681,9 +681,9 @@ class CRIkitUI_process(_QMainWindow):
         if dialog:
             try:
                 if (self.filename is not None) & (self.path is not None):
-                    to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+                    to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Hyperspectral Image')
                 else:
-                    to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+                    to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Hyperspectral Image')
 
                 print('to_open: {}'.format(to_open))
                 if to_open is not None:
@@ -694,7 +694,7 @@ class CRIkitUI_process(_QMainWindow):
                 if to_open is not None:
                     self.hsi = Hsi()
                     success = io_nist(self.path, self.filename, self.dataset_name,
-                                    self.hsi)
+                                      self.hsi)
                     print('Was successful: {}'.format(success))
                     print('HSI shape: {}'.format(self.hsi.shape))
                     self.fileOpenSuccess(success)
@@ -717,9 +717,9 @@ class CRIkitUI_process(_QMainWindow):
 
         try:
             if (self.filename is not None) & (self.path is not None):
-                to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+                to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Hyperspectral Image')
             else:
-                to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+                to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Hyperspectral Image')
 
             print('to_open: {}'.format(to_open))
             if to_open is not None:
@@ -951,9 +951,9 @@ class CRIkitUI_process(_QMainWindow):
         """
 
         if (self.filename is not None) & (self.path is not None):
-            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Dark')
         else:
-            to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+            to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Dark')
         print('To_open: {}'.format(to_open))
 
         if to_open is not None:
@@ -1037,9 +1037,9 @@ class CRIkitUI_process(_QMainWindow):
 
 
         if (self.filename is not None) & (self.path is not None):
-            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self)
+            to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='NRB')
         else:
-            to_open = HdfLoad.getFileDataSets(self.path, parent=self)
+            to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='NRB')
 
         if to_open is not None:
             pth, filename, datasets = to_open
