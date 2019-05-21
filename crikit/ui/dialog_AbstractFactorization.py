@@ -8,10 +8,12 @@ Created on Mon Jul 25 10:44:03 2016
 
 import sys as _sys
 import numpy as _np
+import traceback as _traceback
 
 from PyQt5 import QtWidgets as _QtWidgets
 from PyQt5.QtWidgets import (QApplication as _QApplication,
-                             QDialog as _QDialog)
+                             QDialog as _QDialog,
+                             QMessageBox as _QMsg)
 import PyQt5.QtCore as _QtCore
 
 # Import from Designer-based GUI
@@ -172,14 +174,20 @@ class DialogAbstractFactorization(_QDialog):
         script = self.ui.lineEditSelections.text()
         script = script.strip('[').strip(']')
         script = script.split(',')
-        for count in script:
-            if ':' in count:
-                temp = count.split(':')
-                self.selected_factors.update(set(_np.arange(int(temp[0]),int(temp[1])+1)))
-            elif count.strip() == '':
-                pass
-            else:
-                self.selected_factors.add(int(count))
+        try:
+            for count in script:
+                if ':' in count:
+                    temp = count.split(':')
+                    self.selected_factors.update(set(_np.arange(int(temp[0]),int(temp[1])+1)))
+                elif count.strip() == '':
+                    pass
+                else:
+                    self.selected_factors.add(int(count))
+        except Exception:
+            _traceback.print_exc(limit=1)
+            msg_box = _QMsg(_QMsg.Warning, 'Script Error', 'There was a problem with the script command: {}'.format(script), parent=self)
+            msg_box.exec()
+            
         self.updatePlots(startnum=self._first_factor_visible)
         self.ui.lcdSelectedFactors.display(len(self.selected_factors))
         self.updateCurrentRemainder()
