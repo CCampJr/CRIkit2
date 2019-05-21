@@ -30,7 +30,9 @@ Authors
 import copy as _copy
 import os as _os
 import sys as _sys
+import traceback as _traceback
 import webbrowser as _webbrowser
+
 
 import matplotlib as _mpl
 import numpy as _np
@@ -621,15 +623,15 @@ class CRIkitUI_process(_QMainWindow):
 
             try:
                 ret_save = lazy5.create.save(self.save_filename, self.save_dataset_name,
-                                             self.hsi._data, pth=self.save_path,
-                                             attr_dict= attr_dict, sort_attrs=True,
-                                             chunks=True, verbose=True)
-            except:
-                print('Something went wrong saving...')
+                                            self.hsi._data, pth=self.save_path,
+                                            attr_dict= attr_dict, sort_attrs=True,
+                                            chunks=True, verbose=True)
+            except Exception:
+                _traceback.print_exc(limit=1)
             else:
-                print('Save succeeded with no errors.')
-            if ret_save:
-                self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
+                if ret_save:
+                    print('Save succeeded with no errors.')
+                    self.setWindowTitle('{} -> {}'.format(self.windowTitle(), self.save_filename))
 
     def tabMainChange(self):
         if self.ui.tabMain.currentIndex() == 4:  # Jupyter console
@@ -3352,7 +3354,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.filename = 'Phantom.h5'
             self.path = _os.path.abspath('./')
-            self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
+            self.dataset_name = ['/RamanImage/Phantom_v0/Phantom_v0']
 
             meta = {'Calib.a_vec': a_vec,
                     'Calib.ctr_wl': lam_ctr,
@@ -3468,7 +3470,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.filename = 'Phantom.h5'
             self.path = _os.path.abspath('./')
-            self.dataset_name = '/BCARSImage/Phantom_v0/Phantom_v0'
+            self.dataset_name = ['/BCARSImage/Phantom_v0/Phantom_v0']
 
             meta = {'Calib.a_vec': a_vec,
                     'Calib.ctr_wl': lam_ctr,
