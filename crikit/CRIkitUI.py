@@ -833,13 +833,21 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionZeroLastRow.setEnabled(False)
 
         # Backup for Undo
-        self.bcpre.add_step(['Raw'])
+        offset = self.hsi.meta.get(self.bcpre.PREFIX)
+        if offset:
+            self.bcpre.offset = offset
+            self.bcpre.add_step(['Continue'])
+        else:
+            self.bcpre.add_step(['Raw'])
+        del offset
         self.updateHistory()
 
         if self.ui.actionUndo_Backup_Enabled.isChecked():
             try:
                 _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except:
+            except Exception as e:
+                _traceback.print_exc(limit=1)
+                print(e)
                 print('Error in pickle backup (Undo functionality)')
             else:
                 self.bcpre.backed_up()
