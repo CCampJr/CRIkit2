@@ -24,6 +24,7 @@ import sys as _sys
 import os as _os
 from PyQt5.QtWidgets import (QApplication as _QApplication)
 from crikit import CRIkitUI
+from crikit.ui.utils.check_requirements import check_requirements
 
 def main(args=None):
     """
@@ -37,12 +38,16 @@ def main(args=None):
 
     app = _QApplication(_sys.argv)
     app.setStyle('Cleanlooks')
-    win = CRIkitUI.CRIkitUI_process() ### EDIT ###
+    has_requirements = check_requirements()
+    if has_requirements:
+        win = CRIkitUI.CRIkitUI_process() ### EDIT ###
 
 
-    win.showMaximized()
+        win.showMaximized()
 
-    app.exec_()
-
+        app.exec_()
+    else:
+        print('Closing... need to upgrade libraries')
+        app.quit()
 if __name__ == '__main__':
     _sys.exit(main())

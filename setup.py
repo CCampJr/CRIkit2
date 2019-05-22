@@ -8,6 +8,7 @@ from setuptools import setup, find_packages
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
+# ! Set install_requires in check_requirements.py as well
 setup(name='crikit2',
       version = '0.2.0a0',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
@@ -24,7 +25,7 @@ setup(name='crikit2',
       zip_safe = False,
       include_package_data = True,
       install_requires=['numpy','matplotlib','scipy','sciplot-pyqt>=0.2.2', 
-                        'cvxopt','LazyHDF5>=0.2.1'],
+                        'cvxopt','LazyHDF5>=0.2.2','packaging'],
       classifiers=['Development Status :: 2 - Pre-Alpha',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',
