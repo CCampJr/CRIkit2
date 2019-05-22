@@ -16,7 +16,7 @@ def check_requirements():
                         'matplotlib':None, 
                         'scipy':None,
                         'sciplot': '0.2.2', 
-                        'cvxopt2':None,
+                        'cvxopt':None,
                         'lazy5':'0.2.2'}
 
     output = []
@@ -34,7 +34,7 @@ def check_requirements():
             output.append([r, requirement_dict[r]])
     
     if output:
-        output_str = ''.join(if o[1] '\n{}>={}'.format(o[0],o[1]) else if o[1] '\n{}'.format(o[0],o[1]) for o in output)
+        output_str = ''.join('\n{}>={}'.format(o[0],o[1]) if o[1] is not None else '\n{}'.format(o[0],o[1]) for o in output)
         msg = _QMsg(_QMsg.Critical, 'Please Upgrade Libraries', 
                     'Please upgrade the following libraries:')
         msg.setInformativeText(output_str)
