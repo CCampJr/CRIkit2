@@ -2734,6 +2734,10 @@ class CRIkitUI_process(_QMainWindow):
                 Mask = _peakamps.MeasurePeakSummation.measure(self.hsi.data,
                                                               condloc1, condloc2)
 
+            elif operation_text == 'SUM(ABS(Re) + 1j*ABS(Im))':  # Summation over range
+                Mask = _peakamps.MeasurePeakSummationAbsReImag.measure(self.hsi.data,
+                                                              condloc1, condloc2)
+
             elif operation_text == 'Peak b/w troughs':  # Peak between troughs
                 Mask = _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data,
                                                               condloc1, condloc2, condloc3)
@@ -2833,6 +2837,10 @@ class CRIkitUI_process(_QMainWindow):
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakSummation.measure(self.hsi.data,
                                                            oploc1, oploc2)
+            elif operation_text == 'SUM(ABS(Re) + 1j*ABS(Im))':  # Division
+                self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
+                    _peakamps.MeasurePeakSummationAbsReImag.measure(self.hsi.data,
+                                                              oploc1, oploc2)                                               
             elif operation_text == 'Peak b/w troughs':  # Division
                 self.img_RGB_list[rgbnum].data.grayscaleimage = Mask * \
                     _peakamps.MeasurePeakBWTroughs.measure(self.hsi.data,

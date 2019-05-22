@@ -57,8 +57,8 @@ class widgetImageGainMath(_QWidget):
     """
     Panel that controle image gain and applies math
     """
-    OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs','SUM']
-    OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2]
+    OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs','SUM', 'SUM(ABS(Re) + 1j*ABS(Im))']
+    OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2, 2]
     COND_TYPE_STRINGS = ['>','<','=','<=','>=']
 
     def __init__(self, parent=None, **kwargs):
