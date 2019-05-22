@@ -20,8 +20,15 @@ class BCPre:
     """
     Container that describes processing steps (ie it contains "breadcrumbs")
 
+    Paramaters
+    -----------
+
+    offset : int
+        Instead of starting at Step 0, start at offset (0 + offset)
+
     Attributes
     ----------
+
     process_list : list
         A list-of-lists. Each contained list follows the format \
         ['Process Name', 'Var1 Name', Val1, 'Var2 Name', Val2, ...]. The \
@@ -57,11 +64,12 @@ class BCPre:
 
     PREFIX = 'Processing.Steps'
 
-    def __init__(self):
+    def __init__(self, offset=0):
         self.process_list = []
         self._id_list = []
         self.backed_flag = []
         self._cut_list = []
+        self.offset=offset
 
     # PROPERTIES
     @property
@@ -82,7 +90,7 @@ class BCPre:
 
     @property
     def num_steps(self):
-        return len(self.process_list)
+        return len(self.process_list) + self.offset
 
     @property
     def attr_dict(self):
@@ -90,7 +98,7 @@ class BCPre:
         temp[self.PREFIX] = self.num_steps
 
         for num, item in enumerate(self.process_list):
-            temp_key_process_prefix = self.PREFIX + '.' + str(num+1) + '.' + str(item[0])
+            temp_key_process_prefix = self.PREFIX + '.' + str(num + 1 + self.offset) + '.' + str(item[0])
             temp_val = 'NA'
             temp[temp_key_process_prefix] = temp_val
             if len(item) > 1:
@@ -239,25 +247,25 @@ class BCPre:
 
 if __name__ == '__main__':
     import sys as _sys
-    test = BCPre()
+    test = BCPre(offset=10)
     try:
         test.add_step('Test1')
     except:
         print('Expected Error\n')
+    else:
+        print('Should have raised an error')
+
     try:
         test.add_step(['Test',1])
     except:
         print('Expected Error\n')
+    else:
+        print('Should have raised an error')
 
     test.add_step(['Raw'])
     test.add_step(['SubDark','RangeStart',-1500,'RangeEnd',-400])
     test.add_step(['NormKK','Amp',100.0,'Phase',10.0])
-    #test.add_step(['DeTrend','Lambda',1000.0,'p',0.001,'Method','ALS','Type','Phase'])
-    #test.add_step(['DeTrend','Order',2,'win',601,'Method','sg','Type','Scale'])
-
-    #print('Attempting to append \'1\' to the end of id_list (it should not work)')
-    #test.id_list.append(1)
-    #print(test.id_list)
+    
 
     print('\nProcess list: {}'.format(test.process_list))
     print('\nID list: {}'.format(test.id_list))
