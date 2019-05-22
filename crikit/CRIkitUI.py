@@ -2413,8 +2413,7 @@ class CRIkitUI_process(_QMainWindow):
             print('Did not delete pickle file cut list... Something went wrong')
 
         self.ui.freqSlider.setMinimum(0)
-
-        self.ui.freqSlider.setMaximum(self.hsi.freq.size-1)
+        self.ui.freqSlider.setMaximum(self.hsi.freq.op_size-1)
 
         self.changeSlider()
 
