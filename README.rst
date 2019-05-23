@@ -68,6 +68,9 @@ packages may work.
     -   Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2
 
 -   NumPy
+-   SciPy
+-   matplotlib (1.*, 2.*, 3.*)
+-   packaging
 -   PyQT5
 -   CVXOPT
 
@@ -171,6 +174,11 @@ and will not be updatable without re-installing CRIkit2
     # To update installation, from within the CRIkit2 directory
     git pull
     pip install .
+
+Option 3: Installation via pip
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: pip install CRIkit2
 
 
 (Re-) Building Documentation
