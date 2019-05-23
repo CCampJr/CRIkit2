@@ -4,4 +4,4 @@ recursive-include crikit/preprocess/algorithms/resources *.mat
 recursive-include docs *
 prune docs/build
 include NONLICENSE.md
-include README.md
+include README.rst
