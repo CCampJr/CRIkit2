@@ -1,7 +1,10 @@
 """
-Created on Wed Jun 29 01:28:44 2016
+Measurement methods to quantify peak relationships
 
-@author: chc
+Note
+-----
+
+For complex-valued measurements, all methods perform the math separately for real and imag
 """
 
 import numpy as _np
@@ -40,7 +43,7 @@ class MeasurePeak:
         return self.output
 
     @classmethod
-    def measure(signal, f1):
+    def measure(cls, signal, f1):
         inst = cls(f1)
         return inst.calculate(signal)
 
@@ -75,7 +78,10 @@ class AbstractMeasureTwo:
         self.f2 = f2
 
     def calculate(self, signal):
-        self.output = self._calc(signal)
+        if _np.iscomplexobj(signal):
+            self.output = self._calc(signal.real) + 1j*self._calc(signal.imag)
+        else:
+            self.output = self._calc(signal)
 
         return self.output
 
@@ -86,6 +92,17 @@ class AbstractMeasureTwo:
 
     def _calc(self, signal):
         raise NotImplementedError
+
+class AbstractMeasureTwoOrdered(AbstractMeasureTwo):
+    """ 
+    Abstract class for measurements that take 2 things,
+    where f1 < f2
+    """
+    def __init__(self, f1, f2):
+        if f1 <= f2:
+            super().__init__(f1, f2)
+        else:
+            super().__init__(f2, f1)
 
 class AbstractMeasureThree:
     """ Abstract class for measurements that take 3 things """
@@ -116,7 +133,11 @@ class AbstractMeasureThree:
         self.f3 = f3
 
     def calculate(self, signal):
-        self.output = self._calc(signal)
+
+        if _np.iscomplexobj(signal):
+            self.output = self._calc(signal.real) + 1j*self._calc(signal.imag)
+        else:
+            self.output = self._calc(signal)
 
         return self.output
 
@@ -154,7 +175,7 @@ class MeasurePeakMinus (AbstractMeasureTwo):
 
     """
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
         output = signal[..., self.f1] - signal[..., self.f2]
@@ -187,7 +208,7 @@ class MeasurePeakAdd(AbstractMeasureTwo):
 
     """
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
         output = signal[..., self.f1] + signal[..., self.f2]
@@ -220,7 +241,7 @@ class MeasurePeakMultiply(AbstractMeasureTwo):
 
     """
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
         output = signal[..., self.f1] * signal[..., self.f2]
@@ -253,14 +274,14 @@ class MeasurePeakDivide(AbstractMeasureTwo):
 
     """
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
         output = signal[..., self.f1] / signal[..., self.f2]
 
         return output
 
-class MeasurePeakSummation(AbstractMeasureTwo):
+class MeasurePeakSum(AbstractMeasureTwoOrdered):
     """
     Meausure the summation of all amplitudes between (inclusive) two peak
     locations.
@@ -287,14 +308,14 @@ class MeasurePeakSummation(AbstractMeasureTwo):
 
     """
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
         output = _np.sum(signal[..., self.f1:self.f2+1], axis=-1)
 
         return output
 
-class MeasurePeakSummationAbsReImag(AbstractMeasureTwo):
+class MeasurePeakSumAbsReImag(AbstractMeasureTwoOrdered):
     """
     Meausure the summation of the absolute value of all amplitudes
     between (inclusive) two peak locations. Note that the absolute value
@@ -324,13 +345,152 @@ class MeasurePeakSummationAbsReImag(AbstractMeasureTwo):
     """
 
     def __init__(self, f1, f2):
-        super.__init__(f1,f2)
+        super().__init__(f1,f2)
 
     def _calc(self, signal):
-        output = _np.sum(_np.abs(signal[..., self.f1:self.f2+1].real) +
-                      1j*_np.abs(signal[..., self.f1:self.f2+1].imag), axis=-1)
+        output = _np.sum(_np.abs(signal[..., self.f1:self.f2+1]), axis=-1)
 
         return output
+
+class MeasurePeakMax(AbstractMeasureTwoOrdered):
+    """
+    Meausure the maximum across the range [f1,f2]. Note
+     that real and imag are treated separately.
+
+    Parameters
+    ----------
+    f1 : int
+        Peak location in pixel coordinates
+    f2 : int
+        Peak location in pixel coordinates
+
+    Attributes
+    ----------
+    output : float or ndarray
+        Amplitude
+
+    Methods
+    -------
+    calculate : Calculate the amplitude
+
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+
+    """
+    def __init__(self, f1, f2):
+        super().__init__(f1,f2)
+
+    def _calc(self, signal):
+        output = _np.max(signal[..., self.f1:self.f2+1], axis=-1)
+        return output
+
+class MeasurePeakMin(AbstractMeasureTwoOrdered):
+    """
+    Meausure the minimum across the range [f1,f2]. Note
+     that real and imag are treated separately.
+
+    Parameters
+    ----------
+    f1 : int
+        Peak location in pixel coordinates
+    f2 : int
+        Peak location in pixel coordinates
+
+    Attributes
+    ----------
+    output : float or ndarray
+        Amplitude of peak
+
+    Methods
+    -------
+    calculate : Calculate the amplitude
+
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+
+    """
+    def __init__(self, f1, f2):
+        super().__init__(f1,f2)
+
+    def _calc(self, signal):
+        output = _np.min(signal[..., self.f1:self.f2+1], axis=-1)
+
+        return output
+
+
+class MeasurePeakMaxAbs(AbstractMeasureTwoOrdered):
+    """
+    Meausure the maximum across the absolute value across
+    the range [f1,f2]. Note that real and imag are
+     treated separately.
+
+    Parameters
+    ----------
+    f1 : int
+        Peak location in pixel coordinates
+    f2 : int
+        Peak location in pixel coordinates
+
+    Attributes
+    ----------
+    output : float or ndarray
+        Amplitude of peak
+
+    Methods
+    -------
+    calculate : Calculate the amplitude
+
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+
+    """
+    def __init__(self, f1, f2):
+        super().__init__(f1,f2)
+
+    def _calc(self, signal):
+        output = _np.max(_np.abs(signal[..., self.f1:self.f2+1]), axis=-1)
+
+        return output
+
+
+class MeasurePeakMinAbs(AbstractMeasureTwoOrdered):
+    """
+    Meausure the summation of all amplitudes between (inclusive) two peak
+    locations. Note that real and imag are treated
+     separately.
+
+    Parameters
+    ----------
+    f1 : int
+        Peak location in pixel coordinates
+    f2 : int
+        Peak location in pixel coordinates
+
+    Attributes
+    ----------
+    output : float or ndarray
+        Amplitude of peak
+
+    Methods
+    -------
+    calculate : Calculate the amplitude
+
+    Static Methods
+    --------------
+    measure : Same as calculate but static (returns the amplitude directly)
+
+    """
+    def __init__(self, f1, f2):
+        super().__init__(f1,f2)
+
+    def _calc(self, signal):
+        output = _np.min(_np.abs(signal[..., self.f1:self.f2+1]), axis=-1)
+
+        return output
+
 
 class MeasurePeakBWTroughs(AbstractMeasureThree):
     """
@@ -374,110 +534,123 @@ class MeasurePeakBWTroughs(AbstractMeasureThree):
         return output
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as _plt
+    data_m, data_n, data_p = [2, 3, 5]
+    spectrum = _np.array([0,1,2,3,4])
+    hsi = _np.dot(_np.ones((data_m*data_n, 1)), spectrum[None,:])
+    hsi = hsi.reshape((data_m, data_n, data_p))
 
-    print('\n\n--------- 1-Signal Test--------')
-    amp = 100
-    pk = 50
-    tr1 = 20
-    tr2 = 80
+    
+    output = MeasurePeakBWTroughs.measure(hsi,2,0,4)
+    print(output)
 
-    x = _np.arange(100)
-    signal = amp*_np.exp(-(x-pk)**2/(10**2))
-    baseline = x
-    y = signal + baseline
+    m_inst = MeasurePeakBWTroughs(2,0,4)
+    m_inst.calculate(hsi)
+    print(m_inst.output)
 
-    _plt.plot(x, y.T, label='Signal')
-    _plt.plot(x,baseline, label='baseline')
-    _plt.plot(x, signal.T,label='Signal - Baseline')
+    # import matplotlib.pyplot as _plt
 
-    # non-static method
-    #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)
-    #out = pbwt.calculate(y)
+    # print('\n\n--------- 1-Signal Test--------')
+    # amp = 100
+    # pk = 50
+    # tr1 = 20
+    # tr2 = 80
 
-    # static method
-    out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
+    # x = _np.arange(100)
+    # signal = amp*_np.exp(-(x-pk)**2/(10**2))
+    # baseline = x
+    # y = signal + baseline
 
-    _plt.plot((pk, pk), (0, out), 'k', lw=3, label='Calculated Amp')
-    _plt.xlabel('X')
-    _plt.ylabel('Amplitude (au)')
-    _plt.legend(loc='best')
-    _plt.show()
+    # _plt.plot(x, y.T, label='Signal')
+    # _plt.plot(x,baseline, label='baseline')
+    # _plt.plot(x, signal.T,label='Signal - Baseline')
 
-    print('Actual peak amp: {:.2f}. Retrieved peak amp: {:.2f}.'.format(amp, out))
-    print('Within 1% agreement: {}'.format(_np.isclose(amp, out, rtol=.01)))
+    # # non-static method
+    # #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)
+    # #out = pbwt.calculate(y)
 
-    print('\n\n--------- 2D Simple Test--------')
-    _plt.figure()
+    # # static method
+    # out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
 
-    amp = 100
-    pk = 50
-    tr1 = 20
-    tr2 = 80
+    # _plt.plot((pk, pk), (0, out), 'k', lw=3, label='Calculated Amp')
+    # _plt.xlabel('X')
+    # _plt.ylabel('Amplitude (au)')
+    # _plt.legend(loc='best')
+    # _plt.show()
 
-    N=2
+    # print('Actual peak amp: {:.2f}. Retrieved peak amp: {:.2f}.'.format(amp, out))
+    # print('Within 1% agreement: {}'.format(_np.isclose(amp, out, rtol=.01)))
 
-    x = _np.arange(100)
-    signal = amp*_np.exp(-(x-pk)**2/(10**2))
-    baseline = x
-    y = signal + baseline
-    mask = _np.ones((N,N))
-    y = _np.dot(mask[...,None], y[None,:])
+    # print('\n\n--------- 2D Simple Test--------')
+    # _plt.figure()
 
-    _plt.plot(y.reshape((-1,x.size)).T, label='Signal')
-    _plt.plot(x,baseline, label='baseline')
-    _plt.plot(x, signal.T,label='Signal - Baseline')
+    # amp = 100
+    # pk = 50
+    # tr1 = 20
+    # tr2 = 80
 
-    out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
+    # N=2
 
-    for out_pk in out.ravel():
-        _plt.plot((pk, pk), (0, out_pk), 'k', lw=3, label='Calculated Amp')
-    _plt.xlabel('X')
-    _plt.ylabel('Amplitude (au)')
-    _plt.legend(loc='best')
+    # x = _np.arange(100)
+    # signal = amp*_np.exp(-(x-pk)**2/(10**2))
+    # baseline = x
+    # y = signal + baseline
+    # mask = _np.ones((N,N))
+    # y = _np.dot(mask[...,None], y[None,:])
 
-    print('Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.'.format(amp, out.ravel()))
-    print('Within 1% agreement: {}'.format(_np.isclose(amp, out.ravel(), rtol=.01)))
-    print('All agree within 1%: {}'.format(_np.allclose(amp, out.ravel(), rtol=.01)))
+    # _plt.plot(y.reshape((-1,x.size)).T, label='Signal')
+    # _plt.plot(x,baseline, label='baseline')
+    # _plt.plot(x, signal.T,label='Signal - Baseline')
 
-    _plt.show()
+    # out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
 
-    print('\n\n--------- 2D More Complicated Test--------')
-    _plt.figure()
+    # for out_pk in out.ravel():
+    #     _plt.plot((pk, pk), (0, out_pk), 'k', lw=3, label='Calculated Amp')
+    # _plt.xlabel('X')
+    # _plt.ylabel('Amplitude (au)')
+    # _plt.legend(loc='best')
 
-    amp = 100
-    pk = 50
-    tr1 = 20
-    tr2 = 80
+    # print('Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.'.format(amp, out.ravel()))
+    # print('Within 1% agreement: {}'.format(_np.isclose(amp, out.ravel(), rtol=.01)))
+    # print('All agree within 1%: {}'.format(_np.allclose(amp, out.ravel(), rtol=.01)))
 
-    N=2
+    # _plt.show()
 
-    x = _np.arange(100)
-    signal = amp*_np.exp(-(x-pk)**2/(10**2))
-    mask = _np.ones((N,N))
-    rndm = _np.random.randint(0,10,size=(N,N))
-    baseline = _np.dot((rndm*mask)[...,None],x[None,:])
+    # print('\n\n--------- 2D More Complicated Test--------')
+    # _plt.figure()
 
-    y = signal[None,None,:] + baseline
+    # amp = 100
+    # pk = 50
+    # tr1 = 20
+    # tr2 = 80
 
-    #y = _np.dot(mask[...,None], y[None,:])
+    # N=2
 
-    _plt.plot(y.reshape((-1,x.size)).T, label='Signal')
-    _plt.plot(x,baseline.reshape((-1,x.size)).T, label='baseline')
-    _plt.plot(x, signal.T,label='Signal - Baseline')
+    # x = _np.arange(100)
+    # signal = amp*_np.exp(-(x-pk)**2/(10**2))
+    # mask = _np.ones((N,N))
+    # rndm = _np.random.randint(0,10,size=(N,N))
+    # baseline = _np.dot((rndm*mask)[...,None],x[None,:])
 
-    #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)
-    #out = pbwt.calculate(y)
-    out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
+    # y = signal[None,None,:] + baseline
 
-    for out_pk in out.ravel():
-        _plt.plot((pk, pk), (0, out_pk), 'k', lw=3, label='Calculated Amp')
-    _plt.xlabel('X')
-    _plt.ylabel('Amplitude (au)')
-    _plt.legend(loc='best')
+    # #y = _np.dot(mask[...,None], y[None,:])
 
-    print('Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.'.format(amp, out.ravel()))
-    print('Within 1% agreement: {}'.format(_np.isclose(amp, out.ravel(), rtol=.01)))
-    print('All agree within 1%: {}'.format(_np.allclose(amp, out.ravel(), rtol=.01)))
+    # _plt.plot(y.reshape((-1,x.size)).T, label='Signal')
+    # _plt.plot(x,baseline.reshape((-1,x.size)).T, label='baseline')
+    # _plt.plot(x, signal.T,label='Signal - Baseline')
 
-    _plt.show()
+    # #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)
+    # #out = pbwt.calculate(y)
+    # out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)
+
+    # for out_pk in out.ravel():
+    #     _plt.plot((pk, pk), (0, out_pk), 'k', lw=3, label='Calculated Amp')
+    # _plt.xlabel('X')
+    # _plt.ylabel('Amplitude (au)')
+    # _plt.legend(loc='best')
+
+    # print('Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.'.format(amp, out.ravel()))
+    # print('Within 1% agreement: {}'.format(_np.isclose(amp, out.ravel(), rtol=.01)))
+    # print('All agree within 1%: {}'.format(_np.allclose(amp, out.ravel(), rtol=.01)))
+
+    # _plt.show()

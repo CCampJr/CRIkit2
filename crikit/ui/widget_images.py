@@ -57,9 +57,13 @@ class widgetImageGainMath(_QWidget):
     """
     Panel that controle image gain and applies math
     """
-    OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs','SUM', 'SUM(ABS(Re) + 1j*ABS(Im))']
-    OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2, 2]
+    OPERATION_STRINGS = ['','+','-','*','/','Peak b/w troughs',
+                         'SUM', 'SUM(ABS(Re) + 1j*ABS(Im))', 'Max', 'Min', 
+                         'MaxAbs', 'MinAbs']
+    OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2, 2, 2, 2, 2, 2]
     COND_TYPE_STRINGS = ['>','<','=','<=','>=']
+
+    assert len(OPERATION_FREQ_COUNT) = len(OPERATION_STRINGS), 'Operation strings and freq num do not agree'
 
     def __init__(self, parent=None, **kwargs):
         super().__init__(parent)
