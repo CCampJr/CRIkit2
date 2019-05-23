@@ -5,7 +5,7 @@ Setup for CRIkit2
 from setuptools import setup, find_packages
 import crikit
 # ! Need to change to rst in the future
-with open('README.md', encoding='utf-8') as f:
+with open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
 
 # ! Set install_requires in check_requirements.py as well
