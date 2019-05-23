@@ -39,7 +39,7 @@ install:
 build: false
 
 test_script:
-    - "%CMD_IN_ENV% python -m pytest -v -s --cov"
+    - "%CMD_IN_ENV% python -m pytest -v -s --cov=."
 
 after_test:
     # Send coverage report to codecov
