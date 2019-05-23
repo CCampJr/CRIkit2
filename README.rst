@@ -1,28 +1,28 @@
 .. -*- mode: rst -*-
 
-.. image:: https://travis-ci.com/CCampJr/pyMCR.svg?branch=master
+.. image:: https://travis-ci.com/CCampJr/CRIkit2.svg?branch=master
     :alt: Travis CI Status
-    :target: https://travis-ci.com/CCampJr/pyMCR
+    :target: https://travis-ci.com/CCampJr/CRIkit2
 
-.. image:: https://ci.appveyor.com/api/projects/status/ajld1bj7jo4oweio/branch/master?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/1yrsrk6wfhjsn7bq/branch/master?svg=true
     :alt: AppVeyor CI Status
-    :target: https://ci.appveyor.com/project/CCampJr/pyMCR
+    :target: https://ci.appveyor.com/project/CCampJr/crikit2
 
-.. image:: https://codecov.io/gh/CCampJr/pyMCR/branch/master/graph/badge.svg
+.. image:: image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
     :alt: Codecov
-    :target: https://codecov.io/gh/CCampJr/pyMCR
+    :target: https://codecov.io/gh/CCampJr/CRIkit2
 
-.. image:: https://img.shields.io/pypi/pyversions/pyMCR.svg
+.. image:: https://img.shields.io/pypi/pyversions/CRIkit2.svg
     :alt: PyPI - Python Version
-    :target: https://pypi.org/project/pyMCR/
+    :target: https://pypi.org/project/CRIkit2/
 
-.. image:: https://img.shields.io/pypi/v/pyMCR.svg
+.. image:: https://img.shields.io/pypi/v/CRIkit2.svg
     :alt: PyPI Project Page
-    :target: https://pypi.org/project/pyMCR/
+    :target: https://pypi.org/project/CRIkit2/
 
 .. image:: https://img.shields.io/badge/License-NIST%20Public%20Domain-green.svg
     :alt: NIST Public Domain
-    :target: https://github.com/usnistgov/pyMCR/blob/master/LICENSE.md
+    :target: https://github.com/usnistgov/CRIkit2/blob/master/LICENSE.md
 
 
 CRIKit2: Hyperspectral imaging toolkit
