@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to CRIKit2’s documentation! &mdash; CRIKit2 0.2.0a0 documentation</title>
+  <title>CRIKit2: Hyperspectral imaging toolkit &mdash; CRIKit2 0.2.0a0 documentation</title>
   
 
   
@@ -140,7 +140,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to CRIKit2’s documentation!</li>
+      <li>CRIKit2: Hyperspectral imaging toolkit</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -159,37 +159,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <img alt="_images/CRIkit2_Logo.png" class="align-left" src="_images/CRIkit2_Logo.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-</div>
-<div class="section" id="welcome-to-crikit2-s-documentation">
-<h1>Welcome to CRIKit2’s documentation!<a class="headerlink" href="#welcome-to-crikit2-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>CRIkit2 is a numerical and graphical package for processing hyperspectral
-imagery (HSI). Originally developed for coherent Raman imaginery (CRI),
-CRIkit2 is appropriate for all HSI.</p>
-<p>The main components of CRIkit2:</p>
-<ul class="simple">
-<li><strong>CRIkitUI_process</strong> : the [graphical] user interface (UI) for (pre-)processing
-HSI.</li>
-<li><strong>CRIkitUI_analyze</strong> : <em>Coming soon</em>. A UI for analysis and visualization. Out-of-core
-computation enabled. Does not alter the original data.</li>
-<li>Numerical packages that can be used from the command line.</li>
-</ul>
+  <a class="reference external image-reference" href="https://travis-ci.com/CCampJr/CRIkit2"><img alt="Travis CI Status" src="https://travis-ci.com/CCampJr/CRIkit2.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://ci.appveyor.com/project/CCampJr/crikit2"><img alt="AppVeyor CI Status" src="https://ci.appveyor.com/api/projects/status/1yrsrk6wfhjsn7bq/branch/master?svg=true" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/CCampJr/CRIkit2"><img alt="Codecov" src="https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/CRIkit2/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/CRIkit2.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/CRIkit2/"><img alt="PyPI Project Page" src="https://img.shields.io/pypi/v/CRIkit2.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/CCampJr/CRIkit2/blob/master/LICENSE.md"><img alt="NIST Public Domain" src="https://img.shields.io/badge/License-NIST%20Public%20Domain-green.svg" /></a>
+<div class="section" id="crikit2-hyperspectral-imaging-toolkit">
+<h1>CRIKit2: Hyperspectral imaging toolkit<a class="headerlink" href="#crikit2-hyperspectral-imaging-toolkit" title="Permalink to this headline">¶</a></h1>
+<img alt="CRIkit2 Logo" src="_images/CRIkit2_Logo.png" />
+<p>CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
+imaging (HSI) platform. It is composed of command line tools, interactive tools,
+and a user interface.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#notes-and-known-issues">Notes and Known Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#instructions">Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#id1">Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a><ul>
@@ -240,6 +229,142 @@ computation enabled. Does not alter the original data.</li>
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 </ul>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Note: These are the developmental system specs. Older versions of certain
+packages may work.</p>
+<ul class="simple">
+<li>python &gt;= 3.4<ul>
+<li>Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2</li>
+</ul>
+</li>
+<li>NumPy</li>
+<li>PyQT5</li>
+<li>CVXOPT</li>
+<li>LazyHDF5 &gt;= 0.2.2<ul>
+<li>Requires H5Py (&gt;= 2.6)</li>
+</ul>
+</li>
+<li>SciPlot-PyQt &gt;= 0.2.2<ul>
+<li><a class="reference external" href="https://github.com/CCampJr/SciPlot-PyQt/releases">https://github.com/CCampJr/SciPlot-PyQt/releases</a></li>
+<li>Requires Matplotlib (v1.*, 2.*, or 3.*)</li>
+</ul>
+</li>
+<li>Sphinx (optional)</li>
+</ul>
+<div class="section" id="important-for-python-3-4">
+<h3>IMPORTANT: For Python 3.4<a class="headerlink" href="#important-for-python-3-4" title="Permalink to this headline">¶</a></h3>
+<p>You will need to manually install PyQt5 and Qt5 or get it through a distribution:</p>
+<ul class="simple">
+<li>PyQt5: <a class="reference external" href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></li>
+<li>Qt: <a class="reference external" href="https://www.qt.io/">https://www.qt.io/</a></li>
+</ul>
+</div>
+<div class="section" id="for-python-3-5-installation-through-pip-available">
+<h3>For Python 3.5, installation through pip available<a class="headerlink" href="#for-python-3-5-installation-through-pip-available" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">pyqt5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="windows-10-with-high-resolution-monitors">
+<h3>Windows 10 with High-Resolution Monitors<a class="headerlink" href="#windows-10-with-high-resolution-monitors" title="Permalink to this headline">¶</a></h3>
+<p>The GUI may appear squashed with small font. There is a work-around described at <a class="reference external" href="https://github.com/CCampJr/CRIkit2/issues/79">https://github.com/CCampJr/CRIkit2/issues/79</a></p>
+</div>
+<div class="section" id="pyqt-5-7">
+<h3>PyQt 5.7.*<a class="headerlink" href="#pyqt-5-7" title="Permalink to this headline">¶</a></h3>
+<p>There is a bug in PyQt 5.7.* that will prevent SciPlot’s tables from showing the individual plot entries
+(see <a class="reference external" href="https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html">https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html</a>). Apparently, this will be fixed in 5.7.2.</p>
+<ul class="simple">
+<li>As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.</li>
+<li>Alternatively, one can uninstall pyqt5.7.* and force an install of &lt;= 5.6.*.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="option-1-easily-updatable-through-git-dynamic-copy">
+<h3>Option 1: Easily updatable through git (dynamic copy)<a class="headerlink" href="#option-1-easily-updatable-through-git-dynamic-copy" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make new directory for crikit2 and enter it</span>
+<span class="c1"># Clone from github</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">CCampJr</span><span class="o">/</span><span class="n">crikit2</span><span class="o">.</span><span class="n">git</span>
+
+<span class="c1"># Within install directory</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+
+<span class="c1"># To update installation, from within crikit2 directory</span>
+<span class="n">git</span> <span class="n">pull</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="option-2-static-copy">
+<h3>Option 2: Static Copy<a class="headerlink" href="#option-2-static-copy" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make new directory for crikit2 and enter it</span>
+<span class="c1"># Clone from github</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">CCampJr</span><span class="o">/</span><span class="n">crikit2</span><span class="o">.</span><span class="n">git</span>
+
+<span class="c1"># or download a copy from https://github.com/CCampJr/crikit2</span>
+
+<span class="c1"># Within install directory</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">.</span>
+
+<span class="c1"># You can now delete the source files you downloaded</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="re-building-documentation">
+<h3>(Re-) Building Documentation<a class="headerlink" href="#re-building-documentation" title="Permalink to this headline">¶</a></h3>
+<p>The documentation was built using Sphinx. A pre-built version of the html
+files is included with this module, but you may wish to rebuild on your own
+system.</p>
+</div>
+</div>
+<div class="section" id="starting-the-crikit2-ui">
+<h2>Starting the CRIkit2 UI<a class="headerlink" href="#starting-the-crikit2-ui" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="known-operational-nuances">
+<h2>Known Operational Nuances<a class="headerlink" href="#known-operational-nuances" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The SVD visualization tool uses a complex-valued SVD for complex values; thus, there are a few
+things to avoid<ul>
+<li>If your spectra are PURELY IMAGINARY, convert them to PURELY REAL</li>
+<li>If your real and imaginary parts of your spectra are IDENTICAL, then
+consider using just the real or imaginary portion</li>
+<li>NOTE: this does not affect the accuracy or performance of SVD or the returned
+results, but you will see unexpected visualizations of the spatial and spectral
+components.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="nonlicense">
+<h2>NONLICENSE<a class="headerlink" href="#nonlicense" title="Permalink to this headline">¶</a></h2>
+<p>This software was developed at the National Institute of Standards and
+Technology (NIST) by employees of the Federal Government in the course of
+their official duties. Pursuant to [Title 17 Section 105 of the United States
+Code](<a class="reference external" href="http://www.copyright.gov/title17/92chap1.html#105">http://www.copyright.gov/title17/92chap1.html#105</a>), this software is not
+subject to copyright protection and is in the public domain. NIST assumes no
+responsibility whatsoever for use by other parties of its source code, and
+makes no guarantees, expressed or implied, about its quality, reliability, or
+any other characteristic.</p>
+<p>Specific software products identified in this open source project were used in
+order to perform technology transfer and collaboration. In no case does such
+identification imply recommendation or endorsement by the National Institute
+of Standards and Technology, nor does it imply that the products identified
+are necessarily the best available for the purpose.</p>
+</div>
+<div class="section" id="citation">
+<h2>CITATION<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/28819335">C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, comparable coherent
+anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in phase
+retrieval”, Journal of Raman Spectroscopy 47, 408-416 (2016).</a></p>
+</div>
+<div class="section" id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h2>
+<p>Charles H Camp Jr: <a class="reference external" href="mailto:charles&#46;camp&#37;&#52;&#48;nist&#46;gov">charles<span>&#46;</span>camp<span>&#64;</span>nist<span>&#46;</span>gov</a></p>
+</div>
 </div>
 
 

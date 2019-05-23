@@ -65,10 +65,13 @@ packages may work.
 -   NumPy
 -   PyQT5
 -   CVXOPT
+
 -   LazyHDF5 >= 0.2.2
+
     -   Requires H5Py (>= 2.6)
 
 -   SciPlot-PyQt >= 0.2.2
+
     -   https://github.com/CCampJr/SciPlot-PyQt/releases
     -   Requires Matplotlib (v1.*, 2.*, or 3.*)
 
@@ -109,57 +112,86 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 Installation
 -------------
 
-Option 1: Easily updatable through git (dynamic copy)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It is advisable to clone CRIkit2 via git (https://git-scm.com/) and install
+in a *developmental* mode via *pip* or *conda* as this will enable you to
+easily (relatively) update your copy of CRIkit2 as new functionality
+is *pushed*.
+
+**Note** If you choose to clone an updatable copy of CRIkit2, do not
+clone to a directory within your Python installation. Rather, create a new
+directory elsewhere. That way if you update your Python distribution, you won't
+lose your copy of CRIkit2.
+
+Option 1: Dynamic, Updatable Clone of CRIkit2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code::
 
-    # Make new directory for crikit2 and enter it
+    # Note: in Windows, commands will be followed by .exe
+    # Note: On multi-python systems, you should probably append a 3 to end
+    # the end of commands, e.g., pip is pip3, python is python3
+
+    # Assume the new directory will be CRIkit2 (it can be anything)
     # Clone from github
-    git clone https://github.com/CCampJr/crikit2.git
+    git clone https://github.com/CCampJr/crikit2.git CRIkit2
 
     # Within install directory
-    pip3 install -e .
+    pip install -e .
 
-    # To update installation, from within crikit2 directory
+    # To update installation, from within the CRIkit2 directory
     git pull
 
 
 Option 2: Static Copy
 ~~~~~~~~~~~~~~~~~~~~~~
 
+The static copy will copy the CRIkit2 install into your Python distribution
+and will not be updatable without re-installing CRIkit2
+
 .. code::
 
-    # Make new directory for crikit2 and enter it
-    # Clone from github
-    git clone https://github.com/CCampJr/crikit2.git
+    # Note: in Windows, commands will be followed by .exe
+    # Note: On multi-python systems, you should probably append a 3 to end
+    # the end of commands, e.g., pip is pip3, python is python3
 
-    # or download a copy from https://github.com/CCampJr/crikit2
+    # Assume the new directory will be CRIkit2 (it can be anything)
+    # Clone from github
+    git clone https://github.com/CCampJr/crikit2.git CRIkit2
 
     # Within install directory
-    pip3 install .
+    pip install .
 
-    # You can now delete the source files you downloaded
+    # You can now delete the source files you downloaded if so desired
+
+    # To update installation, from within the CRIkit2 directory
+    git pull
+    pip install .
 
 
 (Re-) Building Documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The documentation was built using Sphinx. A pre-built version of the html
-files is included with this module, but you may wish to rebuild on your own
-system.
+A pre-built version of the documentation is included with the installation;
+thus, this step should not be necessary unless you are making modifications
+to the software.
+
+The documentation is accessible from within CRIkit2 under the *Help* header.
+It is displayed in a web browser.
 
 .. code::
-    # Build all APIs
-    # From within the docs/ directory
-    sphinx-apidoc -o ./source/ ../crikit/
+
+    # From within the CRIkit2 directory (not crikit)
+    cd docs
+
+    # Clean out old docs (optional)
+    make clean  # On Windows make.bat clean
 
     # Build API w/o pyuic5-generated files
-    sphinx-apidoc -f -o .\source\ ..\crikit\ ..\crikit\ui\qt_* ..\crikit\ui\*_rc* ..\crikit\ui\old\**
+    # Windows add .exe
+    sphinx-apidoc -f -o ./source/ ../ ../crikit/ui/qt_* ../crikit/ui/*_rc* ../crikit/ui/old/** ../setup.py
 
-    make html  
-    # On Windows
-    make.bat html
+    make html  # On Windows make.bat html
+
 
 Starting the CRIkit2 UI
 ------------------------
@@ -176,6 +208,7 @@ Known Operational Nuances
 
 -   The SVD visualization tool uses a complex-valued SVD for complex values; thus, there are a few
     things to avoid
+
     -   If your spectra are PURELY IMAGINARY, convert them to PURELY REAL
     -   If your real and imaginary parts of your spectra are IDENTICAL, then
         consider using just the real or imaginary portion

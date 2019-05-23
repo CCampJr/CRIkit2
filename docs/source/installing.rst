@@ -15,90 +15,143 @@ Installation
 ============
 
 Dependencies
----------------------
-Note: the versions are those that have been tested, but older/newer
-versions may also work.
+-------------
 
-- Python 3.4, 3.5, 3.6 (3.4.4, 3.5.2, 3.6.1)
-- `SciPlot-PyQt <https://github.com/CCampJr/SciPlot-PyQt/releases>`__ >= 0.1.3 (>=0.1.4 for MPL2)
-- numpy (1.9.3, 1.11.1, 1.11.3+mkl)
-- PyQt5 (5.5, 5.6, 5.8.1)
-- matplotlib (1.5, 2.0 -- see below for MPL2)
-- cvxopt (1.1.7, 1.1.9)
-- h5py (2.5, 2.6, 2.7)
-- Sphinx (1.4.5, 1.5.2, 1.6.4) -- only for documentation building
+Note: These are the developmental system specs. Older versions of certain
+packages may work.
 
-Notes and Known Issues
-----------------------
+-   python >= 3.4
 
-Matplotlib 2
-~~~~~~~~~~~~
-You will need to use SciPlot-PyQT v0.1.4 (or higher)
-- Matplotlib 2 made numerous changes and deprecations that are being resolved
-- See the installation instruction in the `SciPlot-pyQt README.md <https://github.com/CCampJr/SciPlot-PyQt>`__
+    -   Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2
 
-Python 3.4
-~~~~~~~~~~~
-You will need to manually install PyQt5 and Qt5 or get it through a distribution
-* PyQt5: https://www.riverbankcomputing.com/software/pyqt/download5
-* Qt: https://www.qt.io/
+-   NumPy
+-   PyQT5
+-   CVXOPT
 
-PyQt 5.7 and WinPython 3.5
+-   LazyHDF5 >= 0.2.2
+
+    -   Requires H5Py (>= 2.6)
+
+-   SciPlot-PyQt >= 0.2.2
+
+    -   https://github.com/CCampJr/SciPlot-PyQt/releases
+    -   Requires Matplotlib (v1.*, 2.*, or 3.*)
+
+-   Sphinx (optional)
+
+IMPORTANT: For Python 3.4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the individual plot entries 
+You will need to manually install PyQt5 and Qt5 or get it through a distribution:
+
+-   PyQt5: https://www.riverbankcomputing.com/software/pyqt/download5
+-   Qt: https://www.qt.io/
+
+For Python 3.5, installation through pip available
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code::
+
+    pip3 install pyqt5
+
+Known Issues
+-------------
+
+Windows 10 with High-Resolution Monitors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The GUI may appear squashed with small font. There is a work-around
+ described at https://github.com/CCampJr/CRIkit2/issues/79
+
+PyQt 5.7.*
+~~~~~~~~~~~
+
+There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the individual plot entries
 (see https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html). Apparently, this will be fixed in 5.7.2.
 
-- As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.
-- Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
+-   As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.
+-   Alternatively, one can uninstall pyqt5.7.* and force an install of <= 5.6.*.
 
-SciPlot-PyQt
-~~~~~~~~~~~~
-Currently, SciPlot >= 0.1.3 is not available through pip. You can however clone the repository from github.
-(see https://github.com/CCampJr/SciPlot-PyQt)
 
-Instructions
-------------
+Installation
+-------------
 
-Git Dynamic copy
-~~~~~~~~~~~~~~~~~~~
-::
+It is advisable to clone CRIkit2 via git (https://git-scm.com/) and install
+in a *developmental* mode via *pip* or *conda* as this will enable you to
+easily (relatively) update your copy of CRIkit2 as new functionality
+is *pushed*.
 
-  # Make new directory for crikit2 (DIR)
-  # Clone from github
-  git clone https://github.com/CCampJr/crikit2.git ./DIR
+**Note** If you choose to clone an updatable copy of CRIkit2, do not
+clone to a directory within your Python installation. Rather, create a new
+directory elsewhere. That way if you update your Python distribution, you won't
+lose your copy of CRIkit2.
 
-  # Within install directory (DIR)
-  pip3 install -e .
+Option 1: Dynamic, Updatable Clone of CRIkit2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  # To update installation, from within crikit2 directory
-  git pull
+.. code::
 
-Git Static copy
-~~~~~~~~~~~~~~~~~~~
-::
+    # Note: in Windows, commands will be followed by .exe
+    # Note: On multi-python systems, you should probably append a 3 to end
+    # the end of commands, e.g., pip is pip3, python is python3
 
-  # Make new directory for crikit2 (DIR)
-  # Clone from github
-  git clone https://github.com/CCampJr/crikit2.git ./DIR
+    # Assume the new directory will be CRIkit2 (it can be anything)
+    # Clone from github
+    git clone https://github.com/CCampJr/crikit2.git CRIkit2
 
-  # Within install directory (DIR)
-  pip3 install .
+    # Within install directory
+    pip install -e .
 
-  # You can now delete the source files you downloaded
+    # To update installation, from within the CRIkit2 directory
+    git pull
 
-(Re)-Building documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The documentation was built using Sphinx. A pre-built version of the html
-files is included with this module, but you may wish to rebuild on your own
-system.::
 
-  # Build all APIs
-  # From within the docs/ directory
-  sphinx-apidoc -o ./source/ ../crikit/
+Option 2: Static Copy
+~~~~~~~~~~~~~~~~~~~~~~
 
-  # Build API w/o pyuic5-generated files
-  sphinx-apidoc -f -o .\source\ ..\crikit\ ..\crikit\ui\qt_* ..\crikit\ui\*_rc* ..\crikit\ui\old\**
+The static copy will copy the CRIkit2 install into your Python distribution
+and will not be updatable without re-installing CRIkit2
 
-  make html  
-  # On Windows
-  make.bat html
+.. code::
+
+    # Note: in Windows, commands will be followed by .exe
+    # Note: On multi-python systems, you should probably append a 3 to end
+    # the end of commands, e.g., pip is pip3, python is python3
+
+    # Assume the new directory will be CRIkit2 (it can be anything)
+    # Clone from github
+    git clone https://github.com/CCampJr/crikit2.git CRIkit2
+
+    # Within install directory
+    pip install .
+
+    # You can now delete the source files you downloaded if so desired
+
+    # To update installation, from within the CRIkit2 directory
+    git pull
+    pip install .
+
+
+(Re-) Building Documentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A pre-built version of the documentation is included with the installation;
+thus, this step should not be necessary unless you are making modifications
+to the software.
+
+The documentation is accessible from within CRIkit2 under the *Help* header.
+It is displayed in a web browser.
+
+.. code::
+
+    # From within the CRIkit2 directory (not crikit)
+    cd docs
+
+    # Clean out old docs (optional)
+    make clean  # On Windows make.bat clean
+
+    # Build API w/o pyuic5-generated files
+    # Windows add .exe
+    sphinx-apidoc -f -o ./source/ ../ ../crikit/ui/qt_* ../crikit/ui/*_rc* ../crikit/ui/old/** ../setup.py
+
+    make html  # On Windows make.bat html
+
