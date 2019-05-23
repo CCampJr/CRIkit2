@@ -18,7 +18,15 @@ cache:
   pip: true
   ccache: true
   directories:
-  - $TRAVIS_BUILD_DIR/crikit2
+
+addons:
+  apt:
+    packages:
+    - libatlas-dev
+    - libatlas-base-dev
+    - liblapack-dev
+    - gfortran
+
 before_install:
 # - if [[ "$TRAVIS_PYTHON_VERSION" != "3.4" && "$TRAVIS_PYTHON_VERSION" != "3.5" ]];
 #   then pip install pyqt5; else source $TRAVIS_BUILD_DIR/.travis/build_pyqt5.sh; fi
@@ -29,7 +37,7 @@ before_install:
 # - pip install sphinx_rtd_theme
 install:
 - pip install -qq --upgrade pip setuptools wheel
-- cd $TRAVIS_BUILD_DIR
+# - cd $TRAVIS_BUILD_DIR
 # - if [[ "$TRAVIS_PYTHON_VERSION" != "3.4" && "$TRAVIS_PYTHON_VERSION" != "3.5" ]];
 #   then python setup.py egg_info;
 #   python setup.py dist_info;
@@ -44,7 +52,7 @@ install:
 - python setup.py install
 - pwd
 - ls
-- cd crikit2
+# - cd crikit2
 # - python setup.py sdist
 # - cd $TRAVIS_BUILD_DIR/docs/
 # - sphinx-apidoc -o ./source ../sciplot

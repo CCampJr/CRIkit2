@@ -14,7 +14,7 @@ environment:
         PYTHON: "C:\\conda"
         MINICONDA_VERSION: "latest"
         PYTHON_ARCH: "64"
-        CONDA_DEPENDENCIES: "pyqt matplotlib"
+        CONDA_DEPENDENCIES: "numpy scipy pyqt matplotlib"
         PIP_DEPENDENCIES: "pytest pytest-cov codecov"
 
     matrix:
