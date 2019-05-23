@@ -11,6 +11,6 @@
 |
 |
 
-Command Line Tools & Algorthms
+Command Line Tools & Algorithms
 ===============================
 
