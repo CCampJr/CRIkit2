@@ -14,7 +14,7 @@ setup(name='crikit2',
       description = 'Hyperspectral imaging (HSI) processing and analysis \
       platform (user interface, UI)',
       long_description = long_description,
-      url = 'https://github.com/CoherentRamanNIST/crikit2',
+      url = 'https://github.com/CCampJr/crikit2',
       author = 'Charles H. Camp Jr.',
       author_email = 'charles.camp@nist.gov',
       license = 'Public Domain',

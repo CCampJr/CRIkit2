@@ -65,7 +65,7 @@ There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
-git clone https://github.com/CoherentRamanNIST/crikit2.git
+git clone https://github.com/CCampJr/crikit2.git
 
 # Within install directory
 pip3 install -e .
@@ -78,9 +78,9 @@ git pull
 ```
 # Make new directory for crikit2 and enter it
 # Clone from github
-git clone https://github.com/CoherentRamanNIST/crikit2.git
+git clone https://github.com/CCampJr/crikit2.git
 
-# or download a copy from https://github.com/CoherentRamanNIST/crikit2
+# or download a copy from https://github.com/CCampJr/crikit2
 
 # Within install directory
 pip3 install .

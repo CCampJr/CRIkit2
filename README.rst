@@ -116,7 +116,7 @@ Option 1: Easily updatable through git (dynamic copy)
 
     # Make new directory for crikit2 and enter it
     # Clone from github
-    git clone https://github.com/CoherentRamanNIST/crikit2.git
+    git clone https://github.com/CCampJr/crikit2.git
 
     # Within install directory
     pip3 install -e .
@@ -132,9 +132,9 @@ Option 2: Static Copy
 
     # Make new directory for crikit2 and enter it
     # Clone from github
-    git clone https://github.com/CoherentRamanNIST/crikit2.git
+    git clone https://github.com/CCampJr/crikit2.git
 
-    # or download a copy from https://github.com/CoherentRamanNIST/crikit2
+    # or download a copy from https://github.com/CCampJr/crikit2
 
     # Within install directory
     pip3 install .
