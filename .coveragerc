@@ -1,11 +1,5 @@
 [run]
 omit = 
-    # QT-related
-    # */ui/*
-
-    # CRIkitUI
-    # */CRIkitUI.py
-
     */setup.py
 
     */__main__.py
