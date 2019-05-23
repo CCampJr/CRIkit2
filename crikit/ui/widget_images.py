@@ -63,7 +63,7 @@ class widgetImageGainMath(_QWidget):
     OPERATION_FREQ_COUNT = [1, 2, 2, 2,2, 3, 2, 2, 2, 2, 2, 2]
     COND_TYPE_STRINGS = ['>','<','=','<=','>=']
 
-    assert len(OPERATION_FREQ_COUNT) = len(OPERATION_STRINGS), 'Operation strings and freq num do not agree'
+    assert len(OPERATION_FREQ_COUNT) == len(OPERATION_STRINGS), 'Operation strings and freq num do not agree'
 
     def __init__(self, parent=None, **kwargs):
         super().__init__(parent)
