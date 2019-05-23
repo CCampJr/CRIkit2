@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.measurement.peakfind &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.measurement.peakfind</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.measurement.peakfind</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Peak-finding utilities</span>
+
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">timeit</span> <span class="k">as</span> <span class="nn">_timeit</span>
+
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="p">(</span><span class="n">convolve</span> <span class="k">as</span> <span class="n">_convolve</span><span class="p">,</span>
+                          <span class="n">argrelmin</span> <span class="k">as</span> <span class="n">_argrelmin</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PeakFinder"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder">[docs]</a><span class="k">class</span> <span class="nc">PeakFinder</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find peaks and shoulders of a signal.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    QQ : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    amp : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+<span class="sd">    </span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+<span class="sd">    </span>
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">cwt_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_noise_tests</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                 <span class="n">cutoff_d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff_d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cwt_width</span> <span class="o">=</span> <span class="n">cwt_width</span>  <span class="c1"># Width, in pixels, of wavelet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_sigma</span> <span class="o">=</span> <span class="n">noise_sigma</span>  <span class="c1"># Standard deviation of signal noise</span>
+        
+        <span class="c1"># If cutoffs not specified, # of Monte Carlo tests to estimate cutoff values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_noise_tests</span> <span class="o">=</span> <span class="n">n_noise_tests</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span> <span class="o">=</span> <span class="n">cutoff_d1</span>  <span class="c1"># Amplitude cutoff for 1st derivative</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span> <span class="o">=</span> <span class="n">cutoff_d2</span>  <span class="c1"># Amplitude cutoff for 2nd derivative</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="c1"># Array elements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Independent variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Dependent variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Independent variable (pixel-units)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">amps</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Retrieved amplitudes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Retrieved peak centers (x-units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Retrieved Gaussian widths (x-units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shoulder</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Is a peak a shoulder</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">centers_pix</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Retrieved peak centers (pixel-units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmas_pix</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Retrieved peak widths (standard deviation) (pixel-units)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_retrieved</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Estimated coarse peak fitting</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cwt_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span>
+
+    <span class="nd">@cwt_width</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cwt_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cwt_width must be positive&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">noise_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noise_sigma</span>
+
+    <span class="nd">@noise_sigma</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">noise_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;noise_sigma must be non-negtaive&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_noise_sigma</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="PeakFinder.haar"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder.haar">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">haar</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create Haar wavelet (wv) with specified width (width)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wv</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">width</span><span class="p">))</span>
+        <span class="n">midpoint</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">wv</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">midpoint</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">wv</span><span class="p">[</span><span class="n">midpoint</span><span class="p">::]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># Set midpoint == 0 for odd-length. Not technically correct, but needed</span>
+        <span class="c1"># for computations</span>
+        <span class="k">if</span> <span class="n">width</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">wv</span><span class="p">[</span><span class="n">midpoint</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">return</span> <span class="n">wv</span></div>
+
+<div class="viewcode-block" id="PeakFinder.cwt_diff"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder.cwt_diff">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cwt_diff</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">wv_width</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take a numerical derivative using a Haar wavelet (noise-supression)</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        signal : ndarray (1D)</span>
+<span class="sd">            Signal data</span>
+<span class="sd">        </span>
+<span class="sd">        wv_width : int</span>
+<span class="sd">            Width of wavelet to use (balance noise suppression and distortion)</span>
+<span class="sd">            </span>
+<span class="sd">        order : int, optional (default=1)</span>
+<span class="sd">            Order of derivative (e.g., 1st-order derivative)</span>
+
+<span class="sd">        method : str {&#39;auto&#39; (default), &#39;fft&#39;, &#39;direct&#39;}</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        deriv : ndarray (1D)</span>
+<span class="sd">            Derivative of input signal</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">deriv</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">deriv</span> <span class="o">=</span> <span class="n">_convolve</span><span class="p">(</span><span class="n">deriv</span><span class="p">,</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">haar</span><span class="p">(</span><span class="n">wv_width</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> 
+                                  <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;peakfind.py | cwt_diff: Likely using an old version of SciPy (no convolve method parameter)&#39;</span><span class="p">)</span>
+                <span class="n">deriv</span> <span class="o">=</span> <span class="n">_convolve</span><span class="p">(</span><span class="n">deriv</span><span class="p">,</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">haar</span><span class="p">(</span><span class="n">wv_width</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">deriv</span></div>
+
+    <span class="c1"># @staticmethod</span>
+    <span class="c1"># def measure(signal, noise_sigma, x=None, cwt_width=10, n_noise_tests=1000,</span>
+    <span class="c1">#             cutoff_d1=None, cutoff_d2=None, verbose=True):</span>
+    <span class="c1">#     pass</span>
+
+<div class="viewcode-block" id="PeakFinder.calculate"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">recalc_cutoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find peaks &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="c1"># Will update in the future for 1D x and ND y</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_cutoff</span><span class="p">(</span><span class="n">recalc_cutoff</span><span class="o">=</span><span class="n">recalc_cutoff</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        
+        <span class="n">tmr</span> <span class="o">=</span> <span class="n">_timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">cwt_diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">wv_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">cwt_diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">wv_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+
+        <span class="n">loc_mins_d2</span> <span class="o">=</span> <span class="n">_argrelmin</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">10</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_mins_d2</span> <span class="o">=</span> <span class="n">loc_mins_d2</span><span class="p">[</span><span class="n">d2</span><span class="p">[</span><span class="n">loc_mins_d2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_mins_d2</span> <span class="o">=</span> <span class="n">loc_mins_d2</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">d2</span><span class="p">[</span><span class="n">loc_mins_d2</span><span class="p">])</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span><span class="p">]</span>
+        <span class="n">loc_mins_d2</span> <span class="o">=</span> <span class="n">loc_mins_d2</span><span class="p">[</span><span class="n">loc_mins_d2</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">loc_mins_d2</span> <span class="o">=</span> <span class="n">loc_mins_d2</span><span class="p">[</span><span class="n">loc_mins_d2</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)]</span>
+        <span class="n">peak</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">loc_mins_d2</span><span class="o">-</span><span class="mi">10</span><span class="p">])</span><span class="o">+</span><span class="n">_np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">loc_mins_d2</span><span class="o">+</span><span class="mi">10</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span>
+        <span class="n">shoulder</span> <span class="o">=</span> <span class="o">~</span><span class="n">peak</span>
+        
+        
+        <span class="n">loc_mins_d1</span> <span class="o">=</span> <span class="n">_argrelmin</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">10</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_mins_d1</span> <span class="o">=</span> <span class="n">loc_mins_d1</span><span class="p">[</span><span class="n">d1</span><span class="p">[</span><span class="n">loc_mins_d1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_mins_d1</span> <span class="o">=</span> <span class="n">loc_mins_d1</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">loc_mins_d1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span><span class="p">]</span>
+
+        <span class="n">sigma_retr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sigma_retr_locs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">loc_mins_d2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sigma_retr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">loc_mins_d1</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">loc_mins_d1</span><span class="p">))]])</span>
+            <span class="n">sigma_retr_locs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loc_mins_d1</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">loc_mins_d1</span><span class="p">))])</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sigma_retr</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sigma_retr</span><span class="p">))</span>
+            <span class="n">omegas_retr</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">loc_mins_d2</span><span class="p">]</span>
+        <span class="n">sigma_retr_locs</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sigma_retr_locs</span><span class="p">)</span>       
+        <span class="n">omegas_retr_locs</span> <span class="o">=</span> <span class="n">loc_mins_d2</span>
+        
+        <span class="n">amps_retr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omegas_retr_locs</span><span class="p">,</span> <span class="n">sigma_retr_locs</span><span class="p">):</span>
+            <span class="n">dl</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+            <span class="n">amps_retr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="n">dl</span><span class="p">:</span><span class="n">l</span><span class="o">+</span><span class="n">dl</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">amps_retr</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">amps_retr</span><span class="p">)</span>
+
+        <span class="n">tmr</span> <span class="o">-=</span> <span class="n">_timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">tmr</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time for peak finding: </span><span class="si">{:.2e}</span><span class="s1"> sec&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="n">tmr</span><span class="p">))</span>
+        
+        <span class="n">y_retrieved</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">amps_retr</span><span class="p">,</span> <span class="n">omegas_retr_locs</span><span class="p">,</span> <span class="n">sigma_retr_locs</span><span class="p">)):</span>
+            <span class="n">y_retrieved</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span><span class="o">-</span><span class="n">o</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">amps</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">amps_retr</span>  <span class="c1"># Retrieved amplitudes</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">omegas_retr</span>  <span class="c1"># Retrieved peak centers (x-units)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">sigma_retr</span>  <span class="c1"># Retrieved Gaussian widths (x-units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shoulder</span> <span class="o">=</span> <span class="n">shoulder</span>  <span class="c1"># Is a peak a shoulder</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">centers_pix</span> <span class="o">=</span> <span class="mi">0</span><span class="o">+</span><span class="n">omegas_retr_locs</span>  <span class="c1"># Retrieved peak centers (pixel-units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmas_pix</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">sigma_retr_locs</span>  <span class="c1"># Retrieved peak widths (standard deviation) (pixel-units)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_retrieved</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">y_retrieved</span>  <span class="c1"># Estimated coarse peak fitting</span></div>
+
+<div class="viewcode-block" id="PeakFinder._calc_cutoff"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder._calc_cutoff">[docs]</a>    <span class="k">def</span> <span class="nf">_calc_cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recalc_cutoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">recalc_cutoff</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">y_blank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noise_sigma</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_noise_tests</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">y_blank_d2</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_blank</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">y_blank_d1</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_blank</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">temp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y_blank</span><span class="p">):</span>
+                <span class="n">y_blank_d1</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">cwt_diff</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">wv_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+                <span class="n">y_blank_d2</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">PeakFinder</span><span class="o">.</span><span class="n">cwt_diff</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">wv_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cwt_width</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">recalc_cutoff</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_blank_d2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">recalc_cutoff</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_blank_d1</span><span class="p">))</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;1st-Deriv cutoff: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2nd-Deriv cutoff: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span><span class="p">))</span></div></div>
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+    <span class="n">Omega</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">Omega</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">o</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    
+    <span class="n">noise_sigma</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">noise_sigma</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y_noisy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">noise</span>
+    
+    <span class="n">pkfind</span> <span class="o">=</span> <span class="n">PeakFinder</span><span class="p">(</span><span class="n">noise_sigma</span><span class="o">=</span><span class="n">noise_sigma</span><span class="p">,</span> <span class="n">cwt_width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_noise_tests</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                        <span class="n">cutoff_d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff_d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">====================================</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">pkfind</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">recalc_cutoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">)</span>
+
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Actual Center: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Omega</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calculated Centers: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pkfind</span><span class="o">.</span><span class="n">centers</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Actual Amplitudes: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calculated Amplitudes: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pkfind</span><span class="o">.</span><span class="n">amps</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Actual Widths: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Sigma</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calculated Widths: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pkfind</span><span class="o">.</span><span class="n">sigmas</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is Shoulder: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pkfind</span><span class="o">.</span><span class="n">shoulder</span><span class="p">))</span>
+    <span class="c1"># print(pkfind.sigmas)</span>
+    <span class="c1"># print(pkfind.__dict__)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

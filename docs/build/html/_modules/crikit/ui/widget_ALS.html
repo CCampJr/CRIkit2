@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.widget_ALS &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.widget_ALS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.widget_ALS</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Widget for PlotEffect that adjusts the parameters appropriate for</span>
+<span class="sd">asymmetric least squares (ALS)</span>
+
+<span class="sd">Created on Thu Dec 22 01:16:01 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="k">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span>
+                                                 <span class="k">as</span> <span class="n">_AbstractPlotEffectPlugin</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect_ALS2</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">_Ui_Form</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_scientificspin</span> <span class="k">import</span> <span class="p">(</span><span class="n">ScientificDoubleSpinBox</span> <span class="k">as</span>
+                                             <span class="n">_SciSpin</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.preprocess.algorithms.als</span> <span class="k">import</span> <span class="n">AlsCvxopt</span> <span class="k">as</span> <span class="n">_Als</span>
+<span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="k">import</span> <span class="n">find_nearest</span> <span class="k">as</span> <span class="n">_find_nearest</span>
+
+<div class="viewcode-block" id="widgetALS"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS">[docs]</a><span class="k">class</span> <span class="nc">widgetALS</span><span class="p">(</span><span class="n">_AbstractPlotEffectPlugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Widget for PlotEffect that adjusts the parameters appropriate for</span>
+<span class="sd">    asymmetric least squares (ALS)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    smoothness_param : float, optional (default, 1e3)</span>
+<span class="sd">        Smoothness parameter</span>
+
+<span class="sd">    asym_param : float, optional (default, 1e-4)</span>
+<span class="sd">        Assymetry parameter</span>
+
+<span class="sd">    redux : int, optional (default, 1)</span>
+<span class="sd">        Reduction parameter to sub-sample input signal</span>
+
+<span class="sd">    order : int, optional (default, 2)</span>
+<span class="sd">        Derivative regularization term. Order=2 for Whittaker-smoother</span>
+
+<span class="sd">    fix_end_points : bool, optional (default, False)</span>
+<span class="sd">        Weight the baseline endpoints to approach equally the end-points</span>
+<span class="sd">        of the data.</span>
+
+<span class="sd">    max_iter : int, optional (default, 100)</span>
+<span class="sd">        Maximum number of least-squares iterations to perform</span>
+
+<span class="sd">    min_diff : float, optional (default, 1e-5)</span>
+<span class="sd">        Break iterative calculations if difference is less than min_diff</span>
+
+<span class="sd">    parent: QObject</span>
+<span class="sd">        Parent</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    fcn : Perform ALS detrending</span>
+
+<span class="sd">    Signals:</span>
+<span class="sd">        changed : a value in the UI has changed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Parameter dict that will be returned from PlotEffect</span>
+    <span class="c1"># Will be updated later in program to contain all parameters</span>
+    <span class="c1"># to pass to underlying algorithm</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="s1">&#39;ALS&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;long_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asymmetric least squares&#39;</span><span class="p">}</span>
+
+    <span class="c1"># Labeling options for original data plot</span>
+    <span class="n">labels_orig</span> <span class="o">=</span> <span class="p">{</span>
+                   <span class="s1">&#39;x_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;y_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Input Int (au)&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Original&#39;</span>
+                   <span class="p">}</span>
+
+    <span class="c1"># Labeling options for affected data plot</span>
+    <span class="n">labels_affected</span> <span class="o">=</span> <span class="p">{</span>
+                       <span class="s1">&#39;x_label&#39;</span> <span class="p">:</span> <span class="n">labels_orig</span><span class="p">[</span><span class="s1">&#39;x_label&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;y_label&#39;</span> <span class="p">:</span> <span class="s1">&#39;Output Int (au)&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Detrended&#39;</span>
+                      <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smoothness_param</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">asym_param</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">redux</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fix_end_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fix_const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fix_rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_diff</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sub_asym_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sub_w_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">widgetALS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">rng</span>
+        
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">_Ui_Form</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_asym_list</span> <span class="o">=</span> <span class="n">sub_asym_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_w_list</span> <span class="o">=</span> <span class="n">sub_w_list</span>
+
+        <span class="c1"># ! Change this into its own function after</span>
+        <span class="c1"># ! the asym table widget is all setup</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_asym_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">asym_param</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">asym_param</span>
+
+        <span class="c1"># Update parameter dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;smoothness_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">smoothness_param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;redux&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">redux</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_end_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fix_end_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fix_rng</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_const&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fix_const</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;max_iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;min_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_diff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_asym</span><span class="p">()</span>  <span class="c1"># Setup controls for asymmetry parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_smoothness</span><span class="p">()</span>  <span class="c1"># Setup controls for smoothness parameter</span>
+
+        <span class="c1"># Redux factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxRedux</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;redux&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Fixed ends</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBox</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_end_points&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Max iterations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMaxIter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;max_iter&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Min Difference</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout_9</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;min_diff&#39;</span><span class="p">])</span>
+
+        <span class="c1"># SIGNALS &amp; SLOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxRedux</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMaxIter</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBox</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectFixedEnds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAsymSubSections</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asym_sub_val_change</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWSubSections</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_sub_val_change</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="mf">1e10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weightspinboxchanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout_7</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">]</span>
+
+<div class="viewcode-block" id="widgetALS.weight_sub_val_change"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.weight_sub_val_change">[docs]</a>    <span class="k">def</span> <span class="nf">weight_sub_val_change</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Weights Subsections spinbox has changed value &quot;&quot;&quot;</span>
+        <span class="n">sbval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWSubSections</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+        <span class="n">n_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">columnCount</span><span class="p">()</span>
+
+        <span class="n">max_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">min_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sbval</span> <span class="o">&gt;</span> <span class="n">n_rows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">sbval</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">sbval</span><span class="p">)</span>
+                <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+
+                <span class="c1"># Start X</span>
+                <span class="n">scispin</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">min_x</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weightspinboxchanged</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">setCellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scispin</span><span class="p">)</span>
+
+                <span class="c1"># Stop X</span>
+                <span class="n">scispin</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weightspinboxchanged</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">setCellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">scispin</span><span class="p">)</span>
+
+                <span class="c1"># Weight Parameter</span>
+                <span class="c1"># scispin = _SciSpin()</span>
+                <span class="c1"># scispin.setMinimum(0)</span>
+                <span class="c1"># scispin.setMaximum(1e4)</span>
+                <span class="c1"># scispin.setValue(1)</span>
+                <span class="c1"># scispin.editingFinished.connect(self.weightspinboxchanged)</span>
+                <span class="c1"># self.ui.tableWidgetWeights.setCellWidget(nr, 2, scispin)</span>
+        <span class="k">elif</span> <span class="n">sbval</span> <span class="o">&lt;</span> <span class="n">n_rows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sbval</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">):</span>
+                    <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span>
+                    <span class="n">sw</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">sbval</span><span class="p">)</span>
+            <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">weightspinboxchanged</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetALS.asym_sub_val_change"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.asym_sub_val_change">[docs]</a>    <span class="k">def</span> <span class="nf">asym_sub_val_change</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; P Subsections spinbox has changed value &quot;&quot;&quot;</span>
+        <span class="n">sbval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAsymSubSections</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+        <span class="n">n_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">columnCount</span><span class="p">()</span>
+
+        <span class="n">max_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">min_x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sbval</span> <span class="o">&gt;</span> <span class="n">n_rows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">sbval</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">sbval</span><span class="p">)</span>
+                <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+
+                <span class="c1"># Start X</span>
+                <span class="n">scispin</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">min_x</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asymspinboxchanged</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">setCellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scispin</span><span class="p">)</span>
+
+                <span class="c1"># Stop X</span>
+                <span class="n">scispin</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asymspinboxchanged</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">setCellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">scispin</span><span class="p">)</span>
+
+                <span class="c1"># Asym Parameter</span>
+                <span class="n">scispin</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="mf">1e20</span><span class="p">)</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+                <span class="n">scispin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asymspinboxchanged</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">setCellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">scispin</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sbval</span> <span class="o">&lt;</span> <span class="n">n_rows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sbval</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">):</span>
+                    <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span>
+                    <span class="n">sw</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">sbval</span><span class="p">)</span>
+            <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">asymspinboxchanged</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetALS.fcn"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.fcn">[docs]</a>    <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If return list, [0] goes to original, [1] goes to affected</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data_out</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data_in</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">baseline</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data_in</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="c1"># if callable(self.parameters[&#39;asym_param&#39;]):</span>
+        <span class="c1">#     self.parameters[&#39;asym_param&#39;] = \</span>
+        <span class="c1">#         self.parameters[&#39;asym_param&#39;](data_in.shape[-1])</span>
+
+        <span class="c1"># smoothness_param = self.parameters[&#39;smoothness_param&#39;]</span>
+        <span class="c1"># asym_param = self.parameters[&#39;asym_param&#39;]</span>
+        <span class="c1"># redux = self.parameters[&#39;redux&#39;]</span>
+        <span class="c1"># fep = self.parameters[&#39;fix_end_points&#39;]</span>
+        <span class="c1"># max_iter = self.parameters[&#39;max_iter&#39;]</span>
+        <span class="c1"># min_diff = self.parameters[&#39;min_diff&#39;]</span>
+        <span class="c1"># order = self.parameters[&#39;order&#39;]</span>
+        <span class="c1"># rng = self.parameters[&#39;rng&#39;]</span>
+        <span class="c1"># fix_rng = self.parameters[&#39;fix_rng&#39;]</span>
+        <span class="c1"># smoothness_param=1e3, asym_param=1e-4, redux=1,</span>
+        <span class="c1">#          order=2, rng=None, fix_end_points=False, fix_rng=None, </span>
+        <span class="c1">#          fix_const=1, max_iter=100, min_diff=1e-5, verbose=False</span>
+
+        <span class="n">_als</span> <span class="o">=</span> <span class="n">_Als</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_in</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">baseline</span> <span class="o">=</span> <span class="n">_als</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">data_in</span><span class="p">)</span>
+            <span class="n">data_out</span> <span class="o">=</span> <span class="n">data_in</span> <span class="o">-</span> <span class="n">baseline</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">spectrum</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_in</span><span class="p">):</span>
+                <span class="n">baseline</span><span class="p">[</span><span class="n">num</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">_als</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+                <span class="n">data_out</span><span class="p">[</span><span class="n">num</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">spectrum</span> <span class="o">-</span> <span class="n">baseline</span><span class="p">[</span><span class="n">num</span><span class="p">,:]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">baseline</span><span class="p">,</span> <span class="n">data_out</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="widgetALS.setup_smoothness"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.setup_smoothness">[docs]</a>    <span class="k">def</span> <span class="nf">setup_smoothness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lambda/smoothness parameter rlated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">label_2</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (Smoothness)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u03BB</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout_2</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;smoothness_param&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="widgetALS.setup_asym"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.setup_asym">[docs]</a>    <span class="k">def</span> <span class="nf">setup_asym</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        P/asymmetry parameter related</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span> <span class="o">=</span> <span class="n">_SciSpin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="widgetALS.asymspinboxchanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.asymspinboxchanged">[docs]</a>    <span class="k">def</span> <span class="nf">asymspinboxchanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asymetry parameter-related values have changed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+        
+        <span class="c1"># * Currently, asym_param in ALS is in the full vector space</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_asym_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">n_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">+</span> <span class="mi">0</span><span class="o">*</span><span class="n">x</span>
+            <span class="k">for</span> <span class="n">rc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rows</span><span class="p">):</span>
+                <span class="n">xstart_pix</span> <span class="o">=</span> <span class="n">_find_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">xstop_pix</span> <span class="o">=</span> <span class="n">_find_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">asym</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetAsym</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;asym_param&#39;</span><span class="p">][</span><span class="n">xstart_pix</span><span class="p">:</span><span class="n">xstop_pix</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">asym</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;XStart: </span><span class="si">{}</span><span class="s1">, XStop: </span><span class="si">{}</span><span class="s1">, ASym: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xstart_pix</span><span class="p">,</span> <span class="n">xstop_pix</span><span class="p">,</span> <span class="n">asym</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sub_asym_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xstart_pix</span><span class="p">,</span> <span class="n">xstop_pix</span><span class="p">,</span> <span class="n">asym</span><span class="p">])</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="widgetALS.weightspinboxchanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.weightspinboxchanged">[docs]</a>    <span class="k">def</span> <span class="nf">weightspinboxchanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Weight parameter-related values have changed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+        
+        <span class="c1"># * Currently, fix_rng (weight parameters) in ALS is in the rng vector space</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_w_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">n_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">rc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rows</span><span class="p">):</span>
+                <span class="n">xstart_pix</span> <span class="o">=</span> <span class="n">_find_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">xstop_pix</span> <span class="o">=</span> <span class="n">_find_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableWidgetWeights</span><span class="o">.</span><span class="n">cellWidget</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+                <span class="c1"># self.parameters[&#39;fix_rng&#39;].extend(_np.arange(xstart_pix, xstop_pix+1).tolist())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xstart_pix</span><span class="p">,</span> <span class="n">xstop_pix</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>  <span class="c1"># No +1</span>
+
+                <span class="c1"># self.parameters[&#39;asym_param&#39;][xstart_pix:xstop_pix+1] = 1*asym</span>
+                <span class="c1"># print(&#39;XStart: {}, XStop: {}, ASym: {}&#39;.format(xstart_pix, xstop_pix, asym))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sub_w_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xstart_pix</span><span class="p">,</span> <span class="n">xstop_pix</span><span class="p">,</span> <span class="n">weight</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_rng&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_const&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxWeight</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetALS.spinBoxChanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.spinBoxChanged">[docs]</a>    <span class="k">def</span> <span class="nf">spinBoxChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Controller for all spinBoxes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sdr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;smoothness_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxLambda</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxP</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asymspinboxchanged</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxRedux</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;redux&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxRedux</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMaxIter</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;max_iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMaxIter</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;min_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMinDiff</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="widgetALS.selectFixedEnds"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_ALS.widgetALS.selectFixedEnds">[docs]</a>    <span class="k">def</span> <span class="nf">selectFixedEnds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check selection of fixed end-points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fix_end_points&#39;</span><span class="p">]</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBox</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">)</span>
+
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
+    <span class="n">winALS</span> <span class="o">=</span> <span class="n">widgetALS</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">winALS</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">winALS</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

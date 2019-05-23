@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.measurement.tests.test_measurement &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.measurement.tests.test_measurement</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.measurement.tests.test_measurement</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.testing</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span>
+<span class="kn">from</span> <span class="nn">crikit.measurement.peakamps</span> <span class="k">import</span> <span class="p">(</span><span class="n">MeasurePeak</span><span class="p">,</span> <span class="n">MeasurePeakAdd</span><span class="p">,</span> <span class="n">MeasurePeakMinus</span><span class="p">,</span> 
+                                         <span class="n">MeasurePeakMultiply</span><span class="p">,</span> <span class="n">MeasurePeakDivide</span><span class="p">,</span>
+                                         <span class="n">MeasurePeakMax</span><span class="p">,</span> <span class="n">MeasurePeakMin</span><span class="p">,</span>
+                                         <span class="n">MeasurePeakMaxAbs</span><span class="p">,</span> <span class="n">MeasurePeakMinAbs</span><span class="p">,</span>
+                                         <span class="n">MeasurePeakSum</span><span class="p">,</span> <span class="n">MeasurePeakBWTroughs</span><span class="p">,</span> 
+                                         <span class="n">MeasurePeakSumAbsReImag</span><span class="p">)</span>
+
+<div class="viewcode-block" id="hsi_dataset"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.hsi_dataset">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hsi_dataset</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Setups and tears down a sample HSI Dataset &quot;&quot;&quot;</span>
+    
+    <span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">data_m</span><span class="o">*</span><span class="n">data_n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">spectrum</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="n">hsi</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span><span class="p">))</span>
+    
+    <span class="k">yield</span> <span class="n">hsi</span>
+
+    <span class="c1"># Tear-down</span>
+    <span class="k">del</span> <span class="n">hsi</span></div>
+
+<div class="viewcode-block" id="test_peak"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_peak">[docs]</a><span class="k">def</span> <span class="nf">test_peak</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak amplitude &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeak</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_add"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_add">[docs]</a><span class="k">def</span> <span class="nf">test_add</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak add &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakAdd</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_subtract"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_subtract">[docs]</a><span class="k">def</span> <span class="nf">test_subtract</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak subtract &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMinus</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_multiply"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_multiply">[docs]</a><span class="k">def</span> <span class="nf">test_multiply</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak multiplication &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMultiply</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_divide"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_divide">[docs]</a><span class="k">def</span> <span class="nf">test_divide</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak division &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakDivide</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_max_unordered"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_max_unordered">[docs]</a><span class="k">def</span> <span class="nf">test_max_unordered</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak maximum with f1 &gt; f2 (wrong) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMax</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_min_unordered"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_min_unordered">[docs]</a><span class="k">def</span> <span class="nf">test_min_unordered</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak minimum  with f1 &gt; f2 (wrong) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMin</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_max"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_max">[docs]</a><span class="k">def</span> <span class="nf">test_max</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak maximum with f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMax</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_min"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_min">[docs]</a><span class="k">def</span> <span class="nf">test_min</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak minimum  with f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMin</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_maxabs"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_maxabs">[docs]</a><span class="k">def</span> <span class="nf">test_maxabs</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak maximum abs with f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMaxAbs</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_minabs"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_minabs">[docs]</a><span class="k">def</span> <span class="nf">test_minabs</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak minimum abs with f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakMinAbs</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_sum"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_sum">[docs]</a><span class="k">def</span> <span class="nf">test_sum</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak summation f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakSum</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_sum_unordered"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_sum_unordered">[docs]</a><span class="k">def</span> <span class="nf">test_sum_unordered</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak summation f1 &gt; f2 (wrong) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakSum</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_pbt"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_pbt">[docs]</a><span class="k">def</span> <span class="nf">test_pbt</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak between trough f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakBWTroughs</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">f3</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_sum_re_im"><a class="viewcode-back" href="../../../../crikit.measurement.tests.html#crikit.measurement.tests.test_measurement.test_sum_re_im">[docs]</a><span class="k">def</span> <span class="nf">test_sum_re_im</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test peak summation f1 &lt; f2 (right) &quot;&quot;&quot;</span>
+
+    <span class="n">m_cls</span> <span class="o">=</span> <span class="n">MeasurePeakSumAbsReImag</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">measurer</span> <span class="o">=</span> <span class="n">m_cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="n">measurer</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">measurer</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">m_cls</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi_dataset</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

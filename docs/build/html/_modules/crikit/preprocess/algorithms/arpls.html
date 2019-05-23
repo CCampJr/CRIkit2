@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.preprocess.algorithms.arpls &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.preprocess.algorithms.arpls</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.preprocess.algorithms.arpls</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Dec  5 13:53:49 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">import</span> <span class="nn">cvxopt</span> <span class="k">as</span> <span class="nn">_cvxopt</span>
+<span class="kn">import</span> <span class="nn">cvxopt.cholmod</span> <span class="k">as</span> <span class="nn">_cholmod</span>
+<span class="n">_cvxopt</span><span class="o">.</span><span class="n">cholmod</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;supernodal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">_cvxopt</span><span class="o">.</span><span class="n">cholmod</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;postorder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="kn">from</span> <span class="nn">crikit.preprocess.algorithms.abstract_als</span> <span class="k">import</span> <span class="n">AbstractBaseline</span>
+    
+<div class="viewcode-block" id="ArPlsCvxopt"><a class="viewcode-back" href="../../../../crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.arpls.ArPlsCvxopt">[docs]</a><span class="k">class</span> <span class="nc">ArPlsCvxopt</span><span class="p">(</span><span class="n">AbstractBaseline</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smoothness_param</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">redux</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                 <span class="n">fix_end_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_diff</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> 
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        smoothness_param : float, optional (default, 1e3)</span>
+<span class="sd">            Smoothness parameter</span>
+<span class="sd">    </span>
+<span class="sd">        redux : int, optional (default, 1)</span>
+<span class="sd">            Reduction parameter to sub-sample input signal</span>
+<span class="sd">            </span>
+<span class="sd">        order : int, optional (default, 2)</span>
+<span class="sd">            Derivative regularization term. Order=2 for Whittaker-smoother</span>
+<span class="sd">            </span>
+<span class="sd">        max_iter : int, optional (default, 100)</span>
+<span class="sd">            Maximum number of least-squares iterations to perform</span>
+<span class="sd">            </span>
+<span class="sd">        min_diff : float, optional (default, 1e-5)</span>
+<span class="sd">            Break iterative calculations if difference is less than min_diff</span>
+<span class="sd">            </span>
+<span class="sd">        verbose : bool, optional (default, False)</span>
+<span class="sd">            Display progress of detrending</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">smoothness_param</span><span class="o">=</span><span class="n">smoothness_param</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">redux</span><span class="o">=</span><span class="n">redux</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                   <span class="n">fix_end_points</span><span class="o">=</span><span class="n">fix_end_points</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> 
+                   <span class="n">min_diff</span><span class="o">=</span><span class="n">min_diff</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ArPlsCvxopt._calc"><a class="viewcode-back" href="../../../../crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="c1"># Shut-off over-flow warning temporarily</span>
+        <span class="n">_np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="n">over</span> <span class="o">=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+        
+        <span class="n">sig_shape</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># Shape of input signal</span>
+<span class="c1">#        sig_ndim = signal.ndim  # N Signal dimensions</span>
+        <span class="n">sig_size</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Length of spectral axis</span>
+        
+        <span class="c1"># N signals to detrend</span>
+        <span class="n">sig_n_to_detrend</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="n">baseline_output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sig_shape</span><span class="p">)</span> 
+        
+        <span class="c1"># Cute linalg trick to create 2nd-order derivative transform matrix</span>
+        <span class="n">difference_matrix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">sig_size</span><span class="p">),</span> 
+                                     <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1"># Convert into sparse matrix</span>
+        <span class="n">difference_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="n">_cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">difference_matrix</span><span class="p">))</span>
+    
+        <span class="k">for</span> <span class="n">ct</span><span class="p">,</span> <span class="n">coords</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+            <span class="n">signal_current</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="n">coords</span><span class="p">]</span>
+    
+            <span class="n">penalty_vector</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">sig_size</span><span class="p">])</span>
+            <span class="n">baseline_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">sig_size</span><span class="p">])</span>
+<span class="c1">#            baseline_last = _np.zeros([sig_size])</span>
+    
+            <span class="c1"># Iterative asymmetric least squares smoothing</span>
+            <span class="k">for</span> <span class="n">ct_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="p">):</span>
+                <span class="n">penalty_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">spdiag</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">penalty_vector</span><span class="p">))</span>
+                
+                <span class="n">minimazation_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">penalty_matrix</span> <span class="o">+</span> 
+                                       <span class="n">_cvxopt</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothness_param</span><span class="p">,</span> 
+                                                   <span class="n">difference_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span>
+                                       <span class="n">difference_matrix</span><span class="p">)</span>
+                                       
+                <span class="n">x</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">penalty_vector</span><span class="p">[:]</span><span class="o">*</span><span class="n">signal_current</span><span class="p">)</span>
+    
+                <span class="c1"># Cholesky factorization A = LL&#39;</span>
+                <span class="c1"># Solve A * baseline_current = w_sp * Signal</span>
+                <span class="n">_cholmod</span><span class="o">.</span><span class="n">linsolve</span><span class="p">(</span><span class="n">minimazation_matrix</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">uplo</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+    
+<span class="c1">#                if ct_iter &gt; 0:</span>
+<span class="c1">#                    baseline_last = baseline_current</span>
+    
+                <span class="n">baseline_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    
+                <span class="n">signal_baseline_differ</span> <span class="o">=</span> <span class="n">signal_current</span> <span class="o">-</span> <span class="n">baseline_current</span>
+                <span class="n">neg_signal_baseline_differ</span> <span class="o">=</span> <span class="n">signal_baseline_differ</span><span class="p">[</span><span class="n">signal_baseline_differ</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">mean_neg_signal_baseline_differ</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">neg_signal_baseline_differ</span><span class="p">)</span>
+                <span class="n">std_neg_signal_baseline_differ</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">neg_signal_baseline_differ</span><span class="p">)</span>
+                
+                <span class="n">penalty_vector_temp</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 
+                                           <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">signal_baseline_differ</span> <span class="o">-</span>
+                                                      <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std_neg_signal_baseline_differ</span> <span class="o">-</span>
+                                                       <span class="n">mean_neg_signal_baseline_differ</span><span class="p">))</span> <span class="o">/</span> 
+                                           <span class="n">std_neg_signal_baseline_differ</span><span class="p">))</span>
+                
+                <span class="k">if</span> <span class="n">ct_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">norm_differ</span> <span class="o">=</span> <span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">penalty_vector</span> <span class="o">-</span> 
+                                                  <span class="n">penalty_vector_temp</span><span class="p">)</span> <span class="o">/</span> 
+                                   <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">penalty_vector</span><span class="p">))</span>
+<span class="c1">#                    print(&#39;Norm differ: {:.2f}&#39;.format(norm_differ))</span>
+<span class="c1">#                    print(norm_differ)</span>
+<span class="c1">#                    print(&#39;norm: {:.6e}&#39;.format(_np.linalg.norm(penalty_vector)))</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">norm_differ</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_diff</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">norm_differ</span><span class="p">)):</span>
+                        <span class="k">break</span>
+                    
+                <span class="n">penalty_vector</span> <span class="o">=</span> <span class="n">penalty_vector_temp</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_end_points</span><span class="p">:</span>
+                    <span class="n">penalty_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">penalty_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of iterations to converge: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ct_iter</span><span class="p">))</span>
+                        
+            <span class="n">baseline_output</span><span class="p">[</span><span class="n">coords</span><span class="p">]</span> <span class="o">=</span> <span class="n">baseline_current</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished detrending spectra </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ct</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                      <span class="n">sig_n_to_detrend</span><span class="p">))</span>
+    
+        <span class="k">return</span> <span class="n">baseline_output</span></div></div>
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">_plt</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span>
+    <span class="n">data_orig</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="p">(</span><span class="mi">300</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">005</span><span class="p">)</span>
+    <span class="n">bg</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">500</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">700</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">bg</span> <span class="o">+</span> <span class="n">data_orig</span>
+    
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">2</span>
+    
+    <span class="k">if</span> <span class="n">N</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">D</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)))[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">)))[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data.shape: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    
+    <span class="n">arpls</span> <span class="o">=</span> <span class="n">ArPlsCvxopt</span><span class="p">(</span><span class="n">smoothness_param</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">,</span> <span class="n">redux</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
+                        <span class="n">min_diff</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+                        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">baseline</span> <span class="o">=</span> <span class="n">arpls</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Internal Timer: </span><span class="si">{:.4f}</span><span class="s1"> sec (</span><span class="si">{:.4f}</span><span class="s1"> per)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arpls</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> 
+                                                           <span class="n">arpls</span><span class="o">.</span><span class="n">t_per_iter</span><span class="p">))</span>
+    
+<span class="c1">#    arpls = ArPlsCvxopt(smoothness_param=1e-15, redux=10, max_iter=50,</span>
+<span class="c1">#                        verbose=False)</span>
+<span class="c1">#    </span>
+<span class="c1">#    baseline = arpls.calculate(data)</span>
+<span class="c1">#    print(&#39;Internal Timer: {:.4f} sec ({:.4f} per)&#39;.format(arpls.t, </span>
+<span class="c1">#                                                           arpls.t_per_iter))</span>
+<span class="c1">#    </span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">D</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">N</span><span class="o">&lt;</span><span class="mi">21</span><span class="p">):</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">baseline</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        
+        <span class="n">_plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_orig</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">data</span><span class="o">-</span><span class="n">baseline</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">_plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.measurement.peakamps &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.measurement.peakamps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.measurement.peakamps</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Measurement methods to quantify peak relationships</span>
+
+<span class="sd">Note</span>
+<span class="sd">-----</span>
+
+<span class="sd">For complex-valued measurements, all methods perform the math separately for real and imag</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<div class="viewcode-block" id="MeasurePeak"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeak</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure peak amplitude.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">=</span> <span class="n">f1</span>
+
+<div class="viewcode-block" id="MeasurePeak.calculate"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
+
+<div class="viewcode-block" id="MeasurePeak.measure"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak.measure">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">f1</span><span class="p">):</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MeasurePeak._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="AbstractMeasureTwo"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureTwo</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Abstract class for measurements that take 2 things &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        f1 : int</span>
+<span class="sd">            Frequency 1 entry</span>
+
+<span class="sd">        f2 : int</span>
+<span class="sd">            Frequency 2 entry</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        output : ndarray</span>
+<span class="sd">            Output of measurement operation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">=</span> <span class="n">f1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">=</span> <span class="n">f2</span>
+
+<div class="viewcode-block" id="AbstractMeasureTwo.calculate"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">real</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
+
+<div class="viewcode-block" id="AbstractMeasureTwo.measure"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo.measure">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractMeasureTwo._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+<div class="viewcode-block" id="AbstractMeasureTwoOrdered"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwoOrdered">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureTwoOrdered</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Abstract class for measurements that take 2 things,</span>
+<span class="sd">    where f1 &lt; f2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">f1</span> <span class="o">&lt;=</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractMeasureThree"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureThree</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Abstract class for measurements that take 3 things &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        f1 : int</span>
+<span class="sd">            Frequency 1 entry</span>
+
+<span class="sd">        f2 : int</span>
+<span class="sd">            Frequency 2 entry</span>
+
+<span class="sd">        f3 : int</span>
+<span class="sd">            Frequency 3 entry</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        output : ndarray</span>
+<span class="sd">            Output of measurement operation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">=</span> <span class="n">f1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">=</span> <span class="n">f2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f3</span> <span class="o">=</span> <span class="n">f3</span>
+
+<div class="viewcode-block" id="AbstractMeasureThree.calculate"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">real</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
+
+<div class="viewcode-block" id="AbstractMeasureThree.measure"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree.measure">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">):</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractMeasureThree._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakMinus"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinus">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMinus</span> <span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the difference (subtraction) of two peaks (f1 - f2).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMinus._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinus._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">-</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakAdd"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakAdd</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the addition of two peaks (f1 + f2).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakAdd._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">+</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakMultiply"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMultiply">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMultiply</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the multiplication of two peak.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMultiply._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMultiply._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">*</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakDivide"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakDivide">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakDivide</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the ratio (division) of two peaks. f1/f2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakDivide._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakDivide._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">/</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakSum"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSum">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakSum</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the summation of all amplitudes between (inclusive) two peak</span>
+<span class="sd">    locations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakSum._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSum._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakSumAbsReImag"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSumAbsReImag">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakSumAbsReImag</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the summation of the absolute value of all amplitudes</span>
+<span class="sd">    between (inclusive) two peak locations. Note that the absolute value</span>
+<span class="sd">    is performed on the real and imaginary parts separately -- it&#39;s not a</span>
+<span class="sd">    true absolute value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakSumAbsReImag._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSumAbsReImag._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakMax"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMax">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMax</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the maximum across the range [f1,f2]. Note</span>
+<span class="sd">     that real and imag are treated separately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMax._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMax._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="MeasurePeakMin"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMin">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMin</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the minimum across the range [f1,f2]. Note</span>
+<span class="sd">     that real and imag are treated separately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMin._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMin._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="MeasurePeakMaxAbs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMaxAbs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMaxAbs</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the maximum across the absolute value across</span>
+<span class="sd">    the range [f1,f2]. Note that real and imag are</span>
+<span class="sd">     treated separately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMaxAbs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMaxAbs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="MeasurePeakMinAbs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinAbs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMinAbs</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the summation of all amplitudes between (inclusive) two peak</span>
+<span class="sd">    locations. Note that real and imag are treated</span>
+<span class="sd">     separately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f1 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    f2 : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakMinAbs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinAbs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="MeasurePeakBWTroughs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakBWTroughs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakBWTroughs</span><span class="p">(</span><span class="n">AbstractMeasureThree</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Meausure the amplitude of a peak between troughs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pk : int</span>
+<span class="sd">        Peak location in pixel coordinates</span>
+<span class="sd">    tr1 : int</span>
+<span class="sd">        Trough 1 location in pixel coordinates</span>
+<span class="sd">    tr2 : int</span>
+<span class="sd">        Trough 2 location in pixel coordinates</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output : float or ndarray</span>
+<span class="sd">        Amplitude of peak</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate : Calculate the amplitude</span>
+
+<span class="sd">    Static Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tr1</span> <span class="o">&lt;=</span> <span class="n">tr2</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">tr2</span><span class="p">,</span> <span class="n">tr1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MeasurePeakBWTroughs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakBWTroughs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f3</span><span class="p">]</span><span class="o">-</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">])</span><span class="o">/</span> \
+                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">slope</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">data_m</span><span class="o">*</span><span class="n">data_n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">spectrum</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="n">hsi</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span><span class="p">))</span>
+
+    
+    <span class="n">output</span> <span class="o">=</span> <span class="n">MeasurePeakBWTroughs</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">hsi</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="n">m_inst</span> <span class="o">=</span> <span class="n">MeasurePeakBWTroughs</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">m_inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">hsi</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m_inst</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="c1"># import matplotlib.pyplot as _plt</span>
+
+    <span class="c1"># print(&#39;\n\n--------- 1-Signal Test--------&#39;)</span>
+    <span class="c1"># amp = 100</span>
+    <span class="c1"># pk = 50</span>
+    <span class="c1"># tr1 = 20</span>
+    <span class="c1"># tr2 = 80</span>
+
+    <span class="c1"># x = _np.arange(100)</span>
+    <span class="c1"># signal = amp*_np.exp(-(x-pk)**2/(10**2))</span>
+    <span class="c1"># baseline = x</span>
+    <span class="c1"># y = signal + baseline</span>
+
+    <span class="c1"># _plt.plot(x, y.T, label=&#39;Signal&#39;)</span>
+    <span class="c1"># _plt.plot(x,baseline, label=&#39;baseline&#39;)</span>
+    <span class="c1"># _plt.plot(x, signal.T,label=&#39;Signal - Baseline&#39;)</span>
+
+    <span class="c1"># # non-static method</span>
+    <span class="c1"># #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)</span>
+    <span class="c1"># #out = pbwt.calculate(y)</span>
+
+    <span class="c1"># # static method</span>
+    <span class="c1"># out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)</span>
+
+    <span class="c1"># _plt.plot((pk, pk), (0, out), &#39;k&#39;, lw=3, label=&#39;Calculated Amp&#39;)</span>
+    <span class="c1"># _plt.xlabel(&#39;X&#39;)</span>
+    <span class="c1"># _plt.ylabel(&#39;Amplitude (au)&#39;)</span>
+    <span class="c1"># _plt.legend(loc=&#39;best&#39;)</span>
+    <span class="c1"># _plt.show()</span>
+
+    <span class="c1"># print(&#39;Actual peak amp: {:.2f}. Retrieved peak amp: {:.2f}.&#39;.format(amp, out))</span>
+    <span class="c1"># print(&#39;Within 1% agreement: {}&#39;.format(_np.isclose(amp, out, rtol=.01)))</span>
+
+    <span class="c1"># print(&#39;\n\n--------- 2D Simple Test--------&#39;)</span>
+    <span class="c1"># _plt.figure()</span>
+
+    <span class="c1"># amp = 100</span>
+    <span class="c1"># pk = 50</span>
+    <span class="c1"># tr1 = 20</span>
+    <span class="c1"># tr2 = 80</span>
+
+    <span class="c1"># N=2</span>
+
+    <span class="c1"># x = _np.arange(100)</span>
+    <span class="c1"># signal = amp*_np.exp(-(x-pk)**2/(10**2))</span>
+    <span class="c1"># baseline = x</span>
+    <span class="c1"># y = signal + baseline</span>
+    <span class="c1"># mask = _np.ones((N,N))</span>
+    <span class="c1"># y = _np.dot(mask[...,None], y[None,:])</span>
+
+    <span class="c1"># _plt.plot(y.reshape((-1,x.size)).T, label=&#39;Signal&#39;)</span>
+    <span class="c1"># _plt.plot(x,baseline, label=&#39;baseline&#39;)</span>
+    <span class="c1"># _plt.plot(x, signal.T,label=&#39;Signal - Baseline&#39;)</span>
+
+    <span class="c1"># out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)</span>
+
+    <span class="c1"># for out_pk in out.ravel():</span>
+    <span class="c1">#     _plt.plot((pk, pk), (0, out_pk), &#39;k&#39;, lw=3, label=&#39;Calculated Amp&#39;)</span>
+    <span class="c1"># _plt.xlabel(&#39;X&#39;)</span>
+    <span class="c1"># _plt.ylabel(&#39;Amplitude (au)&#39;)</span>
+    <span class="c1"># _plt.legend(loc=&#39;best&#39;)</span>
+
+    <span class="c1"># print(&#39;Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.&#39;.format(amp, out.ravel()))</span>
+    <span class="c1"># print(&#39;Within 1% agreement: {}&#39;.format(_np.isclose(amp, out.ravel(), rtol=.01)))</span>
+    <span class="c1"># print(&#39;All agree within 1%: {}&#39;.format(_np.allclose(amp, out.ravel(), rtol=.01)))</span>
+
+    <span class="c1"># _plt.show()</span>
+
+    <span class="c1"># print(&#39;\n\n--------- 2D More Complicated Test--------&#39;)</span>
+    <span class="c1"># _plt.figure()</span>
+
+    <span class="c1"># amp = 100</span>
+    <span class="c1"># pk = 50</span>
+    <span class="c1"># tr1 = 20</span>
+    <span class="c1"># tr2 = 80</span>
+
+    <span class="c1"># N=2</span>
+
+    <span class="c1"># x = _np.arange(100)</span>
+    <span class="c1"># signal = amp*_np.exp(-(x-pk)**2/(10**2))</span>
+    <span class="c1"># mask = _np.ones((N,N))</span>
+    <span class="c1"># rndm = _np.random.randint(0,10,size=(N,N))</span>
+    <span class="c1"># baseline = _np.dot((rndm*mask)[...,None],x[None,:])</span>
+
+    <span class="c1"># y = signal[None,None,:] + baseline</span>
+
+    <span class="c1"># #y = _np.dot(mask[...,None], y[None,:])</span>
+
+    <span class="c1"># _plt.plot(y.reshape((-1,x.size)).T, label=&#39;Signal&#39;)</span>
+    <span class="c1"># _plt.plot(x,baseline.reshape((-1,x.size)).T, label=&#39;baseline&#39;)</span>
+    <span class="c1"># _plt.plot(x, signal.T,label=&#39;Signal - Baseline&#39;)</span>
+
+    <span class="c1"># #pbwt = MeasurePeakBWTroughs(pk=pk, tr1=tr1, tr2=tr2)</span>
+    <span class="c1"># #out = pbwt.calculate(y)</span>
+    <span class="c1"># out = MeasurePeakBWTroughs.measure(signal, pk, tr1, tr2)</span>
+
+    <span class="c1"># for out_pk in out.ravel():</span>
+    <span class="c1">#     _plt.plot((pk, pk), (0, out_pk), &#39;k&#39;, lw=3, label=&#39;Calculated Amp&#39;)</span>
+    <span class="c1"># _plt.xlabel(&#39;X&#39;)</span>
+    <span class="c1"># _plt.ylabel(&#39;Amplitude (au)&#39;)</span>
+    <span class="c1"># _plt.legend(loc=&#39;best&#39;)</span>
+
+    <span class="c1"># print(&#39;Actual peak(s) amp: {:.2f}. Retrieved peak amps: {}.&#39;.format(amp, out.ravel()))</span>
+    <span class="c1"># print(&#39;Within 1% agreement: {}&#39;.format(_np.isclose(amp, out.ravel(), rtol=.01)))</span>
+    <span class="c1"># print(&#39;All agree within 1%: {}&#39;.format(_np.allclose(amp, out.ravel(), rtol=.01)))</span>
+
+    <span class="c1"># _plt.show()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

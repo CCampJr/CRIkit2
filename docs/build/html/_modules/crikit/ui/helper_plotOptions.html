@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.helper_plotOptions &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.helper_plotOptions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.helper_plotOptions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Sun Oct  4 00:28:16 2015</span>
+
+<span class="sd">@author: camp</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="k">import</span> <span class="p">(</span><span class="n">QColor</span> <span class="k">as</span> <span class="n">_QColor</span><span class="p">)</span>
+
+<div class="viewcode-block" id="plotStyle"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plotOptions.plotStyle">[docs]</a><span class="k">class</span> <span class="nc">plotStyle</span><span class="p">:</span>
+
+    <span class="n">COLOR_DICT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Blue&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="s1">&#39;Red&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                  <span class="s1">&#39;Green&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                  <span class="s1">&#39;Cyan&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">],</span>
+                  <span class="s1">&#39;Magenta&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="s1">&#39;Yellow&#39;</span><span class="p">:[</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                  <span class="p">}</span>
+
+    <span class="n">COLOR_VEC</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Magenta&#39;</span><span class="p">,</span> <span class="s1">&#39;Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Cyan&#39;</span><span class="p">]</span>
+
+    <span class="n">LINEWIDTH</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">MARKER_VEC</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">,</span>  <span class="c1">#none</span>
+                  <span class="s1">&#39;.&#39;</span><span class="p">,</span>  <span class="c1">#point</span>
+                  <span class="s1">&#39;,&#39;</span><span class="p">,</span>  <span class="c1">#pixel</span>
+                  <span class="s1">&#39;o&#39;</span><span class="p">,</span>  <span class="c1">#circle</span>
+                  <span class="s1">&#39;v&#39;</span><span class="p">,</span>  <span class="c1">#triangle_down</span>
+                  <span class="s1">&#39;^&#39;</span><span class="p">,</span>  <span class="c1">#triangle_up</span>
+                  <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span>  <span class="c1">#triangle_left</span>
+                  <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span>  <span class="c1">#triangle_right</span>
+                  <span class="s1">&#39;8&#39;</span><span class="p">,</span>  <span class="c1">#octagon</span>
+                  <span class="s1">&#39;s&#39;</span><span class="p">,</span>  <span class="c1">#square</span>
+                  <span class="s1">&#39;p&#39;</span><span class="p">,</span>  <span class="c1">#pentagon</span>
+                  <span class="s1">&#39;*&#39;</span><span class="p">,</span>  <span class="c1">#star</span>
+                  <span class="s1">&#39;h&#39;</span><span class="p">,</span>  <span class="c1">#hexagon1</span>
+                  <span class="s1">&#39;H&#39;</span><span class="p">,</span>  <span class="c1">#hexagon2</span>
+                  <span class="s1">&#39;+&#39;</span><span class="p">,</span>  <span class="c1">#plus</span>
+                  <span class="s1">&#39;x&#39;</span><span class="p">,</span>  <span class="c1">#x</span>
+                  <span class="s1">&#39;D&#39;</span><span class="p">,</span>  <span class="c1">#diamond</span>
+                  <span class="s1">&#39;d&#39;</span><span class="p">,</span>  <span class="c1">#thin_diamond</span>
+                  <span class="s1">&#39;|&#39;</span><span class="p">,</span>  <span class="c1">#vline</span>
+                  <span class="s1">&#39;_&#39;</span><span class="p">]</span>  <span class="c1">#hline</span>
+
+    <span class="n">MARKER_VEC_STR</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Point&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Pixel&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Circle&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Triangle Down&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Triangle Up&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Triangle Left&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Triangle Right&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Octagon&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Square&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Pentagon&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Star&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Hexagon 1&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Hexagon 2&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Plus&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;X&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Diamond&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Thin Diamondd&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Vert Line&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Horiz Line&#39;</span><span class="p">]</span>
+
+    <span class="n">MARKERSIZE</span><span class="o">=</span><span class="mf">5.0</span>
+    <span class="n">LINESTYLE_VEC</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">]</span>
+    <span class="n">LINESTYLE_VEC_STR</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Solid&#39;</span><span class="p">,</span><span class="s1">&#39;Dashed&#39;</span><span class="p">,</span><span class="s1">&#39;Dash-Dot&#39;</span><span class="p">,</span><span class="s1">&#39;Dotted&#39;</span><span class="p">,</span><span class="s1">&#39;None&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_current_plots</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+        <span class="n">color</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLineStyle</span><span class="p">(</span><span class="n">num_current_plots</span><span class="o">=</span><span class="n">num_current_plots</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LINEWIDTH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linestyle</span> <span class="o">=</span> <span class="n">linestyle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">marker</span> <span class="o">=</span> <span class="n">marker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markersize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MARKERSIZE</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">linestyle_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LINESTYLE_VEC</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linestyle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LINESTYLE_VEC_STR</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">qcolor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span>
+        <span class="n">color_256</span> <span class="o">=</span> <span class="p">[</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">255</span><span class="p">,</span> <span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">255</span><span class="p">,</span> <span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mi">255</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_QColor</span><span class="p">(</span><span class="n">color_256</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color_256</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color_256</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">marker_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MARKER_VEC</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">marker</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MARKER_VEC_STR</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+<div class="viewcode-block" id="plotStyle.getLineStyle"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_plotOptions.plotStyle.getLineStyle">[docs]</a>    <span class="k">def</span> <span class="nf">getLineStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_current_plots</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">num_colors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">COLOR_VEC</span><span class="p">)</span>
+        <span class="n">num_linestyles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LINESTYLE_VEC</span><span class="p">)</span>
+        <span class="n">num_markers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MARKER_VEC</span><span class="p">)</span>
+
+        <span class="n">max_styles</span> <span class="o">=</span> <span class="n">num_colors</span><span class="o">*</span><span class="n">num_linestyles</span><span class="o">*</span><span class="n">num_markers</span>
+
+        <span class="k">if</span> <span class="n">num_current_plots</span> <span class="o">&gt;</span> <span class="n">max_styles</span><span class="p">:</span>
+            <span class="n">num_current_plots</span> <span class="o">=</span> <span class="n">num_current_plots</span> <span class="o">-</span> <span class="n">max_styles</span>
+
+        <span class="n">color_iter</span> <span class="o">=</span> <span class="n">num_current_plots</span><span class="o">%</span><span class="n">num_colors</span>
+        <span class="n">style_iter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">num_current_plots</span><span class="o">/</span><span class="n">num_colors</span><span class="p">))</span><span class="o">%</span><span class="n">num_linestyles</span>
+        <span class="n">marker_iter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">num_current_plots</span><span class="o">/</span><span class="p">(</span><span class="n">num_colors</span><span class="o">*</span><span class="n">num_linestyles</span><span class="p">)))</span><span class="o">%</span><span class="n">num_markers</span>
+
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">COLOR_DICT</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">COLOR_VEC</span><span class="p">[</span><span class="n">color_iter</span><span class="p">]]</span>
+        <span class="c1">#print(style_iter)</span>
+        <span class="n">linestyle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LINESTYLE_VEC</span><span class="p">[</span><span class="n">style_iter</span><span class="p">]</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MARKER_VEC</span><span class="p">[</span><span class="n">marker_iter</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

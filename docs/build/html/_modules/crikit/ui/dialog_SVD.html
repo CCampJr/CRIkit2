@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.dialog_SVD &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.dialog_SVD</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.dialog_SVD</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Jul 25 13:57:24 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="c1"># import timeit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span> <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractFactorization</span> <span class="k">import</span> <span class="n">DialogAbstractFactorization</span>
+
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">diagsvd</span> <span class="k">as</span> <span class="n">_diagsvd</span>
+
+<div class="viewcode-block" id="DialogSVD"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD">[docs]</a><span class="k">class</span> <span class="nc">DialogSVD</span><span class="p">(</span><span class="n">DialogAbstractFactorization</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SVD Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">img_shape</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_imag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">img_all</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spect_all</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DialogSVD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setupData</span><span class="p">(</span><span class="n">img_shape</span><span class="o">=</span><span class="n">img_shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui_changes</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vh</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_imag</span> <span class="o">=</span> <span class="n">use_imag</span> <span class="c1"># By default, use imag portion of complex data</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">img_all</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">spect_all</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">cube_all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">combiner</span><span class="p">(</span><span class="n">selections</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_factors</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">img_all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_spatial</span><span class="p">(</span><span class="n">cube_all</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spect_all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_spectral</span><span class="p">(</span><span class="n">cube_all</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">img_all</span> <span class="o">=</span> <span class="n">img_all</span><span class="o">.</span><span class="n">real</span>
+            <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">spect_all</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_imag</span><span class="p">:</span>    
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spect_all</span> <span class="o">=</span> <span class="n">spect_all</span><span class="o">.</span><span class="n">imag</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spect_all</span> <span class="o">=</span> <span class="n">spect_all</span><span class="o">.</span><span class="n">real</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">spect_all</span> <span class="o">=</span> <span class="n">spect_all</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">updatePlots</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateCurrentRemainder</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DialogSVD.dialogSVD"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.dialogSVD">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dialogSVD</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">img_shape</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_imag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">img_all</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spect_all</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogSVD</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">img_shape</span><span class="o">=</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+                           <span class="n">use_imag</span><span class="o">=</span><span class="n">use_imag</span><span class="p">,</span> <span class="n">img_all</span><span class="o">=</span><span class="n">img_all</span><span class="p">,</span> <span class="n">spect_all</span><span class="o">=</span><span class="n">spect_all</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">svs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">selected_factors</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">svs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">svs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+                <span class="n">svs</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">svs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">svs</span></div>
+
+<div class="viewcode-block" id="DialogSVD.max_factors"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.max_factors">[docs]</a>    <span class="k">def</span> <span class="nf">max_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return maximum number of factors. Since DialogAbstractFactorization</span>
+<span class="sd">        (parent) is initialized first (before self.s), need to return None</span>
+<span class="sd">        at first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DialogSVD.combiner"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.combiner">[docs]</a>    <span class="k">def</span> <span class="nf">combiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Performs U*S*Vh&quot;&quot;&quot;</span>
+
+        <span class="c1"># Straight-forward way, but slow</span>
+        <span class="c1"># tmr = timeit.default_timer()</span>
+        <span class="c1"># S = self.s_from_selected(selections=selections)</span>
+        <span class="c1"># ret = _np.dot(self.U, _np.dot(S, self.Vh))</span>
+        <span class="c1"># tmr -= timeit.default_timer()</span>
+        <span class="c1"># # print(&#39;Selections: {}&#39;.format(selections))</span>
+        <span class="c1"># print(&#39;S (head): {}&#39;.format(_np.diag(S)[0:10]))</span>
+        <span class="c1"># print(&#39;Old way: {}&#39;.format(-tmr))</span>
+
+        <span class="c1"># New faster method</span>
+        <span class="c1"># tmr = timeit.default_timer()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">selections</span><span class="p">)],</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">selections</span><span class="p">)]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vh</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">selections</span><span class="p">),</span> <span class="p">:]))</span>
+        <span class="c1"># tmr -= timeit.default_timer()</span>
+        <span class="c1"># print(&#39;S (head): {}&#39;.format(self.s[list(selections)]))</span>
+        <span class="c1"># print(&#39;New way: {}&#39;.format(-tmr))</span>
+        <span class="c1"># print(&#39;Old == New: {}\n&#39;.format(_np.allclose(ret,ret2)))</span>
+        
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="DialogSVD.mean_spatial"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.mean_spatial">[docs]</a>    <span class="k">def</span> <span class="nf">mean_spatial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_x</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_imag</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="DialogSVD.mean_spectral"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.mean_spectral">[docs]</a>    <span class="k">def</span> <span class="nf">mean_spectral</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_imag</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="DialogSVD.s_from_selected"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.s_from_selected">[docs]</a>    <span class="k">def</span> <span class="nf">s_from_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return SVD S-matrix of SELECTED singular values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vh</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">selections</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">_diagsvd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">S</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selections</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+                <span class="n">selections</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">selections</span><span class="p">)</span>
+            <span class="n">s_select</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">s_select</span><span class="p">[</span><span class="n">selections</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="n">selections</span><span class="p">]</span>
+
+            <span class="n">S</span> <span class="o">=</span> <span class="n">_diagsvd</span><span class="p">(</span><span class="n">s_select</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="DialogSVD.get_spatial_slice"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.get_spatial_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_spatial_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">num</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">img</span><span class="p">)</span></div>
+
+        <span class="c1"># Used to return complex, but the SVD of complex numbers tends to</span>
+        <span class="c1"># shove everything in U into the real component</span>
+
+        <span class="c1"># if _np.iscomplexobj(img):</span>
+        <span class="c1">#     if self._use_imag:</span>
+        <span class="c1">#         return _np.imag(img)</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         return _np.real(img)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     return img</span>
+
+
+
+<div class="viewcode-block" id="DialogSVD.get_spectral_slice"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_SVD.DialogSVD.get_spectral_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_spectral_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">spect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vh</span><span class="p">[</span><span class="n">num</span><span class="p">,:]</span>
+
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">spect</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_imag</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">spect</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">spect</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">spect</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">svd</span> <span class="k">as</span> <span class="n">_svd</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="mi">900</span><span class="p">)</span>
+    <span class="n">Ex</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="mi">1750</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">200</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">Spectrum</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">Ex</span><span class="p">),</span><span class="n">Ex</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+<span class="c1">#</span>
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># hsi[count,:,:] = y[count]*_np.random.poisson(_np.dot(x[:,None],Spectrum[None,:]))</span>
+        <span class="n">hsi</span><span class="p">[</span><span class="n">count</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">count</span><span class="p">]</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span><span class="n">Spectrum</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    <span class="n">hsi</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">hsi</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">hsi</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_svd</span><span class="p">(</span><span class="n">hsi</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)),</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Class method route</span>
+    <span class="c1">#ret = DialogSVD.main(data, hsi.shape)</span>
+    <span class="c1">#print(ret)</span>
+
+    <span class="c1"># Full route</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">_QWidget</span><span class="p">()</span>
+    <span class="n">svs</span> <span class="o">=</span> <span class="n">DialogSVD</span><span class="o">.</span><span class="n">dialogSVD</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">hsi</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">img_all</span><span class="o">=</span><span class="n">hsi</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">spect_all</span><span class="o">=</span><span class="n">hsi</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Factors selected: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">svs</span><span class="p">))</span>
+
+<span class="c1">##    app.exec_()</span>
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

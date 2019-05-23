@@ -37,7 +37,7 @@ packages may work.
 * SciPlot-PyQt >= 0.2.2
     * https://github.com/CCampJr/SciPlot-PyQt/releases
     * Requires Matplotlib (v1.*, 2.*, or 3.*)
-* Sphinx (only to build docs locally)
+* Sphinx (optional)
 
 ### IMPORTANT: For Python 3.4 ###
 You will need to manually install PyQt5 and Qt5 or get it through a distribution

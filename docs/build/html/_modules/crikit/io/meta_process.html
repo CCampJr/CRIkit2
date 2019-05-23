@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.io.meta_process &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.io.meta_process</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.io.meta_process</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon May 23 16:55:09 2016</span>
+
+<span class="sd">@author: chc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">,</span>
+                                   <span class="n">calib_pix_wl</span> <span class="k">as</span> <span class="n">_calib_pix_wl</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<div class="viewcode-block" id="rosetta_query"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.meta_process.rosetta_query">[docs]</a><span class="k">def</span> <span class="nf">rosetta_query</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the highest-priority value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">],</span><span class="nb">list</span><span class="p">):</span>  <span class="c1"># There is a priority list</span>
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">]):</span>
+            <span class="n">temp_val</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">temp_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="s1">&#39;!&#39;</span><span class="p">:</span>
+                        <span class="n">temp_key</span> <span class="o">=</span> <span class="n">key</span>
+                        <span class="n">temp_val</span> <span class="o">=</span> <span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">num</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Using default meta_configs value for: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">temp_key</span> <span class="o">=</span> <span class="n">count</span>
+                        <span class="n">temp_val</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="n">temp_key</span><span class="p">]</span>
+                        <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">temp_val</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">temp_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">temp_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">temp_val</span><span class="p">,</span> <span class="n">temp_key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">],</span><span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># the value is likely a predefined answer-- no need to query meta</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="meta_process"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.meta_process.meta_process">[docs]</a><span class="k">def</span> <span class="nf">meta_process</span><span class="p">(</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses a conversion dict (rosetta) to process the meta data in \</span>
+<span class="sd">    output_cls_instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Frequency-calibration</span>
+    <span class="n">calib_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processing Meta Data</span><span class="se">\n</span><span class="s1">------------------------------&#39;</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorPolyVals&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorCenterWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorCalibWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorProbe&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib</span> <span class="o">=</span> <span class="n">calib_dict</span>
+
+    <span class="n">use_wn</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorWnMode&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Use wavenumber: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">use_wn</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">use_wn</span><span class="p">:</span>  <span class="c1"># Use wavenumber?</span>
+        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib_fcn</span> <span class="o">=</span> <span class="n">_calib_pix_wn</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Use wavelength</span>
+        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib_fcn</span> <span class="o">=</span> <span class="n">_calib_pix_wl</span>
+
+    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    
+    <span class="c1"># See if an original calibration is found</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">calib_orig_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorPolyVals&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorChannels&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorCenterWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorCalibWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl0&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        
+        <span class="c1"># Probe and Units are not necessary for calibration</span>
+        <span class="c1"># Probe is only needed for wavelength-to-wavenumber conversion</span>
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorProbe&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original calibration not found.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original calibration found.&#39;</span><span class="p">)</span>
+        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib_orig</span> <span class="o">=</span> <span class="n">calib_orig_dict</span>
+    
+    <span class="c1"># Spatial for HSI</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Hsi</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Hsi&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;XUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;XLabel&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;XStart&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;XStop&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;XLength&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">steps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;pix&#39;</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+
+            
+
+            <span class="c1"># HDF files store strings in np.bytes format</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">units</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">update_calib_from_data</span><span class="p">()</span>
+
+            <span class="k">del</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">label</span>
+
+            <span class="n">units</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;YUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;YLabel&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;YStart&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;YStop&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;YLength&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">steps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;pix&#39;</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+
+            <span class="c1"># HDF files store strings in np.bytes format</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">units</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">update_calib_from_data</span><span class="p">()</span>
+
+            <span class="k">del</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">units</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something failed in meta_process: HSI-spatial calib&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectra</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectra&#39;</span><span class="p">)</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Acq Number&#39;</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1">#        print(output_cls_instance.reps.data.shape)</span>
+            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">update_calib_from_data</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something failed in meta_process: Spectra rep-calib&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectrum</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectrum&#39;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="kn">from</span> <span class="nn">crikit.io.meta_configs</span> <span class="k">import</span> <span class="p">(</span><span class="n">special_nist_bcars2</span>
+                                            <span class="k">as</span> <span class="n">_snb</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="k">import</span> <span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span>
+    <span class="n">rosetta</span> <span class="o">=</span> <span class="n">_snb</span><span class="p">()</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../../../mP2_w_small.h5&#39;</span><span class="p">)</span>
+
+    <span class="n">spect_dark</span> <span class="o">=</span> <span class="n">_Spectra</span><span class="p">()</span>
+    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span><span class="p">,</span><span class="n">spect_dark</span><span class="p">)</span>
+    <span class="n">meta_process</span><span class="p">(</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">spect_dark</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">spect_dark</span><span class="o">.</span><span class="n">reps</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">_Hsi</span><span class="p">()</span>
+    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">meta_process</span><span class="p">(</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

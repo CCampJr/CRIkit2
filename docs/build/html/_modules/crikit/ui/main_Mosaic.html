@@ -1,0 +1,896 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crikit.ui.main_Mosaic &mdash; CRIKit2 0.2.0a0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> CRIKit2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0a0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running the CRIkit2 Graphical User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Command Line Tools &amp; Algorthms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nonlicense.html">Nonlicense</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CRIKit2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crikit.ui.main_Mosaic</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crikit.ui.main_Mosaic</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MainWindow program that allows construction of stitched images from</span>
+<span class="sd">multiple dataset</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">_QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span><span class="p">,</span>
+                             <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">,</span>
+                             <span class="n">QListWidget</span> <span class="k">as</span> <span class="n">_QListWidget</span><span class="p">,</span>
+                             <span class="n">QMessageBox</span> <span class="k">as</span> <span class="n">_QMessageBox</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">PyQt5.QtCore</span> <span class="k">as</span> <span class="nn">_QtCore</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="k">import</span> <span class="p">(</span><span class="n">pyqtSignal</span> <span class="k">as</span> <span class="n">_pyqtSignal</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_Mosaic</span> <span class="k">import</span> <span class="n">Ui_MainWindow</span>
+
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="n">calib_pix_wl</span><span class="p">,</span> <span class="n">calib_pix_wn</span>
+<span class="kn">from</span> <span class="nn">crikit.data.mosaic</span> <span class="k">import</span> <span class="n">Mosaic</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="k">import</span> <span class="n">DialogSave</span>
+
+<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="k">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
+
+<span class="kn">import</span> <span class="nn">lazy5</span>
+<span class="kn">from</span> <span class="nn">lazy5.utils</span> <span class="k">import</span> <span class="n">FidOrFile</span><span class="p">,</span> <span class="n">fullpath</span>
+<span class="kn">from</span> <span class="nn">lazy5.ui.QtHdfLoad</span> <span class="k">import</span> <span class="n">HdfLoad</span>
+
+
+<div class="viewcode-block" id="DnDReorderListWidget"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.DnDReorderListWidget">[docs]</a><span class="k">class</span> <span class="nc">DnDReorderListWidget</span><span class="p">(</span><span class="n">_QListWidget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; List widget with drag-n-drop reordering &quot;&quot;&quot;</span>
+
+    <span class="n">reordered</span> <span class="o">=</span> <span class="n">_pyqtSignal</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DnDReorderListWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAcceptDrops</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setEditTriggers</span><span class="p">(</span><span class="n">_QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">NoEditTriggers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDragEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDragDropMode</span><span class="p">(</span><span class="n">_QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">InternalMove</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDefaultDropAction</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">MoveAction</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAlternatingRowColors</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">_QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">SingleSelection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s2">&quot;listWidgetDatasets&quot;</span><span class="p">)</span>
+
+        <span class="n">item</span> <span class="o">=</span> <span class="n">_QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">_QtWidgets</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DnDReorderListWidget.dropEvent"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.DnDReorderListWidget.dropEvent">[docs]</a>    <span class="k">def</span> <span class="nf">dropEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dropEvent</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reordered</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="MainWindowMosaic"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic">[docs]</a><span class="k">class</span> <span class="nc">MainWindowMosaic</span><span class="p">(</span><span class="n">_QMainWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">frequency_calib</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Slope&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">0.165955456</span><span class="p">,</span> <span class="s1">&#39;Intercept&#39;</span><span class="p">:</span><span class="mf">832.5510120093941</span><span class="p">,</span>
+                       <span class="s1">&#39;Probe&#39;</span><span class="p">:</span> <span class="mf">771.461</span><span class="p">,</span> <span class="s1">&#39;Calib_WL&#39;</span><span class="p">:</span> <span class="mf">700.0</span><span class="p">,</span> <span class="s1">&#39;Center_WL&#39;</span><span class="p">:</span> <span class="mf">700.0</span><span class="p">}</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allow_duplicates&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWindowMosaic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_MainWindow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setupListWidget</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxIntercept</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSlope</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Slope&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxProbe</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Probe&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCalibWL</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Calib_WL&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCenterWL</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Center_WL&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Internal data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_internals</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span> <span class="o">=</span> <span class="n">_MplCanvas</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayoutMPL</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="p">,</span> <span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayoutMPL</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignHCenter</span><span class="p">)</span>
+
+        <span class="c1"># SIGNALS AND SLOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionAddFromHDF</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addDataset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonAddDataset</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addDataset</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionSaveToHDF5</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateSlider</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">sliderReleased</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateMosaicImage</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditPix</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lineEditPixChange</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMRows</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNCols</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxRowCol</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFlipH</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFlipV</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxTranspose</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStartRow</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStartCol</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEndRow</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEndCol</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">)</span>
+
+        <span class="c1"># ! Currently, cannot save compress in HDF5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># self.ui.checkBoxCompress.stateChanged.connect(self.updateParams)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSlope</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxIntercept</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxProbe</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCalibWL</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCenterWL</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">)</span>
+
+        <span class="c1"># self.ui.spinBoxXStepSize.editingFinished.connect(self.updateSpace)</span>
+        <span class="c1"># self.ui.spinBoxYStepSize.editingFinished.connect(self.updateSpace)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonMoveUp</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">promote_demote_list_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonMoveDown</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">promote_demote_list_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonDeleteDataset</span><span class="o">.</span><span class="n">pressed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deleteDataset</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">reordered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_reordered</span><span class="p">)</span>
+
+        <span class="c1"># Close event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">closeEvent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closeEvent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionExit</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">closeEvent</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MainWindowMosaic.setupListWidget"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.setupListWidget">[docs]</a>    <span class="k">def</span> <span class="nf">setupListWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span> <span class="o">=</span> <span class="n">DnDReorderListWidget</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">verticalLayout_4</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.deleteDataset"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.deleteDataset">[docs]</a>    <span class="k">def</span> <span class="nf">deleteDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># print(&#39;No selection&#39;)</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(&#39;Current row: {}&#39;.format(row))</span>
+
+                <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">list_reordered</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">init_internals</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.promote_demote_list_item"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.promote_demote_list_item">[docs]</a>    <span class="k">def</span> <span class="nf">promote_demote_list_item</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="n">sndr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">()</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">currentRow</span><span class="p">()</span>
+            <span class="n">isup</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">sndr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonMoveUp</span><span class="p">:</span>
+                <span class="n">isup</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">sndr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonMoveDown</span><span class="p">:</span>
+                <span class="n">isup</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># print(&#39;No selection&#39;)</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(&#39;Current row: {}&#39;.format(row))</span>
+                <span class="k">pass</span>
+            <span class="k">if</span> <span class="n">isup</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">row</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="c1"># print(&#39;Can\&#39;t promote first&#39;)</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">isup</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="c1"># print(&#39;Can\&#39;t demote last&#39;)</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># print(&#39;Can\&#39;t promote/demote no selection&#39;)</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">isup</span><span class="p">:</span>
+                <span class="c1"># print(&#39;Promoting&#39;)</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">insertItem</span><span class="p">(</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">list_reordered</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">isup</span><span class="p">:</span>
+                <span class="c1"># print(&#39;Demoting&#39;)</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">takeItem</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">insertItem</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">list_reordered</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.list_reordered"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.list_reordered">[docs]</a>    <span class="k">def</span> <span class="nf">list_reordered</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">dset_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                    <span class="n">dset_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; : &#39;</span><span class="p">))</span>
+
+                <span class="n">new_order</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">:</span>
+                    <span class="n">new_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_order</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_order</span><span class="p">)</span> <span class="o">==</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">new_order</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">new_order</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">new_order</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">new_order</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updateMosaicImage</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.init_internals"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.init_internals">[docs]</a>    <span class="k">def</span> <span class="nf">init_internals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize internal variables &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Mosaic</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of list [pth, fname, dsetname]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of dataset pointers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pix</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_fname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_dsetname</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imported_spatial_vec</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.lineEditPixChange"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.lineEditPixChange">[docs]</a>    <span class="k">def</span> <span class="nf">lineEditPixChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Frequency manually entered in frequency-slider-display</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">freq_in</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditPix</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+
+        <span class="n">max_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">maximum</span><span class="p">()</span>
+        <span class="n">min_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">minimum</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">freq_in</span> <span class="o">&gt;</span> <span class="n">max_freq</span><span class="p">:</span>
+            <span class="n">freq_in</span> <span class="o">=</span> <span class="n">max_freq</span>
+        <span class="k">elif</span> <span class="n">freq_in</span> <span class="o">&lt;</span> <span class="n">min_freq</span><span class="p">:</span>
+            <span class="n">freq_in</span> <span class="o">=</span> <span class="n">min_freq</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">freq_in</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.updateSlider"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateSlider">[docs]</a>    <span class="k">def</span> <span class="nf">updateSlider</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditPix</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditFreq</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+        <span class="c1"># In case incremented by the arrow buttons</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">isSliderDown</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateMosaicImage</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.addDataset"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.addDataset">[docs]</a>    <span class="k">def</span> <span class="nf">addDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_fname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_dsetname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">first_dset</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">first_dset</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="n">pth</span><span class="o">=</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_fname</span><span class="p">),</span>
+                                              <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">to_open</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">temp_last_path</span><span class="p">,</span> <span class="n">temp_last_fname</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_open</span>
+
+            <span class="c1"># Since to_open&#39;s dsets will be lists, this is an unraveled version</span>
+            <span class="n">to_import</span> <span class="o">=</span> <span class="p">[[</span><span class="n">temp_last_path</span><span class="p">,</span> <span class="n">temp_last_fname</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">to_open</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="n">to_import2</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Duplicates removed if NOT allowing duplicates</span>
+
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">to_import</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;allow_duplicates&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_duplicate_import</span><span class="p">([</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]]):</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                        <span class="n">msg</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Critical</span><span class="p">)</span>
+                        <span class="n">str1</span> <span class="o">=</span> <span class="s1">&#39;Cannot import duplicate image:</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                        <span class="n">str2</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : </span><span class="si">{}</span><span class="s1"> : </span><span class="si">{}</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span>
+                        <span class="n">str3</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Not importing this dataset&#39;</span>
+                        <span class="n">msg</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">str1</span> <span class="o">+</span> <span class="n">str2</span> <span class="o">+</span> <span class="n">str3</span><span class="p">)</span>
+                        <span class="n">msg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Duplicate Image Found.&#39;</span><span class="p">)</span>
+                        <span class="n">msg</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                        <span class="n">msg</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                        <span class="n">out</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">to_import2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_import2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">to_import2</span><span class="p">:</span>
+                <span class="n">fof</span> <span class="o">=</span> <span class="n">FidOrFile</span><span class="p">(</span><span class="n">fullpath</span><span class="p">(</span><span class="n">pth</span><span class="o">=</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filename</span><span class="o">=</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Critical</span><span class="p">)</span>
+                    <span class="n">str1</span> <span class="o">=</span> <span class="s1">&#39;Dataset is not 3D:</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="n">str2</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : </span><span class="si">{}</span><span class="s1"> : </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span>
+                    <span class="n">str3</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Not importing this dataset&#39;</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">str1</span> <span class="o">+</span> <span class="n">str2</span> <span class="o">+</span> <span class="n">str3</span><span class="p">)</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Cannot Load Non-3D Datasets.&#39;</span><span class="p">)</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+                    <span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">last_path</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">last_fname</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">last_dsetname</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">first_dset</span><span class="p">:</span>
+                        <span class="n">flen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">unitshape_orig</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">setMinimum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="n">flen</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flen</span><span class="p">)</span>
+                        <span class="n">calib_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_for_spectral_calib</span><span class="p">(</span><span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">check_for_spatial_calib</span><span class="p">(</span><span class="n">fof</span><span class="o">.</span><span class="n">fid</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">updateFrequency</span><span class="p">(</span><span class="n">calib_vec</span><span class="p">)</span>
+                        <span class="n">first_dset</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateDatasets</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.check_for_spatial_calib"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.check_for_spatial_calib">[docs]</a>    <span class="k">def</span> <span class="nf">check_for_spatial_calib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; See if dataset has spatial calibration meta data &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="s1">&#39;attrs&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">spatial_vec</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># X, Y</span>
+        
+        <span class="n">attrs_dict</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">dset</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">list_of_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">)</span>
+
+        <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Raster.Fast.StepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.StepSize&#39;</span><span class="p">]</span>  <span class="c1"># X, Y</span>
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has StepSize info (New)&#39;</span><span class="p">)</span>
+            <span class="n">spatial_vec</span> <span class="o">=</span> <span class="n">temp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisStepSize&#39;</span><span class="p">]</span>  <span class="c1"># X, Y</span>
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has StepSize info (Old)&#39;</span><span class="p">)</span>
+                <span class="n">spatial_vec</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Raster.Fast.Start&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Stop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Steps&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;Raster.Slow.Start&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Stop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Steps&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has Start-Stop-Steps info (New)&#39;</span><span class="p">)</span>
+                    <span class="n">x_stepsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">y_stepsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">-</span> <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">spatial_vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_stepsize</span><span class="p">,</span> <span class="n">y_stepsize</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisStop&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;RasterScanParams.FastAxisSteps&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;RasterScanParams.SlowAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisStop&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;RasterScanParams.SlowAxisSteps&#39;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has Start-Stop-Steps info (Old)&#39;</span><span class="p">)</span>
+                        <span class="n">x_stepsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">y_stepsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">-</span> <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">spatial_vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_stepsize</span><span class="p">,</span> <span class="n">y_stepsize</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">spatial_vec</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imported_spatial_vec</span> <span class="o">=</span> <span class="n">spatial_vec</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxSpaceFromData</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxXStepSize</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">spatial_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxYStepSize</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">spatial_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.check_for_spectral_calib"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.check_for_spectral_calib">[docs]</a>    <span class="k">def</span> <span class="nf">check_for_spectral_calib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; See if dataset has spectral calibration meta data &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="s1">&#39;attrs&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">calib_vec</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="n">attrs_dict</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">dset</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">list_of_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">)</span>
+
+        <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.a_vec&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.ctr_wl&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.ctr_wl0&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.n_pix&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;Calib.probe&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has Calib series&#39;</span><span class="p">)</span>
+            <span class="n">calib_vec</span> <span class="o">=</span> <span class="n">temp</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectro.Avec&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CurrentWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CalibWavelength&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Spectro.SpectralPixels&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.ProbeWavelength&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">list_of_keys</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attrs_dict</span><span class="p">[</span><span class="n">tc</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_check</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Has Spectro series&#39;</span><span class="p">)</span>
+                <span class="n">calib_vec</span> <span class="o">=</span> <span class="n">temp</span>
+        <span class="k">if</span> <span class="n">calib_vec</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxSpectFromData</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">calib_vec</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.is_duplicate_import"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.is_duplicate_import">[docs]</a>    <span class="k">def</span> <span class="nf">is_duplicate_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_open</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">to_open</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.updateFrequency"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateFrequency">[docs]</a>    <span class="k">def</span> <span class="nf">updateFrequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calib_vec</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">calib_vec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">probe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxProbe</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">intercept</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxIntercept</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">slope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSlope</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">ctr_wl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCenterWL</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">calib_wl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCalibWL</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Probe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">probe</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intercept</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Slope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">slope</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Center_WL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctr_wl</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency_calib</span><span class="p">[</span><span class="s1">&#39;Calib_WL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calib_wl</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">=</span> <span class="n">slope</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span> <span class="o">+</span> <span class="n">intercept</span> <span class="o">+</span> <span class="p">(</span><span class="n">ctr_wl</span> <span class="o">-</span> <span class="n">calib_wl</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">probe</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">/</span>  <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">-</span> <span class="mf">0.01</span> <span class="o">/</span> <span class="n">probe</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">/</span>  <span class="bp">self</span><span class="o">.</span><span class="n">wl</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">a_vec</span> <span class="o">=</span> <span class="n">calib_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_vec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">slope</span> <span class="o">=</span> <span class="n">a_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                    <span class="n">intercept</span> <span class="o">=</span> <span class="n">a_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># Linearizes higher order polynomial</span>
+                    <span class="n">a_vec</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">a_vec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">slope</span> <span class="o">=</span> <span class="n">a_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                    <span class="n">intercept</span> <span class="o">=</span> <span class="n">a_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
+                <span class="n">ctr_wl</span> <span class="o">=</span> <span class="n">calib_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">calib_wl</span> <span class="o">=</span> <span class="n">calib_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                <span class="n">local_pix</span> <span class="o">=</span> <span class="n">calib_vec</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="n">probe</span> <span class="o">=</span> <span class="n">calib_vec</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxProbe</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">probe</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxIntercept</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">intercept</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSlope</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCenterWL</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">ctr_wl</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCalibWL</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">calib_wl</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">)</span>
+                
+                <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">=</span> <span class="n">slope</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span> <span class="o">+</span> <span class="n">intercept</span> <span class="o">+</span> <span class="p">(</span><span class="n">ctr_wl</span> <span class="o">-</span> <span class="n">calib_wl</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">probe</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">/</span>  <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">-</span> <span class="mf">0.01</span> <span class="o">/</span> <span class="n">probe</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">/</span>  <span class="bp">self</span><span class="o">.</span><span class="n">wl</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">calib_vec</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateSlider</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic._create_list_names"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic._create_list_names">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_create_list_names</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">temp</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.updateDatasets"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">updateDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update the listWidget of datasets &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_list_names</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listWidgetDatasets</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateParams</span><span class="p">()</span></div>
+        <span class="c1"># self.updateMosaicImage()</span>
+
+<div class="viewcode-block" id="MainWindowMosaic.updateMosaicImage"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateMosaicImage">[docs]</a>    <span class="k">def</span> <span class="nf">updateMosaicImage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+
+            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">sliderFreq</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditPix</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lineEditFreq</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaic2d</span><span class="p">(</span><span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">temp</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.closeEvent"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.closeEvent">[docs]</a>    <span class="k">def</span> <span class="nf">closeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Closing&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5dlist</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Closing: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_internals</span><span class="p">()</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">closeAllWindows</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="MainWindowMosaic.updateParams"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateParams">[docs]</a>    <span class="k">def</span> <span class="nf">updateParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update Mosaic object parameters &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;StartC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStartCol</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;StartR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxStartRow</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;EndC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEndCol</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;EndR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEndRow</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Transpose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxTranspose</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;FlipVertical&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFlipV</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;FlipHorizontally&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxFlipH</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Compress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxCompress</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMRows</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNCols</span><span class="o">.</span><span class="n">value</span><span class="p">()]</span>
+
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxRowCol</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+
+        <span class="n">mrows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMRows</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNCols</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">n_dsets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mrows</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_dsets</span><span class="p">:</span>
+            <span class="n">mrows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_dsets</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxMRows</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">mrows</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNCols</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">ncols</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">mrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateMosaicImage</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainWindowMosaic.save"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Compress&#39;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Information</span><span class="p">)</span>
+            <span class="n">str1</span> <span class="o">=</span> <span class="s1">&#39;Currently, HDF5-saving with compression is not supported. Saving full data.&#39;</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">str1</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Compression not supported.&#39;</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">DialogSave</span><span class="o">.</span><span class="n">dialogSave</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                                    <span class="n">current_filename</span><span class="o">=</span><span class="s1">&#39;MOSAIC_&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_fname</span><span class="p">,</span>
+                                    <span class="n">current_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">last_path</span><span class="p">,</span>
+                                    <span class="n">current_dataset_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">last_dsetname</span><span class="p">,</span>
+                                    <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">pass</span> <span class="c1"># Save canceled</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">save_filename</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">save_dataset_name</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="n">save_grp</span> <span class="o">=</span> <span class="n">save_dataset_name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">save_dataset_name_no_grp</span> <span class="o">=</span> <span class="n">save_dataset_name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">save_dataset_mask</span> <span class="o">=</span> <span class="n">save_grp</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="s1">&#39;MASK_&#39;</span> <span class="o">+</span> <span class="n">save_dataset_name_no_grp</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaic_mask</span><span class="p">()</span>
+
+            <span class="n">new_attrs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">attr_dict</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">:</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Calib.a_vec&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                  <span class="s1">&#39;Calib.ctr_wl&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="s1">&#39;Calib.ctr_wl0&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                  <span class="s1">&#39;Calib.n_pix&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                                  <span class="s1">&#39;Calib.probe&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">imported_calib_vec</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+                                  <span class="s1">&#39;Calib.units&#39;</span><span class="p">:</span><span class="s1">&#39;nm&#39;</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imported_spatial_vec</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaic_shape</span><span class="p">()</span>
+                <span class="n">x_stepsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imported_spatial_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">y_stepsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imported_spatial_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">x_start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">y_start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">x_stop</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x_stepsize</span>
+                <span class="n">y_stop</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y_stepsize</span>
+                <span class="n">x_steps</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">y_steps</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># [&#39;Raster.Fast.Start&#39;, &#39;Raster.Fast.Stop&#39;, &#39;Raster.Fast.Steps&#39;, </span>
+                <span class="c1">#         &#39;Raster.Slow.Start&#39;, &#39;Raster.Slow.Stop&#39;, &#39;Raster.Slow.Steps&#39;]</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Raster.Fast.StepSize&#39;</span><span class="p">:</span><span class="n">x_stepsize</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Steps&#39;</span><span class="p">:</span><span class="n">x_steps</span><span class="p">,</span>
+                                  <span class="s1">&#39;Raster.Fast.Start&#39;</span><span class="p">:</span><span class="n">x_start</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Stop&#39;</span><span class="p">:</span><span class="n">x_stop</span><span class="p">,</span>
+                                  <span class="s1">&#39;Raster.Slow.StepSize&#39;</span><span class="p">:</span><span class="n">y_stepsize</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Steps&#39;</span><span class="p">:</span><span class="n">y_steps</span><span class="p">,</span>
+                                  <span class="s1">&#39;Raster.Slow.Start&#39;</span><span class="p">:</span><span class="n">y_start</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Stop&#39;</span><span class="p">:</span><span class="n">y_stop</span><span class="p">})</span>
+
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_data</span><span class="p">):</span>
+                <span class="n">curr_shape</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">num</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">num</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Mosaic.shape.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">):</span><span class="n">curr_shape</span><span class="p">})</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Mosaic.path.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">):</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">[</span><span class="n">num</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Mosaic.filename.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">):</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">[</span><span class="n">num</span><span class="p">][</span><span class="mi">1</span><span class="p">]})</span>
+                <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Mosaic.datasetname.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">):</span><span class="bp">self</span><span class="o">.</span><span class="n">data_list</span><span class="p">[</span><span class="n">num</span><span class="p">][</span><span class="mi">2</span><span class="p">]})</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="s1">&#39;attrs&#39;</span><span class="p">):</span>
+                    <span class="n">orig_attrs</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">orig_attrs</span><span class="p">:</span>
+                        <span class="n">new_attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Mosaic.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span><span class="n">orig_attrs</span><span class="p">[</span><span class="n">k</span><span class="p">]})</span>
+
+            <span class="c1"># try:</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">save_filename</span><span class="p">),</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">require_group</span><span class="p">(</span><span class="n">save_grp</span><span class="p">)</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">save_dataset_name</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaic_shape</span><span class="p">(),</span>
+                               <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaicfull</span><span class="p">(</span><span class="n">out</span><span class="o">=</span><span class="n">fid</span><span class="p">[</span><span class="n">save_dataset_name</span><span class="p">])</span>
+            <span class="n">lazy5</span><span class="o">.</span><span class="n">alter</span><span class="o">.</span><span class="n">write_attr_dict</span><span class="p">(</span><span class="n">fid</span><span class="p">[</span><span class="n">save_dataset_name</span><span class="p">],</span> <span class="n">new_attrs</span><span class="p">)</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="n">lazy5</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_filename</span><span class="p">,</span> <span class="n">save_dataset_mask</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mosaic_mask</span><span class="p">(),</span>
+                              <span class="n">pth</span><span class="o">=</span><span class="n">save_path</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">new_attrs</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setQuitOnLastWindowClosed</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">win</span> <span class="o">=</span> <span class="n">MainWindowMosaic</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
