@@ -1,6 +1,13 @@
 crikit.utils package
 ====================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    crikit.utils.tests
+
 Submodules
 ----------
 

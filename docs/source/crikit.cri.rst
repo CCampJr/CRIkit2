@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
 
     crikit.cri.algorithms
+    crikit.cri.tests
 
 Submodules
 ----------

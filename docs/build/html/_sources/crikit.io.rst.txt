@@ -1,6 +1,13 @@
 crikit.io package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    crikit.io.tests
+
 Submodules
 ----------
 

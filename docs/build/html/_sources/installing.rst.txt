@@ -65,7 +65,7 @@ Git Dynamic copy
 
   # Make new directory for crikit2 (DIR)
   # Clone from github
-  git clone https://github.com/CoherentRamanNIST/crikit2.git ./DIR
+  git clone https://github.com/CCampJr/crikit2.git ./DIR
 
   # Within install directory (DIR)
   pip3 install -e .
@@ -79,7 +79,7 @@ Git Static copy
 
   # Make new directory for crikit2 (DIR)
   # Clone from github
-  git clone https://github.com/CoherentRamanNIST/crikit2.git ./DIR
+  git clone https://github.com/CCampJr/crikit2.git ./DIR
 
   # Within install directory (DIR)
   pip3 install .

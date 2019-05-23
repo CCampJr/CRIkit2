@@ -1,6 +1,13 @@
 crikit.data package
 ===================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    crikit.data.tests
+
 Submodules
 ----------
 
