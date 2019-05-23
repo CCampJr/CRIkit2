@@ -28,7 +28,7 @@
 CRIKit2: Hyperspectral imaging toolkit
 =======================================
 
-.. image:: ./docs/source/_static/CRIkit2_Logo.png
+.. image:: https://raw.githubusercontent.com/CCampJr/CRIkit2/master/docs/source/_static/CRIkit2_Logo.png
     :alt: CRIkit2 Logo
 
 CRIKit2, formerly the Coherent Raman Imaging toolKit, is a hyperspectral
