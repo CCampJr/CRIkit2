@@ -1,5 +1,3 @@
-.. _nonlicense:
-
 .. image:: _static/CRIkit2_Logo.png
     :align: left
 
@@ -11,8 +9,8 @@
 |
 |
 
-Nonlicense
-===========
+License
+========
 This software was developed at the National Institute of Standards and Technology (NIST) by
 employees of the Federal Government in the course of their official duties. Pursuant to 
 `Title 17 Section 105 of the United States Code <http://www.copyright.gov/title17/92chap1.html#105>`_, 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CRIKit2: Hyperspectral imaging toolkit &mdash; CRIKit2 0.2.0a0 documentation</title>
+  <title>CRIKit2: Hyperspectral imaging toolkit &mdash; CRIKit2 0.2.0rc4 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="installing.html" /> 
+    <link rel="next" title="Installation Information" href="installing.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.2.0a0
+                0.2.0rc4
               </div>
             
           
@@ -86,12 +86,12 @@
             
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) Interfaces for CRIkit2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
@@ -176,10 +176,10 @@ and a user interface.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation Information</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#known-issues">Known Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#id1">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installation">Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a><ul>
@@ -207,7 +207,7 @@ and a user interface.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) Interfaces for CRIkit2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -321,10 +321,29 @@ packages may work.</p>
 <p>The documentation was built using Sphinx. A pre-built version of the html
 files is included with this module, but you may wish to rebuild on your own
 system.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build all APIs</span>
+<span class="c1"># From within the docs/ directory</span>
+<span class="n">sphinx</span><span class="o">-</span><span class="n">apidoc</span> <span class="o">-</span><span class="n">o</span> <span class="o">./</span><span class="n">source</span><span class="o">/</span> <span class="o">../</span><span class="n">crikit</span><span class="o">/</span>
+
+<span class="c1"># Build API w/o pyuic5-generated files</span>
+<span class="n">sphinx</span><span class="o">-</span><span class="n">apidoc</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span><span class="n">o</span> <span class="o">.</span>\<span class="n">source</span>\ <span class="o">..</span>\<span class="n">crikit</span>\ <span class="o">..</span>\<span class="n">crikit</span>\<span class="n">ui</span>\<span class="n">qt_</span><span class="o">*</span> <span class="o">..</span>\<span class="n">crikit</span>\<span class="n">ui</span>\<span class="o">*</span><span class="n">_rc</span><span class="o">*</span> <span class="o">..</span>\<span class="n">crikit</span>\<span class="n">ui</span>\<span class="n">old</span>\<span class="o">**</span>
+
+<span class="n">make</span> <span class="n">html</span>
+<span class="c1"># On Windows</span>
+<span class="n">make</span><span class="o">.</span><span class="n">bat</span> <span class="n">html</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="starting-the-crikit2-ui">
 <h2>Starting the CRIkit2 UI<a class="headerlink" href="#starting-the-crikit2-ui" title="Permalink to this headline">¶</a></h2>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">crikit</span>
+
+<span class="c1"># or</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">crikit</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="known-operational-nuances">
 <h2>Known Operational Nuances<a class="headerlink" href="#known-operational-nuances" title="Permalink to this headline">¶</a></h2>
@@ -341,21 +360,27 @@ components.</li>
 </li>
 </ul>
 </div>
-<div class="section" id="nonlicense">
-<h2>NONLICENSE<a class="headerlink" href="#nonlicense" title="Permalink to this headline">¶</a></h2>
-<p>This software was developed at the National Institute of Standards and
-Technology (NIST) by employees of the Federal Government in the course of
-their official duties. Pursuant to [Title 17 Section 105 of the United States
-Code](<a class="reference external" href="http://www.copyright.gov/title17/92chap1.html#105">http://www.copyright.gov/title17/92chap1.html#105</a>), this software is not
-subject to copyright protection and is in the public domain. NIST assumes no
-responsibility whatsoever for use by other parties of its source code, and
-makes no guarantees, expressed or implied, about its quality, reliability, or
-any other characteristic.</p>
-<p>Specific software products identified in this open source project were used in
-order to perform technology transfer and collaboration. In no case does such
-identification imply recommendation or endorsement by the National Institute
-of Standards and Technology, nor does it imply that the products identified
-are necessarily the best available for the purpose.</p>
+<div class="section" id="license">
+<h2>LICENSE<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This software was developed by employees of the National Institute of Standards
+and Technology (NIST), an agency of the Federal Government. Pursuant to
+<a class="reference external" href="http://www.copyright.gov/title17/92chap1.html#105">title 17 United States Code Section 105</a>,
+works of NIST employees are not subject to copyright protection in the United States and are
+considered to be in the public domain. Permission to freely use, copy, modify,
+and distribute this software and its documentation without fee is hereby granted,
+provided that this notice and disclaimer of warranty appears in all copies.</p>
+<p>THE SOFTWARE IS PROVIDED ‘AS IS’ WITHOUT ANY WARRANTY OF ANY KIND, EITHER
+EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY
+THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT,
+AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY
+WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NIST BE LIABLE
+FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED
+WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT, OR
+OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR
+OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE
+RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.</p>
 </div>
 <div class="section" id="citation">
 <h2>CITATION<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
@@ -377,7 +402,7 @@ retrieval”, Journal of Raman Spectroscopy 47, 408-416 (2016).</a></p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installing.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installing.html" class="btn btn-neutral float-right" title="Installation Information" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

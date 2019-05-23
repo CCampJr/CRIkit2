@@ -9,10 +9,12 @@ with open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
 
 # ! Set install_requires in check_requirements.py as well
+
+print(crikit.__version__)
+
 setup(name='crikit2',
       version = crikit.__version__,
-      description = 'Hyperspectral imaging (HSI) processing and analysis \
-      platform (user interface, UI)',
+      description = 'Hyperspectral imaging (HSI) processing and analysis platform (user interface, UI)',
       long_description = long_description,
       url = 'https://github.com/CCampJr/crikit2',
       author = 'Charles H. Camp Jr.',

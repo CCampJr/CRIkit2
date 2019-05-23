@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; CRIKit2 0.2.0a0 documentation</title>
+  <title>Installation Information &mdash; CRIKit2 0.2.0rc4 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.0a0
+                0.2.0rc4
               </div>
             
           
@@ -87,7 +87,7 @@
             
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Information</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#important-for-python-3-4">IMPORTANT: For Python 3.4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#for-python-3-5-installation-through-pip-available">For Python 3.5, installation through pip available</a></li>
@@ -98,9 +98,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyqt-5-7">PyQt 5.7.*</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#option-1-dynamic-updatable-clone-of-crikit2">Option 1: Dynamic, Updatable Clone of CRIkit2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#option-2-static-copy">Option 2: Static Copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-3-installation-via-pip">Option 3: Installation via pip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#re-building-documentation">(Re-) Building Documentation</a></li>
 </ul>
 </li>
@@ -110,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) Interfaces for CRIkit2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nonlicense.html">Nonlicense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
@@ -160,7 +161,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Installation</li>
+      <li>Installation Information</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -179,7 +180,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <img alt="_images/CRIkit2_Logo.png" class="align-left" id="installing" src="_images/CRIkit2_Logo.png" />
+  <img alt="_images/CRIkit2_Logo.png" class="align-left" src="_images/CRIkit2_Logo.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -189,8 +190,8 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation-information">
+<h1>Installation Information<a class="headerlink" href="#installation-information" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>Note: These are the developmental system specs. Older versions of certain
@@ -201,6 +202,9 @@ packages may work.</p>
 </ul>
 </li>
 <li>NumPy</li>
+<li>SciPy</li>
+<li>matplotlib (1.*, 2.*, 3.*)</li>
+<li>packaging</li>
 <li>PyQT5</li>
 <li>CVXOPT</li>
 <li>LazyHDF5 &gt;= 0.2.2<ul>
@@ -248,8 +252,8 @@ packages may work.</p>
 </ul>
 </div>
 </div>
-<div class="section" id="id1">
-<h2>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>It is advisable to clone CRIkit2 via git (<a class="reference external" href="https://git-scm.com/">https://git-scm.com/</a>) and install
 in a <em>developmental</em> mode via <em>pip</em> or <em>conda</em> as this will enable you to
 easily (relatively) update your copy of CRIkit2 as new functionality
@@ -296,6 +300,12 @@ and will not be updatable without re-installing CRIkit2</p>
 <span class="c1"># To update installation, from within the CRIkit2 directory</span>
 <span class="n">git</span> <span class="n">pull</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="option-3-installation-via-pip">
+<h3>Option 3: Installation via pip<a class="headerlink" href="#option-3-installation-via-pip" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">CRIkit2</span>
 </pre></div>
 </div>
 </div>

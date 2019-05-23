@@ -1,5 +1,3 @@
-.. _installing:
-
 .. image:: _static/CRIkit2_Logo.png
     :align: left
 
@@ -11,8 +9,8 @@
 |
 |
 
-Installation
-============
+Installation Information
+=========================
 
 Dependencies
 -------------
@@ -136,7 +134,9 @@ and will not be updatable without re-installing CRIkit2
 Option 3: Installation via pip
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: pip install CRIkit2
+.. code:: 
+
+    pip install CRIkit2
 
 
 (Re-) Building Documentation
