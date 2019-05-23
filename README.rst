@@ -8,7 +8,7 @@
     :alt: AppVeyor CI Status
     :target: https://ci.appveyor.com/project/CCampJr/crikit2
 
-.. image:: image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
     :alt: Codecov
     :target: https://codecov.io/gh/CCampJr/CRIkit2
 
