@@ -48,6 +48,11 @@ You will need to manually install PyQt5 and Qt5 or get it through a distribution
 pip3 install pyqt5
 
 ## Known Issues ##
+
+### Windows 10 with High-Resolution Monitors
+The GUI may appear squashed with small font. There is a work-around described at https://github.com/CCampJr/CRIkit2/issues/79
+
+### PyQt 5.7.*
 There is a bug in PyQt 5.7.* that will prevent SciPlot's tables from showing the individual plot entries 
 (see https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html). Apparently, this will be fixed in 5.7.2.
 
