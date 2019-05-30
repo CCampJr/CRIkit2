@@ -14,4 +14,4 @@ Authors
 * Charles H. Camp Jr. <charles.camp@nist.gov>
 """
 
-__version__ = '0.2.0'
+__version__ = '0.2.1a0'

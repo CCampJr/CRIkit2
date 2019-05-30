@@ -1,14 +1,14 @@
 .. -*- mode: rst -*-
 
-.. image:: https://travis-ci.com/CCampJr/CRIkit2.svg?branch=master
+.. image:: https://travis-ci.com/CCampJr/CRIkit2.svg?branch=0.2.X
     :alt: Travis CI Status
     :target: https://travis-ci.com/CCampJr/CRIkit2
 
-.. image:: https://ci.appveyor.com/api/projects/status/1yrsrk6wfhjsn7bq/branch/master?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/1yrsrk6wfhjsn7bq/branch/0.2.X?svg=true
     :alt: AppVeyor CI Status
     :target: https://ci.appveyor.com/project/CCampJr/crikit2
 
-.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/0.2.X/graph/badge.svg
     :alt: Codecov
     :target: https://codecov.io/gh/CCampJr/CRIkit2
 
