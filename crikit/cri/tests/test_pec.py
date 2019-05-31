@@ -20,8 +20,8 @@ def test_basic():
     assert np.sum((phi_peak-phi)**2) > 265.0
     
     pec = PhaseErrCorrectALS(smoothness_param=1, asym_param=1e-8, 
-                                redux=1, fix_end_points=False, fix_rng=None, 
-                                verbose=True)
+                             redux=1, fix_end_points=False, fix_rng=None, 
+                             verbose=True)
 
     y_pec = pec.calculate(y)
     phi_pec = np.unwrap(np.angle(y_pec))

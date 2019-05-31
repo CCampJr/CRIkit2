@@ -17,38 +17,12 @@ References
 
 import numpy as _np
 from scipy import fftpack as _fftpack
-
-from crikit.utils.general import pad as _pad
+from crikit.utils.general import pad_edge_mean as _pad_edge_mean
 
 __all__ = ['kkrelation', 'hilbertfft']
 
-_DEFAULT_THREADS = 1
-
-# Conditional modules
-# Check for and load pyFFTW if available (kkrelation, hilbertfft)
-try:  # pragma: no cover
-    import pyfftw as _pyfftw
-    _pyfftw_available = True
-except ImportError:  # pragma: no cover
-    print("No pyFFTW found. Using Scipy instead. \n\
-    You may want to install pyFFTW and FFTW for [potentially]\n\
-    significant performance enhancement")
-    _pyfftw_available = False
-
-
-
-# Check for and load multiprocessing to determine number of CPUs
-try:
-    import multiprocessing as _multiprocessing
-    _thread_num = _multiprocessing.cpu_count()
-except ImportError:  # pragma: no cover
-    print("No multiprocessing module found. \n\
-    Default thread number set to 1. This can be\n\
-    changed within the .py file")
-    _thread_num = _DEFAULT_THREADS
-
-
-def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
+def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=1, 
+                   axis=-1, bad_value=1e-8, min_value=None, hilb_kwargs={}, **kwargs):
     """
     Retrieve the real and imaginary components of a CRI spectra(um) via
     the Kramers-Kronig (KK) relation.
@@ -60,16 +34,26 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
         or three-dimensional
     cri : ndarray
         CRI spectra(um) array that can be one-,two-,or three-dimensional \
-    (phase_offset) : int, float, or ndarray, optional
+    phase_offset : float or ndarray, optional
         Global phase offset applied to the KK, which effecively controls \
         the real-to-imaginary components relationship
-    (norm_by_bg) : bool
+    norm_by_bg : bool
         Should the output be normalized by the square-root of the \
         background (bg) spectrum(a)
-    (pad_factor) : int
+    pad_factor : int
         The multiple number of spectra-length pads that will be
         applied before and after the original spectra
-
+    n_edge : int, optional
+        For edge values, take a mean of n_edge neighbors
+    axis : int, optional
+        Axis to perform over
+    min_value : float, optional
+        Applies to cri/bg (the ratio). Values below min_value set to min_value
+    bad_value : float, optional
+        Applies to cri/bg (the ratio). Inf's and NaN's set to bad_value
+    hilb_kwargs : dict
+        kwargs sent to the hilbert transform. Only pad_factor, n_edge, and axis
+        are automatically sent -- these will overwrite anything in hilb_kwargs.
 
     Returns
     -------
@@ -96,32 +80,24 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1):
     Errors in Phase Retrieval," Journal of Raman Spectroscopy (2016). \
     arXiv:1507.06543.
     """
-
+    
+    hilb_kwargs.update({'pad_factor':pad_factor, 'n_edge':n_edge, 'axis':axis})
+    
     ratio = cri / bg
-    ratio[_np.isnan(ratio)] = 1e-8
-    ratio[_np.isinf(ratio)] = 1e-8
+    if bad_value:
+        ratio[_np.isnan(ratio)] = bad_value
+        ratio[_np.isinf(ratio)] = bad_value
+        ratio[ratio <= 0] = bad_value
 
-    ratio[ratio <= 0] = 1e-8
+    ph = _np.exp(1j * (hilbertfft(0.5 * _np.log(ratio), **hilb_kwargs) + phase_offset))
 
-    if ratio.ndim == 3:
-        h = _np.zeros(ratio.shape, dtype=float)
-        for row_num, blk in enumerate(ratio):
-            h[row_num, :, :] = hilbertfft(0.5 * _np.log(blk),
-                                          pad_factor=pad_factor)
+    if norm_by_bg:
+        return _np.sqrt(cri / bg) * ph
     else:
-        h = hilbertfft(0.5 * _np.log(ratio), pad_factor=pad_factor)
+        return _np.sqrt(cri) * ph
 
-    # Note: disabled numexpr eval due to stability issues
-    if norm_by_bg is True:
-        out = _np.sqrt(ratio) * _np.exp(1j * phase_offset + 1j * h)
-        # out = _ne.evaluate('sqrt(ratio)*exp(1j*phase_offset + 1j*h)')
-        return out
-    else:
-        out = _np.sqrt(cri) * _np.exp(1j * phase_offset + 1j * h)
-        return out
-        # return _ne.evaluate('sqrt(cri)*exp(1j*phase_offset + 1j*h)')
 
-def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
+def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, min_value=None, **kwargs):
     """
     Compute the one-dimensional Hilbert Transform.
 
@@ -130,14 +106,22 @@ def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
 
     Parameters
     ----------
-    spectra : ndarray
-        Input array that can be one-,two-,or three-dimensional
+    y : ndarray
+        Input numpy array
     pad_factor : int, optional
         The multiple number of spectra-length pads that will be
         applied before and after the original spectra
-    use_pyfftw : bool, optional
-        If available, use pyfftw. Else use scipy scipack implementation
-
+    n_edge : int, optional
+        For edge values, take a mean of n_edge neighbors
+    axis : int, optional
+        Axis to perform over
+    copy : bool, optional
+        Copy or over-write input data
+    min_value : float, optional
+        Values below min_value set to min_value
+    bad_value : float, optional
+        Inf's and NaN's set to bad_value
+    
     Returns
     -------
     ndarray
@@ -145,61 +129,49 @@ def hilbertfft(spectra, pad_factor=1, use_pyfftw=True):
 
     References
     ----------
-    C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable \
-    Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting \
-    Errors in Phase Retrieval," Journal of Raman Spectroscopy (2016). \
-    arXiv:1507.06543.
-
-    A D Poularikas, "The Hilbert Transform," in The Handbook of \
-    Formulas and Tables for Signal Processing (ed., A. D. Poularikas), \
-    Boca Raton, CRC Press LLC (1999).
-    """
-
-    assert spectra.ndim <= 2, 'Input data need be 1D or 2D for memory'
-
-    freq_len = spectra.shape[-1]
-    freq_pad_len = freq_len*(2*pad_factor+1)
-    time_vec = _np.fft.fftfreq(freq_pad_len)
-
-    if pad_factor > 0:
-        padded, window = _pad(spectra, pad_factor*spectra.shape[-1], 'edge')
-    else:
-        padded = spectra
-        window = None
-
-    padded = padded.astype(_np.complex)
     
-    # Use pyFFTW (supposed optimal) library or Scipy
-    # Note (although not obvious with pyFFTW) these functions overwrite
-    # the input variable-- saves memory and increases speed
-    if _pyfftw_available and use_pyfftw:
-        _pyfftw.interfaces.cache.enable()
-        padded = _pyfftw.interfaces.scipy_fftpack.ifft(padded, axis=-1,
-                                                       overwrite_x=True,
-                                                       threads=_thread_num,
-                                                       auto_align_input=True,
-                                                       planner_effort='FFTW_MEASURE')
+    -    Camp Jr, C. H., Lee, Y. J., & Cicerone, M. T. (2016). Quantitative, comparable 
+         coherent anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in 
+         phase retrieval. Journal of Raman Spectroscopy, 47(4), 408–415. 
+         https://doi.org/10.1002/jrs.4824 https://arxiv.org/abs/1507.06543
+    -    C H Camp Jr, Y J Lee, and M T Cicerone, "Quantitative, Comparable
+          Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting
+          Errors in Phase Retrieval," Journal of Raman Spectroscopy (2016).
+          arXiv:1507.06543.
+    -    A D Poularikas, "The Hilbert Transform," in The Handbook of
+          Formulas and Tables for Signal Processing (ed., A. D. Poularikas),
+          Boca Raton, CRC Press LLC (1999).
+          
+    """
+    y_pad, window = _pad_edge_mean(y, pad_factor*y.shape[axis], n_edge=n_edge, axis=axis)
+    len_axis = y_pad.shape[axis]
+    time_vec = _fftpack.fftfreq(len_axis)
+    
+    slice_add_dims = y.ndim*[None]
+    slice_add_dims[axis] = slice(None)
+    slice_add_dims = tuple(slice_add_dims)
 
-        padded *= 1j*_np.sign(time_vec)
+    y_pad = _fftpack.ifft(y_pad, axis=axis, overwrite_x=True)   
+    y_pad *= 1j*_np.sign(time_vec[slice_add_dims])
+    y_pad = _fftpack.fft(y_pad, axis=axis, overwrite_x=True)
+    
+    if bad_value:
+        y_pad[_np.isnan(y_pad)] = bad_value
+        y_pad[_np.isinf(y_pad)] = bad_value
+        
+    if min_value:
+        y_pad[y_pad < min_value] = min_value
 
-        padded = _pyfftw.interfaces.scipy_fftpack.fft(padded, axis=-1,
-                                                      overwrite_x=True,
-                                                      threads=_thread_num,
-                                                      auto_align_input=True,
-                                                      planner_effort='FFTW_MEASURE')
-    else: # Perform Hilbert Transform with Scipy FFTPACK
-        _fftpack.ifft(padded, axis=-1, overwrite_x=True)
-        padded *= 1j*_np.sign(time_vec)
-        _fftpack.fft(padded, axis=-1, overwrite_x=True)
-
-    # Set inf's and NaN's to arbitrarily small value
-    padded[_np.isnan(padded)] = 1e-8
-    padded[_np.isinf(padded)] = 1e-8
-
-    if window is not None:
-        return padded[..., window == 1].real
+    slice_vec_get_y_from_pad = y.ndim*[slice(None)]
+    slice_vec_get_y_from_pad[axis] = _np.where(window==1)[0]
+    slice_vec_get_y_from_pad = tuple(slice_vec_get_y_from_pad)
+    
+    if copy:
+        return y_pad[slice_vec_get_y_from_pad].real
     else:
-        return padded.real
+        y *= 0
+        y += y_pad[slice_vec_get_y_from_pad].real
+
 
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.cri.algorithms package &mdash; CRIKit2 0.2.0 documentation</title>
+  <title>crikit.cri.algorithms package &mdash; CRIKit2 0.2.1a0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1a0
               </div>
             
           
@@ -181,7 +181,7 @@ Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</dd>
 </dl>
 <dl class="function">
 <dt id="crikit.cri.algorithms.kk.kkrelation">
-<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">kkrelation</code><span class="sig-paren">(</span><em>bg</em>, <em>cri</em>, <em>phase_offset=0.0</em>, <em>norm_by_bg=True</em>, <em>pad_factor=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">kkrelation</code><span class="sig-paren">(</span><em>bg</em>, <em>cri</em>, <em>phase_offset=0.0</em>, <em>norm_by_bg=True</em>, <em>pad_factor=1</em>, <em>n_edge=1</em>, <em>axis=-1</em>, <em>bad_value=1e-08</em>, <em>min_value=None</em>, <em>hilb_kwargs={}</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the real and imaginary components of a CRI spectra(um) via
 the Kramers-Kronig (KK) relation.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -190,11 +190,17 @@ the Kramers-Kronig (KK) relation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>bg</strong> (<em>ndarray</em>) – Coherent background (bg) spectra(um) array that can be one-, two-,         or three-dimensional</li>
-<li><strong>cri</strong> (<em>ndarray</em>) – CRI spectra(um) array that can be one-,two-,or three-dimensional     (phase_offset) : int, float, or ndarray, optional
+<li><strong>cri</strong> (<em>ndarray</em>) – CRI spectra(um) array that can be one-,two-,or three-dimensional     phase_offset : float or ndarray, optional
 Global phase offset applied to the KK, which effecively controls         the real-to-imaginary components relationship</li>
-<li><strong>(</strong><strong>norm_by_bg</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Should the output be normalized by the square-root of the         background (bg) spectrum(a)</li>
-<li><strong>(</strong><strong>pad_factor</strong><strong>)</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The multiple number of spectra-length pads that will be
+<li><strong>norm_by_bg</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Should the output be normalized by the square-root of the         background (bg) spectrum(a)</li>
+<li><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The multiple number of spectra-length pads that will be
 applied before and after the original spectra</li>
+<li><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</li>
+<li><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cri/bg (the ratio). Values below min_value set to min_value</li>
+<li><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cri/bg (the ratio). Inf’s and NaN’s set to bad_value</li>
+<li><strong>hilb_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – kwargs sent to the hilbert transform. Only pad_factor, n_edge, and axis
+are automatically sent – these will overwrite anything in hilb_kwargs.</li>
 </ul>
 </td>
 </tr>
@@ -218,7 +224,7 @@ applied before and after the original spectra</li>
 
 <dl class="function">
 <dt id="crikit.cri.algorithms.kk.hilbertfft">
-<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">hilbertfft</code><span class="sig-paren">(</span><em>spectra</em>, <em>pad_factor=1</em>, <em>use_pyfftw=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#hilbertfft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.hilbertfft" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">crikit.cri.algorithms.kk.</code><code class="descname">hilbertfft</code><span class="sig-paren">(</span><em>y</em>, <em>pad_factor=1</em>, <em>n_edge=1</em>, <em>axis=-1</em>, <em>copy=True</em>, <em>bad_value=1e-08</em>, <em>min_value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#hilbertfft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.hilbertfft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the one-dimensional Hilbert Transform.</p>
 <p>This function computes the one-dimentional Hilbert transform
 using the Fourier-domain implementation.</p>
@@ -227,10 +233,14 @@ using the Fourier-domain implementation.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>spectra</strong> (<em>ndarray</em>) – Input array that can be one-,two-,or three-dimensional</li>
+<li><strong>y</strong> (<em>ndarray</em>) – Input numpy array</li>
 <li><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – The multiple number of spectra-length pads that will be
 applied before and after the original spectra</li>
-<li><strong>use_pyfftw</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – If available, use pyfftw. Else use scipy scipack implementation</li>
+<li><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</li>
+<li><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Copy or over-write input data</li>
+<li><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Values below min_value set to min_value</li>
+<li><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Inf’s and NaN’s set to bad_value</li>
 </ul>
 </td>
 </tr>
@@ -243,8 +253,25 @@ applied before and after the original spectra</li>
 </tbody>
 </table>
 <p class="rubric">References</p>
-<p>C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting     Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016).     arXiv:1507.06543.</p>
-<p>A D Poularikas, “The Hilbert Transform,” in The Handbook of     Formulas and Tables for Signal Processing (ed., A. D. Poularikas),     Boca Raton, CRC Press LLC (1999).</p>
+<ul class="simple">
+<li>Camp Jr, C. H., Lee, Y. J., &amp; Cicerone, M. T. (2016). Quantitative, comparable
+coherent anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in
+phase retrieval. Journal of Raman Spectroscopy, 47(4), 408–415.
+<a class="reference external" href="https://doi.org/10.1002/jrs.4824">https://doi.org/10.1002/jrs.4824</a> <a class="reference external" href="https://arxiv.org/abs/1507.06543">https://arxiv.org/abs/1507.06543</a></li>
+<li><dl class="first docutils">
+<dt>C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable</dt>
+<dd>Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting
+Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016).
+arXiv:1507.06543.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A D Poularikas, “The Hilbert Transform,” in The Handbook of</dt>
+<dd>Formulas and Tables for Signal Processing (ed., A. D. Poularikas),
+Boca Raton, CRC Press LLC (1999).</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 </div>

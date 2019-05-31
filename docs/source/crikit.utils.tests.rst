@@ -20,6 +20,14 @@ crikit.utils.tests.test\_general module
     :undoc-members:
     :show-inheritance:
 
+crikit.utils.tests.test\_pad\_edge\_mean module
+-----------------------------------------------
+
+.. automodule:: crikit.utils.tests.test_pad_edge_mean
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

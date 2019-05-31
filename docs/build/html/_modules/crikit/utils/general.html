@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.utils.general &mdash; CRIKit2 0.2.0 documentation</title>
+  <title>crikit.utils.general &mdash; CRIKit2 0.2.1a0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1a0
               </div>
             
           
@@ -247,6 +247,69 @@
     <span class="n">window</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">win_constant</span>
     <span class="n">window</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">win_constant</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">win_edge</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
 
+    <span class="k">return</span> <span class="n">y_pad</span><span class="p">,</span> <span class="n">window</span></div>
+
+<div class="viewcode-block" id="pad_edge_mean"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.general.pad_edge_mean">[docs]</a><span class="k">def</span> <span class="nf">pad_edge_mean</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_width</span><span class="p">,</span> <span class="n">n_edge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pad data y with edge-values or near-edge mean values along axis</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    y : ndarray</span>
+<span class="sd">        Input array</span>
+<span class="sd">        </span>
+<span class="sd">    pad_width : int</span>
+<span class="sd">        Size of padding on each side of y</span>
+<span class="sd">        </span>
+<span class="sd">    n_edge : int</span>
+<span class="sd">        Number of edge points to average for the pad value</span>
+<span class="sd">        </span>
+<span class="sd">    axis : int</span>
+<span class="sd">        Axis to pad</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (y_pad, window)</span>
+<span class="sd">    </span>
+<span class="sd">    y_pad : ndarray</span>
+<span class="sd">        Padded y</span>
+<span class="sd">        </span>
+<span class="sd">    window : ndarray (1D)</span>
+<span class="sd">        Mask with 0&#39;s for pad regions, 1&#39;s for original size</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pad_width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># No padding</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+        <span class="n">y_pad</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">elif</span> <span class="n">pad_width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">orig_shape</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">pad_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">orig_shape</span><span class="p">)</span>
+        <span class="n">pad_shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">+=</span> <span class="n">pad_width</span><span class="o">*</span><span class="mi">2</span>
+        
+        <span class="n">window</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">pad_shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+        <span class="n">window</span><span class="p">[</span><span class="n">pad_width</span><span class="p">:</span><span class="o">-</span><span class="n">pad_width</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        
+        <span class="n">y_pad</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pad_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">slice_vec</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+        <span class="n">slice_vec</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">pad_width</span><span class="p">,</span><span class="o">-</span><span class="n">pad_width</span><span class="p">)</span>
+        <span class="n">y_pad</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slice_vec</span><span class="p">)]</span> <span class="o">=</span> <span class="n">y</span>
+        
+        <span class="n">y_slice_vec_low</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+        <span class="n">y_slice_vec_low</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n_edge</span><span class="p">)</span>
+        <span class="n">y_slice_vec_high</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+        <span class="n">y_slice_vec_high</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="n">n_edge</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        
+        <span class="n">y_pad_slice_vec_low</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+        <span class="n">y_pad_slice_vec_low</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pad_width</span><span class="p">)</span>
+        <span class="n">y_pad_slice_vec_high</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+        <span class="n">y_pad_slice_vec_high</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="n">pad_width</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        
+        <span class="n">y_pad</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y_pad_slice_vec_low</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">y</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y_slice_vec_low</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">y_pad</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y_pad_slice_vec_high</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">y</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y_slice_vec_high</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;pad_width must be &gt;= 0&#39;</span><span class="p">)</span>
+        
     <span class="k">return</span> <span class="n">y_pad</span><span class="p">,</span> <span class="n">window</span></div>
 
 <div class="viewcode-block" id="np_fcn_nd_to_1d"><a class="viewcode-back" href="../../../crikit.utils.html#crikit.utils.general.np_fcn_nd_to_1d">[docs]</a><span class="k">def</span> <span class="nf">np_fcn_nd_to_1d</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>

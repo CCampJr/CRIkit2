@@ -206,8 +206,9 @@ if __name__ == '__main__':  # pragma: no cover
     rng = _np.arange(200, 800)
     # rng = None
     pec = PhaseErrCorrectALS(smoothness_param=1, asym_param=1e-3, 
-                                redux=10, fix_end_points=True, rng=rng, 
-                                verbose=False)
+                             redux=10, fix_end_points=True, rng=rng, 
+                             verbose=False)
 
     y_pec = pec.calculate(y)
+    print(y_pec)
     # print(y_pec[...,:20])

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>crikit.utils package &mdash; CRIKit2 0.2.0 documentation</title>
+  <title>crikit.utils package &mdash; CRIKit2 0.2.1a0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1a0
               </div>
             
           
@@ -169,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="crikit.utils.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.utils.tests.html#module-crikit.utils.tests.test_breadcrumb">crikit.utils.tests.test_breadcrumb module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.utils.tests.html#module-crikit.utils.tests.test_general">crikit.utils.tests.test_general module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.utils.tests.html#module-crikit.utils.tests.test_pad_edge_mean">crikit.utils.tests.test_pad_edge_mean module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.utils.tests.html#module-crikit.utils.tests">Module contents</a></li>
 </ul>
 </li>
@@ -545,6 +546,34 @@ value of the closest match</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">y_pad, window</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="crikit.utils.general.pad_edge_mean">
+<code class="descclassname">crikit.utils.general.</code><code class="descname">pad_edge_mean</code><span class="sig-paren">(</span><em>y</em>, <em>pad_width</em>, <em>n_edge=1</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad_edge_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad_edge_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pad data y with edge-values or near-edge mean values along axis</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y</strong> (<em>ndarray</em>) – Input array</li>
+<li><strong>pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of padding on each side of y</li>
+<li><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of edge points to average for the pad value</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Axis to pad</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>(y_pad, window)</em></li>
+<li><strong>y_pad</strong> (<em>ndarray</em>) – Padded y</li>
+<li><strong>window</strong> (<em>ndarray (1D)</em>) – Mask with 0’s for pad regions, 1’s for original size</li>
+</ul>
+</p>
 </td>
 </tr>
 </tbody>
