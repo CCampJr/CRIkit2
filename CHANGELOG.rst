@@ -12,6 +12,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 0.2.1a0 ()
 ------------------
 
+-   Utils: Pad data along a specified axis with edge-mean values (utils.general.pad_edge_mean)
 -   
 
 

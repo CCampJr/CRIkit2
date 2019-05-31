@@ -2,7 +2,7 @@ import numpy as np
 
 import pytest
 
-from crikit.utils.general import pad, pad_dual
+from crikit.utils.general import pad, pad_dual, pad_edge_mean
 
 def test_pad_1d():
     x = np.arange(-1000,1001)
