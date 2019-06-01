@@ -31,6 +31,7 @@ class KramersKronig:
 
     Parameters
     ----------
+
     cars_amp_offset : float, optional (default=0.0)
         DC offset applied to CARS spectrum(a) prior to KK relation. See Notes \
         and Ref. [2].
@@ -56,11 +57,21 @@ class KramersKronig:
     rng : ndarray (1D), optional (default=None)
         Range of pixels/frequencies (if freq provided) to perform over
 
-    rng_list : list/tuple, optional (default=None)
-        First and Last pixels/frequencies (if freq provided) to perform over
+    n_edge : int, optional
+        For edge values, take a mean of n_edge neighbors
 
-    freq : ndarray (1D), optional (default=None)
-        Frequency vector
+    axis : int, optional
+        Axis to perform over
+
+    min_value : float, optional
+        Applies to cars/nrb (the ratio). Values below min_value set to min_value
+
+    bad_value : float, optional
+        Applies to cars/nrb (the ratio). Inf's and NaN's set to bad_value
+
+    hilb_kwargs : dict
+        kwargs sent to the hilbert transform. Only pad_factor, n_edge, and axis
+        are automatically sent -- these will overwrite anything in hilb_kwargs.
 
     Returns
     -------
@@ -69,14 +80,16 @@ class KramersKronig:
 
     Notes
     -----
-    * This function does NOT overwrite input data
-    * The imaginary components provides the sponatenous Raman-like spectra(um).
-    * This module assumes the spectra are oriented as such that the frequency \
-    (wavenumber) increases with increasing index.  If this is not the case for \
-    your spectra(um), apply a phase_offset of pi.
+    
+    -   This function does NOT overwrite input data
+    -   The imaginary components provides the sponatenous Raman-like spectra(um).
+    -   This module assumes the spectra are oriented as such that the frequency 
+         (wavenumber) increases with increasing index.  If this is not the case for
+         your spectra(um), apply a phase_offset of pi.
 
     References
     ----------
+
     [1] Y. Liu, Y. J. Lee, and M. T. Cicerone, "Broadband CARS spectral
     phase retrieval using a time-domain Kramers-Kronig transform,"
     Opt. Lett. 34, 1363-1365 (2009).
@@ -88,53 +101,90 @@ class KramersKronig:
 
     """
     def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0,
-                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1, rng=None):
+                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1, 
+                 rng=None, n_edge=1, axis=-1, bad_value=1e-8, min_value=None,
+                 hilb_kwargs={}, **kwargs):
+
+        # Hilbert transform kwargs
+        self.hilb_kwargs = hilb_kwargs
+
+        # KK kwargs
+        self.kk_kwargs = {'phase_offset':phase_offset,
+                          'norm_by_bg':norm_to_nrb,
+                          'pad_factor':pad_factor,
+                          'n_edge':n_edge, 
+                          'axis':axis,
+                          'bad_value':bad_value,
+                          'min_value':min_value}
 
         self.cars_amp_offset = cars_amp_offset
         self.nrb_amp_offset = nrb_amp_offset
-        self.phase_offset = phase_offset
-        self.norm_to_nrb = norm_to_nrb
-        self.pad_factor = pad_factor
 
         # Check range of operation
         self.rng = _rng_is_pix_vec(rng)
 
+    @property
+    def phase_offset(self):
+        """ Phase offset """
+        return self.kk_kwargs['phase_offset']
+
+    @phase_offset.setter
+    def phase_offset(self, value):
+        """ Set Phase Offset """
+        self.kk_kwargs['phase_offset'] = value
+
+    @property
+    def norm_to_nrb(self):
+        """ norm_to_nrb """
+        return self.kk_kwargs['norm_to_nrb']
+
+    @norm_to_nrb.setter
+    def norm_to_nrb(self, value):
+        """ Set norm_to_nrb """
+        self.kk_kwargs['norm_to_nrb'] = value
+
+    @property
+    def pad_factor(self):
+        """ pad_factor """
+        return self.kk_kwargs['pad_factor']
+
+    @pad_factor.setter
+    def pad_factor(self, value):
+        """ Set pad_factor """
+        self.kk_kwargs['pad_factor'] = value
 
     def _calc(self, cars, nrb, ret_obj):
 
-        # Assume that an nD nrb should be averaged to be 1D
-        nrb = _mean_nd_to_1d(nrb)
-
-        shp = cars.shape[0:-2]
-
-        #  Step row-by-row through image
-        for idx in _np.ndindex(shp):
+        try:
+            # Assume that an nD nrb should be averaged to be 1D
+            # TODO: Change this in the future to accept matching NRB's
+            nrb = _mean_nd_to_1d(nrb)
+            
             if self.rng is None:
                 kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
-                                  cri=cars[idx] + self.cars_amp_offset,
-                                  phase_offset=self.phase_offset,
-                                  norm_by_bg=self.norm_to_nrb,
-                                  pad_factor=self.pad_factor)
+                                cri=cars + self.cars_amp_offset,
+                                hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
+                ret_obj *= 0
+                ret_obj += kkd
             else:
-                kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
-                                      cri=cars[idx][..., self.rng] + self.cars_amp_offset,
-                                      phase_offset=self.phase_offset,
-                                      norm_by_bg=self.norm_to_nrb,
-                                      pad_factor=self.pad_factor)
+                slice_cars_rng = cars.ndim*[slice(None)]
+                slice_cars_rng[self.kk_kwargs['axis']] = self.rng
+                slice_cars_rng = tuple(slice_cars_rng)
 
-            try:
-                ret_obj[idx] *= 0
-                if self.rng is None:
-                    ret_obj[idx] += kkd
-                elif ret_obj[idx].size == kkd.size:
-                    ret_obj[idx] += kkd
-                else:
-                    ret_obj[idx][..., self.rng] += kkd
-            except:
-                return False
-            else:
-                pass
-        return True
+                slice_ret_obj = ret_obj.ndim*[slice(None)]
+                slice_ret_obj[self.kk_kwargs['axis']] = self.rng
+                slice_ret_obj = tuple(slice_ret_obj)
+
+                kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
+                                        cri=cars[slice_cars_rng] + self.cars_amp_offset,
+                                        hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
+                ret_obj *= 0
+                ret_obj[slice_ret_obj] += kkd
+        except Exception as e:
+            print('Error: {}'.format(e))
+            return False
+        else:
+            return True
 
     def calculate(self, cars, nrb):
         """

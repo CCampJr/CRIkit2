@@ -20,7 +20,10 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Set value to set Inf's and NaN's
     -   Note: Does consume more RAM during computation (user may iteratively apply)
 
-- New padding function pad_edge_mean
+-   New KramersKronig incorporating new kkrelation/hilbertfft features
+    -   Does not iterate through data, which can require a lot more memory
+    
+-   New padding function pad_edge_mean
     -   Pads along specified axis with edge values
     -   Edge values can be a mean of n neighboring values as well
     -   Now the default padding function for hilbert and kkrelation
