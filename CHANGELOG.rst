@@ -12,6 +12,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 0.2.1a0 ()
 ------------------
 
+-   New toolbar ribbon setup scheme and default
 -   New kkrelation and hilbertfft function
     -   Select axis
     -   Performs on N-dimensional arrays (not limited to 1- or 2D)
@@ -27,6 +28,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Pads along specified axis with edge values
     -   Edge values can be a mean of n neighboring values as well
     -   Now the default padding function for hilbert and kkrelation
+
+-   Tweaks and bug fixes
 
 0.2.0 (19-05-23)
 ----------------
