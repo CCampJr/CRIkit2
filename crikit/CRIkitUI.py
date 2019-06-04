@@ -427,12 +427,9 @@ class CRIkitUI_process(_QMainWindow):
         # Temporary toolbar setup
         self.ui.toolBar.setVisible(True)
         self.ui.toolBar.setToolButtonStyle(_QtCore.Qt.ToolButtonTextUnderIcon)
-        self.ui.actionToolBarNIST1.triggered.connect(self.toolbarSetting)
-        self.ui.actionToolBarNIST2.triggered.connect(self.toolbarSetting)
-        self.ui.actionToolBarNone.triggered.connect(self.toolbarSetting)
 
         # Default toolbar is NIST Workflow
-        self.ui.actionToolBarNIST2.trigger()
+        self.toolbarSetup()
 
         # COMMAND LINE INTERPRETATION
 
@@ -510,90 +507,77 @@ class CRIkitUI_process(_QMainWindow):
         self.plotter.show()
         self.plotter.raise_()
 
+    def toolbarSetup(self):
+        """
+        Setup the tool ribbon icons
+        """
+        self.ui.toolbar_view_actions = {}
+        self.ui.toolbar_view_configs = {'default' : [self.ui.actionOpenHDFNIST,self.ui.actionSave,'separator',
+                                                     self.ui.actionPointSpectrum,self.ui.actionROISpectrum,
+                                                     'separator', self.ui.actionUndo, 'separator', self.ui.actionLoadDark,
+                                                     self.ui.actionLoadNRB, 'separator', self.ui.actionDarkSubtract,
+                                                     self.ui.actionFreqWindow, self.ui.actionAnscombe,
+                                                     self.ui.actionDeNoise, self.ui.actionInverseAnscombe,
+                                                     self.ui.actionKramersKronig,
+                                                     self.ui.actionPhaseErrorCorrection,
+                                                     self.ui.actionScaleErrorCorrection,
+                                                     self.ui.actionCalibrate],
+                                        'NIST BCARS2' : [self.ui.actionOpenHDFNIST,self.ui.actionSave,'separator',
+                                                         self.ui.actionPointSpectrum,self.ui.actionROISpectrum,
+                                                         'separator', self.ui.actionUndo, 'separator', 
+                                                         self.ui.actionLoadDark, self.ui.actionLoad_NRB_Right_Side,
+                                                         'separator', self.ui.actionDarkSubtract, self.ui.actionEstCalibration,
+                                                         self.ui.actionFreqWindow, self.ui.actionAnscombe,
+                                                         self.ui.actionDeNoise, self.ui.actionInverseAnscombe,
+                                                         self.ui.actionNRB_from_ROI_Left_Side,
+                                                         self.ui.actionMergeNRBs, self.ui.actionKramersKronig,
+                                                         self.ui.actionPhaseErrorCorrection,
+                                                         self.ui.actionScaleErrorCorrection,
+                                                         self.ui.actionCalibrate],
+                                        'NIST BCARS1' : [self.ui.actionOpenDLMNIST,self.ui.actionSave,'separator',
+                                                         self.ui.actionPointSpectrum,self.ui.actionROISpectrum,
+                                                         'separator', self.ui.actionUndo, 'separator', 
+                                                         self.ui.actionLoadDarkDLM, self.ui.actionLoadNRBDLM,
+                                                         'separator', self.ui.actionDarkSubtract,
+                                                         self.ui.actionFreqWindow, self.ui.actionAnscombe,
+                                                         self.ui.actionDeNoise, self.ui.actionInverseAnscombe,
+                                                         self.ui.actionKramersKronig, 
+                                                         self.ui.actionPhaseErrorCorrection,
+                                                         self.ui.actionScaleErrorCorrection,
+                                                         self.ui.actionCalibrate],
+                                        'None' : []}
+
+        for k in self.ui.toolbar_view_configs:
+            ret = self.ui.menuToolbar.addAction(k)
+            ret.triggered.connect(self.toolbarSetting)
+            ret.setCheckable(True)
+            self.ui.toolbar_view_actions.update({k:ret})
+
+        self.ui.toolbar_view_actions['default'].trigger()
+
     def toolbarSetting(self):
-        """
-        Toolbar settings through View menu.
-        """
-        toolbar_actions = [self.ui.actionToolBarNone,
-                           self.ui.actionToolBarNIST2,
-                           self.ui.actionToolBarNIST1]
+        """ Set the toolbar ribbon view """
 
         sndr = self.sender()
-        for tb in toolbar_actions:
-            if sndr == tb:
-                tb.setChecked(True)
+        action_key = None
+        action = None
+
+        for k in self.ui.toolbar_view_actions:
+            acn = self.ui.toolbar_view_actions[k]
+            if sndr == acn:
+                self.ui.toolBar.clear()
+                action_key = _copy.deepcopy(k)
+                acn.setChecked(True)
             else:
-                tb.setChecked(False)
+                acn.setChecked(False)
 
-        # Hide toolbar if None
-        if sndr == self.ui.actionToolBarNone:
-            self.ui.toolBar.setVisible(False)
-        else:
-            self.ui.toolBar.clear()
-            self.ui.toolBar.setVisible(True)
-
-        # So far only NIST toolbar setup
-        if sndr == self.ui.actionToolBarNIST2:
-            self.ui.actionToolBarNIST2.setChecked(True)
-            self.ui.toolBar.addActions([self.ui.actionOpenHDFNIST,
-                                        self.ui.actionSave])
-
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addActions([self.ui.actionPointSpectrum,
-                                        self.ui.actionROISpectrum])
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addAction(self.ui.actionUndo)
-
-            self.ui.toolBar.addSeparator()
-            # self.ui.toolBar.addActions([self.ui.actionLoadDark,
-            #                             self.ui.actionLoadNRB])
-            self.ui.toolBar.addActions([self.ui.actionLoadDark,
-                                        self.ui.actionLoad_NRB_Right_Side])
-
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addActions([self.ui.actionDarkSubtract,
-                                        self.ui.actionEstCalibration,
-                                        self.ui.actionFreqWindow,
-                                        self.ui.actionAnscombe,
-                                        self.ui.actionDeNoise,
-                                        self.ui.actionInverseAnscombe,
-                                        self.ui.actionNRB_from_ROI_Left_Side,
-                                        self.ui.actionMergeNRBs,
-                                        self.ui.actionKramersKronig,
-                                        self.ui.actionPhaseErrorCorrection,
-                                        self.ui.actionScaleErrorCorrection,
-                                        self.ui.actionCalibrate])
-
-        elif sndr == self.ui.actionToolBarNIST1:
-            self.ui.actionToolBarNIST2.setChecked(True)
-            self.ui.toolBar.addActions([self.ui.actionOpenDLMNIST,
-                                        self.ui.actionSave])
-
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addActions([self.ui.actionPointSpectrum,
-                                        self.ui.actionROISpectrum])
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addAction(self.ui.actionUndo)
-
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addActions([self.ui.actionLoadDarkDLM,
-                                        self.ui.actionLoadNRBDLM])
-
-            self.ui.toolBar.addSeparator()
-            self.ui.toolBar.addActions([self.ui.actionDarkSubtract,
-                                        self.ui.actionResidualSubtract,
-                                        self.ui.actionFreqWindow,
-                                        self.ui.actionAnscombe,
-                                        self.ui.actionDeNoise,
-                                        self.ui.actionInverseAnscombe,
-                                        self.ui.actionKramersKronig,
-                                        self.ui.actionPhaseErrorCorrection,
-                                        self.ui.actionScaleErrorCorrection,
-                                        self.ui.actionSubtractROI,
-                                        self.ui.actionCalibrate,
-                                        self.ui.actionAmpErrorCorrection])
-
+        for to_add in self.ui.toolbar_view_configs[action_key]:
+            if to_add == 'separator':
+                self.ui.toolBar.addSeparator()
+            else:
+                self.ui.toolBar.addAction(to_add)
         
+
     def save(self):
         suffix = self.bcpre.dset_name_suffix
 
@@ -805,7 +789,10 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionLoadNRBDLM.setEnabled(True)
             self.ui.actionNRB_from_ROI.setEnabled(True)
             # self.ui.actionAppend_NRB_from_ROI.setEnabled(True)
-            self.ui.menuPiece_wise_NRB.setEnabled(True)
+            self.ui.actionLoad_NRB_Left_Side.setEnabled(True)
+            self.ui.actionLoad_NRB_Right_Side.setEnabled(True)
+            self.ui.actionNRB_from_ROI_Left_Side.setEnabled(True)
+            self.ui.actionNRB_from_ROI_Right_Side.setEnabled(True)
 
             # PREPROCESS
             self.ui.actionResidualSubtract.setEnabled(True)

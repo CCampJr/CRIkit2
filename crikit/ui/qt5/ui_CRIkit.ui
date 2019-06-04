@@ -419,7 +419,7 @@ This will be saved to the processed file.</string>
     </property>
     <widget class="QMenu" name="menuPiece_wise_NRB">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="title">
       <string>Piecewise NRB</string>
@@ -512,9 +512,6 @@ This will be saved to the processed file.</string>
      <property name="title">
       <string>Toolbar</string>
      </property>
-     <addaction name="actionToolBarNone"/>
-     <addaction name="actionToolBarNIST2"/>
-     <addaction name="actionToolBarNIST1"/>
     </widget>
     <addaction name="menuToolbar"/>
     <addaction name="separator"/>
@@ -1110,6 +1107,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Left_Side">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
@@ -1122,6 +1122,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionLoad_NRB_Right_Side">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/account-login-4x.png</normaloff>:/icons/open-iconic-master/png/account-login-4x.png</iconset>
@@ -1134,6 +1137,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Left_Side">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
@@ -1146,6 +1152,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionNRB_from_ROI_Right_Side">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons_all.qrc">
      <normaloff>:/icons/open-iconic-master/png/globe-4x.png</normaloff>:/icons/open-iconic-master/png/globe-4x.png</iconset>
