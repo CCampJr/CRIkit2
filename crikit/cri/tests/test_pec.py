@@ -42,7 +42,7 @@ def test_basic2D():
     
     pec = PhaseErrCorrectALS(smoothness_param=1, asym_param=1e-8, 
                                 redux=1, fix_end_points=False, fix_rng=None, 
-                                verbose=True)
+                                verbose=True, use_prev=False)
 
     y_pec = pec.calculate(y)
     phi_pec = np.unwrap(np.angle(y_pec))
@@ -64,7 +64,7 @@ def test_basic3D():
     
     pec = PhaseErrCorrectALS(smoothness_param=1, asym_param=1e-8, 
                                 redux=1, fix_end_points=False, fix_rng=None, 
-                                verbose=True)
+                                verbose=True, use_prev=False)
 
     y_pec = pec.calculate(y)
     phi_pec = np.unwrap(np.angle(y_pec))
