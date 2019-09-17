@@ -3,22 +3,25 @@ Created on Mon Dec  5 12:12:51 2016
 
 @author: chc
 """
+from timeit import default_timer as _timer
+
 import numpy as _np
+import cvxopt as _cvxopt
+import cvxopt.cholmod as _cholmod
 
 from scipy.interpolate import UnivariateSpline as _USpline
 
-import cvxopt as _cvxopt
-import cvxopt.cholmod as _cholmod
+from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
+
 _cvxopt.cholmod.options['supernodal'] = 1
 _cvxopt.cholmod.options['postorder'] = False
 
-from crikit.preprocess.algorithms.abstract_als import AbstractBaseline
     
 class AlsCvxopt(AbstractBaseline):   
     def __init__(self, smoothness_param=1e3, asym_param=1e-4, redux=1,
                  order=2, rng=None, fix_end_points=False, fix_rng=None, 
                  fix_const=1, max_iter=100, min_diff=1e-5, verbose=False,
-                 **kwargs):
+                 use_prev=True, **kwargs):
         """
         Parameters
         ----------
@@ -55,6 +58,9 @@ class AlsCvxopt(AbstractBaseline):
             
         verbose : bool, optional (default, False)
             Display progress of detrending
+
+        use_prev : bool
+            Use previous solution to start the current solution, i.e., warm start
     
         Notes
         -----
@@ -70,7 +76,8 @@ class AlsCvxopt(AbstractBaseline):
         
         self.setup(redux=redux, verbose=verbose, order=order, rng=rng,
                    fix_end_points=fix_end_points, fix_rng=fix_rng, 
-                   fix_const=fix_const, max_iter=max_iter, min_diff=min_diff)
+                   fix_const=fix_const, max_iter=max_iter, min_diff=min_diff,
+                   use_prev=use_prev)
 
     @property
     def asym_param(self):
@@ -126,12 +133,17 @@ class AlsCvxopt(AbstractBaseline):
         # Convert into sparse matrix
         difference_matrix = _cvxopt.sparse(_cvxopt.matrix(difference_matrix))
     
+        penalty_vector = _np.ones([self.redux_sig_spectral_size])
+        baseline_current = _np.zeros([self.redux_sig_spectral_size])
+        baseline_last = _np.zeros([self.redux_sig_spectral_size])
+
         for ct, coords in enumerate(_np.ndindex(signal.shape[0:-1])):
             signal_current = signal[coords]
-    
-            penalty_vector = _np.ones([self.redux_sig_spectral_size])
-            baseline_current = _np.zeros([self.redux_sig_spectral_size])
-            baseline_last = _np.zeros([self.redux_sig_spectral_size])
+
+            if (not self.use_prev) & (ct > 0):
+                penalty_vector = _np.ones([self.redux_sig_spectral_size])
+                baseline_current *= 0.
+                baseline_last *= 0.
     
             # Iterative asymmetric least squares smoothing
             for ct_iter in range(self.max_iter):
@@ -192,7 +204,9 @@ class AlsCvxopt(AbstractBaseline):
     
         return baseline_output
     
+
 if __name__ == '__main__':  # pragma: no cover
+    
     x = _np.linspace(-100, 100, 1000)
     y = 10*_np.exp(-(x**2/(2*20**2)))
 
@@ -200,7 +214,17 @@ if __name__ == '__main__':  # pragma: no cover
     asym_vec = 0*x + 1e-7
     fix_rng = _np.arange(600)
     
-    als = AlsCvxopt(smoothness_param=1, asym_param=asym_vec, rng=rng,
-                    redux=10, fix_end_points=False, fix_rng=fix_rng, 
-                    verbose=True)
-    y_als = als.calculate(y)
+    Y = _np.dot(_np.ones((200,1)),y[None,:])
+
+    als = AlsCvxopt(use_prev=False)
+    tmr = _timer()
+    y_als = als.calculate(Y)
+    tmr -= _timer()
+    print('Time with cold start: {:1.3f} sec'.format(-tmr))
+    
+    als = AlsCvxopt(use_prev=True)
+    tmr = _timer()
+    y_als = als.calculate(Y)
+    tmr -= _timer()
+    print('Time with warm start: {:1.3f} sec'.format(-tmr))
+    

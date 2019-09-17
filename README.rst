@@ -58,6 +58,11 @@ Coming Soon:
 -   Interactive Raman database
 -   Much more
 
+Notices
+--------
+
+- Major bug fix in 0.2.1 (`Issue #84 <https://github.com/CCampJr/CRIkit2/issues/84>`_)
+
 Dependencies
 -------------
 

@@ -89,6 +89,69 @@ def pad_dual(y, edge_pad_width, constant_pad_width):
 
     return y_pad, window
 
+def pad_edge_mean(y, pad_width, n_edge=1, axis=-1):
+    """
+    Pad data y with edge-values or near-edge mean values along axis
+    
+    Parameters
+    ----------
+    
+    y : ndarray
+        Input array
+        
+    pad_width : int
+        Size of padding on each side of y
+        
+    n_edge : int
+        Number of edge points to average for the pad value
+        
+    axis : int
+        Axis to pad
+        
+    Returns
+    -------
+    (y_pad, window)
+    
+    y_pad : ndarray
+        Padded y
+        
+    window : ndarray (1D)
+        Mask with 0's for pad regions, 1's for original size
+        
+    """
+    if pad_width == 0:  # No padding
+        window = _np.ones((y.shape[axis]), dtype=_np.integer)
+        y_pad = y
+    elif pad_width > 0:
+        orig_shape = y.shape
+        pad_shape = list(orig_shape)
+        pad_shape[axis] += pad_width*2
+        
+        window = _np.zeros((pad_shape[axis]), dtype=_np.integer)
+        window[pad_width:-pad_width] = 1
+        
+        y_pad = _np.zeros(pad_shape, dtype=y.dtype)
+        slice_vec = y.ndim*[slice(None)]
+        slice_vec[axis] = slice(pad_width,-pad_width)
+        y_pad[tuple(slice_vec)] = y
+        
+        y_slice_vec_low = y.ndim*[slice(None)]
+        y_slice_vec_low[axis] = slice(0,n_edge)
+        y_slice_vec_high = y.ndim*[slice(None)]
+        y_slice_vec_high[axis] = slice(-n_edge,None)
+        
+        y_pad_slice_vec_low = y.ndim*[slice(None)]
+        y_pad_slice_vec_low[axis] = slice(0,pad_width)
+        y_pad_slice_vec_high = y.ndim*[slice(None)]
+        y_pad_slice_vec_high[axis] = slice(-pad_width,None)
+        
+        y_pad[tuple(y_pad_slice_vec_low)] += y[tuple(y_slice_vec_low)].mean(axis=axis, keepdims=True)
+        y_pad[tuple(y_pad_slice_vec_high)] += y[tuple(y_slice_vec_high)].mean(axis=axis, keepdims=True)
+    else:
+        raise ValueError('pad_width must be >= 0')
+        
+    return y_pad, window
+
 def np_fcn_nd_to_1d(fcn, data, axis=-1):
     """
     Take in an n-dimensional array and return a 1D version operated on by fcn.\

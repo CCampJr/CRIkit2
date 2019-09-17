@@ -1,163 +1,38 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>crikit.datasets package &mdash; CRIKit2 0.2.0 documentation</title>
-  
 
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>crikit.datasets package &#8212; CRIKit2 0.2.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-</head>
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="index.html" class="icon icon-home"> CRIKit2
-          
-
-          
-          </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0
-              </div>
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation Information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) Interfaces for CRIkit2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Developer Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-</ul>
-
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">CRIKit2</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>crikit.datasets package</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/crikit.datasets.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
             
   <div class="section" id="crikit-datasets-package">
 <h1>crikit.datasets package<a class="headerlink" href="#crikit-datasets-package" title="Permalink to this headline">¶</a></h1>
@@ -168,78 +43,68 @@
 <span id="crikit-datasets-model-module"></span><h2>crikit.datasets.model module<a class="headerlink" href="#module-crikit.datasets.model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="crikit.datasets.model.Model">
-<em class="property">class </em><code class="descclassname">crikit.datasets.model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>subsample=1</em>, <em>dtype=&lt;class 'complex'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.datasets.model.</code><code class="sig-name descname">Model</code><span class="sig-paren">(</span><em class="sig-param">subsample=1</em>, <em class="sig-param">dtype=&lt;class 'complex'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Model class</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>subsample</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Subsample the spatial dimenension (ie x[::subsample], y[::subsample])</li>
-<li><strong>dtype</strong> (<em>numpy dtype</em>) – Dtype to set final image</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subsample</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Subsample the spatial dimenension (ie x[::subsample], y[::subsample])</p></li>
+<li><p><strong>dtype</strong> (<em>numpy dtype</em>) – Dtype to set final image</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="attribute">
 <dt id="crikit.datasets.model.Model._M">
-<code class="descname">_M</code><em class="property"> = 300</em><a class="headerlink" href="#crikit.datasets.model.Model._M" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_M</code><em class="property"> = 300</em><a class="headerlink" href="#crikit.datasets.model.Model._M" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.datasets.model.Model._N">
-<code class="descname">_N</code><em class="property"> = 300</em><a class="headerlink" href="#crikit.datasets.model.Model._N" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_N</code><em class="property"> = 300</em><a class="headerlink" href="#crikit.datasets.model.Model._N" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="crikit.datasets.model.Model.f">
-<code class="descname">f</code><a class="headerlink" href="#crikit.datasets.model.Model.f" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">f</code><a class="headerlink" href="#crikit.datasets.model.Model.f" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="crikit.datasets.model.Model.hsi_i">
-<code class="descname">hsi_i</code><a class="headerlink" href="#crikit.datasets.model.Model.hsi_i" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">hsi_i</code><a class="headerlink" href="#crikit.datasets.model.Model.hsi_i" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return imag{hsi}</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="crikit.datasets.model.Model.hsi_r">
-<code class="descname">hsi_r</code><a class="headerlink" href="#crikit.datasets.model.Model.hsi_r" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">hsi_r</code><a class="headerlink" href="#crikit.datasets.model.Model.hsi_r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return real{hsi}</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.datasets.model.Model.make_hsi">
-<code class="descname">make_hsi</code><span class="sig-paren">(</span><em>f=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model.make_hsi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model.make_hsi" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">make_hsi</code><span class="sig-paren">(</span><em class="sig-param">f=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model.make_hsi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model.make_hsi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make the HSI image</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Frequency vector</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>f</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Frequency vector</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.datasets.model.Model.make_spectra">
-<code class="descname">make_spectra</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model.make_spectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model.make_spectra" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Frequency vector</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">make_spectra</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/datasets/model.html#Model.make_spectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.datasets.model.Model.make_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>f</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Frequency vector</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="crikit.datasets.model.Model.wn">
-<code class="descname">wn</code><a class="headerlink" href="#crikit.datasets.model.Model.wn" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">wn</code><a class="headerlink" href="#crikit.datasets.model.Model.wn" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -251,43 +116,57 @@
 </div>
 
 
-           </div>
-           
           </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
         </div>
       </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">crikit.datasets package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.datasets.model">crikit.datasets.model module</a></li>
+<li><a class="reference internal" href="#module-crikit.datasets">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-    </section>
-
-  </div>
-  
-
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
-    
-   
-
-</body>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/crikit.datasets.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
 </html>

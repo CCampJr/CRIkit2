@@ -168,7 +168,7 @@ def meta_process(rosetta, output_cls_instance):
             if isinstance(label, bytes):
                 label = label.decode()
 
-            output_cls_instance.x_rep.data = _np.linspace(start, stop, steps)
+            output_cls_instance.x_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.x_rep.units = units
             output_cls_instance.x_rep.label = label
             output_cls_instance.x_rep.update_calib_from_data()
@@ -203,14 +203,14 @@ def meta_process(rosetta, output_cls_instance):
             if isinstance(label, bytes):
                 label = label.decode()
 
-            output_cls_instance.y_rep.data = _np.linspace(start, stop, steps)
+            output_cls_instance.y_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.y_rep.units = units
             output_cls_instance.y_rep.label = label
             output_cls_instance.y_rep.update_calib_from_data()
 
             del start, stop, steps, units
-        except:
-            print('Something failed in meta_process: HSI-spatial calib')
+        except Exception as e:
+            print('Something failed in meta_process: HSI-spatial calib: {}'.format(e))
 
     elif type(output_cls_instance) == _Spectra:
         try:

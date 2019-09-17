@@ -178,10 +178,14 @@ class DialogAbstractFactorization(_QDialog):
             for count in script:
                 if ':' in count:
                     temp = count.split(':')
+                    if (int(temp[0]) >= self._n_factors) | (int(temp[1]) >= self._n_factors):
+                        raise ValueError('{} value greater than maximum factor {}'.format(self.temp, self._n_factors))
                     self.selected_factors.update(set(_np.arange(int(temp[0]),int(temp[1])+1)))
                 elif count.strip() == '':
                     pass
                 else:
+                    if int(count) >= self._n_factors:
+                        raise ValueError('{} value greater than maximum factor {}'.format(int(count), self._n_factors))
                     self.selected_factors.add(int(count))
         except Exception:
             _traceback.print_exc(limit=1)

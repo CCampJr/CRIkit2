@@ -1,184 +1,46 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Installation Information &mdash; CRIKit2 0.2.0 documentation</title>
-  
 
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installation Information &#8212; CRIKit2 0.2.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Running the CRIkit2 Graphical User Interface" href="running.html" />
     <link rel="prev" title="CRIKit2: Hyperspectral imaging toolkit" href="index.html" /> 
-</head>
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running.html" title="Running the CRIkit2 Graphical User Interface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="CRIKit2: Hyperspectral imaging toolkit"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="index.html" class="icon icon-home"> CRIKit2
-          
-
-          
-          </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0
-              </div>
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Documentation</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Information</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#important-for-python-3-4">IMPORTANT: For Python 3.4</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#for-python-3-5-installation-through-pip-available">For Python 3.5, installation through pip available</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#windows-10-with-high-resolution-monitors">Windows 10 with High-Resolution Monitors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pyqt-5-7">PyQt 5.7.*</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#option-1-dynamic-updatable-clone-of-crikit2">Option 1: Dynamic, Updatable Clone of CRIkit2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#option-2-static-copy">Option 2: Static Copy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#option-3-installation-via-pip">Option 3: Installation via pip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#re-building-documentation">(Re-) Building Documentation</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">Running the CRIkit2 Graphical User Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cri_walkthru.html">Walk-Thru: CRI Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Command Line Tools &amp; Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io.html">Input/Output (IO) Interfaces for CRIkit2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Developer Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-</ul>
-
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">CRIKit2</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Installation Information</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/installing.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
             
   <img alt="_images/CRIkit2_Logo.png" class="align-left" src="_images/CRIkit2_Logo.png" />
 <div class="line-block">
@@ -197,38 +59,41 @@
 <p>Note: These are the developmental system specs. Older versions of certain
 packages may work.</p>
 <ul class="simple">
-<li>python &gt;= 3.4<ul>
-<li>Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2</li>
+<li><p>python &gt;= 3.4</p>
+<ul>
+<li><p>Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2</p></li>
 </ul>
 </li>
-<li>NumPy</li>
-<li>SciPy</li>
-<li>matplotlib (1.*, 2.*, 3.*)</li>
-<li>packaging</li>
-<li>PyQT5</li>
-<li>CVXOPT</li>
-<li>LazyHDF5 &gt;= 0.2.2<ul>
-<li>Requires H5Py (&gt;= 2.6)</li>
+<li><p>NumPy</p></li>
+<li><p>SciPy</p></li>
+<li><p>matplotlib (1.*, 2.*, 3.*)</p></li>
+<li><p>packaging</p></li>
+<li><p>PyQT5</p></li>
+<li><p>CVXOPT</p></li>
+<li><p>LazyHDF5 &gt;= 0.2.2</p>
+<ul>
+<li><p>Requires H5Py (&gt;= 2.6)</p></li>
 </ul>
 </li>
-<li>SciPlot-PyQt &gt;= 0.2.2<ul>
-<li><a class="reference external" href="https://github.com/CCampJr/SciPlot-PyQt/releases">https://github.com/CCampJr/SciPlot-PyQt/releases</a></li>
-<li>Requires Matplotlib (v1.*, 2.*, or 3.*)</li>
+<li><p>SciPlot-PyQt &gt;= 0.2.2</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/CCampJr/SciPlot-PyQt/releases">https://github.com/CCampJr/SciPlot-PyQt/releases</a></p></li>
+<li><p>Requires Matplotlib (v1.*, 2.*, or 3.*)</p></li>
 </ul>
 </li>
-<li>Sphinx (optional)</li>
+<li><p>Sphinx (optional)</p></li>
 </ul>
 <div class="section" id="important-for-python-3-4">
 <h3>IMPORTANT: For Python 3.4<a class="headerlink" href="#important-for-python-3-4" title="Permalink to this headline">¶</a></h3>
 <p>You will need to manually install PyQt5 and Qt5 or get it through a distribution:</p>
 <ul class="simple">
-<li>PyQt5: <a class="reference external" href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></li>
-<li>Qt: <a class="reference external" href="https://www.qt.io/">https://www.qt.io/</a></li>
+<li><p>PyQt5: <a class="reference external" href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p></li>
+<li><p>Qt: <a class="reference external" href="https://www.qt.io/">https://www.qt.io/</a></p></li>
 </ul>
 </div>
 <div class="section" id="for-python-3-5-installation-through-pip-available">
 <h3>For Python 3.5, installation through pip available<a class="headerlink" href="#for-python-3-5-installation-through-pip-available" title="Permalink to this headline">¶</a></h3>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">pyqt5</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">pyqt5</span>
 </pre></div>
 </div>
 </div>
@@ -237,9 +102,9 @@ packages may work.</p>
 <h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="windows-10-with-high-resolution-monitors">
 <h3>Windows 10 with High-Resolution Monitors<a class="headerlink" href="#windows-10-with-high-resolution-monitors" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt>The GUI may appear squashed with small font. There is a work-around</dt>
-<dd>described at <a class="reference external" href="https://github.com/CCampJr/CRIkit2/issues/79">https://github.com/CCampJr/CRIkit2/issues/79</a></dd>
+<dl class="simple">
+<dt>The GUI may appear squashed with small font. There is a work-around</dt><dd><p>described at <a class="reference external" href="https://github.com/CCampJr/CRIkit2/issues/79">https://github.com/CCampJr/CRIkit2/issues/79</a></p>
+</dd>
 </dl>
 </div>
 <div class="section" id="pyqt-5-7">
@@ -247,8 +112,8 @@ packages may work.</p>
 <p>There is a bug in PyQt 5.7.* that will prevent SciPlot’s tables from showing the individual plot entries
 (see <a class="reference external" href="https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html">https://www.riverbankcomputing.com/pipermail/pyqt/2017-January/038483.html</a>). Apparently, this will be fixed in 5.7.2.</p>
 <ul class="simple">
-<li>As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.</li>
-<li>Alternatively, one can uninstall pyqt5.7.* and force an install of &lt;= 5.6.*.</li>
+<li><p>As WinPython 3.5.2.3Qt5 and 3.5.2.2Qt5 use PyQt 5.7.*, it is advised to use WinPython 3.5.2.1Qt5 or 3.4.4.5Qt5 until the matter is sorted out.</p></li>
+<li><p>Alternatively, one can uninstall pyqt5.7.* and force an install of &lt;= 5.6.*.</p></li>
 </ul>
 </div>
 </div>
@@ -264,7 +129,7 @@ directory elsewhere. That way if you update your Python distribution, you won’
 lose your copy of CRIkit2.</p>
 <div class="section" id="option-1-dynamic-updatable-clone-of-crikit2">
 <h3>Option 1: Dynamic, Updatable Clone of CRIkit2<a class="headerlink" href="#option-1-dynamic-updatable-clone-of-crikit2" title="Permalink to this headline">¶</a></h3>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: in Windows, commands will be followed by .exe</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: in Windows, commands will be followed by .exe</span>
 <span class="c1"># Note: On multi-python systems, you should probably append a 3 to end</span>
 <span class="c1"># the end of commands, e.g., pip is pip3, python is python3</span>
 
@@ -284,7 +149,7 @@ lose your copy of CRIkit2.</p>
 <h3>Option 2: Static Copy<a class="headerlink" href="#option-2-static-copy" title="Permalink to this headline">¶</a></h3>
 <p>The static copy will copy the CRIkit2 install into your Python distribution
 and will not be updatable without re-installing CRIkit2</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: in Windows, commands will be followed by .exe</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: in Windows, commands will be followed by .exe</span>
 <span class="c1"># Note: On multi-python systems, you should probably append a 3 to end</span>
 <span class="c1"># the end of commands, e.g., pip is pip3, python is python3</span>
 
@@ -305,7 +170,7 @@ and will not be updatable without re-installing CRIkit2</p>
 </div>
 <div class="section" id="option-3-installation-via-pip">
 <h3>Option 3: Installation via pip<a class="headerlink" href="#option-3-installation-via-pip" title="Permalink to this headline">¶</a></h3>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">CRIkit2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">CRIkit2</span>
 </pre></div>
 </div>
 </div>
@@ -316,7 +181,7 @@ thus, this step should not be necessary unless you are making modifications
 to the software.</p>
 <p>The documentation is accessible from within CRIkit2 under the <em>Help</em> header.
 It is displayed in a web browser.</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># From within the CRIkit2 directory (not crikit)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># From within the CRIkit2 directory (not crikit)</span>
 <span class="n">cd</span> <span class="n">docs</span>
 
 <span class="c1"># Clean out old docs (optional)</span>
@@ -334,52 +199,83 @@ It is displayed in a web browser.</p>
 </div>
 
 
-           </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="running.html" class="btn btn-neutral float-right" title="Running the CRIkit2 Graphical User Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="CRIKit2: Hyperspectral imaging toolkit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
         </div>
       </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation Information</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li><a class="reference internal" href="#important-for-python-3-4">IMPORTANT: For Python 3.4</a></li>
+<li><a class="reference internal" href="#for-python-3-5-installation-through-pip-available">For Python 3.5, installation through pip available</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues">Known Issues</a><ul>
+<li><a class="reference internal" href="#windows-10-with-high-resolution-monitors">Windows 10 with High-Resolution Monitors</a></li>
+<li><a class="reference internal" href="#pyqt-5-7">PyQt 5.7.*</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#option-1-dynamic-updatable-clone-of-crikit2">Option 1: Dynamic, Updatable Clone of CRIkit2</a></li>
+<li><a class="reference internal" href="#option-2-static-copy">Option 2: Static Copy</a></li>
+<li><a class="reference internal" href="#option-3-installation-via-pip">Option 3: Installation via pip</a></li>
+<li><a class="reference internal" href="#re-building-documentation">(Re-) Building Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-    </section>
-
-  </div>
-  
-
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
-    
-   
-
-</body>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">CRIKit2: Hyperspectral imaging toolkit</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="running.html"
+                        title="next chapter">Running the CRIkit2 Graphical User Interface</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installing.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running.html" title="Running the CRIkit2 Graphical User Interface"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="CRIKit2: Hyperspectral imaging toolkit"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
 </html>

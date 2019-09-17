@@ -3,15 +3,17 @@ Created on Mon Dec  5 13:44:58 2016
 
 @author: chc
 """
-import numpy as _np
 import timeit as _timeit
 
+import numpy as _np
 from scipy.interpolate import UnivariateSpline as _USpline
+
 
 class AbstractBaseline:
     
     def setup(self, redux=1, verbose=False, order=2, rng=None, 
-              fix_end_points=False, fix_rng=None, fix_const=1, max_iter=100, min_diff=1e-5):
+              fix_end_points=False, fix_rng=None, fix_const=1, 
+              max_iter=100, min_diff=1e-5, use_prev=True):
         self.redux = redux
         self.order = order
         self.rng = rng
@@ -21,6 +23,7 @@ class AbstractBaseline:
         self.fix_const = fix_const
         self.max_iter = max_iter
         self.min_diff = min_diff
+        self.use_prev = use_prev
         
         self.verbose = verbose
         self.t = None
