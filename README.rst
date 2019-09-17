@@ -154,7 +154,10 @@ Option 1: Dynamic, Updatable Clone of CRIkit2
     # To update installation, from within the CRIkit2 directory
     git pull
 
+    # If you receive an error trying to update via git pull
+    # See https://github.com/CCampJr/CRIkit2/issues/82
 
+    
 Option 2: Static Copy
 ~~~~~~~~~~~~~~~~~~~~~~
 
