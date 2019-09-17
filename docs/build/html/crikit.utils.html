@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>crikit.utils package &#8212; CRIKit2 0.2.1a0 documentation</title>
+    <meta charset="utf-8" />
+    <title>crikit.utils package &#8212; CRIKit2 0.2.1rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -27,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,208 +59,189 @@
 <div class="section" id="breadcrumb-module">
 <h3>Breadcrumb Module<a class="headerlink" href="#breadcrumb-module" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div>BCPre : Container describing pre-processing steps</div></blockquote>
+<div><p>BCPre : Container describing pre-processing steps</p>
+</div></blockquote>
 <div class="section" id="class-methods">
 <h4>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h4>
 <blockquote>
-<div><dl class="docutils">
-<dt>HDFtoClass(filename [str], datasetname [str]) <span class="classifier-delimiter">:</span> <span class="classifier">Load dataset in HDF</span></dt>
-<dd>file into the HSI Class</dd>
+<div><dl class="simple">
+<dt>HDFtoClass(filename [str], datasetname [str])<span class="classifier">Load dataset in HDF</span></dt><dd><p>file into the HSI Class</p>
+</dd>
 </dl>
 </div></blockquote>
 <dl class="class">
 <dt id="crikit.utils.breadcrumb.BCPre">
-<em class="property">class </em><code class="descclassname">crikit.utils.breadcrumb.</code><code class="descname">BCPre</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.utils.breadcrumb.</code><code class="sig-name descname">BCPre</code><span class="sig-paren">(</span><em class="sig-param">offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Container that describes processing steps (ie it contains “breadcrumbs”)</p>
-<dl class="docutils">
-<dt>offset <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Instead of starting at Step 0, start at offset (0 + offset)</dd>
+<dl class="simple">
+<dt>offset<span class="classifier">int</span></dt><dd><p>Instead of starting at Step 0, start at offset (0 + offset)</p>
+</dd>
 </dl>
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.process_list">
-<code class="descname">process_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.process_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.process_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list-of-lists. Each contained list follows the format         [‘Process Name’, ‘Var1 Name’, Val1, ‘Var2 Name’, Val2, …]. The         variable names and values may be input values to the pre-processing         step. Only the Process Name is mnadatory: the rest are optional.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.backed_flag">
-<code class="descname">backed_flag</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backed_flag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">backed_flag</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backed_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag identifying which steps were backed-up to disk (e.g., for undo)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.id_list">
-<code class="descname">id_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.id_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.id_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unique identifier for each step. Can be used to name back-up/undo files</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a> (read-only)</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a> (read-only)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.cut_list">
-<code class="descname">cut_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.cut_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">cut_list</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.cut_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifier of id’s cut with pop_to_last method</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a> (read-only)</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a> (read-only)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.num_steps">
-<code class="descname">num_steps</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.num_steps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">num_steps</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.num_steps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of processing steps</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.attr_dict">
-<code class="descname">attr_dict</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.attr_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">attr_dict</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.attr_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dictionary-version of process_list that can be written to HDF5 dataset
 metadata (properties)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt>
-<code class="descname">add_step : Add a new processing step</code></dt>
+<code class="sig-name descname">add_step : Add a new processing step</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt>
-<code class="descname">backed_up : Mark most recent process step as backed up in backed_flag list</code></dt>
+<code class="sig-name descname">backed_up : Mark most recent process step as backed up in backed_flag list</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt>
-<code class="descname">pop_to_last : Remove entries until nearest backup point (excluding current         step).</code></dt>
+<code class="sig-name descname">pop_to_last : Remove entries until nearest backup point (excluding current         step).</code></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.breadcrumb.BCPre.PREFIX">
-<code class="descname">PREFIX</code><em class="property"> = 'Processing.Steps'</em><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.PREFIX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PREFIX</code><em class="property"> = 'Processing.Steps'</em><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.PREFIX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.add_step">
-<code class="descname">add_step</code><span class="sig-paren">(</span><em>process_desc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.add_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.add_step" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_step</code><span class="sig-paren">(</span><em class="sig-param">process_desc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.add_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.add_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a steps to the list</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>process_desc</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List containing elements of new process with format:             [‘Process Name’, ‘Var1 Name’, Val1, ‘Var2 Name’, Val2, …]. The             variable names and values may be input values to the             pre-processing step. Only the Process Name is mnadatory: the rest             are optional.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>process_desc</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List containing elements of new process with format:             [‘Process Name’, ‘Var1 Name’, Val1, ‘Var2 Name’, Val2, …]. The             variable names and values may be input values to the             pre-processing step. Only the Process Name is mnadatory: the rest             are optional.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>None</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt>
-<code class="descname">attr_dict</code></dt>
+<em class="property">property </em><code class="sig-name descname">attr_dict</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.backed_up">
-<code class="descname">backed_up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.backed_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backed_up" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">backed_up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.backed_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backed_up" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marks most recent process step as backed up in backed_flag list</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>None</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>None</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)">None</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.backup_pickle">
-<em class="property">static </em><code class="descname">backup_pickle</code><span class="sig-paren">(</span><em>data</em>, <em>fname</em>, <em>addl_attr=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.backup_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backup_pickle" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">backup_pickle</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">fname</em>, <em class="sig-param">addl_attr=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.backup_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.backup_pickle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump current state of data (class of type crikit.data.spectrum or
 subclass)to pickle file (filename= fname).</p>
 <p>Can append additional attributes (addl_attr) to         attribute dictionary (self.attr)</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt>
-<code class="descname">cut_list</code></dt>
+<em class="property">property </em><code class="sig-name descname">cut_list</code></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.dset_name_suffix">
-<code class="descname">dset_name_suffix</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.dset_name_suffix" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">dset_name_suffix</code><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.dset_name_suffix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt>
-<code class="descname">id_list</code></dt>
+<em class="property">property </em><code class="sig-name descname">id_list</code></dt>
 <dd></dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.load_pickle">
-<em class="property">static </em><code class="descname">load_pickle</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.load_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.load_pickle" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">load_pickle</code><span class="sig-paren">(</span><em class="sig-param">fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.load_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.load_pickle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Static method.</p>
 <p>Return a loaded pickled version of this class (filename= fname).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt>
-<code class="descname">num_steps</code></dt>
+<em class="property">property </em><code class="sig-name descname">num_steps</code></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.utils.breadcrumb.BCPre.pop_to_last">
-<code class="descname">pop_to_last</code><span class="sig-paren">(</span><em>all=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.pop_to_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.pop_to_last" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_to_last</code><span class="sig-paren">(</span><em class="sig-param">all=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/breadcrumb.html#BCPre.pop_to_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.breadcrumb.BCPre.pop_to_last" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove entries until nearest backup point (excluding current step).
 That is, if current step IS a backup point, moves to previous one. If         current step is NOT a backup point, moves to nearest point.</p>
 <p>If all = True, will cut everything</p>
@@ -280,25 +259,24 @@ That is, if current step IS a backup point, moves to previous one. If         cu
 <p>&#64;author: chc</p>
 <dl class="function">
 <dt id="crikit.utils.datacheck._rng_is_pix_vec">
-<code class="descclassname">crikit.utils.datacheck.</code><code class="descname">_rng_is_pix_vec</code><span class="sig-paren">(</span><em>rng</em>, <em>vec_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/datacheck.html#_rng_is_pix_vec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.datacheck._rng_is_pix_vec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.datacheck.</code><code class="sig-name descname">_rng_is_pix_vec</code><span class="sig-paren">(</span><em class="sig-param">rng</em>, <em class="sig-param">vec_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/datacheck.html#_rng_is_pix_vec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.datacheck._rng_is_pix_vec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure rng is a vector, unless None (then returns None).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>, or </em><em>ndarray</em><em>(</em><em>1D</em><em>)</em>) – <ul class="simple">
-<li>int: number of pixels in rng</li>
-<li>list, tuple, ndarray with length 2: Start and end of rng</li>
-<li>ndarray (length &gt; 2): actual rng vector</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rng</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>, or </em><em>ndarray</em><em>(</em><em>1D</em><em>)</em>) – <ul class="simple">
+<li><p>int: number of pixels in rng</p></li>
+<li><p>list, tuple, ndarray with length 2: Start and end of rng</p></li>
+<li><p>ndarray (length &gt; 2): actual rng vector</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>rng</strong> – Array of pixel range</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray (1D)</td>
-</tr>
-</tbody>
-</table>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>rng</strong> – Array of pixel range</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray (1D)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -308,164 +286,148 @@ That is, if current step IS a backup point, moves to previous one. If         cu
 <blockquote>
 <div><p>expand_1d_to_ndim_data : Match 1D data array dimensionality to that of         another array</p>
 <p>expand_1d_to_ndim : Expand 1D data array dimensionality to ndim</p>
-<dl class="docutils">
-<dt>find_nearest <span class="classifier-delimiter">:</span> <span class="classifier">Given a vector and a value, find the index and value</span></dt>
-<dd>of the closest match</dd>
-<dt>pad <span class="classifier-delimiter">:</span> <span class="classifier">Wrapper around numpy.pad that also returns a window defining the</span></dt>
-<dd>original signal</dd>
+<dl class="simple">
+<dt>find_nearest<span class="classifier">Given a vector and a value, find the index and value</span></dt><dd><p>of the closest match</p>
+</dd>
+<dt>pad<span class="classifier">Wrapper around numpy.pad that also returns a window defining the</span></dt><dd><p>original signal</p>
+</dd>
 </dl>
 </div></blockquote>
 <p class="rubric">Notes</p>
 <dl class="function">
 <dt id="crikit.utils.general.arange_nonzero">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">arange_nonzero</code><span class="sig-paren">(</span><em>start</em>, <em>stop</em>, <em>dtype=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#arange_nonzero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.arange_nonzero" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">arange_nonzero</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">stop</em>, <em class="sig-param">dtype=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#arange_nonzero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.arange_nonzero" title="Permalink to this definition">¶</a></dt>
 <dd><p>Similar to numpy arange but only returns non-zero elements</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.expand_1d_to_ndim">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">expand_1d_to_ndim</code><span class="sig-paren">(</span><em>data</em>, <em>ndim</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#expand_1d_to_ndim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.expand_1d_to_ndim" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">expand_1d_to_ndim</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ndim</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#expand_1d_to_ndim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.expand_1d_to_ndim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 1D array into ndim dimensions</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.expand_1d_to_ndim_data">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">expand_1d_to_ndim_data</code><span class="sig-paren">(</span><em>data</em>, <em>data_to_match</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#expand_1d_to_ndim_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.expand_1d_to_ndim_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">expand_1d_to_ndim_data</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">data_to_match</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#expand_1d_to_ndim_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.expand_1d_to_ndim_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 1D data array equal in dimensions to data_to_match</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.find_nearest">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">find_nearest</code><span class="sig-paren">(</span><em>np_vec</em>, <em>to_find=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#find_nearest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.find_nearest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">find_nearest</code><span class="sig-paren">(</span><em class="sig-param">np_vec</em>, <em class="sig-param">to_find=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#find_nearest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.find_nearest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a vector and a value (or list/vector of values), find the index and
 value of the closest match</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>np_vec</strong> (<em>numpy.ndarray</em>) – Numpy array (list) of values</li>
-<li><strong>to_find</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>numpy.ndarray</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>np_vec</strong> (<em>numpy.ndarray</em>) – Numpy array (list) of values</p></li>
+<li><p><strong>to_find</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>numpy.ndarray</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> – Closest value (nearest_value) and index (index)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a> (nearest_value(s), index(es))</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>out</strong> – Closest value (nearest_value) and index (index)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a> (nearest_value(s), index(es))</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.lin_from_row_col">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">lin_from_row_col</code><span class="sig-paren">(</span><em>row</em>, <em>col</em>, <em>sh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#lin_from_row_col"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.lin_from_row_col" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">lin_from_row_col</code><span class="sig-paren">(</span><em class="sig-param">row</em>, <em class="sig-param">col</em>, <em class="sig-param">sh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#lin_from_row_col"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.lin_from_row_col" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a col and row counter to 1D linear count</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.mean_nd_to_1d">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">mean_nd_to_1d</code><span class="sig-paren">(</span><em>data</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#mean_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.mean_nd_to_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">mean_nd_to_1d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#mean_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.mean_nd_to_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take the mean of an nd array, except axis, returning a 1D array</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.np_fcn_nd_to_1d">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">np_fcn_nd_to_1d</code><span class="sig-paren">(</span><em>fcn</em>, <em>data</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#np_fcn_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.np_fcn_nd_to_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">np_fcn_nd_to_1d</code><span class="sig-paren">(</span><em class="sig-param">fcn</em>, <em class="sig-param">data</em>, <em class="sig-param">axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#np_fcn_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.np_fcn_nd_to_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take in an n-dimensional array and return a 1D version operated on by fcn.    Works with many numpy functions that can take an “axis” parameter</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.pad">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">pad</code><span class="sig-paren">(</span><em>y</em>, <em>pad_width</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">pad</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">pad_width</em>, <em class="sig-param">mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pad array with either constants or edge values.</p>
 <p>Note: For N-D arrays, pads the -1 axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>y</strong> (<em>ndarray</em>) – Input array</li>
-<li><strong>pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of padding on each side of y</li>
-<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘constant’ (0), ‘edge’ currently accepted</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>ndarray</em>) – Input array</p></li>
+<li><p><strong>pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of padding on each side of y</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘constant’ (0), ‘edge’ currently accepted</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Padded array and window. Window defines the region of the original signal</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">y_pad, window</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Padded array and window. Window defines the region of the original signal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>y_pad, window</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.pad_dual">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">pad_dual</code><span class="sig-paren">(</span><em>y</em>, <em>edge_pad_width</em>, <em>constant_pad_width</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad_dual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad_dual" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">pad_dual</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">edge_pad_width</em>, <em class="sig-param">constant_pad_width</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad_dual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad_dual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pad array with edge values followed by constant 0’s.</p>
 <p>Note: For N-D arrays, pads the -1 axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>y</strong> (<em>ndarray</em>) – Input array</li>
-<li><strong>edge_pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of edge-value padding on each side of y</li>
-<li><strong>constant_pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of 0-padding on each side of y after edge-value padding</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>ndarray</em>) – Input array</p></li>
+<li><p><strong>edge_pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of edge-value padding on each side of y</p></li>
+<li><p><strong>constant_pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of 0-padding on each side of y after edge-value padding</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Padded array and window. Window defines the region of the original signal</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">y_pad, window</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Padded array and window. Window defines the region of the original signal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>y_pad, window</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.pad_edge_mean">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">pad_edge_mean</code><span class="sig-paren">(</span><em>y</em>, <em>pad_width</em>, <em>n_edge=1</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad_edge_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad_edge_mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">pad_edge_mean</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">pad_width</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#pad_edge_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.pad_edge_mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pad data y with edge-values or near-edge mean values along axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>y</strong> (<em>ndarray</em>) – Input array</li>
-<li><strong>pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of padding on each side of y</li>
-<li><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of edge points to average for the pad value</li>
-<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Axis to pad</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>ndarray</em>) – Input array</p></li>
+<li><p><strong>pad_width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of padding on each side of y</p></li>
+<li><p><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of edge points to average for the pad value</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Axis to pad</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>(y_pad, window)</em></li>
-<li><strong>y_pad</strong> (<em>ndarray</em>) – Padded y</li>
-<li><strong>window</strong> (<em>ndarray (1D)</em>) – Mask with 0’s for pad regions, 1’s for original size</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(y_pad, window)</em></p></li>
+<li><p><strong>y_pad</strong> (<em>ndarray</em>) – Padded y</p></li>
+<li><p><strong>window</strong> (<em>ndarray (1D)</em>) – Mask with 0’s for pad regions, 1’s for original size</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.row_col_from_lin">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">row_col_from_lin</code><span class="sig-paren">(</span><em>ct</em>, <em>sh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#row_col_from_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.row_col_from_lin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">row_col_from_lin</code><span class="sig-paren">(</span><em class="sig-param">ct</em>, <em class="sig-param">sh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#row_col_from_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.row_col_from_lin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a 1D counter into a col and row counter</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.general.std_nd_to_1d">
-<code class="descclassname">crikit.utils.general.</code><code class="descname">std_nd_to_1d</code><span class="sig-paren">(</span><em>data</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#std_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.std_nd_to_1d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.general.</code><code class="sig-name descname">std_nd_to_1d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/general.html#std_nd_to_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.general.std_nd_to_1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take the mean of an nd array, except axis, returning a 1D array</p>
 </dd></dl>
 
@@ -476,56 +438,56 @@ value of the closest match</p>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle">
-<em class="property">class </em><code class="descclassname">crikit.utils.mplstyle.</code><code class="descname">CrikitMplStyle</code><a class="reference internal" href="_modules/crikit/utils/mplstyle.html#CrikitMplStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.utils.mplstyle.</code><code class="sig-name descname">CrikitMplStyle</code><a class="reference internal" href="_modules/crikit/utils/mplstyle.html#CrikitMplStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._base_crikit">
-<code class="descname">_base_crikit</code><em class="property"> = {'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'image.cmap': 'viridis', 'image.interpolation': 'none'}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._base_crikit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_base_crikit</code><em class="property"> = {'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'image.cmap': 'viridis', 'image.interpolation': 'none'}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._base_crikit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._paper_fullwidth">
-<code class="descname">_paper_fullwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.titlesize': 9.6, 'figure.figsize': [6.4, 4.4], 'grid.linewidth': 0.8, 'legend.fontsize': 8.8, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._paper_fullwidth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_paper_fullwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.titlesize': 9.6, 'figure.figsize': [6.4, 4.4], 'grid.linewidth': 0.8, 'legend.fontsize': 8.8, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._paper_fullwidth" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._paper_halfwidth">
-<code class="descname">_paper_halfwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.titlesize': 9.6, 'figure.figsize': [3.3, 4.4], 'grid.linewidth': 0.8, 'legend.fontsize': 8.0, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._paper_halfwidth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_paper_halfwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.titlesize': 9.6, 'figure.figsize': [3.3, 4.4], 'grid.linewidth': 0.8, 'legend.fontsize': 8.0, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._paper_halfwidth" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._poster">
-<code class="descname">_poster</code><em class="property"> = {'axes.labelsize': 17.6, 'axes.titlesize': 19.2, 'figure.figsize': [12.8, 8.8], 'grid.linewidth': 1.6, 'legend.fontsize': 16.0, 'lines.linewidth': 2.8, 'lines.markeredgewidth': 0.0, 'lines.markersize': 11.2, 'patch.linewidth': 0.48, 'xtick.labelsize': 16.0, 'xtick.major.pad': 11.2, 'xtick.major.width': 1.6, 'xtick.minor.width': 0.8, 'ytick.labelsize': 16.0, 'ytick.major.pad': 11.2, 'ytick.major.width': 1.6, 'ytick.minor.width': 0.8}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._poster" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_poster</code><em class="property"> = {'axes.labelsize': 17.6, 'axes.titlesize': 19.2, 'figure.figsize': [12.8, 8.8], 'grid.linewidth': 1.6, 'legend.fontsize': 16.0, 'lines.linewidth': 2.8, 'lines.markeredgewidth': 0.0, 'lines.markersize': 11.2, 'patch.linewidth': 0.48, 'xtick.labelsize': 16.0, 'xtick.major.pad': 11.2, 'xtick.major.width': 1.6, 'xtick.minor.width': 0.8, 'ytick.labelsize': 16.0, 'ytick.major.pad': 11.2, 'ytick.major.width': 1.6, 'ytick.minor.width': 0.8}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._poster" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._tableau10">
-<code class="descname">_tableau10</code><em class="property"> = array([[0.12156863, 0.46666667, 0.70588235],        [1.        , 0.49803922, 0.05490196],        [0.17254902, 0.62745098, 0.17254902],        [0.83921569, 0.15294118, 0.15686275],        [0.58039216, 0.40392157, 0.74117647],        [0.54901961, 0.3372549 , 0.29411765],        [0.89019608, 0.46666667, 0.76078431],        [0.49803922, 0.49803922, 0.49803922],        [0.7372549 , 0.74117647, 0.13333333],        [0.09019608, 0.74509804, 0.81176471]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau10" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_tableau10</code><em class="property"> = array([[0.12156863, 0.46666667, 0.70588235],        [1.        , 0.49803922, 0.05490196],        [0.17254902, 0.62745098, 0.17254902],        [0.83921569, 0.15294118, 0.15686275],        [0.58039216, 0.40392157, 0.74117647],        [0.54901961, 0.3372549 , 0.29411765],        [0.89019608, 0.46666667, 0.76078431],        [0.49803922, 0.49803922, 0.49803922],        [0.7372549 , 0.74117647, 0.13333333],        [0.09019608, 0.74509804, 0.81176471]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._tableau10_med">
-<code class="descname">_tableau10_med</code><em class="property"> = array([[0.44705882, 0.61960784, 0.80784314],        [1.        , 0.61960784, 0.29019608],        [0.40392157, 0.74901961, 0.36078431],        [0.92941176, 0.4       , 0.36470588],        [0.67843137, 0.54509804, 0.78823529],        [0.65882353, 0.47058824, 0.43137255],        [0.92941176, 0.59215686, 0.79215686],        [0.63529412, 0.63529412, 0.63529412],        [0.80392157, 0.8       , 0.36470588],        [0.42745098, 0.8       , 0.85490196]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau10_med" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_tableau10_med</code><em class="property"> = array([[0.44705882, 0.61960784, 0.80784314],        [1.        , 0.61960784, 0.29019608],        [0.40392157, 0.74901961, 0.36078431],        [0.92941176, 0.4       , 0.36470588],        [0.67843137, 0.54509804, 0.78823529],        [0.65882353, 0.47058824, 0.43137255],        [0.92941176, 0.59215686, 0.79215686],        [0.63529412, 0.63529412, 0.63529412],        [0.80392157, 0.8       , 0.36470588],        [0.42745098, 0.8       , 0.85490196]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau10_med" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle._tableau20">
-<code class="descname">_tableau20</code><em class="property"> = array([[0.12156863, 0.46666667, 0.70588235],        [0.68235294, 0.78039216, 0.90980392],        [1.        , 0.49803922, 0.05490196],        [1.        , 0.73333333, 0.47058824],        [0.17254902, 0.62745098, 0.17254902],        [0.59607843, 0.8745098 , 0.54117647],        [0.83921569, 0.15294118, 0.15686275],        [1.        , 0.59607843, 0.58823529],        [0.58039216, 0.40392157, 0.74117647],        [0.77254902, 0.69019608, 0.83529412],        [0.54901961, 0.3372549 , 0.29411765],        [0.76862745, 0.61176471, 0.58039216],        [0.89019608, 0.46666667, 0.76078431],        [0.96862745, 0.71372549, 0.82352941],        [0.49803922, 0.49803922, 0.49803922],        [0.78039216, 0.78039216, 0.78039216],        [0.7372549 , 0.74117647, 0.13333333],        [0.85882353, 0.85882353, 0.55294118],        [0.09019608, 0.74509804, 0.81176471],        [0.61960784, 0.85490196, 0.89803922]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau20" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_tableau20</code><em class="property"> = array([[0.12156863, 0.46666667, 0.70588235],        [0.68235294, 0.78039216, 0.90980392],        [1.        , 0.49803922, 0.05490196],        [1.        , 0.73333333, 0.47058824],        [0.17254902, 0.62745098, 0.17254902],        [0.59607843, 0.8745098 , 0.54117647],        [0.83921569, 0.15294118, 0.15686275],        [1.        , 0.59607843, 0.58823529],        [0.58039216, 0.40392157, 0.74117647],        [0.77254902, 0.69019608, 0.83529412],        [0.54901961, 0.3372549 , 0.29411765],        [0.76862745, 0.61176471, 0.58039216],        [0.89019608, 0.46666667, 0.76078431],        [0.96862745, 0.71372549, 0.82352941],        [0.49803922, 0.49803922, 0.49803922],        [0.78039216, 0.78039216, 0.78039216],        [0.7372549 , 0.74117647, 0.13333333],        [0.85882353, 0.85882353, 0.55294118],        [0.09019608, 0.74509804, 0.81176471],        [0.61960784, 0.85490196, 0.89803922]])</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle._tableau20" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle.basic_fullwidth">
-<code class="descname">basic_fullwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 9.6, 'figure.figsize': [6.4, 4.4], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 0.8, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 8.8, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_fullwidth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">basic_fullwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 9.6, 'figure.figsize': [6.4, 4.4], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 0.8, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 8.8, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_fullwidth" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle.basic_halfwidth">
-<code class="descname">basic_halfwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 9.6, 'figure.figsize': [3.3, 4.4], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 0.8, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 8.0, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_halfwidth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">basic_halfwidth</code><em class="property"> = {'axes.labelsize': 8.8, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 9.6, 'figure.figsize': [3.3, 4.4], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 0.8, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 8.0, 'lines.linewidth': 1.4, 'lines.markeredgewidth': 0.0, 'lines.markersize': 5.6, 'patch.linewidth': 0.24, 'xtick.labelsize': 8.0, 'xtick.major.pad': 5.6, 'xtick.major.width': 0.8, 'xtick.minor.width': 0.4, 'ytick.labelsize': 8.0, 'ytick.major.pad': 5.6, 'ytick.major.width': 0.8, 'ytick.minor.width': 0.4}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_halfwidth" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="crikit.utils.mplstyle.CrikitMplStyle.basic_poster">
-<code class="descname">basic_poster</code><em class="property"> = {'axes.labelsize': 17.6, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 19.2, 'figure.figsize': [12.8, 8.8], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 1.6, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 16.0, 'lines.linewidth': 2.8, 'lines.markeredgewidth': 0.0, 'lines.markersize': 11.2, 'patch.linewidth': 0.48, 'xtick.labelsize': 16.0, 'xtick.major.pad': 11.2, 'xtick.major.width': 1.6, 'xtick.minor.width': 0.8, 'ytick.labelsize': 16.0, 'ytick.major.pad': 11.2, 'ytick.major.width': 1.6, 'ytick.minor.width': 0.8}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_poster" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">basic_poster</code><em class="property"> = {'axes.labelsize': 17.6, 'axes.prop_cycle': cycler('color', [array([0.12156863, 0.46666667, 0.70588235]), array([1.        , 0.49803922, 0.05490196]), array([0.17254902, 0.62745098, 0.17254902]), array([0.83921569, 0.15294118, 0.15686275]), array([0.58039216, 0.40392157, 0.74117647]), array([0.54901961, 0.3372549 , 0.29411765]), array([0.89019608, 0.46666667, 0.76078431]), array([0.49803922, 0.49803922, 0.49803922]), array([0.7372549 , 0.74117647, 0.13333333]), array([0.09019608, 0.74509804, 0.81176471])]), 'axes.titlesize': 19.2, 'figure.figsize': [12.8, 8.8], 'font.family': ['sans-serif'], 'font.sans-serif': ['Arial', 'Bitstream Vera Sans', 'DejaVu Sans', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Avant Garde', 'sans-serif'], 'grid.linewidth': 1.6, 'image.cmap': 'viridis', 'image.interpolation': 'none', 'legend.fontsize': 16.0, 'lines.linewidth': 2.8, 'lines.markeredgewidth': 0.0, 'lines.markersize': 11.2, 'patch.linewidth': 0.48, 'xtick.labelsize': 16.0, 'xtick.major.pad': 11.2, 'xtick.major.width': 1.6, 'xtick.minor.width': 0.8, 'ytick.labelsize': 16.0, 'ytick.major.pad': 11.2, 'ytick.major.width': 1.6, 'ytick.minor.width': 0.8}</em><a class="headerlink" href="#crikit.utils.mplstyle.CrikitMplStyle.basic_poster" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -537,25 +499,25 @@ value of the closest match</p>
 <p>&#64;author: chc</p>
 <dl class="function">
 <dt id="crikit.utils.roi.pts_in_path">
-<code class="descclassname">crikit.utils.roi.</code><code class="descname">pts_in_path</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#pts_in_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.pts_in_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.roi.</code><code class="sig-name descname">pts_in_path</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#pts_in_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.pts_in_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return points (pixels) that fall within path (but not on boundary)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.roi.pts_to_verts">
-<code class="descclassname">crikit.utils.roi.</code><code class="descname">pts_to_verts</code><span class="sig-paren">(</span><em>xvec</em>, <em>yvec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#pts_to_verts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.pts_to_verts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.roi.</code><code class="sig-name descname">pts_to_verts</code><span class="sig-paren">(</span><em class="sig-param">xvec</em>, <em class="sig-param">yvec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#pts_to_verts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.pts_to_verts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert points to vertices, i.e., convert from 2 1D arrays (or list) of     x- and y-coordinates to a list-of-lists of [x,y] pairs</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.roi.verts_to_path">
-<code class="descclassname">crikit.utils.roi.</code><code class="descname">verts_to_path</code><span class="sig-paren">(</span><em>verts</em>, <em>isclosed=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#verts_to_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.verts_to_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.roi.</code><code class="sig-name descname">verts_to_path</code><span class="sig-paren">(</span><em class="sig-param">verts</em>, <em class="sig-param">isclosed=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#verts_to_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.verts_to_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert vertices to paths</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="crikit.utils.roi.verts_to_points_in_roi">
-<code class="descclassname">crikit.utils.roi.</code><code class="descname">verts_to_points_in_roi</code><span class="sig-paren">(</span><em>verts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#verts_to_points_in_roi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.verts_to_points_in_roi" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.utils.roi.</code><code class="sig-name descname">verts_to_points_in_roi</code><span class="sig-paren">(</span><em class="sig-param">verts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/utils/roi.html#verts_to_points_in_roi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.utils.roi.verts_to_points_in_roi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Vertice list defining ROI in, points within returned.</p>
 </dd></dl>
 
@@ -600,13 +562,11 @@ value of the closest match</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -624,12 +584,12 @@ value of the closest match</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>crikit.cri package &#8212; CRIKit2 0.2.1a0 documentation</title>
+    <meta charset="utf-8" />
+    <title>crikit.cri package &#8212; CRIKit2 0.2.1rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -27,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -73,52 +71,52 @@
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS">
-<em class="property">class </em><code class="descclassname">crikit.cri.error_correction.</code><code class="descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em>smoothness_param=1</em>, <em>asym_param=0.01</em>, <em>redux=10</em>, <em>order=2</em>, <em>rng=None</em>, <em>fix_end_points=False</em>, <em>fix_rng=None</em>, <em>fix_const=1</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>verbose=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em class="sig-param">smoothness_param=1</em>, <em class="sig-param">asym_param=0.01</em>, <em class="sig-param">redux=10</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">fix_rng=None</em>, <em class="sig-param">fix_const=1</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Phase error correction using alternating least squares (ALS)</p>
 <p class="rubric">References</p>
 <ul class="simple">
-<li>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</li>
+<li><p>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</p></li>
 </ul>
 <dl class="method">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="crikit.cri.error_correction.ScaleErrCorrectSG">
-<em class="property">class </em><code class="descclassname">crikit.cri.error_correction.</code><code class="descname">ScaleErrCorrectSG</code><span class="sig-paren">(</span><em>win_size=601</em>, <em>order=2</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">ScaleErrCorrectSG</code><span class="sig-paren">(</span><em class="sig-param">win_size=601</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Scale error correction using Savitky-Golay</p>
 <p class="rubric">References</p>
 <ul class="simple">
-<li>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</li>
+<li><p>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</p></li>
 </ul>
 <dl class="method">
 <dt id="crikit.cri.error_correction.ScaleErrCorrectSG._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.error_correction.ScaleErrCorrectSG.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.error_correction.ScaleErrCorrectSG.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -134,38 +132,43 @@ Opt. Lett. 34, 1363-1365 (2009).</p>
 <p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
 <dl class="class">
 <dt id="crikit.cri.kk.KramersKronig">
-<em class="property">class </em><code class="descclassname">crikit.cri.kk.</code><code class="descname">KramersKronig</code><span class="sig-paren">(</span><em>cars_amp_offset=0.0</em>, <em>nrb_amp_offset=0.0</em>, <em>phase_offset=0.0</em>, <em>norm_to_nrb=True</em>, <em>pad_factor=1</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.kk.</code><code class="sig-name descname">KramersKronig</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Retrieve the real and imaginary components of coherent Raman data via the     Kramers-Kronig (KK) relation. See References.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cars_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to CARS spectrum(a) prior to KK relation. See Notes         and Ref. [2].</li>
-<li><strong>nrb_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to NRB spectrum(a) prior to KK relation. See Notes         and Ref. [2].</li>
-<li><strong>phase_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>ndarray</em><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Phase constant or ndarray applied to retrieved phase prior to         separating the real and imaginary components. See Notes         and Ref. [2].</li>
-<li><strong>norm_to_nrb</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions. Highly recommended. See Ref. [2]</li>
-<li><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=1</em><em>)</em>) – Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum. See Ref. [1].</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Range of pixels/frequencies (if freq provided) to perform over</li>
-<li><strong>rng_list</strong> (<em>list/tuple</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – First and Last pixels/frequencies (if freq provided) to perform over</li>
-<li><strong>freq</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Frequency vector</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cars_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to CARS spectrum(a) prior to KK relation. See Notes         and Ref. [2].</p></li>
+<li><p><strong>nrb_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to NRB spectrum(a) prior to KK relation. See Notes         and Ref. [2].</p></li>
+<li><p><strong>phase_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>ndarray</em><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Phase constant or ndarray applied to retrieved phase prior to         separating the real and imaginary components. See Notes         and Ref. [2].</p></li>
+<li><p><strong>norm_to_nrb</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions. Highly recommended. See Ref. [2]</p></li>
+<li><p><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=1</em><em>)</em>) – Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum. See Ref. [1].</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Range of pixels/frequencies (if freq provided) to perform over</p></li>
+<li><p><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</p></li>
+<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cars/nrb (the ratio). Values below min_value set to min_value</p></li>
+<li><p><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cars/nrb (the ratio). Inf’s and NaN’s set to bad_value</p></li>
+<li><p><strong>hilb_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – kwargs sent to the hilbert transform. Only pad_factor, n_edge, and axis
+are automatically sent – these will overwrite anything in hilb_kwargs.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">KK of cars</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KK of cars</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
-<li>This function does NOT overwrite input data</li>
-<li>The imaginary components provides the sponatenous Raman-like spectra(um).</li>
-<li>This module assumes the spectra are oriented as such that the frequency     (wavenumber) increases with increasing index.  If this is not the case for     your spectra(um), apply a phase_offset of pi.</li>
+<li><p>This function does NOT overwrite input data</p></li>
+<li><p>The imaginary components provides the sponatenous Raman-like spectra(um).</p></li>
+<li><dl class="simple">
+<dt>This module assumes the spectra are oriented as such that the frequency</dt><dd><p>(wavenumber) increases with increasing index.  If this is not the case for
+your spectra(um), apply a phase_offset of pi.</p>
+</dd>
+</dl>
+</li>
 </ul>
 <p class="rubric">References</p>
 <p>[1] Y. Liu, Y. J. Lee, and M. T. Cicerone, “Broadband CARS spectral
@@ -174,23 +177,39 @@ Opt. Lett. 34, 1363-1365 (2009).</p>
 <p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,     Comparable Coherent Anti-Stokes Raman Scattering (CARS)     Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
 <dl class="method">
 <dt id="crikit.cri.kk.KramersKronig._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.kk.KramersKronig._transform">
-<code class="descname">_transform</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.kk.KramersKronig.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>cars</em>, <em>nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>cars : ndarray
 Coherent Raman signal.</p>
-<dl class="docutils">
-<dt>nrb <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
-<dd>Nonresonant background (NRB)</dd>
+<dl class="simple">
+<dt>nrb<span class="classifier">ndarray</span></dt><dd><p>Nonresonant background (NRB)</p>
+</dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig.norm_to_nrb">
+<em class="property">property </em><code class="sig-name descname">norm_to_nrb</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.norm_to_nrb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig.pad_factor">
+<em class="property">property </em><code class="sig-name descname">pad_factor</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.pad_factor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.cri.kk.KramersKronig.phase_offset">
+<em class="property">property </em><code class="sig-name descname">phase_offset</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.phase_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase offset</p>
 </dd></dl>
 
 </dd></dl>
@@ -202,17 +221,17 @@ Coherent Raman signal.</p>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.cri.merge_nrbs.MergeNRBs">
-<em class="property">class </em><code class="descclassname">crikit.cri.merge_nrbs.</code><code class="descname">MergeNRBs</code><span class="sig-paren">(</span><em>nrb_left</em>, <em>nrb_right</em>, <em>pix</em>, <em>left_side_scale=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.merge_nrbs.</code><code class="sig-name descname">MergeNRBs</code><span class="sig-paren">(</span><em class="sig-param">nrb_left</em>, <em class="sig-param">nrb_right</em>, <em class="sig-param">pix</em>, <em class="sig-param">left_side_scale=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Merge two NRBs: a left-side and a right-side</p>
 <dl class="method">
 <dt id="crikit.cri.merge_nrbs.MergeNRBs._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.cri.merge_nrbs.MergeNRBs.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -250,13 +269,11 @@ Coherent Raman signal.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -274,12 +291,12 @@ Coherent Raman signal.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

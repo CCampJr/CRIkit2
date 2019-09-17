@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>crikit.preprocess package &#8212; CRIKit2 0.2.1a0 documentation</title>
+    <meta charset="utf-8" />
+    <title>crikit.preprocess package &#8212; CRIKit2 0.2.1rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -27,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -71,68 +69,60 @@
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.preprocess.crop.ZeroColumn">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.crop.</code><code class="descname">ZeroColumn</code><span class="sig-paren">(</span><em>first_or_last=0</em>, <em>zero_col=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.crop.</code><code class="sig-name descname">ZeroColumn</code><span class="sig-paren">(</span><em class="sig-param">first_or_last=0</em>, <em class="sig-param">zero_col=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Set first or last column that is not all 0’s to 0.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>first_or_last</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 0</em><em> [</em><em>first</em><em>]</em><em>)</em>) – Find first (= 0) or last (= -1)</li>
-<li><strong>zero_col</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = None</em><em>)</em>) – Zero a specified column</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_or_last</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 0</em><em> [</em><em>first</em><em>]</em><em>)</em>) – Find first (= 0) or last (= -1)</p></li>
+<li><p><strong>zero_col</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = None</em><em>)</em>) – Zero a specified column</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroColumn._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroColumn.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroColumn.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="crikit.preprocess.crop.ZeroRow">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.crop.</code><code class="descname">ZeroRow</code><span class="sig-paren">(</span><em>first_or_last=0</em>, <em>zero_row=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.crop.</code><code class="sig-name descname">ZeroRow</code><span class="sig-paren">(</span><em class="sig-param">first_or_last=0</em>, <em class="sig-param">zero_row=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Set first or last row that is not all 0’s to 0.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>first_or_last</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 0</em><em> [</em><em>first</em><em>]</em><em>)</em>) – Find first (= 0) or last (= -1)</li>
-<li><strong>zero_row</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = None</em><em>)</em>) – Zero a specified row</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_or_last</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 0</em><em> [</em><em>first</em><em>]</em><em>)</em>) – Find first (= 0) or last (= -1)</p></li>
+<li><p><strong>zero_row</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = None</em><em>)</em>) – Zero a specified row</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroRow._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroRow.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.crop.ZeroRow.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroRow.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroRow.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -145,51 +135,47 @@
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.preprocess.denoise.SVDDecompose">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.denoise.</code><code class="descname">SVDDecompose</code><span class="sig-paren">(</span><em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.denoise.</code><code class="sig-name descname">SVDDecompose</code><span class="sig-paren">(</span><em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Compute the SVD of a signal (just wraps numpy.linalg.svd) i.e., decompose     the input into components.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>ndarray</em><em> (</em><em>2D</em><em> or </em><em>3D</em><em>)</em><em></em>) – Input array.</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em><em> (</em><em>2D</em><em> or </em><em>3D</em><em>)</em><em></em>) – Input array.</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">U, s, Vh</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray, ndarray, ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>U, s, Vh</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray, ndarray, ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
-<dl class="docutils">
-<dt>U <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (2D)</span></dt>
-<dd>U-component from SVD decomposition (spatial componenet with crikit)</dd>
-<dt>Vh <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (2D)</span></dt>
-<dd>Vh-component from SVD decomposition (spectral componenet with crikit).
+<dl class="simple">
+<dt>U<span class="classifier">ndarray (2D)</span></dt><dd><p>U-component from SVD decomposition (spatial componenet with crikit)</p>
+</dd>
+<dt>Vh<span class="classifier">ndarray (2D)</span></dt><dd><p>Vh-component from SVD decomposition (spectral componenet with crikit).
 NOTE: this is the Hermitial/conjugate transpose of the normal
-V-component in SVD</dd>
-<dt>s <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (1D)</span></dt>
-<dd>Diagonal elements of S-matrix describing the relative contributions
-of each singular value</dd>
-<dt>S <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (2D)</span></dt>
-<dd>S-matrix derived from s</dd>
+V-component in SVD</p>
+</dd>
+<dt>s<span class="classifier">ndarray (1D)</span></dt><dd><p>Diagonal elements of S-matrix describing the relative contributions
+of each singular value</p>
+</dd>
+<dt>S<span class="classifier">ndarray (2D)</span></dt><dd><p>S-matrix derived from s</p>
+</dd>
 </dl>
 <p class="rubric">References</p>
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDDecompose._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose._calc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate SVD (wrap numpy SVD).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDDecompose.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDDecompose.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDDecompose.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate SVD and return U, s, and Vh.</p>
 </dd></dl>
 
@@ -197,61 +183,57 @@ of each singular value</dd>
 
 <dl class="class">
 <dt id="crikit.preprocess.denoise.SVDRecompose">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.denoise.</code><code class="descname">SVDRecompose</code><span class="sig-paren">(</span><em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.denoise.</code><code class="sig-name descname">SVDRecompose</code><span class="sig-paren">(</span><em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Reconstruct the original data using the SVD components. The reconstructed     signal shape is 2D (or if provided) or matches data_obj.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>U</strong> (<em>ndarray</em><em> (</em><em>2D</em><em>)</em>) – U-component from SVD decomposition (spatial componenet with crikit)</li>
-<li><strong>s</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Diagonal elements of S-matrix describing the relative contributions
-of each singular value</li>
-<li><strong>Vh</strong> (<em>ndarray</em><em> (</em><em>2D</em><em>)</em>) – Vh-component from SVD decomposition (spectral componenet with crikit).
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>ndarray</em><em> (</em><em>2D</em><em>)</em>) – U-component from SVD decomposition (spatial componenet with crikit)</p></li>
+<li><p><strong>s</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em>) – Diagonal elements of S-matrix describing the relative contributions
+of each singular value</p></li>
+<li><p><strong>Vh</strong> (<em>ndarray</em><em> (</em><em>2D</em><em>)</em>) – Vh-component from SVD decomposition (spectral componenet with crikit).
 NOTE: this is the Hermitial/conjugate transpose of the normal
-V-component in SVD</li>
-<li><strong>data</strong> (<em>ndarray</em><em> (</em><em>2D</em><em> or </em><em>3D</em><em>)</em>) – Original data (for overwrite if selected).</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</li>
-<li><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Overwrite the original data in data_obj</li>
+V-component in SVD</p></li>
+<li><p><strong>data</strong> (<em>ndarray</em><em> (</em><em>2D</em><em> or </em><em>3D</em><em>)</em>) – Original data (for overwrite if selected).</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Overwrite the original data in data_obj</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>ndarray (2D or 3D)</em> – Recomposed data (U*S*Vh). If data_obj is not None, returned object         shape matches data_obj. Else 2D.</li>
-<li><em>None</em> – Returns None if overwrite is True and overwrites input data_obj.</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>ndarray (2D or 3D)</em> – Recomposed data (U*S*Vh). If data_obj is not None, returned object         shape matches data_obj. Else 2D.</p></li>
+<li><p><em>None</em> – Returns None if overwrite is True and overwrites input data_obj.</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
-<dl class="docutils">
-<dt>S <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (2D)</span></dt>
-<dd>S-matrix derived from s</dd>
+<dl class="simple">
+<dt>S<span class="classifier">ndarray (2D)</span></dt><dd><p>S-matrix derived from s</p>
+</dd>
 </dl>
 <p class="rubric">References</p>
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDRecompose._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>U</em>, <em>s</em>, <em>Vh</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">U</em>, <em class="sig-param">s</em>, <em class="sig-param">Vh</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose._calc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform data reconstruction from U*S*Vh with selected s-values.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDRecompose._set_s_keep">
-<code class="descname">_set_s_keep</code><span class="sig-paren">(</span><em>s</em>, <em>svs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose._set_s_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose._set_s_keep" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_set_s_keep</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">svs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose._set_s_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose._set_s_keep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the singular value vector (s_keep) based on svs list/ndarray</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDRecompose.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>s</em>, <em>Vh</em>, <em>svs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">U</em>, <em class="sig-param">s</em>, <em class="sig-param">Vh</em>, <em class="sig-param">svs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.denoise.SVDRecompose.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>s</em>, <em>Vh</em>, <em>svs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">U</em>, <em class="sig-param">s</em>, <em class="sig-param">Vh</em>, <em class="sig-param">svs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/denoise.html#SVDRecompose.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.denoise.SVDRecompose.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -264,7 +246,7 @@ V-component in SVD</li>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.preprocess.standardize.Anscombe">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.standardize.</code><code class="descname">Anscombe</code><span class="sig-paren">(</span><em>gauss_std</em>, <em>gauss_mean=0.0</em>, <em>poisson_multi=1.0</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.standardize.</code><code class="sig-name descname">Anscombe</code><span class="sig-paren">(</span><em class="sig-param">gauss_std</em>, <em class="sig-param">gauss_mean=0.0</em>, <em class="sig-param">poisson_multi=1.0</em>, <em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Implement the generalized forward Anscombe transformation.</p>
 <p>Signal : <span class="math notranslate nohighlight">\(X\)</span></p>
@@ -273,33 +255,29 @@ V-component in SVD</li>
 <p>Noise of type ‘type’ : <span class="math notranslate nohighlight">\(N_{type}\)</span></p>
 <p>Poisson noise multiplier : <span class="math notranslate nohighlight">\(\alpha\)</span></p>
 <p>Model : <span class="math notranslate nohighlight">\(X = \alpha*N_{Poisson}\{X\} + N_{Gauss}\{&lt;g&gt;, \sigma_g\},\)</span></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>ndarray.</em>) – Signal with mixed Gaussian and Poisson noise to transform.</li>
-<li><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Standard deviation of Gaussian noise. <span class="math notranslate nohighlight">\(\sigma_g\)</span> in model.</li>
-<li><strong>poisson_multi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – A multiplier that scales the effect of the Poisson noise.         <span class="math notranslate nohighlight">\(\alpha\)</span> in model.</li>
-<li><strong>gauss_mean</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Mean Gaussian noise level. <span class="math notranslate nohighlight">\(&lt;g&gt;\)</span> in model.</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</li>
-<li><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray.</em>) – Signal with mixed Gaussian and Poisson noise to transform.</p></li>
+<li><p><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Standard deviation of Gaussian noise. <span class="math notranslate nohighlight">\(\sigma_g\)</span> in model.</p></li>
+<li><p><strong>poisson_multi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – A multiplier that scales the effect of the Poisson noise.         <span class="math notranslate nohighlight">\(\alpha\)</span> in model.</p></li>
+<li><p><strong>gauss_mean</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Mean Gaussian noise level. <span class="math notranslate nohighlight">\(&lt;g&gt;\)</span> in model.</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>ndarray</em> – Altered data if overwrite is False</li>
-<li><em>None</em> – Return None if overwrite is True</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>ndarray</em> – Altered data if overwrite is False</p></li>
+<li><p><em>None</em> – Return None if overwrite is True</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
-<li>See the docstring of ./algorithms/anscombe for more information.</li>
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>See the docstring of ./algorithms/anscombe for more information.</p></li>
 </ul>
 </div>
 <p class="rubric">References</p>
@@ -308,50 +286,48 @@ V-component in SVD</li>
 <p>[3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,         comparable coherent anti-Stokes Raman scattering (CARS)         spectroscopy: Correcting errors in phase retrieval,” Journal of Raman         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
 <dl class="method">
 <dt id="crikit.preprocess.standardize.Anscombe._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.standardize.Anscombe.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized Anscombe transform (Return copy).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns Anscombe-transformed data (or None if fails)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns Anscombe-transformed data (or None if fails)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.standardize.Anscombe.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#Anscombe.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.Anscombe.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized Anscombe transform (Overwrite data).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the success state (True=success)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the success state (True=success)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="crikit.preprocess.standardize.AnscombeInverse">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.standardize.</code><code class="descname">AnscombeInverse</code><span class="sig-paren">(</span><em>gauss_std</em>, <em>gauss_mean=0.0</em>, <em>poisson_multi=1.0</em>, <em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.standardize.</code><code class="sig-name descname">AnscombeInverse</code><span class="sig-paren">(</span><em class="sig-param">gauss_std</em>, <em class="sig-param">gauss_mean=0.0</em>, <em class="sig-param">poisson_multi=1.0</em>, <em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Applies an exact, unbiased inverse of the generalized Anscombe     variance-stabilizing transformation assuming a mixed Poisson-Gaussian     noise model as:</p>
 <p>Signal : <span class="math notranslate nohighlight">\(X\)</span></p>
@@ -360,26 +336,22 @@ V-component in SVD</li>
 <p>Noise of type ‘type’ : <span class="math notranslate nohighlight">\(N_{type}\)</span></p>
 <p>Poisson noise multiplier : <span class="math notranslate nohighlight">\(\alpha\)</span></p>
 <p>Model : <span class="math notranslate nohighlight">\(X = \alpha*N_{Poisson}\{X\} + N_{Gauss}\{&lt;g&gt;, \sigma_g\},\)</span></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>data</strong> (<a class="reference internal" href="crikit.data.html#crikit.data.spectrum.Spectrum" title="crikit.data.spectrum.Spectrum"><em>Spectrum</em></a><em> (or </em><em>subclass</em><em>) </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a><em> or </em><em>ndarray.</em>) – Signal with mixed Gaussian and Poisson noise to transform.</li>
-<li><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Standard deviation of Gaussian noise. <span class="math notranslate nohighlight">\(\sigma_g\)</span> in model.</li>
-<li><strong>poisson_multi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – A multiplier that scales the effect of the Poisson noise.         <span class="math notranslate nohighlight">\(\alpha\)</span> in model.</li>
-<li><strong>gauss_mean</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Mean Gaussian noise level. <span class="math notranslate nohighlight">\(&lt;g&gt;\)</span> in model.</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</li>
-<li><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="crikit.data.html#crikit.data.spectrum.Spectrum" title="crikit.data.spectrum.Spectrum"><em>Spectrum</em></a><em> (or </em><em>subclass</em><em>) </em><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a><em> or </em><em>ndarray.</em>) – Signal with mixed Gaussian and Poisson noise to transform.</p></li>
+<li><p><strong>gauss_std</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Standard deviation of Gaussian noise. <span class="math notranslate nohighlight">\(\sigma_g\)</span> in model.</p></li>
+<li><p><strong>poisson_multi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – A multiplier that scales the effect of the Poisson noise.         <span class="math notranslate nohighlight">\(\alpha\)</span> in model.</p></li>
+<li><p><strong>gauss_mean</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Mean Gaussian noise level. <span class="math notranslate nohighlight">\(&lt;g&gt;\)</span> in model.</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em>) – Range of pixels to perform operation over.</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
-<li>See the docstring of ./algorithms/anscombe for more information.</li>
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>See the docstring of ./algorithms/anscombe for more information.</p></li>
 </ul>
 </div>
 <p class="rubric">References</p>
@@ -388,43 +360,41 @@ V-component in SVD</li>
 <p>[3] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,         comparable coherent anti-Stokes Raman scattering (CARS)         spectroscopy: Correcting errors in phase retrieval,” Journal of Raman         Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
 <dl class="method">
 <dt id="crikit.preprocess.standardize.AnscombeInverse._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.standardize.AnscombeInverse.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized Inverse Anscombe transform (Return copy).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns Anscombe-transformed data (or None if fails)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns Anscombe-transformed data (or None if fails)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.standardize.AnscombeInverse.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#AnscombeInverse.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.AnscombeInverse.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized Inverse Anscombe transform (Overwrite data).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the success state (True=success)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the success state (True=success)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -437,38 +407,34 @@ V-component in SVD</li>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_baseline.</code><code class="descname">SubtractBaselineALS</code><span class="sig-paren">(</span><em>smoothness_param=1</em>, <em>asym_param=0.01</em>, <em>redux=10</em>, <em>order=2</em>, <em>rng=None</em>, <em>fix_end_points=False</em>, <em>fix_rng=None</em>, <em>fix_const=1</em>, <em>max_iter=100</em>, <em>min_diff=1e-05</em>, <em>use_imag=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.subtract_baseline.</code><code class="sig-name descname">SubtractBaselineALS</code><span class="sig-paren">(</span><em class="sig-param">smoothness_param=1</em>, <em class="sig-param">asym_param=0.01</em>, <em class="sig-param">redux=10</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">fix_rng=None</em>, <em class="sig-param">fix_const=1</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">use_imag=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Subtract baseline using asymmetric least squares algorithm</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>smoothness_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – Smoothness parameter aka ‘lambda’</li>
-<li><strong>asym_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1e-2</em><em>)</em>) – Asymmetry parameter aka ‘p’</li>
-<li><strong>redux_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=10</em><em>)</em>) – Down-sampling factor (more down-sampling leads to faster detrending,
-but with more chance of non-optimal detrending)</li>
-<li><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Range in pixels to perform action over</li>
-<li><strong>use_imag</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – If spectrum(a) are complex-values, use the imaginary portion?</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>smoothness_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – Smoothness parameter aka ‘lambda’</p></li>
+<li><p><strong>asym_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1e-2</em><em>)</em>) – Asymmetry parameter aka ‘p’</p></li>
+<li><p><strong>redux_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=10</em><em>)</em>) – Down-sampling factor (more down-sampling leads to faster detrending,
+but with more chance of non-optimal detrending)</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1D</em><em>)</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Range in pixels to perform action over</p></li>
+<li><p><strong>use_imag</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – If spectrum(a) are complex-values, use the imaginary portion?</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_baseline.SubtractBaselineALS.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_baseline.html#SubtractBaselineALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_baseline.SubtractBaselineALS.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -480,47 +446,45 @@ but with more chance of non-optimal detrending)</li>
 <p>Note: If dark &gt; 1D, averaged – even if data has same shape.</p>
 <dl class="class">
 <dt id="crikit.preprocess.subtract_dark.SubtractDark">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_dark.</code><code class="descname">SubtractDark</code><span class="sig-paren">(</span><em>dark</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.subtract_dark.</code><code class="sig-name descname">SubtractDark</code><span class="sig-paren">(</span><em class="sig-param">dark</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="crikit.preprocess.subtract_dark.SubtractDark._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_dark.SubtractDark.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subtract dark spectrum (return copy).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Data from which dark is subtracted.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns data with dark subtracted (or None if fails)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Data from which dark is subtracted.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns data with dark subtracted (or None if fails)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_dark.SubtractDark.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_dark.html#SubtractDark.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_dark.SubtractDark.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subtract dark spectrum (overwrite original data).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Data from which dark is subtracted.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the success state (True=success)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Data from which dark is subtracted.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the success state (True=success)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -533,47 +497,45 @@ but with more chance of non-optimal detrending)</li>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange">
-<em class="property">class </em><code class="descclassname">crikit.preprocess.subtract_mean.</code><code class="descname">SubtractMeanOverRange</code><span class="sig-paren">(</span><em>rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.subtract_mean.</code><code class="sig-name descname">SubtractMeanOverRange</code><span class="sig-paren">(</span><em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange._calc">
-<code class="descname">_calc</code><span class="sig-paren">(</span><em>data</em>, <em>ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange._calc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange._calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange.calculate">
-<code class="descname">calculate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.calculate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subtract the mean intensity over a pixel range (rng).         (Return copy).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns data with mean subtracted (or None if fails)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns data with mean subtracted (or None if fails)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="crikit.preprocess.subtract_mean.SubtractMeanOverRange.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/subtract_mean.html#SubtractMeanOverRange.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.subtract_mean.SubtractMeanOverRange.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subtract the mean intensity over a pixel range (rng).         (Overwrite data).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndarray</em>) – Input data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the success state (True=success)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the success state (True=success)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -614,13 +576,11 @@ but with more chance of non-optimal detrending)</li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -638,12 +598,12 @@ but with more chance of non-optimal detrending)</li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1a0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>
