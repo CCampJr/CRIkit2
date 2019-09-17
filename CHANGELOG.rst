@@ -30,6 +30,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Now the default padding function for hilbert and kkrelation
 
 -   Tweaks and bug fixes
+    -   Fixed sign error in PhaseErrorCorrectALS that mainly affected real part of spectra
 
 0.2.0 (19-05-23)
 ----------------
