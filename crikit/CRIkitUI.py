@@ -90,6 +90,7 @@ from crikit.ui.dialog_ploteffect import \
     DialogPlotEffect as _DialogPlotEffect
 from crikit.ui.dialog_save import DialogSave
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
+from crikit.ui.dialog_AnscombeParams import DialogCalcAnscombeParams
 from crikit.ui.qt_CRIkit import Ui_MainWindow
 from crikit.ui.main_Mosaic import MainWindowMosaic
 
@@ -342,6 +343,7 @@ class CRIkitUI_process(_QMainWindow):
         # Variance Stabilize
         self.ui.actionAnscombe.triggered.connect(self.anscombe)
         self.ui.actionInverseAnscombe.triggered.connect(self.inverseAnscombe)
+        self.ui.actionCalcAnscParams.triggered.connect(self.calcAnscombeParams)
 
         # DeNoise
         self.ui.actionDeNoise.triggered.connect(self.deNoise)
@@ -798,6 +800,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionResidualSubtract.setEnabled(True)
             self.ui.actionAnscombe.setEnabled(True)
             self.ui.actionInverseAnscombe.setEnabled(True)
+
             self.ui.actionDeNoise.setEnabled(True)
             self.ui.actionAmpErrorCorrection.setEnabled(True)
             self.ui.actionSubtractROI.setEnabled(True)
@@ -966,6 +969,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
                     self.ui.actionDeNoiseDark.setEnabled(True)
+                    if self.nrb.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.dark = Spectra()
                     print('Dark was the wrong shape')
@@ -1008,6 +1013,8 @@ class CRIkitUI_process(_QMainWindow):
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
+                    if self.nrb.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.dark = Spectra()
                     print('Dark was the wrong shape')
@@ -1054,6 +1061,8 @@ class CRIkitUI_process(_QMainWindow):
                         self.ui.actionKKSpeedTest.setEnabled(True)
                         self.ui.actionNRBSpectrum.setEnabled(True)
                         self.ui.actionDeNoiseNRB.setEnabled(True)
+                        if self.dark.data is not None:
+                            self.ui.actionCalcAnscParams.setEnabled(True)
                     elif sender == self.ui.actionLoad_NRB_Left_Side:
                         self.ui.actionLeftSideNRBSpect.setEnabled(True)
                         if ((self.nrb_left.data is not None) and
@@ -1105,6 +1114,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionKKSpeedTest.setEnabled(True)
                     self.ui.actionNRBSpectrum.setEnabled(True)
                     self.ui.actionDeNoiseNRB.setEnabled(True)
+                    if self.dark.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.nrb = Spectra()
                     print('NRB was the wrong shape')
@@ -1295,6 +1306,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
                 self.ui.actionDeNoiseNRB.setEnabled(True)
+                if self.dark.data is not None:
+                    self.ui.actionCalcAnscParams.setEnabled(True)
 
                 wn, pix = find_nearest(self.hsi.f_full, \
                    self.hsi.f[winPlotEffect.parameters['pix_switchpt']])
@@ -2588,7 +2601,12 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+        if self._anscombe_params is None:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+        else:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(stddev=self._anscombe_params['stddev'],
+                                                              gain=self._anscombe_params['gain'],
+                                                              parent=self)
 
         if out is not None:
             self._anscombe_params = _copy.deepcopy(out)
@@ -2644,6 +2662,20 @@ class CRIkitUI_process(_QMainWindow):
                 else:
                     self.bcpre.backed_up()
             self.changeSlider()
+
+    def calcAnscombeParams(self):
+        """
+        Calculate Anscombe Parameters
+        """
+        dark_sub = _np.any(['Dark' in k for k in self.bcpre.attr_dict])
+
+        out = DialogCalcAnscombeParams.dialogCalcAnscombeParams(parent=self, dark_array=self.dark.data,
+                                                                rep_array=self.nrb.data, 
+                                                                axis=0, rng=self.hsi.freq.op_range_pix,
+                                                                dark_sub=dark_sub)
+
+        if out is not None:
+            self._anscombe_params = {'stddev':out['g_std'].mean(), 'gain':out['weighted_mean_alpha'], 'mean':out['g_mean'].mean()}
 
     def doMath(self):
         """

@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file '.\ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -527,6 +528,9 @@ class Ui_MainWindow(object):
         self.actionUseImagData.setObjectName("actionUseImagData")
         self.actionOpenHDFNISTOOC = QtWidgets.QAction(MainWindow)
         self.actionOpenHDFNISTOOC.setObjectName("actionOpenHDFNISTOOC")
+        self.actionCalcAnscParams = QtWidgets.QAction(MainWindow)
+        self.actionCalcAnscParams.setEnabled(False)
+        self.actionCalcAnscParams.setObjectName("actionCalcAnscParams")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -553,6 +557,8 @@ class Ui_MainWindow(object):
         self.menuImport.addAction(self.actionAppend_NRB_from_ROI)
         self.menuImport.addSeparator()
         self.menuImport.addAction(self.menuPiece_wise_NRB.menuAction())
+        self.menuVariance_Stabilize.addAction(self.actionCalcAnscParams)
+        self.menuVariance_Stabilize.addSeparator()
         self.menuVariance_Stabilize.addAction(self.actionAnscombe)
         self.menuVariance_Stabilize.addSeparator()
         self.menuVariance_Stabilize.addAction(self.actionInverseAnscombe)
@@ -742,6 +748,5 @@ class Ui_MainWindow(object):
         self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
         self.actionUseImagData.setText(_translate("MainWindow", "Use Imaginary if Exists"))
         self.actionOpenHDFNISTOOC.setText(_translate("MainWindow", "Open HDF OOC (NIST)"))
-
-
+        self.actionCalcAnscParams.setText(_translate("MainWindow", "Calculate Ansc. Parameters"))
 from . import icons_all_rc

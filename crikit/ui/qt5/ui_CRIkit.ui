@@ -454,6 +454,8 @@ This will be saved to the processed file.</string>
      <property name="title">
       <string>Standardize</string>
      </property>
+     <addaction name="actionCalcAnscParams"/>
+     <addaction name="separator"/>
      <addaction name="actionAnscombe"/>
      <addaction name="separator"/>
      <addaction name="actionInverseAnscombe"/>
@@ -1346,6 +1348,14 @@ This will be saved to the processed file.</string>
   <action name="actionOpenHDFNISTOOC">
    <property name="text">
     <string>Open HDF OOC (NIST)</string>
+   </property>
+  </action>
+  <action name="actionCalcAnscParams">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Calculate Ansc. Parameters</string>
    </property>
   </action>
  </widget>
