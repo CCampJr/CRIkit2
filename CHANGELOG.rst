@@ -11,10 +11,11 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 0.2.2 ()
 --------
 
-- Added a calculate Anscombe parameters function to crikit.preprocess.standardize
+- Added a calculate Anscombe parameters function (calc_anscombe_parameters) to crikit.preprocess.standardize
     -   Added an associated GUI dialog for calculating based on NRB and Dark spectra (Preprocess>Standardize submenu)
     -   Note: you will need to perform Dark subtraction before performing the Anscombe transform (though the calculation of parameters can handle either scenario)
     -   Added unittest for calculation function (not the GUI itself)
+    -   Added Jupyter Notebook (Calculating Anscombe Parameters.ipynb) to demonstrate use of calc_anscombe_parameters
 
 0.2.1 (19-09-17)
 ------------------
