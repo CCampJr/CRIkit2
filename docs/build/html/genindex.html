@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Index &#8212; CRIKit2 0.2.1 documentation</title>
+    <title>Index &#8212; CRIKit2 0.2.2a0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2a0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -309,6 +309,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crikit.measurement.html#crikit.measurement.fftspatialnoise.FFTSignalMetric.calc">calc() (crikit.measurement.fftspatialnoise.FFTSignalMetric method)</a>
+</li>
+      <li><a href="crikit.preprocess.html#crikit.preprocess.standardize.calc_anscombe_parameters">calc_anscombe_parameters() (in module crikit.preprocess.standardize)</a>
+</li>
+      <li><a href="crikit.html#crikit.CRIkitUI.CRIkitUI_process.calcAnscombeParams">calcAnscombeParams() (crikit.CRIkitUI.CRIkitUI_process method)</a>
 </li>
       <li><a href="crikit.cri.html#crikit.cri.error_correction.PhaseErrCorrectALS.calculate">calculate() (crikit.cri.error_correction.PhaseErrCorrectALS method)</a>
 
@@ -618,6 +622,8 @@
 </li>
       <li><a href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_als">crikit.preprocess.tests.test_als (module)</a>
 </li>
+      <li><a href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_anscombe">crikit.preprocess.tests.test_anscombe (module)</a>
+</li>
       <li><a href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_baseline_sub">crikit.preprocess.tests.test_baseline_sub (module)</a>
 </li>
       <li><a href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_subtract_dark">crikit.preprocess.tests.test_subtract_dark (module)</a>
@@ -631,6 +637,8 @@
       <li><a href="crikit.ui.html#module-crikit.ui.dialog_AbstractFactorization">crikit.ui.dialog_AbstractFactorization (module)</a>
 </li>
       <li><a href="crikit.ui.html#module-crikit.ui.dialog_AbstractPlotEffect">crikit.ui.dialog_AbstractPlotEffect (module)</a>
+</li>
+      <li><a href="crikit.ui.html#module-crikit.ui.dialog_AnscombeParams">crikit.ui.dialog_AnscombeParams (module)</a>
 </li>
       <li><a href="crikit.ui.html#module-crikit.ui.dialog_kkOptions">crikit.ui.dialog_kkOptions (module)</a>
 </li>
@@ -760,10 +768,14 @@
 </li>
       <li><a href="crikit.ui.html#crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions.dialogAnscombeOptions">dialogAnscombeOptions() (crikit.ui.dialog_varstabAnscombeOptions.DialogAnscombeOptions static method)</a>
 </li>
-      <li><a href="crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions">DialogKKOptions (class in crikit.ui.dialog_kkOptions)</a>
+      <li><a href="crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams">DialogCalcAnscombeParams (class in crikit.ui.dialog_AnscombeParams)</a>
+</li>
+      <li><a href="crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.dialogCalcAnscombeParams">dialogCalcAnscombeParams() (crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions">DialogKKOptions (class in crikit.ui.dialog_kkOptions)</a>
+</li>
       <li><a href="crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions">dialogKKOptions() (crikit.ui.dialog_kkOptions.DialogKKOptions static method)</a>
 </li>
       <li><a href="crikit.ui.html#crikit.ui.dialog_model.DialogModel">DialogModel (class in crikit.ui.dialog_model)</a>
@@ -1153,6 +1165,8 @@
 </li>
         <li><a href="crikit.data.tests.html#crikit.data.tests.test_spectrum.make_datasets">(in module crikit.data.tests.test_spectrum)</a>
 </li>
+        <li><a href="crikit.preprocess.tests.html#crikit.preprocess.tests.test_anscombe.make_datasets">(in module crikit.preprocess.tests.test_anscombe)</a>
+</li>
         <li><a href="crikit.preprocess.tests.html#crikit.preprocess.tests.test_subtract_dark.make_datasets">(in module crikit.preprocess.tests.test_subtract_dark)</a>
 </li>
       </ul></li>
@@ -1208,6 +1222,8 @@
       </ul></li>
       <li><a href="crikit.ui.html#crikit.ui.widget_Calibrate.widgetCalibrate.meas_vs_ideal">meas_vs_ideal() (crikit.ui.widget_Calibrate.widgetCalibrate method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree.measure">measure() (crikit.measurement.peakamps.AbstractMeasureThree class method)</a>
 
       <ul>
@@ -1216,8 +1232,6 @@
         <li><a href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak.measure">(crikit.measurement.peakamps.MeasurePeak class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak">MeasurePeak (class in crikit.measurement.peakamps)</a>
 </li>
       <li><a href="crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd">MeasurePeakAdd (class in crikit.measurement.peakamps)</a>
@@ -1772,6 +1786,8 @@
 </li>
       <li><a href="crikit.utils.tests.html#crikit.utils.tests.test_breadcrumb.test_breadcrumb_offset">test_breadcrumb_offset() (in module crikit.utils.tests.test_breadcrumb)</a>
 </li>
+      <li><a href="crikit.preprocess.tests.html#crikit.preprocess.tests.test_anscombe.test_calc_ansc_params">test_calc_ansc_params() (in module crikit.preprocess.tests.test_anscombe)</a>
+</li>
       <li><a href="crikit.data.tests.html#crikit.data.tests.test_mosaic.test_crop_2D">test_crop_2D() (in module crikit.data.tests.test_mosaic)</a>
 </li>
       <li><a href="crikit.data.tests.html#crikit.data.tests.test_mosaic.test_crop_3D">test_crop_3D() (in module crikit.data.tests.test_mosaic)</a>
@@ -2118,10 +2134,10 @@
 </li>
       <li><a href="crikit.ui.html#crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization.unselected_factors">unselected_factors() (crikit.ui.dialog_AbstractFactorization.DialogAbstractFactorization property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crikit.data.html#crikit.data.frequency.Frequency.update">update() (crikit.data.frequency.Frequency method)</a>, <a href="crikit.data.html#crikit.data.frequency.Frequency.update">[1]</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crikit.data.html#crikit.data.replicate.Replicate.update_calib_from_data">update_calib_from_data() (crikit.data.replicate.Replicate method)</a>, <a href="crikit.data.html#crikit.data.replicate.Replicate.update_calib_from_data">[1]</a>
 </li>
       <li><a href="crikit.data.html#crikit.data.replicate.Replicate.update_data_from_calib">update_data_from_calib() (crikit.data.replicate.Replicate method)</a>, <a href="crikit.data.html#crikit.data.replicate.Replicate.update_data_from_calib">[1]</a>
@@ -2134,7 +2150,11 @@
 </li>
       <li><a href="crikit.html#crikit.CRIkitUI.CRIkitUI_process.updateHistory">updateHistory() (crikit.CRIkitUI.CRIkitUI_process method)</a>
 </li>
+      <li><a href="crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.updateInputValues">updateInputValues() (crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams method)</a>
+</li>
       <li><a href="crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateMosaicImage">updateMosaicImage() (crikit.ui.main_Mosaic.MainWindowMosaic method)</a>
+</li>
+      <li><a href="crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.updateOutputValues">updateOutputValues() (crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams method)</a>
 </li>
       <li><a href="crikit.html#crikit.CRIkitUI.CRIkitUI_process.updateOverlays">updateOverlays() (crikit.CRIkitUI.CRIkitUI_process method)</a>
 </li>
@@ -2317,7 +2337,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2a0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

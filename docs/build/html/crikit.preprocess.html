@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess package &#8212; CRIKit2 0.2.1 documentation</title>
+    <title>crikit.preprocess package &#8212; CRIKit2 0.2.2a0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2a0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crikit.preprocess.tests.html">crikit.preprocess.tests package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_als">crikit.preprocess.tests.test_als module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_anscombe">crikit.preprocess.tests.test_anscombe module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_baseline_sub">crikit.preprocess.tests.test_baseline_sub module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_subtract_dark">crikit.preprocess.tests.test_subtract_dark module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests">Module contents</a></li>
@@ -399,6 +400,26 @@ V-component in SVD</p></li>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="crikit.preprocess.standardize.calc_anscombe_parameters">
+<code class="sig-prename descclassname">crikit.preprocess.standardize.</code><code class="sig-name descname">calc_anscombe_parameters</code><span class="sig-paren">(</span><em class="sig-param">dark_array</em>, <em class="sig-param">rep_array</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">dark_subtracted=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/standardize.html#calc_anscombe_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.standardize.calc_anscombe_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Anscombe parameters: Gaussian noise mean and standard deviation, Poisson noise amplifer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dark_array</strong> (<em>ndarray</em><em> (</em><em>n_spectra</em><em>, </em><em>n_lambda</em><em>)</em>) – Dark spectra array</p></li>
+<li><p><strong>rep_array</strong> (<em>ndarray</em><em> (</em><em>n_spectra</em><em>, </em><em>n_lambda</em><em>)</em>) – Repetitive signal spectra</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Non-spectral axis (ie replicate axis)</p></li>
+<li><p><strong>rng</strong> (<em>ndarray</em><em> (</em><em>1d</em><em>)</em>) – Spectral pixel range to use</p></li>
+<li><p><strong>dark_subtracted</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Was the mean dark spectrum already subtracted from the rep_array</p></li>
+<li><p><strong>Returns</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – ‘g_mean’, ‘g_std’, ‘alpha’, ‘weighted_mean_alpha’, which are the mean Gaussian noise (ndarray),
+Gaussian noise standard deviation (ndarray), Poisson multiplication factor (ndarray),
+weighted mean of the Poisson multiplication factor (float)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-crikit.preprocess.subtract_baseline">
 <span id="crikit-preprocess-subtract-baseline-module"></span><h2>crikit.preprocess.subtract_baseline module<a class="headerlink" href="#module-crikit.preprocess.subtract_baseline" title="Permalink to this headline">¶</a></h2>
@@ -598,7 +619,7 @@ but with more chance of non-optimal detrending)</p></li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2a0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
