@@ -16,6 +16,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Note: you will need to perform Dark subtraction before performing the Anscombe transform (though the calculation of parameters can handle either scenario)
     -   Added unittest for calculation function (not the GUI itself)
     -   Added Jupyter Notebook (Calculating Anscombe Parameters.ipynb) to demonstrate use of calc_anscombe_parameters
+- Added a function that will take the respective RGB images + composite and de-mosaic them into TIFFs (NIST Special > DeMosaic RGB Images)
 - Fixes
     -   Closing Mosaic tool doesn't close CRIkit UI as well
 
