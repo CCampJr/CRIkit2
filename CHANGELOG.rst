@@ -17,6 +17,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Added unittest for calculation function (not the GUI itself)
     -   Added Jupyter Notebook (Calculating Anscombe Parameters.ipynb) to demonstrate use of calc_anscombe_parameters
 - Added a function that will take the respective RGB images + composite and de-mosaic them into TIFFs (NIST Special > DeMosaic RGB Images)
+- Fixes
+    -   Closing Mosaic tool doesn't close CRIkit UI as well
 
 0.2.1 (19-09-17)
 ------------------

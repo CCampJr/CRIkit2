@@ -558,10 +558,10 @@ class MainWindowMosaic(_QMainWindow):
                 print('Closing: {}'.format(q))
                 q.file.close()
             self.init_internals()
-
-        app = _QApplication.instance()
-        app.closeAllWindows()
-        app.quit()
+        self.close()
+        # app = _QApplication.instance()
+        # app.closeAllWindows()
+        # app.quit()
 
 
 
