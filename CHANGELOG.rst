@@ -8,8 +8,11 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
-0.2.2 ()
---------
+0.2.3 ()
+----------------
+
+0.2.2 (19-11-20)
+----------------
 
 - Added a calculate Anscombe parameters function (calc_anscombe_parameters) to crikit.preprocess.standardize
     -   Added an associated GUI dialog for calculating based on NRB and Dark spectra (Preprocess>Standardize submenu)
