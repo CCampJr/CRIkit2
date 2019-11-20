@@ -396,7 +396,7 @@ This will be saved to the processed file.</string>
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>19</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -556,6 +556,7 @@ This will be saved to the processed file.</string>
      <string>NIST Special</string>
     </property>
     <addaction name="actionEstCalibration"/>
+    <addaction name="actionDeMosaicRGBImages"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1356,6 +1357,11 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>Calculate Ansc. Parameters</string>
+   </property>
+  </action>
+  <action name="actionDeMosaicRGBImages">
+   <property name="text">
+    <string>DeMosaic RGB Images</string>
    </property>
   </action>
  </widget>

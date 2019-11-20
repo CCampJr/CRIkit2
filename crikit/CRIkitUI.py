@@ -335,6 +335,9 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionResetCalibration.triggered.connect(self.calibrationReset)
         self.ui.actionEstCalibration.triggered.connect(self.specialEstCalibration1)
 
+        # NIST Special
+        self.ui.actionDeMosaicRGBImages.triggered.connect(self.specialDemosaicRGB)
+
         # Perform KK
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
 
@@ -809,6 +812,7 @@ class CRIkitUI_process(_QMainWindow):
 
             # NIST SPECIAL
             self.ui.actionEstCalibration.setEnabled(True)
+            self.ui.actionDeMosaicRGBImages.setEnabled(True)
 
             is_complex = _np.iscomplexobj(self.hsi.data)
             if is_complex:
@@ -3557,6 +3561,68 @@ class CRIkitUI_process(_QMainWindow):
             self.changeSlider()
         else:
             pass
+
+    def specialDemosaicRGB(self):
+        msg = _QMessageBox(self)
+        msg.setIcon(_QMessageBox.Question)
+        msg.setText('You will need to select the MASK dataset associated with your mosaic image')
+        msg.setWindowTitle('Select Mask file')
+        # msg.setInformativeText('This should only be applied to RAW BCARS2 data from NIST.')
+        msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+        msg.setDefaultButton(_QMessageBox.Ok)
+        out = msg.exec()
+        
+        if out != _QMessageBox.Ok:
+            return None
+
+        try:
+            if (self.filename is not None) & (self.path is not None):
+                to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Mask Image')
+            else:
+                to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Mask Image')
+        except Exception:
+            _traceback.print_exc(limit=1)
+            print('Could not open file. Corrupt or not appropriate file format.')
+        else:
+            if to_open is not None:
+                path, filename, dataset_name = to_open
+                if isinstance(dataset_name, list):
+                    dataset_name = dataset_name[0]
+                print('Opening {}/{}/{}'.format(path, filename, dataset_name))
+                with _h5py.File(lazy5.utils.fullpath(filename, pth=path), 'r') as fid:
+                    img_shape = fid[dataset_name].shape
+                    self._mosaic_mask = _np.zeros(img_shape)
+                    fid[dataset_name].read_direct(self._mosaic_mask)
+                    n_imgs = self._mosaic_mask.max().astype(_np.int)
+                    fid.close()
+            
+            msg = _QMessageBox(self)
+            msg.setIcon(_QMessageBox.Question)
+            msg.setText('You will need to select/create a directory to save the new images in')
+            msg.setWindowTitle('Select directory')
+            msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+            msg.setDefaultButton(_QMessageBox.Ok)
+            out = msg.exec()
+            if out != _QMessageBox.Ok:
+                return None
+            save_path = _QFileDialog.getExistingDirectory(self, 'Select Folder to Save Images',
+                                                          path)
+
+            import matplotlib.pyplot as _plt
+            for num_rgb, rgb_win in enumerate(self.img_RGB_list):
+                if rgb_win.data.image.sum() == 0:
+                    continue
+                for num_z in range(n_imgs):
+                    save_name = 'Color_{}_z{}.tiff'.format(num_rgb, num_z)
+                    w = _np.where(self._mosaic_mask == num_z)
+                    temp = rgb_win.data.image[slice(w[0].min(), w[0].max()+1), slice(w[1].min(), w[1].max()+1), :]
+                    _plt.figure(dpi=300)
+                    _plt.imshow(temp)
+                    _plt.axis('off')
+                    _plt.tight_layout(pad=0)
+                    _plt.savefig(lazy5.utils.fullpath(save_name, pth=save_path), dpi=300)
+                    _plt.close()
+
 
 def crikit_launch(**kwargs):
     """
