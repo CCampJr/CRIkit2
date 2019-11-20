@@ -35,6 +35,7 @@ import webbrowser as _webbrowser
 
 
 import matplotlib as _mpl
+import matplotlib.pyplot as _plt
 import numpy as _np
 import h5py as _h5py
 
@@ -3608,7 +3609,7 @@ class CRIkitUI_process(_QMainWindow):
             save_path = _QFileDialog.getExistingDirectory(self, 'Select Folder to Save Images',
                                                           path)
 
-            import matplotlib.pyplot as _plt
+            
             for num_rgb, rgb_win in enumerate(self.img_RGB_list):
                 if rgb_win.data.image.sum() == 0:
                     continue
@@ -3622,6 +3623,16 @@ class CRIkitUI_process(_QMainWindow):
                     _plt.tight_layout(pad=0)
                     _plt.savefig(lazy5.utils.fullpath(save_name, pth=save_path), dpi=300)
                     _plt.close()
+            for num_z in range(n_imgs):
+                save_name = 'Composite_z{}.tiff'.format(num_z)
+                w = _np.where(self._mosaic_mask == num_z)
+                temp = self.img_Composite.data.image[slice(w[0].min(), w[0].max()+1), slice(w[1].min(), w[1].max()+1), :]
+                _plt.figure(dpi=300)
+                _plt.imshow(temp)
+                _plt.axis('off')
+                _plt.tight_layout(pad=0)
+                _plt.savefig(lazy5.utils.fullpath(save_name, pth=save_path), dpi=300)
+                _plt.close()
 
 
 def crikit_launch(**kwargs):

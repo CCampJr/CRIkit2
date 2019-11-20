@@ -1360,6 +1360,9 @@ This will be saved to the processed file.</string>
    </property>
   </action>
   <action name="actionDeMosaicRGBImages">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>DeMosaic RGB Images</string>
    </property>

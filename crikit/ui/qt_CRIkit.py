@@ -532,6 +532,7 @@ class Ui_MainWindow(object):
         self.actionCalcAnscParams.setEnabled(False)
         self.actionCalcAnscParams.setObjectName("actionCalcAnscParams")
         self.actionDeMosaicRGBImages = QtWidgets.QAction(MainWindow)
+        self.actionDeMosaicRGBImages.setEnabled(False)
         self.actionDeMosaicRGBImages.setObjectName("actionDeMosaicRGBImages")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
