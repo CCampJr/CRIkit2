@@ -16,6 +16,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
     -   Note: you will need to perform Dark subtraction before performing the Anscombe transform (though the calculation of parameters can handle either scenario)
     -   Added unittest for calculation function (not the GUI itself)
     -   Added Jupyter Notebook (Calculating Anscombe Parameters.ipynb) to demonstrate use of calc_anscombe_parameters
+- Fixes
+    -   Closing Mosaic tool doesn't close CRIkit UI as well
 
 0.2.1 (19-09-17)
 ------------------
