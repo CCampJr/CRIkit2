@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.CRIkitUI &#8212; CRIKit2 0.2.1 documentation</title>
+    <title>crikit.CRIkitUI &#8212; CRIKit2 0.2.2 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -73,6 +73,7 @@
 
 
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">_plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
 
@@ -128,6 +129,7 @@
     <span class="n">DialogPlotEffect</span> <span class="k">as</span> <span class="n">_DialogPlotEffect</span>
 <span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="k">import</span> <span class="n">DialogSave</span>
 <span class="kn">from</span> <span class="nn">crikit.ui.dialog_varstabAnscombeOptions</span> <span class="k">import</span> <span class="n">DialogAnscombeOptions</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AnscombeParams</span> <span class="k">import</span> <span class="n">DialogCalcAnscombeParams</span>
 <span class="kn">from</span> <span class="nn">crikit.ui.qt_CRIkit</span> <span class="k">import</span> <span class="n">Ui_MainWindow</span>
 <span class="kn">from</span> <span class="nn">crikit.ui.main_Mosaic</span> <span class="k">import</span> <span class="n">MainWindowMosaic</span>
 
@@ -372,6 +374,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionResetCalibration</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calibrationReset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionEstCalibration</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specialEstCalibration1</span><span class="p">)</span>
 
+        <span class="c1"># NIST Special</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeMosaicRGBImages</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specialDemosaicRGB</span><span class="p">)</span>
+
         <span class="c1"># Perform KK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionKramersKronig</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doKK</span><span class="p">)</span>
 
@@ -380,6 +385,7 @@
         <span class="c1"># Variance Stabilize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionAnscombe</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anscombe</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionInverseAnscombe</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverseAnscombe</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calcAnscombeParams</span><span class="p">)</span>
 
         <span class="c1"># DeNoise</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoise</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deNoise</span><span class="p">)</span>
@@ -836,6 +842,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionResidualSubtract</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionAnscombe</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionInverseAnscombe</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoise</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionAmpErrorCorrection</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionSubtractROI</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -844,6 +851,7 @@
 
             <span class="c1"># NIST SPECIAL</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionEstCalibration</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeMosaicRGBImages</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="n">is_complex</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">is_complex</span><span class="p">:</span>
@@ -1004,6 +1012,8 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDarkSubtract</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDarkSpectrum</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoiseDark</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">Spectra</span><span class="p">()</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dark was the wrong shape&#39;</span><span class="p">)</span>
@@ -1046,6 +1056,8 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDarkSubtract</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDarkSpectrum</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">Spectra</span><span class="p">()</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dark was the wrong shape&#39;</span><span class="p">)</span>
@@ -1092,6 +1104,8 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionKKSpeedTest</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionNRBSpectrum</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoiseNRB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">sender</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionLoad_NRB_Left_Side</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionLeftSideNRBSpect</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                         <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nrb_left</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span>
@@ -1143,6 +1157,8 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionKKSpeedTest</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionNRBSpectrum</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoiseNRB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">nrb</span> <span class="o">=</span> <span class="n">Spectra</span><span class="p">()</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NRB was the wrong shape&#39;</span><span class="p">)</span>
@@ -1333,6 +1349,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionKKSpeedTest</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">menuCoherent_Raman_Imaging</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoiseNRB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
                 <span class="n">wn</span><span class="p">,</span> <span class="n">pix</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f_full</span><span class="p">,</span> \
                    <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pix_switchpt&#39;</span><span class="p">]])</span>
@@ -1673,6 +1691,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionNRBSpectrum</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">menuCoherent_Raman_Imaging</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionDeNoiseNRB</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCalcAnscParams</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">sender</span> <span class="o">==</span> <span class="s1">&#39;actionAppend_NRB_from_ROI&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -2626,7 +2646,12 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performance Anscombe transformation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">DialogAnscombeOptions</span><span class="o">.</span><span class="n">dialogAnscombeOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anscombe_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">DialogAnscombeOptions</span><span class="o">.</span><span class="n">dialogAnscombeOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">DialogAnscombeOptions</span><span class="o">.</span><span class="n">dialogAnscombeOptions</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_anscombe_params</span><span class="p">[</span><span class="s1">&#39;stddev&#39;</span><span class="p">],</span>
+                                                              <span class="n">gain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_anscombe_params</span><span class="p">[</span><span class="s1">&#39;gain&#39;</span><span class="p">],</span>
+                                                              <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_anscombe_params</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
@@ -2682,6 +2707,20 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">bcpre</span><span class="o">.</span><span class="n">backed_up</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CRIkitUI_process.calcAnscombeParams"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.calcAnscombeParams">[docs]</a>    <span class="k">def</span> <span class="nf">calcAnscombeParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate Anscombe Parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dark_sub</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">any</span><span class="p">([</span><span class="s1">&#39;Dark&#39;</span> <span class="ow">in</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bcpre</span><span class="o">.</span><span class="n">attr_dict</span><span class="p">])</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">DialogCalcAnscombeParams</span><span class="o">.</span><span class="n">dialogCalcAnscombeParams</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">dark_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                                <span class="n">rep_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nrb</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> 
+                                                                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">op_range_pix</span><span class="p">,</span>
+                                                                <span class="n">dark_sub</span><span class="o">=</span><span class="n">dark_sub</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_anscombe_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;stddev&#39;</span><span class="p">:</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;g_std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="s1">&#39;gain&#39;</span><span class="p">:</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;weighted_mean_alpha&#39;</span><span class="p">],</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;g_mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()}</span></div>
 
 <div class="viewcode-block" id="CRIkitUI_process.doMath"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.doMath">[docs]</a>    <span class="k">def</span> <span class="nf">doMath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -3560,7 +3599,79 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">fileOpenSuccess</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">pass</span></div></div>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="CRIkitUI_process.specialDemosaicRGB"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.specialDemosaicRGB">[docs]</a>    <span class="k">def</span> <span class="nf">specialDemosaicRGB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Question</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;You will need to select the MASK dataset associated with your mosaic image&#39;</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Select Mask file&#39;</span><span class="p">)</span>
+        <span class="c1"># msg.setInformativeText(&#39;This should only be applied to RAW BCARS2 data from NIST.&#39;)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Mask Image&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Mask Image&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">_traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not open file. Corrupt or not appropriate file format.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">to_open</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">to_open</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">dataset_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Opening </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">))</span>
+                <span class="k">with</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">lazy5</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">fullpath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+                    <span class="n">img_shape</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">img_shape</span><span class="p">)</span>
+                    <span class="n">fid</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span><span class="p">)</span>
+                    <span class="n">n_imgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                    <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Question</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;You will need to select/create a directory to save the new images in&#39;</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Select directory&#39;</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setDefaultButton</span><span class="p">(</span><span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="n">_QMessageBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">_QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Select Folder to Save Images&#39;</span><span class="p">,</span>
+                                                          <span class="n">path</span><span class="p">)</span>
+
+            
+            <span class="k">for</span> <span class="n">num_rgb</span><span class="p">,</span> <span class="n">rgb_win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_RGB_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">rgb_win</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">num_z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_imgs</span><span class="p">):</span>
+                    <span class="n">save_name</span> <span class="o">=</span> <span class="s1">&#39;Color_</span><span class="si">{}</span><span class="s1">_z</span><span class="si">{}</span><span class="s1">.tiff&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_rgb</span><span class="p">,</span> <span class="n">num_z</span><span class="p">)</span>
+                    <span class="n">w</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span> <span class="o">==</span> <span class="n">num_z</span><span class="p">)</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">rgb_win</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">:]</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">lazy5</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">fullpath</span><span class="p">(</span><span class="n">save_name</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">save_path</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+                    <span class="n">_plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">num_z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_imgs</span><span class="p">):</span>
+                <span class="n">save_name</span> <span class="o">=</span> <span class="s1">&#39;Composite_z</span><span class="si">{}</span><span class="s1">.tiff&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_z</span><span class="p">)</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span> <span class="o">==</span> <span class="n">num_z</span><span class="p">)</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_Composite</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">:]</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">lazy5</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">fullpath</span><span class="p">(</span><span class="n">save_name</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">save_path</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+                <span class="n">_plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
 
 <div class="viewcode-block" id="crikit_launch"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.crikit_launch">[docs]</a><span class="k">def</span> <span class="nf">crikit_launch</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -3683,7 +3794,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

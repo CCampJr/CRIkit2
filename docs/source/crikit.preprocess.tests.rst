@@ -12,6 +12,14 @@ crikit.preprocess.tests.test\_als module
    :undoc-members:
    :show-inheritance:
 
+crikit.preprocess.tests.test\_anscombe module
+---------------------------------------------
+
+.. automodule:: crikit.preprocess.tests.test_anscombe
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 crikit.preprocess.tests.test\_baseline\_sub module
 --------------------------------------------------
 

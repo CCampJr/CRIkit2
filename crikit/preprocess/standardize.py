@@ -6,7 +6,7 @@ Created on Thu Apr 14 08:53:08 2016
 @author: chc
 """
 
-__all__ = ['Anscombe', 'AnscombeInverse']
+__all__ = ['Anscombe', 'AnscombeInverse', 'calc_anscombe_parameters']
 
 import copy as _copy
 import numpy as _np
@@ -15,6 +15,61 @@ from crikit.preprocess.algorithms.anscombe import (gen_anscombe_forward as ansc,
                                                    gen_anscombe_inverse_exact_unbiased as inv_ansc)
 
 from crikit.utils.datacheck import _rng_is_pix_vec
+
+def calc_anscombe_parameters(dark_array, rep_array, axis=0, rng=None, dark_subtracted=False):
+    """
+    Calculate Anscombe parameters: Gaussian noise mean and standard deviation, Poisson noise amplifer
+    
+    Parameters
+    ----------
+    dark_array : ndarray (n_spectra, n_lambda)
+        Dark spectra array
+
+    rep_array : ndarray (n_spectra, n_lambda)
+        Repetitive signal spectra
+
+    axis : int
+        Non-spectral axis (ie replicate axis)
+
+    rng : ndarray (1d)
+        Spectral pixel range to use
+
+    dark_subtracted : bool
+        Was the mean dark spectrum already subtracted from the rep_array
+
+    Returns: dict
+        'g_mean', 'g_std', 'alpha', 'weighted_mean_alpha', which are the mean Gaussian noise (ndarray),
+        Gaussian noise standard deviation (ndarray), Poisson multiplication factor (ndarray),
+        weighted mean of the Poisson multiplication factor (float)
+
+    """
+
+    if (dark_array.ndim != 2) or (rep_array.ndim != 2):
+        raise TypeError('All input arrays must be of dim 2')
+
+    if rng is None:
+        rng = _np.arange(dark_array.shape[1-axis])
+        
+    g_std = dark_array.std(axis=axis)
+    g_mean = dark_array.mean(axis=axis)
+    if dark_subtracted:
+        g_mean *= 0.
+    
+    mu_rep = rep_array.mean(axis=axis)
+    std_rep = rep_array.std(axis=axis)
+    
+    div = _np.zeros((dark_array.shape[1-axis]))
+    alpha = _np.zeros((dark_array.shape[1-axis]))
+
+    div[rng] = _np.fmax(g_std[rng]**0.5, _np.abs(mu_rep[rng] - g_mean[rng]))
+    alpha[rng] = ((std_rep[rng]**2 - g_std[rng]**2) / 
+                  (div[rng]*_np.sign((mu_rep[rng] - g_mean[rng]))))
+    
+    weight = (std_rep[rng] - g_std[rng])
+    wa = (weight * alpha[rng]).sum() / weight.sum()
+
+    return {'g_mean':g_mean, 'g_std':g_std, 'alpha':alpha, 'weighted_mean_alpha':wa}
+
 
 class Anscombe:
     """

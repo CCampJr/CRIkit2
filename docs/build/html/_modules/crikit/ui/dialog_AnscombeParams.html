@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>crikit.ui.dialog_AnscombeParams &#8212; CRIKit2 0.2.2 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.ui.dialog_AnscombeParams</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Calculate Anscombe Parameters</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="c1"># Generic imports for QT-based programs</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+                             <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">)</span>
+
+
+<span class="c1"># Import from Designer-based GUI</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_CalcAnscombeParameters</span> <span class="k">import</span> <span class="n">Ui_Dialog</span>
+
+<span class="c1"># Generic imports for MPL-incorporation</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Qt5Agg&#39;</span><span class="p">)</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="kn">from</span> <span class="nn">crikit.preprocess.standardize</span> <span class="k">import</span> <span class="n">calc_anscombe_parameters</span>
+
+<div class="viewcode-block" id="DialogCalcAnscombeParams"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams">[docs]</a><span class="k">class</span> <span class="nc">DialogCalcAnscombeParams</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark_sub</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DialogCalcAnscombeParams</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_Dialog</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">dark_array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">rep_array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dark_array, rep_array, and axis must have inputs&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">dark_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rep</span> <span class="o">=</span> <span class="n">rep_array</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">rng</span>
+        
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAxis</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxAllFreqRange</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span> <span class="o">=</span> <span class="n">dark_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_n_dark</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNDark</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNDark</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span> <span class="o">=</span> <span class="n">rep_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_n_rep</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNRep</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNRep</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dark_sub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span> <span class="o">=</span> <span class="n">dark_sub</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxDarkSub</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateInputValues</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxAllFreqRange</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxDarkSub</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAxis</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNDark</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNRep</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateOutputValues</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOk</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCancel</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reject</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOk</span><span class="o">.</span><span class="n">setFocus</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DialogCalcAnscombeParams.updateInputValues"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.updateInputValues">[docs]</a>    <span class="k">def</span> <span class="nf">updateInputValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAxis</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxAllFreqRange</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNDark</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dark</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxSkipNRep</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">setMaximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_rep</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_n_dark</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraDark</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_n_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNSpectraRep</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxDarkSub</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DialogCalcAnscombeParams.updateOutputValues"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.updateOutputValues">[docs]</a>    <span class="k">def</span> <span class="nf">updateOutputValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateInputValues</span><span class="p">()</span>
+
+        <span class="c1"># NOTE: rng is dealt with in calc_anscombe_parameters; thus, full</span>
+        <span class="c1"># spectral range is passed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">slicer_dark</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_n_dark</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+            <span class="n">slicer_rep</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_n_rep</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">slicer_dark</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_n_dark</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_dark</span><span class="p">))</span>
+            <span class="n">slicer_rep</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_n_rep</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_rep</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_rng</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">calc_anscombe_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="p">[</span><span class="n">slicer_dark</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep</span><span class="p">[</span><span class="n">slicer_rep</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">calc_anscombe_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="p">[</span><span class="n">slicer_dark</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep</span><span class="p">[</span><span class="n">slicer_rep</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark_sub</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxGMean</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;g_mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxGStdDev</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;g_std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAlphaMean</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxAlphaWMean</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;weighted_mean_alpha&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span></div>
+
+<div class="viewcode-block" id="DialogCalcAnscombeParams.dialogCalcAnscombeParams"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_AnscombeParams.DialogCalcAnscombeParams.dialogCalcAnscombeParams">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dialogCalcAnscombeParams</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark_sub</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate Anscombe Parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None : None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogCalcAnscombeParams</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">dark_array</span><span class="o">=</span><span class="n">dark_array</span><span class="p">,</span> <span class="n">rep_array</span><span class="o">=</span><span class="n">rep_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">dark_sub</span><span class="o">=</span><span class="n">dark_sub</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
+
+    <span class="n">n_spectra</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># number of indep. spectra</span>
+    <span class="n">n_lambda</span> <span class="o">=</span> <span class="mi">901</span>  <span class="c1"># number of wavelengths in each spectrum</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="n">n_lambda</span><span class="p">)</span>  <span class="c1"># Frequency (au)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mf">40e2</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">f</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">350</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="mf">50e1</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="mi">2900</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">250</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>   <span class="c1"># signal</span>
+
+    <span class="n">g_mean</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">g_std</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">p_alpha</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="n">y_array</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_spectra</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
+    <span class="n">y_noisy</span> <span class="o">=</span> <span class="n">p_alpha</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">y_array</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_std</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">y_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_mean</span>
+    <span class="n">dark</span> <span class="o">=</span> <span class="n">g_std</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">y_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_mean</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">DialogCalcAnscombeParams</span><span class="o">.</span><span class="n">dialogCalcAnscombeParams</span><span class="p">(</span><span class="n">dark_array</span><span class="o">=</span><span class="n">dark</span><span class="p">,</span> <span class="n">rep_array</span><span class="o">=</span><span class="n">y_noisy</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Returns: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">))</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit package &#8212; CRIKit2 0.2.1 documentation</title>
+    <title>crikit package &#8212; CRIKit2 0.2.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -154,6 +154,7 @@
 <li class="toctree-l3"><a class="reference internal" href="crikit.preprocess.tests.html">crikit.preprocess.tests package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_als">crikit.preprocess.tests.test_als module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_anscombe">crikit.preprocess.tests.test_anscombe module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_baseline_sub">crikit.preprocess.tests.test_baseline_sub module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_subtract_dark">crikit.preprocess.tests.test_subtract_dark module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests">Module contents</a></li>
@@ -199,6 +200,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_AbstractFactorization">crikit.ui.dialog_AbstractFactorization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_AbstractPlotEffect">crikit.ui.dialog_AbstractPlotEffect module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_AnscombeParams">crikit.ui.dialog_AnscombeParams module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_SVD">crikit.ui.dialog_SVD module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_kkOptions">crikit.ui.dialog_kkOptions module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.ui.html#module-crikit.ui.dialog_model">crikit.ui.dialog_model module</a></li>
@@ -353,6 +355,12 @@ python3 main.py</p>
 <dt id="crikit.CRIkitUI.CRIkitUI_process.anscombe">
 <code class="sig-name descname">anscombe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.anscombe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.anscombe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performance Anscombe transformation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.CRIkitUI.CRIkitUI_process.calcAnscombeParams">
+<code class="sig-name descname">calcAnscombeParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.calcAnscombeParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.calcAnscombeParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Anscombe Parameters</p>
 </dd></dl>
 
 <dl class="method">
@@ -726,6 +734,11 @@ Right mouse-click : Close polygon</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="crikit.CRIkitUI.CRIkitUI_process.specialDemosaicRGB">
+<code class="sig-name descname">specialDemosaicRGB</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.specialDemosaicRGB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.specialDemosaicRGB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="crikit.CRIkitUI.CRIkitUI_process.specialEstCalibration1">
 <code class="sig-name descname">specialEstCalibration1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/CRIkitUI.html#CRIkitUI_process.specialEstCalibration1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.CRIkitUI.CRIkitUI_process.specialEstCalibration1" title="Permalink to this definition">¶</a></dt>
 <dd><p>For NIST BCARS 2, maximum raw spectrum occurs at approximately
@@ -936,7 +949,7 @@ imaging (HSI) platform (user interface, UI).</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

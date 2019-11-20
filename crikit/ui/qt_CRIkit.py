@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file '.\ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -186,7 +187,7 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 19))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 17))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -527,6 +528,12 @@ class Ui_MainWindow(object):
         self.actionUseImagData.setObjectName("actionUseImagData")
         self.actionOpenHDFNISTOOC = QtWidgets.QAction(MainWindow)
         self.actionOpenHDFNISTOOC.setObjectName("actionOpenHDFNISTOOC")
+        self.actionCalcAnscParams = QtWidgets.QAction(MainWindow)
+        self.actionCalcAnscParams.setEnabled(False)
+        self.actionCalcAnscParams.setObjectName("actionCalcAnscParams")
+        self.actionDeMosaicRGBImages = QtWidgets.QAction(MainWindow)
+        self.actionDeMosaicRGBImages.setEnabled(False)
+        self.actionDeMosaicRGBImages.setObjectName("actionDeMosaicRGBImages")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
         self.menuFile.addAction(self.actionSave)
@@ -553,6 +560,8 @@ class Ui_MainWindow(object):
         self.menuImport.addAction(self.actionAppend_NRB_from_ROI)
         self.menuImport.addSeparator()
         self.menuImport.addAction(self.menuPiece_wise_NRB.menuAction())
+        self.menuVariance_Stabilize.addAction(self.actionCalcAnscParams)
+        self.menuVariance_Stabilize.addSeparator()
         self.menuVariance_Stabilize.addAction(self.actionAnscombe)
         self.menuVariance_Stabilize.addSeparator()
         self.menuVariance_Stabilize.addAction(self.actionInverseAnscombe)
@@ -609,6 +618,7 @@ class Ui_MainWindow(object):
         self.menuHelp.addAction(self.actionRamanPhantom)
         self.menuHelp.addAction(self.actionBCARSPhantom)
         self.menuNIST_Special.addAction(self.actionEstCalibration)
+        self.menuNIST_Special.addAction(self.actionDeMosaicRGBImages)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -742,6 +752,6 @@ class Ui_MainWindow(object):
         self.actionCreateMosaic.setText(_translate("MainWindow", "Create Mosaic"))
         self.actionUseImagData.setText(_translate("MainWindow", "Use Imaginary if Exists"))
         self.actionOpenHDFNISTOOC.setText(_translate("MainWindow", "Open HDF OOC (NIST)"))
-
-
+        self.actionCalcAnscParams.setText(_translate("MainWindow", "Calculate Ansc. Parameters"))
+        self.actionDeMosaicRGBImages.setText(_translate("MainWindow", "DeMosaic RGB Images"))
 from . import icons_all_rc

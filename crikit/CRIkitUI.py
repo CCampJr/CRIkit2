@@ -35,6 +35,7 @@ import webbrowser as _webbrowser
 
 
 import matplotlib as _mpl
+import matplotlib.pyplot as _plt
 import numpy as _np
 import h5py as _h5py
 
@@ -90,6 +91,7 @@ from crikit.ui.dialog_ploteffect import \
     DialogPlotEffect as _DialogPlotEffect
 from crikit.ui.dialog_save import DialogSave
 from crikit.ui.dialog_varstabAnscombeOptions import DialogAnscombeOptions
+from crikit.ui.dialog_AnscombeParams import DialogCalcAnscombeParams
 from crikit.ui.qt_CRIkit import Ui_MainWindow
 from crikit.ui.main_Mosaic import MainWindowMosaic
 
@@ -334,6 +336,9 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionResetCalibration.triggered.connect(self.calibrationReset)
         self.ui.actionEstCalibration.triggered.connect(self.specialEstCalibration1)
 
+        # NIST Special
+        self.ui.actionDeMosaicRGBImages.triggered.connect(self.specialDemosaicRGB)
+
         # Perform KK
         self.ui.actionKramersKronig.triggered.connect(self.doKK)
 
@@ -342,6 +347,7 @@ class CRIkitUI_process(_QMainWindow):
         # Variance Stabilize
         self.ui.actionAnscombe.triggered.connect(self.anscombe)
         self.ui.actionInverseAnscombe.triggered.connect(self.inverseAnscombe)
+        self.ui.actionCalcAnscParams.triggered.connect(self.calcAnscombeParams)
 
         # DeNoise
         self.ui.actionDeNoise.triggered.connect(self.deNoise)
@@ -798,6 +804,7 @@ class CRIkitUI_process(_QMainWindow):
             self.ui.actionResidualSubtract.setEnabled(True)
             self.ui.actionAnscombe.setEnabled(True)
             self.ui.actionInverseAnscombe.setEnabled(True)
+
             self.ui.actionDeNoise.setEnabled(True)
             self.ui.actionAmpErrorCorrection.setEnabled(True)
             self.ui.actionSubtractROI.setEnabled(True)
@@ -806,6 +813,7 @@ class CRIkitUI_process(_QMainWindow):
 
             # NIST SPECIAL
             self.ui.actionEstCalibration.setEnabled(True)
+            self.ui.actionDeMosaicRGBImages.setEnabled(True)
 
             is_complex = _np.iscomplexobj(self.hsi.data)
             if is_complex:
@@ -966,6 +974,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
                     self.ui.actionDeNoiseDark.setEnabled(True)
+                    if self.nrb.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.dark = Spectra()
                     print('Dark was the wrong shape')
@@ -1008,6 +1018,8 @@ class CRIkitUI_process(_QMainWindow):
                 if self.dark.shape[-1] == self.hsi.freq.size:
                     self.ui.actionDarkSubtract.setEnabled(True)
                     self.ui.actionDarkSpectrum.setEnabled(True)
+                    if self.nrb.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.dark = Spectra()
                     print('Dark was the wrong shape')
@@ -1054,6 +1066,8 @@ class CRIkitUI_process(_QMainWindow):
                         self.ui.actionKKSpeedTest.setEnabled(True)
                         self.ui.actionNRBSpectrum.setEnabled(True)
                         self.ui.actionDeNoiseNRB.setEnabled(True)
+                        if self.dark.data is not None:
+                            self.ui.actionCalcAnscParams.setEnabled(True)
                     elif sender == self.ui.actionLoad_NRB_Left_Side:
                         self.ui.actionLeftSideNRBSpect.setEnabled(True)
                         if ((self.nrb_left.data is not None) and
@@ -1105,6 +1119,8 @@ class CRIkitUI_process(_QMainWindow):
                     self.ui.actionKKSpeedTest.setEnabled(True)
                     self.ui.actionNRBSpectrum.setEnabled(True)
                     self.ui.actionDeNoiseNRB.setEnabled(True)
+                    if self.dark.data is not None:
+                        self.ui.actionCalcAnscParams.setEnabled(True)
                 else:
                     self.nrb = Spectra()
                     print('NRB was the wrong shape')
@@ -1295,6 +1311,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionKKSpeedTest.setEnabled(True)
                 self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
                 self.ui.actionDeNoiseNRB.setEnabled(True)
+                if self.dark.data is not None:
+                    self.ui.actionCalcAnscParams.setEnabled(True)
 
                 wn, pix = find_nearest(self.hsi.f_full, \
                    self.hsi.f[winPlotEffect.parameters['pix_switchpt']])
@@ -1635,6 +1653,8 @@ class CRIkitUI_process(_QMainWindow):
                 self.ui.actionNRBSpectrum.setEnabled(True)
                 self.ui.menuCoherent_Raman_Imaging.setEnabled(True)
                 self.ui.actionDeNoiseNRB.setEnabled(True)
+                if self.dark.data is not None:
+                    self.ui.actionCalcAnscParams.setEnabled(True)
 
             elif sender == 'actionAppend_NRB_from_ROI':
                 if self.nrb.size == 0:
@@ -2588,7 +2608,12 @@ class CRIkitUI_process(_QMainWindow):
         """
         Performance Anscombe transformation
         """
-        out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+        if self._anscombe_params is None:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(parent=self)
+        else:
+            out = DialogAnscombeOptions.dialogAnscombeOptions(stddev=self._anscombe_params['stddev'],
+                                                              gain=self._anscombe_params['gain'],
+                                                              parent=self)
 
         if out is not None:
             self._anscombe_params = _copy.deepcopy(out)
@@ -2644,6 +2669,20 @@ class CRIkitUI_process(_QMainWindow):
                 else:
                     self.bcpre.backed_up()
             self.changeSlider()
+
+    def calcAnscombeParams(self):
+        """
+        Calculate Anscombe Parameters
+        """
+        dark_sub = _np.any(['Dark' in k for k in self.bcpre.attr_dict])
+
+        out = DialogCalcAnscombeParams.dialogCalcAnscombeParams(parent=self, dark_array=self.dark.data,
+                                                                rep_array=self.nrb.data, 
+                                                                axis=0, rng=self.hsi.freq.op_range_pix,
+                                                                dark_sub=dark_sub)
+
+        if out is not None:
+            self._anscombe_params = {'stddev':out['g_std'].mean(), 'gain':out['weighted_mean_alpha'], 'mean':out['g_mean'].mean()}
 
     def doMath(self):
         """
@@ -3523,6 +3562,78 @@ class CRIkitUI_process(_QMainWindow):
             self.changeSlider()
         else:
             pass
+
+    def specialDemosaicRGB(self):
+        msg = _QMessageBox(self)
+        msg.setIcon(_QMessageBox.Question)
+        msg.setText('You will need to select the MASK dataset associated with your mosaic image')
+        msg.setWindowTitle('Select Mask file')
+        # msg.setInformativeText('This should only be applied to RAW BCARS2 data from NIST.')
+        msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+        msg.setDefaultButton(_QMessageBox.Ok)
+        out = msg.exec()
+        
+        if out != _QMessageBox.Ok:
+            return None
+
+        try:
+            if (self.filename is not None) & (self.path is not None):
+                to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Mask Image')
+            else:
+                to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Mask Image')
+        except Exception:
+            _traceback.print_exc(limit=1)
+            print('Could not open file. Corrupt or not appropriate file format.')
+        else:
+            if to_open is not None:
+                path, filename, dataset_name = to_open
+                if isinstance(dataset_name, list):
+                    dataset_name = dataset_name[0]
+                print('Opening {}/{}/{}'.format(path, filename, dataset_name))
+                with _h5py.File(lazy5.utils.fullpath(filename, pth=path), 'r') as fid:
+                    img_shape = fid[dataset_name].shape
+                    self._mosaic_mask = _np.zeros(img_shape)
+                    fid[dataset_name].read_direct(self._mosaic_mask)
+                    n_imgs = self._mosaic_mask.max().astype(_np.int)
+                    fid.close()
+            
+            msg = _QMessageBox(self)
+            msg.setIcon(_QMessageBox.Question)
+            msg.setText('You will need to select/create a directory to save the new images in')
+            msg.setWindowTitle('Select directory')
+            msg.setStandardButtons(_QMessageBox.Ok | _QMessageBox.Cancel)
+            msg.setDefaultButton(_QMessageBox.Ok)
+            out = msg.exec()
+            if out != _QMessageBox.Ok:
+                return None
+            save_path = _QFileDialog.getExistingDirectory(self, 'Select Folder to Save Images',
+                                                          path)
+
+            
+            for num_rgb, rgb_win in enumerate(self.img_RGB_list):
+                if rgb_win.data.image.sum() == 0:
+                    continue
+                for num_z in range(n_imgs):
+                    save_name = 'Color_{}_z{}.tiff'.format(num_rgb, num_z)
+                    w = _np.where(self._mosaic_mask == num_z)
+                    temp = rgb_win.data.image[slice(w[0].min(), w[0].max()+1), slice(w[1].min(), w[1].max()+1), :]
+                    _plt.figure(dpi=300)
+                    _plt.imshow(temp)
+                    _plt.axis('off')
+                    _plt.tight_layout(pad=0)
+                    _plt.savefig(lazy5.utils.fullpath(save_name, pth=save_path), dpi=300)
+                    _plt.close()
+            for num_z in range(n_imgs):
+                save_name = 'Composite_z{}.tiff'.format(num_z)
+                w = _np.where(self._mosaic_mask == num_z)
+                temp = self.img_Composite.data.image[slice(w[0].min(), w[0].max()+1), slice(w[1].min(), w[1].max()+1), :]
+                _plt.figure(dpi=300)
+                _plt.imshow(temp)
+                _plt.axis('off')
+                _plt.tight_layout(pad=0)
+                _plt.savefig(lazy5.utils.fullpath(save_name, pth=save_path), dpi=300)
+                _plt.close()
+
 
 def crikit_launch(**kwargs):
     """

@@ -35,6 +35,14 @@ crikit.ui.dialog\_AbstractPlotEffect module
    :undoc-members:
    :show-inheritance:
 
+crikit.ui.dialog\_AnscombeParams module
+---------------------------------------
+
+.. automodule:: crikit.ui.dialog_AnscombeParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 crikit.ui.dialog\_SVD module
 ----------------------------
 

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.standardize &#8212; CRIKit2 0.2.1 documentation</title>
+    <title>crikit.preprocess.standardize &#8212; CRIKit2 0.2.2 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -44,7 +44,7 @@
 <span class="sd">@author: chc</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Anscombe&#39;</span><span class="p">,</span> <span class="s1">&#39;AnscombeInverse&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Anscombe&#39;</span><span class="p">,</span> <span class="s1">&#39;AnscombeInverse&#39;</span><span class="p">,</span> <span class="s1">&#39;calc_anscombe_parameters&#39;</span><span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
@@ -53,6 +53,61 @@
                                                    <span class="n">gen_anscombe_inverse_exact_unbiased</span> <span class="k">as</span> <span class="n">inv_ansc</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">crikit.utils.datacheck</span> <span class="k">import</span> <span class="n">_rng_is_pix_vec</span>
+
+<div class="viewcode-block" id="calc_anscombe_parameters"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.standardize.calc_anscombe_parameters">[docs]</a><span class="k">def</span> <span class="nf">calc_anscombe_parameters</span><span class="p">(</span><span class="n">dark_array</span><span class="p">,</span> <span class="n">rep_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark_subtracted</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate Anscombe parameters: Gaussian noise mean and standard deviation, Poisson noise amplifer</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dark_array : ndarray (n_spectra, n_lambda)</span>
+<span class="sd">        Dark spectra array</span>
+
+<span class="sd">    rep_array : ndarray (n_spectra, n_lambda)</span>
+<span class="sd">        Repetitive signal spectra</span>
+
+<span class="sd">    axis : int</span>
+<span class="sd">        Non-spectral axis (ie replicate axis)</span>
+
+<span class="sd">    rng : ndarray (1d)</span>
+<span class="sd">        Spectral pixel range to use</span>
+
+<span class="sd">    dark_subtracted : bool</span>
+<span class="sd">        Was the mean dark spectrum already subtracted from the rep_array</span>
+
+<span class="sd">    Returns: dict</span>
+<span class="sd">        &#39;g_mean&#39;, &#39;g_std&#39;, &#39;alpha&#39;, &#39;weighted_mean_alpha&#39;, which are the mean Gaussian noise (ndarray),</span>
+<span class="sd">        Gaussian noise standard deviation (ndarray), Poisson multiplication factor (ndarray),</span>
+<span class="sd">        weighted mean of the Poisson multiplication factor (float)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">dark_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">rep_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;All input arrays must be of dim 2&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dark_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">axis</span><span class="p">])</span>
+        
+    <span class="n">g_std</span> <span class="o">=</span> <span class="n">dark_array</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">g_mean</span> <span class="o">=</span> <span class="n">dark_array</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dark_subtracted</span><span class="p">:</span>
+        <span class="n">g_mean</span> <span class="o">*=</span> <span class="mf">0.</span>
+    
+    <span class="n">mu_rep</span> <span class="o">=</span> <span class="n">rep_array</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">std_rep</span> <span class="o">=</span> <span class="n">rep_array</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    
+    <span class="n">div</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dark_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">axis</span><span class="p">]))</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dark_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">axis</span><span class="p">]))</span>
+
+    <span class="n">div</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">fmax</span><span class="p">(</span><span class="n">g_std</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mu_rep</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span> <span class="o">-</span> <span class="n">g_mean</span><span class="p">[</span><span class="n">rng</span><span class="p">]))</span>
+    <span class="n">alpha</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">std_rep</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">g_std</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> 
+                  <span class="p">(</span><span class="n">div</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">sign</span><span class="p">((</span><span class="n">mu_rep</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span> <span class="o">-</span> <span class="n">g_mean</span><span class="p">[</span><span class="n">rng</span><span class="p">]))))</span>
+    
+    <span class="n">weight</span> <span class="o">=</span> <span class="p">(</span><span class="n">std_rep</span><span class="p">[</span><span class="n">rng</span><span class="p">]</span> <span class="o">-</span> <span class="n">g_std</span><span class="p">[</span><span class="n">rng</span><span class="p">])</span>
+    <span class="n">wa</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">[</span><span class="n">rng</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">weight</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;g_mean&#39;</span><span class="p">:</span><span class="n">g_mean</span><span class="p">,</span> <span class="s1">&#39;g_std&#39;</span><span class="p">:</span><span class="n">g_std</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span><span class="n">alpha</span><span class="p">,</span> <span class="s1">&#39;weighted_mean_alpha&#39;</span><span class="p">:</span><span class="n">wa</span><span class="p">}</span></div>
+
 
 <div class="viewcode-block" id="Anscombe"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.standardize.Anscombe">[docs]</a><span class="k">class</span> <span class="nc">Anscombe</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -422,7 +477,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
