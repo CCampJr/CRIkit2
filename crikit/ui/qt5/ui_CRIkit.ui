@@ -396,7 +396,7 @@ This will be saved to the processed file.</string>
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>17</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -467,6 +467,8 @@ This will be saved to the processed file.</string>
      <property name="title">
       <string>Coherent Raman Imaging</string>
      </property>
+     <addaction name="actionAutoCropNRBSpectra"/>
+     <addaction name="actionCropNRBSpectra"/>
      <addaction name="actionDeNoiseNRB"/>
      <addaction name="actionKramersKronig"/>
      <addaction name="actionKKSpeedTest"/>
@@ -484,6 +486,8 @@ This will be saved to the processed file.</string>
     <addaction name="separator"/>
     <addaction name="actionSubtractROI"/>
     <addaction name="separator"/>
+    <addaction name="actionCropDarkSpectra"/>
+    <addaction name="actionAutoCropDarkSpectra"/>
     <addaction name="separator"/>
     <addaction name="menuCoherent_Raman_Imaging"/>
    </widget>
@@ -1204,7 +1208,7 @@ This will be saved to the processed file.</string>
   </action>
   <action name="actionDeNoiseNRB">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>De-Noise NRB</string>
@@ -1365,6 +1369,26 @@ This will be saved to the processed file.</string>
    </property>
    <property name="text">
     <string>DeMosaic RGB Images</string>
+   </property>
+  </action>
+  <action name="actionCropDarkSpectra">
+   <property name="text">
+    <string>Crop Dark Spectra</string>
+   </property>
+  </action>
+  <action name="actionCropNRBSpectra">
+   <property name="text">
+    <string>Crop NRB Spectra</string>
+   </property>
+  </action>
+  <action name="actionAutoCropDarkSpectra">
+   <property name="text">
+    <string>Auto-Crop Dark Spectra</string>
+   </property>
+  </action>
+  <action name="actionAutoCropNRBSpectra">
+   <property name="text">
+    <string>Auto-Crop NRB Spectra</string>
    </property>
   </action>
  </widget>
