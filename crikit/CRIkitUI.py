@@ -77,6 +77,7 @@ import crikit.measurement.peakamps as _peakamps
 
 from crikit.preprocess.crop import ZeroColumn as _ZeroColumn
 from crikit.preprocess.crop import ZeroRow as _ZeroRow
+from crikit.preprocess.crop import CutEveryNSpectra as _CutEveryNSpectra
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
 from crikit.preprocess.standardize import Anscombe as _Anscombe
 from crikit.preprocess.standardize import AnscombeInverse as _AnscombeInverse
@@ -104,6 +105,8 @@ from crikit.ui.widget_images import (widgetBWImg, widgetCompositeColor, widgetSg
 
 from crikit.ui.widget_mergeNRBs import widgetMergeNRBs as _widgetMergeNRBs
 from crikit.ui.widget_SG import widgetSG as _widgetSG
+
+from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra as _widgetCutEveryNSpectra
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
 from crikit.utils.general import find_nearest, mean_nd_to_1d, std_nd_to_1d
@@ -305,6 +308,8 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionNRB_from_ROI_Right_Side.triggered.connect(self.nrbFromROI)
 
         self.ui.actionMergeNRBs.triggered.connect(self.mergeNRBs)
+        self.ui.actionCropDarkSpectra.triggered.connect(self.cutEveryNSpectra)
+        self.ui.actionCropNRBSpectra.triggered.connect(self.cutEveryNSpectra)
 
         self.ui.actionCreateMosaic.triggered.connect(self.mosaicTool)
 
@@ -1328,6 +1333,47 @@ class CRIkitUI_process(_QMainWindow):
 
         else:
             pass
+
+    def cutEveryNSpectra(self):
+        """
+        Cut m spectra every n spectra
+        """
+        sdr = self.sender()
+        if sdr == self.ui.actionCropDarkSpectra:
+            preview_spectra = self.dark.data.sum(axis=-1)
+        elif sdr == self.ui.actionCropNRBSpectra:
+            preview_spectra = self.nrb.data.sum(axis=-1)
+        plugin = _widgetCutEveryNSpectra()
+        
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(data=preview_spectra,
+                                                            x=_np.arange(preview_spectra.size),
+                                                            plugin=plugin)
+
+        if winPlotEffect is not None:
+            # Do stuff here
+            params = _copy.deepcopy(winPlotEffect.parameters)
+            params.pop('name')
+            params.pop('long_name')
+
+            cutter = _CutEveryNSpectra(**params)
+            if sdr == self.ui.actionCropDarkSpectra:
+                self.dark.data = cutter.calculate(self.dark.data)
+                # Backup for Undo
+                h_list = ['CutDark']
+                for k in params:
+                    h_list.extend([k, params[k]])
+                self.bcpre.add_step(h_list)
+                self.updateHistory()
+            elif sdr == self.ui.actionCropNRBSpectra:
+                self.nrb.data = cutter.calculate(self.nrb.data)
+                h_list = ['CutNRB']
+                for k in params:
+                    h_list.extend([k, params[k]])
+                self.bcpre.add_step(h_list)
+                self.updateHistory()
+        else:
+            pass
+        del winPlotEffect
 
     def settings(self):
         """
