@@ -2722,7 +2722,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Calculate Anscombe Parameters
         """
-        dark_sub = _np.any(['Dark' in k for k in self.bcpre.attr_dict])
+        dark_sub = _np.any(['SubDark' in k for k in self.bcpre.attr_dict])
 
         out = DialogCalcAnscombeParams.dialogCalcAnscombeParams(parent=self, dark_array=self.dark.data,
                                                                 rep_array=self.nrb.data, 
