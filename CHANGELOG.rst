@@ -14,7 +14,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 -   Crop (or some other options) m spectra every n spectra
     -   In preprocess.crop
     -   Added GUI as well (Preprocess header) -- separate for NRB and Dark
-    
+-   Updated KK GUI to incorporate edge-averaging (n_edge KK parameter)
+
 0.2.2 (19-11-20)
 ----------------
 

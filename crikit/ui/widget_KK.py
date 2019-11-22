@@ -71,8 +71,8 @@ class widgetKK(_AbstractPlotEffectPlugin):
                       }
                       
     def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0,
-                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1, 
-                 parent = None):
+                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1,
+                 n_edge=30, parent=None):
         
         super(widgetKK, self).__init__(parent)
         
@@ -87,6 +87,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
         self.parameters['phase_offset'] = phase_offset
         self.parameters['norm_to_nrb'] = norm_to_nrb
         self.parameters['pad_factor'] = pad_factor
+        self.parameters['n_edge'] = n_edge
                 
         self.setupKK()
         
@@ -99,12 +100,14 @@ class widgetKK(_AbstractPlotEffectPlugin):
         self.ui.spinBoxNRBBias.setValue(self.parameters['nrb_amp_offset'])
         self.ui.spinBoxPhaseLin.setValue(self.parameters['phase_offset'])
         self.ui.spinBoxPadFactor.setValue(self.parameters['pad_factor'])
+        self.ui.spinBoxEdge.setValue(self.parameters['n_edge'])
 
         # SIGNALS & SLOTS
         self.ui.spinBoxCARSBias.editingFinished.connect(self.spinBoxChanged)
         self.ui.spinBoxNRBBias.editingFinished.connect(self.spinBoxChanged)
         self.ui.spinBoxPhaseLin.editingFinished.connect(self.spinBoxChanged)
         self.ui.spinBoxPadFactor.editingFinished.connect(self.spinBoxChanged)
+        self.ui.spinBoxEdge.editingFinished.connect(self.spinBoxChanged)
         
         self.ui.checkBoxNRBNorm.clicked.connect(self.changeCheckBoxNRBNorm)
         self.ui.checkBoxLockBias.clicked.connect(self.changeCheckBoxLockBias)
@@ -133,12 +136,14 @@ class widgetKK(_AbstractPlotEffectPlugin):
         phase_offset = self.parameters['phase_offset'] 
         norm_to_nrb = self.parameters['norm_to_nrb']
         pad_factor = self.parameters['pad_factor']
+        n_edge = self.parameters['n_edge']
         
         _kk = _KramersKronig(cars_amp_offset=cars_amp_offset,
                              nrb_amp_offset=nrb_amp_offset,
                              phase_offset=phase_offset,
                              norm_to_nrb=norm_to_nrb,
-                             pad_factor=pad_factor)
+                             pad_factor=pad_factor,
+                             n_edge=n_edge)
 
         data_out = _kk.calculate(cars, nrb)
         
@@ -166,7 +171,8 @@ class widgetKK(_AbstractPlotEffectPlugin):
             
         elif sdr == self.ui.spinBoxPadFactor:
             self.parameters['pad_factor'] = self.ui.spinBoxPadFactor.value()
-            
+        elif sdr == self.ui.spinBoxEdge:
+            self.parameters['n_edge'] = self.ui.spinBoxEdge.value()
         self.changed.emit()
 
     def changeCheckBoxLockBias(self):
@@ -185,10 +191,6 @@ class widgetKK(_AbstractPlotEffectPlugin):
             self.parameters['norm_to_nrb'] = False
         self.changed.emit()
 
-    def changeSpinBoxPadFactor(self):
-        self.parameters['pad_factor'] = self.ui.spinBoxPadFactor.value()
-        self.changed.emit()
-        
         
 if __name__ == '__main__':
     import sys as _sys

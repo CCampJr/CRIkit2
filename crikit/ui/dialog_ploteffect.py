@@ -283,19 +283,20 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     
-    from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra
+    # from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra
 
-    x_reps = _np.arange(100)
-    dark = _np.random.rand(100,800)
-    dark[::10] *= 2
+    # x_reps = _np.arange(100)
+    # dark = _np.random.rand(100,800)
+    # dark[::10] *= 2
 
-    plugin = widgetCutEveryNSpectra()
-    winPlotEffect = DialogPlotEffect.dialogPlotEffect(dark.sum(axis=-1), x=x_reps, plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
-    _sys.exit()
+    # plugin = widgetCutEveryNSpectra()
+    # winPlotEffect = DialogPlotEffect.dialogPlotEffect(dark.sum(axis=-1), x=x_reps, plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
+    # _sys.exit()
 
-#    WN = _np.linspace(500,4000,800)
+    WN = _np.linspace(500,4000,800)
+    
 
     # calib_dict = {'n_pix' : 1600,
     #               'ctr_wl' : 730,
@@ -307,9 +308,9 @@ if __name__ == '__main__':
     # wl = calib_dict['a_vec'][0]*pix + calib_dict['a_vec'][1]
     # WN = .01/(wl*1e-9) - .01/(calib_dict['probe']*1e-9)
     
-    # CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
-    # NRB = 0*WN + .055
-    # CARS = _np.dot(_np.arange(1,4)[:,None],CARS[None,:])
+    CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
+    NRB = 0*WN + .055
+    CARS = _np.dot(_np.arange(1,4)[:,None],CARS[None,:])
     
     
     
@@ -372,14 +373,14 @@ if __name__ == '__main__':
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
 #    
-#    # KK
-#    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
-#    plugin = _widgetKK()
-#    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
-#                                                            plugin=plugin)
-#    if winPlotEffect is not None:
-#        print(winPlotEffect.parameters)
-#        
+   # KK
+    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
+    plugin = _widgetKK()
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
+                                                           plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
+        
 #    # Calibrate
 #    from crikit.ui.widget_Calibrate import (widgetCalibrate as 
 #                                                _widgetCalibrate)
