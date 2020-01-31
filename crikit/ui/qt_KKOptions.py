@@ -2,16 +2,18 @@
 
 # Form implementation generated from reading ui file '.\ui_KKOptions.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.1
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(386, 306)
+        Dialog.resize(394, 323)
         Dialog.setStyleSheet("font: 10pt \"Arial\";")
         self.gridLayout_2 = QtWidgets.QGridLayout(Dialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -76,6 +78,15 @@ class Ui_Dialog(object):
         self.spinBoxPadFactor = QtWidgets.QSpinBox(self.frame)
         self.spinBoxPadFactor.setObjectName("spinBoxPadFactor")
         self.gridLayout.addWidget(self.spinBoxPadFactor, 7, 1, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.frame)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 6, 3, 1, 1)
+        self.spinBoxEdge = QtWidgets.QSpinBox(self.frame)
+        self.spinBoxEdge.setMinimum(1)
+        self.spinBoxEdge.setMaximum(800)
+        self.spinBoxEdge.setProperty("value", 30)
+        self.spinBoxEdge.setObjectName("spinBoxEdge")
+        self.gridLayout.addWidget(self.spinBoxEdge, 7, 3, 1, 1)
         self.verticalLayout.addWidget(self.frame)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
@@ -116,5 +127,5 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "NRB Bias"))
         self.label_2.setText(_translate("Dialog", "CARS Bias"))
         self.checkBoxNormToNRB.setText(_translate("Dialog", "Norm to NRB"))
+        self.label_6.setText(_translate("Dialog", "N Edge Pixels (Avg)"))
         self.pushButtonInteractive.setText(_translate("Dialog", "Interactive Setting Selection"))
-

@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\qt5-creator\ui_PlotEffect_KK.ui'
+# Form implementation generated from reading ui file '.\ui_PlotEffect_KK.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(752, 166)
+        Form.resize(752, 174)
         Form.setStyleSheet("font: 10pt \"Arial\";")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -86,6 +88,18 @@ class Ui_Form(object):
         self.spinBoxPadFactor.setObjectName("spinBoxPadFactor")
         self.horizontalLayout_2.addWidget(self.spinBoxPadFactor)
         self.verticalLayout_5.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setContentsMargins(-1, 0, -1, -1)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_3.addWidget(self.label_2)
+        self.spinBoxEdge = QtWidgets.QSpinBox(self.frame)
+        self.spinBoxEdge.setMinimum(1)
+        self.spinBoxEdge.setMaximum(800)
+        self.spinBoxEdge.setObjectName("spinBoxEdge")
+        self.horizontalLayout_3.addWidget(self.spinBoxEdge)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_3)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_5.addItem(spacerItem3)
         self.horizontalLayout.addWidget(self.frame)
@@ -103,4 +117,4 @@ class Ui_Form(object):
         self.checkBoxNRBNorm.setText(_translate("Form", "Norm to NRB"))
         self.checkBoxLockBias.setText(_translate("Form", "Lock NRB-to-CARS Bias"))
         self.label_5.setText(_translate("Form", "Pad Factor"))
-
+        self.label_2.setText(_translate("Form", "N Edge Pix (Avg)"))

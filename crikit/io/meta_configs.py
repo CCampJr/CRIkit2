@@ -41,7 +41,7 @@ def special_nist_bcars2():
                                 '!', 729.994]
     rosetta['ColorUnits'] = ['Calib.units', '!', 'nm']
     rosetta['ColorChannels'] = ['Calib.n_pix', '!', 1600]
-    rosetta['ColorCalibWL'] = ['Calib.ctr_wl', 'Spectro.CalibWavelength', '!', 729.994]
+    rosetta['ColorCalibWL'] = ['Calib.ctr_wl0', 'Spectro.CalibWavelength', '!', 729.994]
     rosetta['ColorPolyVals'] = ['Calib.a_vec', 'Spectro.Avec', '!', [-0.167740721307557,
                                                      863.8736708961577]]
 

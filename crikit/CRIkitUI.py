@@ -2124,11 +2124,12 @@ class CRIkitUI_process(_QMainWindow):
             phase_offset = out['phase_offset']
             norm_to_nrb = out['norm_to_nrb']
             pad_factor = out['pad_factor']
+            n_edge = out['n_edge']
 
             kk = KramersKronig(cars_amp_offset=cars_amp_offset,
                                nrb_amp_offset=nrb_amp_offset,
                                phase_offset=phase_offset, norm_to_nrb=norm_to_nrb,
-                               pad_factor=pad_factor,
+                               pad_factor=pad_factor, n_edge=n_edge,
                                rng=rng)
 
             self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
@@ -2140,7 +2141,8 @@ class CRIkitUI_process(_QMainWindow):
             # Backup for Undo
             self.bcpre.add_step(['KK', 'CARSAmp', cars_amp_offset, 'NRBAmp',
                                  nrb_amp_offset, 'Phase', phase_offset,
-                                 'Norm', norm_to_nrb])
+                                 'Norm', norm_to_nrb, 'Pad Factor', pad_factor,
+                                 'N Edge', n_edge])
             self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -2720,7 +2722,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Calculate Anscombe Parameters
         """
-        dark_sub = _np.any(['Dark' in k for k in self.bcpre.attr_dict])
+        dark_sub = _np.any(['SubDark' in k for k in self.bcpre.attr_dict])
 
         out = DialogCalcAnscombeParams.dialogCalcAnscombeParams(parent=self, dark_array=self.dark.data,
                                                                 rep_array=self.nrb.data, 
