@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.tests.test_hilbert &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.cri.tests.test_hilbert &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -49,34 +49,42 @@
 <span class="kn">from</span> <span class="nn">crikit.cri.algorithms.kk</span> <span class="k">import</span> <span class="n">hilbertfft</span>
 
 
-<div class="viewcode-block" id="test_pyfftw_hilbert_no_pad"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_pyfftw_hilbert_no_pad">[docs]</a><span class="k">def</span> <span class="nf">test_pyfftw_hilbert_no_pad</span><span class="p">():</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">use_pyfftw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">hilb_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="test_pyfftw_hilbert_pad"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_pyfftw_hilbert_pad">[docs]</a><span class="k">def</span> <span class="nf">test_pyfftw_hilbert_pad</span><span class="p">():</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">use_pyfftw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="test_hilbert_no_pad"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_hilbert_no_pad">[docs]</a><span class="k">def</span> <span class="nf">test_hilbert_no_pad</span><span class="p">():</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">use_pyfftw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="test_hilbert_pad"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_hilbert_pad">[docs]</a><span class="k">def</span> <span class="nf">test_hilbert_pad</span><span class="p">():</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">use_pyfftw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_hilbert_replace_min_value"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_hilbert_replace_min_value">[docs]</a><span class="k">def</span> <span class="nf">test_hilbert_replace_min_value</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">hilb_y</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">hilb_y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_hilbert_in_place"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_hilbert.test_hilbert_in_place">[docs]</a><span class="k">def</span> <span class="nf">test_hilbert_in_place</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">hilbertfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span>
+    
+    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -107,7 +115,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

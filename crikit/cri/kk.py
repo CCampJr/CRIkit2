@@ -40,6 +40,10 @@ class KramersKronig:
         DC offset applied to NRB spectrum(a) prior to KK relation. See Notes \
         and Ref. [2].
 
+    conjugate : bool
+        If spectra go from high-to-low-wavenumber (left-to-right), you should
+        conjugate the KK output.
+
     phase_offset : float or ndarray, optional (default=0.0)
         Phase constant or ndarray applied to retrieved phase prior to \
         separating the real and imaginary components. See Notes \
@@ -100,7 +104,7 @@ class KramersKronig:
     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
 
     """
-    def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0,
+    def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0, conjugate=False,
                  phase_offset=0.0, norm_to_nrb=True, pad_factor=1, 
                  rng=None, n_edge=1, axis=-1, bad_value=1e-8, min_value=None,
                  hilb_kwargs={}, **kwargs):
@@ -109,8 +113,9 @@ class KramersKronig:
         self.hilb_kwargs = hilb_kwargs
 
         # KK kwargs
-        self.kk_kwargs = {'phase_offset':phase_offset,
-                          'norm_by_bg':norm_to_nrb,
+        self.kk_kwargs = {'conjugate':conjugate,
+                          'phase_offset':phase_offset,
+                          'norm_to_nrb':norm_to_nrb,
                           'pad_factor':pad_factor,
                           'n_edge':n_edge, 
                           'axis':axis,
@@ -155,36 +160,32 @@ class KramersKronig:
 
     def _calc(self, cars, nrb, ret_obj):
 
-        try:
-            # Assume that an nD nrb should be averaged to be 1D
-            # TODO: Change this in the future to accept matching NRB's
-            nrb = _mean_nd_to_1d(nrb)
-            
-            if self.rng is None:
-                kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
+        # Assume that an nD nrb should be averaged to be 1D
+        # TODO: Change this in the future to accept matching NRB's
+        nrb = _mean_nd_to_1d(nrb)
+        
+        if self.rng is None:
+            kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
                                 cri=cars + self.cars_amp_offset,
                                 hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
-                ret_obj *= 0
-                ret_obj += kkd
-            else:
-                slice_cars_rng = cars.ndim*[slice(None)]
-                slice_cars_rng[self.kk_kwargs['axis']] = self.rng
-                slice_cars_rng = tuple(slice_cars_rng)
-
-                slice_ret_obj = ret_obj.ndim*[slice(None)]
-                slice_ret_obj[self.kk_kwargs['axis']] = self.rng
-                slice_ret_obj = tuple(slice_ret_obj)
-
-                kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
-                                        cri=cars[slice_cars_rng] + self.cars_amp_offset,
-                                        hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
-                ret_obj *= 0
-                ret_obj[slice_ret_obj] += kkd
-        except Exception as e:
-            print('Error: {}'.format(e))
-            return False
+            ret_obj *= 0
+            ret_obj += kkd
         else:
-            return True
+            slice_cars_rng = cars.ndim*[slice(None)]
+            slice_cars_rng[self.kk_kwargs['axis']] = self.rng
+            slice_cars_rng = tuple(slice_cars_rng)
+
+            slice_ret_obj = ret_obj.ndim*[slice(None)]
+            slice_ret_obj[self.kk_kwargs['axis']] = self.rng
+            slice_ret_obj = tuple(slice_ret_obj)
+
+            kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
+                                cri=cars[slice_cars_rng] + self.cars_amp_offset,
+                                hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
+            ret_obj *= 0
+            ret_obj[slice_ret_obj] += kkd
+        
+        return True
 
     def calculate(self, cars, nrb):
         """
@@ -196,12 +197,9 @@ class KramersKronig:
         """
 
         kkd = _np.zeros(cars.shape, dtype=_np.complex)
-        success = self._calc(cars, nrb, ret_obj=kkd)
-        if success:
-            return kkd
-        else:
-            return None
-
+        self._calc(cars, nrb, ret_obj=kkd)
+        return kkd
+        
     def _transform(self, cars, nrb):
         if issubclass(cars.dtype.type, _np.complex):
             success = self._calc(cars, nrb, ret_obj=cars)

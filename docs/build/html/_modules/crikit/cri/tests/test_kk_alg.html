@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.tests.test_kk_alg &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.cri.tests.test_kk_alg &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -59,11 +59,19 @@
     <span class="n">kkd_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">kkd</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">kkd_angle</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="test_kk_conjugate"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_kk_alg.test_kk_conjugate">[docs]</a><span class="k">def</span> <span class="nf">test_kk_conjugate</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">hilb_y_analytical</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">kkd</span> <span class="o">=</span> <span class="n">kkrelation</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">),</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">conjugate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">kkd_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">kkd</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">hilb_y_analytical</span><span class="p">,</span> <span class="n">kkd_angle</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="test_kk_no_bg_norm"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_kk_alg.test_kk_no_bg_norm">[docs]</a><span class="k">def</span> <span class="nf">test_kk_no_bg_norm</span><span class="p">():</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">kkd</span> <span class="o">=</span> <span class="n">kkrelation</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">norm_by_bg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">kkd</span> <span class="o">=</span> <span class="n">kkrelation</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">norm_to_nrb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">kkd</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="test_kk_3d"><a class="viewcode-back" href="../../../../crikit.cri.tests.html#crikit.cri.tests.test_kk_alg.test_kk_3d">[docs]</a><span class="k">def</span> <span class="nf">test_kk_3d</span><span class="p">():</span>
@@ -71,7 +79,7 @@
     <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
-    <span class="n">kkd</span> <span class="o">=</span> <span class="n">kkrelation</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">norm_by_bg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">kkd</span> <span class="o">=</span> <span class="n">kkrelation</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">norm_to_nrb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">kkd</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">))</span></div>
 </pre></div>
 
@@ -103,7 +111,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

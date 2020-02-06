@@ -65,3 +65,28 @@ def test_kk_transform_fail():
     success = kk._transform(y, 0*y + 1)
     assert not success
 
+
+def test_kk_properties_read():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+    hilb_y_analytical = x/(2**2 + x**2)
+    
+    kk = KramersKronig(pad_factor=10, norm_to_nrb=True, phase_offset=3.0)
+
+    assert kk.pad_factor == 10
+    assert kk.norm_to_nrb
+    assert kk.phase_offset == 3.0
+    
+def test_kk_properties_setter():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+    hilb_y_analytical = x/(2**2 + x**2)
+    
+    kk = KramersKronig()
+    kk.pad_factor=10
+    kk.norm_to_nrb=True
+    kk.phase_offset=3.0
+
+    assert kk.pad_factor == 10
+    assert kk.norm_to_nrb
+    assert kk.phase_offset == 3.0

@@ -28,6 +28,14 @@ crikit.preprocess.tests.test\_baseline\_sub module
    :undoc-members:
    :show-inheritance:
 
+crikit.preprocess.tests.test\_crop module
+-----------------------------------------
+
+.. automodule:: crikit.preprocess.tests.test_crop
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 crikit.preprocess.tests.test\_subtract\_dark module
 ---------------------------------------------------
 

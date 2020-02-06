@@ -21,8 +21,8 @@ from crikit.utils.general import pad_edge_mean as _pad_edge_mean
 
 __all__ = ['kkrelation', 'hilbertfft']
 
-def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=1, 
-                   axis=-1, bad_value=1e-8, min_value=None, hilb_kwargs={}, **kwargs):
+def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_to_nrb=True, pad_factor=1, n_edge=1, 
+               axis=-1, no_iter=False, bad_value=1e-8, min_value=None, hilb_kwargs={}, **kwargs):
     """
     Retrieve the real and imaginary components of a CRI spectra(um) via
     the Kramers-Kronig (KK) relation.
@@ -34,12 +34,15 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=
         or three-dimensional
     cri : ndarray
         CRI spectra(um) array that can be one-,two-,or three-dimensional \
+    conjugate : bool
+        If spectra go from high-to-low-wavenumber (left-to-right), you should
+        conjugate the KK output.
     phase_offset : float or ndarray, optional
         Global phase offset applied to the KK, which effecively controls \
         the real-to-imaginary components relationship
-    norm_by_bg : bool
+    norm_to_nrb : bool
         Should the output be normalized by the square-root of the \
-        background (bg) spectrum(a)
+        background/NRB spectrum(a)
     pad_factor : int
         The multiple number of spectra-length pads that will be
         applied before and after the original spectra
@@ -47,6 +50,9 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=
         For edge values, take a mean of n_edge neighbors
     axis : int, optional
         Axis to perform over
+    no_iter : bool
+        (3D matrices with f-axis=-1) Force full matrix calculation in-memory, as
+        opposed to column-by-column (default).
     min_value : float, optional
         Applies to cri/bg (the ratio). Values below min_value set to min_value
     bad_value : float, optional
@@ -89,12 +95,22 @@ def kkrelation(bg, cri, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=
         ratio[_np.isinf(ratio)] = bad_value
         ratio[ratio <= 0] = bad_value
 
-    ph = _np.exp(1j * (hilbertfft(0.5 * _np.log(ratio), **hilb_kwargs) + phase_offset))
-
-    if norm_by_bg:
-        return _np.sqrt(cri / bg) * ph
+    if (ratio.ndim == 3) & ((axis == -1) | (axis == 2)) & (not no_iter):
+        ph = _np.zeros(ratio.shape, dtype = _np.complex)
+        for num in range(ratio.shape[0]):
+            ph[num, ...] = _np.exp(1j * (hilbertfft(0.5 * _np.log(ratio[num, ...]), **hilb_kwargs) + phase_offset))
     else:
-        return _np.sqrt(cri) * ph
+        ph = _np.exp(1j * (hilbertfft(0.5 * _np.log(ratio), **hilb_kwargs) + phase_offset))
+    
+    if conjugate:
+        _np.conjugate(ph, out=ph)
+    
+    if norm_to_nrb:
+        ph *= _np.sqrt(ratio)
+        return ph
+    else:
+        ph *= _np.sqrt(cri)
+        return ph
 
 
 def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, min_value=None, **kwargs):
@@ -176,33 +192,11 @@ def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, mi
 if __name__ == '__main__':  # pragma: no cover
     import timeit as _timeit
 
-    x = _np.random.rand(300,900)
-    print(x.dtype)
-    y = _np.random.rand(300,900)
-    
-    
-    if _pyfftw_available:
-        start = _timeit.default_timer()
-        #out = kkrelation(x,y)
-        out = hilbertfft(x)
-        start -= _timeit.default_timer()
-        print('PyFFTW Time (Trial 1): {:.3g} sec'.format(-start))
-
-        start = _timeit.default_timer()
-        #out = kkrelation(x,y)
-        out = hilbertfft(x)
-        start -= _timeit.default_timer()
-        print('PyFFTW Time (Trial 2): {:.3g} sec'.format(-start))
+    x = _np.abs(10e3*_np.random.rand(330, 330, 900))+1.0
 
     start = _timeit.default_timer()
-    #out = kkrelation(x,y)
-    out = hilbertfft(x, use_pyfftw=False)
+    out = kkrelation(x,x)
+    
     start -= _timeit.default_timer()
     print('Scipy Time (Trial 1): {:.3g} sec'.format(-start))
-
-    start = _timeit.default_timer()
-    #out = kkrelation(x,y)
-    out = hilbertfft(x, use_pyfftw=False)
-    start -= _timeit.default_timer()
-    print('Scipy Time (Trial 2): {:.3g} sec'.format(-start))
 

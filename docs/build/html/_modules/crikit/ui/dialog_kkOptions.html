@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.dialog_kkOptions &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.ui.dialog_kkOptions &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -95,8 +95,9 @@
     <span class="n">CARS_AMP</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">PHASE_OFFSET</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">PAD_FACTOR</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">N_EDGE</span> <span class="o">=</span> <span class="mi">30</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conjugate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DialogKKOptions</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_KKOptions</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
@@ -106,6 +107,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PHASE_OFFSET</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NORM_TO_NRB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAD_FACTOR</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N_EDGE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">conjugate</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">norm_to_nrb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NORM_TO_NRB</span>
 
@@ -130,10 +133,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxNRBAmp</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;nrb_amp_offset&#39;</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">])</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="DialogKKOptions.dialogKKOptions"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">dialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conjugate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve dark subtraction dialog results</span>
 
@@ -149,7 +154,7 @@
 <span class="sd">            In order: CARS amp offset, NRB amp offset, phase offset, normalize</span>
 <span class="sd">                by NRB, pad factor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogKKOptions</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">conjugate</span><span class="o">=</span><span class="n">conjugate</span><span class="p">)</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
 
@@ -160,6 +165,8 @@
             <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">doubleSpinBoxPhase</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
             <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNormToNRB</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
             <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">ret</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div></div>
@@ -224,7 +231,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

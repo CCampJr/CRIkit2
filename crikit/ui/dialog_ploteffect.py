@@ -169,8 +169,8 @@ class DialogPlotEffect(_QDialog):
         """
         try:
             affected_data = self.plugin.fcn(self.data)
-        except:
-            print('Error in plugin.fcn')
+        except Exception as e:
+            print('Error in plugin.fcn: {}'.format(e))
         else:
             # If affected_data is a list, [0] is added to the original data
             # plots and is bolded
@@ -283,17 +283,30 @@ if __name__ == '__main__':
 
     app = _QApplication(_sys.argv)
     
-#    WN = _np.linspace(500,4000,800)
+    # from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra
 
-    calib_dict = {'n_pix' : 1600,
-                  'ctr_wl' : 730,
-                  'ctr_wl0' : 730,
-                  'a_vec' : [-0.167740721307557, 863.8736708961577],
-                  'probe': 771.461}
+    # x_reps = _np.arange(100)
+    # dark = _np.random.rand(100,800)
+    # dark[::10] *= 2
+
+    # plugin = widgetCutEveryNSpectra()
+    # winPlotEffect = DialogPlotEffect.dialogPlotEffect(dark.sum(axis=-1), x=x_reps, plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
+    # _sys.exit()
+
+    WN = _np.linspace(500,4000,800)
+    
+
+    # calib_dict = {'n_pix' : 1600,
+    #               'ctr_wl' : 730,
+    #               'ctr_wl0' : 730,
+    #               'a_vec' : [-0.167740721307557, 863.8736708961577],
+    #               'probe': 771.461}
                   
-    pix = _np.arange(calib_dict['n_pix'])
-    wl = calib_dict['a_vec'][0]*pix + calib_dict['a_vec'][1]
-    WN = .01/(wl*1e-9) - .01/(calib_dict['probe']*1e-9)
+    # pix = _np.arange(calib_dict['n_pix'])
+    # wl = calib_dict['a_vec'][0]*pix + calib_dict['a_vec'][1]
+    # WN = .01/(wl*1e-9) - .01/(calib_dict['probe']*1e-9)
     
     CARS = _np.abs(1/(1000-WN-1j*20) + 1/(3000-WN-1j*20) + .055)
     NRB = 0*WN + .055
@@ -310,7 +323,7 @@ if __name__ == '__main__':
     # NRB_RIGHT[WN<500] += 1e-6
     
     # from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
-    from crikit.utils.general import find_nearest as _find_nearest
+    # from crikit.utils.general import find_nearest as _find_nearest
     # NRB2 = _MergeNRBs(nrb_left=NRB_LEFT, nrb_right=NRB_RIGHT, 
     #                  pix=_find_nearest(WN, 1885.0)[1],
     #                  left_side_scale=False).calculate()
@@ -326,14 +339,14 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #
 ##    # ALS
-    from crikit.ui.widget_ALS import widgetALS as _widgetALS
+    # from crikit.ui.widget_ALS import widgetALS as _widgetALS
 
-    rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
-    plugin = _widgetALS(x=WN, rng=rng)
-    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
-                                                            plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
+    # rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
+    # plugin = _widgetALS(x=WN, rng=rng)
+    # winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
+    #                                                         plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
 #
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
@@ -360,14 +373,14 @@ if __name__ == '__main__':
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
 #    
-#    # KK
-#    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
-#    plugin = _widgetKK()
-#    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
-#                                                            plugin=plugin)
-#    if winPlotEffect is not None:
-#        print(winPlotEffect.parameters)
-#        
+   # KK
+    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
+    plugin = _widgetKK()
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
+                                                           plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
+        
 #    # Calibrate
 #    from crikit.ui.widget_Calibrate import (widgetCalibrate as 
 #                                                _widgetCalibrate)

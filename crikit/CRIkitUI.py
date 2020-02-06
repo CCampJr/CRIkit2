@@ -77,6 +77,7 @@ import crikit.measurement.peakamps as _peakamps
 
 from crikit.preprocess.crop import ZeroColumn as _ZeroColumn
 from crikit.preprocess.crop import ZeroRow as _ZeroRow
+from crikit.preprocess.crop import CutEveryNSpectra as _CutEveryNSpectra
 from crikit.preprocess.denoise import SVDDecompose, SVDRecompose
 from crikit.preprocess.standardize import Anscombe as _Anscombe
 from crikit.preprocess.standardize import AnscombeInverse as _AnscombeInverse
@@ -104,6 +105,8 @@ from crikit.ui.widget_images import (widgetBWImg, widgetCompositeColor, widgetSg
 
 from crikit.ui.widget_mergeNRBs import widgetMergeNRBs as _widgetMergeNRBs
 from crikit.ui.widget_SG import widgetSG as _widgetSG
+
+from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra as _widgetCutEveryNSpectra
 
 from crikit.utils.breadcrumb import BCPre as _BCPre
 from crikit.utils.general import find_nearest, mean_nd_to_1d, std_nd_to_1d
@@ -305,6 +308,8 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.actionNRB_from_ROI_Right_Side.triggered.connect(self.nrbFromROI)
 
         self.ui.actionMergeNRBs.triggered.connect(self.mergeNRBs)
+        self.ui.actionCropDarkSpectra.triggered.connect(self.cutEveryNSpectra)
+        self.ui.actionCropNRBSpectra.triggered.connect(self.cutEveryNSpectra)
 
         self.ui.actionCreateMosaic.triggered.connect(self.mosaicTool)
 
@@ -615,8 +620,9 @@ class CRIkitUI_process(_QMainWindow):
                                             self.hsi._data, pth=self.save_path,
                                             attr_dict= attr_dict, sort_attrs=True,
                                             chunks=True, verbose=True)
-            except Exception:
+            except Exception as e:
                 _traceback.print_exc(limit=1)
+                print('Error in KK: {}'.format(e))
             else:
                 if ret_save:
                     print('Save succeeded with no errors.')
@@ -678,9 +684,9 @@ class CRIkitUI_process(_QMainWindow):
                 print('to_open: {}'.format(to_open))
                 if to_open is not None:
                     self.path, self.filename, self.dataset_name = to_open
-            except Exception:
+            except Exception as e:
                 _traceback.print_exc(limit=1)
-                print('Could not open file. Corrupt or not appropriate file format.')
+                print('Could not open file. Corrupt or not appropriate file format: {}'.format(e))
             else:
                 if to_open is not None:
                     self.hsi = Hsi()
@@ -1328,6 +1334,47 @@ class CRIkitUI_process(_QMainWindow):
 
         else:
             pass
+
+    def cutEveryNSpectra(self):
+        """
+        Cut m spectra every n spectra
+        """
+        sdr = self.sender()
+        if sdr == self.ui.actionCropDarkSpectra:
+            preview_spectra = self.dark.data.sum(axis=-1)
+        elif sdr == self.ui.actionCropNRBSpectra:
+            preview_spectra = self.nrb.data.sum(axis=-1)
+        plugin = _widgetCutEveryNSpectra()
+        
+        winPlotEffect = _DialogPlotEffect.dialogPlotEffect(data=preview_spectra,
+                                                            x=_np.arange(preview_spectra.size),
+                                                            plugin=plugin)
+
+        if winPlotEffect is not None:
+            # Do stuff here
+            params = _copy.deepcopy(winPlotEffect.parameters)
+            params.pop('name')
+            params.pop('long_name')
+
+            cutter = _CutEveryNSpectra(**params)
+            if sdr == self.ui.actionCropDarkSpectra:
+                self.dark.data = cutter.calculate(self.dark.data)
+                # Backup for Undo
+                h_list = ['CutDark']
+                for k in params:
+                    h_list.extend([k, params[k]])
+                self.bcpre.add_step(h_list)
+                self.updateHistory()
+            elif sdr == self.ui.actionCropNRBSpectra:
+                self.nrb.data = cutter.calculate(self.nrb.data)
+                h_list = ['CutNRB']
+                for k in params:
+                    h_list.extend([k, params[k]])
+                self.bcpre.add_step(h_list)
+                self.updateHistory()
+        else:
+            pass
+        del winPlotEffect
 
     def settings(self):
         """
@@ -2068,24 +2115,41 @@ class CRIkitUI_process(_QMainWindow):
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
 
+        try:
+            if (self.hsi.f[1] - self.hsi.f[0]) < 0:
+                conj = True
+            else:
+                conj = False
+        except:
+            conj = False
+
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
-                                                    nrb[..., rng],
-                                                    preview_spectra], parent=self)
+                                              nrb[..., rng],
+                                              preview_spectra], parent=self,
+                                              conjugate=conj)
 
         if out is not None:
             cars_amp_offset = out['cars_amp']
             nrb_amp_offset = out['nrb_amp']
             phase_offset = out['phase_offset']
+            conjugate = out['conjugate']
             norm_to_nrb = out['norm_to_nrb']
             pad_factor = out['pad_factor']
+            n_edge = out['n_edge']
 
             kk = KramersKronig(cars_amp_offset=cars_amp_offset,
                                nrb_amp_offset=nrb_amp_offset,
+                               conjugate=conjugate,
                                phase_offset=phase_offset, norm_to_nrb=norm_to_nrb,
-                               pad_factor=pad_factor,
+                               pad_factor=pad_factor, n_edge=n_edge,
                                rng=rng)
 
-            self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
+            try:
+                self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
+            except Exception as e:
+                _traceback.print_exc(limit=1)
+                print('Error in KK: {}'.format(e))
+
             self.changeSlider()
 
             self.ui.actionPhaseErrorCorrection.setEnabled(True)
@@ -2094,7 +2158,8 @@ class CRIkitUI_process(_QMainWindow):
             # Backup for Undo
             self.bcpre.add_step(['KK', 'CARSAmp', cars_amp_offset, 'NRBAmp',
                                  nrb_amp_offset, 'Phase', phase_offset,
-                                 'Norm', norm_to_nrb])
+                                 'Norm', norm_to_nrb, 'Pad Factor', pad_factor,
+                                 'N Edge', n_edge])
             self.updateHistory()
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
@@ -2674,7 +2739,7 @@ class CRIkitUI_process(_QMainWindow):
         """
         Calculate Anscombe Parameters
         """
-        dark_sub = _np.any(['Dark' in k for k in self.bcpre.attr_dict])
+        dark_sub = _np.any(['SubDark' in k for k in self.bcpre.attr_dict])
 
         out = DialogCalcAnscombeParams.dialogCalcAnscombeParams(parent=self, dark_array=self.dark.data,
                                                                 rep_array=self.nrb.data, 
@@ -3581,9 +3646,9 @@ class CRIkitUI_process(_QMainWindow):
                 to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Mask Image')
             else:
                 to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Mask Image')
-        except Exception:
+        except Exception as e:
             _traceback.print_exc(limit=1)
-            print('Could not open file. Corrupt or not appropriate file format.')
+            print('Could not open file. Corrupt or not appropriate file format: {}'.format(e))
         else:
             if to_open is not None:
                 path, filename, dataset_name = to_open

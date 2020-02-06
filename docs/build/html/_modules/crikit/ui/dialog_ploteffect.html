@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.dialog_ploteffect &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.ui.dialog_ploteffect &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -207,8 +207,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">affected_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">fcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in plugin.fcn&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in plugin.fcn: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If affected_data is a list, [0] is added to the original data</span>
             <span class="c1"># plots and is bolded</span>
@@ -321,17 +321,30 @@
 
     <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
     
-<span class="c1">#    WN = _np.linspace(500,4000,800)</span>
+    <span class="c1"># from crikit.ui.widget_Cut_every_n_spectra import widgetCutEveryNSpectra</span>
 
-    <span class="n">calib_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_pix&#39;</span> <span class="p">:</span> <span class="mi">1600</span><span class="p">,</span>
-                  <span class="s1">&#39;ctr_wl&#39;</span> <span class="p">:</span> <span class="mi">730</span><span class="p">,</span>
-                  <span class="s1">&#39;ctr_wl0&#39;</span> <span class="p">:</span> <span class="mi">730</span><span class="p">,</span>
-                  <span class="s1">&#39;a_vec&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.167740721307557</span><span class="p">,</span> <span class="mf">863.8736708961577</span><span class="p">],</span>
-                  <span class="s1">&#39;probe&#39;</span><span class="p">:</span> <span class="mf">771.461</span><span class="p">}</span>
+    <span class="c1"># x_reps = _np.arange(100)</span>
+    <span class="c1"># dark = _np.random.rand(100,800)</span>
+    <span class="c1"># dark[::10] *= 2</span>
+
+    <span class="c1"># plugin = widgetCutEveryNSpectra()</span>
+    <span class="c1"># winPlotEffect = DialogPlotEffect.dialogPlotEffect(dark.sum(axis=-1), x=x_reps, plugin=plugin)</span>
+    <span class="c1"># if winPlotEffect is not None:</span>
+    <span class="c1">#     print(winPlotEffect.parameters)</span>
+    <span class="c1"># _sys.exit()</span>
+
+    <span class="n">WN</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span>
+    
+
+    <span class="c1"># calib_dict = {&#39;n_pix&#39; : 1600,</span>
+    <span class="c1">#               &#39;ctr_wl&#39; : 730,</span>
+    <span class="c1">#               &#39;ctr_wl0&#39; : 730,</span>
+    <span class="c1">#               &#39;a_vec&#39; : [-0.167740721307557, 863.8736708961577],</span>
+    <span class="c1">#               &#39;probe&#39;: 771.461}</span>
                   
-    <span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">])</span>
-    <span class="n">wl</span> <span class="o">=</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">pix</span> <span class="o">+</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">WN</span> <span class="o">=</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">wl</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span> <span class="o">-</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span>
+    <span class="c1"># pix = _np.arange(calib_dict[&#39;n_pix&#39;])</span>
+    <span class="c1"># wl = calib_dict[&#39;a_vec&#39;][0]*pix + calib_dict[&#39;a_vec&#39;][1]</span>
+    <span class="c1"># WN = .01/(wl*1e-9) - .01/(calib_dict[&#39;probe&#39;]*1e-9)</span>
     
     <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span><span class="p">)</span>
     <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span>
@@ -348,7 +361,7 @@
     <span class="c1"># NRB_RIGHT[WN&lt;500] += 1e-6</span>
     
     <span class="c1"># from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs</span>
-    <span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="k">import</span> <span class="n">find_nearest</span> <span class="k">as</span> <span class="n">_find_nearest</span>
+    <span class="c1"># from crikit.utils.general import find_nearest as _find_nearest</span>
     <span class="c1"># NRB2 = _MergeNRBs(nrb_left=NRB_LEFT, nrb_right=NRB_RIGHT, </span>
     <span class="c1">#                  pix=_find_nearest(WN, 1885.0)[1],</span>
     <span class="c1">#                  left_side_scale=False).calculate()</span>
@@ -364,14 +377,14 @@
 <span class="c1">#        print(winPlotEffect.parameters)</span>
 <span class="c1">#</span>
 <span class="c1">##    # ALS</span>
-    <span class="kn">from</span> <span class="nn">crikit.ui.widget_ALS</span> <span class="k">import</span> <span class="n">widgetALS</span> <span class="k">as</span> <span class="n">_widgetALS</span>
+    <span class="c1"># from crikit.ui.widget_ALS import widgetALS as _widgetALS</span>
 
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">*</span><span class="n">_find_nearest</span><span class="p">(</span><span class="n">WN</span><span class="p">,</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">3800</span><span class="p">])[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetALS</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">WN</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-    <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">DialogPlotEffect</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">(</span><span class="n">CARS</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">WN</span><span class="p">,</span>
-                                                            <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">winPlotEffect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="c1"># rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])</span>
+    <span class="c1"># plugin = _widgetALS(x=WN, rng=rng)</span>
+    <span class="c1"># winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,</span>
+    <span class="c1">#                                                         plugin=plugin)</span>
+    <span class="c1"># if winPlotEffect is not None:</span>
+    <span class="c1">#     print(winPlotEffect.parameters)</span>
 <span class="c1">#</span>
 <span class="c1">#    # ArPLS</span>
 <span class="c1">#    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS</span>
@@ -398,14 +411,14 @@
 <span class="c1">#    if winPlotEffect is not None:</span>
 <span class="c1">#        print(winPlotEffect.parameters)</span>
 <span class="c1">#    </span>
-<span class="c1">#    # KK</span>
-<span class="c1">#    from crikit.ui.widget_KK import (widgetKK as _widgetKK)</span>
-<span class="c1">#    plugin = _widgetKK()</span>
-<span class="c1">#    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,</span>
-<span class="c1">#                                                            plugin=plugin)</span>
-<span class="c1">#    if winPlotEffect is not None:</span>
-<span class="c1">#        print(winPlotEffect.parameters)</span>
-<span class="c1">#        </span>
+   <span class="c1"># KK</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.widget_KK</span> <span class="k">import</span> <span class="p">(</span><span class="n">widgetKK</span> <span class="k">as</span> <span class="n">_widgetKK</span><span class="p">)</span>
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetKK</span><span class="p">()</span>
+    <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">DialogPlotEffect</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">([</span><span class="n">NRB</span><span class="p">,</span><span class="n">CARS</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="n">WN</span><span class="p">,</span>
+                                                           <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">winPlotEffect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">winPlotEffect</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+        
 <span class="c1">#    # Calibrate</span>
 <span class="c1">#    from crikit.ui.widget_Calibrate import (widgetCalibrate as </span>
 <span class="c1">#                                                _widgetCalibrate)</span>
@@ -465,7 +478,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

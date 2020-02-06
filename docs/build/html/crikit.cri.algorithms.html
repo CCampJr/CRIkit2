@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.algorithms package &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.cri.algorithms package &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -56,20 +56,24 @@ Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
 </dl>
 <dl class="function">
 <dt id="crikit.cri.algorithms.kk.kkrelation">
-<code class="sig-prename descclassname">crikit.cri.algorithms.kk.</code><code class="sig-name descname">kkrelation</code><span class="sig-paren">(</span><em class="sig-param">bg</em>, <em class="sig-param">cri</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_by_bg=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">crikit.cri.algorithms.kk.</code><code class="sig-name descname">kkrelation</code><span class="sig-paren">(</span><em class="sig-param">bg</em>, <em class="sig-param">cri</em>, <em class="sig-param">conjugate=False</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">no_iter=False</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the real and imaginary components of a CRI spectra(um) via
 the Kramers-Kronig (KK) relation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bg</strong> (<em>ndarray</em>) – Coherent background (bg) spectra(um) array that can be one-, two-,         or three-dimensional</p></li>
-<li><p><strong>cri</strong> (<em>ndarray</em>) – CRI spectra(um) array that can be one-,two-,or three-dimensional     phase_offset : float or ndarray, optional
-Global phase offset applied to the KK, which effecively controls         the real-to-imaginary components relationship</p></li>
-<li><p><strong>norm_by_bg</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Should the output be normalized by the square-root of the         background (bg) spectrum(a)</p></li>
+<li><p><strong>cri</strong> (<em>ndarray</em>) – CRI spectra(um) array that can be one-,two-,or three-dimensional     conjugate : bool
+If spectra go from high-to-low-wavenumber (left-to-right), you should
+conjugate the KK output.</p></li>
+<li><p><strong>phase_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>ndarray</em><em>, </em><em>optional</em>) – Global phase offset applied to the KK, which effecively controls         the real-to-imaginary components relationship</p></li>
+<li><p><strong>norm_to_nrb</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Should the output be normalized by the square-root of the         background/NRB spectrum(a)</p></li>
 <li><p><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The multiple number of spectra-length pads that will be
 applied before and after the original spectra</p></li>
 <li><p><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</p></li>
 <li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</p></li>
+<li><p><strong>no_iter</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – (3D matrices with f-axis=-1) Force full matrix calculation in-memory, as
+opposed to column-by-column (default).</p></li>
 <li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cri/bg (the ratio). Values below min_value set to min_value</p></li>
 <li><p><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Applies to cri/bg (the ratio). Inf’s and NaN’s set to bad_value</p></li>
 <li><p><strong>hilb_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – kwargs sent to the hilbert transform. Only pad_factor, n_edge, and axis
@@ -197,7 +201,7 @@ Boca Raton, CRC Press LLC (1999).</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

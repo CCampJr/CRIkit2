@@ -8,19 +8,33 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
-0.2.3 ()
+0.2.4 ()
 ----------------
+
+0.2.3 (20-02-06)
+----------------
+-   Added more tests
+    -   Algorithms: KK, hilbert
+-   KK (class) uses less memory but at a slight decrease to speed using iteration. 'no_iter' flag to disable.
+-   Visualize the real part of the KK in interactive mode
+-   Conjugate the KK (function, class, and GUI)
+    -   Support for spectra that are high-to-low wavenumber oriented (left-to-right)
+    -   Auto-checks for this in the KK dialog (UI), though not in interactive mode
+-   Crop (or some other options) m spectra every n spectra
+    -   In preprocess.crop
+    -   Added GUI as well (Preprocess header) -- separate for NRB and Dark
+-   Updated KK GUI to incorporate edge-averaging (n_edge KK parameter)
 
 0.2.2 (19-11-20)
 ----------------
 
-- Added a calculate Anscombe parameters function (calc_anscombe_parameters) to crikit.preprocess.standardize
+-   Added a calculate Anscombe parameters function (calc_anscombe_parameters) to crikit.preprocess.standardize
     -   Added an associated GUI dialog for calculating based on NRB and Dark spectra (Preprocess>Standardize submenu)
     -   Note: you will need to perform Dark subtraction before performing the Anscombe transform (though the calculation of parameters can handle either scenario)
     -   Added unittest for calculation function (not the GUI itself)
     -   Added Jupyter Notebook (Calculating Anscombe Parameters.ipynb) to demonstrate use of calc_anscombe_parameters
-- Added a function that will take the respective RGB images + composite and de-mosaic them into TIFFs (NIST Special > DeMosaic RGB Images)
-- Fixes
+-   Added a function that will take the respective RGB images + composite and de-mosaic them into TIFFs (NIST Special > DeMosaic RGB Images)
+-   Fixes
     -   Closing Mosaic tool doesn't close CRIkit UI as well
 
 0.2.1 (19-09-17)

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.crop &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.preprocess.crop &#8212; CRIKit2 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -129,36 +129,131 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div></div>
 
+<div class="viewcode-block" id="CutEveryNSpectra"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra">[docs]</a><span class="k">class</span> <span class="nc">CutEveryNSpectra</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cut m spectra between every n spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    offset : int, option (default = 0)</span>
+<span class="sd">        Start the process at the offset-th position</span>
+
+<span class="sd">    cut_m : int, optional (default = 1)</span>
+<span class="sd">        Cut m spectra at a time</span>
+
+<span class="sd">    every_n : int, optional (default = 100)</span>
+<span class="sd">        Spacing between cuts</span>
+<span class="sd">    </span>
+<span class="sd">    action : str</span>
+<span class="sd">        Whether to &#39;cut&#39;, use the &#39;mean&#39; of the remaining, replace with the spectrum &#39;before&#39; or &#39;after&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        ndarray</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">    Currently, this class performs the action on a copy of the data, returning a copy</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;cut&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_m</span> <span class="o">=</span> <span class="n">cut_m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">every_n</span> <span class="o">=</span> <span class="n">every_n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<div class="viewcode-block" id="CutEveryNSpectra._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pix_to_affect</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_m</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">every_n</span><span class="p">)])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="n">pix_to_stay</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">pix_to_affect</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
+                <span class="n">meaner</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,:]</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_affect</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;cut&#39;</span><span class="p">:</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;before&#39;</span><span class="p">:</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,:]</span>
+                <span class="n">new_pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">pix_to_affect</span><span class="p">])</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_affect</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">new_pix</span><span class="p">,:]</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;after&#39;</span><span class="p">:</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pix_to_stay</span><span class="p">,:]</span>
+                <span class="c1"># The modulus is so if the +1 the last pix is selected</span>
+                <span class="c1"># it goes back to the first pix</span>
+                <span class="n">new_pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">pix_to_affect</span><span class="p">])</span> <span class="o">%</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="n">pix_to_affect</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">new_pix</span><span class="p">,:]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="CutEveryNSpectra.transform"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Currently, this class can only return a copy of the data.&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CutEveryNSpectra.calculate"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">!=</span> <span class="s1">&#39;cut&#39;</span><span class="p">:</span>
+            <span class="n">data_copy</span> <span class="o">=</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_pix_to_affect</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_m</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">every_n</span><span class="p">)])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">data_copy</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">n_pix_to_affect</span><span class="p">:,:]</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">data_copy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data_copy</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
+
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
 
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">ZeroColumn</span><span class="p">(</span><span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">z</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Zero First Column&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is first column sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is first row sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># temp = _np.random.rand(3,4,5)</span>
+    <span class="c1"># z = ZeroColumn(first_or_last=0)</span>
+    <span class="c1"># z.transform(temp)</span>
+    <span class="c1"># print(&#39;Zero First Column&#39;)</span>
+    <span class="c1"># print(&#39;Is first column sum-0?: {}&#39;.format(temp.sum(axis=(0,-1))[0] == 0))</span>
+    <span class="c1"># print(&#39;Is first row sum-0?: {}&#39;.format(temp.sum(axis=(1,-1))[0] == 0))</span>
 
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">ZeroRow</span><span class="p">(</span><span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">z</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Zero First Row&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is first column sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is first row sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># temp = _np.random.rand(3,4,5)</span>
+    <span class="c1"># z = ZeroRow(first_or_last=0)</span>
+    <span class="c1"># z.transform(temp)</span>
+    <span class="c1"># print(&#39;\n\nZero First Row&#39;)</span>
+    <span class="c1"># print(&#39;Is first column sum-0?: {}&#39;.format(temp.sum(axis=(0,-1))[0] == 0))</span>
+    <span class="c1"># print(&#39;Is first row sum-0?: {}&#39;.format(temp.sum(axis=(1,-1))[0] == 0))</span>
 
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">ZeroColumn</span><span class="p">(</span><span class="n">first_or_last</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">z</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Zero Last Column&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is last column sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is last row sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># temp = _np.random.rand(3,4,5)</span>
+    <span class="c1"># z = ZeroColumn(first_or_last=-1)</span>
+    <span class="c1"># z.transform(temp)</span>
+    <span class="c1"># print(&#39;\n\nZero Last Column&#39;)</span>
+    <span class="c1"># print(&#39;Is last column sum-0?: {}&#39;.format(temp.sum(axis=(0,-1))[-1] == 0))</span>
+    <span class="c1"># print(&#39;Is last row sum-0?: {}&#39;.format(temp.sum(axis=(1,-1))[-1] == 0))</span>
 
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">ZeroRow</span><span class="p">(</span><span class="n">first_or_last</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">z</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Zero First Row&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is last column sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Is last row sum-0?: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># temp = _np.random.rand(3,4,5)</span>
+    <span class="c1"># z = ZeroRow(first_or_last=-1)</span>
+    <span class="c1"># z.transform(temp)</span>
+    <span class="c1"># print(&#39;\n\nZero First Row&#39;)</span>
+    <span class="c1"># print(&#39;Is last column sum-0?: {}&#39;.format(temp.sum(axis=(0,-1))[-1] == 0))</span>
+    <span class="c1"># print(&#39;Is last row sum-0?: {}&#39;.format(temp.sum(axis=(1,-1))[-1] == 0))</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">temp</span> <span class="o">=</span>  <span class="n">_np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">temp</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">110</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">CutEveryNSpectra</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;cut&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    
+    <span class="n">c</span> <span class="o">=</span> <span class="n">CutEveryNSpectra</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;cut&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">temp</span> <span class="o">=</span>  <span class="n">_np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">temp</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">110</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">CutEveryNSpectra</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;before&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">==</span> <span class="mi">10</span><span class="o">/</span><span class="mi">6</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">temp</span> <span class="o">=</span>  <span class="n">_np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">temp</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">110</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">CutEveryNSpectra</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;after&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">==</span> <span class="mi">8</span><span class="o">/</span><span class="mi">6</span>
+
 </pre></div>
 
           </div>
@@ -189,7 +284,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

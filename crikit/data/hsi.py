@@ -187,7 +187,7 @@ class Hsi(_Spectrum):
     @data.setter
     def data(self, value):
         if not isinstance(value, _np.ndarray):
-            raise TypeError('data must be of type ndarray')
+            raise TypeError('data must be of type ndarray, not {}'.format(type(value)))
 
         ax_rs = self._reshape_axes(value.shape, self.config['nd_axis'])
 
