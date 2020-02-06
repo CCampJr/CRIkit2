@@ -37,3 +37,13 @@ def test_hilbert_replace_min_value():
     hilb_y = hilbertfft(y, pad_factor=10, min_value=0)
     hilb_y_analytical = x/(2**2 + x**2)
     assert_array_almost_equal(hilb_y_analytical, hilb_y, decimal=4)
+
+def test_hilbert_in_place():
+    x = np.linspace(-100, 100, 1000)
+    y = 2/(2**2 + x**2)
+
+    out = hilbertfft(y, pad_factor=10, copy=False)
+    assert out is None
+    
+    hilb_y_analytical = x/(2**2 + x**2)
+    assert_array_almost_equal(hilb_y_analytical, y, decimal=4)
