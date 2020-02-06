@@ -21,7 +21,7 @@ from crikit.utils.general import pad_edge_mean as _pad_edge_mean
 
 __all__ = ['kkrelation', 'hilbertfft']
 
-def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_by_bg=True, pad_factor=1, n_edge=1, 
+def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_to_nrb=True, pad_factor=1, n_edge=1, 
                axis=-1, no_iter=False, bad_value=1e-8, min_value=None, hilb_kwargs={}, **kwargs):
     """
     Retrieve the real and imaginary components of a CRI spectra(um) via
@@ -40,9 +40,9 @@ def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_by_bg=True, pad_
     phase_offset : float or ndarray, optional
         Global phase offset applied to the KK, which effecively controls \
         the real-to-imaginary components relationship
-    norm_by_bg : bool
+    norm_to_nrb : bool
         Should the output be normalized by the square-root of the \
-        background (bg) spectrum(a)
+        background/NRB spectrum(a)
     pad_factor : int
         The multiple number of spectra-length pads that will be
         applied before and after the original spectra
@@ -105,7 +105,7 @@ def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_by_bg=True, pad_
     if conjugate:
         _np.conjugate(ph, out=ph)
     
-    if norm_by_bg:
+    if norm_to_nrb:
         ph *= _np.sqrt(ratio)
         return ph
     else:
