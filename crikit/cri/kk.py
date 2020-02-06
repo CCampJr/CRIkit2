@@ -160,36 +160,32 @@ class KramersKronig:
 
     def _calc(self, cars, nrb, ret_obj):
 
-        try:
-            # Assume that an nD nrb should be averaged to be 1D
-            # TODO: Change this in the future to accept matching NRB's
-            nrb = _mean_nd_to_1d(nrb)
-            
-            if self.rng is None:
-                kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
-                                  cri=cars + self.cars_amp_offset,
-                                  hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
-                ret_obj *= 0
-                ret_obj += kkd
-            else:
-                slice_cars_rng = cars.ndim*[slice(None)]
-                slice_cars_rng[self.kk_kwargs['axis']] = self.rng
-                slice_cars_rng = tuple(slice_cars_rng)
-
-                slice_ret_obj = ret_obj.ndim*[slice(None)]
-                slice_ret_obj[self.kk_kwargs['axis']] = self.rng
-                slice_ret_obj = tuple(slice_ret_obj)
-
-                kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
-                                  cri=cars[slice_cars_rng] + self.cars_amp_offset,
-                                  hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
-                ret_obj *= 0
-                ret_obj[slice_ret_obj] += kkd
-        except Exception as e:
-            print('Error: {}'.format(e))
-            return False
+        # Assume that an nD nrb should be averaged to be 1D
+        # TODO: Change this in the future to accept matching NRB's
+        nrb = _mean_nd_to_1d(nrb)
+        
+        if self.rng is None:
+            kkd = _kkrelation(bg=nrb + self.nrb_amp_offset,
+                                cri=cars + self.cars_amp_offset,
+                                hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
+            ret_obj *= 0
+            ret_obj += kkd
         else:
-            return True
+            slice_cars_rng = cars.ndim*[slice(None)]
+            slice_cars_rng[self.kk_kwargs['axis']] = self.rng
+            slice_cars_rng = tuple(slice_cars_rng)
+
+            slice_ret_obj = ret_obj.ndim*[slice(None)]
+            slice_ret_obj[self.kk_kwargs['axis']] = self.rng
+            slice_ret_obj = tuple(slice_ret_obj)
+
+            kkd = _kkrelation(bg=nrb[self.rng] + self.nrb_amp_offset,
+                                cri=cars[slice_cars_rng] + self.cars_amp_offset,
+                                hilb_kwargs=self.hilb_kwargs, **self.kk_kwargs)
+            ret_obj *= 0
+            ret_obj[slice_ret_obj] += kkd
+        
+        return True
 
     def calculate(self, cars, nrb):
         """
@@ -201,12 +197,9 @@ class KramersKronig:
         """
 
         kkd = _np.zeros(cars.shape, dtype=_np.complex)
-        success = self._calc(cars, nrb, ret_obj=kkd)
-        if success:
-            return kkd
-        else:
-            return None
-
+        self._calc(cars, nrb, ret_obj=kkd)
+        return kkd
+        
     def _transform(self, cars, nrb):
         if issubclass(cars.dtype.type, _np.complex):
             success = self._calc(cars, nrb, ret_obj=cars)
