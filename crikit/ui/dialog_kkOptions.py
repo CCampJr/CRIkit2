@@ -59,7 +59,7 @@ class DialogKKOptions(_QDialog):
     PAD_FACTOR = 1
     N_EDGE = 30
 
-    def __init__(self, parent=None, data=None):
+    def __init__(self, parent=None, data=None, conjugate=False):
         super(DialogKKOptions, self).__init__(parent) ### EDIT ###
         self.ui = Ui_KKOptions() ### EDIT ###
         self.ui.setupUi(self)     ### EDIT ###
@@ -70,6 +70,7 @@ class DialogKKOptions(_QDialog):
         self.ui.checkBoxNormToNRB.setChecked(self.NORM_TO_NRB)
         self.ui.spinBoxPadFactor.setValue(self.PAD_FACTOR)
         self.ui.spinBoxEdge.setValue(self.N_EDGE)
+        self.ui.checkBoxConjugate.setChecked(conjugate)
 
         self.norm_to_nrb = self.NORM_TO_NRB
 
@@ -96,9 +97,10 @@ class DialogKKOptions(_QDialog):
             self.ui.doubleSpinBoxPhase.setValue(winPlotEffect.parameters['phase_offset'])
             self.ui.spinBoxPadFactor.setValue(winPlotEffect.parameters['pad_factor'])
             self.ui.spinBoxEdge.setValue(winPlotEffect.parameters['n_edge'])
+            self.ui.checkBoxConjugate.setChecked(winPlotEffect.parameters['conjugate'])
 
     @staticmethod
-    def dialogKKOptions(parent=None, data=None):
+    def dialogKKOptions(parent=None, data=None, conjugate=False):
         """
         Retrieve dark subtraction dialog results
 
@@ -114,7 +116,7 @@ class DialogKKOptions(_QDialog):
             In order: CARS amp offset, NRB amp offset, phase offset, normalize
                 by NRB, pad factor
         """
-        dialog = DialogKKOptions(parent=parent,data=data)
+        dialog = DialogKKOptions(parent=parent,data=data, conjugate=conjugate)
 
         result = dialog.exec_()
 
@@ -126,6 +128,7 @@ class DialogKKOptions(_QDialog):
             ret['norm_to_nrb'] = dialog.ui.checkBoxNormToNRB.isChecked()
             ret['pad_factor'] = dialog.ui.spinBoxPadFactor.value()
             ret['n_edge'] = dialog.ui.spinBoxEdge.value()
+            ret['conjugate'] = dialog.ui.checkBoxConjugate.isChecked()
             return ret
         else:
             return None

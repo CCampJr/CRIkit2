@@ -10,7 +10,11 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
 0.2.3 ()
 ----------------
-
+-   KK (class) uses less memory but at a slight decrease to speed using iteration. 'no_iter' flag to disable.
+-   Visualize the real part of the KK in interactive mode
+-   Conjugate the KK (function, class, and GUI)
+    -   Support for spectra that are high-to-low wavenumber oriented (left-to-right)
+    -   Auto-checks for this in the KK dialog (UI), though not in interactive mode
 -   Crop (or some other options) m spectra every n spectra
     -   In preprocess.crop
     -   Added GUI as well (Preprocess header) -- separate for NRB and Dark

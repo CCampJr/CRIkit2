@@ -169,6 +169,13 @@
           </property>
          </widget>
         </item>
+        <item row="7" column="4">
+         <widget class="QCheckBox" name="checkBoxConjugate">
+          <property name="text">
+           <string>Conjugate</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
