@@ -620,8 +620,9 @@ class CRIkitUI_process(_QMainWindow):
                                             self.hsi._data, pth=self.save_path,
                                             attr_dict= attr_dict, sort_attrs=True,
                                             chunks=True, verbose=True)
-            except Exception:
+            except Exception as e:
                 _traceback.print_exc(limit=1)
+                print('Error in KK: {}'.format(e))
             else:
                 if ret_save:
                     print('Save succeeded with no errors.')
@@ -683,9 +684,9 @@ class CRIkitUI_process(_QMainWindow):
                 print('to_open: {}'.format(to_open))
                 if to_open is not None:
                     self.path, self.filename, self.dataset_name = to_open
-            except Exception:
+            except Exception as e:
                 _traceback.print_exc(limit=1)
-                print('Could not open file. Corrupt or not appropriate file format.')
+                print('Could not open file. Corrupt or not appropriate file format: {}'.format(e))
             else:
                 if to_open is not None:
                     self.hsi = Hsi()
@@ -2143,7 +2144,12 @@ class CRIkitUI_process(_QMainWindow):
                                pad_factor=pad_factor, n_edge=n_edge,
                                rng=rng)
 
-            self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
+            try:
+                self.hsi.data = kk.calculate(self.hsi.data, self.nrb.data)
+            except Exception as e:
+                _traceback.print_exc(limit=1)
+                print('Error in KK: {}'.format(e))
+
             self.changeSlider()
 
             self.ui.actionPhaseErrorCorrection.setEnabled(True)
@@ -3640,9 +3646,9 @@ class CRIkitUI_process(_QMainWindow):
                 to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Mask Image')
             else:
                 to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Mask Image')
-        except Exception:
+        except Exception as e:
             _traceback.print_exc(limit=1)
-            print('Could not open file. Corrupt or not appropriate file format.')
+            print('Could not open file. Corrupt or not appropriate file format: {}'.format(e))
         else:
             if to_open is not None:
                 path, filename, dataset_name = to_open
