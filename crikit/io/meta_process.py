@@ -210,6 +210,7 @@ def meta_process(rosetta, output_cls_instance):
 
             del start, stop, steps, units
         except Exception as e:
+            _traceback.print_exc(limit=1)
             print('Something failed in meta_process: HSI-spatial calib: {}'.format(e))
 
     elif type(output_cls_instance) == _Spectra:
