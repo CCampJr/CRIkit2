@@ -115,7 +115,7 @@ class KramersKronig:
         # KK kwargs
         self.kk_kwargs = {'conjugate':conjugate,
                           'phase_offset':phase_offset,
-                          'norm_by_bg':norm_to_nrb,
+                          'norm_to_nrb':norm_to_nrb,
                           'pad_factor':pad_factor,
                           'n_edge':n_edge, 
                           'axis':axis,

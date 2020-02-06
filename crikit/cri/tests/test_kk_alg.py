@@ -33,7 +33,7 @@ def test_kk_no_bg_norm():
     x = np.linspace(-100, 100, 1000)
     y = 2/(2**2 + x**2)
 
-    kkd = kkrelation(0*y + 1, y, norm_by_bg=False)
+    kkd = kkrelation(0*y + 1, y, norm_to_nrb=False)
     assert_array_almost_equal(np.abs(kkd), np.sqrt(y))
 
 def test_kk_3d():
@@ -41,5 +41,5 @@ def test_kk_3d():
     y = 2/(2**2 + x**2)
     y = y[:, None, None]
 
-    kkd = kkrelation(0*y + 1, y, norm_by_bg=False)
+    kkd = kkrelation(0*y + 1, y, norm_to_nrb=False)
     assert_array_almost_equal(np.abs(kkd), np.sqrt(y))
