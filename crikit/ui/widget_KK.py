@@ -71,7 +71,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
                       }
                       
     def __init__(self, cars_amp_offset=0.0, nrb_amp_offset=0.0,
-                 phase_offset=0.0, norm_to_nrb=True, pad_factor=1,
+                 conjugate=False, phase_offset=0.0, norm_to_nrb=True, pad_factor=1,
                  n_edge=30, parent=None):
         
         super(widgetKK, self).__init__(parent)
@@ -80,7 +80,8 @@ class widgetKK(_AbstractPlotEffectPlugin):
         self.ui.setupUi(self)
         
         self.lock_cars_nrb_bias = True
-        
+        self.show_real = False
+
         # Update parameter dict
         self.parameters['cars_amp_offset'] = cars_amp_offset
         self.parameters['nrb_amp_offset'] = nrb_amp_offset
@@ -88,14 +89,17 @@ class widgetKK(_AbstractPlotEffectPlugin):
         self.parameters['norm_to_nrb'] = norm_to_nrb
         self.parameters['pad_factor'] = pad_factor
         self.parameters['n_edge'] = n_edge
+        self.parameters['conjugate'] = conjugate
                 
         self.setupKK()
         
     def setupKK(self):
 
         self.ui.checkBoxNRBNorm.setChecked(self.parameters['norm_to_nrb'])
+        self.ui.checkBoxConjugate.setChecked(self.parameters['conjugate'])
         self.ui.checkBoxLockBias.setChecked(self.lock_cars_nrb_bias)
-        
+        self.ui.checkBoxShowReal.setChecked(self.show_real)
+
         self.ui.spinBoxCARSBias.setValue(self.parameters['cars_amp_offset'])
         self.ui.spinBoxNRBBias.setValue(self.parameters['nrb_amp_offset'])
         self.ui.spinBoxPhaseLin.setValue(self.parameters['phase_offset'])
@@ -110,6 +114,9 @@ class widgetKK(_AbstractPlotEffectPlugin):
         self.ui.spinBoxEdge.editingFinished.connect(self.spinBoxChanged)
         
         self.ui.checkBoxNRBNorm.clicked.connect(self.changeCheckBoxNRBNorm)
+        self.ui.checkBoxConjugate.clicked.connect(self.changeCheckBoxConjugate)
+        self.ui.checkBoxShowReal.clicked.connect(self.changeShowReal)
+
         self.ui.checkBoxLockBias.clicked.connect(self.changeCheckBoxLockBias)
 
         self.ui.spinBoxNRBBias.setEnabled(not self.lock_cars_nrb_bias)
@@ -133,6 +140,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
                
         cars_amp_offset = self.parameters['cars_amp_offset']
         nrb_amp_offset = self.parameters['nrb_amp_offset'] 
+        conjugate = self.parameters['conjugate']
         phase_offset = self.parameters['phase_offset'] 
         norm_to_nrb = self.parameters['norm_to_nrb']
         pad_factor = self.parameters['pad_factor']
@@ -140,6 +148,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
         
         _kk = _KramersKronig(cars_amp_offset=cars_amp_offset,
                              nrb_amp_offset=nrb_amp_offset,
+                             conjugate=conjugate,
                              phase_offset=phase_offset,
                              norm_to_nrb=norm_to_nrb,
                              pad_factor=pad_factor,
@@ -147,7 +156,10 @@ class widgetKK(_AbstractPlotEffectPlugin):
 
         data_out = _kk.calculate(cars, nrb)
         
-        return data_out.imag
+        if self.show_real:
+            return data_out.real
+        else:
+            return data_out.imag
 
     def spinBoxChanged(self):
         """
@@ -191,6 +203,19 @@ class widgetKK(_AbstractPlotEffectPlugin):
             self.parameters['norm_to_nrb'] = False
         self.changed.emit()
 
+    def changeCheckBoxConjugate(self):
+        if self.ui.checkBoxConjugate.isChecked():
+            self.parameters['conjugate'] = True
+        else:
+            self.parameters['conjugate'] = False
+        self.changed.emit()
+        
+    def changeShowReal(self):
+        if self.show_real:
+            self.show_real = False
+        else:
+            self.show_real = True
+        self.changed.emit()
         
 if __name__ == '__main__':
     import sys as _sys

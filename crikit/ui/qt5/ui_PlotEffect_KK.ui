@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>752</width>
-    <height>174</height>
+    <height>215</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -141,6 +141,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBoxConjugate">
+        <property name="text">
+         <string>Conjugate</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBoxNRBNorm">
         <property name="text">
          <string>Norm to NRB</string>
@@ -210,6 +217,13 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowReal">
+        <property name="text">
+         <string>Show Real Part</string>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer_4">

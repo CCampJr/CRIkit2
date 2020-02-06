@@ -2114,20 +2114,31 @@ class CRIkitUI_process(_QMainWindow):
         # Range of pixels to perform-over
         rng = self.hsi.freq.op_range_pix
 
+        try:
+            if (self.hsi.f[1] - self.hsi.f[0]) < 0:
+                conj = True
+            else:
+                conj = False
+        except:
+            conj = False
+
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
-                                                    nrb[..., rng],
-                                                    preview_spectra], parent=self)
+                                              nrb[..., rng],
+                                              preview_spectra], parent=self,
+                                              conjugate=conj)
 
         if out is not None:
             cars_amp_offset = out['cars_amp']
             nrb_amp_offset = out['nrb_amp']
             phase_offset = out['phase_offset']
+            conjugate = out['conjugate']
             norm_to_nrb = out['norm_to_nrb']
             pad_factor = out['pad_factor']
             n_edge = out['n_edge']
 
             kk = KramersKronig(cars_amp_offset=cars_amp_offset,
                                nrb_amp_offset=nrb_amp_offset,
+                               conjugate=conjugate,
                                phase_offset=phase_offset, norm_to_nrb=norm_to_nrb,
                                pad_factor=pad_factor, n_edge=n_edge,
                                rng=rng)
