@@ -10,6 +10,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
 0.2.3 ()
 ----------------
+-   Added more tests
+    -   Algorithms: KK, hilbert
 -   KK (class) uses less memory but at a slight decrease to speed using iteration. 'no_iter' flag to disable.
 -   Visualize the real part of the KK in interactive mode
 -   Conjugate the KK (function, class, and GUI)
