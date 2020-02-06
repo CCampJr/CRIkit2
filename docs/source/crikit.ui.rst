@@ -147,6 +147,14 @@ crikit.ui.widget\_Calibrate module
    :undoc-members:
    :show-inheritance:
 
+crikit.ui.widget\_Cut\_every\_n\_spectra module
+-----------------------------------------------
+
+.. automodule:: crikit.ui.widget_Cut_every_n_spectra
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 crikit.ui.widget\_DeTrending module
 -----------------------------------
 

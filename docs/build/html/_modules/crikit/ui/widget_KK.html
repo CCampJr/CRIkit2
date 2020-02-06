@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.widget_KK &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.ui.widget_KK &#8212; CRIKit2 0.2.3rc0 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -109,8 +109,8 @@
                       <span class="p">}</span>
                       
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nrb_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                 <span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">norm_to_nrb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-                 <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">conjugate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">norm_to_nrb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">n_edge</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="nb">super</span><span class="p">(</span><span class="n">widgetKK</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         
@@ -118,33 +118,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">lock_cars_nrb_bias</span> <span class="o">=</span> <span class="kc">True</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_real</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="c1"># Update parameter dict</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;cars_amp_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cars_amp_offset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;nrb_amp_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nrb_amp_offset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_offset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_to_nrb</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pad_factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_edge</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conjugate</span>
                 
         <span class="bp">self</span><span class="o">.</span><span class="n">setupKK</span><span class="p">()</span>
         
 <div class="viewcode-block" id="widgetKK.setupKK"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.setupKK">[docs]</a>    <span class="k">def</span> <span class="nf">setupKK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNRBNorm</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxLockBias</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lock_cars_nrb_bias</span><span class="p">)</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxShowReal</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">show_real</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCARSBias</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;cars_amp_offset&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNRBBias</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;nrb_amp_offset&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPhaseLin</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">])</span>
 
         <span class="c1"># SIGNALS &amp; SLOTS</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxCARSBias</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNRBBias</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPhaseLin</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spinBoxChanged</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxNRBNorm</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">changeCheckBoxNRBNorm</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">changeCheckBoxConjugate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxShowReal</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">changeShowReal</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxLockBias</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">changeCheckBoxLockBias</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxNRBBias</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock_cars_nrb_bias</span><span class="p">)</span></div>
@@ -168,19 +178,26 @@
                
         <span class="n">cars_amp_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;cars_amp_offset&#39;</span><span class="p">]</span>
         <span class="n">nrb_amp_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;nrb_amp_offset&#39;</span><span class="p">]</span> 
+        <span class="n">conjugate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">]</span>
         <span class="n">phase_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">]</span> 
         <span class="n">norm_to_nrb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">]</span>
         <span class="n">pad_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span>
+        <span class="n">n_edge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">]</span>
         
         <span class="n">_kk</span> <span class="o">=</span> <span class="n">_KramersKronig</span><span class="p">(</span><span class="n">cars_amp_offset</span><span class="o">=</span><span class="n">cars_amp_offset</span><span class="p">,</span>
                              <span class="n">nrb_amp_offset</span><span class="o">=</span><span class="n">nrb_amp_offset</span><span class="p">,</span>
+                             <span class="n">conjugate</span><span class="o">=</span><span class="n">conjugate</span><span class="p">,</span>
                              <span class="n">phase_offset</span><span class="o">=</span><span class="n">phase_offset</span><span class="p">,</span>
                              <span class="n">norm_to_nrb</span><span class="o">=</span><span class="n">norm_to_nrb</span><span class="p">,</span>
-                             <span class="n">pad_factor</span><span class="o">=</span><span class="n">pad_factor</span><span class="p">)</span>
+                             <span class="n">pad_factor</span><span class="o">=</span><span class="n">pad_factor</span><span class="p">,</span>
+                             <span class="n">n_edge</span><span class="o">=</span><span class="n">n_edge</span><span class="p">)</span>
 
         <span class="n">data_out</span> <span class="o">=</span> <span class="n">_kk</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">data_out</span><span class="o">.</span><span class="n">imag</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_real</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data_out</span><span class="o">.</span><span class="n">real</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data_out</span><span class="o">.</span><span class="n">imag</span></div>
 
 <div class="viewcode-block" id="widgetKK.spinBoxChanged"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.spinBoxChanged">[docs]</a>    <span class="k">def</span> <span class="nf">spinBoxChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -204,7 +221,8 @@
             
         <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-            
+        <span class="k">elif</span> <span class="n">sdr</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_edge&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxEdge</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="widgetKK.changeCheckBoxLockBias"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.changeCheckBoxLockBias">[docs]</a>    <span class="k">def</span> <span class="nf">changeCheckBoxLockBias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -223,10 +241,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="widgetKK.changeSpinBoxPadFactor"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.changeSpinBoxPadFactor">[docs]</a>    <span class="k">def</span> <span class="nf">changeSpinBoxPadFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pad_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">spinBoxPadFactor</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div></div>
+<div class="viewcode-block" id="widgetKK.changeCheckBoxConjugate"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.changeCheckBoxConjugate">[docs]</a>    <span class="k">def</span> <span class="nf">changeCheckBoxConjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">checkBoxConjugate</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conjugate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
         
+<div class="viewcode-block" id="widgetKK.changeShowReal"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_KK.widgetKK.changeShowReal">[docs]</a>    <span class="k">def</span> <span class="nf">changeShowReal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_real</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show_real</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show_real</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div></div>
         
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
@@ -270,7 +297,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

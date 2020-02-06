@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.kk &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.cri.kk &#8212; CRIKit2 0.2.3rc0 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -77,6 +77,10 @@
 <span class="sd">    nrb_amp_offset : float, optional (default=0.0)</span>
 <span class="sd">        DC offset applied to NRB spectrum(a) prior to KK relation. See Notes \</span>
 <span class="sd">        and Ref. [2].</span>
+
+<span class="sd">    conjugate : bool</span>
+<span class="sd">        If spectra go from high-to-low-wavenumber (left-to-right), you should</span>
+<span class="sd">        conjugate the KK output.</span>
 
 <span class="sd">    phase_offset : float or ndarray, optional (default=0.0)</span>
 <span class="sd">        Phase constant or ndarray applied to retrieved phase prior to \</span>
@@ -138,7 +142,7 @@
 <span class="sd">    Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nrb_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nrb_amp_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">conjugate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">norm_to_nrb</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
                  <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_edge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">bad_value</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">hilb_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -147,8 +151,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">hilb_kwargs</span> <span class="o">=</span> <span class="n">hilb_kwargs</span>
 
         <span class="c1"># KK kwargs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">:</span><span class="n">phase_offset</span><span class="p">,</span>
-                          <span class="s1">&#39;norm_by_bg&#39;</span><span class="p">:</span><span class="n">norm_to_nrb</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;conjugate&#39;</span><span class="p">:</span><span class="n">conjugate</span><span class="p">,</span>
+                          <span class="s1">&#39;phase_offset&#39;</span><span class="p">:</span><span class="n">phase_offset</span><span class="p">,</span>
+                          <span class="s1">&#39;norm_to_nrb&#39;</span><span class="p">:</span><span class="n">norm_to_nrb</span><span class="p">,</span>
                           <span class="s1">&#39;pad_factor&#39;</span><span class="p">:</span><span class="n">pad_factor</span><span class="p">,</span>
                           <span class="s1">&#39;n_edge&#39;</span><span class="p">:</span><span class="n">n_edge</span><span class="p">,</span> 
                           <span class="s1">&#39;axis&#39;</span><span class="p">:</span><span class="n">axis</span><span class="p">,</span>
@@ -193,36 +198,32 @@
 
 <div class="viewcode-block" id="KramersKronig._calc"><a class="viewcode-back" href="../../../crikit.cri.html#crikit.cri.kk.KramersKronig._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Assume that an nD nrb should be averaged to be 1D</span>
-            <span class="c1"># TODO: Change this in the future to accept matching NRB&#39;s</span>
-            <span class="n">nrb</span> <span class="o">=</span> <span class="n">_mean_nd_to_1d</span><span class="p">(</span><span class="n">nrb</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">kkd</span> <span class="o">=</span> <span class="n">_kkrelation</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="n">nrb</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_amp_offset</span><span class="p">,</span>
+        <span class="c1"># Assume that an nD nrb should be averaged to be 1D</span>
+        <span class="c1"># TODO: Change this in the future to accept matching NRB&#39;s</span>
+        <span class="n">nrb</span> <span class="o">=</span> <span class="n">_mean_nd_to_1d</span><span class="p">(</span><span class="n">nrb</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kkd</span> <span class="o">=</span> <span class="n">_kkrelation</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="n">nrb</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_amp_offset</span><span class="p">,</span>
                                 <span class="n">cri</span><span class="o">=</span><span class="n">cars</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cars_amp_offset</span><span class="p">,</span>
                                 <span class="n">hilb_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hilb_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">)</span>
-                <span class="n">ret_obj</span> <span class="o">*=</span> <span class="mi">0</span>
-                <span class="n">ret_obj</span> <span class="o">+=</span> <span class="n">kkd</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">slice_cars_rng</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
-                <span class="n">slice_cars_rng</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span>
-                <span class="n">slice_cars_rng</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">slice_cars_rng</span><span class="p">)</span>
-
-                <span class="n">slice_ret_obj</span> <span class="o">=</span> <span class="n">ret_obj</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
-                <span class="n">slice_ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span>
-                <span class="n">slice_ret_obj</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">slice_ret_obj</span><span class="p">)</span>
-
-                <span class="n">kkd</span> <span class="o">=</span> <span class="n">_kkrelation</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="n">nrb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_amp_offset</span><span class="p">,</span>
-                                        <span class="n">cri</span><span class="o">=</span><span class="n">cars</span><span class="p">[</span><span class="n">slice_cars_rng</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cars_amp_offset</span><span class="p">,</span>
-                                        <span class="n">hilb_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hilb_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">)</span>
-                <span class="n">ret_obj</span> <span class="o">*=</span> <span class="mi">0</span>
-                <span class="n">ret_obj</span><span class="p">[</span><span class="n">slice_ret_obj</span><span class="p">]</span> <span class="o">+=</span> <span class="n">kkd</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="n">ret_obj</span> <span class="o">*=</span> <span class="mi">0</span>
+            <span class="n">ret_obj</span> <span class="o">+=</span> <span class="n">kkd</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="n">slice_cars_rng</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+            <span class="n">slice_cars_rng</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span>
+            <span class="n">slice_cars_rng</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">slice_cars_rng</span><span class="p">)</span>
+
+            <span class="n">slice_ret_obj</span> <span class="o">=</span> <span class="n">ret_obj</span><span class="o">.</span><span class="n">ndim</span><span class="o">*</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+            <span class="n">slice_ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">[</span><span class="s1">&#39;axis&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span>
+            <span class="n">slice_ret_obj</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">slice_ret_obj</span><span class="p">)</span>
+
+            <span class="n">kkd</span> <span class="o">=</span> <span class="n">_kkrelation</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="n">nrb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_amp_offset</span><span class="p">,</span>
+                                <span class="n">cri</span><span class="o">=</span><span class="n">cars</span><span class="p">[</span><span class="n">slice_cars_rng</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cars_amp_offset</span><span class="p">,</span>
+                                <span class="n">hilb_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hilb_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kk_kwargs</span><span class="p">)</span>
+            <span class="n">ret_obj</span> <span class="o">*=</span> <span class="mi">0</span>
+            <span class="n">ret_obj</span><span class="p">[</span><span class="n">slice_ret_obj</span><span class="p">]</span> <span class="o">+=</span> <span class="n">kkd</span>
+        
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="KramersKronig.calculate"><a class="viewcode-back" href="../../../crikit.cri.html#crikit.cri.kk.KramersKronig.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -234,12 +235,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">kkd</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
-        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">kkd</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">kkd</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">kkd</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kkd</span></div>
+        
 <div class="viewcode-block" id="KramersKronig._transform"><a class="viewcode-back" href="../../../crikit.cri.html#crikit.cri.kk.KramersKronig._transform">[docs]</a>    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">complex</span><span class="p">):</span>
             <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span>
@@ -364,7 +362,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

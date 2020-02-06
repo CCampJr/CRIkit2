@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri package &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.cri package &#8212; CRIKit2 0.2.3rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -132,7 +132,7 @@ Opt. Lett. 34, 1363-1365 (2009).</p>
 <p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
 <dl class="class">
 <dt id="crikit.cri.kk.KramersKronig">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.kk.</code><code class="sig-name descname">KramersKronig</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.kk.</code><code class="sig-name descname">KramersKronig</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">conjugate=False</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Retrieve the real and imaginary components of coherent Raman data via the     Kramers-Kronig (KK) relation. See References.</p>
 <dl class="field-list simple">
@@ -140,6 +140,8 @@ Opt. Lett. 34, 1363-1365 (2009).</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cars_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to CARS spectrum(a) prior to KK relation. See Notes         and Ref. [2].</p></li>
 <li><p><strong>nrb_amp_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – DC offset applied to NRB spectrum(a) prior to KK relation. See Notes         and Ref. [2].</p></li>
+<li><p><strong>conjugate</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If spectra go from high-to-low-wavenumber (left-to-right), you should
+conjugate the KK output.</p></li>
 <li><p><strong>phase_offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>ndarray</em><em>, </em><em>optional</em><em> (</em><em>default=0.0</em><em>)</em>) – Phase constant or ndarray applied to retrieved phase prior to         separating the real and imaginary components. See Notes         and Ref. [2].</p></li>
 <li><p><strong>norm_to_nrb</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions. Highly recommended. See Ref. [2]</p></li>
 <li><p><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=1</em><em>)</em>) – Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum. See Ref. [1].</p></li>
@@ -291,7 +293,7 @@ Coherent Raman signal.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

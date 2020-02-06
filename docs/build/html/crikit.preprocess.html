@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess package &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.preprocess package &#8212; CRIKit2 0.2.3rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -54,6 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_als">crikit.preprocess.tests.test_als module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_anscombe">crikit.preprocess.tests.test_anscombe module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_baseline_sub">crikit.preprocess.tests.test_baseline_sub module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_crop">crikit.preprocess.tests.test_crop module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests.test_subtract_dark">crikit.preprocess.tests.test_subtract_dark module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crikit.preprocess.tests.html#module-crikit.preprocess.tests">Module contents</a></li>
 </ul>
@@ -68,6 +69,48 @@
 <span id="crikit-preprocess-crop-module"></span><h2>crikit.preprocess.crop module<a class="headerlink" href="#module-crikit.preprocess.crop" title="Permalink to this headline">¶</a></h2>
 <p>Created on Tue Jun 21 14:28:49 2016</p>
 <p>&#64;author: chc</p>
+<dl class="class">
+<dt id="crikit.preprocess.crop.CutEveryNSpectra">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.crop.</code><code class="sig-name descname">CutEveryNSpectra</code><span class="sig-paren">(</span><em class="sig-param">offset=0</em>, <em class="sig-param">cut_m=1</em>, <em class="sig-param">every_n=100</em>, <em class="sig-param">action='cut'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#CutEveryNSpectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.CutEveryNSpectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Cut m spectra between every n spectra</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>offset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>option</em><em> (</em><em>default = 0</em><em>)</em>) – Start the process at the offset-th position</p></li>
+<li><p><strong>cut_m</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 1</em><em>)</em>) – Cut m spectra at a time</p></li>
+<li><p><strong>every_n</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default = 100</em><em>)</em>) – Spacing between cuts</p></li>
+<li><p><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether to ‘cut’, use the ‘mean’ of the remaining, replace with the spectrum ‘before’ or ‘after’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, this class performs the action on a copy of the data, returning a copy</p>
+</div>
+<dl class="method">
+<dt id="crikit.preprocess.crop.CutEveryNSpectra._calc">
+<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#CutEveryNSpectra._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.CutEveryNSpectra._calc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.CutEveryNSpectra.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#CutEveryNSpectra.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.CutEveryNSpectra.calculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.preprocess.crop.CutEveryNSpectra.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#CutEveryNSpectra.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.CutEveryNSpectra.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="crikit.preprocess.crop.ZeroColumn">
 <em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.crop.</code><code class="sig-name descname">ZeroColumn</code><span class="sig-paren">(</span><em class="sig-param">first_or_last=0</em>, <em class="sig-param">zero_col=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/crop.html#ZeroColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.crop.ZeroColumn" title="Permalink to this definition">¶</a></dt>
@@ -619,7 +662,7 @@ but with more chance of non-optimal detrending)</p></li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui package &#8212; CRIKit2 0.2.2 documentation</title>
+    <title>crikit.ui package &#8212; CRIKit2 0.2.3rc0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -498,7 +498,7 @@ at first.</p>
 <p>[1] C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
 <dl class="class">
 <dt id="crikit.ui.dialog_kkOptions.DialogKKOptions">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.ui.dialog_kkOptions.</code><code class="sig-name descname">DialogKKOptions</code><span class="sig-paren">(</span><em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.ui.dialog_kkOptions.</code><code class="sig-name descname">DialogKKOptions</code><span class="sig-paren">(</span><em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em>, <em class="sig-param">conjugate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
 <p>DialogKKOptions : Phase-Retrieval (only Kramers-Kronig currently         supported) options dialog</p>
 <dl class="method">
@@ -525,6 +525,11 @@ at first.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.N_EDGE">
+<code class="sig-name descname">N_EDGE</code><em class="property"> = 30</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.N_EDGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.PAD_FACTOR">
 <code class="sig-name descname">PAD_FACTOR</code><em class="property"> = 1</em><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.PAD_FACTOR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -536,7 +541,7 @@ at first.</p>
 
 <dl class="method">
 <dt id="crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions">
-<em class="property">static </em><code class="sig-name descname">dialogKKOptions</code><span class="sig-paren">(</span><em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions.dialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">dialogKKOptions</code><span class="sig-paren">(</span><em class="sig-param">parent=None</em>, <em class="sig-param">data=None</em>, <em class="sig-param">conjugate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/dialog_kkOptions.html#DialogKKOptions.dialogKKOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.dialog_kkOptions.DialogKKOptions.dialogKKOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve dark subtraction dialog results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1330,6 +1335,121 @@ rather the independent variable)</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-crikit.ui.widget_Cut_every_n_spectra">
+<span id="crikit-ui-widget-cut-every-n-spectra-module"></span><h2>crikit.ui.widget_Cut_every_n_spectra module<a class="headerlink" href="#module-crikit.ui.widget_Cut_every_n_spectra" title="Permalink to this headline">¶</a></h2>
+<p>Widget for PlotEffect that sets the parameters to cut M spectra of every N spectra</p>
+<dl class="class">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.ui.widget_Cut_every_n_spectra.</code><code class="sig-name descname">widgetCutEveryNSpectra</code><span class="sig-paren">(</span><em class="sig-param">offset=0</em>, <em class="sig-param">cut_m=1</em>, <em class="sig-param">every_n=100</em>, <em class="sig-param">action='cut'</em>, <em class="sig-param">parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Cut_every_n_spectra.html#widgetCutEveryNSpectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
+<p>Widget for PlotEffect that adjusts the parameters appropriate for
+the Cutting Every N Spectra.</p>
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.cars_amp_offset">
+<code class="sig-name descname">cars_amp_offset</code><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.cars_amp_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>DC offset applied to CARS spectrum(a) prior to KK relation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>, optional (default=0.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.nrb_amp_offset">
+<code class="sig-name descname">nrb_amp_offset</code><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.nrb_amp_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>DC offset applied to NRB spectrum(a) prior to KK relation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a>, optional (default=0.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.phase_offset">
+<code class="sig-name descname">phase_offset</code><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.phase_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase constant or ndarray applied to retrieved phase prior to
+separating the real and imaginary components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)">float</a> or ndarray, optional (default=0.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.norm_to_nrb">
+<code class="sig-name descname">norm_to_nrb</code><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.norm_to_nrb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the amplitude by sqrt(NRB). This effectively removes several         system reponse functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a>, optional (default=True)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.pad_factor">
+<code class="sig-name descname">pad_factor</code><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.pad_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple size of spectral-length to pad the ends of each spectra with.         Padded with a constant value corresponding to the value at that end of         the spectrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, optional (default=1)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">fcn : Performs the KK</code></dt>
+<dd></dd></dl>
+
+<dl class="simple">
+<dt>Signals:</dt><dd><p>changed : a value in the UI has changed</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.comboBoxChanged">
+<code class="sig-name descname">comboBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Cut_every_n_spectra.html#widgetCutEveryNSpectra.comboBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.comboBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action comboBox box changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.fcn">
+<code class="sig-name descname">fcn</code><span class="sig-paren">(</span><em class="sig-param">data_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Cut_every_n_spectra.html#widgetCutEveryNSpectra.fcn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.fcn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the plot with the appropriate cuts</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.labels_affected">
+<code class="sig-name descname">labels_affected</code><em class="property"> = {'title': 'Cropped Spectra', 'x_label': 'Repetition Number', 'y_label': 'Intensity (au)'}</em><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.labels_affected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.labels_orig">
+<code class="sig-name descname">labels_orig</code><em class="property"> = {'title': 'Original', 'x_label': 'Repetition Number', 'y_label': 'Intensity (au)'}</em><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.labels_orig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.parameters">
+<code class="sig-name descname">parameters</code><em class="property"> = {'long_name': 'Cut M Spectra Every N Spectra', 'name': 'CutEveryNSpectra'}</em><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.setupOptions">
+<code class="sig-name descname">setupOptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Cut_every_n_spectra.html#widgetCutEveryNSpectra.setupOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.setupOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.spinBoxChanged">
+<code class="sig-name descname">spinBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_Cut_every_n_spectra.html#widgetCutEveryNSpectra.spinBoxChanged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_Cut_every_n_spectra.widgetCutEveryNSpectra.spinBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for all spinBoxes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-crikit.ui.widget_DeTrending">
 <span id="crikit-ui-widget-detrending-module"></span><h2>crikit.ui.widget_DeTrending module<a class="headerlink" href="#module-crikit.ui.widget_DeTrending" title="Permalink to this headline">¶</a></h2>
 <p>Widget for PlotEffect that contains and presents different detrending
@@ -1408,7 +1528,7 @@ the Kramers-Kronig relation</p>
 <p>&#64;author: chc</p>
 <dl class="class">
 <dt id="crikit.ui.widget_KK.widgetKK">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.ui.widget_KK.</code><code class="sig-name descname">widgetKK</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.ui.widget_KK.</code><code class="sig-name descname">widgetKK</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">conjugate=False</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">n_edge=30</em>, <em class="sig-param">parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin" title="crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.ui.dialog_AbstractPlotEffect.AbstractPlotEffectPlugin</span></code></a></p>
 <p>Widget for PlotEffect that adjusts the parameters appropriate for
 the Kramers-Kronig (KK) relation phase retrieval.</p>
@@ -1478,6 +1598,11 @@ separating the real and imaginary components.</p>
 </dd>
 </dl>
 <dl class="method">
+<dt id="crikit.ui.widget_KK.widgetKK.changeCheckBoxConjugate">
+<code class="sig-name descname">changeCheckBoxConjugate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeCheckBoxConjugate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeCheckBoxConjugate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="crikit.ui.widget_KK.widgetKK.changeCheckBoxLockBias">
 <code class="sig-name descname">changeCheckBoxLockBias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeCheckBoxLockBias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeCheckBoxLockBias" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1488,8 +1613,8 @@ separating the real and imaginary components.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="crikit.ui.widget_KK.widgetKK.changeSpinBoxPadFactor">
-<code class="sig-name descname">changeSpinBoxPadFactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeSpinBoxPadFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeSpinBoxPadFactor" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.ui.widget_KK.widgetKK.changeShowReal">
+<code class="sig-name descname">changeShowReal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/ui/widget_KK.html#widgetKK.changeShowReal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.ui.widget_KK.widgetKK.changeShowReal" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1941,6 +2066,7 @@ merging 2 NRBs</p>
 <li><a class="reference internal" href="#module-crikit.ui.widget_ALS">crikit.ui.widget_ALS module</a></li>
 <li><a class="reference internal" href="#module-crikit.ui.widget_ArPLS">crikit.ui.widget_ArPLS module</a></li>
 <li><a class="reference internal" href="#module-crikit.ui.widget_Calibrate">crikit.ui.widget_Calibrate module</a></li>
+<li><a class="reference internal" href="#module-crikit.ui.widget_Cut_every_n_spectra">crikit.ui.widget_Cut_every_n_spectra module</a></li>
 <li><a class="reference internal" href="#module-crikit.ui.widget_DeTrending">crikit.ui.widget_DeTrending module</a></li>
 <li><a class="reference internal" href="#module-crikit.ui.widget_Jupyter">crikit.ui.widget_Jupyter module</a></li>
 <li><a class="reference internal" href="#module-crikit.ui.widget_KK">crikit.ui.widget_KK module</a></li>
@@ -1986,7 +2112,7 @@ merging 2 NRBs</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.3rc0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
