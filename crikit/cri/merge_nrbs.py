@@ -26,6 +26,11 @@ class MergeNRBs:
         left_side_scale : bool
             Scale the left-side to match the right-side. If FALSE, scales the
             right-side. If None, scales neither.
+
+        Note
+        -----
+        If left_side_scale is None (no scaling). The output will match the nrb_left from [0:pix),
+        and nrb_right from [pix:].
             
         """
         self.nrb_left = nrb_left
@@ -64,17 +69,17 @@ class MergeNRBs:
                 ret_obj += self.nrb_left
                 ret_obj[self.pix::] = self.nrb_right[self.pix::]*scaler
             elif self.scale_left is None:
-                ret_obj[0:self.pix+1] = self.nrb_left[0:self.pix+1]
-                ret_obj[self.pix+1::] = self.nrb_right[self.pix+1::]
+                ret_obj[0:self.pix] = self.nrb_left[0:self.pix]
+                ret_obj[self.pix::] = self.nrb_right[self.pix::]
                 
             else:
-                raise ValueError('self.scale_left must be 0 or 1')
+                raise ValueError('self.scale_left must be True, False, or None')
         except:
             return False
         else:
             return True
            
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     x = _np.arange(0,1000)
     
     nrb_left = _np.exp(-(x-500)**2/(100**2))
