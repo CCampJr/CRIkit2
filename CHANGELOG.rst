@@ -8,7 +8,10 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
-0.2.4 ()
+0.2.5 ()
+----------------
+
+0.2.4 (20-02-19)
 ----------------
 -   Added more unit tests
 -   Performance improvements
