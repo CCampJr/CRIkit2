@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.merge_nrbs &#8212; CRIKit2 0.2.3 documentation</title>
+    <title>crikit.cri.merge_nrbs &#8212; CRIKit2 0.2.4rc0 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.4rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -64,6 +64,11 @@
 <span class="sd">        left_side_scale : bool</span>
 <span class="sd">            Scale the left-side to match the right-side. If FALSE, scales the</span>
 <span class="sd">            right-side. If None, scales neither.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        -----</span>
+<span class="sd">        If left_side_scale is None (no scaling). The output will match the nrb_left from [0:pix),</span>
+<span class="sd">        and nrb_right from [pix:].</span>
 <span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nrb_left</span> <span class="o">=</span> <span class="n">nrb_left</span>
@@ -102,17 +107,17 @@
                 <span class="n">ret_obj</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_left</span>
                 <span class="n">ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">::]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_right</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">::]</span><span class="o">*</span><span class="n">scaler</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_left</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">ret_obj</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_left</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="o">+</span><span class="mi">1</span><span class="p">::]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_right</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="o">+</span><span class="mi">1</span><span class="p">::]</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_left</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">]</span>
+                <span class="n">ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">::]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrb_right</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix</span><span class="p">::]</span>
                 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;self.scale_left must be 0 or 1&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;self.scale_left must be True, False, or None&#39;</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span></div></div>
            
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
     
     <span class="n">nrb_left</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">500</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">100</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
@@ -169,7 +174,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.4rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

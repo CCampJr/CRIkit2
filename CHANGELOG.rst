@@ -10,6 +10,9 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
 0.2.4 ()
 ----------------
+-   Added more unit tests
+-   Performance improvements
+-   Bug fix: Phantom dataset now included in pip installation
 
 0.2.3 (20-02-06)
 ----------------

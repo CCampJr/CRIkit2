@@ -28,6 +28,14 @@ crikit.cri.tests.test\_kk\_alg module
    :undoc-members:
    :show-inheritance:
 
+crikit.cri.tests.test\_merge\_nrbs module
+-----------------------------------------
+
+.. automodule:: crikit.cri.tests.test_merge_nrbs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 crikit.cri.tests.test\_pec module
 ---------------------------------
 
