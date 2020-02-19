@@ -35,14 +35,6 @@ crikit.utils.general module
    :undoc-members:
    :show-inheritance:
 
-crikit.utils.mplstyle module
-----------------------------
-
-.. automodule:: crikit.utils.mplstyle
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 crikit.utils.roi module
 -----------------------
 

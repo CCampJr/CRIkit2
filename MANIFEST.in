@@ -3,6 +3,7 @@ include *.rst
 include LICENSE.md
 include README.rst
 recursive-include crikit/preprocess/algorithms/resources *.mat
+recursive-include crikit/datasets *.csv
 recursive-include docs *
 include Notebooks *.ipynb
 recursive-exclude Notebooks/.ipynb_checkpoints *

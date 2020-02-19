@@ -137,7 +137,7 @@ else:
 
 _mpl.use('Qt5Agg')
 _mpl.rcParams['font.family'] = 'sans-serif'
-_mpl.rcParams['font.size'] = 12
+_mpl.rcParams['font.size'] = 9
 
 jupyter_flag = 0
 try:
@@ -1153,9 +1153,8 @@ class CRIkitUI_process(_QMainWindow):
 
                 mask_hits = _np.sum(mask)
                 if mask_hits > 0:  # Len(mask) > 0
-                    temp = self.hsi.data[..., rng][mask == 1]
+                    temp = self.hsi.data[mask == 1][..., rng]
                     
-
                     if mask_hits > 1:
                         prev_spectra.append(_np.mean(temp, axis=0))
                     else:
