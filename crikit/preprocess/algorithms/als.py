@@ -132,7 +132,8 @@ class AlsCvxopt(AbstractBaseline):
         
         # Convert into sparse matrix
         difference_matrix = _cvxopt.sparse(_cvxopt.matrix(difference_matrix))
-    
+        smoothness_difference_matrix = _cvxopt.mul(self.smoothness_param, difference_matrix.T) * difference_matrix
+
         penalty_vector = _np.ones([self.redux_sig_spectral_size])
         baseline_current = _np.zeros([self.redux_sig_spectral_size])
         baseline_last = _np.zeros([self.redux_sig_spectral_size])
@@ -147,12 +148,9 @@ class AlsCvxopt(AbstractBaseline):
     
             # Iterative asymmetric least squares smoothing
             for ct_iter in range(self.max_iter):
-                penalty_matrix = _cvxopt.spdiag(list(penalty_vector))
+                penalty_matrix = _cvxopt.spdiag(penalty_vector.tolist())
                 
-                minimazation_matrix = (penalty_matrix + 
-                                       _cvxopt.mul(self.smoothness_param, 
-                                                   difference_matrix.T) *
-                                       difference_matrix)
+                minimazation_matrix = penalty_matrix + smoothness_difference_matrix
                                        
                 x = _cvxopt.matrix(penalty_vector[:]*signal_current)
     
@@ -171,19 +169,14 @@ class AlsCvxopt(AbstractBaseline):
                     baseline_current = _np.array(x).squeeze()
         
                     if ct_iter > 0: # Difference check b/w iterations
-                        differ = _np.abs(_np.sum(baseline_current - 
-                                                 baseline_last, axis=0))
+                        differ = _np.abs((baseline_current - baseline_last).sum(axis=0))
                         
                         if differ < self.min_diff:
                             break
                     
-                    # Apply asymmetric penalization
-                    penalty_vector = _np.squeeze(asym_to_use * 
-                                                 (signal_current >= 
-                                                  baseline_current) + 
-                                                 (1-asym_to_use) * 
-                                                 (signal_current < 
-                                                  baseline_current))
+                    gte = (signal_current >= baseline_current)
+                    penalty_vector = asym_to_use * gte + (1-asym_to_use) * ~gte
+
                     if self.fix_end_points:
                         penalty_vector[0] = 1
                         penalty_vector[-1] = 1
@@ -195,7 +188,7 @@ class AlsCvxopt(AbstractBaseline):
                         fix_rng = fix_rng[fix_rng < penalty_vector.size]
                         penalty_vector[fix_rng] = self.fix_const
             
-            baseline_output[coords] = baseline_current
+            baseline_output[coords] = _np.array(baseline_current).squeeze()
             
             if self.verbose:
                 print('Number of iterations to converge: {}'.format(ct_iter))
