@@ -8,13 +8,17 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
-0.2.5 ()
+0.2.6 ()
 ----------------
+
+0.2.5 (20-03-05)
+----------------
+-   Significant performance improvement to ALS-detrending (15-50%)
 
 0.2.4 (20-02-19)
 ----------------
 -   Added more unit tests
--   Performance improvements
+-   Performance improvements (especially related to ROI-spectra)
 -   Bug fix: Phantom dataset now included in pip installation
 
 0.2.3 (20-02-06)
