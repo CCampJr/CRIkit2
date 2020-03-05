@@ -38,7 +38,7 @@ and a user interface.
 Github Repository: https://github.com/CCampJr/CRIkit2
 Docs Website: Coming Soon...
 
-**Note:** Help Documentation available via the Help header within the CRIkit2 GUI
+**Note:** **Help Documentation** available via the Help header within the CRIkit2 GUI (only for git installs, **not pip**)
 
 HSI Processing:
 
