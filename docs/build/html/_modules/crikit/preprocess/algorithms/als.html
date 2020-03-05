@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.algorithms.als &#8212; CRIKit2 0.2.4 documentation</title>
+    <title>crikit.preprocess.algorithms.als &#8212; CRIKit2 0.2.5rc0 documentation</title>
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -170,7 +170,8 @@
         
         <span class="c1"># Convert into sparse matrix</span>
         <span class="n">difference_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="n">_cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">difference_matrix</span><span class="p">))</span>
-    
+        <span class="n">smoothness_difference_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothness_param</span><span class="p">,</span> <span class="n">difference_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">difference_matrix</span>
+
         <span class="n">penalty_vector</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">redux_sig_spectral_size</span><span class="p">])</span>
         <span class="n">baseline_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">redux_sig_spectral_size</span><span class="p">])</span>
         <span class="n">baseline_last</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">redux_sig_spectral_size</span><span class="p">])</span>
@@ -185,12 +186,9 @@
     
             <span class="c1"># Iterative asymmetric least squares smoothing</span>
             <span class="k">for</span> <span class="n">ct_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="p">):</span>
-                <span class="n">penalty_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">spdiag</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">penalty_vector</span><span class="p">))</span>
+                <span class="n">penalty_matrix</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">spdiag</span><span class="p">(</span><span class="n">penalty_vector</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
                 
-                <span class="n">minimazation_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">penalty_matrix</span> <span class="o">+</span> 
-                                       <span class="n">_cvxopt</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothness_param</span><span class="p">,</span> 
-                                                   <span class="n">difference_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span>
-                                       <span class="n">difference_matrix</span><span class="p">)</span>
+                <span class="n">minimazation_matrix</span> <span class="o">=</span> <span class="n">penalty_matrix</span> <span class="o">+</span> <span class="n">smoothness_difference_matrix</span>
                                        
                 <span class="n">x</span> <span class="o">=</span> <span class="n">_cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">penalty_vector</span><span class="p">[:]</span><span class="o">*</span><span class="n">signal_current</span><span class="p">)</span>
     
@@ -209,19 +207,14 @@
                     <span class="n">baseline_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
         
                     <span class="k">if</span> <span class="n">ct_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Difference check b/w iterations</span>
-                        <span class="n">differ</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">baseline_current</span> <span class="o">-</span> 
-                                                 <span class="n">baseline_last</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+                        <span class="n">differ</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">baseline_current</span> <span class="o">-</span> <span class="n">baseline_last</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
                         
                         <span class="k">if</span> <span class="n">differ</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_diff</span><span class="p">:</span>
                             <span class="k">break</span>
                     
-                    <span class="c1"># Apply asymmetric penalization</span>
-                    <span class="n">penalty_vector</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">asym_to_use</span> <span class="o">*</span> 
-                                                 <span class="p">(</span><span class="n">signal_current</span> <span class="o">&gt;=</span> 
-                                                  <span class="n">baseline_current</span><span class="p">)</span> <span class="o">+</span> 
-                                                 <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">asym_to_use</span><span class="p">)</span> <span class="o">*</span> 
-                                                 <span class="p">(</span><span class="n">signal_current</span> <span class="o">&lt;</span> 
-                                                  <span class="n">baseline_current</span><span class="p">))</span>
+                    <span class="n">gte</span> <span class="o">=</span> <span class="p">(</span><span class="n">signal_current</span> <span class="o">&gt;=</span> <span class="n">baseline_current</span><span class="p">)</span>
+                    <span class="n">penalty_vector</span> <span class="o">=</span> <span class="n">asym_to_use</span> <span class="o">*</span> <span class="n">gte</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">asym_to_use</span><span class="p">)</span> <span class="o">*</span> <span class="o">~</span><span class="n">gte</span>
+
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_end_points</span><span class="p">:</span>
                         <span class="n">penalty_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
                         <span class="n">penalty_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -233,7 +226,7 @@
                         <span class="n">fix_rng</span> <span class="o">=</span> <span class="n">fix_rng</span><span class="p">[</span><span class="n">fix_rng</span> <span class="o">&lt;</span> <span class="n">penalty_vector</span><span class="o">.</span><span class="n">size</span><span class="p">]</span>
                         <span class="n">penalty_vector</span><span class="p">[</span><span class="n">fix_rng</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_const</span>
             
-            <span class="n">baseline_output</span><span class="p">[</span><span class="n">coords</span><span class="p">]</span> <span class="o">=</span> <span class="n">baseline_current</span>
+            <span class="n">baseline_output</span><span class="p">[</span><span class="n">coords</span><span class="p">]</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">baseline_current</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
             
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of iterations to converge: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ct_iter</span><span class="p">))</span>
@@ -296,7 +289,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5rc0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
