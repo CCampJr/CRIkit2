@@ -13,6 +13,8 @@ from crikit.data.hsi import Hsi as _Hsi
 
 import numpy as _np
 
+import traceback as _traceback
+
 def rosetta_query(key, rosetta, output_cls_instance):
     """
     Return the highest-priority value

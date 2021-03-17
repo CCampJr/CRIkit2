@@ -10,6 +10,8 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
 0.2.6 ()
 ----------------
+-   Added option to hilbertfft to return full padded results
+-   Bug fixes
 
 0.2.5 (20-03-05)
 ----------------
