@@ -170,6 +170,7 @@ def meta_process(rosetta, output_cls_instance):
             if isinstance(label, bytes):
                 label = label.decode()
 
+            print('Start: {}, Stop: {}, Steps: {}'.format(start, stop, steps))
             output_cls_instance.x_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.x_rep.units = units
             output_cls_instance.x_rep.label = label
