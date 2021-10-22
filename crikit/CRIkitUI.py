@@ -122,7 +122,7 @@ try:
     import crikit2_sw
 except:
     __sw_installed = False
-    print('SW package not installed, using standard')
+    # print('SW package not installed, using standard')
     from crikit.ui.dialog_SVD import DialogSVD
 else:
     __sw_installed = True
@@ -690,6 +690,9 @@ class CRIkitUI_process(_QMainWindow):
             else:
                 if to_open is not None:
                     self.hsi = Hsi()
+                    print('Path: {}'.format(self.path))
+                    print('filename: {}'.format(self.filename))
+                    print('dset name: {}'.format(self.dataset_name))
                     success = io_nist(self.path, self.filename, self.dataset_name,
                                       self.hsi)
                     print('Was successful: {}'.format(success))

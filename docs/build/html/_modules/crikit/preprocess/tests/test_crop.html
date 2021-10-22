@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.tests.test_crop &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.preprocess.tests.test_crop &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/nature.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.tests.test_crop</a></li> 
       </ul>
     </div>  
 
@@ -38,7 +38,7 @@
   <h1>Source code for crikit.preprocess.tests.test_crop</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="k">import</span> <span class="n">CutEveryNSpectra</span><span class="p">,</span> <span class="n">ZeroRow</span><span class="p">,</span> <span class="n">ZeroColumn</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="kn">import</span> <span class="n">CutEveryNSpectra</span><span class="p">,</span> <span class="n">ZeroRow</span><span class="p">,</span> <span class="n">ZeroColumn</span>
 
 <div class="viewcode-block" id="test_zero_col_first_col"><a class="viewcode-back" href="../../../../crikit.preprocess.tests.html#crikit.preprocess.tests.test_crop.test_zero_col_first_col">[docs]</a><span class="k">def</span> <span class="nf">test_zero_col_first_col</span><span class="p">():</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -88,6 +88,7 @@
     <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">==</span> <span class="mi">8</span><span class="o">/</span><span class="mi">6</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -102,7 +103,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -116,13 +117,14 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.tests.test_crop</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

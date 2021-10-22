@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.widget_Jupyter &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.ui.widget_Jupyter &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.widget_Jupyter</a></li> 
       </ul>
     </div>  
 
@@ -45,21 +45,21 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;QT_API&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pyqt5&#39;</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtWidgets</span>
-<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtGui</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtGui</span>
 <span class="c1"># ipython won&#39;t work if this is not correctly installed. And the error message will be misleading</span>
-<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtSvg</span> 
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtSvg</span> 
 
 <span class="c1"># Import the console machinery from ipython</span>
-<span class="kn">from</span> <span class="nn">qtconsole.rich_jupyter_widget</span> <span class="k">import</span> <span class="n">RichJupyterWidget</span>
-<span class="kn">from</span> <span class="nn">qtconsole.inprocess</span> <span class="k">import</span> <span class="n">QtInProcessKernelManager</span>
+<span class="kn">from</span> <span class="nn">qtconsole.rich_jupyter_widget</span> <span class="kn">import</span> <span class="n">RichJupyterWidget</span>
+<span class="kn">from</span> <span class="nn">qtconsole.inprocess</span> <span class="kn">import</span> <span class="n">QtInProcessKernelManager</span>
 <span class="c1">#from IPython.qt.console.rich_ipython_widget import RichIPythonWidget</span>
 <span class="c1">#from IPython.qt.inprocess import QtInProcessKernelManager</span>
 
 
 <div class="viewcode-block" id="QJupyterWidget"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_Jupyter.QJupyterWidget">[docs]</a><span class="k">class</span> <span class="nc">QJupyterWidget</span><span class="p">(</span><span class="n">RichJupyterWidget</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convenience class for a live IPython console widget. We can replace the standard banner using the customBanner argument&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">customBanner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">customBanner</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">QJupyterWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">customBanner</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">banner</span><span class="o">=</span><span class="n">customBanner</span>
@@ -99,7 +99,7 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">class</span> <span class="nc">ExampleWidget</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Main GUI Window including a button and IPython Console widget inside vertical layout &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">ExampleWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;iPython in PyQt5 app example&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mainWidget</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -138,6 +138,7 @@
     
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -152,7 +153,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -166,13 +167,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.widget_Jupyter</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

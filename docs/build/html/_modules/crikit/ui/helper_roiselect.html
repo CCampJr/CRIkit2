@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.helper_roiselect &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.ui.helper_roiselect &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.helper_roiselect</a></li> 
       </ul>
     </div>  
 
@@ -45,7 +45,7 @@
 
 
 <span class="c1"># Generic imports for QT-based programs</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
                              <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">,</span>
                              <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">,</span>
                              <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span><span class="p">,</span>
@@ -60,13 +60,13 @@
                              <span class="n">QStyle</span> <span class="k">as</span> <span class="n">_QStyle</span><span class="p">,</span>
                              <span class="n">QStyledItemDelegate</span> <span class="k">as</span> <span class="n">_QStyledItemDelegate</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="k">import</span> <span class="p">(</span><span class="n">QAbstractItemModel</span> <span class="k">as</span> <span class="n">_QAbstractItemModel</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QAbstractItemModel</span> <span class="k">as</span> <span class="n">_QAbstractItemModel</span><span class="p">,</span>
                           <span class="n">QAbstractTableModel</span> <span class="k">as</span> <span class="n">_QAbstractTableModel</span><span class="p">,</span>
                           <span class="n">QModelIndex</span> <span class="k">as</span> <span class="n">_QModelIndex</span><span class="p">,</span>
                           <span class="n">QVariant</span> <span class="k">as</span> <span class="n">_QVariant</span><span class="p">,</span>
                           <span class="n">Qt</span> <span class="k">as</span> <span class="n">_Qt</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="k">import</span> <span class="p">(</span><span class="n">QPixmap</span> <span class="k">as</span> <span class="n">_QPixmap</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QPixmap</span> <span class="k">as</span> <span class="n">_QPixmap</span><span class="p">,</span>
                          <span class="n">QIcon</span> <span class="k">as</span> <span class="n">_QIcon</span><span class="p">,</span>
                          <span class="n">QColor</span> <span class="k">as</span> <span class="n">_QColor</span><span class="p">)</span>
 
@@ -74,7 +74,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
 <span class="c1"># Import from Designer-based GUI</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.helper_plotOptions</span> <span class="k">import</span> <span class="n">plotStyle</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.helper_plotOptions</span> <span class="kn">import</span> <span class="n">plotStyle</span>
 
 <span class="c1"># Generic imports for MPL-incorporation</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">_mpl</span>
@@ -86,23 +86,23 @@
 <span class="c1">#_mpl.rcParams[&#39;figure.autolayout&#39;] = True</span>
 <span class="n">_mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
 
-<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_qt5agg</span> <span class="k">import</span> <span class="p">(</span><span class="n">FigureCanvasQTAgg</span> <span class="k">as</span> <span class="n">_FigureCanvas</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_qt5agg</span> <span class="kn">import</span> <span class="p">(</span><span class="n">FigureCanvasQTAgg</span> <span class="k">as</span> <span class="n">_FigureCanvas</span><span class="p">,</span> \
     <span class="n">NavigationToolbar2QT</span> <span class="k">as</span> <span class="n">_NavigationToolbar</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="k">import</span> <span class="n">Figure</span> <span class="k">as</span> <span class="n">_Figure</span>
+<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span> <span class="k">as</span> <span class="n">_Figure</span>
 
-<div class="viewcode-block" id="_PointsData"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect._PointsData">[docs]</a><span class="k">class</span> <span class="nc">_PointsData</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_current_plots</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_PointsData</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_current_plots</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xpix</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ypix</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">plotStyle</span><span class="p">(</span><span class="n">num_current_plots</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">plotStyle</span><span class="p">(</span><span class="n">num_current_plots</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ImageSelection"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.helper_roiselect.ImageSelection">[docs]</a><span class="k">class</span> <span class="nc">ImageSelection</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pointdata_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
@@ -130,7 +130,7 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
-    <span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span>
+    <span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span>
 
     <span class="k">class</span> <span class="nc">Ui_MainWindow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
@@ -163,7 +163,7 @@
             <span class="n">MainWindow</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">_translate</span><span class="p">(</span><span class="s2">&quot;MainWindow&quot;</span><span class="p">,</span> <span class="s2">&quot;MainWindow&quot;</span><span class="p">))</span>
 
     <span class="k">class</span> <span class="nc">testWindow</span><span class="p">(</span><span class="n">_QMainWindow</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">testWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_MainWindow</span><span class="p">()</span> <span class="c1">### EDIT ###</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>     <span class="c1">### EDIT ###</span>
@@ -202,7 +202,7 @@
         <span class="n">winTest</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">_winMpl</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="kc">None</span>
@@ -233,6 +233,7 @@
     <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -247,7 +248,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -261,13 +262,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.helper_roiselect</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

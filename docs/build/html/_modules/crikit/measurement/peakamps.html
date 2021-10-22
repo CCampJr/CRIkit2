@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.measurement.peakamps &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.measurement.peakamps &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.measurement.peakamps</a></li> 
       </ul>
     </div>  
 
@@ -70,7 +70,7 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">=</span> <span class="n">f1</span>
@@ -85,15 +85,15 @@
         <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MeasurePeak._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeak._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 
 <div class="viewcode-block" id="AbstractMeasureTwo"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureTwo</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Abstract class for measurements that take 2 things &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Parameters</span>
@@ -128,15 +128,15 @@
         <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AbstractMeasureTwo._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwo._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="AbstractMeasureTwoOrdered"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureTwoOrdered">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureTwoOrdered</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Abstract class for measurements that take 2 things,</span>
 <span class="sd">    where f1 &lt; f2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">f1</span> <span class="o">&lt;=</span> <span class="n">f2</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -144,7 +144,7 @@
 
 <div class="viewcode-block" id="AbstractMeasureThree"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree">[docs]</a><span class="k">class</span> <span class="nc">AbstractMeasureThree</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Abstract class for measurements that take 3 things &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Parameters</span>
@@ -184,8 +184,8 @@
         <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AbstractMeasureThree._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.AbstractMeasureThree._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="MeasurePeakMinus"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinus">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMinus</span> <span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -212,13 +212,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMinus._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinus._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">-</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakAdd"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakAdd</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -245,13 +245,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakAdd._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakAdd._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">+</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakMultiply"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMultiply">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMultiply</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -278,13 +278,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMultiply._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMultiply._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">*</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakDivide"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakDivide">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakDivide</span><span class="p">(</span><span class="n">AbstractMeasureTwo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -311,13 +311,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakDivide._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakDivide._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">/</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakSum"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSum">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakSum</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -345,13 +345,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakSum._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSum._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakSumAbsReImag"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSumAbsReImag">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakSumAbsReImag</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -382,13 +382,13 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakSumAbsReImag._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakSumAbsReImag._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakMax"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMax">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMax</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -416,12 +416,12 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMax._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMax._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="MeasurePeakMin"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMin">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMin</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -449,13 +449,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMin._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMin._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 
 <div class="viewcode-block" id="MeasurePeakMaxAbs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMaxAbs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMaxAbs</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
@@ -485,13 +485,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMaxAbs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMaxAbs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 
 <div class="viewcode-block" id="MeasurePeakMinAbs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinAbs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakMinAbs</span><span class="p">(</span><span class="n">AbstractMeasureTwoOrdered</span><span class="p">):</span>
@@ -521,13 +521,13 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakMinAbs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakMinAbs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 
 <div class="viewcode-block" id="MeasurePeakBWTroughs"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakBWTroughs">[docs]</a><span class="k">class</span> <span class="nc">MeasurePeakBWTroughs</span><span class="p">(</span><span class="n">AbstractMeasureThree</span><span class="p">):</span>
@@ -557,19 +557,19 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tr1</span> <span class="o">&lt;=</span> <span class="n">tr2</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">tr2</span><span class="p">,</span> <span class="n">tr1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MeasurePeakBWTroughs._calc"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakamps.MeasurePeakBWTroughs._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f3</span><span class="p">]</span><span class="o">-</span><span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">])</span><span class="o">/</span> \
                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">slope</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">)</span> <span class="o">+</span> \
                 <span class="n">signal</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
@@ -694,6 +694,7 @@
     <span class="c1"># _plt.show()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -708,7 +709,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -722,13 +723,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.measurement.peakamps</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

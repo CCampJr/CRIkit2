@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    crikit.ui.utils
 
@@ -210,7 +211,6 @@ crikit.ui.widget\_scientificspin module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

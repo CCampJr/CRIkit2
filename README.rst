@@ -1,17 +1,5 @@
 .. -*- mode: rst -*-
 
-.. image:: https://travis-ci.com/CCampJr/CRIkit2.svg?branch=master
-    :alt: Travis CI Status
-    :target: https://travis-ci.com/CCampJr/CRIkit2
-
-.. image:: https://ci.appveyor.com/api/projects/status/1yrsrk6wfhjsn7bq/branch/master?svg=true
-    :alt: AppVeyor CI Status
-    :target: https://ci.appveyor.com/project/CCampJr/crikit2
-
-.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
-    :alt: Codecov
-    :target: https://codecov.io/gh/CCampJr/CRIkit2
-
 .. image:: https://img.shields.io/pypi/pyversions/CRIkit2.svg
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/CRIkit2/

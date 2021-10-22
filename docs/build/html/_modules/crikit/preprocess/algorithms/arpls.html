@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.algorithms.arpls &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.preprocess.algorithms.arpls &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/nature.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.algorithms.arpls</a></li> 
       </ul>
     </div>  
 
@@ -49,10 +49,10 @@
 <span class="n">_cvxopt</span><span class="o">.</span><span class="n">cholmod</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;supernodal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">_cvxopt</span><span class="o">.</span><span class="n">cholmod</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;postorder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">from</span> <span class="nn">crikit.preprocess.algorithms.abstract_als</span> <span class="k">import</span> <span class="n">AbstractBaseline</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.algorithms.abstract_als</span> <span class="kn">import</span> <span class="n">AbstractBaseline</span>
     
 <div class="viewcode-block" id="ArPlsCvxopt"><a class="viewcode-back" href="../../../../crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.arpls.ArPlsCvxopt">[docs]</a><span class="k">class</span> <span class="nc">ArPlsCvxopt</span><span class="p">(</span><span class="n">AbstractBaseline</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smoothness_param</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">redux</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smoothness_param</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">redux</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
                  <span class="n">fix_end_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_diff</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> 
                  <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -84,7 +84,7 @@
                    <span class="n">fix_end_points</span><span class="o">=</span><span class="n">fix_end_points</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> 
                    <span class="n">min_diff</span><span class="o">=</span><span class="n">min_diff</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ArPlsCvxopt._calc"><a class="viewcode-back" href="../../../../crikit.preprocess.algorithms.html#crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
         <span class="c1"># Shut-off over-flow warning temporarily</span>
         <span class="n">_np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="n">over</span> <span class="o">=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
         
@@ -167,13 +167,13 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished detrending spectra </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ct</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                       <span class="n">sig_n_to_detrend</span><span class="p">))</span>
     
-        <span class="k">return</span> <span class="n">baseline_output</span></div></div>
+        <span class="k">return</span> <span class="n">baseline_output</span></div>
     
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">_plt</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span>
-    <span class="n">data_orig</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="p">(</span><span class="mi">300</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">005</span><span class="p">)</span>
+    <span class="n">data_orig</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="p">(</span><span class="mi">300</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="mf">.005</span><span class="p">)</span>
     <span class="n">bg</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">500</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">700</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">bg</span> <span class="o">+</span> <span class="n">data_orig</span>
     
@@ -215,6 +215,7 @@
         <span class="n">_plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -229,7 +230,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -243,13 +244,14 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.algorithms.arpls</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

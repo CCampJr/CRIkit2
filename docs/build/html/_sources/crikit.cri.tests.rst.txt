@@ -52,7 +52,6 @@ crikit.cri.tests.test\_sec module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

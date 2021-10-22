@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.io.meta_process &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.meta_process &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.meta_process</a></li> 
       </ul>
     </div>  
 
@@ -42,14 +42,16 @@
 <span class="sd">@author: chc</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="kn">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">,</span>
                                    <span class="n">calib_pix_wl</span> <span class="k">as</span> <span class="n">_calib_pix_wl</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
-<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
-<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="kn">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">import</span> <span class="nn">traceback</span> <span class="k">as</span> <span class="nn">_traceback</span>
 
 <div class="viewcode-block" id="rosetta_query"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.meta_process.rosetta_query">[docs]</a><span class="k">def</span> <span class="nf">rosetta_query</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -109,9 +111,15 @@
     <span class="k">del</span> <span class="n">temp</span>
 
     <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Color/Frequency-Channels: </span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: Number of color channels assigned in meta data (</span><span class="si">{}</span><span class="s1">) disagrees with datacube size (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting to match dataset size...&#39;</span><span class="p">)</span>
+        <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">del</span> <span class="n">temp</span>
+
 
     <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorCenterWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
@@ -198,14 +206,27 @@
                 <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;pix&#39;</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
 
-            
-
             <span class="c1"># HDF files store strings in np.bytes format</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
                 <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
+            <span class="k">if</span> <span class="n">steps</span> <span class="o">!=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: </span><span class="si">{}</span><span class="s1">Steps assigned in meta data (</span><span class="si">{}</span><span class="s1">) disagrees with datacube size (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting steps to match data...&#39;</span><span class="p">)</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="n">stop</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">steps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: XStart and XStop are the same, which causes plotting problems. Switching to pixel-units based on dataset shape&#39;</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;pix&#39;</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
+            <span class="c1"># print(&#39;Start: {}, Stop: {}, Steps: {}&#39;.format(start, stop, steps))</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">units</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">x_rep</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
@@ -241,6 +262,20 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
+            <span class="k">if</span> <span class="n">steps</span> <span class="o">!=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: </span><span class="si">{}</span><span class="s1">Steps assigned in meta data (</span><span class="si">{}</span><span class="s1">) disagrees with datacube size (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting steps to match data...&#39;</span><span class="p">)</span>
+                <span class="n">steps</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="n">stop</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">steps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: YStart and YStop are the same, which causes plotting problems. Switching to pixel-units based on dataset shape&#39;</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;pix&#39;</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">): Start=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Stop=</span><span class="si">{}</span><span class="se">\t</span><span class="s1">Steps=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">))</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">units</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
@@ -267,10 +302,10 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
-    <span class="kn">from</span> <span class="nn">crikit.io.meta_configs</span> <span class="k">import</span> <span class="p">(</span><span class="n">special_nist_bcars2</span>
+    <span class="kn">from</span> <span class="nn">crikit.io.meta_configs</span> <span class="kn">import</span> <span class="p">(</span><span class="n">special_nist_bcars2</span>
                                             <span class="k">as</span> <span class="n">_snb</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="k">import</span> <span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span>
+    <span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="kn">import</span> <span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span>
     <span class="n">rosetta</span> <span class="o">=</span> <span class="n">_snb</span><span class="p">()</span>
 
     <span class="n">filename</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../../../mP2_w_small.h5&#39;</span><span class="p">)</span>
@@ -289,6 +324,7 @@
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -303,7 +339,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -317,13 +353,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.meta_process</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

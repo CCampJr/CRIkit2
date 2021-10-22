@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.main_Mosaic &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.ui.main_Mosaic &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.main_Mosaic</a></li> 
       </ul>
     </div>  
 
@@ -45,32 +45,32 @@
 <span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">h5py</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">_QtWidgets</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">_QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
                              <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span><span class="p">,</span>
                              <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span><span class="p">,</span>
                              <span class="n">QListWidget</span> <span class="k">as</span> <span class="n">_QListWidget</span><span class="p">,</span>
                              <span class="n">QMessageBox</span> <span class="k">as</span> <span class="n">_QMessageBox</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">PyQt5.QtCore</span> <span class="k">as</span> <span class="nn">_QtCore</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="k">import</span> <span class="p">(</span><span class="n">pyqtSignal</span> <span class="k">as</span> <span class="n">_pyqtSignal</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="p">(</span><span class="n">pyqtSignal</span> <span class="k">as</span> <span class="n">_pyqtSignal</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.qt_Mosaic</span> <span class="k">import</span> <span class="n">Ui_MainWindow</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_Mosaic</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="n">calib_pix_wl</span><span class="p">,</span> <span class="n">calib_pix_wn</span>
-<span class="kn">from</span> <span class="nn">crikit.data.mosaic</span> <span class="k">import</span> <span class="n">Mosaic</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="k">import</span> <span class="n">DialogSave</span>
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="kn">import</span> <span class="n">calib_pix_wl</span><span class="p">,</span> <span class="n">calib_pix_wn</span>
+<span class="kn">from</span> <span class="nn">crikit.data.mosaic</span> <span class="kn">import</span> <span class="n">Mosaic</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="kn">import</span> <span class="n">DialogSave</span>
 
-<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="k">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
+<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="kn">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
 
 <span class="kn">import</span> <span class="nn">lazy5</span>
-<span class="kn">from</span> <span class="nn">lazy5.utils</span> <span class="k">import</span> <span class="n">FidOrFile</span><span class="p">,</span> <span class="n">fullpath</span>
-<span class="kn">from</span> <span class="nn">lazy5.ui.QtHdfLoad</span> <span class="k">import</span> <span class="n">HdfLoad</span>
+<span class="kn">from</span> <span class="nn">lazy5.utils</span> <span class="kn">import</span> <span class="n">FidOrFile</span><span class="p">,</span> <span class="n">fullpath</span>
+<span class="kn">from</span> <span class="nn">lazy5.ui.QtHdfLoad</span> <span class="kn">import</span> <span class="n">HdfLoad</span>
 
 
 <div class="viewcode-block" id="DnDReorderListWidget"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.DnDReorderListWidget">[docs]</a><span class="k">class</span> <span class="nc">DnDReorderListWidget</span><span class="p">(</span><span class="n">_QListWidget</span><span class="p">):</span>
@@ -78,7 +78,7 @@
 
     <span class="n">reordered</span> <span class="o">=</span> <span class="n">_pyqtSignal</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DnDReorderListWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">setAcceptDrops</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -115,7 +115,7 @@
 
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allow_duplicates&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">MainWindowMosaic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_MainWindow</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -552,12 +552,12 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">updateSlider</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MainWindowMosaic._create_list_names"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic._create_list_names">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_create_list_names</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
         <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
             <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">temp</span></div>
+        <span class="k">return</span> <span class="n">temp</span>
 
 <div class="viewcode-block" id="MainWindowMosaic.updateDatasets"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.main_Mosaic.MainWindowMosaic.updateDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">updateDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Update the listWidget of datasets &quot;&quot;&quot;</span>
@@ -733,6 +733,7 @@
     <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -747,7 +748,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -761,13 +762,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.main_Mosaic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

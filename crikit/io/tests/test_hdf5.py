@@ -45,7 +45,7 @@ def test_hdf_import_spectrum_to_spectrum(hdf_dataset):
     out = hdf_import_data('.', filename, dname, output_cls_instance=dataset)
     assert out is True
     assert dataset.size == hdf_data_shape[-1]
-    np.testing.assert_array_equal(dataset.data, fid[dname].value)
+    np.testing.assert_array_equal(dataset.data, fid[dname][...])
 
 def test_hdf_import_spectra_to_spectra(hdf_dataset):
     """ Import a spectra into a spectra """
@@ -59,7 +59,7 @@ def test_hdf_import_spectra_to_spectra(hdf_dataset):
     out = hdf_import_data('.', filename, dname, output_cls_instance=dataset)
     assert out is True
     assert dataset.size == hdf_data_shape[1:].prod()
-    np.testing.assert_array_equal(dataset.data, fid[dname].value)
+    np.testing.assert_array_equal(dataset.data, fid[dname][...])
 
 def test_hdf_import_hsi_to_hsi(hdf_dataset):
     """ Import an hsi into an hsi """
@@ -73,7 +73,7 @@ def test_hdf_import_hsi_to_hsi(hdf_dataset):
     out = hdf_import_data('.', filename, dname, output_cls_instance=dataset)
     assert out is True
     assert dataset.size == hdf_data_shape.prod()
-    np.testing.assert_array_equal(dataset.data, fid[dname].value)
+    np.testing.assert_array_equal(dataset.data, fid[dname][...])
 def test_hdf_import_no_output_cls_given(hdf_dataset):
     """ Import a spectrum, spectra, and hsi when no instantiated class is provided """
 
@@ -84,19 +84,19 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
     dname = 'spectrum'
     dataset, dset_meta = hdf_import_data('.', filename, dname, output_cls_instance=None)
     assert dataset.size == hdf_data_shape[-1]
-    np.testing.assert_array_equal(dataset, fid[dname].value)
+    np.testing.assert_array_equal(dataset, fid[dname][...])
 
     # Spectra
     dname = 'spectra'
     dataset, dset_meta = hdf_import_data('.', filename, dname, output_cls_instance=None)
     assert dataset.size == hdf_data_shape[1:].prod()
-    np.testing.assert_array_equal(dataset, fid[dname].value)
+    np.testing.assert_array_equal(dataset, fid[dname][...])
 
     # HSI
     dname = 'hsi'
     dataset, dset_meta = hdf_import_data('.', filename, dname, output_cls_instance=None)
     assert dataset.size == hdf_data_shape.prod()
-    np.testing.assert_array_equal(dataset, fid[dname].value)
+    np.testing.assert_array_equal(dataset, fid[dname][...])
     
 # def test_hdf_import_spectra_to_spectrum(hdf_dataset):
 #     """ Import spectra into a spectrum """
@@ -110,7 +110,7 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     out = hdf_import_data('.', filename, dname, output_cls_instance=dataset)
 #     assert out is True
 #     assert dataset.size == hdf_data_shape[-1]
-#     np.testing.assert_equal(dataset.data, fid[dname].value.mean(axis=0))
+#     np.testing.assert_equal(dataset.data, fid[dname][...].mean(axis=0))
 
 # def test_hdf_import_hsi_to_spectrum(hdf_dataset):
 #     """ Import hsi into a spectrum """
@@ -124,7 +124,7 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     out = hdf_import_data('.', filename, dname, output_cls_instance=dataset)
 #     assert out is True
 #     assert dataset.size == hdf_data_shape[-1]
-#     np.testing.assert_equal(dataset.data, fid[dname].value.mean(axis=(0,1)))
+#     np.testing.assert_equal(dataset.data, fid[dname][...].mean(axis=(0,1)))
 
 
 # def test_hdf_import_spectrum_to_spectra(hdf_dataset):
@@ -140,7 +140,7 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     assert out is True
 #     assert dataset.size == hdf_data_shape[-1]
 #     assert dataset.ndim == 2
-#     np.testing.assert_equal(dataset.data, fid[dname].value)
+#     np.testing.assert_equal(dataset.data, fid[dname][...])
 
 # def test_hdf_import_hsi_to_spectra(hdf_dataset):
 #     """ Import hsi into spectra """
@@ -155,7 +155,7 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     assert out is True
 #     assert dataset.size == hdf_data_shape.prod()
 #     assert dataset.ndim == 2
-#     np.testing.assert_equal(dataset.data, fid[dname].value.reshape((-1, hdf_data_shape[-1])))
+#     np.testing.assert_equal(dataset.data, fid[dname][...].reshape((-1, hdf_data_shape[-1])))
 
 # def test_hdf_import_spectrum_to_hsi(hdf_dataset):
 #     """ Import a spectrum into an hsi """
@@ -170,7 +170,7 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     assert out is True
 #     assert dataset.size == hdf_data_shape[-1]
 #     assert dataset.ndim == 3
-#     np.testing.assert_equal(dataset.data, fid[dname].value)
+#     np.testing.assert_equal(dataset.data, fid[dname][...])
 
 # def test_hdf_import_spectra_to_hsi(hdf_dataset):
 #     """ Import spectra into an hsi """
@@ -185,4 +185,4 @@ def test_hdf_import_no_output_cls_given(hdf_dataset):
 #     assert out is True
 #     assert dataset.size == hdf_data_shape[1:].prod()
 #     assert dataset.ndim == 3
-#     np.testing.assert_equal(dataset.data, fid[dname].value.reshape((0, -1, hdf_data_shape[-1])))
+#     np.testing.assert_equal(dataset.data, fid[dname][...].reshape((0, -1, hdf_data_shape[-1])))

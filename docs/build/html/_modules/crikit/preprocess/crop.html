@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.crop &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.preprocess.crop &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.crop</a></li> 
       </ul>
     </div>  
 
@@ -58,11 +58,11 @@
 <span class="sd">    zero_col : int, optional (default = None)</span>
 <span class="sd">        Zero a specified column</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zero_col</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zero_col</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">zero_col</span> <span class="o">=</span> <span class="n">zero_col</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fol</span> <span class="o">=</span> <span class="n">first_or_last</span>
 
-<div class="viewcode-block" id="ZeroColumn._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.ZeroColumn._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zero_col</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -73,7 +73,7 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="ZeroColumn.transform"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.ZeroColumn.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
@@ -100,11 +100,11 @@
 <span class="sd">    zero_row : int, optional (default = None)</span>
 <span class="sd">        Zero a specified row</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zero_row</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_or_last</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zero_row</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">zero_row</span> <span class="o">=</span> <span class="n">zero_row</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fol</span> <span class="o">=</span> <span class="n">first_or_last</span>
 
-<div class="viewcode-block" id="ZeroRow._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.ZeroRow._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zero_row</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -115,7 +115,7 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="ZeroRow.transform"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.ZeroRow.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
@@ -156,13 +156,13 @@
 <span class="sd">    Currently, this class performs the action on a copy of the data, returning a copy</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;cut&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">every_n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;cut&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cut_m</span> <span class="o">=</span> <span class="n">cut_m</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">every_n</span> <span class="o">=</span> <span class="n">every_n</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-<div class="viewcode-block" id="CutEveryNSpectra._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">pix_to_affect</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_m</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">every_n</span><span class="p">)])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
@@ -187,7 +187,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="CutEveryNSpectra.transform"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.crop.CutEveryNSpectra.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Currently, this class can only return a copy of the data.&#39;</span><span class="p">)</span></div>
@@ -256,6 +256,7 @@
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -270,7 +271,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -284,13 +285,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.crop</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    crikit.preprocess.algorithms
    crikit.preprocess.tests
@@ -59,7 +60,6 @@ crikit.preprocess.subtract\_mean module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

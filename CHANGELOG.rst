@@ -8,8 +8,12 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
-0.2.6 ()
+0.3.0 (21-10-21)
 ----------------
+-   H5 files with problematic X- or Y- assigned scales will revert to pixel units
+-   Upgraded to LazyHDF5 0.3.0 nuances.
+-   Added option to hilbertfft to return full padded results
+-   Bug fixes
 
 0.2.5 (20-03-05)
 ----------------

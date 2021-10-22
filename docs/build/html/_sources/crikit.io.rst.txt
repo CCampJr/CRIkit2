@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    crikit.io.tests
 
@@ -50,7 +51,6 @@ crikit.io.meta\_process module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

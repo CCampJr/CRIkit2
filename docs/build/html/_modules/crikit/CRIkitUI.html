@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.CRIkitUI &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.CRIkitUI &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
     </div>  
 
@@ -79,80 +79,80 @@
 
 <span class="kn">import</span> <span class="nn">PyQt5.QtCore</span> <span class="k">as</span> <span class="nn">_QtCore</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="k">import</span> <span class="n">QCursor</span> <span class="k">as</span> <span class="n">_QCursor</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QFileDialog</span> <span class="k">as</span> <span class="n">_QFileDialog</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QInputDialog</span> <span class="k">as</span> <span class="n">_QInputDialog</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QMessageBox</span> <span class="k">as</span> <span class="n">_QMessageBox</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span>
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="n">QCursor</span> <span class="k">as</span> <span class="n">_QCursor</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span> <span class="k">as</span> <span class="n">_QFileDialog</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QInputDialog</span> <span class="k">as</span> <span class="n">_QInputDialog</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span> <span class="k">as</span> <span class="n">_QMainWindow</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QMessageBox</span> <span class="k">as</span> <span class="n">_QMessageBox</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QWidget</span> <span class="k">as</span> <span class="n">_QWidget</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span>
 
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">savgol_filter</span> <span class="k">as</span> <span class="n">_sg</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">savgol_filter</span> <span class="k">as</span> <span class="n">_sg</span>
 
 
-<span class="kn">from</span> <span class="nn">crikit.cri.error_correction</span> <span class="k">import</span> <span class="p">(</span><span class="n">PhaseErrCorrectALS</span> <span class="k">as</span> <span class="n">_PhaseErrCorrectALS</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">crikit.cri.error_correction</span> <span class="k">import</span> <span class="n">ScaleErrCorrectSG</span> <span class="k">as</span> <span class="n">_ScaleErrCorrectSG</span>
-<span class="kn">from</span> <span class="nn">crikit.cri.kk</span> <span class="k">import</span> <span class="n">KramersKronig</span>
-<span class="kn">from</span> <span class="nn">crikit.cri.merge_nrbs</span> <span class="k">import</span> <span class="n">MergeNRBs</span> <span class="k">as</span> <span class="n">_MergeNRBs</span>
+<span class="kn">from</span> <span class="nn">crikit.cri.error_correction</span> <span class="kn">import</span> <span class="p">(</span><span class="n">PhaseErrCorrectALS</span> <span class="k">as</span> <span class="n">_PhaseErrCorrectALS</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">crikit.cri.error_correction</span> <span class="kn">import</span> <span class="n">ScaleErrCorrectSG</span> <span class="k">as</span> <span class="n">_ScaleErrCorrectSG</span>
+<span class="kn">from</span> <span class="nn">crikit.cri.kk</span> <span class="kn">import</span> <span class="n">KramersKronig</span>
+<span class="kn">from</span> <span class="nn">crikit.cri.merge_nrbs</span> <span class="kn">import</span> <span class="n">MergeNRBs</span> <span class="k">as</span> <span class="n">_MergeNRBs</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="kn">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">,</span>
                                    <span class="n">calib_pix_wl</span> <span class="k">as</span> <span class="n">_calib_pix_wl</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span>
-<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span>
-<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="kn">import</span> <span class="n">Hsi</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="kn">import</span> <span class="n">Spectrum</span>
 
-<span class="kn">from</span> <span class="nn">crikit.datasets.model</span> <span class="k">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
+<span class="kn">from</span> <span class="nn">crikit.datasets.model</span> <span class="kn">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
 
-<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="k">import</span> <span class="n">import_csv_nist_special1</span> <span class="k">as</span> <span class="n">io_nist_dlm</span>
-<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="k">import</span> <span class="n">import_hdf_nist_special</span> <span class="k">as</span> <span class="n">io_nist</span>
-<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="k">import</span> <span class="n">import_hdf_nist_special_ooc</span> <span class="k">as</span> <span class="n">io_nist_ooc</span>
+<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_csv_nist_special1</span> <span class="k">as</span> <span class="n">io_nist_dlm</span>
+<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_hdf_nist_special</span> <span class="k">as</span> <span class="n">io_nist</span>
+<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_hdf_nist_special_ooc</span> <span class="k">as</span> <span class="n">io_nist_ooc</span>
 
 <span class="c1"># from crikit.io.meta_configs import special_nist_bcars2 as _snb2</span>
 <span class="c1"># from crikit.io.meta_process import meta_process as _meta_process</span>
 
 <span class="kn">import</span> <span class="nn">crikit.measurement.peakamps</span> <span class="k">as</span> <span class="nn">_peakamps</span>
 
-<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="k">import</span> <span class="n">ZeroColumn</span> <span class="k">as</span> <span class="n">_ZeroColumn</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="k">import</span> <span class="n">ZeroRow</span> <span class="k">as</span> <span class="n">_ZeroRow</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="k">import</span> <span class="n">CutEveryNSpectra</span> <span class="k">as</span> <span class="n">_CutEveryNSpectra</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.denoise</span> <span class="k">import</span> <span class="n">SVDDecompose</span><span class="p">,</span> <span class="n">SVDRecompose</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.standardize</span> <span class="k">import</span> <span class="n">Anscombe</span> <span class="k">as</span> <span class="n">_Anscombe</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.standardize</span> <span class="k">import</span> <span class="n">AnscombeInverse</span> <span class="k">as</span> <span class="n">_AnscombeInverse</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_baseline</span> <span class="k">import</span> \
+<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="kn">import</span> <span class="n">ZeroColumn</span> <span class="k">as</span> <span class="n">_ZeroColumn</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="kn">import</span> <span class="n">ZeroRow</span> <span class="k">as</span> <span class="n">_ZeroRow</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.crop</span> <span class="kn">import</span> <span class="n">CutEveryNSpectra</span> <span class="k">as</span> <span class="n">_CutEveryNSpectra</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.denoise</span> <span class="kn">import</span> <span class="n">SVDDecompose</span><span class="p">,</span> <span class="n">SVDRecompose</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.standardize</span> <span class="kn">import</span> <span class="n">Anscombe</span> <span class="k">as</span> <span class="n">_Anscombe</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.standardize</span> <span class="kn">import</span> <span class="n">AnscombeInverse</span> <span class="k">as</span> <span class="n">_AnscombeInverse</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_baseline</span> <span class="kn">import</span> \
     <span class="n">SubtractBaselineALS</span> <span class="k">as</span> <span class="n">_SubtractBaselineALS</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_dark</span> <span class="k">import</span> <span class="n">SubtractDark</span>
-<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_mean</span> <span class="k">import</span> <span class="n">SubtractMeanOverRange</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_dark</span> <span class="kn">import</span> <span class="n">SubtractDark</span>
+<span class="kn">from</span> <span class="nn">crikit.preprocess.subtract_mean</span> <span class="kn">import</span> <span class="n">SubtractMeanOverRange</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_kkOptions</span> <span class="k">import</span> <span class="n">DialogKKOptions</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_model</span> <span class="k">import</span> <span class="n">DialogModel</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_ploteffect</span> <span class="k">import</span> \
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_kkOptions</span> <span class="kn">import</span> <span class="n">DialogKKOptions</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_model</span> <span class="kn">import</span> <span class="n">DialogModel</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_ploteffect</span> <span class="kn">import</span> \
     <span class="n">DialogPlotEffect</span> <span class="k">as</span> <span class="n">_DialogPlotEffect</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="k">import</span> <span class="n">DialogSave</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_varstabAnscombeOptions</span> <span class="k">import</span> <span class="n">DialogAnscombeOptions</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AnscombeParams</span> <span class="k">import</span> <span class="n">DialogCalcAnscombeParams</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.qt_CRIkit</span> <span class="k">import</span> <span class="n">Ui_MainWindow</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.main_Mosaic</span> <span class="k">import</span> <span class="n">MainWindowMosaic</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_save</span> <span class="kn">import</span> <span class="n">DialogSave</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_varstabAnscombeOptions</span> <span class="kn">import</span> <span class="n">DialogAnscombeOptions</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AnscombeParams</span> <span class="kn">import</span> <span class="n">DialogCalcAnscombeParams</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_CRIkit</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.main_Mosaic</span> <span class="kn">import</span> <span class="n">MainWindowMosaic</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.utils.roi</span> <span class="k">import</span> <span class="n">roimask</span> <span class="k">as</span> <span class="n">_roimask</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_Calibrate</span> <span class="k">import</span> <span class="n">widgetCalibrate</span> <span class="k">as</span> <span class="n">_widgetCalibrate</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="k">import</span> <span class="n">widgetALS</span> <span class="k">as</span> <span class="n">_widgetALS</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="k">import</span> <span class="n">widgetArPLS</span> <span class="k">as</span> <span class="n">_widgetArPLS</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="k">import</span> <span class="n">widgetDeTrending</span> <span class="k">as</span> <span class="n">_widgetDeTrending</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_images</span> <span class="k">import</span> <span class="p">(</span><span class="n">widgetBWImg</span><span class="p">,</span> <span class="n">widgetCompositeColor</span><span class="p">,</span> <span class="n">widgetSglColor</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.utils.roi</span> <span class="kn">import</span> <span class="n">roimask</span> <span class="k">as</span> <span class="n">_roimask</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_Calibrate</span> <span class="kn">import</span> <span class="n">widgetCalibrate</span> <span class="k">as</span> <span class="n">_widgetCalibrate</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="kn">import</span> <span class="n">widgetALS</span> <span class="k">as</span> <span class="n">_widgetALS</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="kn">import</span> <span class="n">widgetArPLS</span> <span class="k">as</span> <span class="n">_widgetArPLS</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_DeTrending</span> <span class="kn">import</span> <span class="n">widgetDeTrending</span> <span class="k">as</span> <span class="n">_widgetDeTrending</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_images</span> <span class="kn">import</span> <span class="p">(</span><span class="n">widgetBWImg</span><span class="p">,</span> <span class="n">widgetCompositeColor</span><span class="p">,</span> <span class="n">widgetSglColor</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_mergeNRBs</span> <span class="k">import</span> <span class="n">widgetMergeNRBs</span> <span class="k">as</span> <span class="n">_widgetMergeNRBs</span>
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_SG</span> <span class="k">import</span> <span class="n">widgetSG</span> <span class="k">as</span> <span class="n">_widgetSG</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_mergeNRBs</span> <span class="kn">import</span> <span class="n">widgetMergeNRBs</span> <span class="k">as</span> <span class="n">_widgetMergeNRBs</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_SG</span> <span class="kn">import</span> <span class="n">widgetSG</span> <span class="k">as</span> <span class="n">_widgetSG</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.widget_Cut_every_n_spectra</span> <span class="k">import</span> <span class="n">widgetCutEveryNSpectra</span> <span class="k">as</span> <span class="n">_widgetCutEveryNSpectra</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.widget_Cut_every_n_spectra</span> <span class="kn">import</span> <span class="n">widgetCutEveryNSpectra</span> <span class="k">as</span> <span class="n">_widgetCutEveryNSpectra</span>
 
-<span class="kn">from</span> <span class="nn">crikit.utils.breadcrumb</span> <span class="k">import</span> <span class="n">BCPre</span> <span class="k">as</span> <span class="n">_BCPre</span>
-<span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="k">import</span> <span class="n">find_nearest</span><span class="p">,</span> <span class="n">mean_nd_to_1d</span><span class="p">,</span> <span class="n">std_nd_to_1d</span>
+<span class="kn">from</span> <span class="nn">crikit.utils.breadcrumb</span> <span class="kn">import</span> <span class="n">BCPre</span> <span class="k">as</span> <span class="n">_BCPre</span>
+<span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="kn">import</span> <span class="n">find_nearest</span><span class="p">,</span> <span class="n">mean_nd_to_1d</span><span class="p">,</span> <span class="n">std_nd_to_1d</span>
 
-<span class="kn">from</span> <span class="nn">sciplot.sciplotUI</span> <span class="k">import</span> <span class="n">SciPlotUI</span> <span class="k">as</span> <span class="n">_SciPlotUI</span>
+<span class="kn">from</span> <span class="nn">sciplot.sciplotUI</span> <span class="kn">import</span> <span class="n">SciPlotUI</span> <span class="k">as</span> <span class="n">_SciPlotUI</span>
 
 <span class="kn">import</span> <span class="nn">lazy5</span>
-<span class="kn">from</span> <span class="nn">lazy5.ui.QtHdfLoad</span> <span class="k">import</span> <span class="n">HdfLoad</span>
+<span class="kn">from</span> <span class="nn">lazy5.ui.QtHdfLoad</span> <span class="kn">import</span> <span class="n">HdfLoad</span>
 
 <span class="n">force_not_sw</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -160,17 +160,17 @@
     <span class="kn">import</span> <span class="nn">crikit2_sw</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="n">__sw_installed</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SW package not installed, using standard&#39;</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">crikit.ui.dialog_SVD</span> <span class="k">import</span> <span class="n">DialogSVD</span>
+    <span class="c1"># print(&#39;SW package not installed, using standard&#39;)</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.dialog_SVD</span> <span class="kn">import</span> <span class="n">DialogSVD</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">__sw_installed</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">if</span> <span class="n">force_not_sw</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SW package installed, but forced off -- using standard&#39;</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">crikit.ui.dialog_SVD</span> <span class="k">import</span> <span class="n">DialogSVD</span>
+        <span class="kn">from</span> <span class="nn">crikit.ui.dialog_SVD</span> <span class="kn">import</span> <span class="n">DialogSVD</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SW package installed, let</span><span class="se">\&#39;</span><span class="s1">s rock!&#39;</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">crikit2_sw.ui.dialog_SVD</span> <span class="k">import</span> <span class="n">DialogSVD</span>
+        <span class="kn">from</span> <span class="nn">crikit2_sw.ui.dialog_SVD</span> <span class="kn">import</span> <span class="n">DialogSVD</span>
 
 
 <span class="n">_mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Qt5Agg&#39;</span><span class="p">)</span>
@@ -179,7 +179,7 @@
 
 <span class="n">jupyter_flag</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">crikit.ui.widget_Jupyter</span> <span class="k">import</span> <span class="n">QJupyterWidget</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.widget_Jupyter</span> <span class="kn">import</span> <span class="n">QJupyterWidget</span>
     <span class="n">jupyter_flag</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No appropriate Jupyter/IPython installation found. Console will not be available&#39;</span><span class="p">)</span>
@@ -206,7 +206,7 @@
 
     <span class="n">NUMCOLORS</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Number of single-color windows to auto-generate</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="c1"># Generic load/init designer-based GUI</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parent&#39;</span><span class="p">)</span>
@@ -728,6 +728,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">to_open</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span> <span class="o">=</span> <span class="n">Hsi</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Path: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filename: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dset name: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">))</span>
                     <span class="n">success</span> <span class="o">=</span> <span class="n">io_nist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Was successful: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">success</span><span class="p">))</span>
@@ -1238,7 +1241,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tight_layout failed (CrikitUI: 2&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CRIkitUI_process._roiPreviewClick"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._roiPreviewClick">[docs]</a>    <span class="k">def</span> <span class="nf">_roiPreviewClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_roiPreviewClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Capture region-of-interest mouse click locations in MPL window.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1254,8 +1257,8 @@
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_loc_list</span><span class="p">,</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
@@ -1268,9 +1271,9 @@
                                             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
 
@@ -1285,9 +1288,9 @@
                                         <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                         <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                         <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                        <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                        <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
@@ -1304,7 +1307,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ArrowCursor</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span>
 
 <div class="viewcode-block" id="CRIkitUI_process.delete_preview_rois"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.delete_preview_rois">[docs]</a>    <span class="k">def</span> <span class="nf">delete_preview_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preview_rois</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1610,7 +1613,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CrossCursor</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CrossCursor</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CRIkitUI_process._roiSubtract"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._roiSubtract">[docs]</a>    <span class="k">def</span> <span class="nf">_roiSubtract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_roiSubtract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Acquire an average spectrum from a user-selected ROI and subtract.</span>
 
@@ -1655,7 +1658,7 @@
             <span class="k">del</span> <span class="n">spectrum</span>
 
         <span class="k">del</span> <span class="n">x_pix</span>
-        <span class="k">del</span> <span class="n">y_pix</span></div>
+        <span class="k">del</span> <span class="n">y_pix</span>
 
 <div class="viewcode-block" id="CRIkitUI_process.nrbFromROI"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.nrbFromROI">[docs]</a>    <span class="k">def</span> <span class="nf">nrbFromROI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1693,7 +1696,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unknown action send to nrbFromROI&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRIkitUI_process._roiNRB"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._roiNRB">[docs]</a>    <span class="k">def</span> <span class="nf">_roiNRB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_roiNRB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Acquire an average spectrum from a user-selected ROI and subtract.</span>
 
@@ -1768,7 +1771,7 @@
             <span class="k">del</span> <span class="n">spectrum</span>
 
         <span class="k">del</span> <span class="n">x_pix</span>
-        <span class="k">del</span> <span class="n">y_pix</span></div>
+        <span class="k">del</span> <span class="n">y_pix</span>
 
 <div class="viewcode-block" id="CRIkitUI_process.roiSpectrum"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.roiSpectrum">[docs]</a>    <span class="k">def</span> <span class="nf">roiSpectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1793,7 +1796,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CrossCursor</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CrossCursor</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CRIkitUI_process._pointClick"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._pointClick">[docs]</a>    <span class="k">def</span> <span class="nf">_pointClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pass_fcn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_pointClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pass_fcn</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Capture single mouse click location in MPL window.</span>
 
@@ -1820,9 +1823,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ArrowCursor</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ArrowCursor</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="kc">None</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="CRIkitUI_process._pointSpectrumPlot"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._pointSpectrumPlot">[docs]</a>    <span class="k">def</span> <span class="nf">_pointSpectrumPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_pointSpectrumPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a plot (in plotter) of a point spectrum</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1853,9 +1856,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">raise_</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">updateOverlays</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateOverlays</span><span class="p">()</span>
 
-<div class="viewcode-block" id="CRIkitUI_process._roiSpectrumPlot"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._roiSpectrumPlot">[docs]</a>    <span class="k">def</span> <span class="nf">_roiSpectrumPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_roiSpectrumPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a plot (in plotter) of the mean spectrum over a region</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1931,9 +1934,9 @@
 
 
         <span class="k">del</span> <span class="n">x_pix</span>
-        <span class="k">del</span> <span class="n">y_pix</span></div>
+        <span class="k">del</span> <span class="n">y_pix</span>
 
-<div class="viewcode-block" id="CRIkitUI_process._roiClick"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process._roiClick">[docs]</a>    <span class="k">def</span> <span class="nf">_roiClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pass_fcn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_roiClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">pass_fcn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Capture region-of-interest mouse click locations in MPL window.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1950,8 +1953,8 @@
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_loc_list</span><span class="p">,</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
@@ -1964,9 +1967,9 @@
                                             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
 
@@ -1989,7 +1992,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">_QCursor</span><span class="p">(</span><span class="n">_QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ArrowCursor</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">changeSlider</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="CRIkitUI_process.freqWindow"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.freqWindow">[docs]</a>    <span class="k">def</span> <span class="nf">freqWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -3813,7 +3816,7 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
-    <span class="kn">from</span> <span class="nn">crikit.ui.utils.check_requirements</span> <span class="k">import</span> <span class="n">check_requirements</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.utils.check_requirements</span> <span class="kn">import</span> <span class="n">check_requirements</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">setQuitOnLastWindowClosed</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -3830,6 +3833,7 @@
     <span class="c1">#app.closeAllWindows()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -3844,7 +3848,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -3858,13 +3862,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

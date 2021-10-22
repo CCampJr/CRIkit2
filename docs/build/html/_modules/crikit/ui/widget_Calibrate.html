@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.widget_Calibrate &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.ui.widget_Calibrate &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.widget_Calibrate</a></li> 
       </ul>
     </div>  
 
@@ -48,16 +48,16 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="k">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span>
                                                  <span class="k">as</span> <span class="n">_AbstractPlotEffectPlugin</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">UnivariateSpline</span> <span class="k">as</span> <span class="n">_UnivariateSpline</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span> <span class="k">as</span> <span class="n">_UnivariateSpline</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="k">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="kn">import</span> <span class="p">(</span><span class="n">calib_pix_wn</span> <span class="k">as</span> <span class="n">_calib_pix_wn</span><span class="p">)</span>
 
 <span class="c1">#from crikit.utils.general import find_nearest as _find_nearest</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect_Calibrate</span> <span class="k">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">_Ui_Form</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect_Calibrate</span> <span class="kn">import</span> <span class="n">Ui_Form</span> <span class="k">as</span> <span class="n">_Ui_Form</span>
 
 
 <div class="viewcode-block" id="widgetCalibrate"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.widget_Calibrate.widgetCalibrate">[docs]</a><span class="k">class</span> <span class="nc">widgetCalibrate</span><span class="p">(</span><span class="n">_AbstractPlotEffectPlugin</span><span class="p">):</span>
@@ -98,7 +98,7 @@
                        <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Calibrated&#39;</span>
                       <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calib_dict</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calib_dict</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">widgetCalibrate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">_Ui_Form</span><span class="p">()</span> 
@@ -222,7 +222,7 @@
     
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
-    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">)</span>
     
     <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="s1">&#39;Cleanlooks&#39;</span><span class="p">)</span>
@@ -236,10 +236,10 @@
                   
     <span class="n">pix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;n_pix&#39;</span><span class="p">])</span>
     <span class="n">wl</span> <span class="o">=</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">pix</span> <span class="o">+</span> <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">WN</span> <span class="o">=</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">wl</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span> <span class="o">-</span> <span class="o">.</span><span class="mi">01</span><span class="o">/</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span>
+    <span class="n">WN</span> <span class="o">=</span> <span class="mf">.01</span><span class="o">/</span><span class="p">(</span><span class="n">wl</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span> <span class="o">-</span> <span class="mf">.01</span><span class="o">/</span><span class="p">(</span><span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span>
     
-    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span><span class="p">)</span>
-    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span>
+    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mf">.055</span><span class="p">)</span>
+    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="mf">.055</span>
     <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="n">CARS</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
 
         
@@ -251,6 +251,7 @@
     <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -265,7 +266,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -279,13 +280,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.widget_Calibrate</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.denoise &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.preprocess.denoise &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.denoise</a></li> 
       </ul>
     </div>  
 
@@ -48,9 +48,9 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">svd</span> <span class="k">as</span> <span class="n">_svd</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">svd</span> <span class="k">as</span> <span class="n">_svd</span>
 
-<span class="kn">from</span> <span class="nn">crikit.utils.datacheck</span> <span class="k">import</span> <span class="n">_rng_is_pix_vec</span>
+<span class="kn">from</span> <span class="nn">crikit.utils.datacheck</span> <span class="kn">import</span> <span class="n">_rng_is_pix_vec</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SVDDecompose&#39;</span><span class="p">,</span> <span class="s1">&#39;SVDRecompose&#39;</span><span class="p">]</span>
 
@@ -95,7 +95,7 @@
 <span class="sd">    ----------</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_s</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_Vh</span> <span class="o">=</span> <span class="kc">None</span>
@@ -103,7 +103,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">_rng_is_pix_vec</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SVDDecompose._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.denoise.SVDDecompose._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate SVD (wrap numpy SVD).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -116,7 +116,7 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="SVDDecompose.calculate"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.denoise.SVDDecompose.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -181,13 +181,13 @@
 <span class="sd">    ----------</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">_rng_is_pix_vec</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">svs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s_keep</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="SVDRecompose._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.denoise.SVDRecompose._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform data reconstruction from U*S*Vh with selected s-values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -221,9 +221,9 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="SVDRecompose._set_s_keep"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.denoise.SVDRecompose._set_s_keep">[docs]</a>    <span class="k">def</span> <span class="nf">_set_s_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">svs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_set_s_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">svs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the singular value vector (s_keep) based on svs list/ndarray</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -233,7 +233,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">svs</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">s_keep</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">s</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s_keep</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">svs</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">svs</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_keep</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">svs</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">svs</span><span class="p">]</span>
         <span class="c1"># print(self.s_keep)</span>
         <span class="c1"># self.s_keep = s[svs]</span>
 
@@ -300,6 +300,7 @@
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -314,7 +315,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -328,13 +329,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.denoise</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

@@ -113,7 +113,7 @@ def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_to_nrb=True, pad
         return ph
 
 
-def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, min_value=None, **kwargs):
+def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, min_value=None, return_pad=False, **kwargs):
     """
     Compute the one-dimensional Hilbert Transform.
 
@@ -137,6 +137,8 @@ def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, mi
         Values below min_value set to min_value
     bad_value : float, optional
         Inf's and NaN's set to bad_value
+    return_pad: bool, optional
+        Return the full padded signal.
     
     Returns
     -------
@@ -181,6 +183,9 @@ def hilbertfft(y, pad_factor=1, n_edge=1, axis=-1, copy=True, bad_value=1e-8, mi
     slice_vec_get_y_from_pad = y.ndim*[slice(None)]
     slice_vec_get_y_from_pad[axis] = _np.where(window==1)[0]
     slice_vec_get_y_from_pad = tuple(slice_vec_get_y_from_pad)
+    
+    if return_pad:
+        return y_pad.real
     
     if copy:
         return y_pad[slice_vec_get_y_from_pad].real
