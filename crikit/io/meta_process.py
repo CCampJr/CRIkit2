@@ -73,9 +73,15 @@ def meta_process(rosetta, output_cls_instance):
     del temp
 
     temp = rosetta_query('ColorChannels',rosetta, output_cls_instance)
-    print('{} from {}'.format(temp[0], temp[1]))
-    calib_dict['n_pix'] = temp[0]
+    print('Color/Frequency-Channels: {} from {}'.format(temp[0], temp[1]))
+    if temp[0] != output_cls_instance.shape[-1]:
+        print('WARNING: Number of color channels assigned in meta data ({}) disagrees with datacube size ({})'.format(temp[0], output_cls_instance.shape[-1]))
+        print('Setting to match dataset size...')
+        calib_dict['n_pix'] = output_cls_instance.shape[-1]
+    else:
+        calib_dict['n_pix'] = temp[0]
     del temp
+
 
     temp = rosetta_query('ColorCenterWL',rosetta, output_cls_instance)
     print('{} from {}'.format(temp[0], temp[1]))
@@ -162,15 +168,27 @@ def meta_process(rosetta, output_cls_instance):
                 units = 'pix'
                 label = 'X'
 
-            
-
             # HDF files store strings in np.bytes format
             if isinstance(units, bytes):
                 units = units.decode()
             if isinstance(label, bytes):
                 label = label.decode()
 
-            print('Start: {}, Stop: {}, Steps: {}'.format(start, stop, steps))
+            if steps != output_cls_instance.shape[1]:
+                print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
+                print('WARNING: {}Steps assigned in meta data ({}) disagrees with datacube size ({})'.format(label, steps, output_cls_instance.shape[1]))
+                print('Setting steps to match data...')
+                steps = output_cls_instance.shape[1]
+
+            if (start == stop) & (steps > 1):
+                print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
+                print('WARNING: XStart and XStop are the same, which causes plotting problems. Switching to pixel-units based on dataset shape')
+                start = 0
+                stop = output_cls_instance.shape[1]-1
+                units = 'pix'
+
+            print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
+            # print('Start: {}, Stop: {}, Steps: {}'.format(start, stop, steps))
             output_cls_instance.x_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.x_rep.units = units
             output_cls_instance.x_rep.label = label
@@ -206,6 +224,20 @@ def meta_process(rosetta, output_cls_instance):
             if isinstance(label, bytes):
                 label = label.decode()
 
+            if steps != output_cls_instance.shape[0]:
+                print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
+                print('Warning: {}Steps assigned in meta data ({}) disagrees with datacube size ({})'.format(label, steps, output_cls_instance.shape[0]))
+                print('Setting steps to match data...')
+                steps = output_cls_instance.shape[0]
+
+            if (start == stop) & (steps > 1):
+                print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
+                print('WARNING: YStart and YStop are the same, which causes plotting problems. Switching to pixel-units based on dataset shape')
+                start = 0
+                stop = output_cls_instance.shape[0]-1
+                units = 'pix'
+
+            print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
             output_cls_instance.y_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.y_rep.units = units
             output_cls_instance.y_rep.label = label
