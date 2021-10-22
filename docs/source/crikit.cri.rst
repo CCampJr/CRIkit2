@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    crikit.cri.algorithms
    crikit.cri.tests
@@ -35,7 +36,6 @@ crikit.cri.merge\_nrbs module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

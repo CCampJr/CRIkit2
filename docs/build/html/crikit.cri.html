@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri package &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crikit.cri package &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -25,7 +25,8 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.cri package</a></li> 
       </ul>
     </div>  
 
@@ -34,9 +35,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="crikit-cri-package">
+  <section id="crikit-cri-package">
 <h1>crikit.cri package<a class="headerlink" href="#crikit-cri-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
+<section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -62,68 +63,58 @@
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="submodules">
+</section>
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-crikit.cri.error_correction">
+</section>
+<section id="module-crikit.cri.error_correction">
 <span id="crikit-cri-error-correction-module"></span><h2>crikit.cri.error_correction module<a class="headerlink" href="#module-crikit.cri.error_correction" title="Permalink to this headline">¶</a></h2>
 <p>Created on Mon Jun  6 11:20:35 2016</p>
 <p>&#64;author: chc</p>
-<dl class="class">
-<dt id="crikit.cri.error_correction.PhaseErrCorrectALS">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em class="sig-param">smoothness_param=1</em>, <em class="sig-param">asym_param=0.01</em>, <em class="sig-param">redux=10</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">fix_rng=None</em>, <em class="sig-param">fix_const=1</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.PhaseErrCorrectALS">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.cri.error_correction.</span></span><span class="sig-name descname"><span class="pre">PhaseErrCorrectALS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothness_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asym_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redux</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_end_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Phase error correction using alternating least squares (ALS)</p>
 <p class="rubric">References</p>
 <ul class="simple">
 <li><p>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</p></li>
 </ul>
-<dl class="method">
-<dt id="crikit.cri.error_correction.PhaseErrCorrectALS._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS._calc" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.PhaseErrCorrectALS.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.cri.error_correction.PhaseErrCorrectALS.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.calculate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.cri.error_correction.PhaseErrCorrectALS.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.transform" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.PhaseErrCorrectALS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="crikit.cri.error_correction.ScaleErrCorrectSG">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">ScaleErrCorrectSG</code><span class="sig-paren">(</span><em class="sig-param">win_size=601</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.ScaleErrCorrectSG">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.cri.error_correction.</span></span><span class="sig-name descname"><span class="pre">ScaleErrCorrectSG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">win_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">601</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Scale error correction using Savitky-Golay</p>
 <p class="rubric">References</p>
 <ul class="simple">
 <li><p>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</p></li>
 </ul>
-<dl class="method">
-<dt id="crikit.cri.error_correction.ScaleErrCorrectSG._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG._calc" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.ScaleErrCorrectSG.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.cri.error_correction.ScaleErrCorrectSG.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.calculate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.cri.error_correction.ScaleErrCorrectSG.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.transform" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.error_correction.ScaleErrCorrectSG.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#ScaleErrCorrectSG.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.error_correction.ScaleErrCorrectSG.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.cri.kk">
+</section>
+<section id="module-crikit.cri.kk">
 <span id="crikit-cri-kk-module"></span><h2>crikit.cri.kk module<a class="headerlink" href="#module-crikit.cri.kk" title="Permalink to this headline">¶</a></h2>
 <p>Kramers-Kronig relation phase retrieval.</p>
 <p class="rubric">References</p>
@@ -131,9 +122,9 @@
 phase retrieval using a time-domain Kramers-Kronig transform,”
 Opt. Lett. 34, 1363-1365 (2009).</p>
 <p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative, Comparable Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
-<dl class="class">
-<dt id="crikit.cri.kk.KramersKronig">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.kk.</code><code class="sig-name descname">KramersKronig</code><span class="sig-paren">(</span><em class="sig-param">cars_amp_offset=0.0</em>, <em class="sig-param">nrb_amp_offset=0.0</em>, <em class="sig-param">conjugate=False</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.cri.kk.KramersKronig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.cri.kk.</span></span><span class="sig-name descname"><span class="pre">KramersKronig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cars_amp_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrb_amp_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conjugate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_to_nrb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hilb_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Retrieve the real and imaginary components of coherent Raman data via the     Kramers-Kronig (KK) relation. See References.</p>
 <dl class="field-list simple">
@@ -178,19 +169,9 @@ your spectra(um), apply a phase_offset of pi.</p>
 phase retrieval using a time-domain Kramers-Kronig transform,”
 Opt. Lett. 34, 1363-1365 (2009).</p>
 <p>[2] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,     Comparable Coherent Anti-Stokes Raman Scattering (CARS)     Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._calc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig._transform">
-<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig._transform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">cars</em>, <em class="sig-param">nrb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig.calculate" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.kk.KramersKronig.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/kk.html#KramersKronig.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.kk.KramersKronig.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>cars : ndarray
 Coherent Raman signal.</p>
 <dl class="simple">
@@ -199,53 +180,49 @@ Coherent Raman signal.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig.norm_to_nrb">
-<em class="property">property </em><code class="sig-name descname">norm_to_nrb</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.norm_to_nrb" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="crikit.cri.kk.KramersKronig.norm_to_nrb">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">norm_to_nrb</span></span><a class="headerlink" href="#crikit.cri.kk.KramersKronig.norm_to_nrb" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig.pad_factor">
-<em class="property">property </em><code class="sig-name descname">pad_factor</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.pad_factor" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="crikit.cri.kk.KramersKronig.pad_factor">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">pad_factor</span></span><a class="headerlink" href="#crikit.cri.kk.KramersKronig.pad_factor" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.cri.kk.KramersKronig.phase_offset">
-<em class="property">property </em><code class="sig-name descname">phase_offset</code><a class="headerlink" href="#crikit.cri.kk.KramersKronig.phase_offset" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="crikit.cri.kk.KramersKronig.phase_offset">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">phase_offset</span></span><a class="headerlink" href="#crikit.cri.kk.KramersKronig.phase_offset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Phase offset</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.cri.merge_nrbs">
+</section>
+<section id="module-crikit.cri.merge_nrbs">
 <span id="crikit-cri-merge-nrbs-module"></span><h2>crikit.cri.merge_nrbs module<a class="headerlink" href="#module-crikit.cri.merge_nrbs" title="Permalink to this headline">¶</a></h2>
 <p>Created on Wed Nov  2 11:04:43 2016</p>
 <p>&#64;author: chc</p>
-<dl class="class">
-<dt id="crikit.cri.merge_nrbs.MergeNRBs">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.merge_nrbs.</code><code class="sig-name descname">MergeNRBs</code><span class="sig-paren">(</span><em class="sig-param">nrb_left</em>, <em class="sig-param">nrb_right</em>, <em class="sig-param">pix</em>, <em class="sig-param">left_side_scale=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.cri.merge_nrbs.MergeNRBs">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.cri.merge_nrbs.</span></span><span class="sig-name descname"><span class="pre">MergeNRBs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nrb_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrb_right</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_side_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Merge two NRBs: a left-side and a right-side</p>
-<dl class="method">
-<dt id="crikit.cri.merge_nrbs.MergeNRBs._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ret_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs._calc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.cri.merge_nrbs.MergeNRBs.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs.calculate" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.cri.merge_nrbs.MergeNRBs.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/merge_nrbs.html#MergeNRBs.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.merge_nrbs.MergeNRBs.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.cri">
+</section>
+<section id="module-crikit.cri">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.cri" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -280,7 +257,7 @@ Coherent Raman signal.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -294,12 +271,13 @@ Coherent Raman signal.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.cri package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

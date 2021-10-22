@@ -12,7 +12,6 @@ crikit.cri.algorithms.kk module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

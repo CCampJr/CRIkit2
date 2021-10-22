@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.cri.algorithms package &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crikit.cri.algorithms package &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -25,7 +25,8 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.cri.algorithms package</a></li> 
       </ul>
     </div>  
 
@@ -34,14 +35,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="crikit-cri-algorithms-package">
+  <section id="crikit-cri-algorithms-package">
 <h1>crikit.cri.algorithms package<a class="headerlink" href="#crikit-cri-algorithms-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-crikit.cri.algorithms.kk">
+</section>
+<section id="module-crikit.cri.algorithms.kk">
 <span id="crikit-cri-algorithms-kk-module"></span><h2>crikit.cri.algorithms.kk module<a class="headerlink" href="#module-crikit.cri.algorithms.kk" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">
+<section id="kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk">
 <h3>Kramers-Kronig Relation Phase Retrieval (crikit.process.maths.kk)<a class="headerlink" href="#kramers-kronig-relation-phase-retrieval-crikit-process-maths-kk" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>kkrelation : Retrieve real and imaginary components from a
@@ -54,9 +55,58 @@ spectrum that is the modulus of a function</p>
 Retrieval,” Journal of Raman Spectroscopy (2016). arXiv:1507.06543.</p>
 </dd>
 </dl>
-<dl class="function">
-<dt id="crikit.cri.algorithms.kk.kkrelation">
-<code class="sig-prename descclassname">crikit.cri.algorithms.kk.</code><code class="sig-name descname">kkrelation</code><span class="sig-paren">(</span><em class="sig-param">bg</em>, <em class="sig-param">cri</em>, <em class="sig-param">conjugate=False</em>, <em class="sig-param">phase_offset=0.0</em>, <em class="sig-param">norm_to_nrb=True</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">no_iter=False</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">hilb_kwargs={}</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.cri.algorithms.kk.hilbertfft">
+<span class="sig-prename descclassname"><span class="pre">crikit.cri.algorithms.kk.</span></span><span class="sig-name descname"><span class="pre">hilbertfft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#hilbertfft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.hilbertfft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the one-dimensional Hilbert Transform.</p>
+<p>This function computes the one-dimentional Hilbert transform
+using the Fourier-domain implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>ndarray</em>) – Input numpy array</p></li>
+<li><p><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – The multiple number of spectra-length pads that will be
+applied before and after the original spectra</p></li>
+<li><p><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</p></li>
+<li><p><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Copy or over-write input data</p></li>
+<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Values below min_value set to min_value</p></li>
+<li><p><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Inf’s and NaN’s set to bad_value</p></li>
+<li><p><strong>return_pad</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Return the full padded signal.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hilbert transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Camp Jr, C. H., Lee, Y. J., &amp; Cicerone, M. T. (2016). Quantitative, comparable
+coherent anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in
+phase retrieval. Journal of Raman Spectroscopy, 47(4), 408–415.
+<a class="reference external" href="https://doi.org/10.1002/jrs.4824">https://doi.org/10.1002/jrs.4824</a> <a class="reference external" href="https://arxiv.org/abs/1507.06543">https://arxiv.org/abs/1507.06543</a></p></li>
+<li><dl class="simple">
+<dt>C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable</dt><dd><p>Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting
+Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016).
+arXiv:1507.06543.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A D Poularikas, “The Hilbert Transform,” in The Handbook of</dt><dd><p>Formulas and Tables for Signal Processing (ed., A. D. Poularikas),
+Boca Raton, CRC Press LLC (1999).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.cri.algorithms.kk.kkrelation">
+<span class="sig-prename descclassname"><span class="pre">crikit.cri.algorithms.kk.</span></span><span class="sig-name descname"><span class="pre">kkrelation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conjugate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_to_nrb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hilb_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#kkrelation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.kkrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the real and imaginary components of a CRI spectra(um) via
 the Kramers-Kronig (KK) relation.</p>
 <dl class="field-list simple">
@@ -97,62 +147,15 @@ are automatically sent – these will overwrite anything in hilb_kwargs.</p></li
 <p>C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable     Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting     Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016).     arXiv:1507.06543.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="crikit.cri.algorithms.kk.hilbertfft">
-<code class="sig-prename descclassname">crikit.cri.algorithms.kk.</code><code class="sig-name descname">hilbertfft</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">pad_factor=1</em>, <em class="sig-param">n_edge=1</em>, <em class="sig-param">axis=-1</em>, <em class="sig-param">copy=True</em>, <em class="sig-param">bad_value=1e-08</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/algorithms/kk.html#hilbertfft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.algorithms.kk.hilbertfft" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the one-dimensional Hilbert Transform.</p>
-<p>This function computes the one-dimentional Hilbert transform
-using the Fourier-domain implementation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>y</strong> (<em>ndarray</em>) – Input numpy array</p></li>
-<li><p><strong>pad_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – The multiple number of spectra-length pads that will be
-applied before and after the original spectra</p></li>
-<li><p><strong>n_edge</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – For edge values, take a mean of n_edge neighbors</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Axis to perform over</p></li>
-<li><p><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Copy or over-write input data</p></li>
-<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Values below min_value set to min_value</p></li>
-<li><p><strong>bad_value</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Inf’s and NaN’s set to bad_value</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Hilbert transformed data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p>Camp Jr, C. H., Lee, Y. J., &amp; Cicerone, M. T. (2016). Quantitative, comparable
-coherent anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in
-phase retrieval. Journal of Raman Spectroscopy, 47(4), 408–415.
-<a class="reference external" href="https://doi.org/10.1002/jrs.4824">https://doi.org/10.1002/jrs.4824</a> <a class="reference external" href="https://arxiv.org/abs/1507.06543">https://arxiv.org/abs/1507.06543</a></p></li>
-<li><dl class="simple">
-<dt>C H Camp Jr, Y J Lee, and M T Cicerone, “Quantitative, Comparable</dt><dd><p>Coherent Anti-Stokes Raman Scattering (CARS) Spectroscopy: Correcting
-Errors in Phase Retrieval,” Journal of Raman Spectroscopy (2016).
-arXiv:1507.06543.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>A D Poularikas, “The Hilbert Transform,” in The Handbook of</dt><dd><p>Formulas and Tables for Signal Processing (ed., A. D. Poularikas),
-Boca Raton, CRC Press LLC (1999).</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="module-crikit.cri.algorithms">
+</section>
+</section>
+<section id="module-crikit.cri.algorithms">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.cri.algorithms" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -187,7 +190,7 @@ Boca Raton, CRC Press LLC (1999).</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -201,12 +204,13 @@ Boca Raton, CRC Press LLC (1999).</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.cri.algorithms package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

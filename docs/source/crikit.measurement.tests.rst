@@ -28,7 +28,6 @@ crikit.measurement.tests.test\_peakfind module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

@@ -52,7 +52,6 @@ crikit.data.tests.\~test\_data\_indexing module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

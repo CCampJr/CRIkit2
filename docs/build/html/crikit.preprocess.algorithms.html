@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.algorithms package &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crikit.preprocess.algorithms package &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -25,7 +25,8 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.algorithms package</a></li> 
       </ul>
     </div>  
 
@@ -34,77 +35,54 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="crikit-preprocess-algorithms-package">
+  <section id="crikit-preprocess-algorithms-package">
 <h1>crikit.preprocess.algorithms package<a class="headerlink" href="#crikit-preprocess-algorithms-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-crikit.preprocess.algorithms.abstract_als">
+</section>
+<section id="module-crikit.preprocess.algorithms.abstract_als">
 <span id="crikit-preprocess-algorithms-abstract-als-module"></span><h2>crikit.preprocess.algorithms.abstract_als module<a class="headerlink" href="#module-crikit.preprocess.algorithms.abstract_als" title="Permalink to this headline">¶</a></h2>
 <p>Created on Mon Dec  5 13:44:58 2016</p>
 <p>&#64;author: chc</p>
-<dl class="class">
-<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.algorithms.abstract_als.</code><code class="sig-name descname">AbstractBaseline</code><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.abstract_als.</span></span><span class="sig-name descname"><span class="pre">AbstractBaseline</span></span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline._calc" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate">
-<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.calculate" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.fix_rng">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fix_rng</span></span><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.fix_rng" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.fix_rng">
-<em class="property">property </em><code class="sig-name descname">fix_rng</code><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.fix_rng" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup">
-<code class="sig-name descname">setup</code><span class="sig-paren">(</span><em class="sig-param">redux=1</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">fix_rng=None</em>, <em class="sig-param">fix_const=1</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">use_prev=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redux</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_end_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/abstract_als.html#AbstractBaseline.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline.setup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.preprocess.algorithms.als">
+</section>
+<section id="module-crikit.preprocess.algorithms.als">
 <span id="crikit-preprocess-algorithms-als-module"></span><h2>crikit.preprocess.algorithms.als module<a class="headerlink" href="#module-crikit.preprocess.algorithms.als" title="Permalink to this headline">¶</a></h2>
 <p>Created on Mon Dec  5 12:12:51 2016</p>
 <p>&#64;author: chc</p>
-<dl class="class">
-<dt id="crikit.preprocess.algorithms.als.AlsCvxopt">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.algorithms.als.</code><code class="sig-name descname">AlsCvxopt</code><span class="sig-paren">(</span><em class="sig-param">smoothness_param=1000.0</em>, <em class="sig-param">asym_param=0.0001</em>, <em class="sig-param">redux=1</em>, <em class="sig-param">order=2</em>, <em class="sig-param">rng=None</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">fix_rng=None</em>, <em class="sig-param">fix_const=1</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">use_prev=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.als.AlsCvxopt">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.als.</span></span><span class="sig-name descname"><span class="pre">AlsCvxopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothness_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asym_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redux</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_end_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="crikit.preprocess.algorithms.abstract_als.AbstractBaseline"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></a></p>
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.als.AlsCvxopt._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/als.html#AlsCvxopt._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt._calc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform the ALS. Called from self.calculate (defined in
-AbstractBaseline parent class)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>signal</strong> (<em>ndarray</em><em> (</em><em>&gt;= 1D</em><em>)</em>) – Input signal</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>baseline</strong> – Baseline of input signal</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.als.AlsCvxopt.asym_param">
-<em class="property">property </em><code class="sig-name descname">asym_param</code><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt.asym_param" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.als.AlsCvxopt.asym_param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">asym_param</span></span><a class="headerlink" href="#crikit.preprocess.algorithms.als.AlsCvxopt.asym_param" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.preprocess.algorithms.anscombe">
+</section>
+<section id="module-crikit.preprocess.algorithms.anscombe">
 <span id="crikit-preprocess-algorithms-anscombe-module"></span><h2>crikit.preprocess.algorithms.anscombe module<a class="headerlink" href="#module-crikit.preprocess.algorithms.anscombe" title="Permalink to this headline">¶</a></h2>
 <p>Variance Stabilization</p>
 <dl class="simple">
@@ -128,9 +106,9 @@ doi:10.1109/TIP.2012.2202675</p>
 <dt>[2] J.L. Starck, F. Murtagh, and A. Bijaoui, Image  Processing  and  Data</dt><dd><p>Analysis, Cambridge University Press, Cambridge, 1998)</p>
 </dd>
 </dl>
-<dl class="function">
-<dt id="crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased">
-<code class="sig-prename descclassname">crikit.preprocess.algorithms.anscombe.</code><code class="sig-name descname">anscombe_inverse_exact_unbiased</code><span class="sig-paren">(</span><em class="sig-param">fsignal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#anscombe_inverse_exact_unbiased"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased">
+<span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.anscombe.</span></span><span class="sig-name descname"><span class="pre">anscombe_inverse_exact_unbiased</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fsignal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#anscombe_inverse_exact_unbiased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.anscombe_inverse_exact_unbiased" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies an exact, unbiased inverse of the Anscombe
 variance-stabilizing transformation assuming a mixed Poisson-Gaussian
 noise model as:</p>
@@ -169,9 +147,9 @@ Dec. 1948.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="crikit.preprocess.algorithms.anscombe.gen_anscombe_forward">
-<code class="sig-prename descclassname">crikit.preprocess.algorithms.anscombe.</code><code class="sig-name descname">gen_anscombe_forward</code><span class="sig-paren">(</span><em class="sig-param">signal</em>, <em class="sig-param">gauss_std</em>, <em class="sig-param">gauss_mean=0</em>, <em class="sig-param">poisson_multi=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_forward" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.anscombe.gen_anscombe_forward">
+<span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.anscombe.</span></span><span class="sig-name descname"><span class="pre">gen_anscombe_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poisson_multi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies the generalized Anscombe variance-stabilization transform
 assuming a mixed Poisson-Gaussian noise model as:</p>
 <p>signal = poisson_multi*Poisson{signal0} + Gauss{gauss_mean, gauss_std},</p>
@@ -204,9 +182,9 @@ below if using this software. <a class="reference external" href="http://www.cs.
 Data Analysis, Cambridge University Press, Cambridge, 1998)</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form">
-<code class="sig-prename descclassname">crikit.preprocess.algorithms.anscombe.</code><code class="sig-name descname">gen_anscombe_inverse_closed_form</code><span class="sig-paren">(</span><em class="sig-param">fsignal</em>, <em class="sig-param">gauss_std</em>, <em class="sig-param">gauss_mean=0</em>, <em class="sig-param">poisson_multi=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_inverse_closed_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form">
+<span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.anscombe.</span></span><span class="sig-name descname"><span class="pre">gen_anscombe_inverse_closed_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fsignal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poisson_multi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_inverse_closed_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_closed_form" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a closed-form approximation of the exact unbiased inverse of the
 generalized Anscombe variance-stabilizing transformation assuming a
 mixed Poisson-Gaussian noise model as:</p>
@@ -246,9 +224,9 @@ doi:10.1109/TIP.2012.2202675</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased">
-<code class="sig-prename descclassname">crikit.preprocess.algorithms.anscombe.</code><code class="sig-name descname">gen_anscombe_inverse_exact_unbiased</code><span class="sig-paren">(</span><em class="sig-param">fsignal</em>, <em class="sig-param">gauss_std</em>, <em class="sig-param">gauss_mean=0</em>, <em class="sig-param">poisson_multi=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_inverse_exact_unbiased"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased">
+<span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.anscombe.</span></span><span class="sig-name descname"><span class="pre">gen_anscombe_inverse_exact_unbiased</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fsignal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poisson_multi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/anscombe.html#gen_anscombe_inverse_exact_unbiased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.anscombe.gen_anscombe_inverse_exact_unbiased" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies an exact, unbiased inverse of the generalized Anscombe
 variance-stabilizing transformation assuming a mixed Poisson-Gaussian
 noise model as:</p>
@@ -288,29 +266,25 @@ doi:10.1109/TIP.2012.2202675</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.preprocess.algorithms.arpls">
+</section>
+<section id="module-crikit.preprocess.algorithms.arpls">
 <span id="crikit-preprocess-algorithms-arpls-module"></span><h2>crikit.preprocess.algorithms.arpls module<a class="headerlink" href="#module-crikit.preprocess.algorithms.arpls" title="Permalink to this headline">¶</a></h2>
 <p>Created on Mon Dec  5 13:53:49 2016</p>
 <p>&#64;author: chc</p>
-<dl class="class">
-<dt id="crikit.preprocess.algorithms.arpls.ArPlsCvxopt">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.preprocess.algorithms.arpls.</code><code class="sig-name descname">ArPlsCvxopt</code><span class="sig-paren">(</span><em class="sig-param">smoothness_param=1e-08</em>, <em class="sig-param">redux=1</em>, <em class="sig-param">order=2</em>, <em class="sig-param">fix_end_points=False</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">min_diff=1e-05</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/arpls.html#ArPlsCvxopt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.arpls.ArPlsCvxopt" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.preprocess.algorithms.arpls.ArPlsCvxopt">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.preprocess.algorithms.arpls.</span></span><span class="sig-name descname"><span class="pre">ArPlsCvxopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothness_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redux</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_end_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/arpls.html#ArPlsCvxopt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.preprocess.algorithms.arpls.ArPlsCvxopt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.preprocess.algorithms.abstract_als.AbstractBaseline" title="crikit.preprocess.algorithms.abstract_als.AbstractBaseline"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.preprocess.algorithms.abstract_als.AbstractBaseline</span></code></a></p>
-<dl class="method">
-<dt id="crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc">
-<code class="sig-name descname">_calc</code><span class="sig-paren">(</span><em class="sig-param">signal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/preprocess/algorithms/arpls.html#ArPlsCvxopt._calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.preprocess.algorithms.arpls.ArPlsCvxopt._calc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
-</div>
-<div class="section" id="module-crikit.preprocess.algorithms">
+</section>
+<section id="module-crikit.preprocess.algorithms">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.preprocess.algorithms" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -345,7 +319,7 @@ doi:10.1109/TIP.2012.2202675</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -359,12 +333,13 @@ doi:10.1109/TIP.2012.2202675</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.2.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.algorithms package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

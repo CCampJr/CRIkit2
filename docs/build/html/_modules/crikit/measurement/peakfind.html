@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.measurement.peakfind &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.measurement.peakfind &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.measurement.peakfind</a></li> 
       </ul>
     </div>  
 
@@ -47,7 +47,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">timeit</span> <span class="k">as</span> <span class="nn">_timeit</span>
 
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="p">(</span><span class="n">convolve</span> <span class="k">as</span> <span class="n">_convolve</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="p">(</span><span class="n">convolve</span> <span class="k">as</span> <span class="n">_convolve</span><span class="p">,</span>
                           <span class="n">argrelmin</span> <span class="k">as</span> <span class="n">_argrelmin</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PeakFinder"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder">[docs]</a><span class="k">class</span> <span class="nc">PeakFinder</span><span class="p">:</span>
@@ -73,7 +73,7 @@
 <span class="sd">    measure : Same as calculate but static (returns the amplitude directly)</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">cwt_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_noise_tests</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_sigma</span><span class="p">,</span> <span class="n">cwt_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_noise_tests</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                  <span class="n">cutoff_d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cutoff_d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cwt_width</span> <span class="o">=</span> <span class="n">cwt_width</span>  <span class="c1"># Width, in pixels, of wavelet</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_sigma</span> <span class="o">=</span> <span class="n">noise_sigma</span>  <span class="c1"># Standard deviation of signal noise</span>
@@ -250,7 +250,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">y_retrieved</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">y_retrieved</span>  <span class="c1"># Estimated coarse peak fitting</span></div>
 
-<div class="viewcode-block" id="PeakFinder._calc_cutoff"><a class="viewcode-back" href="../../../crikit.measurement.html#crikit.measurement.peakfind.PeakFinder._calc_cutoff">[docs]</a>    <span class="k">def</span> <span class="nf">_calc_cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recalc_cutoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recalc_cutoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">recalc_cutoff</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
             <span class="n">y_blank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noise_sigma</span><span class="o">*</span><span class="n">_np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_noise_tests</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pix</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
             <span class="n">y_blank_d2</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_blank</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -266,7 +266,7 @@
             
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;1st-Deriv cutoff: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d1</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2nd-Deriv cutoff: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span><span class="p">))</span></div></div>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2nd-Deriv cutoff: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff_d2</span><span class="p">))</span></div>
         
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
@@ -306,6 +306,7 @@
     <span class="c1"># print(pkfind.__dict__)</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -320,7 +321,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -334,13 +335,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.measurement.peakfind</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.preprocess.subtract_dark &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.preprocess.subtract_dark &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.subtract_dark</a></li> 
       </ul>
     </div>  
 
@@ -45,15 +45,15 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
 
-<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="k">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
-<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="k">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
-<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="k">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="kn">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Spectra</span> <span class="k">as</span> <span class="n">_Spectra</span>
+<span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
 
-<span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="k">import</span> <span class="p">(</span><span class="n">expand_1d_to_ndim</span> <span class="k">as</span> <span class="n">_expand_1d_to_ndim</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">crikit.utils.general</span> <span class="kn">import</span> <span class="p">(</span><span class="n">expand_1d_to_ndim</span> <span class="k">as</span> <span class="n">_expand_1d_to_ndim</span><span class="p">,</span>
                                   <span class="n">mean_nd_to_1d</span> <span class="k">as</span> <span class="n">_mean_nd_to_1d</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SubtractDark"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.subtract_dark.SubtractDark">[docs]</a><span class="k">class</span> <span class="nc">SubtractDark</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dark</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dark</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">dark</span>
 
 <div class="viewcode-block" id="SubtractDark.transform"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.subtract_dark.SubtractDark.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -104,7 +104,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="SubtractDark._calc"><a class="viewcode-back" href="../../../crikit.preprocess.html#crikit.preprocess.subtract_dark.SubtractDark._calc">[docs]</a>    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ret_obj</span><span class="p">):</span>
         <span class="c1"># Assume that an nD dark should be averaged to be 1D</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">_mean_nd_to_1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
@@ -112,7 +112,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dark</span> <span class="o">=</span> <span class="n">_expand_1d_to_ndim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
 
         <span class="n">ret_obj</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span>
-        <span class="k">return</span> <span class="kc">True</span></div></div>
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span> <span class="c1"># pragma: no cover</span>
@@ -178,6 +178,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Final Data Mean: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -192,7 +193,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -206,13 +207,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.preprocess.subtract_dark</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

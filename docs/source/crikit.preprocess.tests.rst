@@ -44,7 +44,6 @@ crikit.preprocess.tests.test\_subtract\_dark module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

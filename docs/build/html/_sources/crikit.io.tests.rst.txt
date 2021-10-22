@@ -12,7 +12,6 @@ crikit.io.tests.test\_hdf5 module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

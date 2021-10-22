@@ -1,4 +1,4 @@
-crikit2
+CRIkit2
 =======
 
 .. toctree::

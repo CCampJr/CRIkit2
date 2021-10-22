@@ -20,7 +20,6 @@ crikit.ui.utils.roi module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

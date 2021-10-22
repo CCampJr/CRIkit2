@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    crikit.utils.tests
 
@@ -42,7 +43,6 @@ crikit.utils.roi module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------

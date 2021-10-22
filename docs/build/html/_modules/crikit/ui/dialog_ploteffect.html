@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>crikit.ui.dialog_ploteffect &#8212; CRIKit2 0.2.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.ui.dialog_ploteffect &#8212; CRIKit2 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -25,8 +24,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.dialog_ploteffect</a></li> 
       </ul>
     </div>  
 
@@ -45,17 +45,17 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 
-<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="k">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span>
                              <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">_QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">_QtWidgets</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect</span> <span class="k">import</span> <span class="n">Ui_Dialog</span> <span class="k">as</span> <span class="n">Ui_DialogPlotEffect</span>
+<span class="kn">from</span> <span class="nn">crikit.ui.qt_PlotEffect</span> <span class="kn">import</span> <span class="n">Ui_Dialog</span> <span class="k">as</span> <span class="n">Ui_DialogPlotEffect</span>
 
-<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="k">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span> 
+<span class="kn">from</span> <span class="nn">crikit.ui.dialog_AbstractPlotEffect</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AbstractPlotEffectPlugin</span> 
                                                      <span class="k">as</span>
                                                      <span class="n">_AbstractPlotEffectPlugin</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="k">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
+<span class="kn">from</span> <span class="nn">sciplot.ui.widget_mpl</span> <span class="kn">import</span> <span class="n">MplCanvas</span> <span class="k">as</span> <span class="n">_MplCanvas</span>
 
 <div class="viewcode-block" id="DialogPlotEffect"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffect">[docs]</a><span class="k">class</span> <span class="nc">DialogPlotEffect</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -79,7 +79,7 @@
 
     <span class="n">TRANSPOSE_ARR</span> <span class="o">=</span> <span class="kc">True</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mpl_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mpl_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DialogPlotEffect</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_DialogPlotEffect</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -271,7 +271,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_orig</span><span class="o">.</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">labels_orig</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_affected</span><span class="o">.</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin</span><span class="o">.</span><span class="n">labels_affected</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DialogPlotEffect._plot_labels_ax"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.DialogPlotEffect._plot_labels_ax">[docs]</a>    <span class="k">def</span> <span class="nf">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_plot_labels_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
             <span class="n">k_lower</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -280,7 +280,7 @@
             <span class="k">elif</span> <span class="n">k_lower</span> <span class="o">==</span> <span class="s1">&#39;y_label&#39;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">k_lower</span> <span class="o">==</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div></div>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
                 
         
 <div class="viewcode-block" id="widgetDemoPlotEffectPlugin"><a class="viewcode-back" href="../../../crikit.ui.html#crikit.ui.dialog_ploteffect.widgetDemoPlotEffectPlugin">[docs]</a><span class="k">class</span> <span class="nc">widgetDemoPlotEffectPlugin</span><span class="p">(</span><span class="n">_AbstractPlotEffectPlugin</span><span class="p">):</span>
@@ -303,7 +303,7 @@
                        <span class="s1">&#39;title&#39;</span> <span class="p">:</span> <span class="s1">&#39;Affected&#39;</span>
                       <span class="p">}</span>
                     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">widgetDemoPlotEffectPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="c1">### EDIT ###</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span> 
@@ -312,7 +312,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If return list, [0] goes to original, [1] goes to affected</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="o">*</span><span class="n">data_in</span> <span class="o">+</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">data_in</span> <span class="o">+</span> <span class="o">.</span><span class="mi">1</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="o">*</span><span class="n">data_in</span> <span class="o">+</span> <span class="mf">.1</span><span class="p">,</span> <span class="n">data_in</span> <span class="o">+</span> <span class="mf">.1</span><span class="p">]</span></div></div>
         
     
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -346,8 +346,8 @@
     <span class="c1"># wl = calib_dict[&#39;a_vec&#39;][0]*pix + calib_dict[&#39;a_vec&#39;][1]</span>
     <span class="c1"># WN = .01/(wl*1e-9) - .01/(calib_dict[&#39;probe&#39;]*1e-9)</span>
     
-    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span><span class="p">)</span>
-    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="o">.</span><span class="mi">055</span>
+    <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">3000</span><span class="o">-</span><span class="n">WN</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mf">.055</span><span class="p">)</span>
+    <span class="n">NRB</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">WN</span> <span class="o">+</span> <span class="mf">.055</span>
     <span class="n">CARS</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)[:,</span><span class="kc">None</span><span class="p">],</span><span class="n">CARS</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
     
     
@@ -412,7 +412,7 @@
 <span class="c1">#        print(winPlotEffect.parameters)</span>
 <span class="c1">#    </span>
    <span class="c1"># KK</span>
-    <span class="kn">from</span> <span class="nn">crikit.ui.widget_KK</span> <span class="k">import</span> <span class="p">(</span><span class="n">widgetKK</span> <span class="k">as</span> <span class="n">_widgetKK</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">crikit.ui.widget_KK</span> <span class="kn">import</span> <span class="p">(</span><span class="n">widgetKK</span> <span class="k">as</span> <span class="n">_widgetKK</span><span class="p">)</span>
     <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetKK</span><span class="p">()</span>
     <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">DialogPlotEffect</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">([</span><span class="n">NRB</span><span class="p">,</span><span class="n">CARS</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="n">WN</span><span class="p">,</span>
                                                            <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span>
@@ -450,6 +450,7 @@
     <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -464,7 +465,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -478,13 +479,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.2.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.ui.dialog_ploteffect</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

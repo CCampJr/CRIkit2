@@ -28,7 +28,6 @@ crikit.utils.tests.test\_pad\_edge\_mean module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 
