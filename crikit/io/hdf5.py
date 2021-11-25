@@ -81,11 +81,11 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                                                                     dtype=dset_dtype_import)
                             fid[dname].read_direct(output_cls_instance.data)
 
-                            # output_cls_instance.data = fid[dname].value
+                            # output_cls_instance.data = fid[dname][:]
                             output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                         else:
                             output_cls_instance.data = _np.vstack((output_cls_instance.data,
-                                                                    fid[dname].value.astype(dset_dtype_import)))
+                                                                    fid[dname][:].astype(dset_dtype_import)))
             ret = True
         elif type(output_cls_instance) == _Spectra:
             print('Type Spectra')
@@ -107,11 +107,11 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                     # Convert to hardware-oriented dtype (endianess)
                     dset_dtype_import = fid[dname].dtype.newbyteorder('=')
                     if num == 0:
-                        output_cls_instance.data = fid[dname].value.astype(dset_dtype_import)
+                        output_cls_instance.data = fid[dname][:].astype(dset_dtype_import)
                         output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                     else:
                         output_cls_instance.data = _np.vstack((output_cls_instance.data,
-                                                               fid[dname].value.astype(dset_dtype_import)))
+                                                               fid[dname][:].astype(dset_dtype_import)))
             ret = True
         elif type(output_cls_instance) == _Spectrum:
             print('Type Spectrum')
@@ -136,10 +136,10 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                             output_cls_instance.data = _np.zeros(dset_shp,
                                                                     dtype=dset_dtype_import)
                             fid[dname].read_direct(output_cls_instance.data)
-                            # output_cls_instance.data = fid[dname].value
+                            # output_cls_instance.data = fid[dname][:]
                             output_cls_instance.meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                         else:
-                            output_cls_instance.data += fid[dname].value.astype(dset_dtype_import)
+                            output_cls_instance.data += fid[dname][:].astype(dset_dtype_import)
                     output_cls_instance.data /= num+1
             ret = True
         elif output_cls_instance is None:
@@ -161,10 +161,10 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                         data = _np.zeros(dset_shp,
                                                                 dtype=dset_dtype_import)
                         fid[dname].read_direct(data)
-                        # data = fid[dname].value
+                        # data = fid[dname][:]
                         meta = _lazy5.inspect.get_attrs_dset(fid, dname)
                     else:
-                        data = _np.vstack((data, fid[dname].value.astype(dset_dtype_import)))
+                        data = _np.vstack((data, fid[dname][:].astype(dset_dtype_import)))
             ret = [data, meta]
         else:
             raise TypeError('output_cls must be Spectrum, Spectra, or Hsi')
