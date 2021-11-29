@@ -11,7 +11,7 @@ __all__ = ['Frequency', 'calib_pix_wn', 'calib_pix_wl']
 
 class Frequency:
     """
-    Frequency [,wavelength, and waevnumber] class
+    Frequency [,wavelength, and wavenumber] class
 
     Attributes
     ----------
