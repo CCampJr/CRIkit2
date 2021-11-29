@@ -5,13 +5,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.hdf5 &#8212; CRIKit2 0.3.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <title>crikit.io.hdf5 &#8212; CRIKit2 0.3.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -24,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.hdf5</a></li> 
       </ul>
@@ -119,11 +121,11 @@
                                                                     <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                             <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-                            <span class="c1"># output_cls_instance.data = fid[dname].value</span>
+                            <span class="c1"># output_cls_instance.data = fid[dname][:]</span>
                             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">_lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                                                                    <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
+                                                                    <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectra</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectra&#39;</span><span class="p">)</span>
@@ -145,11 +147,11 @@
                     <span class="c1"># Convert to hardware-oriented dtype (endianess)</span>
                     <span class="n">dset_dtype_import</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
+                        <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">_lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                                                               <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
+                                                               <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectrum</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Spectrum&#39;</span><span class="p">)</span>
@@ -174,10 +176,10 @@
                             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span>
                                                                     <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                             <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-                            <span class="c1"># output_cls_instance.data = fid[dname].value</span>
+                            <span class="c1"># output_cls_instance.data = fid[dname][:]</span>
                             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">_lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
+                            <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                     <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">/=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">output_cls_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -199,10 +201,10 @@
                         <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span>
                                                                 <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                         <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                        <span class="c1"># data = fid[dname].value</span>
+                        <span class="c1"># data = fid[dname][:]</span>
                         <span class="n">meta</span> <span class="o">=</span> <span class="n">_lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">fid</span><span class="p">[</span><span class="n">dname</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)))</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;output_cls must be Spectrum, Spectra, or Hsi&#39;</span><span class="p">)</span>
@@ -307,14 +309,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.hdf5</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

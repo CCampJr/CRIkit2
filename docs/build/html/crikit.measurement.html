@@ -4,15 +4,16 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>crikit.measurement package &#8212; CRIKit2 0.3.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.measurement package &#8212; CRIKit2 0.3.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -25,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.measurement package</a></li> 
       </ul>
     </div>  
@@ -35,9 +36,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="crikit-measurement-package">
+  <div class="section" id="crikit-measurement-package">
 <h1>crikit.measurement package<a class="headerlink" href="#crikit-measurement-package" title="Permalink to this headline">¶</a></h1>
-<section id="subpackages">
+<div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -51,28 +52,28 @@
 </li>
 </ul>
 </div>
-</section>
-<section id="submodules">
+</div>
+<div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</section>
-<section id="module-crikit.measurement.fftspatialnoise">
+</div>
+<div class="section" id="module-crikit.measurement.fftspatialnoise">
 <span id="crikit-measurement-fftspatialnoise-module"></span><h2>crikit.measurement.fftspatialnoise module<a class="headerlink" href="#module-crikit.measurement.fftspatialnoise" title="Permalink to this headline">¶</a></h2>
 <p>Created on Fri Jun 10 16:16:17 2016</p>
 <p>&#64;author: chc</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.fftspatialnoise.FFTSignalMetric">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.fftspatialnoise.</span></span><span class="sig-name descname"><span class="pre">FFTSignalMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_shp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.fftspatialnoise.FFTSignalMetric">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.fftspatialnoise.</code><code class="sig-name descname">FFTSignalMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img_shp</span></em>, <em class="sig-param"><span class="n">cutoff</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">img</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>FFT Spatial Noise Metric (Ratio - 1)</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.fftspatialnoise.FFTSignalMetric.calc">
-<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric.calc" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.fftspatialnoise.FFTSignalMetric.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/fftspatialnoise.html#FFTSignalMetric.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.fftspatialnoise.FFTSignalMetric.calc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="module-crikit.measurement.peakamps">
+</div>
+<div class="section" id="module-crikit.measurement.peakamps">
 <span id="crikit-measurement-peakamps-module"></span><h2>crikit.measurement.peakamps module<a class="headerlink" href="#module-crikit.measurement.peakamps" title="Permalink to this headline">¶</a></h2>
 <p>Measurement methods to quantify peak relationships</p>
 <div class="admonition note">
@@ -80,50 +81,50 @@
 <p>For complex-valued measurements, all methods perform the math separately for real and imag</p>
 </div>
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureThree">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">AbstractMeasureThree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureThree">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">AbstractMeasureThree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em>, <em class="sig-param"><span class="n">f3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract class for measurements that take 3 things</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureThree.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree.calculate" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureThree.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureThree.measure">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree.measure" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureThree.measure">
+<em class="property">classmethod </em><code class="sig-name descname">measure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em>, <em class="sig-param"><span class="n">f3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureThree.measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureThree.measure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureTwo">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">AbstractMeasureTwo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureTwo">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">AbstractMeasureTwo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract class for measurements that take 2 things</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureTwo.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo.calculate" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureTwo.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureTwo.measure">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo.measure" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureTwo.measure">
+<em class="property">classmethod </em><code class="sig-name descname">measure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwo.measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwo.measure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.AbstractMeasureTwoOrdered">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">AbstractMeasureTwoOrdered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwoOrdered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.AbstractMeasureTwoOrdered">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">AbstractMeasureTwoOrdered</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#AbstractMeasureTwoOrdered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="crikit.measurement.peakamps.AbstractMeasureTwo"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwo</span></code></a></p>
 <p>Abstract class for measurements that take 2 things,
 where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeak">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeak">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeak</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Meausure peak amplitude.</p>
 <dl class="field-list simple">
@@ -132,8 +133,8 @@ where f1 &lt; f2</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeak.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeak.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -143,40 +144,40 @@ where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeak.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.calculate" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeak.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.calculate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeak.measure">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.measure" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeak.measure">
+<em class="property">classmethod </em><code class="sig-name descname">measure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">f1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeak.measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeak.measure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakAdd">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakAdd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakAdd">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakAdd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakAdd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="crikit.measurement.peakamps.AbstractMeasureTwo"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwo</span></code></a></p>
 <p>Meausure the addition of two peaks (f1 + f2).</p>
 <dl class="field-list simple">
@@ -188,8 +189,8 @@ where f1 &lt; f2</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakAdd.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakAdd.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakAdd.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -199,30 +200,30 @@ where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakBWTroughs">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakBWTroughs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakBWTroughs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakBWTroughs">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakBWTroughs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pk</span></em>, <em class="sig-param"><span class="n">tr1</span></em>, <em class="sig-param"><span class="n">tr2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakBWTroughs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureThree" title="crikit.measurement.peakamps.AbstractMeasureThree"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureThree</span></code></a></p>
 <p>Meausure the amplitude of a peak between troughs.</p>
 <dl class="field-list simple">
@@ -235,8 +236,8 @@ where f1 &lt; f2</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakBWTroughs.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakBWTroughs.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakBWTroughs.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -246,30 +247,30 @@ where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakDivide">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakDivide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakDivide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakDivide">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakDivide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakDivide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="crikit.measurement.peakamps.AbstractMeasureTwo"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwo</span></code></a></p>
 <p>Meausure the ratio (division) of two peaks. f1/f2</p>
 <dl class="field-list simple">
@@ -281,8 +282,8 @@ where f1 &lt; f2</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakDivide.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakDivide.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakDivide.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -292,30 +293,30 @@ where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMax">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMax" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMax">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMax</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <dl class="simple">
 <dt>Meausure the maximum across the range [f1,f2]. Note</dt><dd><p>that real and imag are treated separately.</p>
@@ -330,8 +331,8 @@ where f1 &lt; f2</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMax.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMax.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMax.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMax.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -341,30 +342,30 @@ where f1 &lt; f2</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMaxAbs">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMaxAbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMaxAbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMaxAbs" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMaxAbs">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMaxAbs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMaxAbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMaxAbs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <p>Meausure the maximum across the absolute value across
 the range [f1,f2]. Note that real and imag are</p>
@@ -380,8 +381,8 @@ the range [f1,f2]. Note that real and imag are</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMaxAbs.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMaxAbs.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMaxAbs.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMaxAbs.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -391,30 +392,30 @@ the range [f1,f2]. Note that real and imag are</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMin">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMin" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMin">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <dl class="simple">
 <dt>Meausure the minimum across the range [f1,f2]. Note</dt><dd><p>that real and imag are treated separately.</p>
@@ -429,8 +430,8 @@ the range [f1,f2]. Note that real and imag are</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMin.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMin.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMin.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMin.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -440,30 +441,30 @@ the range [f1,f2]. Note that real and imag are</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMinAbs">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMinAbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinAbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinAbs" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMinAbs">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMinAbs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinAbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinAbs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <p>Meausure the summation of all amplitudes between (inclusive) two peak
 locations. Note that real and imag are treated</p>
@@ -479,8 +480,8 @@ locations. Note that real and imag are treated</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMinAbs.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinAbs.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMinAbs.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinAbs.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -490,30 +491,30 @@ locations. Note that real and imag are treated</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMinus">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMinus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMinus">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMinus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMinus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="crikit.measurement.peakamps.AbstractMeasureTwo"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwo</span></code></a></p>
 <p>Meausure the difference (subtraction) of two peaks (f1 - f2).</p>
 <dl class="field-list simple">
@@ -525,8 +526,8 @@ locations. Note that real and imag are treated</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMinus.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMinus.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMinus.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -536,30 +537,30 @@ locations. Note that real and imag are treated</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMultiply">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakMultiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMultiply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMultiply">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakMultiply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakMultiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwo" title="crikit.measurement.peakamps.AbstractMeasureTwo"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwo</span></code></a></p>
 <p>Meausure the multiplication of two peak.</p>
 <dl class="field-list simple">
@@ -571,8 +572,8 @@ locations. Note that real and imag are treated</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakMultiply.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakMultiply.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakMultiply.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -582,30 +583,30 @@ locations. Note that real and imag are treated</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakSum">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSum" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakSum">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakSum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <p>Meausure the summation of all amplitudes between (inclusive) two peak
 locations.</p>
@@ -618,8 +619,8 @@ locations.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakSum.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSum.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakSum.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSum.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -629,30 +630,30 @@ locations.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakSumAbsReImag">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakamps.</span></span><span class="sig-name descname"><span class="pre">MeasurePeakSumAbsReImag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSumAbsReImag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSumAbsReImag" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakSumAbsReImag">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakamps.</code><code class="sig-name descname">MeasurePeakSumAbsReImag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f1</span></em>, <em class="sig-param"><span class="n">f2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakamps.html#MeasurePeakSumAbsReImag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSumAbsReImag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#crikit.measurement.peakamps.AbstractMeasureTwoOrdered" title="crikit.measurement.peakamps.AbstractMeasureTwoOrdered"><code class="xref py py-class docutils literal notranslate"><span class="pre">crikit.measurement.peakamps.AbstractMeasureTwoOrdered</span></code></a></p>
 <p>Meausure the summation of the absolute value of all amplitudes
 between (inclusive) two peak locations. Note that the absolute value
@@ -667,8 +668,8 @@ true absolute value.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakamps.MeasurePeakSumAbsReImag.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSumAbsReImag.output" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakamps.MeasurePeakSumAbsReImag.output">
+<code class="sig-name descname">output</code><a class="headerlink" href="#crikit.measurement.peakamps.MeasurePeakSumAbsReImag.output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -678,35 +679,35 @@ true absolute value.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="module-crikit.measurement.peakfind">
+</div>
+<div class="section" id="module-crikit.measurement.peakfind">
 <span id="crikit-measurement-peakfind-module"></span><h2>crikit.measurement.peakfind module<a class="headerlink" href="#module-crikit.measurement.peakfind" title="Permalink to this headline">¶</a></h2>
 <p>Peak-finding utilities</p>
 <p class="rubric">Notes</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">crikit.measurement.peakfind.</span></span><span class="sig-name descname"><span class="pre">PeakFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cwt_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_noise_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_d1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_d2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakfind.PeakFinder">
+<em class="property">class </em><code class="sig-prename descclassname">crikit.measurement.peakfind.</code><code class="sig-name descname">PeakFinder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">noise_sigma</span></em>, <em class="sig-param"><span class="n">cwt_width</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">n_noise_tests</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">cutoff_d1</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cutoff_d2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Find peaks and shoulders of a signal.</p>
 <dl class="field-list simple">
@@ -715,8 +716,8 @@ true absolute value.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.amp">
-<span class="sig-name descname"><span class="pre">amp</span></span><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.amp" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakfind.PeakFinder.amp">
+<code class="sig-name descname">amp</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.amp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Amplitude of peak</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -726,34 +727,34 @@ true absolute value.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate</span> <span class="pre">:</span> <span class="pre">Calculate</span> <span class="pre">the</span> <span class="pre">amplitude</span></span></dt>
+<dt>
+<code class="sig-name descname">calculate : Calculate the amplitude</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Static</span> <span class="pre">Methods</span></span></dt>
+<dt>
+<code class="sig-name descname">Static Methods</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">--------------</span></span></dt>
+<dt>
+<code class="sig-name descname">--------------</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">measure</span> <span class="pre">:</span> <span class="pre">Same</span> <span class="pre">as</span> <span class="pre">calculate</span> <span class="pre">but</span> <span class="pre">static</span> <span class="pre">(returns</span> <span class="pre">the</span> <span class="pre">amplitude</span> <span class="pre">directly)</span></span></dt>
+<dt>
+<code class="sig-name descname">measure : Same as calculate but static (returns the amplitude directly)</code></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recalc_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.calculate" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakfind.PeakFinder.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">recalc_cutoff</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.calculate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find peaks</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.cwt_diff">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">cwt_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wv_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.cwt_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_diff" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakfind.PeakFinder.cwt_diff">
+<em class="property">static </em><code class="sig-name descname">cwt_diff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">wv_width</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.cwt_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a numerical derivative using a Haar wavelet (noise-supression)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -773,29 +774,29 @@ true absolute value.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.cwt_width">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cwt_width</span></span><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_width" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="crikit.measurement.peakfind.PeakFinder.cwt_width">
+<em class="property">property </em><code class="sig-name descname">cwt_width</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.cwt_width" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.haar">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">haar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.haar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.haar" title="Permalink to this definition">¶</a></dt>
+<dt id="crikit.measurement.peakfind.PeakFinder.haar">
+<em class="property">static </em><code class="sig-name descname">haar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/measurement/peakfind.html#PeakFinder.haar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.haar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Haar wavelet (wv) with specified width (width)</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="crikit.measurement.peakfind.PeakFinder.noise_sigma">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">noise_sigma</span></span><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.noise_sigma" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="crikit.measurement.peakfind.PeakFinder.noise_sigma">
+<em class="property">property </em><code class="sig-name descname">noise_sigma</code><a class="headerlink" href="#crikit.measurement.peakfind.PeakFinder.noise_sigma" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="module-crikit.measurement">
+</div>
+<div class="section" id="module-crikit.measurement">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.measurement" title="Permalink to this headline">¶</a></h2>
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -847,13 +848,13 @@ true absolute value.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.measurement package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>
