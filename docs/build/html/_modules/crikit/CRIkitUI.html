@@ -5,13 +5,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.CRIkitUI &#8212; CRIKit2 0.3.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <title>crikit.CRIkitUI &#8212; CRIKit2 0.3.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
@@ -24,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
@@ -1257,8 +1259,8 @@
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_loc_list</span><span class="p">,</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
@@ -1271,9 +1273,9 @@
                                             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
 
@@ -1288,9 +1290,9 @@
                                         <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                         <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                         <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                        <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                        <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
@@ -1953,8 +1955,8 @@
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_loc_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_loc_list</span><span class="p">,</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
@@ -1967,9 +1969,9 @@
                                             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                                             <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                                            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markerfacecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                            <span class="n">markeredgecolor</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">getx</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">img_BW</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">gety</span><span class="p">)</span>
 
@@ -3862,14 +3864,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

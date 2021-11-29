@@ -259,10 +259,13 @@ anti-Stokes Raman scattering (CARS) spectroscopy: correcting errors in phase
 retrieval", Journal of Raman Spectroscopy 47, 408-416 (2016). <https://www.ncbi.nlm.nih.gov/pubmed/28819335>`_
 
 
-
-
 Contact
 --------
 
 Charles H Camp Jr: `charles.camp@nist.gov <mailto:charles.camp@nist.gov>`_
+
+Contributors
+-------------
+
+Charles H. Camp Jr., Xavier Autier
 
