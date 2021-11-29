@@ -8,6 +8,11 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
+0.3.1 (21-11-29)
+-----------------
+- Updated h5py deprecated syntax from .value to [:] (@XavierAutier)
+- Minor updates
+
 0.3.0 (21-10-21)
 ----------------
 -   H5 files with problematic X- or Y- assigned scales will revert to pixel units
