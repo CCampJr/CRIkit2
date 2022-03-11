@@ -18,13 +18,83 @@ from crikit.utils.datacheck import _rng_is_pix_vec
 
 class PhaseErrCorrectALS:
     """
-    Phase error correction using alternating least squares (ALS)
+    Phase error correction (PEC) using asymmetric least squares (ALS).
+
+    Parameters
+    ----------
+
+    wavenumber_increasing : bool, optional (default=True)
+        Are the wavenumbers increasing from left-to-right? This setting should 
+        match the conjugate setting of the previously performed KramersKronig.
+
+    smoothness_param : float, optional (default=1.0)
+        ALS smoothness parameter. See Ref [2].
+
+    asym_param : float, optional (default=1e-2)
+        ALS asymmetry parameter. See Ref [2].
+
+    redux : int, optional (default=10)
+        Factor to sub-sample each spectrum. This reduces computational burnden. 
+        Sub-sample phase error is then interpolated to match input signal 
+        length.
+
+    order : int, optional (default=2)
+        ALS derivative order number. See Ref [2].
+
+    rng : array-like, optional (default=None)
+        Only perform PEC on specific pixel range.
+
+    fix_end_points : bool, optional (default=False)
+        Phase error at extrema points is equal to input phase extrema points.
+
+    fix_rng : array-like, optional (default=None)
+        Phase error over given range is pushed to be equal to input phase. To 
+        prevent discontinuities, it is not enforced in an exact manner, but 
+        rather the algorithm is weighted to try to match.
+
+    fix_const : float, optional (default=1.)
+        For fix_rng, this is the weighting term. Higher value will force the
+        phase error to be more equal to the input.
+
+    max_iter : int, optional (default=100)
+        Maximum number of ALS iterations
+        
+    min_diff : float, optional (default=1e-5)
+        Minimum difference between ALS phase error values. If difference is 
+        less than min_diff, considered static and iterations are ceased.
+        
+    verbose : bool, optional (default=True)
+        Verbose PEC output
+
+
+    Returns
+    -------
+    ndarray
+        Phase-error corrected signal from CARS.
+
+    Notes
+    -----
+    
+    -   This module assumes the spectra are oriented as such that the frequency 
+         (wavenumber) increases with increasing index.  If this is not the case for
+         your spectra(um), set wavenumber_increasing=False.
+    -   The wavenumber_increasing setting should match that of the conjugate 
+        setting for the previously-performed KramersKronig.
 
     References
-    -----------
-    * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).
+    ----------
+
+    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, "Quantitative, \
+    Comparable Coherent Anti-Stokes Raman Scattering (CARS) \
+    Spectroscopy: Correcting Errors in Phase Retrieval," Journal of Raman \
+    Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.
+
+    [2] P. H. C. Eilers and H. F. M. Boelens, "Baseline Correction with \
+    Asymmetric Least Squares Smoothing," (2005).
+
     """
-    def __init__(self, smoothness_param=1, asym_param=1e-2,
+    def __init__(self, wavenumber_increasing=True, 
+                 smoothness_param=1, asym_param=1e-2,
                  redux=10, order=2, rng=None, fix_end_points=False,
                  fix_rng=None, fix_const=1, max_iter=100, min_diff=1e-5,
                  verbose=True, **kwargs):
@@ -33,7 +103,8 @@ class PhaseErrCorrectALS:
         self.rng = _rng_is_pix_vec(rng)
         self._k = kwargs
 
-        self._k.update({'smoothness_param' : smoothness_param,
+        self._k.update({'wavenumber_increasing' : wavenumber_increasing,
+                        'smoothness_param' : smoothness_param,
                         'asym_param' : asym_param,
                         'redux' : redux,
                         'order' : order,
@@ -73,7 +144,10 @@ class PhaseErrCorrectALS:
                 h = _np.zeros(err_phase[..., self.rng].shape)
                 h += _hilbert(err_phase[..., self.rng])
 
-                correction_factor = _np.exp(h) * _np.exp(-1j*err_phase[...,self.rng])
+                if self._k['wavenumber_increasing']:
+                    correction_factor = _np.exp(h) * _np.exp(-1j*err_phase[...,self.rng])
+                else:
+                    correction_factor = _np.exp(-h) * _np.exp(-1j*err_phase[...,self.rng])
 
                 # if self.rng is None:
                 #     ret_obj[idx] *= correction_factor
