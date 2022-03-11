@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.cri.error_correction &#8212; CRIKit2 0.3.1 documentation</title>
+    <title>crikit.cri.error_correction &#8212; CRIKit2 0.4.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.cri.error_correction</a></li> 
       </ul>
@@ -58,13 +58,83 @@
 
 <div class="viewcode-block" id="PhaseErrCorrectALS"><a class="viewcode-back" href="../../../crikit.cri.html#crikit.cri.error_correction.PhaseErrCorrectALS">[docs]</a><span class="k">class</span> <span class="nc">PhaseErrCorrectALS</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Phase error correction using alternating least squares (ALS)</span>
+<span class="sd">    Phase error correction (PEC) using asymmetric least squares (ALS).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    wavenumber_increasing : bool, optional (default=True)</span>
+<span class="sd">        Are the wavenumbers increasing from left-to-right? This setting should </span>
+<span class="sd">        match the conjugate setting of the previously performed KramersKronig.</span>
+
+<span class="sd">    smoothness_param : float, optional (default=1.0)</span>
+<span class="sd">        ALS smoothness parameter. See Ref [2].</span>
+
+<span class="sd">    asym_param : float, optional (default=1e-2)</span>
+<span class="sd">        ALS asymmetry parameter. See Ref [2].</span>
+
+<span class="sd">    redux : int, optional (default=10)</span>
+<span class="sd">        Factor to sub-sample each spectrum. This reduces computational burnden. </span>
+<span class="sd">        Sub-sample phase error is then interpolated to match input signal </span>
+<span class="sd">        length.</span>
+
+<span class="sd">    order : int, optional (default=2)</span>
+<span class="sd">        ALS derivative order number. See Ref [2].</span>
+
+<span class="sd">    rng : array-like, optional (default=None)</span>
+<span class="sd">        Only perform PEC on specific pixel range.</span>
+
+<span class="sd">    fix_end_points : bool, optional (default=False)</span>
+<span class="sd">        Phase error at extrema points is equal to input phase extrema points.</span>
+
+<span class="sd">    fix_rng : array-like, optional (default=None)</span>
+<span class="sd">        Phase error over given range is pushed to be equal to input phase. To </span>
+<span class="sd">        prevent discontinuities, it is not enforced in an exact manner, but </span>
+<span class="sd">        rather the algorithm is weighted to try to match.</span>
+
+<span class="sd">    fix_const : float, optional (default=1.)</span>
+<span class="sd">        For fix_rng, this is the weighting term. Higher value will force the</span>
+<span class="sd">        phase error to be more equal to the input.</span>
+
+<span class="sd">    max_iter : int, optional (default=100)</span>
+<span class="sd">        Maximum number of ALS iterations</span>
+<span class="sd">        </span>
+<span class="sd">    min_diff : float, optional (default=1e-5)</span>
+<span class="sd">        Minimum difference between ALS phase error values. If difference is </span>
+<span class="sd">        less than min_diff, considered static and iterations are ceased.</span>
+<span class="sd">        </span>
+<span class="sd">    verbose : bool, optional (default=True)</span>
+<span class="sd">        Verbose PEC output</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Phase-error corrected signal from CARS.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    </span>
+<span class="sd">    -   This module assumes the spectra are oriented as such that the frequency </span>
+<span class="sd">         (wavenumber) increases with increasing index.  If this is not the case for</span>
+<span class="sd">         your spectra(um), set wavenumber_increasing=False.</span>
+<span class="sd">    -   The wavenumber_increasing setting should match that of the conjugate </span>
+<span class="sd">        setting for the previously-performed KramersKronig.</span>
 
 <span class="sd">    References</span>
-<span class="sd">    -----------</span>
-<span class="sd">    * C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    [1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, &quot;Quantitative, \</span>
+<span class="sd">    Comparable Coherent Anti-Stokes Raman Scattering (CARS) \</span>
+<span class="sd">    Spectroscopy: Correcting Errors in Phase Retrieval,&quot; Journal of Raman \</span>
+<span class="sd">    Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</span>
+
+<span class="sd">    [2] P. H. C. Eilers and H. F. M. Boelens, &quot;Baseline Correction with \</span>
+<span class="sd">    Asymmetric Least Squares Smoothing,&quot; (2005).</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smoothness_param</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">asym_param</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavenumber_increasing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                 <span class="n">smoothness_param</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">asym_param</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span>
                  <span class="n">redux</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fix_end_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">fix_rng</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fix_const</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">min_diff</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -73,7 +143,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">_rng_is_pix_vec</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">=</span> <span class="n">kwargs</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;smoothness_param&#39;</span> <span class="p">:</span> <span class="n">smoothness_param</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;wavenumber_increasing&#39;</span> <span class="p">:</span> <span class="n">wavenumber_increasing</span><span class="p">,</span>
+                        <span class="s1">&#39;smoothness_param&#39;</span> <span class="p">:</span> <span class="n">smoothness_param</span><span class="p">,</span>
                         <span class="s1">&#39;asym_param&#39;</span> <span class="p">:</span> <span class="n">asym_param</span><span class="p">,</span>
                         <span class="s1">&#39;redux&#39;</span> <span class="p">:</span> <span class="n">redux</span><span class="p">,</span>
                         <span class="s1">&#39;order&#39;</span> <span class="p">:</span> <span class="n">order</span><span class="p">,</span>
@@ -113,7 +184,10 @@
                 <span class="n">h</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">err_phase</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">h</span> <span class="o">+=</span> <span class="n">_hilbert</span><span class="p">(</span><span class="n">err_phase</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">])</span>
 
-                <span class="n">correction_factor</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">err_phase</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">])</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="p">[</span><span class="s1">&#39;wavenumber_increasing&#39;</span><span class="p">]:</span>
+                    <span class="n">correction_factor</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">err_phase</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">correction_factor</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">err_phase</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">])</span>
 
                 <span class="c1"># if self.rng is None:</span>
                 <span class="c1">#     ret_obj[idx] *= correction_factor</span>
@@ -283,7 +357,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.cri.error_correction</a></li> 
       </ul>

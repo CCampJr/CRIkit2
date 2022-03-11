@@ -113,7 +113,7 @@ def meta_process(rosetta, output_cls_instance):
         output_cls_instance.freq.calib_fcn = _calib_pix_wl
 
     output_cls_instance.freq.update()
-    
+
     # See if an original calibration is found
     try:
         calib_orig_dict = {}
@@ -130,7 +130,7 @@ def meta_process(rosetta, output_cls_instance):
         calib_orig_dict['ctr_wl0'] = rosetta_query('OrigColorCalibWL',rosetta, output_cls_instance)[0]
         if calib_orig_dict['ctr_wl0'] is None:
             raise ValueError
-        
+
         # Probe and Units are not necessary for calibration
         # Probe is only needed for wavelength-to-wavenumber conversion
         calib_orig_dict['probe'] = rosetta_query('OrigColorProbe',rosetta, output_cls_instance)[0]
@@ -141,7 +141,7 @@ def meta_process(rosetta, output_cls_instance):
     else:
         print('Original calibration found.')
         output_cls_instance.freq.calib_orig = calib_orig_dict
-    
+
     # Spatial for HSI
     if type(output_cls_instance) == _Hsi:
         print('Type Hsi')
@@ -268,18 +268,19 @@ if __name__ == '__main__':
                                             as _snb)
 
     from crikit.io.hdf5 import hdf_import_data as _hdf_import_data
+    import os as _os
     rosetta = _snb()
 
     filename = _os.path.abspath('../../../mP2_w_small.h5')
 
     spect_dark = _Spectra()
-    _hdf_import_data(filename,'/Spectra/Dark_3_5ms_2',spect_dark)
+    _hdf_import_data(filename, '/Spectra/Dark_3_5ms_2',spect_dark)
     meta_process(rosetta, spect_dark)
     print(spect_dark.reps)
 
     print('')
     img = _Hsi()
-    _hdf_import_data(filename,'/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
+    _hdf_import_data(filename, '/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small',img)
     meta_process(rosetta, img)
     print(img.freq.__dict__)
 

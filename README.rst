@@ -1,5 +1,13 @@
 .. -*- mode: rst -*-
 
+.. image:: https://github.com/CCampJr/CRIkit2/actions/workflows/python-testing.yml/badge.svg
+    :alt: pytest
+    :target: https://github.com/CCampJr/CRIkit2/actions/workflows/python-testing.yml
+    
+.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
+    :alt: Codecov
+    :target: https://codecov.io/gh/CCampJr/CRIkit2
+
 .. image:: https://img.shields.io/pypi/pyversions/CRIkit2.svg
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/CRIkit2/
@@ -58,8 +66,6 @@ Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
 -   python >= 3.4
-    -   Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2
-
 -   NumPy
 -   SciPy
 -   matplotlib (1.*, 2.*, 3.*)
