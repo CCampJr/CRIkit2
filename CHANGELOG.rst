@@ -8,6 +8,10 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
+0.4 (22-03-11)
+---------------
+- **Important**: PhaseErrCorrectALS now has parameter for whether wavenumber is increasing left-to-right. This is important to set correctly. This should match the `conjugate` parameter in the KramersKronig.
+
 0.3.1 (21-11-29)
 -----------------
 - Updated h5py deprecated syntax from .value to [:] (@XavierAutier)

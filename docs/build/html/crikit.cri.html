@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.cri package &#8212; CRIKit2 0.3.1 documentation</title>
+    <title>crikit.cri package &#8212; CRIKit2 0.4.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.cri package</a></li> 
       </ul>
     </div>  
@@ -74,13 +74,54 @@
 <p>&#64;author: chc</p>
 <dl class="py class">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS">
-<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">smoothness_param</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">asym_param</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">redux</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">rng</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fix_end_points</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_rng</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fix_const</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">min_diff</span><span class="o">=</span><span class="default_value">1e-05</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">crikit.cri.error_correction.</code><code class="sig-name descname">PhaseErrCorrectALS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wavenumber_increasing</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">smoothness_param</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">asym_param</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">redux</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">rng</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fix_end_points</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_rng</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fix_const</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">min_diff</span><span class="o">=</span><span class="default_value">1e-05</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Phase error correction using alternating least squares (ALS)</p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p>C H Camp Jr, Y J Lee, and M T Cicerone, JRS (2016).</p></li>
+<p>Phase error correction (PEC) using asymmetric least squares (ALS).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wavenumber_increasing</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Are the wavenumbers increasing from left-to-right? This setting should
+match the conjugate setting of the previously performed KramersKronig.</p></li>
+<li><p><strong>smoothness_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.0</em><em>)</em>) – ALS smoothness parameter. See Ref [2].</p></li>
+<li><p><strong>asym_param</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1e-2</em><em>)</em>) – ALS asymmetry parameter. See Ref [2].</p></li>
+<li><p><strong>redux</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=10</em><em>)</em>) – Factor to sub-sample each spectrum. This reduces computational burnden.
+Sub-sample phase error is then interpolated to match input signal
+length.</p></li>
+<li><p><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=2</em><em>)</em>) – ALS derivative order number. See Ref [2].</p></li>
+<li><p><strong>rng</strong> (<em>array-like</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Only perform PEC on specific pixel range.</p></li>
+<li><p><strong>fix_end_points</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – Phase error at extrema points is equal to input phase extrema points.</p></li>
+<li><p><strong>fix_rng</strong> (<em>array-like</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Phase error over given range is pushed to be equal to input phase. To
+prevent discontinuities, it is not enforced in an exact manner, but
+rather the algorithm is weighted to try to match.</p></li>
+<li><p><strong>fix_const</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1.</em><em>)</em>) – For fix_rng, this is the weighting term. Higher value will force the
+phase error to be more equal to the input.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em><em> (</em><em>default=100</em><em>)</em>) – Maximum number of ALS iterations</p></li>
+<li><p><strong>min_diff</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=1e-5</em><em>)</em>) – Minimum difference between ALS phase error values. If difference is
+less than min_diff, considered static and iterations are ceased.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Verbose PEC output</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Phase-error corrected signal from CARS.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>This module assumes the spectra are oriented as such that the frequency</dt><dd><p>(wavenumber) increases with increasing index.  If this is not the case for
+your spectra(um), set wavenumber_increasing=False.</p>
+</dd>
+</dl>
+</li>
+<li><p>The wavenumber_increasing setting should match that of the conjugate
+setting for the previously-performed KramersKronig.</p></li>
+</ul>
+<p class="rubric">References</p>
+<p>[1] C. H. Camp Jr, Y. J. Lee, and M. T. Cicerone, “Quantitative,     Comparable Coherent Anti-Stokes Raman Scattering (CARS)     Spectroscopy: Correcting Errors in Phase Retrieval,” Journal of Raman     Spectroscopy 47, 408-415 (2016). arXiv:1507.06543.</p>
+<p>[2] P. H. C. Eilers and H. F. M. Boelens, “Baseline Correction with     Asymmetric Least Squares Smoothing,” (2005).</p>
 <dl class="py method">
 <dt id="crikit.cri.error_correction.PhaseErrCorrectALS.calculate">
 <code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/cri/error_correction.html#PhaseErrCorrectALS.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crikit.cri.error_correction.PhaseErrCorrectALS.calculate" title="Permalink to this definition">¶</a></dt>
@@ -272,7 +313,7 @@ Coherent Raman signal.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.cri package</a></li> 
       </ul>
     </div>
