@@ -58,8 +58,6 @@ Note: These are the developmental system specs. Older versions of certain
 packages may work.
 
 -   python >= 3.4
-    -   Tested with 3.4.4, 3.5.2, 3.6.1, 3.7.2
-
 -   NumPy
 -   SciPy
 -   matplotlib (1.*, 2.*, 3.*)
