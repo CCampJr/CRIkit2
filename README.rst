@@ -1,8 +1,8 @@
 .. -*- mode: rst -*-
 
-.. image:: https://github.com/CCampJr/CRIkit2/actions/workflows/python-app.yml/badge.svg
+.. image:: https://github.com/CCampJr/CRIkit2/actions/workflows/python-testing.yml/badge.svg
     :alt: pytest
-    :target: https://github.com/CCampJr/CRIkit2/actions/workflows/python-app.yml
+    :target: https://github.com/CCampJr/CRIkit2/actions/workflows/python-testing.yml
     
 .. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
     :alt: Codecov
