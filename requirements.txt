@@ -1,3 +1,5 @@
 numpy
 scipy
 cvxopt
+h5py
+lazy5
