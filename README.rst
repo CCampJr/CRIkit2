@@ -1,5 +1,13 @@
 .. -*- mode: rst -*-
 
+.. image:: https://github.com/CCampJr/CRIkit2/actions/workflows/python-app.yml/badge.svg
+    :alt: pytest
+    :target: https://github.com/CCampJr/CRIkit2/actions/workflows/python-app.yml
+    
+.. image:: https://codecov.io/gh/CCampJr/CRIkit2/branch/master/graph/badge.svg
+    :alt: Codecov
+    :target: https://codecov.io/gh/CCampJr/CRIkit2
+
 .. image:: https://img.shields.io/pypi/pyversions/CRIkit2.svg
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/CRIkit2/
