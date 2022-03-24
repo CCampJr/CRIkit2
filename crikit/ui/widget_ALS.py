@@ -28,6 +28,10 @@ class widgetALS(_AbstractPlotEffectPlugin):
 
     Parameters
     ----------
+    wavenumber_increasing : bool, optional (default, True)
+        If wavenumber is increasing left-to-right. Opposite value as the KK
+        conjugate value
+        
     smoothness_param : float, optional (default, 1e3)
         Smoothness parameter
 
@@ -81,7 +85,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
                        'title' : 'Detrended'
                       }
 
-    def __init__(self, x=None, rng=None, smoothness_param=1, asym_param=1e-3, redux=10,
+    def __init__(self, x=None, wavenumber_increasing=True, 
+                 rng=None, smoothness_param=1, asym_param=1e-3, redux=10,
                  order=2, fix_end_points=True, fix_const=1, fix_rng=None,
                  max_iter=100, min_diff=1e-6, verbose=False, sub_asym_list=None,
                  sub_w_list=None, parent = None):
@@ -117,6 +122,7 @@ class widgetALS(_AbstractPlotEffectPlugin):
         self.parameters['max_iter'] = max_iter
         self.parameters['min_diff'] = min_diff
         self.parameters['verbose'] = verbose
+        self.parameters['wavenumber_increasing'] = wavenumber_increasing
 
         self.setup_asym()  # Setup controls for asymmetry parameter
         self.setup_smoothness()  # Setup controls for smoothness parameter
@@ -135,6 +141,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
         self.ui.verticalLayout_9.insertWidget(4, self.ui.spinBoxMinDiff)
         self.ui.spinBoxMinDiff.setValue(self.parameters['min_diff'])
 
+        self.ui.checkBoxWNIncreasing.setChecked(self.parameters['wavenumber_increasing'])
+        
         # SIGNALS & SLOTS
         self.ui.spinBoxP.editingFinished.connect(self.spinBoxChanged)
         self.ui.spinBoxLambda.editingFinished.connect(self.spinBoxChanged)
@@ -147,6 +155,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
 
         self.ui.spinBoxAsymSubSections.valueChanged.connect(self.asym_sub_val_change)
         self.ui.spinBoxWSubSections.valueChanged.connect(self.weight_sub_val_change)
+
+        self.ui.checkBoxWNIncreasing.clicked.connect(self.selectWNIncrease)
 
         self.ui.spinBoxWeight = _SciSpin()
         self.ui.spinBoxWeight.setMinimum(0)
@@ -405,6 +415,14 @@ class widgetALS(_AbstractPlotEffectPlugin):
         """
 
         self.parameters['fix_end_points'] =self.ui.checkBox.isChecked()
+        self.changed.emit()
+
+    def selectWNIncrease(self):
+        """
+        Check selection of conjugate
+        """
+
+        self.parameters['wavenumber_increasing'] = self.ui.checkBoxWNIncreasing.isChecked()
         self.changed.emit()
 
 
