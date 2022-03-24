@@ -2289,7 +2289,9 @@ class CRIkitUI_process(_QMainWindow):
 
         rng = self.hsi.freq.op_range_pix
 
-        plugin = _widgetALS(x=self.hsi.f_full, rng=rng)
+        wn_increase = (self.hsi.f[1] - self.hsi.f[1]) > 0
+        plugin = _widgetALS(x=self.hsi.f_full, rng=rng, 
+                            wavenumber_increasing=wn_increase)
         winPlotEffect = _DialogPlotEffect.dialogPlotEffect(preview_spectra,
                                                            x=self.hsi.f_full,
                                                            plugin=plugin,
