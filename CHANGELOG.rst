@@ -10,7 +10,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
 0.4.2 (22-03-24)
 ----------------
-- The UI for Phase Error Correction now incorporates the wavenumber-increased parameter of 0.4 release
+- Changes to Phase Error Correction UI and some quality of life improvements
 
 0.4.1 (22-03-24)
 ----------------
