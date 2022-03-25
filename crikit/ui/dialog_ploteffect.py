@@ -338,15 +338,14 @@ if __name__ == '__main__':
 #    if winPlotEffect is not None:
 #        print(winPlotEffect.parameters)
 #
-##    # ALS
-    # from crikit.ui.widget_ALS import widgetALS as _widgetALS
+#    # ALS
+    from crikit.ui.widget_ALS import widgetALS as _widgetALS
 
-    # rng = _np.arange(*_find_nearest(WN, [500, 3800])[1])
-    # plugin = _widgetALS(x=WN, rng=rng)
-    # winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
-    #                                                         plugin=plugin)
-    # if winPlotEffect is not None:
-    #     print(winPlotEffect.parameters)
+    plugin = _widgetALS(x=WN)
+    winPlotEffect = DialogPlotEffect.dialogPlotEffect(CARS, x=WN,
+                                                            plugin=plugin)
+    if winPlotEffect is not None:
+        print(winPlotEffect.parameters)
 #
 #    # ArPLS
 #    from crikit.ui.widget_ArPLS import widgetArPLS as _widgetArPLS
@@ -374,12 +373,12 @@ if __name__ == '__main__':
 #        print(winPlotEffect.parameters)
 #    
    # KK
-    from crikit.ui.widget_KK import (widgetKK as _widgetKK)
-    plugin = _widgetKK()
-    winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
-                                                           plugin=plugin)
-    if winPlotEffect is not None:
-        print(winPlotEffect.parameters)
+    # from crikit.ui.widget_KK import (widgetKK as _widgetKK)
+    # plugin = _widgetKK()
+    # winPlotEffect = DialogPlotEffect.dialogPlotEffect([NRB,CARS], x=WN,
+    #                                                        plugin=plugin)
+    # if winPlotEffect is not None:
+    #     print(winPlotEffect.parameters)
         
 #    # Calibrate
 #    from crikit.ui.widget_Calibrate import (widgetCalibrate as 
