@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import QTableWidgetItem as _QTableWidgetItem
 from crikit.ui.dialog_AbstractPlotEffect import (AbstractPlotEffectPlugin
                                                  as _AbstractPlotEffectPlugin)
 
-from crikit.ui.qt_PlotEffect_ALS2 import Ui_Form as _Ui_Form
+from crikit.ui.qt_PlotEffect_ALS3 import Ui_Form as _Ui_Form
 
 from crikit.ui.widget_scientificspin import (ScientificDoubleSpinBox as
                                              _SciSpin)
@@ -138,7 +138,7 @@ class widgetALS(_AbstractPlotEffectPlugin):
 
         # Min Difference
         self.ui.spinBoxMinDiff = _SciSpin()
-        self.ui.verticalLayout_9.insertWidget(4, self.ui.spinBoxMinDiff)
+        self.ui.verticalLayoutMiNMaxIterDiff.insertWidget(3, self.ui.spinBoxMinDiff)
         self.ui.spinBoxMinDiff.setValue(self.parameters['min_diff'])
 
         self.ui.checkBoxWNIncreasing.setChecked(self.parameters['wavenumber_increasing'])
@@ -163,7 +163,7 @@ class widgetALS(_AbstractPlotEffectPlugin):
         self.ui.spinBoxWeight.setMaximum(1e10)
         self.ui.spinBoxWeight.setValue(1)
         self.ui.spinBoxWeight.editingFinished.connect(self.weightspinboxchanged)
-        self.ui.verticalLayout_7.insertWidget(1, self.ui.spinBoxWeight)
+        self.ui.horizontalLayout_4.insertWidget(1, self.ui.spinBoxWeight)
 
     @property
     def x(self):
@@ -344,9 +344,10 @@ class widgetALS(_AbstractPlotEffectPlugin):
                                            self.ui.tableWidgetAsym.cellWidget(rc, 0).value())[1]
                 xstop_pix = _find_nearest(x,
                                           self.ui.tableWidgetAsym.cellWidget(rc, 1).value())[1]
+                
                 asym = self.ui.tableWidgetAsym.cellWidget(rc, 2).value()
-
-                self.parameters['asym_param'][xstart_pix:xstop_pix+1] = 1*asym
+                
+                self.parameters['asym_param'][_np.minimum(xstart_pix, xstop_pix):_np.maximum(xstart_pix, xstop_pix)+1] = 1*asym
                 print('XStart: {}, XStop: {}, ASym: {}'.format(xstart_pix, xstop_pix, asym))
                 self.sub_asym_list.append([xstart_pix, xstop_pix, asym])
 
@@ -376,7 +377,8 @@ class widgetALS(_AbstractPlotEffectPlugin):
                 weight = self.ui.spinBoxWeight.value()
 
                 # self.parameters['fix_rng'].extend(_np.arange(xstart_pix, xstop_pix+1).tolist())
-                self.parameters['fix_rng'].extend(_np.arange(xstart_pix, xstop_pix).tolist())  # No +1
+                
+                self.parameters['fix_rng'].extend(_np.arange(_np.minimum(xstart_pix, xstop_pix),_np.maximum(xstart_pix, xstop_pix)).tolist())  # No +1
 
                 # self.parameters['asym_param'][xstart_pix:xstop_pix+1] = 1*asym
                 # print('XStart: {}, XStop: {}, ASym: {}'.format(xstart_pix, xstop_pix, asym))
