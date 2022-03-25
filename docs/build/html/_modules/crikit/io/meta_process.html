@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.meta_process &#8212; CRIKit2 0.4.0 documentation</title>
+    <title>crikit.io.meta_process &#8212; CRIKit2 0.4.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.meta_process</a></li> 
       </ul>
@@ -153,7 +153,7 @@
         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib_fcn</span> <span class="o">=</span> <span class="n">_calib_pix_wl</span>
 
     <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-    
+
     <span class="c1"># See if an original calibration is found</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">calib_orig_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -170,7 +170,7 @@
         <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorCalibWL&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;ctr_wl0&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span>
-        
+
         <span class="c1"># Probe and Units are not necessary for calibration</span>
         <span class="c1"># Probe is only needed for wavelength-to-wavenumber conversion</span>
         <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorProbe&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -181,7 +181,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original calibration found.&#39;</span><span class="p">)</span>
         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">calib_orig</span> <span class="o">=</span> <span class="n">calib_orig_dict</span>
-    
+
     <span class="c1"># Spatial for HSI</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Hsi</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type Hsi&#39;</span><span class="p">)</span>
@@ -308,18 +308,19 @@
                                             <span class="k">as</span> <span class="n">_snb</span><span class="p">)</span>
 
     <span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="kn">import</span> <span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span>
+    <span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
     <span class="n">rosetta</span> <span class="o">=</span> <span class="n">_snb</span><span class="p">()</span>
 
     <span class="n">filename</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../../../mP2_w_small.h5&#39;</span><span class="p">)</span>
 
     <span class="n">spect_dark</span> <span class="o">=</span> <span class="n">_Spectra</span><span class="p">()</span>
-    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span><span class="p">,</span><span class="n">spect_dark</span><span class="p">)</span>
+    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;/Spectra/Dark_3_5ms_2&#39;</span><span class="p">,</span><span class="n">spect_dark</span><span class="p">)</span>
     <span class="n">meta_process</span><span class="p">(</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">spect_dark</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">spect_dark</span><span class="o">.</span><span class="n">reps</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">_Hsi</span><span class="p">()</span>
-    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
     <span class="n">meta_process</span><span class="p">(</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 
@@ -355,7 +356,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.meta_process</a></li> 
       </ul>

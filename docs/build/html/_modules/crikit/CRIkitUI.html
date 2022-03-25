@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.CRIkitUI &#8212; CRIKit2 0.4.0 documentation</title>
+    <title>crikit.CRIkitUI &#8212; CRIKit2 0.4.1 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
@@ -2329,7 +2329,9 @@
 
         <span class="n">rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">op_range_pix</span>
 
-        <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetALS</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f_full</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="n">wn_increase</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">_widgetALS</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f_full</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> 
+                            <span class="n">wavenumber_increasing</span><span class="o">=</span><span class="n">wn_increase</span><span class="p">)</span>
         <span class="n">winPlotEffect</span> <span class="o">=</span> <span class="n">_DialogPlotEffect</span><span class="o">.</span><span class="n">dialogPlotEffect</span><span class="p">(</span><span class="n">preview_spectra</span><span class="p">,</span>
                                                            <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">f_full</span><span class="p">,</span>
                                                            <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">,</span>
@@ -3864,7 +3866,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.CRIkitUI</a></li> 
       </ul>
