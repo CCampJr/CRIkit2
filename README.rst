@@ -273,5 +273,5 @@ Charles H Camp Jr: `charles.camp@nist.gov <mailto:charles.camp@nist.gov>`_
 Contributors
 -------------
 
-Charles H. Camp Jr., Xavier Autier
+Charles H. Camp Jr., Xavier Audier
 
