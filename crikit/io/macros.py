@@ -5,7 +5,7 @@ Created on Thu May 26 13:16:12 2016
 """
 import os as _os
 
-import lazy5 
+import crikit.io.lazy5 as lazy5
 
 from crikit.io.meta_configs import (special_nist_bcars2 as _snb,
                                     special_nist_bcars1_sample_scan as _snb1ss)

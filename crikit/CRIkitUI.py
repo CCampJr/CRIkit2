@@ -113,14 +113,14 @@ from crikit.utils.general import find_nearest, mean_nd_to_1d, std_nd_to_1d
 
 from sciplot.sciplotUI import SciPlotUI as _SciPlotUI
 
-import lazy5
-from lazy5.ui.QtHdfLoad import HdfLoad
+from crikit.io.lazy5.ui.QtHdfLoad import HdfLoad
+import crikit.io.lazy5 as lazy5
 
 force_not_sw = False
 
 try:
     import crikit2_sw
-except:
+except Exception:
     __sw_installed = False
     # print('SW package not installed, using standard')
     from crikit.ui.dialog_SVD import DialogSVD
@@ -143,7 +143,7 @@ jupyter_flag = 0
 try:
     from crikit.ui.widget_Jupyter import QJupyterWidget
     jupyter_flag = 1
-except:
+except Exception:
     print('No appropriate Jupyter/IPython installation found. Console will not be available')
     jupyter_flag = -1
 
@@ -228,7 +228,7 @@ class CRIkitUI_process(_QMainWindow):
         self.ui.sweeperVL.insertWidget(0, self.img_BW, stretch=1, alignment=_QtCore.Qt.AlignHCenter)
         try:
             self.img_BW.mpl.fig.tight_layout(pad=2)
-        except:
+        except Exception:
             print('tight_layout failed (CrikitUI: 1')
 
         # ID used for matplotlib to connect to a figure
@@ -422,7 +422,7 @@ class CRIkitUI_process(_QMainWindow):
             try:
                 str_banner = 'Welcome to the embedded ipython console\n\n'
                 self.jupyterConsole = QJupyterWidget(customBanner=str_banner)
-            except:
+            except Exception:
                 print('Error loading embedded IPython Notebook')
             else:
                 self.ui.tabMain.addTab(self.jupyterConsole, 'Jupyter/IPython Console')
@@ -455,7 +455,7 @@ class CRIkitUI_process(_QMainWindow):
         if temp is not None:
             try:
                 self.fileOpenSuccess(True)
-            except:
+            except Exception:
                 print('Error in input hsi')
                 self.hsi = Hsi()
 
@@ -466,7 +466,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.hsi.x = temp
                 self.hsi._x_rep.units = kwargs.get('x_units')
                 self.hsi._x_rep.label = kwargs.get('x_label')
-            except:
+            except Exception:
                 print('Error in input x-array')
                 self.hsi.x = None
 
@@ -477,7 +477,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.hsi.y = temp
                 self.hsi._y_rep.units = kwargs.get('y_units')
                 self.hsi._y_rep.label = kwargs.get('y_label')
-            except:
+            except Exception:
                 print('Error in input y-array')
                 self.hsi.y = None
 
@@ -488,7 +488,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.hsi.freq._data = temp
                 self.hsi.freq._units = kwargs.get('f_units')
                 self.hsi.freq._label = kwargs.get('f_label')
-            except:
+            except Exception:
                 print('Error in input freq-array (f)')
                 self.hsi.freq._data = None
 
@@ -498,7 +498,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.hsi.data = kwargs.get('data')
                 self.hsi.check()
                 self.fileOpenSuccess(True)
-            except:
+            except Exception:
                 print('Error in input data')
                 self.hsi = Hsi()
 
@@ -645,7 +645,7 @@ class CRIkitUI_process(_QMainWindow):
         for count in self.bcpre.cut_list:
             try:
                 _os.remove(count + '.pickle')
-            except:
+            except Exception:
                 print('Error in deleting old pickle files')
             else:
                 del_flag += 1
@@ -658,7 +658,7 @@ class CRIkitUI_process(_QMainWindow):
             print('Closing HDF File')
             try:
                 self.fid.close()
-            except:
+            except Exception:
                 print('Something failed in closing the file')
             else:
                 print('Successfully closed HDF File')
@@ -725,7 +725,7 @@ class CRIkitUI_process(_QMainWindow):
             if to_open is not None:
                 self.path, self.filename, self.dataset_name = to_open
                 self.dataset_name = self.dataset_name[0]
-        except:
+        except Exception:
             print('Could not open file. Corrupt or not appropriate file format.')
         else:
             if to_open is not None:
@@ -940,7 +940,7 @@ class CRIkitUI_process(_QMainWindow):
             # signal then reconnect (or could have ignored, but this is easier)
             try:
                 rgb_img.popimage.ui.pushButtonSpectrum.pressed.disconnect()
-            except:
+            except Exception:
                 pass
 
             rgb_img.popimage.ui.pushButtonSpectrum.pressed.connect(self.spectrumColorImg)
@@ -1199,7 +1199,7 @@ class CRIkitUI_process(_QMainWindow):
                 self.img_BW.mpl.ax.add_artist(lg)
             try:
                 self.img_BW.mpl.fig.tight_layout(pad=1)
-            except:
+            except Exception:
                 print('tight_layout failed (CrikitUI: 2')
             self.img_BW.mpl.draw()
 
@@ -1611,7 +1611,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -1987,7 +1987,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.ui.freqSlider.setSliderPosition(pos)
             self.changeSlider()
-        except:
+        except Exception:
             pass
 
     def lineEditPixChanged(self):
@@ -2060,7 +2060,7 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxOperations.currentText()
             self.img_RGB_list[rgbnum].data.operation = currentop
-        except:
+        except Exception:
             pass
 
     def condOpChange(self):
@@ -2072,7 +2072,7 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxCondOps.currentText()
             self.img_RGB_list[rgbnum].data.condoperation = currentop
-        except:
+        except Exception:
             pass
 
     def condInEqualityChange(self):
@@ -2084,7 +2084,7 @@ class CRIkitUI_process(_QMainWindow):
         try:
             currentop = self.img_RGB_list[rgbnum].math.ui.comboBoxCondInEquality.currentText()
             self.img_RGB_list[rgbnum].data.inequality = currentop
-        except:
+        except Exception:
             pass
 
     def spinBoxInEqualityChange(self):
@@ -2096,7 +2096,7 @@ class CRIkitUI_process(_QMainWindow):
         try:
             self.img_RGB_list[rgbnum].data.inequalityval = \
                 self.img_RGB_list[rgbnum].math.ui.spinBoxInEquality.value()
-        except:
+        except Exception:
             pass
 
     def doKK(self):
@@ -2122,7 +2122,7 @@ class CRIkitUI_process(_QMainWindow):
                 conj = True
             else:
                 conj = False
-        except:
+        except Exception:
             conj = False
 
         out = DialogKKOptions.dialogKKOptions(data=[self.hsi.f,
@@ -2166,7 +2166,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2267,7 +2267,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2338,7 +2338,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2384,7 +2384,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2459,7 +2459,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2479,7 +2479,7 @@ class CRIkitUI_process(_QMainWindow):
         for count in self.bcpre.cut_list:
             try:
                 _os.remove(count + '.pickle')
-            except:
+            except Exception:
                 print('Error in deleting old pickle files')
             else:
                 del_flag += 1
@@ -2525,7 +2525,7 @@ class CRIkitUI_process(_QMainWindow):
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
                             _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                        except:
+                        except Exception:
                             print('Error in pickle backup (Undo functionality)')
                         else:
                             self.bcpre.backed_up()
@@ -2660,7 +2660,7 @@ class CRIkitUI_process(_QMainWindow):
                     if self.ui.actionUndo_Backup_Enabled.isChecked():
                         try:
                             _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                        except:
+                        except Exception:
                             print('Error in pickle backup (Undo functionality)')
                         else:
                             self.bcpre.backed_up()
@@ -2701,7 +2701,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -2733,7 +2733,7 @@ class CRIkitUI_process(_QMainWindow):
             if self.ui.actionUndo_Backup_Enabled.isChecked():
                 try:
                     _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-                except:
+                except Exception:
                     print('Error in pickle backup (Undo functionality)')
                 else:
                     self.bcpre.backed_up()
@@ -3016,7 +3016,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.img_RGB_list[rgbnum].mpl.draw()
 
-        except:
+        except Exception:
             print('Error')
         self.doComposite()
 
@@ -3031,7 +3031,7 @@ class CRIkitUI_process(_QMainWindow):
 
             self.img_RGB_list[rgbnum].data.opfreq2 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq2.setText(str(round(currentfreq, 1)))
-        except:
+        except Exception:
             pass
 
     def setOpFreq3(self):
@@ -3046,7 +3046,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].data.opfreq3 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonOpFreq3.setText(str(round(currentfreq, 1)))
 
-        except:
+        except Exception:
             pass
 
     def setCondFreq1(self):
@@ -3061,7 +3061,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].data.condfreq1 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq1.setText(str(round(currentfreq, 1)))
 
-        except:
+        except Exception:
             print('Error')
 
     def setCondFreq2(self):
@@ -3076,7 +3076,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].data.condfreq2 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq2.setText(str(round(currentfreq, 1)))
 
-        except:
+        except Exception:
             print('Error')
 
     def setCondFreq3(self):
@@ -3091,7 +3091,7 @@ class CRIkitUI_process(_QMainWindow):
             self.img_RGB_list[rgbnum].data.condfreq3 = currentfreq
             self.img_RGB_list[rgbnum].math.ui.pushButtonCondFreq3.setText(str(round(currentfreq, 1)))
 
-        except:
+        except Exception:
             print('Error')
 
     def spectrumColorImg(self):
@@ -3256,7 +3256,7 @@ class CRIkitUI_process(_QMainWindow):
             if self._mpl_v1:
                 self.img_BW.mpl.ax.hold(True)
 
-        except:
+        except Exception:
             print('Error in changeSlider: display img_BW')
 
         try:
@@ -3298,11 +3298,11 @@ class CRIkitUI_process(_QMainWindow):
                             self.img_BW.mpl.ax.add_artist(lg)
                             try:
                                 self.img_BW.mpl.fig.tight_layout(pad=1)
-                            except:
+                            except Exception:
                                 print('tight_layout failed (CrikitUI: 3')
-                        except:
+                        except Exception:
                             print('Error in showing overlay legend')
-        except:
+        except Exception:
             print('Error in changeSlider: display overlays')
 
         self.img_BW.mpl.draw()
@@ -3378,7 +3378,7 @@ class CRIkitUI_process(_QMainWindow):
                                           yunits=self.img_Composite2.data.yunits,
                                           extent=self.img_BW.data.winextent)
             self.img_Composite2.mpl.draw()
-        except:
+        except Exception:
             print('Error in doComposite')
 
     def updateOverlays(self):

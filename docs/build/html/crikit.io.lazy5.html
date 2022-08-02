@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crikit.io.lazy5 package &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5 package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="crikit-io-lazy5-package">
+<h1>crikit.io.lazy5 package<a class="headerlink" href="#crikit-io-lazy5-package" title="Permalink to this headline">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crikit.io.lazy5.tests.html">crikit.io.lazy5.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_alter">crikit.io.lazy5.tests.test_alter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_create">crikit.io.lazy5.tests.test_create module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_inspect">crikit.io.lazy5.tests.test_inspect module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_nonh5utils">crikit.io.lazy5.tests.test_nonh5utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_ui">crikit.io.lazy5.tests.test_ui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests.test_utils">crikit.io.lazy5.tests.test_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.tests.html#module-crikit.io.lazy5.tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="crikit.io.lazy5.ui.html">crikit.io.lazy5.ui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.ui.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.ui.html#module-crikit.io.lazy5.ui.QtHdfLoad">crikit.io.lazy5.ui.QtHdfLoad module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="crikit.io.lazy5.ui.html#hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui">HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.ui.html#module-crikit.io.lazy5.ui.qt_HdfLoad">crikit.io.lazy5.ui.qt_HdfLoad module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crikit.io.lazy5.ui.html#module-crikit.io.lazy5.ui">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-crikit.io.lazy5.alter">
+<span id="crikit-io-lazy5-alter-module"></span><h2>crikit.io.lazy5.alter module<a class="headerlink" href="#module-crikit.io.lazy5.alter" title="Permalink to this headline">¶</a></h2>
+<p>Macros for inspection of HDF5 files</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.alter.alter_attr">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.alter.</span></span><span class="sig-name descname"><span class="pre">alter_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_same_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_exist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/alter.html#alter_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.alter.alter_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alter attribute dset[‘attr_key’] with attr_val.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.Dataset</em>) – String to or Dataset-object for dataset in HDF5 file. If string,
+file/fid must be provided.</p></li>
+<li><p><strong>attr_key</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Attribute name (key)</p></li>
+<li><p><strong>attr_val</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Attribute value to write (replace old)</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Verbose output to stdout</p></li>
+<li><p><strong>check_same_type</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Check that the inputs are compatible types as defined in
+lazy5.nonh5utils.check_type_compat or lazy5.utils.return_family_type</p></li>
+<li><p><strong>must_exist</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – The attribute must already exist.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.alter.alter_attr_same">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.alter.</span></span><span class="sig-name descname"><span class="pre">alter_attr_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_exist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/alter.html#alter_attr_same"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.alter.alter_attr_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alter attribute dset[‘attr_key] with attr_val checkint to make sure that
+the original and new attribute values are of similar type e.g., int and
+np.int32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.Dataset</em>) – String to or Dataset-object for dataset in HDF5 file. If string,
+file/fid must be provided.</p></li>
+<li><p><strong>attr_key</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Attribute name (key)</p></li>
+<li><p><strong>attr_val</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Attribute value to write (replace old)</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Verbose output to stdout</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.alter.write_attr_dict">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.alter.</span></span><span class="sig-name descname"><span class="pre">write_attr_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/alter.html#write_attr_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.alter.write_attr_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write entire dictionary of attrbutes to dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.Dataset</em>) – String to or Dataset-object for dataset in HDF5 file. If string,
+fid must be provided.</p></li>
+<li><p><strong>attr_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Attribute dictionary</p></li>
+<li><p><strong>fid</strong> (<em>h5py.File</em>) – If dset is a string, file-object for open HDF5 file must be provided.</p></li>
+<li><p><strong>sort_attrs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Sort attribute keys alphabetically prior to writing</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Verbose output to stdout</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.config">
+<span id="crikit-io-lazy5-config-module"></span><h2>crikit.io.lazy5.config module<a class="headerlink" href="#module-crikit.io.lazy5.config" title="Permalink to this headline">¶</a></h2>
+<p>Default configuration class</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.io.lazy5.config.DefaultConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.config.</span></span><span class="sig-name descname"><span class="pre">DefaultConfig</span></span><a class="reference internal" href="_modules/crikit/io/lazy5/config.html#DefaultConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.config.DefaultConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.create">
+<span id="crikit-io-lazy5-create-module"></span><h2>crikit.io.lazy5.create module<a class="headerlink" href="#module-crikit.io.lazy5.create" title="Permalink to this headline">¶</a></h2>
+<p>Macros for creation of HDF5 files and/or datasets</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.create.save">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.create.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dset_overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/create.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.create.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save an HDF5 file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File object</em><em> (</em><em>fid</em><em>)</em>) – Filename</p></li>
+<li><p><strong>dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Dataset name (including groups if any)</p></li>
+<li><p><strong>data</strong> (<em>ndarray</em>) – Data to write</p></li>
+<li><p><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to file. Otherwise, will use present working directory (PWD)</p></li>
+<li><p><strong>attr_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Attribute dictionary. Will be Ordered.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – h5py file mode.</p></li>
+<li><p><strong>dset_overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If a dset already exists, overwrite or raise error?</p></li>
+<li><p><strong>sort_attrs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Sort the attribute dictionary (alphabetically) prior to saving</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Chunking shape or True for auto-chunking</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Verbose output</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Saved with no errors</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.inspect">
+<span id="crikit-io-lazy5-inspect-module"></span><h2>crikit.io.lazy5.inspect module<a class="headerlink" href="#module-crikit.io.lazy5.inspect" title="Permalink to this headline">¶</a></h2>
+<p>Macros for inspection of HDF5 files</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.get_attrs_dset">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">get_attrs_dset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_to_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_sgl_np_to_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#get_attrs_dset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.get_attrs_dset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dictionary of attribute values for a given dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Full dataset name with preprended group names. E.g., ‘/Group1/Dataset’</p></li>
+<li><p><strong>convert_to_str</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If an attribute is a <a href="#id1"><span class="problematic" id="id2">numpy.bytes_</span></a> string-like object, but not a str, try
+to decode into utf-8.</p></li>
+<li><p><strong>convert_sgl_np_to_num</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If an attribute is a numpy array with a single entry, convert to non-numpy
+numeric type. E.g. np.array([1.0]) -&gt; 1.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>OrderedDict</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(key, value)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.get_datasets">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">get_datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fulldsetpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#get_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.get_datasets" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>_h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>fulldsetpath</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Return just the dataset names with group names or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.get_groups">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#get_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.get_groups" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Gets groups in a hierarchical list starting from the base ‘/’. Thus if
+Group2 is INSIDE Group1, it will return Group1, Group1/Group2 – NOT Group2
+inidividually.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.get_hierarchy">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">get_hierarchy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fulldsetpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp_w_dset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#get_hierarchy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.get_hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered dictionary, where the keys are groups and the items are
+the datasets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>fulldsetpath</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, a dataset name will be prepended with the group down to the
+base level, ‘/’. If False, it will just be the dset name.</p></li>
+<li><p><strong>grp_w_dset</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, only return groups that contain datasets. If False, include
+empty groups</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>OrderedDict</strong> – Group and dataset names</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(group, [dataset list])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.valid_dsets">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">valid_dsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dset_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#valid_dsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.valid_dsets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether 1 or more datasets are valid</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.inspect.valid_file">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.inspect.</span></span><span class="sig-name descname"><span class="pre">valid_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/inspect.html#valid_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.inspect.valid_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate whether a file exists (or if a fid, is-open</p>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.nonh5utils">
+<span id="crikit-io-lazy5-nonh5utils-module"></span><h2>crikit.io.lazy5.nonh5utils module<a class="headerlink" href="#module-crikit.io.lazy5.nonh5utils" title="Permalink to this headline">¶</a></h2>
+<p>Non-HDF5 utility functions</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.nonh5utils.check_type_compat">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.nonh5utils.</span></span><span class="sig-name descname"><span class="pre">check_type_compat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/nonh5utils.html#check_type_compat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.nonh5utils.check_type_compat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the compatibility of types. E.g. np.float32 IS compatible with
+float</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.nonh5utils.filterlist">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.nonh5utils.</span></span><span class="sig-name descname"><span class="pre">filterlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_filtered_items</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclusive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/nonh5utils.html#filterlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.nonh5utils.filterlist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_list</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of strings to filter</p></li>
+<li><p><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Find filters (or entries of filters) in in_list</p></li>
+<li><p><strong>keep_filtered_items</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Returns entries from in_list that DO have filters (INCLUDE filter).
+If False, EXCLUDE filter</p></li>
+<li><p><strong>exclusive</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Filter is exclusive, i.e. includes/excludes in_list entries that
+have ALL filters. Otherwise, non-exclusive and any entry with A
+filter are excluded/included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>list</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>filtered list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.nonh5utils.return_family_type">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.nonh5utils.</span></span><span class="sig-name descname"><span class="pre">return_family_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/nonh5utils.html#return_family_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.nonh5utils.return_family_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return family of type input_a. int, float, complex, str, bytes, bool</p>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.utils">
+<span id="crikit-io-lazy5-utils-module"></span><h2>crikit.io.lazy5.utils module<a class="headerlink" href="#module-crikit.io.lazy5.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utility functions</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.FidOrFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.utils.</span></span><span class="sig-name descname"><span class="pre">FidOrFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/utils.html#FidOrFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.utils.FidOrFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class for opening an HDF5 file and returning a file ID (fid) or if passed
+and already open fid, passing it along (pass-thru). Primarily for enabling
+functions and methods to operate on open and closed files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If opening a file, open with mode. Available: r,r+,w,w-,x,a</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.FidOrFile.is_fid">
+<span class="sig-name descname"><span class="pre">is_fid</span></span><a class="headerlink" href="#crikit.io.lazy5.utils.FidOrFile.is_fid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Was the input file actually an fid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.FidOrFile.fid">
+<span class="sig-name descname"><span class="pre">fid</span></span><a class="headerlink" href="#crikit.io.lazy5.utils.FidOrFile.fid" title="Permalink to this definition">¶</a></dt>
+<dd><p>File ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>h5py.File object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.FidOrFile.close_if_file_not_fid">
+<span class="sig-name descname"><span class="pre">close_if_file_not_fid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/utils.html#FidOrFile.close_if_file_not_fid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.utils.FidOrFile.close_if_file_not_fid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file if originally a filename (not a fid) was passed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.FidOrFile.return_fid_from_file">
+<span class="sig-name descname"><span class="pre">return_fid_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/utils.html#FidOrFile.return_fid_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.utils.FidOrFile.return_fid_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an open fid (h5py.File). If provided a string, open file, else
+pass-thru given fid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>h5py.File</em>) – Filename or File-object for open HDF5 file</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If opening a file, open with mode. Available: r,r+,w,w-,x,a</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fid</strong> – File ID</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>h5py.File object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.fullpath">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.utils.</span></span><span class="sig-name descname"><span class="pre">fullpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/utils.html#fullpath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.utils.fullpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a full path by joining a pth and filename</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.lazy5.utils.hdf_is_open">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.utils.</span></span><span class="sig-name descname"><span class="pre">hdf_is_open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/utils.html#hdf_is_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.utils.hdf_is_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is an HDF file open via fid</p>
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.io.lazy5" title="Permalink to this headline">¶</a></h2>
+<p>Macros for h5py… because I’m lazy</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">crikit.io.lazy5 package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.alter">crikit.io.lazy5.alter module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.config">crikit.io.lazy5.config module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.create">crikit.io.lazy5.create module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.inspect">crikit.io.lazy5.inspect module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.nonh5utils">crikit.io.lazy5.nonh5utils module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.utils">crikit.io.lazy5.utils module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/crikit.io.lazy5.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5 package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

@@ -2,4 +2,3 @@ numpy
 scipy
 cvxopt
 h5py
-LazyHDF5

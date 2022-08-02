@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>crikit.io.lazy5.ui package &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.ui package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="crikit-io-lazy5-ui-package">
+<h1>crikit.io.lazy5.ui package<a class="headerlink" href="#crikit-io-lazy5-ui-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-crikit.io.lazy5.ui.QtHdfLoad">
+<span id="crikit-io-lazy5-ui-qthdfload-module"></span><h2>crikit.io.lazy5.ui.QtHdfLoad module<a class="headerlink" href="#module-crikit.io.lazy5.ui.QtHdfLoad" title="Permalink to this headline">¶</a></h2>
+<section id="hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui">
+<h3>HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)<a class="headerlink" href="#hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>H5LoadGUI : A graphical user interface (GUI) to select HDF5 dataset(s)</p>
+<p>Method : H5LoadGUI.getFileDataSets()</p>
+<p>Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])</p>
+<p>Methods that interact with Qt follow the Qt naming convention:
+firstSecondThird</p>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.ui.QtHdfLoad.</span></span><span class="sig-name descname"><span class="pre">HdfLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<p>GUI Loader Class for H5 Files</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.config">
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'attr_description':</span> <span class="pre">'Memo',</span> <span class="pre">'excl_filtering':</span> <span class="pre">True,</span> <span class="pre">'only_show_grp_w_dset':</span> <span class="pre">True}</span></em><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.dataGroupChange">
+<span class="sig-name descname"><span class="pre">dataGroupChange</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.dataGroupChange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.dataGroupChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action : ComboBox containing Groups with DataSets has changed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.datasetSelected">
+<span class="sig-name descname"><span class="pre">datasetSelected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.datasetSelected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.datasetSelected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action : One or more DataSets were selected from the list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.fileOpen">
+<span class="sig-name descname"><span class="pre">fileOpen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.fileOpen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.fileOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select HDF5 File via QDialog built-in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.filterDatasets">
+<span class="sig-name descname"><span class="pre">filterDatasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.filterDatasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.filterDatasets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter list of datasets based on include and exclude strings</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.getFileDataSets">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getFileDataSets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.getFileDataSets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.getFileDataSets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the filename and datasets selected by the user (via GUI)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Home directory to start in OR the relative pth to a file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>]) as (path, filename, [dataset(s)])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populateGroups">
+<span class="sig-name descname"><span class="pre">populateGroups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.populateGroups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populateGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate dropdown box of group ui.comboBoxGroupSelect</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populate_attrs">
+<span class="sig-name descname"><span class="pre">populate_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/QtHdfLoad.html#HdfLoad.populate_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populate_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate attribute and memo boxes for currently selected dataset</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="module-crikit.io.lazy5.ui.qt_HdfLoad">
+<span id="crikit-io-lazy5-ui-qt-hdfload-module"></span><h2>crikit.io.lazy5.ui.qt_HdfLoad module<a class="headerlink" href="#module-crikit.io.lazy5.ui.qt_HdfLoad" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crikit.io.lazy5.ui.qt_HdfLoad.</span></span><span class="sig-name descname"><span class="pre">Ui_Dialog</span></span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/qt_HdfLoad.html#Ui_Dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dialog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/qt_HdfLoad.html#Ui_Dialog.retranslateUi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog.retranslateUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Dialog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/lazy5/ui/qt_HdfLoad.html#Ui_Dialog.setupUi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.lazy5.ui.qt_HdfLoad.Ui_Dialog.setupUi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-crikit.io.lazy5.ui">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crikit.io.lazy5.ui" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">crikit.io.lazy5.ui package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.ui.QtHdfLoad">crikit.io.lazy5.ui.QtHdfLoad module</a><ul>
+<li><a class="reference internal" href="#hdf5-load-data-qdialog-crikit-vis-subguis-h5loadgui">HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.ui.qt_HdfLoad">crikit.io.lazy5.ui.qt_HdfLoad module</a></li>
+<li><a class="reference internal" href="#module-crikit.io.lazy5.ui">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/crikit.io.lazy5.ui.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.ui package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

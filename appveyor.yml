@@ -15,7 +15,7 @@ environment:
         MINICONDA_VERSION: "latest"
         PYTHON_ARCH: "64"
         CONDA_DEPENDENCIES: "numpy scipy pyqt matplotlib h5py cvxopt"
-        PIP_DEPENDENCIES: "pytest pytest-cov codecov lazyhdf5"
+        PIP_DEPENDENCIES: "pytest pytest-cov codecov"
 
     matrix:
         - PYTHON_VERSION: "3.7"

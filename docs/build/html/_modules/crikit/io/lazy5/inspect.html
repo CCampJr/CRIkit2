@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.lazy5.inspect &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/nature.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.inspect</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.io.lazy5.inspect</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Macros for inspection of HDF5 files &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span> <span class="k">as</span> <span class="n">_OrderedDict</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">FidOrFile</span> <span class="k">as</span> <span class="n">_FidOrFile</span><span class="p">,</span> <span class="n">hdf_is_open</span> <span class="k">as</span> <span class="n">_hdf_is_open</span><span class="p">,</span>
+                    <span class="n">fullpath</span> <span class="k">as</span> <span class="n">_fullpath</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">DefaultConfig</span>
+<span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="n">DefaultConfig</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;get_groups&#39;</span><span class="p">,</span> <span class="s1">&#39;get_datasets&#39;</span><span class="p">,</span> <span class="s1">&#39;get_hierarchy&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_attrs_dset&#39;</span><span class="p">,</span> <span class="s1">&#39;valid_dsets&#39;</span><span class="p">,</span> <span class="s1">&#39;valid_file&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="get_groups"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.get_groups">[docs]</a><span class="k">def</span> <span class="nf">get_groups</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    file : str or h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Gets groups in a hierarchical list starting from the base &#39;/&#39;. Thus if</span>
+<span class="sd">    Group2 is INSIDE Group1, it will return Group1, Group1/Group2 -- NOT Group2</span>
+<span class="sd">    inidividually.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+    <span class="c1"># Get fid for a file (str or open fid)</span>
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+
+    <span class="n">all_items_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">all_items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+    <span class="c1"># list-set-list removes duplicates</span>
+    <span class="n">grp_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">all_items_list</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fid</span><span class="p">[</span><span class="n">item</span><span class="p">],</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">)]))</span>
+
+    <span class="n">grp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>  <span class="c1"># Add in base level group</span>
+    <span class="n">grp_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">grp_list</span></div>
+
+<div class="viewcode-block" id="get_datasets"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.get_datasets">[docs]</a><span class="k">def</span> <span class="nf">get_datasets</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fulldsetpath</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    file : str or _h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    fulldsetpath : bool</span>
+<span class="sd">        Return just the dataset names with group names or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+        <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+
+    <span class="n">all_items_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">all_items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># list-set-list removes duplicates</span>
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">all_items_list</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fid</span><span class="p">[</span><span class="n">item</span><span class="p">],</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)]))</span>
+    <span class="n">dset_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fulldsetpath</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+            <span class="n">split_out</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dset_list</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">split_out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dset_list</span></div>
+
+<div class="viewcode-block" id="get_hierarchy"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.get_hierarchy">[docs]</a><span class="k">def</span> <span class="nf">get_hierarchy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fulldsetpath</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">grp_w_dset</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return an ordered dictionary, where the keys are groups and the items are</span>
+<span class="sd">    the datasets</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    file : str or h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    fulldsetpath : bool</span>
+<span class="sd">        If True, a dataset name will be prepended with the group down to the</span>
+<span class="sd">        base level, &#39;/&#39;. If False, it will just be the dset name.</span>
+
+<span class="sd">    grp_w_dset : bool</span>
+<span class="sd">        If True, only return groups that contain datasets. If False, include</span>
+<span class="sd">        empty groups</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OrderedDict : (group, [dataset list])</span>
+<span class="sd">        Group and dataset names</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+
+    <span class="c1"># Get fid for a file (str or open fid)</span>
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+
+    <span class="n">grp_list</span> <span class="o">=</span> <span class="n">get_groups</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="n">get_datasets</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">fulldsetpath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">grp_dict</span> <span class="o">=</span> <span class="n">_OrderedDict</span><span class="p">([[</span><span class="n">grp</span><span class="p">,</span> <span class="p">[]]</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">grp_list</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dset_list</span><span class="p">:</span>
+        <span class="n">split_out</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">split_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">split_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+                <span class="n">grp_dict</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">grp_dict</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fulldsetpath</span><span class="p">:</span>
+                <span class="n">grp_dict</span><span class="p">[</span><span class="n">split_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">grp_dict</span><span class="p">[</span><span class="n">split_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_out</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Only keep groups with datasets</span>
+    <span class="k">if</span> <span class="n">grp_w_dset</span><span class="p">:</span>
+        <span class="n">to_pop</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">grp_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">grp_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>  <span class="c1"># is empty</span>
+                <span class="n">to_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">empty_grp</span> <span class="ow">in</span> <span class="n">to_pop</span><span class="p">:</span>
+            <span class="n">grp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">empty_grp</span><span class="p">)</span>
+
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">grp_dict</span></div>
+
+<div class="viewcode-block" id="get_attrs_dset"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.get_attrs_dset">[docs]</a><span class="k">def</span> <span class="nf">get_attrs_dset</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convert_to_str</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">convert_sgl_np_to_num</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get dictionary of attribute values for a given dataset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    file : str or h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    dset : str</span>
+<span class="sd">        Full dataset name with preprended group names. E.g., &#39;/Group1/Dataset&#39;</span>
+
+<span class="sd">    convert_to_str : bool</span>
+<span class="sd">        If an attribute is a numpy.bytes_ string-like object, but not a str, try</span>
+<span class="sd">        to decode into utf-8.</span>
+
+<span class="sd">    convert_sgl_np_to_num : bool</span>
+<span class="sd">        If an attribute is a numpy array with a single entry, convert to non-numpy</span>
+<span class="sd">        numeric type. E.g. np.array([1.0]) -&gt; 1.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OrderedDict : (key, value)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+
+    <span class="c1"># Get fid for a file (str or open fid)</span>
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+
+    <span class="n">ds_attrs</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+
+    <span class="n">attr_keys_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds_attrs</span><span class="p">)</span>
+    <span class="n">attr_keys_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="n">attr_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">attr_keys_list</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attr_val</span> <span class="o">=</span> <span class="n">ds_attrs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not get value for attribute: </span><span class="si">{}</span><span class="s1">. Set to None&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+            <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr_val</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr_val</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">attr_val</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">_np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">convert_to_str</span><span class="p">:</span> <span class="c1"># pylint: disable=no-member</span>
+                    <span class="c1"># * tostring() added in \x00 to end of string; thus, used list comprehension</span>
+                    <span class="n">np_byte_to_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">attr_val</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                    <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">np_byte_to_str</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">attr_val</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">attr_val</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">convert_sgl_np_to_num</span><span class="p">:</span>
+                    <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">attr_val</span><span class="o">.</span><span class="n">item</span><span class="p">()])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr_val</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">convert_to_str</span><span class="p">:</span>
+                <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">attr_val</span><span class="o">.</span><span class="n">decode</span><span class="p">()])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">attr_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">])</span>
+
+    <span class="n">attr_dict</span> <span class="o">=</span> <span class="n">_OrderedDict</span><span class="p">(</span><span class="n">attr_list</span><span class="p">)</span>
+
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">attr_dict</span></div>
+
+<div class="viewcode-block" id="valid_file"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.valid_file">[docs]</a><span class="k">def</span> <span class="nf">valid_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Validate whether a file exists (or if a fid, is-open &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+        <span class="n">isvalid</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">isvalid</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is a valid file.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is a not valid file.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">File</span><span class="p">):</span>
+        <span class="n">isvalid</span> <span class="o">=</span> <span class="n">_hdf_is_open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;file need be of type str or h5py.File object.&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">isvalid</span></div>
+
+<div class="viewcode-block" id="valid_dsets"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.inspect.valid_dsets">[docs]</a><span class="k">def</span> <span class="nf">valid_dsets</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check whether 1 or more datasets are valid &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_add_leading_slash</span><span class="p">(</span><span class="n">str_to_check</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return string sans leading &#39;/&#39; if there is one &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">str_to_check</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">str_to_check</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">str_to_check</span>
+
+    <span class="n">file_is_valid</span> <span class="o">=</span> <span class="n">valid_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">pth</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file_is_valid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">dset_in_file</span> <span class="o">=</span> <span class="n">get_datasets</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">pth</span><span class="p">,</span> <span class="n">fulldsetpath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dset_list</span><span class="p">:</span>
+            <span class="n">dset_to_test</span> <span class="o">=</span> <span class="n">_add_leading_slash</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dset_in_file</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">dset_to_test</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">hits</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : VALID&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_to_test</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : NOT VALID&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_to_test</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">hits</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All datasets are valid&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Some or all datasets are NOT valid&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dset_in_file</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">_add_leading_slash</span><span class="p">(</span><span class="n">dset_list</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : VALID&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_list</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : NOT VALID&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_list</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">err_str1</span> <span class="o">=</span> <span class="s1">&#39;dset_list: </span><span class="si">{}</span><span class="s1"> of type </span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">dset_list</span><span class="p">))</span>
+        <span class="n">err_str2</span> <span class="o">=</span> <span class="s1">&#39;is not a str, list, or tuple&#39;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err_str1</span> <span class="o">+</span> <span class="n">err_str2</span><span class="p">)</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.inspect</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

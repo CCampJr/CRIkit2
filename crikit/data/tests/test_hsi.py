@@ -3,7 +3,7 @@ import numpy as np
 import numpy.testing
 
 import pytest
-import lazy5
+import crikit.io.lazy5 as lazy5
 
 from crikit.io.hdf5 import hdf_import_data
 from crikit.data.spectra import Spectrum

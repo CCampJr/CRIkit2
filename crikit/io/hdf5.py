@@ -15,7 +15,7 @@ from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
 from crikit.data.spectra import Hsi as _Hsi
 
-import lazy5 as _lazy5
+import crikit.io.lazy5 as _lazy5
 
 __all__ = ['hdf_import_data']
 
