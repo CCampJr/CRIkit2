@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 import h5py
 
-import crikit.io.lazy5 as lazy5lazy5
+import crikit.io.lazy5 as lazy5
 
 from crikit.data.mosaic import Mosaic
 
