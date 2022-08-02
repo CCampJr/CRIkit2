@@ -210,9 +210,9 @@ class KramersKronig:
 
 if __name__ == '__main__': # pragma: no cover
 
-    from crikit.data.spectrum import Spectrum as _Spectrum
+    from crikit.data.spectra import Spectrum as _Spectrum
     from crikit.data.spectra import Spectra as _Spectra
-    from crikit.data.hsi import Hsi as _Hsi
+    from crikit.data.spectra import Hsi as _Hsi
 
     hsi = _Hsi()
     nrb = _Spectra()

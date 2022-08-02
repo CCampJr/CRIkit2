@@ -11,9 +11,9 @@ import os as _os
 
 import numpy as _np
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 import lazy5 as _lazy5
 
@@ -34,7 +34,7 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
     dset_list : list
         List of 1 or more datasets
 
-    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)
+    output_cls_instance : crikit.data.spectra.Spectrum (or subclass)
         Spectrum class (or sub) object
 
     Returns

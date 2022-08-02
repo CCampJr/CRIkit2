@@ -7,9 +7,9 @@ Testing Spectrum class
 import numpy as np
 import numpy.testing as np_testing
 
-from crikit.data.spectrum import Spectrum
+from crikit.data.spectra import Spectrum
 from crikit.data.spectra import Spectra
-from crikit.data.hsi import Hsi
+from crikit.data.spectra import Hsi
 from crikit.utils.general import find_nearest
 
 def test_spectrum():

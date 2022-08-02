@@ -9,9 +9,9 @@ import csv as _csv
 import numpy as _np
 import copy as _copy
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 from configparser import ConfigParser as _ConfigParser
 #
@@ -35,7 +35,7 @@ def csv_nist_import_data(pth, filename_header, filename_data,
     filename_data : str
         File name of data
 
-    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)
+    output_cls_instance : crikit.data.spectra.Spectrum (or subclass)
         Spectrum class (or sub) object
 
     Returns

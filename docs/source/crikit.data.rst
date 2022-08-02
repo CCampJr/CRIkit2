@@ -28,10 +28,10 @@ crikit.data.frequency module
    :undoc-members:
    :show-inheritance:
 
-crikit.data.hsi module
+crikit.data.spectra module
 ----------------------
 
-.. automodule:: crikit.data.hsi
+.. automodule:: crikit.data.spectra
    :members:
    :undoc-members:
    :show-inheritance:
@@ -60,10 +60,10 @@ crikit.data.spectra module
    :undoc-members:
    :show-inheritance:
 
-crikit.data.spectrum module
+crikit.data.spectra module
 ---------------------------
 
-.. automodule:: crikit.data.spectrum
+.. automodule:: crikit.data.spectra
    :members:
    :undoc-members:
    :show-inheritance:

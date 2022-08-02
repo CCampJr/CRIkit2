@@ -132,7 +132,7 @@ class BCPre:
     @staticmethod
     def backup_pickle(data, fname, addl_attr = None):
         """
-        Dump current state of data (class of type crikit.data.spectrum or
+        Dump current state of data (class of type crikit.data.spectra or
         subclass)to pickle file (filename= fname).
 
         Can append additional attributes (addl_attr) to \

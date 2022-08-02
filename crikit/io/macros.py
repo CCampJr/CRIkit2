@@ -82,7 +82,7 @@ def import_csv_nist_special1(pth, filename_header, filename_data,
 
 if __name__ == '__main__':  # pragma: no cover
 
-    from crikit.data.hsi import Hsi as _Hsi
+    from crikit.data.spectra import Hsi as _Hsi
 
     pth = '../'
     filename = 'mP2_w_small.h5'
@@ -92,7 +92,7 @@ if __name__ == '__main__':  # pragma: no cover
     print('Shape of img.mean(): {}'.format(img.mean().shape))
     print(img.y_rep.data)
     
-    # from crikit.data.spectrum import Spectrum as _Spectrum
+    # from crikit.data.spectra import Spectrum as _Spectrum
     
     # sp = _Spectrum()
     # pth = '../../../Young_150617/'

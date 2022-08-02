@@ -7,9 +7,9 @@ Note: If dark > 1D, averaged -- even if data has same shape.
 import numpy as _np
 import copy as _copy
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 from crikit.utils.general import (expand_1d_to_ndim as _expand_1d_to_ndim,
                                   mean_nd_to_1d as _mean_nd_to_1d)

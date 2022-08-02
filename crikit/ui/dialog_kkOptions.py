@@ -142,7 +142,7 @@ if __name__ == '__main__':
 
 #    winDark = DialogDarkOptions.dialogDarkOptions(darkloaded=True)
 
-    from crikit.data.hsi import Hsi as _Hsi
+    from crikit.data.spectra import Hsi as _Hsi
 
     temp = _Hsi()
 

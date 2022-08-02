@@ -60,9 +60,9 @@ from crikit.cri.merge_nrbs import MergeNRBs as _MergeNRBs
 
 from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn,
                                    calib_pix_wl as _calib_pix_wl)
-from crikit.data.hsi import Hsi
+from crikit.data.spectra import Hsi
 from crikit.data.spectra import Spectra
-from crikit.data.spectrum import Spectrum
+from crikit.data.spectra import Spectrum
 
 from crikit.datasets.model import Model as _Model
 
@@ -3710,7 +3710,7 @@ def crikit_launch(**kwargs):
 
     Input kwargs (Optional)
     ------------------------
-    hsi : crikit.data.Hsi
+    hsi : crikit.data.spectra.Hsi
         Hsi instance
 
     data : ndarray (3D)

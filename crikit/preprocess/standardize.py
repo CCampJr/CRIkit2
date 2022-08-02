@@ -330,7 +330,7 @@ class AnscombeInverse:
 
 if __name__ == '__main__': # pragma: no cover
 
-    from crikit.data.spectrum import Spectrum as _Spectrum
+    from crikit.data.spectra import Spectrum as _Spectrum
 
     stddev = 20
     gain = 1

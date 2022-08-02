@@ -7,9 +7,9 @@ Created on Mon May 23 16:55:09 2016
 from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn,
                                    calib_pix_wl as _calib_pix_wl)
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 import numpy as _np
 

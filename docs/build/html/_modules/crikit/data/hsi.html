@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.data.hsi &#8212; CRIKit2 0.4.1 documentation</title>
+    <title>crikit.data.spectra &#8212; CRIKit2 0.4.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -28,7 +28,7 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">crikit.data.hsi</a></li> 
+        <li class="nav-item nav-item-this"><a href="">crikit.data.spectra</a></li> 
       </ul>
     </div>  
 
@@ -37,7 +37,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for crikit.data.hsi</h1><div class="highlight"><pre>
+  <h1>Source code for crikit.data.spectra</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Hyperspectral imagery (hsi) class</span>
 
@@ -50,12 +50,12 @@
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
 
 <span class="kn">from</span> <span class="nn">crikit.data.frequency</span> <span class="kn">import</span> <span class="n">Frequency</span> <span class="k">as</span> <span class="n">_Frequency</span>
-<span class="kn">from</span> <span class="nn">crikit.data.spectrum</span> <span class="kn">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
+<span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Spectrum</span> <span class="k">as</span> <span class="n">_Spectrum</span>
 <span class="kn">from</span> <span class="nn">crikit.data.replicate</span> <span class="kn">import</span> <span class="n">Replicate</span> <span class="k">as</span> <span class="n">_Replicate</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Hsi&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Hsi"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.hsi.Hsi">[docs]</a><span class="k">class</span> <span class="nc">Hsi</span><span class="p">(</span><span class="n">_Spectrum</span><span class="p">):</span>
+<div class="viewcode-block" id="Hsi"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.spectra.Hsi">[docs]</a><span class="k">class</span> <span class="nc">Hsi</span><span class="p">(</span><span class="n">_Spectrum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hyperspectral imagery class</span>
 
@@ -248,7 +248,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">temp</span>
                 <span class="k">del</span> <span class="n">temp</span>
                 
-<div class="viewcode-block" id="Hsi.check"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.hsi.Hsi.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Hsi.check"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.spectra.Hsi.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check x, y, and freq to make sure the dimensions agree with data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -290,7 +290,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hsi check: setting freq to pixels&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Hsi.subtract"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.hsi.Hsi.subtract">[docs]</a>    <span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectra</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Hsi.subtract"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.spectra.Hsi.subtract">[docs]</a>    <span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectra</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subtract spectrum from data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -321,7 +321,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">spectra</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:]</span></div>
 
-<div class="viewcode-block" id="Hsi.get_rand_spectra"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.hsi.Hsi.get_rand_spectra">[docs]</a>    <span class="k">def</span> <span class="nf">get_rand_spectra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">pt_sz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">quads</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Hsi.get_rand_spectra"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.spectra.Hsi.get_rand_spectra">[docs]</a>    <span class="k">def</span> <span class="nf">get_rand_spectra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">pt_sz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">quads</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
         <span class="n">mlen</span><span class="p">,</span> <span class="n">nlen</span><span class="p">,</span> <span class="n">freqlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
 
@@ -444,7 +444,7 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">crikit.data.hsi</a></li> 
+        <li class="nav-item nav-item-this"><a href="">crikit.data.spectra</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

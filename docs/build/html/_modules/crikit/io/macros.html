@@ -122,7 +122,7 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 
-    <span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+    <span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
 
     <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;mP2_w_small.h5&#39;</span>
@@ -132,7 +132,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of img.mean(): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     
-    <span class="c1"># from crikit.data.spectrum import Spectrum as _Spectrum</span>
+    <span class="c1"># from crikit.data.spectra import Spectrum as _Spectrum</span>
     
     <span class="c1"># sp = _Spectrum()</span>
     <span class="c1"># pth = &#39;../../../Young_150617/&#39;</span>
