@@ -9,9 +9,9 @@ import csv as _csv
 import numpy as _np
 import copy as _copy
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 from configparser import ConfigParser as _ConfigParser
 #
@@ -35,7 +35,7 @@ def csv_nist_import_data(pth, filename_header, filename_data,
     filename_data : str
         File name of data
 
-    output_cls_instance : crikit.data.spectrum.Spectrum (or subclass)
+    output_cls_instance : crikit.data.spectra.Spectrum (or subclass)
         Spectrum class (or sub) object
 
     Returns
@@ -56,7 +56,7 @@ def csv_nist_import_data(pth, filename_header, filename_data,
     try:
         with open(pfname_header,'r') as _:
             pass
-    except:
+    except Exception:
         print('Invalid header filename')
     else:
         valid_import_locs += 1
@@ -64,7 +64,7 @@ def csv_nist_import_data(pth, filename_header, filename_data,
     try:
         with open(pfname_data,'r') as _:
             pass
-    except:
+    except Exception:
         print('Invalid data filename')
     else:
         valid_import_locs += 1
@@ -126,10 +126,10 @@ def csv_nist_import_data(pth, filename_header, filename_data,
                         try:  # int
                             v = int(each_val)
                             #print('Integer')
-                        except:
+                        except Exception:
                             try:  # float
                                 v = float(each_val)
-                            except:  # string
+                            except Exception:  # string
                                 v = str.strip(each_val,'"')
                         #print('{}.{}: {}'.format(each_section,each_key, v))
                         attr.update({k:v})
@@ -160,7 +160,7 @@ def csv_nist_import_data(pth, filename_header, filename_data,
                     y_steps = config.getint('Y scan Paramters','Y steps')
                     y_step_size = config.getfloat('Y scan Paramters','Y step size (um)')
                     y = _np.linspace(y_start, y_start + y_step_size * (y_steps-1), y_steps)
-                except:  # In case typo is corrected in the future
+                except Exception:  # In case typo is corrected in the future
                     y_start = config.getfloat('Y scan Parameters','Y start (um)')
                     y_steps = config.getint('Y scan Parameters','Y steps')
                     y_step_size = config.getfloat('Y scan Parameters','Y step size (um)')
@@ -175,10 +175,10 @@ def csv_nist_import_data(pth, filename_header, filename_data,
                         try:  # int
                             v = int(each_val)
                             #print('Integer')
-                        except:
+                        except Exception:
                             try:  # float
                                 v = float(each_val)
-                            except:  # string
+                            except Exception:  # string
                                 v = str.strip(each_val,'"')
                         #print('{}.{}: {}'.format(each_section,each_key, v))
                         attr.update({k:v})
@@ -231,14 +231,14 @@ def csv_nist_import_data(pth, filename_header, filename_data,
                         
                     # Figure out fixed positions later
                     
-                except:
+                except Exception:
                     pass
                 else:
                     output_cls_instance.data = data
                     output_cls_instance.meta = attr
                     return True
 
-        except:
+        except Exception:
             print('Something failed in import')
 
 if __name__ == '__main__':

@@ -5,15 +5,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.meta_configs &#8212; CRIKit2 0.4.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <title>crikit.io.meta_configs &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -26,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.meta_configs</a></li> 
       </ul>
@@ -49,50 +47,47 @@
 <span class="sd">@author: chc</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+
 <div class="viewcode-block" id="special_nist_bcars2"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.meta_configs.special_nist_bcars2">[docs]</a><span class="k">def</span> <span class="nf">special_nist_bcars2</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return import attributes particular to the &quot;BCARS 2&quot; system at NIST</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rosetta</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XPixelSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStepSize&#39;</span><span class="p">,</span> 
-                             <span class="s1">&#39;Raster.Fast.StepSize&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Start&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisStop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Stop&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisSteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Steps&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxis&#39;</span><span class="p">,</span><span class="s1">&#39;Raster.Fast.Axis&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FastAxisUnits&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu$m&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XPixelSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fast.StepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisStepSize&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Raster.Fast.StepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fast.Start&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Start&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fast.Stop&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisStop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Stop&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fast.Steps&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisSteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Steps&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fast.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxis&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fast.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;XUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MicroStage.raster.fast.units&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FastAxisUnits&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu$m&#39;</span><span class="p">]</span>
 
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YPixelSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStepSize&#39;</span><span class="p">,</span> 
-                            <span class="s1">&#39;Raster.Slow.StepSize&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Start&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisStop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Stop&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisSteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Steps&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxis&#39;</span><span class="p">,</span><span class="s1">&#39;Raster.Slow.Axis&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.SlowAxisUnits&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu$m&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YPixelSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Slow.StepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisStepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.StepSize&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YStart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Slow.Start&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisStart&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Start&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YStop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Slow.Stop&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisStop&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Stop&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Slow.Steps&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisSteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Steps&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Slow.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxis&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Slow.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;YUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MicroStage.raster.slow.units&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.SlowAxisUnits&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu$m&#39;</span><span class="p">]</span>
 
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ZPosition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FixedAxisPosition&#39;</span><span class="p">,</span> 
-                            <span class="s1">&#39;Raster.Stack.Position&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ZLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Stack.Axis&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+    <span class="c1"># TODO: Set an actual Z fixed position for Macro raster scan</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ZPosition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fixed.Start&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fixed.Position&#39;</span><span class="p">,</span><span class="s1">&#39;RasterScanParams.FixedAxisPosition&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;Raster.Stack.Position&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ZLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Macro.Raster.Fixed.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Fixed.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;Raster.Stack.Axis&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]</span>
 
     <span class="c1"># Color Calibration</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCenterWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectro.CenterWavelength&#39;</span><span class="p">,</span> 
-                                <span class="s1">&#39;Spectro.CurrentWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.ctr_wl&#39;</span><span class="p">,</span>
-                                <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">729.994</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCenterWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectrometer.calib.ctr_wl&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CenterWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CurrentWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.ctr_wl&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">729.994</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.units&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;nm&#39;</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.n_pix&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.SpectralPixels&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">1600</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCalibWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.ctr_wl0&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CalibWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">729.994</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorPolyVals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.a_vec&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.Avec&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.167740721307557</span><span class="p">,</span>
-                                                     <span class="mf">863.8736708961577</span><span class="p">]]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectrometer.calib.n_pix&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.n_pix&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.SpectralPixels&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">1600</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCalibWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectrometer.calib.ctr_wl0&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.ctr_wl0&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.CalibWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">729.994</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorPolyVals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectrometer.calib.a_vec&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.a_vec&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.Avec&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.167740721307557</span><span class="p">,</span> <span class="mf">863.8736708961577</span><span class="p">]]</span>
 
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorProbe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Calib.probe&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.ProbeWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">771.461</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorProbe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spectrometer.calib.probe&#39;</span><span class="p">,</span> <span class="s1">&#39;Calib.probe&#39;</span><span class="p">,</span> <span class="s1">&#39;Spectro.ProbeWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">771.461</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorWnMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
 
     <span class="c1"># Color Calibration Original</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;OrigColorCenterWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CalibOrig.ctr_wl&#39;</span><span class="p">,</span>
                                     <span class="s1">&#39;Spectro.CenterWavelength&#39;</span><span class="p">,</span>
-                                    <span class="s1">&#39;Spectro.CurrentWavelength&#39;</span><span class="p">,</span>
-                                   <span class="p">]</span>
+                                    <span class="s1">&#39;Spectro.CurrentWavelength&#39;</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;OrigColorUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CalibOrig.units&#39;</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;OrigColorChannels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CalibOrig.n_pix&#39;</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;OrigColorCalibWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CalibOrig.ctr_wl&#39;</span><span class="p">]</span>
@@ -103,6 +98,7 @@
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;OrigColorWnMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">rosetta</span></div>
+
 
 <div class="viewcode-block" id="special_nist_bcars1_sample_scan"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.meta_configs.special_nist_bcars1_sample_scan">[docs]</a><span class="k">def</span> <span class="nf">special_nist_bcars1_sample_scan</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -128,7 +124,7 @@
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ZLabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;RasterScanParams.FixedAxis&#39;</span>
 
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCenterWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.CenterWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">696.831</span><span class="p">]</span>
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;nm&#39;</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorUnits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;nm&#39;</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.freq index length&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">512</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorCalibWL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.CenterWavelength&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">696.831</span><span class="p">]</span>
 
@@ -139,9 +135,9 @@
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorPolyVals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.Polyvals&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span>
                                 <span class="p">[</span><span class="o">-</span><span class="mf">0.50418919</span><span class="p">,</span> <span class="mf">825.651318</span><span class="p">]]</span>
 
-    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorProbe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.probe(nm)&#39;</span><span class="p">,</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">830.0</span><span class="p">]</span>
+    <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorProbe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Frequency Calibration.probe(nm)&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mf">830.0</span><span class="p">]</span>
     <span class="n">rosetta</span><span class="p">[</span><span class="s1">&#39;ColorWnMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
-    <span class="c1"># rosetta[&#39;ColorCalibWN&#39;] = [&#39;Processing.WNCalib&#39;,&#39;Processing.WNCalibOrig&#39;]</span>
+    <span class="c1"># rosetta[&#39;ColorCalibWN&#39;] = [&#39;Processing.WNCalib&#39;, &#39;Processing.WNCalibOrig&#39;]</span>
 
     <span class="k">return</span> <span class="n">rosetta</span></div>
 </pre></div>
@@ -156,7 +152,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -175,14 +171,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.meta_configs</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

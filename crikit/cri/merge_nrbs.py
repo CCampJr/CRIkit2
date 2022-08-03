@@ -74,7 +74,7 @@ class MergeNRBs:
                 
             else:
                 raise ValueError('self.scale_left must be True, False, or None')
-        except:
+        except Exception:
             return False
         else:
             return True

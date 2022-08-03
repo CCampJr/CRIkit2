@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.lazy5.ui.QtHdfLoad &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.ui.QtHdfLoad</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.io.lazy5.ui.QtHdfLoad</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">HDF5 LOAD DATA QDialog (crikit.vis.subguis.h5loadgui)</span>
+<span class="sd">=======================================================</span>
+
+<span class="sd">    H5LoadGUI : A graphical user interface (GUI) to select HDF5 dataset(s)</span>
+
+<span class="sd">    Method : H5LoadGUI.getFileDataSets()</span>
+
+<span class="sd">    Return (tuple) : (path [str], filename [str], dataset(s) [list], selection_made [bool])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Methods that interact with Qt follow the Qt naming convention:</span>
+<span class="sd">    firstSecondThird</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># Append sys path</span>
+<span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Generic imports for QT-based programs</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span> \
+    <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">,</span> <span class="n">QFileDialog</span> <span class="k">as</span> <span class="n">_QFileDialog</span><span class="p">,</span> \
+    <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">HAS_PYQT5</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">HAS_PYQT5</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.ui.qt_HdfLoad</span> <span class="kn">import</span> <span class="n">Ui_Dialog</span>
+
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.inspect</span> <span class="kn">import</span> <span class="n">get_hierarchy</span><span class="p">,</span> <span class="n">get_attrs_dset</span>
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.nonh5utils</span> <span class="kn">import</span> <span class="n">filterlist</span>
+
+<div class="viewcode-block" id="HdfLoad"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad">[docs]</a><span class="k">class</span> <span class="nc">HdfLoad</span><span class="p">(</span><span class="n">_QDialog</span><span class="p">):</span> <span class="c1">### EDIT ###</span>
+    <span class="sd">&quot;&quot;&quot; GUI Loader Class for H5 Files &quot;&quot;&quot;</span>
+
+    <span class="c1"># Default configuration</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;only_show_grp_w_dset&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Only show groups with datasets</span>
+              <span class="s1">&#39;attr_description&#39;</span><span class="p">:</span> <span class="s1">&#39;Memo&#39;</span><span class="p">,</span>  <span class="c1"># Description attribute key (optional)</span>
+              <span class="s1">&#39;excl_filtering&#39;</span> <span class="p">:</span> <span class="kc">True</span>  <span class="c1"># Filtering is exclusive (filters are AND&#39;d)</span>
+             <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># Generic load/init designer-based GUI</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HdfLoad</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">Ui_Dialog</span><span class="p">()</span>  <span class="c1"># pylint: disable=C0103</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_selected</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Select a dataset...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Select a dataset...&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonOk</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonCancel</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reject</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">currentTextChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataGroupChange</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">itemClicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetSelected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonFilter</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filterDatasets</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pushButtonResetFilter</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataGroupChange</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HdfLoad.getFileDataSets"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.getFileDataSets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">getFileDataSets</span><span class="p">(</span><span class="n">pth</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># pylint: disable=C0103; # pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the filename and datasets selected by the user (via GUI)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pth : str</span>
+<span class="sd">            Home directory to start in OR the relative pth to a file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Tuple (str, str, list[str]) as (path, filename, [dataset(s)])</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># pragma: no cover</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="n">ret_fileopen</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">pth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pth</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ret_fileopen</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">fileOpen</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+            <span class="n">ret</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">ret_fileopen</span><span class="p">:</span>
+                <span class="n">ret_dset_select</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">ret_dset_select</span> <span class="o">==</span> <span class="n">_QDialog</span><span class="o">.</span><span class="n">Rejected</span><span class="p">:</span>
+                    <span class="n">pth</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">path</span>
+                <span class="k">elif</span> <span class="n">dialog</span><span class="o">.</span><span class="n">all_selected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dialog</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dialog</span><span class="o">.</span><span class="n">all_selected</span><span class="p">)</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="HdfLoad.fileOpen"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.fileOpen">[docs]</a>    <span class="k">def</span> <span class="nf">fileOpen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Qt-related pylint: disable=C0103</span>
+        <span class="sd">&quot;&quot;&quot; Select HDF5 File via QDialog built-in.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">pth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">title_file</span><span class="o">=</span><span class="s1">&#39;Select a file...&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">title_file</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Select a file...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">pth</span><span class="p">):</span>  <span class="c1"># No file provided, use QFileDialog; # pragma: no cover</span>
+            <span class="n">filetype_options</span> <span class="o">=</span> <span class="s1">&#39;HDF5 Files (*.h5 *.hdf);;All Files (*.*)&#39;</span>
+            <span class="n">full_pth_fname</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_file</span><span class="p">,</span> <span class="n">pth</span><span class="p">,</span>
+                                                             <span class="n">filetype_options</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">pth</span><span class="p">):</span>  <span class="c1"># Is a valid file</span>
+            <span class="n">full_pth_fname</span> <span class="o">=</span> <span class="n">pth</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;Not a valid path. Not a valid file.&#39;</span><span class="p">)</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">full_pth_fname</span><span class="p">:</span>
+            <span class="n">full_pth_fname</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">full_pth_fname</span><span class="p">)</span>  <span class="c1"># Ensure correct /&#39;s for each OS</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">full_pth_fname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">full_pth_fname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">populateGroups</span><span class="p">()</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="HdfLoad.populateGroups"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populateGroups">[docs]</a>    <span class="k">def</span> <span class="nf">populateGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># Qt-related pylint: disable=C0103</span>
+        <span class="sd">&quot;&quot;&quot; Populate dropdown box of group ui.comboBoxGroupSelect &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span> <span class="o">=</span> <span class="n">get_hierarchy</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span>
+                                             <span class="n">grp_w_dset</span><span class="o">=</span><span class="n">HdfLoad</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;only_show_grp_w_dset&#39;</span><span class="p">])</span>
+        <span class="c1"># Load Group dropdown box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="HdfLoad.dataGroupChange"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.dataGroupChange">[docs]</a>    <span class="k">def</span> <span class="nf">dataGroupChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># Qt-related pylint: disable=C0103</span>
+        <span class="sd">&quot;&quot;&quot; Action : ComboBox containing Groups with DataSets has changed&quot;&quot;&quot;</span>
+
+        <span class="c1">#self.dsetlist = QListWidget(self.verticalLayoutWidget)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">addItems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_dset_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()])</span></div>
+        <span class="c1">#print(&#39;Changed&#39;)</span>
+
+<div class="viewcode-block" id="HdfLoad.populate_attrs"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.populate_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">populate_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Populate attribute and memo boxes for currently selected dataset &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">setColumnCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">textDescription</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">attr_dict</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">textDescription</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">[</span><span class="n">HdfLoad</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;attr_description&#39;</span><span class="p">]])</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error_msg</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="s1">No memo at key </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;attr_description&#39;</span><span class="p">]))</span>
+
+            <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">insertRow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">rowCount</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_QTableWidgetItem</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableAttributes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])))</span></div>
+
+<div class="viewcode-block" id="HdfLoad.datasetSelected"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.datasetSelected">[docs]</a>    <span class="k">def</span> <span class="nf">datasetSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># Qt-related pylint: disable=C0103</span>
+        <span class="sd">&quot;&quot;&quot; Action : One or more DataSets were selected from the list &quot;&quot;&quot;</span>
+
+        <span class="n">all_selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+        <span class="n">n_selected</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_selected</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">textCurrentDataset</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_selected</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">n_selected</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">current_selection</span> <span class="o">=</span> <span class="n">all_selected</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+            <span class="n">current_grp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">comboBoxGroupSelect</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+
+            <span class="n">selection_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> + (</span><span class="si">{}</span><span class="s1"> others)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_selection</span><span class="p">,</span> <span class="n">n_selected</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">textCurrentDataset</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">selection_str</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">current_grp</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+                <span class="n">current_dset_fullpath</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_grp</span><span class="p">,</span> <span class="n">current_selection</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_dset_fullpath</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_grp</span><span class="p">,</span> <span class="n">current_selection</span><span class="p">)</span>
+            <span class="c1"># TODO: Figure out a better way to deal with base-group datasets</span>
+            <span class="c1"># Bug when dsets are in base group &#39;/&#39;</span>
+            <span class="n">current_dset_fullpath</span> <span class="o">=</span> <span class="n">current_dset_fullpath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span>
+                                   <span class="n">current_dset_fullpath</span><span class="p">,</span> <span class="n">convert_to_str</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_selected</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_grp</span><span class="p">,</span> <span class="n">selection</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+                                 <span class="k">for</span> <span class="n">selection</span> <span class="ow">in</span> <span class="n">all_selected</span><span class="p">]</span>
+
+        <span class="c1"># Fill-in attribute table</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populate_attrs</span><span class="p">(</span><span class="n">attr_dict</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HdfLoad.filterDatasets"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.ui.html#crikit.io.lazy5.ui.QtHdfLoad.HdfLoad.filterDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">filterDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># Qt-related pylint: disable=C0103</span>
+        <span class="sd">&quot;&quot;&quot; Filter list of datasets based on include and exclude strings &quot;&quot;&quot;</span>
+        <span class="n">incl_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterIncludeString</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="n">excl_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">filterExcludeString</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+        <span class="c1"># From string with comma separation to list-of-strings</span>
+        <span class="n">incl_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">incl_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+        <span class="n">excl_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">excl_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+
+        <span class="n">dset_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span>
+                     <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">count</span><span class="p">())]</span>
+
+        <span class="k">if</span> <span class="n">incl_list</span><span class="p">:</span>  <span class="c1"># Include list is not empty</span>
+            <span class="n">dset_list</span> <span class="o">=</span> <span class="n">filterlist</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="n">incl_list</span><span class="p">,</span>
+                                   <span class="n">keep_filtered_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">exclusive</span><span class="o">=</span><span class="n">HdfLoad</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;excl_filtering&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">excl_list</span><span class="p">:</span>  <span class="c1"># Exclude list is not empty</span>
+            <span class="n">dset_list</span> <span class="o">=</span> <span class="n">filterlist</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="n">excl_list</span><span class="p">,</span>
+                                   <span class="n">keep_filtered_items</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">exclusive</span><span class="o">=</span><span class="n">HdfLoad</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;excl_filtering&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">listDataSet</span><span class="o">.</span><span class="n">addItems</span><span class="p">(</span><span class="n">dset_list</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">_QApplication</span><span class="p">(</span><span class="n">_sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>  <span class="c1"># pylint: disable=C0103</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="n">pth</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Test title&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=C0103</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Result: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+    <span class="n">_sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="c1"># pylint: error</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.ui.QtHdfLoad</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

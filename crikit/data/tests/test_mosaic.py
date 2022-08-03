@@ -42,7 +42,7 @@ def test_crop_2D():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
 
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop)
@@ -90,7 +90,7 @@ def test_crop_3D():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
 
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
@@ -143,7 +143,7 @@ def test_3D_crop_transpose_flips():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
 
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
@@ -200,7 +200,7 @@ def test_3D_crop_transpose_flips_2():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
 
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)
@@ -242,7 +242,7 @@ def test_2D_uniform_obj():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
     assert mos.unitshape == (m_obj, n_obj)
     assert mos.unitshape_orig == (m_obj, n_obj)
 
@@ -278,7 +278,7 @@ def test_3D_uniform_obj():
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == np.float
+    assert mos.dtype == float
     with pytest.raises(ValueError):
         mos.mosaic2d((m_side, n_side)).shape
 

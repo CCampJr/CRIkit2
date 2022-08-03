@@ -121,11 +121,11 @@ class Mosaic:
             dt = [q.dtype.kind for q in self._data]
 
             if dt.count('c') > 0:
-                return _np.complex
+                return complex
             elif dt.count('f') > 0:
-                return _np.float
+                return float
             elif dt.count('i') > 0:
-                return _np.int
+                return int
 
 
     def mosaic_shape(self, shape=None, idx=None):
@@ -248,7 +248,7 @@ class Mosaic:
                             data = sub_img_counter * \
                                    _np.ones(self._data[sub_img_counter][slice_sub_r,
                                                                         slice_sub_c].shape[0:2],
-                                           dtype=_np.int)
+                                           dtype=int)
                         elif idx is None:
                             data = self._data[sub_img_counter][slice_sub_r, slice_sub_c]
                         else:
@@ -348,7 +348,7 @@ if __name__ == '__main__':
     assert mos.shape == tuple(n*[new_obj.shape])
     assert mos.size == n
     assert mos.issamedim
-    assert mos.dtype == _np.float
+    assert mos.dtype == float
 
     # AFFECTED BY START* END*
     assert mos.unitshape == (m_obj_crop, n_obj_crop, p_obj_crop)

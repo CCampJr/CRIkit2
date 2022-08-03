@@ -96,7 +96,7 @@ def kkrelation(bg, cri, conjugate=False, phase_offset=0.0, norm_to_nrb=True, pad
         ratio[ratio <= 0] = bad_value
 
     if (ratio.ndim == 3) & ((axis == -1) | (axis == 2)) & (not no_iter):
-        ph = _np.zeros(ratio.shape, dtype = _np.complex)
+        ph = _np.zeros(ratio.shape, dtype = complex)
         for num in range(ratio.shape[0]):
             ph[num, ...] = _np.exp(1j * (hilbertfft(0.5 * _np.log(ratio[num, ...]), **hilb_kwargs) + phase_offset))
     else:

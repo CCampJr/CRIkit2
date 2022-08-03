@@ -75,7 +75,7 @@ class DialogSVD(DialogAbstractFactorization):
         """
         try:
             return self.s.size
-        except:
+        except Exception:
             return None
 
     def combiner(self, selections=None):

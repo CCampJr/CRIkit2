@@ -4,12 +4,12 @@ import numpy.testing
 
 import pytest
 import h5py
-import lazy5
+import crikit.io.lazy5 as lazy5
 
 from crikit.io.hdf5 import hdf_import_data
-from crikit.data.spectrum import Spectrum
+from crikit.data.spectra import Spectrum
 from crikit.data.spectra import Spectra
-from crikit.data.hsi import Hsi
+from crikit.data.spectra import Hsi
 
 @pytest.fixture(scope="module")
 def hdf_dataset():

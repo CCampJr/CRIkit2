@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   crikit.io.lazy5
    crikit.io.tests
 
 Submodules

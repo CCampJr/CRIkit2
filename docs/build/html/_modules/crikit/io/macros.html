@@ -5,15 +5,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.macros &#8212; CRIKit2 0.4.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <title>crikit.io.macros &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
   </head><body>
@@ -26,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.macros</a></li> 
       </ul>
@@ -43,17 +41,26 @@
 
 <span class="sd">@author: chc</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">_os</span>
 
-<span class="kn">import</span> <span class="nn">lazy5</span> 
+<span class="kn">import</span> <span class="nn">crikit.io.lazy5</span> <span class="k">as</span> <span class="nn">lazy5</span>
 
 <span class="kn">from</span> <span class="nn">crikit.io.meta_configs</span> <span class="kn">import</span> <span class="p">(</span><span class="n">special_nist_bcars2</span> <span class="k">as</span> <span class="n">_snb</span><span class="p">,</span>
                                     <span class="n">special_nist_bcars1_sample_scan</span> <span class="k">as</span> <span class="n">_snb1ss</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">crikit.io.meta_process</span> <span class="kn">import</span> <span class="n">meta_process</span> <span class="k">as</span> <span class="n">_meta_process</span>
-<span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="kn">import</span> <span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span>
+<span class="kn">from</span> <span class="nn">crikit.io.hdf5</span> <span class="kn">import</span> <span class="p">(</span><span class="n">hdf_import_data</span> <span class="k">as</span> <span class="n">_hdf_import_data</span><span class="p">,</span> <span class="n">hdf_import_data_macroraster</span> <span class="k">as</span> <span class="n">_hdf_import_data_macroraster</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">crikit.io.csv_nist</span> <span class="kn">import</span> <span class="n">csv_nist_import_data</span> <span class="k">as</span> <span class="n">_csv_nist_import_data</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;import_hdf_nist_special&#39;</span><span class="p">,</span> <span class="s1">&#39;import_csv_nist_special1&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">hdf_nist_special_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">import_success</span> <span class="o">=</span> <span class="n">_hdf_import_data_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">import_success</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;hdf_import_data_macroraster failed&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">_meta_process</span><span class="p">(</span><span class="n">_snb</span><span class="p">(),</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
 
 
 <div class="viewcode-block" id="import_hdf_nist_special"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.macros.import_hdf_nist_special">[docs]</a><span class="k">def</span> <span class="nf">import_hdf_nist_special</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
@@ -65,7 +72,7 @@
 <span class="sd">    Success : bool</span>
 <span class="sd">        Whether import was successful</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">import_success</span> <span class="o">=</span> <span class="n">_hdf_import_data</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">import_success</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -73,6 +80,7 @@
         <span class="k">return</span> <span class="kc">False</span>
     <span class="n">_meta_process</span><span class="p">(</span><span class="n">_snb</span><span class="p">(),</span> <span class="n">output_cls_instance</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>
+
 
 <span class="k">def</span> <span class="nf">import_hdf_nist_special_ooc</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -83,7 +91,7 @@
 <span class="sd">    Success : bool</span>
 <span class="sd">        Whether import was successful</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -91,12 +99,13 @@
         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span>
         <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset</span><span class="p">)</span>
         <span class="n">_meta_process</span><span class="p">(</span><span class="n">_snb</span><span class="p">(),</span> <span class="n">output_cls_instance</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;hdf_import_data failed&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fid</span>    
-        
+        <span class="k">return</span> <span class="n">fid</span>
+
+
 <div class="viewcode-block" id="import_csv_nist_special1"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.macros.import_csv_nist_special1">[docs]</a><span class="k">def</span> <span class="nf">import_csv_nist_special1</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename_header</span><span class="p">,</span> <span class="n">filename_data</span><span class="p">,</span>
                              <span class="n">output_cls_instance</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -114,34 +123,34 @@
         <span class="k">if</span> <span class="n">import_success</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">import_success</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;csv_import_data returned None&#39;</span><span class="p">)</span>
         <span class="n">_meta_process</span><span class="p">(</span><span class="n">_snb1ss</span><span class="p">(),</span> <span class="n">output_cls_instance</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something failed in import_csv_nist_special&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 
-    <span class="kn">from</span> <span class="nn">crikit.data.hsi</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
+    <span class="kn">from</span> <span class="nn">crikit.data.spectra</span> <span class="kn">import</span> <span class="n">Hsi</span> <span class="k">as</span> <span class="n">_Hsi</span>
 
     <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;mP2_w_small.h5&#39;</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">_Hsi</span><span class="p">()</span>
-    <span class="n">import_hdf_nist_special</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">import_hdf_nist_special</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;/BCARSImage/mP2_3_5ms_Pos_2_0/mP2_3_5ms_Pos_2_0_small&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of img: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of img.mean(): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">y_rep</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    
-    <span class="c1"># from crikit.data.spectrum import Spectrum as _Spectrum</span>
-    
+
+    <span class="c1"># from crikit.data.spectra import Spectrum as _Spectrum</span>
+
     <span class="c1"># sp = _Spectrum()</span>
     <span class="c1"># pth = &#39;../../../Young_150617/&#39;</span>
     <span class="c1"># filename_header = &#39;SH-03.h&#39;</span>
     <span class="c1"># filename_data = &#39;base061715_152213_60ms.txt&#39;</span>
-    
+
     <span class="c1"># import_csv_nist_special1(pth, filename_header, filename_data,</span>
     <span class="c1">#                 output_cls_instance=sp)</span>
-    
 </pre></div>
 
             <div class="clearer"></div>
@@ -154,7 +163,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -173,14 +182,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.macros</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

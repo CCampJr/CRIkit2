@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.lazy5.tests.test_alter &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.tests.test_alter</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.io.lazy5.tests.test_alter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Test inspection of HDF5 files &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span> <span class="k">as</span> <span class="n">_OrderedDict</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.utils</span> <span class="kn">import</span> <span class="n">hdf_is_open</span>
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.alter</span> <span class="kn">import</span> <span class="n">alter_attr_same</span><span class="p">,</span> <span class="n">alter_attr</span><span class="p">,</span> <span class="n">write_attr_dict</span>
+
+<div class="viewcode-block" id="hdf_dataset"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_alter.hdf_dataset">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hdf_dataset</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Setups and tears down a sample HDF5 file &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;temp_test.h5&#39;</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">data_m</span><span class="p">,</span> <span class="n">data_n</span><span class="p">,</span> <span class="n">data_p</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">grp1</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s1">&#39;Group1&#39;</span><span class="p">)</span>
+    <span class="n">grp3</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s1">&#39;Group2/Group3&#39;</span><span class="p">)</span>
+    <span class="n">grp6</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s1">&#39;Group4/Group5/Group6&#39;</span><span class="p">)</span>
+
+    <span class="n">grp1</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;ingroup1_1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">grp1</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;ingroup1_2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;Group2/ingroup2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">grp3</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;ingroup3&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">grp6</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;ingroup6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Attribute_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Test&#39;</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Attribute_bytes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;Test&#39;</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Attribute_np_bytes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">(</span><span class="s1">&#39;Test&#39;</span><span class="p">)</span> <span class="c1"># pylint: disable=no-member</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Attribute_int&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Attribute_float&#39;</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Attribute_np_1d&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+    <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Attribute_np_2d&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]))</span>
+
+    <span class="k">yield</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fid</span>
+
+    <span class="c1"># Tear-down</span>
+    <span class="k">if</span> <span class="n">hdf_is_open</span><span class="p">(</span><span class="n">fid</span><span class="p">):</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not delete </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="test_attr_alter_same"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_alter.test_attr_alter_same">[docs]</a><span class="k">def</span> <span class="nf">test_attr_alter_same</span><span class="p">(</span><span class="n">hdf_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try altering an attribute with the same type of value type &quot;&quot;&quot;</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">fid</span> <span class="o">=</span> <span class="n">hdf_dataset</span>
+    <span class="n">dset_obj</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span>
+    <span class="n">attr_obj</span> <span class="o">=</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span>
+
+    <span class="c1"># Try new attrbute</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new2&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">must_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Try same-type writes first</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_str&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="c1"># NOTE: looks like hdf5 has changed how byte strings are delt with, maybe</span>
+    <span class="c1"># orig_key = &#39;Attribute_bytes&#39;</span>
+    <span class="c1"># orig_val = attr_obj[orig_key]</span>
+    <span class="c1"># new_val = b&#39;Test2&#39;</span>
+    <span class="c1"># alter_attr_same(dset_obj, orig_key, new_val)</span>
+    <span class="c1"># assert orig_val != attr_obj[orig_key]</span>
+    <span class="c1"># assert attr_obj[orig_key] == new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_bytes&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">(</span><span class="s1">&#39;Test2&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=E1101</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_int&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_float&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mf">2.2</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_1d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_2d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+    <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="c1"># Try DIFFERENT-type writes first</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_str&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="c1"># NOTE: looks like hdf5 has changed how byte strings are delt with, maybe</span>
+    <span class="c1"># orig_key = &#39;Attribute_bytes&#39;</span>
+    <span class="c1"># orig_val = attr_obj[orig_key]</span>
+    <span class="c1"># new_val = &#39;Test2&#39;</span>
+    <span class="c1"># with pytest.raises(TypeError):</span>
+    <span class="c1">#     alter_attr_same(dset_obj, orig_key, new_val)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_bytes&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_int&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_float&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_1d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">])</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_2d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">]])</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr_same</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_attr_alter"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_alter.test_attr_alter">[docs]</a><span class="k">def</span> <span class="nf">test_attr_alter</span><span class="p">(</span><span class="n">hdf_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try altering an attribute with the same or different type of value&quot;&quot;&quot;</span>
+
+    <span class="n">filename</span><span class="p">,</span> <span class="n">fid</span> <span class="o">=</span> <span class="n">hdf_dataset</span>
+    <span class="n">dset_obj</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span>
+    <span class="n">attr_obj</span> <span class="o">=</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span>
+
+    <span class="c1"># Try new attrbute (dset_obj)</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">orig_key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="c1"># Try new attrbute (dset_obj)</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new2&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">orig_key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr</span><span class="p">([],</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">fid</span><span class="p">)</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">fid</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="c1"># Try new attrbute (given filename)</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new3&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test3&#39;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_new4&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">must_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Try same-type writes</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_str&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="c1"># NOTE: looks like hdf5 has changed how byte strings are delt with, maybe</span>
+    <span class="c1"># orig_key = &#39;Attribute_bytes&#39;</span>
+    <span class="c1"># orig_val = attr_obj[orig_key]</span>
+    <span class="c1"># new_val = b&#39;Test2&#39;</span>
+    <span class="c1"># alter_attr(dset_obj, orig_key, new_val)</span>
+    <span class="c1"># assert orig_val != attr_obj[orig_key]</span>
+    <span class="c1"># assert attr_obj[orig_key] == new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_bytes&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">(</span><span class="s1">&#39;Test2&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=E1101</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_int&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_float&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mf">2.2</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_1d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_2d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="c1"># Try DIFFERENT-type writes first</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_str&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_bytes&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_bytes&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="s1">&#39;Test2&#39;</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_int&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_float&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">orig_val</span> <span class="o">!=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_val</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_1d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">])</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">orig_val</span><span class="p">,</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_np_2d&#39;</span>
+    <span class="n">orig_val</span> <span class="o">=</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">]</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">]])</span>
+    <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">orig_val</span><span class="p">,</span> <span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">attr_obj</span><span class="p">[</span><span class="n">orig_key</span><span class="p">],</span> <span class="n">new_val</span><span class="p">)</span>
+
+    <span class="c1"># Try providing dset as str but no file</span>
+    <span class="n">orig_key</span> <span class="o">=</span> <span class="s1">&#39;Attribute_int&#39;</span>
+    <span class="n">new_val</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">alter_attr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_write_attr_dict"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_alter.test_write_attr_dict">[docs]</a><span class="k">def</span> <span class="nf">test_write_attr_dict</span><span class="p">(</span><span class="n">hdf_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try writing dictionary of attributes &quot;&quot;&quot;</span>
+
+    <span class="n">filename</span><span class="p">,</span> <span class="n">fid</span> <span class="o">=</span> <span class="n">hdf_dataset</span>
+    <span class="n">dset_obj</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">]</span>
+    
+    <span class="n">attr_dict</span> <span class="o">=</span> <span class="n">_OrderedDict</span><span class="p">([[</span><span class="s1">&#39;WDA2&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;WDA1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    
+    <span class="c1"># Write via dset obj</span>
+    <span class="k">assert</span> <span class="n">write_attr_dict</span><span class="p">(</span><span class="n">dset_obj</span><span class="p">,</span> <span class="n">attr_dict</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA2&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Attribute_str&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Test&#39;</span>
+    <span class="n">l_attr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="c1"># Order should be that written</span>
+    <span class="n">l_attr</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WDA2&#39;</span>
+    <span class="n">l_attr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WDA1&#39;</span>
+
+    <span class="c1"># Write via dset str MISSING fid</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">write_attr_dict</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">attr_dict</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Write via dset str</span>
+    <span class="k">assert</span> <span class="n">write_attr_dict</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">attr_dict</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="n">fid</span><span class="p">,</span> <span class="n">sort_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA2&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;Attribute_str&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Test&#39;</span>
+
+    <span class="c1"># Write via dset str and SORT attr</span>
+    <span class="k">assert</span> <span class="n">write_attr_dict</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="n">attr_dict</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="n">fid</span><span class="p">,</span> <span class="n">sort_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA2&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;WDA1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="c1"># Order should be sorted. WDA* are the last alphanumerically in this test file</span>
+    <span class="n">l_attr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dset_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">l_attr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WDA2&#39;</span>
+    <span class="n">l_attr</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WDA1&#39;</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.tests.test_alter</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

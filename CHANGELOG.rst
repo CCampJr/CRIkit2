@@ -8,6 +8,12 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
+0.4.3 (22-08-03)
+----------------
+- Spectrum and Hsi now moved to **data.spectra**. **This could break your fork if you have custom code.**
+- LazyHDF5 now within CRIkit2 instead of external library
+- Import macrostage raster images (NIST) from multiple datasets
+
 0.4.2 (22-03-24)
 ----------------
 - Changes to Phase Error Correction UI and some quality of life improvements

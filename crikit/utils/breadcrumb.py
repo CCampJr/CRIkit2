@@ -125,14 +125,14 @@ class BCPre:
                     #print(step[0])
                     temp = temp + '_' + step[0]
             return temp
-        except:
+        except Exception:
             return None
 
     # METHODS
     @staticmethod
     def backup_pickle(data, fname, addl_attr = None):
         """
-        Dump current state of data (class of type crikit.data.spectrum or
+        Dump current state of data (class of type crikit.data.spectra or
         subclass)to pickle file (filename= fname).
 
         Can append additional attributes (addl_attr) to \
@@ -250,14 +250,14 @@ if __name__ == '__main__':
     test = BCPre(offset=10)
     try:
         test.add_step('Test1')
-    except:
+    except Exception:
         print('Expected Error\n')
     else:
         print('Should have raised an error')
 
     try:
         test.add_step(['Test',1])
-    except:
+    except Exception:
         print('Expected Error\n')
     else:
         print('Should have raised an error')

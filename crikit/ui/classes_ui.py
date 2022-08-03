@@ -80,7 +80,7 @@ class BW:
         try:
             temp = self.grayscaleimage.std()
             return temp
-        except:
+        except Exception:
             return None
 
     @property
@@ -88,7 +88,7 @@ class BW:
         try:
             temp = self.grayscaleimage.mean()
             return temp
-        except:
+        except Exception:
             return None
 
     @property
@@ -119,7 +119,7 @@ class BW:
 
                 else:
                     pass
-        except:
+        except Exception:
             print('Set grayscaleimage error')
 
     @grayscaleimage.deleter

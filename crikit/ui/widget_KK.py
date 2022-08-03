@@ -136,7 +136,7 @@ class widgetKK(_AbstractPlotEffectPlugin):
         nrb = data_in[0]
         cars = data_in[1]
         
-        data_out = _np.zeros(cars.shape, dtype=_np.complex)
+        data_out = _np.zeros(cars.shape, dtype=complex)
                
         cars_amp_offset = self.parameters['cars_amp_offset']
         nrb_amp_offset = self.parameters['nrb_amp_offset'] 

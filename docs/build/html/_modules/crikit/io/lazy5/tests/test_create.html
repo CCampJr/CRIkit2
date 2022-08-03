@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.lazy5.tests.test_create &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.tests.test_create</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.io.lazy5.tests.test_create</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Test creation of HDF5 files &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.create</span> <span class="kn">import</span> <span class="n">save</span>
+<span class="kn">from</span> <span class="nn">crikit.io.lazy5.utils</span> <span class="kn">import</span> <span class="n">FidOrFile</span>
+
+
+<div class="viewcode-block" id="test_save_no_attrs"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_create.test_save_no_attrs">[docs]</a><span class="k">def</span> <span class="nf">test_save_no_attrs</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;temp_create.h5&#39;</span>
+    <span class="n">dset_name</span> <span class="o">=</span> <span class="s1">&#39;/Group1/Dset&#39;</span>
+    <span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">FidOrFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">fid</span><span class="p">[</span><span class="n">dset_name</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="c1"># Test re-write</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">FidOrFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">fid</span><span class="p">[</span><span class="n">dset_name</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="c1"># Test re-write when overwrite of dset set to False</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">IOError</span><span class="p">):</span>
+        <span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dset_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Test re-write with attributes</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">attr_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;AT1&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;AT2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+    <span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">attr_dict</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">FidOrFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+    <span class="k">assert</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;AT1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;AT2&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">fid</span><span class="p">[</span><span class="n">dset_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;DOESNOTEXIST&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+
+    <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not delete </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="test_save_diff_path"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_create.test_save_diff_path">[docs]</a><span class="k">def</span> <span class="nf">test_save_diff_path</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;temp_create2.h5&#39;</span>
+    <span class="n">dset_name</span> <span class="o">=</span> <span class="s1">&#39;/Group1/Dset&#39;</span>
+    
+    <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;./temp_test&#39;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+
+    <span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">pth</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="n">nbytes</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_save_to_open_h5_file"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_create.test_save_to_open_h5_file">[docs]</a><span class="k">def</span> <span class="nf">test_save_to_open_h5_file</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Test saving to an H5 file where the H5 file id is passed &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;temp_create2.h5&#39;</span>
+    <span class="n">dset_name</span> <span class="o">=</span> <span class="s1">&#39;/Group1/Dset&#39;</span>
+    
+    <span class="n">pth</span> <span class="o">=</span> <span class="s1">&#39;./temp_test&#39;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">save</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="n">pth</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="n">nbytes</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_save_to_open_wrong_type"><a class="viewcode-back" href="../../../../../crikit.io.lazy5.tests.html#crikit.io.lazy5.tests.test_create.test_save_to_open_wrong_type">[docs]</a><span class="k">def</span> <span class="nf">test_save_to_open_wrong_type</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Test saving to an inappripriate input (not string or h5 file fid) &quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+        <span class="n">save</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.tests.test_create</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

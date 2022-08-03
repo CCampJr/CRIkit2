@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\ui_CRIkit.ui'
+# Form implementation generated from reading ui file './crikit/ui/qt5/ui_CRIkit.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -187,7 +185,7 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 19))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 20))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -542,8 +540,12 @@ class Ui_MainWindow(object):
         self.actionAutoCropDarkSpectra.setObjectName("actionAutoCropDarkSpectra")
         self.actionAutoCropNRBSpectra = QtWidgets.QAction(MainWindow)
         self.actionAutoCropNRBSpectra.setObjectName("actionAutoCropNRBSpectra")
+        self.actionOpen_HDF_Macro_Raster_NIST = QtWidgets.QAction(MainWindow)
+        self.actionOpen_HDF_Macro_Raster_NIST.setIcon(icon)
+        self.actionOpen_HDF_Macro_Raster_NIST.setObjectName("actionOpen_HDF_Macro_Raster_NIST")
         self.menuFile.addAction(self.actionOpenHDFNIST)
         self.menuFile.addAction(self.actionOpenDLMNIST)
+        self.menuFile.addAction(self.actionOpen_HDF_Macro_Raster_NIST)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionOpenHDFNISTOOC)
@@ -770,4 +772,6 @@ class Ui_MainWindow(object):
         self.actionCropNRBSpectra.setText(_translate("MainWindow", "Crop NRB Spectra"))
         self.actionAutoCropDarkSpectra.setText(_translate("MainWindow", "Auto-Crop Dark Spectra"))
         self.actionAutoCropNRBSpectra.setText(_translate("MainWindow", "Auto-Crop NRB Spectra"))
+        self.actionOpen_HDF_Macro_Raster_NIST.setText(_translate("MainWindow", "Open HDF Macro Raster (NIST)..."))
+
 from . import icons_all_rc

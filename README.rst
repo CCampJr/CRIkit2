@@ -73,8 +73,6 @@ packages may work.
 -   PyQT5
 -   CVXOPT
 
--   LazyHDF5 >= 0.2.2
-
     -   Requires H5Py (>= 2.6)
 
 -   SciPlot-PyQt >= 0.2.2

@@ -3,7 +3,7 @@ import numpy.testing
 
 import pytest
 
-from crikit.data.hsi import Hsi
+from crikit.data.spectra import Hsi
 from crikit.measurement.peakamps import (MeasurePeak, MeasurePeakAdd, MeasurePeakMinus, 
                                          MeasurePeakMultiply, MeasurePeakDivide,
                                          MeasurePeakMax, MeasurePeakMin,

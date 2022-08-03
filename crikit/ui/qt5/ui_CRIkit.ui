@@ -396,7 +396,7 @@ This will be saved to the processed file.</string>
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -405,6 +405,7 @@ This will be saved to the processed file.</string>
     </property>
     <addaction name="actionOpenHDFNIST"/>
     <addaction name="actionOpenDLMNIST"/>
+    <addaction name="actionOpen_HDF_Macro_Raster_NIST"/>
     <addaction name="actionSave"/>
     <addaction name="separator"/>
     <addaction name="actionOpenHDFNISTOOC"/>
@@ -1389,6 +1390,15 @@ This will be saved to the processed file.</string>
   <action name="actionAutoCropNRBSpectra">
    <property name="text">
     <string>Auto-Crop NRB Spectra</string>
+   </property>
+  </action>
+  <action name="actionOpen_HDF_Macro_Raster_NIST">
+   <property name="icon">
+    <iconset resource="../icons_all.qrc">
+     <normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</normaloff>:/icons/open-iconic-master/png/envelope-open-4x.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open HDF Macro Raster (NIST)...</string>
    </property>
   </action>
  </widget>

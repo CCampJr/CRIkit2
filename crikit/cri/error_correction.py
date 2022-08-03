@@ -158,7 +158,7 @@ class PhaseErrCorrectALS:
                 # else:
                 ret_obj[idx][..., self.rng] *= correction_factor
                 counter += 1
-        except:
+        except Exception:
             return False
         else:
 #            print(self._inst_als.__dict__)
@@ -227,7 +227,7 @@ class ScaleErrCorrectSG:
                 ret_obj *= correction_factor
             else:
                 ret_obj[..., self.rng] *= correction_factor
-        except:
+        except Exception:
             return False
         else:
             return True

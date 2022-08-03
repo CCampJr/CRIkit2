@@ -32,7 +32,7 @@ class ZeroColumn:
                 self.zero_col = _np.nonzero(row_sums)[0][self.fol]
 
             ret_obj[:, self.zero_col, :] *= 0
-        except:
+        except Exception:
             return False
         else:
             return True
@@ -74,7 +74,7 @@ class ZeroRow:
                 self.zero_row = _np.nonzero(col_sums)[0][self.fol]
 
             ret_obj[self.zero_row, :, :] *= 0
-        except:
+        except Exception:
             return False
         else:
             return True

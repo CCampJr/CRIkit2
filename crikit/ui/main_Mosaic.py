@@ -30,9 +30,9 @@ from crikit.ui.dialog_save import DialogSave
 
 from sciplot.ui.widget_mpl import MplCanvas as _MplCanvas
 
-import lazy5
-from lazy5.utils import FidOrFile, fullpath
-from lazy5.ui.QtHdfLoad import HdfLoad
+import crikit.io.lazy5 as lazy5
+from crikit.io.lazy5.utils import FidOrFile, fullpath
+from crikit.io.lazy5.ui.QtHdfLoad import HdfLoad
 
 
 class DnDReorderListWidget(_QListWidget):

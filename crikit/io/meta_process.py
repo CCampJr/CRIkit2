@@ -7,9 +7,9 @@ Created on Mon May 23 16:55:09 2016
 from crikit.data.frequency import (calib_pix_wn as _calib_pix_wn,
                                    calib_pix_wl as _calib_pix_wl)
 
-from crikit.data.spectrum import Spectrum as _Spectrum
+from crikit.data.spectra import Spectrum as _Spectrum
 from crikit.data.spectra import Spectra as _Spectra
-from crikit.data.hsi import Hsi as _Hsi
+from crikit.data.spectra import Hsi as _Hsi
 
 import numpy as _np
 
@@ -38,7 +38,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
                         break
                 else:
                     pass
-            except:
+            except Exception:
                 temp_val = None
                 temp_key = None
 
@@ -50,7 +50,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
     elif isinstance(rosetta[key],str):
         try:
             temp = output_cls_instance._meta[rosetta[key]]
-        except:
+        except Exception:
             return None
         else:
             return (temp, rosetta[key])
@@ -72,7 +72,7 @@ def meta_process(rosetta, output_cls_instance):
     calib_dict['a_vec'] = temp[0]
     del temp
 
-    temp = rosetta_query('ColorChannels',rosetta, output_cls_instance)
+    temp = rosetta_query('ColorChannels', rosetta, output_cls_instance)
     print('Color/Frequency-Channels: {} from {}'.format(temp[0], temp[1]))
     if temp[0] != output_cls_instance.shape[-1]:
         print('WARNING: Number of color channels assigned in meta data ({}) disagrees with datacube size ({})'.format(temp[0], output_cls_instance.shape[-1]))
@@ -136,7 +136,7 @@ def meta_process(rosetta, output_cls_instance):
         calib_orig_dict['probe'] = rosetta_query('OrigColorProbe',rosetta, output_cls_instance)[0]
         calib_orig_dict['units'] = rosetta_query('OrigColorUnits',rosetta, output_cls_instance)[0]
 
-    except:
+    except Exception:
         print('Original calibration not found.')
     else:
         print('Original calibration found.')
@@ -256,7 +256,7 @@ def meta_process(rosetta, output_cls_instance):
             output_cls_instance.reps.data = _np.arange(output_cls_instance.data.shape[0])
     #        print(output_cls_instance.reps.data.shape)
             output_cls_instance.reps.update_calib_from_data()
-        except:
+        except Exception:
             print('Something failed in meta_process: Spectra rep-calib')
 
     elif type(output_cls_instance) == _Spectrum:

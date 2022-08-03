@@ -83,7 +83,7 @@ class SubtractBaselineALS:
                     #     ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
                     # else:
                     ret_obj[idx] -= self._inst_als.calculate(data[idx].real)
-        except:
+        except Exception:
             return False
         else:
 #            print(self._inst_als.__dict__)

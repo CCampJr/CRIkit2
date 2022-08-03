@@ -23,7 +23,7 @@ _widget_list_classes = [widgetALS]
 # Try to add arPLS to detrend options
 try:
     from crikit.ui.widget_ArPLS import widgetArPLS
-except:
+except Exception:
     pass
 else:
     _widget_list_names.append('ArPLS')
@@ -72,13 +72,13 @@ class widgetDeTrending(_AbstractPlotEffectPlugin):
                 # to this container's version of the change-signal
                 try:
                     wdgt.changed.connect(self.widgetOptionsChanged)
-                except:
+                except Exception:
                     pass
             else:
                 wdgt.setVisible(False)
                 try:
                     wdgt.changed.disconnect(self.widgetOptionsChanged)
-                except:
+                except Exception:
                     pass
                 
         # SIGNALS & SLOTS
@@ -113,7 +113,7 @@ class widgetDeTrending(_AbstractPlotEffectPlugin):
                 # to this container's version of the change-signal
                 try:
                     wdgt.changed.connect(self.widgetOptionsChanged)
-                except:
+                except Exception:
                     pass
             else:
                 wdgt.setVisible(False)
@@ -121,7 +121,7 @@ class widgetDeTrending(_AbstractPlotEffectPlugin):
                 # Disconnect non-active widget's changed-signal
                 try:
                     wdgt.changed.disconnect(self.widgetOptionsChanged)
-                except:
+                except Exception:
                     pass
                 
         self.changed.emit()

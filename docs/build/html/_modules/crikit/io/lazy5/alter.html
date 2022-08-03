@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crikit.io.lazy5.alter &#8212; CRIKit2 0.4.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/nature.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.alter</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crikit.io.lazy5.alter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Macros for inspection of HDF5 files &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">_h5py</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">FidOrFile</span> <span class="k">as</span> <span class="n">_FidOrFile</span><span class="p">,</span> <span class="n">fullpath</span> <span class="k">as</span> <span class="n">_fullpath</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.nonh5utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check_type_compat</span> <span class="k">as</span> <span class="n">_check_type_compat</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">DefaultConfig</span>
+<span class="n">_h5py</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span> <span class="o">=</span> <span class="n">DefaultConfig</span><span class="p">()</span><span class="o">.</span><span class="n">complex_names</span>
+
+<div class="viewcode-block" id="alter_attr"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.alter.alter_attr">[docs]</a><span class="k">def</span> <span class="nf">alter_attr</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">check_same_type</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">must_exist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alter attribute dset[&#39;attr_key&#39;] with attr_val.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : str or h5py.Dataset</span>
+<span class="sd">        String to or Dataset-object for dataset in HDF5 file. If string,</span>
+<span class="sd">        file/fid must be provided.</span>
+
+<span class="sd">    attr_key : str</span>
+<span class="sd">        Attribute name (key)</span>
+
+<span class="sd">    attr_val : str</span>
+<span class="sd">        Attribute value to write (replace old)</span>
+
+<span class="sd">    file : str or h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    pth : str</span>
+<span class="sd">        Path</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbose output to stdout</span>
+
+<span class="sd">    check_same_type : bool</span>
+<span class="sd">        Check that the inputs are compatible types as defined in</span>
+<span class="sd">        lazy5.nonh5utils.check_type_compat or lazy5.utils.return_family_type</span>
+
+<span class="sd">    must_exist : bool</span>
+<span class="sd">        The attribute must already exist.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">_fullpath</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">)</span>
+        <span class="c1"># Get fid for a file (str or open fid)</span>
+        <span class="n">fof</span> <span class="o">=</span> <span class="n">_FidOrFile</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r+&#39;</span><span class="p">)</span>  <span class="c1"># Read/write, file must exist</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">fid</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">dset_object</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Cannot provide h5py.Dataset dset and a filename str.&#39;</span><span class="p">)</span>
+            <span class="n">dset_object</span> <span class="o">=</span> <span class="n">dset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;dset unknown&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fof</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">_h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="n">dset_object</span> <span class="o">=</span> <span class="n">dset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;With no file or fid given, dset must be an h5py.Dataset object&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">must_exist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr_key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">err_str1</span> <span class="o">=</span> <span class="s1">&#39;Attribute </span><span class="si">{}</span><span class="s1"> does not exist and &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr_key</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">err_str1</span> <span class="o">+</span> <span class="s1">&#39;must_exist set to True&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">check_same_type</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr_key</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_type_compat</span><span class="p">(</span><span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_key</span><span class="p">],</span> <span class="n">attr_val</span><span class="p">):</span>
+            <span class="n">err_str1</span> <span class="o">=</span> <span class="s1">&#39;New attribute value type (</span><span class="si">{}</span><span class="s1">) &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attr_val</span><span class="p">))</span>
+            <span class="n">err_str2</span> <span class="o">=</span> <span class="s1">&#39;must be of the same type as the original &#39;</span>
+            <span class="n">err_str3</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err_str1</span> <span class="o">+</span> <span class="n">err_str2</span> <span class="o">+</span> <span class="n">err_str3</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr_key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Attribute </span><span class="si">{}</span><span class="s1"> does not exist. Creating.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr_key</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dataset[</span><span class="si">{}</span><span class="s1">] = </span><span class="si">{}</span><span class="s1"> -&gt; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr_key</span><span class="p">,</span> <span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_key</span><span class="p">],</span>
+                                                  <span class="n">attr_val</span><span class="p">))</span>
+
+    <span class="n">dset_object</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_val</span>
+
+    <span class="k">if</span> <span class="n">fof</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fof</span><span class="o">.</span><span class="n">close_if_file_not_fid</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="alter_attr_same"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.alter.alter_attr_same">[docs]</a><span class="k">def</span> <span class="nf">alter_attr_same</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">must_exist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alter attribute dset[&#39;attr_key] with attr_val checkint to make sure that</span>
+<span class="sd">    the original and new attribute values are of similar type e.g., int and</span>
+<span class="sd">    np.int32.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : str or h5py.Dataset</span>
+<span class="sd">        String to or Dataset-object for dataset in HDF5 file. If string,</span>
+<span class="sd">        file/fid must be provided.</span>
+
+<span class="sd">    attr_key : str</span>
+<span class="sd">        Attribute name (key)</span>
+
+<span class="sd">    attr_val : str</span>
+<span class="sd">        Attribute value to write (replace old)</span>
+
+<span class="sd">    file : str or h5py.File</span>
+<span class="sd">        Filename or File-object for open HDF5 file</span>
+
+<span class="sd">    pth : str</span>
+<span class="sd">        Path</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbose output to stdout</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">pth</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span>
+                      <span class="n">check_same_type</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">must_exist</span><span class="o">=</span><span class="n">must_exist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="write_attr_dict"><a class="viewcode-back" href="../../../../crikit.io.lazy5.html#crikit.io.lazy5.alter.write_attr_dict">[docs]</a><span class="k">def</span> <span class="nf">write_attr_dict</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">attr_dict</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write entire dictionary of attrbutes to dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : str or h5py.Dataset</span>
+<span class="sd">        String to or Dataset-object for dataset in HDF5 file. If string,</span>
+<span class="sd">        fid must be provided.</span>
+
+<span class="sd">    attr_dict : dict</span>
+<span class="sd">        Attribute dictionary</span>
+
+<span class="sd">    fid : h5py.File</span>
+<span class="sd">        If dset is a string, file-object for open HDF5 file must be provided.</span>
+
+<span class="sd">    sort_attrs : bool</span>
+<span class="sd">        Sort attribute keys alphabetically prior to writing</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbose output to stdout</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">attr_key_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sort_attrs</span><span class="p">:</span>
+        <span class="n">attr_key_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">attr_key_list</span><span class="p">:</span>
+        <span class="n">attr_val</span> <span class="o">=</span> <span class="n">attr_dict</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span>
+        <span class="n">alter_attr</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">fid</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                   <span class="n">check_same_type</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">must_exist</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">crikit.io.lazy5.alter</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

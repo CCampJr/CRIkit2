@@ -28,14 +28,6 @@ crikit.data.frequency module
    :undoc-members:
    :show-inheritance:
 
-crikit.data.hsi module
-----------------------
-
-.. automodule:: crikit.data.hsi
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 crikit.data.mosaic module
 -------------------------
 
@@ -56,14 +48,6 @@ crikit.data.spectra module
 --------------------------
 
 .. automodule:: crikit.data.spectra
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-crikit.data.spectrum module
----------------------------
-
-.. automodule:: crikit.data.spectrum
    :members:
    :undoc-members:
    :show-inheritance:
