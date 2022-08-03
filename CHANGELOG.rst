@@ -12,6 +12,7 @@ and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 ------
 - LazyHDF5 now within CRIkit2 instead of external library
 - Spectrum and Hsi now moved to data.spectra
+- Import macrostage raster images (NIST) from multiple datasets
 
 0.4.2 (22-03-24)
 ----------------

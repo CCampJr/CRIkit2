@@ -67,7 +67,7 @@ from crikit.data.spectra import Spectrum
 from crikit.datasets.model import Model as _Model
 
 from crikit.io.macros import import_csv_nist_special1 as io_nist_dlm
-from crikit.io.macros import import_hdf_nist_special as io_nist
+from crikit.io.macros import (import_hdf_nist_special as io_nist, hdf_nist_special_macroraster as io_nist_macro)
 from crikit.io.macros import import_hdf_nist_special_ooc as io_nist_ooc
 
 # from crikit.io.meta_configs import special_nist_bcars2 as _snb2
@@ -290,6 +290,7 @@ class CRIkitUI_process(_QMainWindow):
         # Load Data
         self.ui.actionOpenHDFNIST.triggered.connect(self.fileOpenHDFNIST)
         self.ui.actionOpenHDFNISTOOC.triggered.connect(self.fileOpenHDFNISTOOC)
+        self.ui.actionOpen_HDF_Macro_Raster_NIST.triggered.connect(self.fileOpenHDFMacroRasterNIST)
 
         self.ui.actionLoadNRB.triggered.connect(self.loadNRB)
         self.ui.actionLoadDark.triggered.connect(self.loadDark)
@@ -662,6 +663,48 @@ class CRIkitUI_process(_QMainWindow):
                 print('Something failed in closing the file')
             else:
                 print('Successfully closed HDF File')
+
+    def fileOpenHDFMacroRasterNIST(self, *args, dialog=True):
+        """
+        Open and load multiple datasets from HDF file that describe a single image. 
+        Used for a macrostage rastering mode at NIST.
+
+        dialog : bool
+            Present a gui for file and dataset selection
+        """
+
+        # Get data and load into CRI_HSI class
+        # This will need to change to accomodate multiple-file selection
+
+        if dialog:
+            try:
+                if (self.filename is not None) & (self.path is not None):
+                    to_open = HdfLoad.getFileDataSets(_os.path.join(self.path, self.filename), parent=self, title='Hyperspectral Image')
+                else:
+                    to_open = HdfLoad.getFileDataSets(self.path, parent=self, title='Hyperspectral Image')
+
+                print('to_open: {}'.format(to_open))
+                if to_open is not None:
+                    self.path, self.filename, self.dataset_name = to_open
+            except Exception as e:
+                _traceback.print_exc(limit=1)
+                print('Could not open file. Corrupt or not appropriate file format: {}'.format(e))
+            else:
+                if to_open is not None:
+                    self.hsi = Hsi()
+                    print('Path: {}'.format(self.path))
+                    print('filename: {}'.format(self.filename))
+                    print('dset name: {}'.format(self.dataset_name))
+                    success = io_nist_macro(self.path, self.filename, self.dataset_name,
+                                            self.hsi)
+                    print('Was successful: {}'.format(success))
+                    print('HSI shape: {}'.format(self.hsi.shape))
+                    self.fileOpenSuccess(success)
+        else:
+            self.hsi = Hsi()
+            success = io_nist_macro(self.path, self.filename, self.dataset_name,
+                                    self.hsi)
+            self.fileOpenSuccess(success)
 
     def fileOpenHDFNIST(self, *args, dialog=True):
         """
