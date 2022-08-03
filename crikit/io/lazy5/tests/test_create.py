@@ -52,7 +52,7 @@ def test_save_no_attrs():
     time.sleep(1)
     try:
         os.remove(filename)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename))
 
 

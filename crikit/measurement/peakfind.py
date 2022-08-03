@@ -129,7 +129,7 @@ class PeakFinder:
             try:
                 deriv = _convolve(deriv, PeakFinder.haar(wv_width), mode='same', 
                                   method=method)
-            except:
+            except Exception:
                 print('peakfind.py | cwt_diff: Likely using an old version of SciPy (no convolve method parameter)')
                 deriv = _convolve(deriv, PeakFinder.haar(wv_width), mode='same')
         return deriv

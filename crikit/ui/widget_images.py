@@ -246,7 +246,7 @@ class widgetBWImg(_QWidget):
                        cmap=self.colormode.ui.comboBoxColormap.currentText())
         try:
             self.mpl.fig.tight_layout()
-        except:
+        except Exception:
             print('tight_layout failed (widget_images 1')
 
         # Insert canvas widget into this widget
@@ -337,7 +337,7 @@ class widgetBWImg(_QWidget):
                            cmap=self.colormode.ui.comboBoxColormap.currentText())
             self.mpl.draw()
 
-        except:
+        except Exception:
             print('Error in spinBoxMinMaxSet')
 
     def checkBoxRemOutliers(self):
@@ -380,7 +380,7 @@ class widgetBWImg(_QWidget):
                     self.data.compress_low = False
                 else:
                     self.data.compress_low = True
-            except:
+            except Exception:
                 pass
         else:
             self.data.setmin = None
@@ -456,7 +456,7 @@ class widgetSglColor(widgetBWImg):
         self.popimage.ui.pushButtonGSPop.setVisible(True)
         try:
             self.popimage.ui.pushButtonPop.pressed.disconnect()
-        except:
+        except Exception:
             pass
         self.popimage.ui.pushButtonPop.pressed.connect(lambda: self.createImg_Ext(img = self.data.image,
                                                                                   showcbar=False,
@@ -570,7 +570,7 @@ class widgetCompositeColor(_QWidget):
                               extent = winextent)
         try:
             self.mpl.fig.tight_layout()
-        except:
+        except Exception:
             print('tight_layout failed (widget_image: 3')
 
         # Insert mpl widget into this widget
@@ -659,7 +659,7 @@ class widgetCompositeColor(_QWidget):
                               extent = self.data.winextent)
         try:
             self.mpl.fig.tight_layout()
-        except:
+        except Exception:
             print('tight_layout failed (widget_image: 3')
         self.mpl.draw()
 

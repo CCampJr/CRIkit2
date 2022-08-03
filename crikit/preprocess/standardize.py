@@ -156,7 +156,7 @@ class Anscombe:
         try:
             ret_obj *= 0
             ret_obj[..., self.rng] = out
-        except:
+        except Exception:
             return False
         else:
             return True
@@ -283,7 +283,7 @@ class AnscombeInverse:
         try:
             ret_obj *= 0
             ret_obj[..., self.rng] = out
-        except:
+        except Exception:
             return False
         else:
             return True

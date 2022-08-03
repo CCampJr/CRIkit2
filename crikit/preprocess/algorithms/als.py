@@ -159,7 +159,7 @@ class AlsCvxopt(AbstractBaseline):
                     # Solve A * baseline_current = w_sp * Signal
                     _cholmod.linsolve(minimazation_matrix,x,uplo='U')
                     
-                except:
+                except Exception:
                     print('Failure in Cholesky factorization')
                     break
                 else:

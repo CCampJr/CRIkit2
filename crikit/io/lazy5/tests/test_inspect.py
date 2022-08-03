@@ -57,7 +57,7 @@ def hdf_dataset():
     time.sleep(1)
     try:
         os.remove(filename)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename))
 
 def test_valid_file(hdf_dataset):  # pylint:disable=redefined-outer-name

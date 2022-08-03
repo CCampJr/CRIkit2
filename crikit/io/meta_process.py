@@ -38,7 +38,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
                         break
                 else:
                     pass
-            except:
+            except Exception:
                 temp_val = None
                 temp_key = None
 
@@ -50,7 +50,7 @@ def rosetta_query(key, rosetta, output_cls_instance):
     elif isinstance(rosetta[key],str):
         try:
             temp = output_cls_instance._meta[rosetta[key]]
-        except:
+        except Exception:
             return None
         else:
             return (temp, rosetta[key])
@@ -136,7 +136,7 @@ def meta_process(rosetta, output_cls_instance):
         calib_orig_dict['probe'] = rosetta_query('OrigColorProbe',rosetta, output_cls_instance)[0]
         calib_orig_dict['units'] = rosetta_query('OrigColorUnits',rosetta, output_cls_instance)[0]
 
-    except:
+    except Exception:
         print('Original calibration not found.')
     else:
         print('Original calibration found.')
@@ -256,7 +256,7 @@ def meta_process(rosetta, output_cls_instance):
             output_cls_instance.reps.data = _np.arange(output_cls_instance.data.shape[0])
     #        print(output_cls_instance.reps.data.shape)
             output_cls_instance.reps.update_calib_from_data()
-        except:
+        except Exception:
             print('Something failed in meta_process: Spectra rep-calib')
 
     elif type(output_cls_instance) == _Spectrum:

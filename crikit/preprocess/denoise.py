@@ -75,7 +75,7 @@ class SVDDecompose:
             else:
                 self._U, self._s, self._Vh = _svd(data[..., self.rng],
                                                full_matrices=False)
-        except:
+        except Exception:
             return False
         else:
             return True
@@ -180,7 +180,7 @@ class SVDRecompose:
                     #                        shp)
                     ret_obj[..., self.rng] += _np.reshape(_np.dot(U[:, self.svs], _np.dot(_np.diag(s[self.svs]),Vh[self.svs, :])), shp)
 
-        except:
+        except Exception:
             return False
         else:
             return True

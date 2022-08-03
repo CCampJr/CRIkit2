@@ -25,7 +25,7 @@ class SubtractMeanOverRange:
 
         try:
             ret_obj -= meaner[..., None]
-        except:
+        except Exception:
             return False
         else:
             return True

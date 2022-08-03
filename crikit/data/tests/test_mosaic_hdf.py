@@ -31,7 +31,7 @@ def hdf_dataset2():
     time.sleep(1)
     try:
         os.remove(filename)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename))
 
 def test_hdf2(hdf_dataset2):
@@ -101,13 +101,13 @@ def test_big_to_small_3d_output_given():
     time.sleep(1)
     try:
         os.remove(filename_in)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_in))
 
     time.sleep(1)
     try:
         os.remove(filename_out)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_out))
 
 def test_big_to_small_3d_output_given_crop():
@@ -172,13 +172,13 @@ def test_big_to_small_3d_output_given_crop():
     time.sleep(1)
     try:
         os.remove(filename_in)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_in))
 
     time.sleep(1)
     try:
         os.remove(filename_out)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_out))
 
 def test_big_to_small_3d_output_given_crop_transpose_flips():
@@ -244,11 +244,11 @@ def test_big_to_small_3d_output_given_crop_transpose_flips():
     time.sleep(1)
     try:
         os.remove(filename_in)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_in))
 
     time.sleep(1)
     try:
         os.remove(filename_out)
-    except:
+    except Exception:
         print('Could not delete {}'.format(filename_out))

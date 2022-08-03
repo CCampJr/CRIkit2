@@ -144,7 +144,7 @@ class DialogAbstractFactorization(_QDialog):
             else:
                 try:
                     self.selected_factors.remove(self._first_factor_visible+count)
-                except:
+                except Exception:
                     pass
 
         #print('Self.S: {}'.format(self.svddata.S[0:3]))

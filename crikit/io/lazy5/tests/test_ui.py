@@ -11,7 +11,7 @@ try:
     from PyQt5.QtTest import QTest
     import PyQt5.QtCore
     from PyQt5.QtCore import Qt
-except:
+except Exception:
     HAS_PYQT5 = False
 else:
     HAS_PYQT5 = True

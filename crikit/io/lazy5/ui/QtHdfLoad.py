@@ -24,7 +24,7 @@ try:
     from PyQt5.QtWidgets import (QApplication as _QApplication, \
     QDialog as _QDialog, QFileDialog as _QFileDialog, \
     QTableWidgetItem as _QTableWidgetItem)
-except:
+except Exception:
     HAS_PYQT5 = False
 else:
     HAS_PYQT5 = True

@@ -68,7 +68,7 @@ class Model:
                 gd_spec = _get_data('crikit.datasets', '{}{}{}'.format(self.__spec_prefix,
                                                                     num, '.csv'))
                 self.spec_list.append(_np.genfromtxt(_BytesIO(gd_spec), delimiter=','))
-        except:
+        except Exception:
             print('Failed to import model layer and/or spectral information')
         else:
             print('Model spatial size: {}'.format(self.img_shape))
@@ -115,7 +115,7 @@ class Model:
                 self.n_peak_list.append(a_vec.size)
 
                 self.spectra[num, :] = _np.sum(a_vec[:,None] / (omega_vec [:,None] - f[None,:] - 1j*gamma_vec[:,None]), axis=0)
-        except:
+        except Exception:
             print('Failed to make model spectra')
         else:
             print('Model spectral size: {}'.format(self.f.size))
@@ -136,7 +136,7 @@ class Model:
             # self.hsi = _np.zeros(self.img_shape + [self._f.size], dtype=self.dtype)
             self.hsi = _np.dot(self.layers, self.spectra)
             print('Model HSI shape: {}'.format(self.hsi.shape))
-        except:
+        except Exception:
             print('Faled to make model HSI')
 
 #%%
