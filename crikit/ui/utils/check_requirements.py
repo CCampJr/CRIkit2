@@ -16,8 +16,7 @@ def check_requirements():
                         'matplotlib':None, 
                         'scipy':None,
                         'sciplot': '0.2.2', 
-                        'cvxopt':None,
-                        'lazy5':'0.2.2'}
+                        'cvxopt':None}
 
     output = []
     for r in requirement_dict:
