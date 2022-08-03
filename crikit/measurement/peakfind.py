@@ -185,7 +185,7 @@ class PeakFinder:
         
         amps_retr = []
         for l, s in zip(omegas_retr_locs, sigma_retr_locs):
-            dl = _np.abs(_np.ceil((l - s)/10)).astype(_np.integer)
+            dl = _np.abs(_np.ceil((l - s)/10)).astype(_np.int32)
             amps_retr.append(_np.median(y[l-dl:l+dl+1]))
         amps_retr = _np.array(amps_retr)
 

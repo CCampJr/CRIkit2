@@ -63,7 +63,7 @@ class AbstractBaseline:
             # Dummy indep variable
             x = _np.arange(self.rng.size)
             x_sub = _np.linspace(x[0], x[-1], _np.round(x.size / 
-                                 self.redux).astype(_np.integer))
+                                 self.redux).astype(_np.int32))
             self.redux_sig_shape = list(self.full_sig_shape)
             self.redux_sig_shape[-1] = x_sub.size
             self.redux_sig_spectral_size = self.redux_sig_shape[-1]
@@ -99,5 +99,5 @@ class AbstractBaseline:
             return self._fix_rng
         else:
             redux_fix_rng = self._fix_rng / self.redux
-            redux_fix_rng = _np.unique(redux_fix_rng).astype(_np.integer)
+            redux_fix_rng = _np.unique(redux_fix_rng).astype(_np.int32)
             return redux_fix_rng

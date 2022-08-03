@@ -3158,7 +3158,7 @@ class CRIkitUI_process(_QMainWindow):
         else:
 
             Mask = Mask > 0
-            Mask = Mask.astype(_np.integer)
+            Mask = Mask.astype(_np.int32)
 
             mask_hits = Mask.sum()
 

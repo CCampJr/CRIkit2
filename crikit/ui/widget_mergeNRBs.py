@@ -156,12 +156,12 @@ class widgetMergeNRBs(_AbstractPlotEffectPlugin):
                                         left_side_scale=self.parameters['scale_left'])
         
         if self.fullRange:
-            pix = _np.arange(self.wn.size, dtype=_np.integer)
+            pix = _np.arange(self.wn.size, dtype=_np.int32)
             
         else:
             list_rng_pix = _find_nearest(self.wn, self.rng)[1]
             pix = _np.arange(list_rng_pix[0],list_rng_pix[1]+1,
-                             dtype=_np.integer)
+                             dtype=_np.int32)
             
         nrb_merged = inst_nrb_merge.calculate()
         kkd = _np.zeros(data_in.shape)

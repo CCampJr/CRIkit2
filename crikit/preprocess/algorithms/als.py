@@ -88,7 +88,7 @@ class AlsCvxopt(AbstractBaseline):
         elif self.redux > 1:
             x = _np.arange(self.rng.size)
             x_sub = _np.linspace(x[0], x[-1], _np.round(x.size / 
-                        self.redux).astype(_np.integer))
+                        self.redux).astype(_np.int32))
             spl = _USpline(x,self._asym_param[self.rng],s=0)
             return spl(x_sub)
             

@@ -46,7 +46,7 @@ def pad(y, pad_width, mode):
         shaper_out = list(y.shape)
         shaper_out[-1] += 2*pad_width
         y_pad = _np.zeros(shaper_out, dtype=y.dtype)
-        window = _np.zeros(shaper_out[-1], dtype=_np.integer)
+        window = _np.zeros(shaper_out[-1], dtype=_np.int32)
         
         y_pad[...,pad_width:shaper[-1]+pad_width] = 1*y
         window[pad_width:shaper[-1]+pad_width] = 1
@@ -120,14 +120,14 @@ def pad_edge_mean(y, pad_width, n_edge=1, axis=-1):
         
     """
     if pad_width == 0:  # No padding
-        window = _np.ones((y.shape[axis]), dtype=_np.integer)
+        window = _np.ones((y.shape[axis]), dtype=_np.int32)
         y_pad = y
     elif pad_width > 0:
         orig_shape = y.shape
         pad_shape = list(orig_shape)
         pad_shape[axis] += pad_width*2
         
-        window = _np.zeros((pad_shape[axis]), dtype=_np.integer)
+        window = _np.zeros((pad_shape[axis]), dtype=_np.int32)
         window[pad_width:-pad_width] = 1
         
         y_pad = _np.zeros(pad_shape, dtype=y.dtype)
