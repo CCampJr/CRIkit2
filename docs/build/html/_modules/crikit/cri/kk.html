@@ -234,12 +234,12 @@
 <span class="sd">            Nonresonant background (NRB)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">kkd</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        <span class="n">kkd</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">kkd</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kkd</span></div>
         
     <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">complex</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
             <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span> <span class="n">nrb</span><span class="p">,</span> <span class="n">ret_obj</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">success</span>
         <span class="k">else</span><span class="p">:</span>

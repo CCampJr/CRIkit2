@@ -62,7 +62,7 @@
     <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QApplication</span> <span class="k">as</span> <span class="n">_QApplication</span><span class="p">,</span> \
     <span class="n">QDialog</span> <span class="k">as</span> <span class="n">_QDialog</span><span class="p">,</span> <span class="n">QFileDialog</span> <span class="k">as</span> <span class="n">_QFileDialog</span><span class="p">,</span> \
     <span class="n">QTableWidgetItem</span> <span class="k">as</span> <span class="n">_QTableWidgetItem</span><span class="p">)</span>
-<span class="k">except</span><span class="p">:</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="n">HAS_PYQT5</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">HAS_PYQT5</span> <span class="o">=</span> <span class="kc">True</span>

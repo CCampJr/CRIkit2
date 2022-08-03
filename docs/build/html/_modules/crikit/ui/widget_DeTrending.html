@@ -61,7 +61,7 @@
 <span class="c1"># Try to add arPLS to detrend options</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">crikit.ui.widget_ArPLS</span> <span class="kn">import</span> <span class="n">widgetArPLS</span>
-<span class="k">except</span><span class="p">:</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="k">pass</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">_widget_list_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ArPLS&#39;</span><span class="p">)</span>
@@ -110,13 +110,13 @@
                 <span class="c1"># to this container&#39;s version of the change-signal</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">wdgt</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widgetOptionsChanged</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">pass</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">wdgt</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">wdgt</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widgetOptionsChanged</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">pass</span>
                 
         <span class="c1"># SIGNALS &amp; SLOTS</span>
@@ -151,7 +151,7 @@
                 <span class="c1"># to this container&#39;s version of the change-signal</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">wdgt</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widgetOptionsChanged</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">pass</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">wdgt</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -159,7 +159,7 @@
                 <span class="c1"># Disconnect non-active widget&#39;s changed-signal</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">wdgt</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widgetOptionsChanged</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">pass</span>
                 
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div></div>

@@ -105,7 +105,7 @@
 <span class="kn">from</span> <span class="nn">crikit.datasets.model</span> <span class="kn">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
 
 <span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_csv_nist_special1</span> <span class="k">as</span> <span class="n">io_nist_dlm</span>
-<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_hdf_nist_special</span> <span class="k">as</span> <span class="n">io_nist</span>
+<span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="p">(</span><span class="n">import_hdf_nist_special</span> <span class="k">as</span> <span class="n">io_nist</span><span class="p">,</span> <span class="n">hdf_nist_special_macroraster</span> <span class="k">as</span> <span class="n">io_nist_macro</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">crikit.io.macros</span> <span class="kn">import</span> <span class="n">import_hdf_nist_special_ooc</span> <span class="k">as</span> <span class="n">io_nist_ooc</span>
 
 <span class="c1"># from crikit.io.meta_configs import special_nist_bcars2 as _snb2</span>
@@ -328,6 +328,7 @@
         <span class="c1"># Load Data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionOpenHDFNIST</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileOpenHDFNIST</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionOpenHDFNISTOOC</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileOpenHDFNISTOOC</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionOpen_HDF_Macro_Raster_NIST</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileOpenHDFMacroRasterNIST</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionLoadNRB</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loadNRB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionLoadDark</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loadDark</span><span class="p">)</span>
@@ -701,6 +702,49 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully closed HDF File&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="CRIkitUI_process.fileOpenHDFMacroRasterNIST"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.fileOpenHDFMacroRasterNIST">[docs]</a>    <span class="k">def</span> <span class="nf">fileOpenHDFMacroRasterNIST</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">dialog</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open and load multiple datasets from HDF file that describe a single image. </span>
+<span class="sd">        Used for a macrostage rastering mode at NIST.</span>
+
+<span class="sd">        dialog : bool</span>
+<span class="sd">            Present a gui for file and dataset selection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get data and load into CRI_HSI class</span>
+        <span class="c1"># This will need to change to accomodate multiple-file selection</span>
+
+        <span class="k">if</span> <span class="n">dialog</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="n">_os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Hyperspectral Image&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_open</span> <span class="o">=</span> <span class="n">HdfLoad</span><span class="o">.</span><span class="n">getFileDataSets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Hyperspectral Image&#39;</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;to_open: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">to_open</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">to_open</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span> <span class="o">=</span> <span class="n">to_open</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">_traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not open file. Corrupt or not appropriate file format: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">to_open</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span> <span class="o">=</span> <span class="n">Hsi</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Path: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filename: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dset name: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">))</span>
+                    <span class="n">success</span> <span class="o">=</span> <span class="n">io_nist_macro</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Was successful: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">success</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;HSI shape: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Succes: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">success</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fileOpenSuccess</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span> <span class="o">=</span> <span class="n">Hsi</span><span class="p">()</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="n">io_nist_macro</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fileOpenSuccess</span><span class="p">(</span><span class="n">success</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="CRIkitUI_process.fileOpenHDFNIST"><a class="viewcode-back" href="../../crikit.html#crikit.CRIkitUI.CRIkitUI_process.fileOpenHDFNIST">[docs]</a>    <span class="k">def</span> <span class="nf">fileOpenHDFNIST</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">dialog</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Open and load HDF5 File</span>
@@ -812,9 +856,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
             <span class="c1"># * If HSI is integer dtype, convert to float</span>
-            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;u&#39;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting HSI from int to float&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsi</span><span class="o">.</span><span class="n">data</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windowTitle</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
             <span class="c1"># FILE</span>
@@ -1013,7 +1057,7 @@
 
             <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
                 <span class="c1"># If Dark is integer dtype, convert to float</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">]:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting Dark from int to float&#39;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span>
 
@@ -1058,7 +1102,7 @@
 
             <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
                 <span class="c1"># If Dark is integer dtype, convert to float</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">]:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting Dark from int to float&#39;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dark</span><span class="o">.</span><span class="n">data</span>
 
@@ -1102,7 +1146,7 @@
             <span class="n">success</span> <span class="o">=</span> <span class="n">io_nist</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">nrb</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
                 <span class="c1"># If NRB is integer dtype, convert to float</span>
-                <span class="k">if</span> <span class="n">nrb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nrb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">]:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting NRB from int to float&#39;</span><span class="p">)</span>
                     <span class="n">nrb</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">nrb</span><span class="o">.</span><span class="n">data</span>
 
@@ -3152,7 +3196,7 @@
         <span class="k">else</span><span class="p">:</span>
 
             <span class="n">Mask</span> <span class="o">=</span> <span class="n">Mask</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="n">Mask</span> <span class="o">=</span> <span class="n">Mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+            <span class="n">Mask</span> <span class="o">=</span> <span class="n">Mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
             <span class="n">mask_hits</span> <span class="o">=</span> <span class="n">Mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
@@ -3701,7 +3745,7 @@
                     <span class="n">img_shape</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">img_shape</span><span class="p">)</span>
                     <span class="n">fid</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span><span class="p">)</span>
-                    <span class="n">n_imgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                    <span class="n">n_imgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_mask</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
                     <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             
             <span class="n">msg</span> <span class="o">=</span> <span class="n">_QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>

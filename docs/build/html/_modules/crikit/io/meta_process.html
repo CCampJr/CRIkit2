@@ -76,7 +76,7 @@
                         <span class="k">break</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">pass</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">temp_val</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="n">temp_key</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -88,7 +88,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">],</span><span class="nb">str</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">rosetta</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
@@ -110,7 +110,7 @@
     <span class="n">calib_dict</span><span class="p">[</span><span class="s1">&#39;a_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">del</span> <span class="n">temp</span>
 
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;ColorChannels&#39;</span><span class="p">,</span> <span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Color/Frequency-Channels: </span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: Number of color channels assigned in meta data (</span><span class="si">{}</span><span class="s1">) disagrees with datacube size (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
@@ -174,7 +174,7 @@
         <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;probe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorProbe&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">calib_orig_dict</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rosetta_query</span><span class="p">(</span><span class="s1">&#39;OrigColorUnits&#39;</span><span class="p">,</span><span class="n">rosetta</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original calibration not found.&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original calibration found.&#39;</span><span class="p">)</span>
@@ -294,7 +294,7 @@
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="c1">#        print(output_cls_instance.reps.data.shape)</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">reps</span><span class="o">.</span><span class="n">update_calib_from_data</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Something failed in meta_process: Spectra rep-calib&#39;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="p">)</span> <span class="o">==</span> <span class="n">_Spectrum</span><span class="p">:</span>

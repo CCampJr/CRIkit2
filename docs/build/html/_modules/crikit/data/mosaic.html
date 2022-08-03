@@ -159,11 +159,11 @@
             <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">complex</span>
+                <span class="k">return</span> <span class="nb">complex</span>
             <span class="k">elif</span> <span class="n">dt</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">float</span>
+                <span class="k">return</span> <span class="nb">float</span>
             <span class="k">elif</span> <span class="n">dt</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">int</span>
+                <span class="k">return</span> <span class="nb">int</span>
 
 
 <div class="viewcode-block" id="Mosaic.mosaic_shape"><a class="viewcode-back" href="../../../crikit.data.html#crikit.data.mosaic.Mosaic.mosaic_shape">[docs]</a>    <span class="k">def</span> <span class="nf">mosaic_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -286,7 +286,7 @@
                             <span class="n">data</span> <span class="o">=</span> <span class="n">sub_img_counter</span> <span class="o">*</span> \
                                    <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">sub_img_counter</span><span class="p">][</span><span class="n">slice_sub_r</span><span class="p">,</span>
                                                                         <span class="n">slice_sub_c</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span>
-                                           <span class="n">dtype</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                                           <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                         <span class="k">elif</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">sub_img_counter</span><span class="p">][</span><span class="n">slice_sub_r</span><span class="p">,</span> <span class="n">slice_sub_c</span><span class="p">]</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -386,7 +386,7 @@
     <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">[</span><span class="n">new_obj</span><span class="o">.</span><span class="n">shape</span><span class="p">])</span>
     <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">n</span>
     <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">issamedim</span>
-    <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">_np</span><span class="o">.</span><span class="n">float</span>
+    <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">float</span>
 
     <span class="c1"># AFFECTED BY START* END*</span>
     <span class="k">assert</span> <span class="n">mos</span><span class="o">.</span><span class="n">unitshape</span> <span class="o">==</span> <span class="p">(</span><span class="n">m_obj_crop</span><span class="p">,</span> <span class="n">n_obj_crop</span><span class="p">,</span> <span class="n">p_obj_crop</span><span class="p">)</span>

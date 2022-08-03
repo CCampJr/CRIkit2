@@ -163,7 +163,7 @@
                     <span class="c1">#print(step[0])</span>
                     <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">temp</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># METHODS</span>
@@ -288,14 +288,14 @@
     <span class="n">test</span> <span class="o">=</span> <span class="n">BCPre</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="s1">&#39;Test1&#39;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Expected Error</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Should have raised an error&#39;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">test</span><span class="o">.</span><span class="n">add_step</span><span class="p">([</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Expected Error</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Should have raised an error&#39;</span><span class="p">)</span>

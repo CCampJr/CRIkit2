@@ -140,6 +140,29 @@
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="crikit.io.hdf5.hdf_import_data_macroraster">
+<span class="sig-prename descclassname"><span class="pre">crikit.io.hdf5.</span></span><span class="sig-name descname"><span class="pre">hdf_import_data_macroraster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dset_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_cls_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crikit/io/hdf5.html#hdf_import_data_macroraster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#crikit.io.hdf5.hdf_import_data_macroraster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import dataset(s) from HDF file with each dset being a single line scan.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – File name</p></li>
+<li><p><strong>dset_list</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of 1 or more datasets</p></li>
+<li><p><strong>output_cls_instance</strong> (<a class="reference internal" href="crikit.data.html#crikit.data.spectra.Spectrum" title="crikit.data.spectra.Spectrum"><em>crikit.data.spectra.Spectrum</em></a><em> (or </em><em>subclass</em><em>)</em>) – Spectrum class (or sub) object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>Success</strong> (<em>bool</em>) – Success of import</p></li>
+<li><p><strong>Data, Meta</strong> (<em>list (ndarray, dict)</em>) – If output_cls_instance is None and import is successful, will             return the data from dset_list and associated meta data.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-crikit.io.macros">
 <span id="crikit-io-macros-module"></span><h2>crikit.io.macros module<a class="headerlink" href="#module-crikit.io.macros" title="Permalink to this headline">¶</a></h2>

@@ -70,7 +70,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">zero_col</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">row_sums</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">fol</span><span class="p">]</span>
 
             <span class="n">ret_obj</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zero_col</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="mi">0</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -112,7 +112,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">zero_row</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">col_sums</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">fol</span><span class="p">]</span>
 
             <span class="n">ret_obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_row</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="mi">0</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
