@@ -32,9 +32,9 @@ def special_nist_bcars2():
     rosetta['YUnits'] = ['MicroStage.raster.slow.units', 'RasterScanParams.SlowAxisUnits', '!', '$\\mu$m']
 
     # TODO: Set an actual Z fixed position for Macro raster scan
-    rosetta['ZPosition'] = ['Macro.Raster.Fixed.Start', 'RasterScanParams.FixedAxisPosition',
+    rosetta['ZPosition'] = ['Macro.Raster.Fixed.Start', 'Raster.Fixed.Position','RasterScanParams.FixedAxisPosition',
                             'Raster.Stack.Position', '!', 0]
-    rosetta['ZLabel'] = ['Macro.Raster.Fixed.Axis', 'RasterScanParams.FixedAxis', 'Raster.Stack.Axis', '!', 'Z']
+    rosetta['ZLabel'] = ['Macro.Raster.Fixed.Axis', 'RasterScanParams.FixedAxis', 'Raster.Fixed.Axis', 'Raster.Stack.Axis', '!', 'Z']
 
     # Color Calibration
     rosetta['ColorCenterWL'] = ['Spectrometer.calib.ctr_wl', 'Spectro.CenterWavelength', 'Spectro.CurrentWavelength', 'Calib.ctr_wl', '!', 729.994]
