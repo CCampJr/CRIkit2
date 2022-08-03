@@ -19,7 +19,7 @@ class Model:
     _M = 300
     _N = 300
 
-    def __init__(self, subsample=1, dtype=_np.complex):
+    def __init__(self, subsample=1, dtype=complex):
         self.n_layers = 7  # Number of components
         self.img_shape = [300, 300]  # Spaital imaging shape
 

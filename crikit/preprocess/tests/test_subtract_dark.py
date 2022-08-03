@@ -234,8 +234,8 @@ def test_sub_hsi_int_from_hsi_float(make_datasets):
     """ Dark is HSI. Data is HSI. """
     
     spectrum, spectra, hsi, shape = make_datasets
-    data = (1*hsi).astype(np.float)
-    dark = (1*hsi).astype(np.int)
+    data = (1*hsi).astype(float)
+    dark = (1*hsi).astype(int)
 
     subdark = SubtractDark(dark)
 
@@ -250,7 +250,7 @@ def test_sub_hsi_int_from_hsi_float(make_datasets):
     np.testing.assert_array_almost_equal(out, data - dark.mean(axis=(0,1))[None,None,:])
 
     # Transform
-    dark = (1*hsi).astype(np.int)
+    dark = (1*hsi).astype(int)
     subdark = SubtractDark(dark)
     success = subdark.transform(data)
     np.testing.assert_array_almost_equal(data, out)
@@ -268,59 +268,59 @@ def test_transform_incompatible_dtypes(make_datasets):
     spectrum, spectra, hsi, shape = make_datasets
     
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.int)
-    dark = (1*spectrum).astype(np.int)
+    data = (1*hsi).astype(int)
+    dark = (1*spectrum).astype(int)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.float)
-    dark = (1*spectrum).astype(np.int)
+    data = (1*hsi).astype(float)
+    dark = (1*spectrum).astype(int)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.complex)
-    dark = (1*spectrum).astype(np.int)
+    data = (1*hsi).astype(complex)
+    dark = (1*spectrum).astype(int)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 
     # DOES RAISE ERROR
-    data = (1*hsi).astype(np.int)
-    dark = (1*spectrum).astype(np.float)
+    data = (1*hsi).astype(int)
+    dark = (1*spectrum).astype(float)
     subdark = SubtractDark(dark)
     with pytest.raises(TypeError):
         subdark.transform(data)
 
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.float)
-    dark = (1*spectrum).astype(np.float)
+    data = (1*hsi).astype(float)
+    dark = (1*spectrum).astype(float)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.complex)
-    dark = (1*spectrum).astype(np.float)
+    data = (1*hsi).astype(complex)
+    dark = (1*spectrum).astype(float)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 
     # DOES RAISE ERROR
-    data = (1*hsi).astype(np.int)
-    dark = (1*spectrum).astype(np.complex)
+    data = (1*hsi).astype(int)
+    dark = (1*spectrum).astype(complex)
     subdark = SubtractDark(dark)
     with pytest.raises(TypeError):
         subdark.transform(data)
 
     # DOES RAISE ERROR
-    data = (1*hsi).astype(np.float)
-    dark = (1*spectrum).astype(np.complex)
+    data = (1*hsi).astype(float)
+    dark = (1*spectrum).astype(complex)
     subdark = SubtractDark(dark)
     with pytest.raises(TypeError):
         subdark.transform(data)
 
     # DOES NOT RAISE ERROR
-    data = (1*hsi).astype(np.complex)
-    dark = (1*spectrum).astype(np.complex)
+    data = (1*hsi).astype(complex)
+    dark = (1*spectrum).astype(complex)
     subdark = SubtractDark(dark)
     subdark.transform(data)
 

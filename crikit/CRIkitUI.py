@@ -3707,7 +3707,7 @@ class CRIkitUI_process(_QMainWindow):
                     img_shape = fid[dataset_name].shape
                     self._mosaic_mask = _np.zeros(img_shape)
                     fid[dataset_name].read_direct(self._mosaic_mask)
-                    n_imgs = self._mosaic_mask.max().astype(_np.int)
+                    n_imgs = self._mosaic_mask.max().astype(int)
                     fid.close()
             
             msg = _QMessageBox(self)

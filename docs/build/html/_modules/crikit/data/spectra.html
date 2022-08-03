@@ -595,7 +595,7 @@
         <span class="n">ax_rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reshape_axes</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;nd_axis&#39;</span><span class="p">])</span>
 
         <span class="c1"># self._mask = _np.ones(tuple([n for n in range(3) if n != self.config[&#39;nd_axis&#39;]]),</span>
-        <span class="c1">#                       dtype=_np.int)</span>
+        <span class="c1">#                       dtype=int)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">op_list_pix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ax_rs</span><span class="p">)</span>

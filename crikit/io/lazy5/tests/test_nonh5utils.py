@@ -75,15 +75,15 @@ def test_return_family_type():
     assert return_family_type(True) is bool
 
     assert return_family_type(np.int32(1)) is int
-    assert return_family_type(np.int(1)) is int
+    assert return_family_type(int(1)) is int
     assert return_family_type(np.float32(1.1)) is float
-    assert return_family_type(np.float(1.1)) is float
+    assert return_family_type(float(1.1)) is float
     assert return_family_type(np.complex64(1 + 1j*3)) is complex
-    assert return_family_type(np.complex(1 + 1j*3)) is complex
-    assert return_family_type(np.str('Test')) is str
+    assert return_family_type(complex(1 + 1j*3)) is complex
+    assert return_family_type(str('Test')) is str
     assert return_family_type(np.str_('Test')) is str  # pylint: disable=E1101
     assert return_family_type(np.bytes_('Test')) is bytes  # pylint: disable=E1101
-    assert return_family_type(np.bool(True)) is bool
+    assert return_family_type(bool(True)) is bool
     assert return_family_type(np.bool_(True)) is bool
 
     with pytest.raises(TypeError):

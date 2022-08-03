@@ -183,7 +183,7 @@ def std_nd_to_1d(data, axis=-1):
     return vec
 
 
-def arange_nonzero(start, stop, dtype=_np.float):
+def arange_nonzero(start, stop, dtype=float):
     """
     Similar to numpy arange but only returns non-zero elements
     """

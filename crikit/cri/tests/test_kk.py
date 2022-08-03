@@ -47,7 +47,7 @@ def test_kk_rng():
 def test_kk_transform():
     x = np.linspace(-100, 100, 1000)
     y = 2/(2**2 + x**2)
-    y_complex = y.astype(np.complex)
+    y_complex = y.astype(complex)
 
     kk = KramersKronig(norm_to_nrb=False)
     success = kk._transform(y_complex, 0*y_complex + 1)
@@ -58,7 +58,7 @@ def test_kk_transform():
 def test_kk_transform_fail():
     x = np.linspace(-100, 100, 1000)
     y = 2/(2**2 + x**2)
-    y_complex = y.astype(np.complex)
+    y_complex = y.astype(complex)
 
     kk = KramersKronig(norm_to_nrb=False)
     

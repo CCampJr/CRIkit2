@@ -510,7 +510,7 @@ class Hsi(Spectrum):
     def extent(self):
         if (self.x is not None) & (self.y is not None):
             return [self.x.min(), self.x.max(), self.y.min(), self.y.max()]
-            
+
     @property
     def mask(self):
         return self._mask
@@ -565,7 +565,7 @@ class Hsi(Spectrum):
         ax_rs = self._reshape_axes(value.shape, self.config['nd_axis'])
 
         # self._mask = _np.ones(tuple([n for n in range(3) if n != self.config['nd_axis']]),
-        #                       dtype=_np.int)
+        #                       dtype=int)
 
         if self.freq is None or self.freq.op_list_pix is None:
             self._data = value.reshape(ax_rs)
@@ -664,9 +664,9 @@ class Hsi(Spectrum):
             num_spectra = num
 
         if _np.iscomplexobj(self.data):
-            dtype = _np.complex
+            dtype = complex
         else:
-            dtype = _np.float
+            dtype = float
 
         temp = _np.zeros((num_spectra, self.data.shape[-1]), dtype=dtype)
 
