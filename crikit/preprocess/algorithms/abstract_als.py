@@ -82,7 +82,7 @@ class AbstractBaseline:
             # Spline interpolation/super-sampling
             for coords in _np.ndindex(output_sampled.shape[0:-1]):
                 spl2 = _USpline(x_sub,output_sampled[coords],s=0)
-                output[[*coords, self.rng]] = spl2(x)
+                output[(*coords, self.rng)] = spl2(x)
             
         tmr -= _timeit.default_timer()
         self.t = -tmr
