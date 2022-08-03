@@ -699,6 +699,7 @@ class CRIkitUI_process(_QMainWindow):
                                             self.hsi)
                     print('Was successful: {}'.format(success))
                     print('HSI shape: {}'.format(self.hsi.shape))
+                    print('Succes: {}'.format(success))
                     self.fileOpenSuccess(success)
         else:
             self.hsi = Hsi()
@@ -817,9 +818,9 @@ class CRIkitUI_process(_QMainWindow):
         """
         if success:
             # * If HSI is integer dtype, convert to float
-            if (self.hsi.data.dtype.kind == 'i') & isinstance(self.hsi.data, _np.ndarray):
+            if (self.hsi.data.dtype.kind in ['i','u']) & isinstance(self.hsi.data, _np.ndarray):
                 print('Converting HSI from int to float')
-                self.hsi.data = 1.0*self.hsi.data
+                self.hsi.data = 1.0 * self.hsi.data
 
             self.setWindowTitle('{}: {}'.format(self.windowTitle(), self.filename))
             # FILE
@@ -1018,7 +1019,7 @@ class CRIkitUI_process(_QMainWindow):
 
             if success:
                 # If Dark is integer dtype, convert to float
-                if self.dark.data.dtype.kind == 'i':
+                if self.dark.data.dtype.kind in ['u', 'i']:
                     print('Converting Dark from int to float')
                     self.dark.data = 1.0*self.dark.data
 
@@ -1063,7 +1064,7 @@ class CRIkitUI_process(_QMainWindow):
 
             if success:
                 # If Dark is integer dtype, convert to float
-                if self.dark.data.dtype.kind == 'i':
+                if self.dark.data.dtype.kind in ['u', 'i']:
                     print('Converting Dark from int to float')
                     self.dark.data = 1.0*self.dark.data
 
@@ -1107,7 +1108,7 @@ class CRIkitUI_process(_QMainWindow):
             success = io_nist(pth, filename, datasets, nrb)
             if success:
                 # If NRB is integer dtype, convert to float
-                if nrb.data.dtype.kind == 'i':
+                if nrb.data.dtype.kind in ['u', 'i']:
                     print('Converting NRB from int to float')
                     nrb.data = 1.0*nrb.data
 
