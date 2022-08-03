@@ -72,7 +72,7 @@ def meta_process(rosetta, output_cls_instance):
     calib_dict['a_vec'] = temp[0]
     del temp
 
-    temp = rosetta_query('ColorChannels',rosetta, output_cls_instance)
+    temp = rosetta_query('ColorChannels', rosetta, output_cls_instance)
     print('Color/Frequency-Channels: {} from {}'.format(temp[0], temp[1]))
     if temp[0] != output_cls_instance.shape[-1]:
         print('WARNING: Number of color channels assigned in meta data ({}) disagrees with datacube size ({})'.format(temp[0], output_cls_instance.shape[-1]))
