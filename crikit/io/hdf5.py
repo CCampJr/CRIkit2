@@ -89,8 +89,10 @@ def hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance, c
             curr_slice = fid[dname][:]
             meta = lazy5.inspect.get_attrs_dset(fid, dname)
             if num == 0:
-                output_cls_instance.data = np.zeros((meta[config['slow_steps']], meta[config['fast_steps']],
-                                                     meta[config['n_pix']]))
+                dset_dtype_import = fid[dname].dtype.newbyteorder('=')
+                dset_shp = (meta[config['slow_steps']], meta[config['fast_steps']],
+                            meta[config['n_pix']])
+                output_cls_instance.data = np.zeros(dset_shp, dtype=dset_dtype_import)
 
                 x_vec = np.linspace(meta[config['fast_start']], meta[config['fast_stop']],
                                     meta[config['fast_steps']])
