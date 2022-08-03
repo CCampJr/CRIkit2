@@ -426,6 +426,9 @@ class Hsi(Spectrum):
     size : int, read-only
         Size of data (i.e., total number of entries)
 
+    extent : list, read-only
+        Extent of image [xmin, xmax, ymin, ymax]
+
     Methods
     -------
     mean : 1D ndarray
@@ -503,6 +506,11 @@ class Hsi(Spectrum):
 
         return tuple(out)
 
+    @property
+    def extent(self):
+        if (self.x is not None) & (self.y is not None):
+            return [self.x.min(), self.x.max(), self.y.min(), self.y.max()]
+            
     @property
     def mask(self):
         return self._mask
