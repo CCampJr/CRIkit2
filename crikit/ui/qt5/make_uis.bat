@@ -1,0 +1,1 @@
+call pyuic5.bat ./crikit/ui/qt5/ui_CRIkit.ui -o ./crikit/ui/qt_CRIkit.py --from-imports
