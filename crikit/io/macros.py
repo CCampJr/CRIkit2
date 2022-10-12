@@ -15,9 +15,11 @@ from crikit.io.csv_nist import csv_nist_import_data as _csv_nist_import_data
 __all__ = ['import_hdf_nist_special', 'import_csv_nist_special1']
 
 
-def hdf_nist_special_macroraster(pth, filename, dset_list, output_cls_instance):
+def hdf_nist_special_macroraster(pth, filename, dset_list, output_cls_instance, 
+                                 interp_kind_spatial='linear', interp_kind_spectral='linear'):
     print('\n')
-    import_success = _hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance)
+    import_success = _hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance,
+                                                  interp_kind_spatial='linear', interp_kind_spectral='linear')
     if import_success is False:
         raise ValueError('hdf_import_data_macroraster failed')
         return False
