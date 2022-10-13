@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.macros &#8212; CRIKit2 0.4.3 documentation</title>
+    <title>crikit.io.macros &#8212; CRIKit2 0.4.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.macros</a></li> 
       </ul>
@@ -53,9 +53,11 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;import_hdf_nist_special&#39;</span><span class="p">,</span> <span class="s1">&#39;import_csv_nist_special1&#39;</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">hdf_nist_special_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">hdf_nist_special_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">,</span> 
+                                 <span class="n">interp_kind_spatial</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">interp_kind_spectral</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">import_success</span> <span class="o">=</span> <span class="n">_hdf_import_data_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">)</span>
+    <span class="n">import_success</span> <span class="o">=</span> <span class="n">_hdf_import_data_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">,</span>
+                                                  <span class="n">interp_kind_spatial</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">interp_kind_spectral</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">import_success</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;hdf_import_data_macroraster failed&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -182,7 +184,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.macros</a></li> 
       </ul>

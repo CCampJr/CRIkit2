@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>crikit.io.hdf5 &#8212; CRIKit2 0.4.3 documentation</title>
+    <title>crikit.io.hdf5 &#8212; CRIKit2 0.4.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.hdf5</a></li> 
       </ul>
@@ -59,7 +59,8 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hdf_import_data&#39;</span><span class="p">,</span> <span class="s1">&#39;hdf_import_data_macroraster&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="hdf_import_data_macroraster"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_import_data_macroraster">[docs]</a><span class="k">def</span> <span class="nf">hdf_import_data_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">,</span> <span class="n">config_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="hdf_import_data_macroraster"><a class="viewcode-back" href="../../../crikit.io.html#crikit.io.hdf5.hdf_import_data_macroraster">[docs]</a><span class="k">def</span> <span class="nf">hdf_import_data_macroraster</span><span class="p">(</span><span class="n">pth</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">,</span> <span class="n">output_cls_instance</span><span class="p">,</span> <span class="n">config_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                <span class="n">interp_kind_spatial</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">interp_kind_spectral</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import dataset(s) from HDF file with each dset being a single line scan.</span>
 
@@ -145,10 +146,11 @@
             <span class="n">all_xs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">curr_x_vec</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
             <span class="n">all_ys</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">curr_y_pos</span><span class="p">])</span>
 
-            <span class="n">intfcn</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">curr_n_imgs_vec</span><span class="p">,</span> <span class="n">curr_x_vec</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="n">intfcn</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">curr_n_imgs_vec</span><span class="p">,</span> <span class="n">curr_x_vec</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">interp_kind_spatial</span><span class="p">)</span>
 
             <span class="n">int_fcn_intensity</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">intfcn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">curr_slice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
-                                         <span class="n">curr_slice</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s1">&#39;extrapolate&#39;</span><span class="p">)</span>
+                                         <span class="n">curr_slice</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">interp_kind_spectral</span><span class="p">,</span>
+                                         <span class="n">fill_value</span><span class="o">=</span><span class="s1">&#39;extrapolate&#39;</span><span class="p">)</span>
 
             <span class="n">y_idx</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">y_vec</span><span class="p">,</span> <span class="n">curr_y_pos</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">y_idx</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_fcn_intensity</span><span class="p">(</span><span class="n">x_vec</span><span class="p">)</span>
@@ -207,7 +209,6 @@
                 <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                 <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-                <span class="c1"># output_cls_instance.data = fid[dset_list].value</span>
                 <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -236,9 +237,8 @@
                     <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                     <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
+                    <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">][:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dset_dtype_import</span><span class="p">)</span>
 
-                <span class="c1"># output_cls_instance.data = fid[dset_list].value</span>
                 <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -260,7 +260,6 @@
                 <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                 <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">output_cls_instance</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-                <span class="c1"># output_cls_instance.data = fid[dset_list].value</span>
                 <span class="n">output_cls_instance</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -287,7 +286,6 @@
                 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dset_shp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dset_dtype_import</span><span class="p">)</span>
                 <span class="n">fid</span><span class="p">[</span><span class="n">dset_list</span><span class="p">]</span><span class="o">.</span><span class="n">read_direct</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-                <span class="c1"># data = fid[dset_list].value</span>
                 <span class="n">meta</span> <span class="o">=</span> <span class="n">lazy5</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">get_attrs_dset</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">dset_list</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dset_list</span><span class="p">):</span>
@@ -404,7 +402,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CRIKit2 0.4.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">crikit.io.hdf5</a></li> 
       </ul>

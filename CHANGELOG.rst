@@ -8,6 +8,11 @@ This document records all notable changes to
 This project adheres to `PEP 440 -- Version Identification 
 and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_.
 
+0.4.4 (22-10-13)
+-----------------
+- Bug fixes (x- and y-axis vectors failing to generate with imported HDF5 files)
+- Minor tweaks and improvements
+
 0.4.3 (22-08-03)
 ----------------
 - Spectrum and Hsi now moved to **data.spectra**. **This could break your fork if you have custom code.**
