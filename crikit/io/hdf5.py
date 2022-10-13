@@ -21,7 +21,8 @@ from scipy.interpolate import interp1d
 __all__ = ['hdf_import_data', 'hdf_import_data_macroraster']
 
 
-def hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance, config_dict=None):
+def hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance, config_dict=None, 
+                                interp_kind_spatial='linear', interp_kind_spectral='linear'):
     """
     Import dataset(s) from HDF file with each dset being a single line scan.
 
@@ -107,10 +108,11 @@ def hdf_import_data_macroraster(pth, filename, dset_list, output_cls_instance, c
             all_xs.extend(curr_x_vec.tolist())
             all_ys.extend([curr_y_pos])
 
-            intfcn = interp1d(curr_n_imgs_vec, curr_x_vec, kind='linear')
+            intfcn = interp1d(curr_n_imgs_vec, curr_x_vec, kind=interp_kind_spatial)
 
             int_fcn_intensity = interp1d(intfcn(np.arange(curr_slice.shape[0])),
-                                         curr_slice, axis=0, bounds_error=False, kind='linear', fill_value='extrapolate')
+                                         curr_slice, axis=0, bounds_error=False, kind=interp_kind_spectral,
+                                         fill_value='extrapolate')
 
             y_idx = find_nearest(y_vec, curr_y_pos)[1]
             output_cls_instance.data[y_idx, ...] = int_fcn_intensity(x_vec)
@@ -169,7 +171,6 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                 output_cls_instance.data = np.zeros(dset_shp, dtype=dset_dtype_import)
                 fid[dset_list].read_direct(output_cls_instance.data)
 
-                # output_cls_instance.data = fid[dset_list].value
                 output_cls_instance.meta = lazy5.inspect.get_attrs_dset(fid, dset_list)
             elif isinstance(dset_list, list):
                 if len(dset_list) > 1:
@@ -198,9 +199,8 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                     output_cls_instance.data = np.zeros(dset_shp, dtype=dset_dtype_import)
                     fid[dset_list].read_direct(output_cls_instance.data)
                 else:
-                    output_cls_instance.data = fid[dset_list].value.astype(dset_dtype_import)
+                    output_cls_instance.data = fid[dset_list][:].astype(dset_dtype_import)
 
-                # output_cls_instance.data = fid[dset_list].value
                 output_cls_instance.meta = lazy5.inspect.get_attrs_dset(fid, dset_list)
 
             elif isinstance(dset_list, list):
@@ -222,7 +222,6 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                 output_cls_instance.data = np.zeros(dset_shp, dtype=dset_dtype_import)
                 fid[dset_list].read_direct(output_cls_instance.data)
 
-                # output_cls_instance.data = fid[dset_list].value
                 output_cls_instance.meta = lazy5.inspect.get_attrs_dset(fid, dset_list)
             elif isinstance(dset_list, list):
                 if len > 1:
@@ -249,7 +248,6 @@ def hdf_import_data(pth, filename, dset_list, output_cls_instance=None):
                 data = np.zeros(dset_shp, dtype=dset_dtype_import)
                 fid[dset_list].read_direct(data)
 
-                # data = fid[dset_list].value
                 meta = lazy5.inspect.get_attrs_dset(fid, dset_list)
             elif isinstance(dset_list, list):
                 for num, dname in enumerate(dset_list):

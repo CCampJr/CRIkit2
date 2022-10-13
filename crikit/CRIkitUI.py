@@ -893,9 +893,8 @@ class CRIkitUI_process(_QMainWindow):
         if self.ui.actionUndo_Backup_Enabled.isChecked():
             try:
                 _BCPre.backup_pickle(self.hsi, self.bcpre.id_list[-1])
-            except Exception as e:
-                _traceback.print_exc(limit=1)
-                print(e)
+            except Exception:
+                _traceback.print_exc()
                 print('Error in pickle backup (Undo functionality)')
             else:
                 self.bcpre.backed_up()

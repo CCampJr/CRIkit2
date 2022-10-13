@@ -187,8 +187,16 @@ def meta_process(rosetta, output_cls_instance):
                 stop = output_cls_instance.shape[1]-1
                 units = 'pix'
 
+            if isinstance(start, _np.ndarray):
+                start = start[0]
+            if isinstance(stop, _np.ndarray):
+                stop = stop[0]
+            if isinstance(steps, _np.ndarray):
+                steps = steps[0]
+
             print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
             # print('Start: {}, Stop: {}, Steps: {}'.format(start, stop, steps))
+
             output_cls_instance.x_rep.data = _np.squeeze(_np.linspace(start, stop, steps))
             output_cls_instance.x_rep.units = units
             output_cls_instance.x_rep.label = label
@@ -224,6 +232,13 @@ def meta_process(rosetta, output_cls_instance):
             if isinstance(label, bytes):
                 label = label.decode()
 
+            if isinstance(start, _np.ndarray):
+                start = start[0]
+            if isinstance(stop, _np.ndarray):
+                stop = stop[0]
+            if isinstance(steps, _np.ndarray):
+                steps = steps[0]
+                
             if steps != output_cls_instance.shape[0]:
                 print('{} ({}): Start={}\tStop={}\tSteps={}'.format(label, units, start, stop, steps))
                 print('Warning: {}Steps assigned in meta data ({}) disagrees with datacube size ({})'.format(label, steps, output_cls_instance.shape[0]))
